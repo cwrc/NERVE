@@ -1,0 +1,1381 @@
+/*.otag:before{
+    content: "<" attr(otag) ">";
+    font-size: small;
+}
+
+.otag:after{
+    content: "</" attr(otag) ">";
+    font-size: small;
+}*/
+
+.otag{
+    display: block;
+}
+
+/*otagTEI {
+    margin : 10px 25px;
+    font-family : Georgia, serif;
+    line-height : 1.5;
+}
+
+otagabbr {
+    display : inline;
+}
+
+otagadd {
+    display : inline;
+    color : green;
+    background-color : inherit;
+    text-decoration : underline;
+}
+
+otaganchor {
+    display : none;
+}
+
+otagargument {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagatt {
+    display : inline;
+    font-family : sans-serif;
+    color : blue;
+    background-color : inherit;
+}
+
+otagauthor {
+    display : inline;
+}
+
+otagback {
+    display : block;
+    border : thin black solid;
+    margin-top : 1em;
+    padding-top : 0.5em;
+    padding-left : 0.5em;
+    padding-right : 0.5em;
+    padding-bottom : 0.5em;
+}
+
+otagbibl {
+    display : inline;
+}
+
+otagdiv {
+    text-indent: -2em;
+    margin:0 0 0 2em;
+}
+
+otagbibl>
+otagnote {
+    display : inline;
+}
+
+otagbibl>
+otagtitle {
+    content: "Alternate Title: " !important;
+}
+
+otagbibl>
+otagtitle {
+    content: "";
+}
+
+otagargument>
+otagbibl,
+otagbody>
+otagbibl,
+otagcit>
+otagbibl,
+otagdiv>
+otagbibl,
+otagdiv0>
+otagbibl,
+otagdiv1>
+otagbibl,
+otagdiv2>
+otagbibl,
+otagdiv3>
+otagbibl,
+otagdiv4>
+otagbibl,
+otagdiv5>
+otagbibl,
+otagdiv6>
+otagbibl,
+otagdiv7>
+otagbibl,
+otagepigraph>
+otagbibl,
+otaglistBibl>
+otagbibl>
+otagbibl,
+otagtaxonomy>
+otagbibl {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagbiblFull {
+    display : inline;
+}
+
+otagargument>
+otagbiblFull,
+otagbody>
+otagbiblFull,
+otagcit>
+otagbiblFull,
+otagdiv>
+otagbiblFull,
+otagdiv0>
+otagbiblFull,
+otagdiv1>
+otagbiblFull,
+otagdiv2>
+otagbiblFull,
+otagdiv3>
+otagbiblFull,
+otagdiv4>
+otagbiblFull,
+otagdiv5>
+otagbiblFull,
+otagdiv6>
+otagbiblFull,
+otagdiv7>
+otagbiblFull,
+otagepigraph>
+otagbiblFull,
+otaglistBibl>
+otagbiblFull>
+otagbiblFull,
+otagtaxonomy>
+otagbiblFull {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagbiblScope {
+    display : inline;
+}
+
+otagimprint>
+otagbiblScope {
+    display : block;
+}
+
+otagbody {
+    margin-top : 5px;
+    padding : 0 2em 0 0;
+    display : block;
+    counter-reset : div1;
+}
+
+otagbyline {
+    display : block;
+    font-style : italic;
+    margin-bottom : 0.5em;
+}
+
+otagcategory {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagcatRef {
+    display : none;
+}
+
+otagcell {
+    display : table-cell;
+    border : 1px solid #EEEFEE;
+    padding : 3px;
+    color : inherit;
+    background-color : inherit;
+}
+
+otagcell {
+    color : inherit;
+    background-color : #BBBBBB;
+}
+
+otagchange {
+    display : block;
+    margin-bottom : 1em;
+    margin-left : 2em;
+}
+
+otagcit {
+    display : inline;
+}
+
+otagargument>
+otagcit,
+otagbody>
+otagcit,
+otagdiv>
+otagcit,
+otagdiv0>
+otagcit,
+otagdiv1>
+otagcit,
+otagdiv2>
+otagcit,
+otagdiv3>
+otagcit,
+otagdiv4>
+otagcit,
+otagdiv5>
+otagcit,
+otagdiv6>
+otagcit,
+otagdiv7>
+otagcit,
+otagepigraph>
+otagcit {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-top : 0.5em;
+}
+
+otagclassCode {
+    display : block;
+}
+
+otagelementSpec,
+otagmacroSpec,
+otagclassSpec {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagcloser {
+    display : block;
+    margin-bottom : 1em;
+    width : 95%;
+}
+
+otagcode {
+    display : inline;
+    font-family : monospace;
+}
+
+otagcorr {
+    display : inline;
+    color : green;
+    background-color : inherit;
+}
+
+otagcreation {
+    display : block;
+}
+
+otagdate {
+    display : inline;
+}
+
+otagchange>
+otagdate,
+otagpublicationStmt>
+otagdate {
+    display : block;
+    font-weight : bold;
+}
+
+otagdateline {
+    display : inline;
+}
+
+otagdel {
+    display : inline;
+    color : red;
+    background-color : inherit;
+    text-decoration : line-through;
+}
+
+otagdistributor {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagbody>
+otagdiv {
+    display : block;
+    counter-increment : div1;
+    counter-reset : div2;
+    margin : 0 0 1.5em 0;
+}
+
+otagbody>
+otagdiv>
+otagdiv {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div2;
+    counter-reset : div3;
+}
+
+otagbody>
+otagdiv>
+otagdiv>
+otagdiv {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div3;
+}
+
+otagbody>
+otagdiv {
+    margin-bottom : 2em !important;
+}
+
+otagdiv {
+    counter-reset:line;
+}
+
+otagdiv1 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div1;
+    counter-reset : div2;
+}
+
+otagdiv2 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div2;
+    counter-reset : div3;
+}
+
+otagdiv3 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div3;
+    counter-reset : div4;
+}
+
+otagdiv4 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div4;
+    counter-reset : div5;
+}
+
+otagdiv5 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div5;
+    counter-reset : div6;
+}
+
+otagdiv6 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div6;
+    counter-reset : div7;
+}
+
+otagdiv7 {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div7;
+}
+
+otagdivGen {
+    display : none;
+}
+
+otagdocAuthor {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagbyline
+otagdocAuthor {
+    display : inline;
+}
+
+
+otagedition {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagbibl
+otagedition {
+    display : inline;
+}
+
+otageditionStmt {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otageditor {
+    display : block;
+}
+
+otagbibl
+otageditor {
+    display : inline;
+}
+
+otageg {
+    font-family : monospace;
+    padding-top : 3mm;
+    padding-left : 4pt;
+    padding-bottom : 2pt;
+    display : block;
+    margin-top : 12pt;
+    margin-bottom : 12pt;
+    white-space : pre;
+    color : inherit;
+    background-color : #FFCC99;
+}
+
+otagargument>
+otageg,
+otagbody>
+otageg,
+otagdiv>
+otageg,
+otagdiv0>
+otageg,
+otagdiv1>
+otageg,
+otagdiv2>
+otageg,
+otagdiv3>
+otageg,
+otagdiv4>
+otageg,
+otagdiv5>
+otageg,
+otagdiv6>
+otageg,
+otagdiv7>
+otageg,
+otagepigraph>
+otageg {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagemph {
+    display : inline;
+    font-style : italic;
+}
+
+otagepigraph {
+    display : block;
+    margin-bottom : 1em;
+    text-align : center;
+}
+
+otagextent {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagbibl
+otagextent {
+    display : inline;
+}
+
+otaggraphic {
+    color : gray;
+    background-color : inherit;
+    content : "{" attr(url) "}";
+}
+
+otagfigure {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagforeign {
+    display : inline;
+    font-style : italic;
+}
+
+otagformula {
+    display : inline;
+    font-style : italic;
+}
+
+otagfront {
+    display : block;
+    margin-bottom : 1em;
+    padding-top : 0.5em;
+    padding-left : 0.5em;
+    padding-right : 0.5em;
+    padding-bottom : 0.5em;
+}
+
+otagfunder {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otaggap {
+    display : none;
+}
+
+otaggi,
+otagtag {
+    display : inline;
+    font-family : sans-serif;
+    color : blue;
+    background-color : inherit;
+}
+
+otaggloss {
+    display : inline;
+}
+
+otaggroup {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagbody>
+otagdiv>
+otaghead {
+    display : block;
+    padding-top : 7px;
+    padding-bottom : 10px;
+    color : inherit;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    margin-top : 1em;
+    font-size : 18px;
+}
+
+otagbody>
+otagdiv>
+otaghead author {
+    font-weight:normal;
+}
+
+otagbody>
+otagdiv>
+otagdiv>
+otaghead {
+    display : block;
+    padding-top : 14px;
+    padding-bottom : 10px;
+    padding-left : 10px;
+    color : inherit;
+    background-color : #BBBBBB;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    margin-top : 11px;
+}
+
+otagbody>
+otagdiv>
+otagdiv>
+otagdiv>
+otaghead {
+    display : block;
+    padding-top : 14px;
+    padding-bottom : 10px;
+    padding-left : 10px;
+    color : inherit;
+    background-color : #BBBBBB;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    margin-top : 1em;
+}
+
+otagdiv
+otagopener
+otagdateline {
+    display : block;
+    text-align : right;
+    width : 95%;
+}
+
+otaghi {
+    display : inline;
+    background-color : yellow;
+    color : black;
+}
+
+otaghi {
+    background-color : inherit;
+    color : inherit;
+}
+
+otaghi {
+    display : inline;
+    font-weight : bold;
+}
+
+otaghi {
+    display : inline;
+    font-style : italic;
+}
+
+otaghi {
+    display : inline;
+    text-decoration : underline;
+}
+
+otaghi {
+    display : inline;
+    font-style : italic;
+}
+
+otaghi {
+    display : inline;
+    font-variant : small-caps;
+}
+
+otaghi {
+    display : inline;
+    vertical-align : super;
+    font-size : smaller;
+}
+
+otaghi {
+    display : inline;
+    vertical-align : sub;
+    font-size : smaller;
+}
+
+otaghi {
+    display : inline;
+    text-decoration : underline;
+}
+
+otagident {
+    display : inline;
+    font-family : monospace;
+}
+
+otagidno {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagbibl
+otagidno {
+    display : inline;
+}
+
+otagimprint {
+    display : inline;
+}
+
+otagindex {
+    display : none;
+}
+
+otaginterp {
+    display : none;
+}
+
+otaginterpGrp {
+    display : none;
+}
+
+otaglist
+otagitem {
+    display : block;
+    margin-left : 1em;
+}
+
+otaglist
+otagitem {
+    display : list-item;
+    margin-left : 12pt;
+}
+
+otagitem {
+    display : list-item;
+    margin-left : 12pt;
+}
+
+otagchange
+otagitem {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-left : 1em;
+    margin-top : 0.5em;
+}
+
+otagkeywords {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagkw {
+    display : inline;
+    font-style : italic;
+}
+
+otagl {
+    display : block;
+    white-space : nowrap;
+}
+
+otaglabel {
+    display : inline;
+    font-weight : bold;
+}
+
+otagLabel {
+    display : inline;
+    font-weight : bold;
+    color : #2F4F4F;
+    background-color : inherit;
+}
+
+otagargument>
+otaglabel,
+otagbody>
+otaglabel,
+otagdiv>
+otaglabel,
+otagdiv0>
+otaglabel,
+otagdiv1>
+otaglabel,
+otagdiv2>
+otaglabel,
+otagdiv3>
+otaglabel,
+otagdiv4>
+otaglabel,
+otagdiv5>
+otaglabel,
+otagdiv6>
+otaglabel,
+otagdiv7>
+otaglabel,
+otagepigraph>
+otaglabel {
+    display : block;
+    font-weight : bold;
+}
+
+otaglangUsage {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otaglb {
+    display : block;
+}
+
+otaglg {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otaglist {
+    display : block;
+    list-style-type : disc;
+    list-style-position : outside;
+    margin-bottom : 1em;
+    margin-left : 2em;
+    margin-top : 1em;
+}
+
+otaglist {
+    display : inline;
+}
+
+otaglist {
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+otaglist {
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+otaglist {
+    list-style-type : decimal;
+    list-style-position : outside;
+}
+
+otaglist {
+    list-style-type : decimal;
+    list-style-position : outside;
+}
+
+otaglist {
+    list-style-type : none;
+}
+
+otaglistBibl {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagmentioned {
+    display : inline;
+    font-style : italic;
+}
+
+otagmilestone {
+    display : none;
+}
+
+otagname {
+    display : inline;
+}
+
+otagnote {
+    display : block;
+    color:#999;
+}
+
+otagopener
+otagnote {
+    display : block;
+    color:#999;
+}
+
+otagdiv
+otagnote
+otagpersName, div note orgName, div note title, div note placeName {
+    color:#6DB0CC !important;
+}
+
+otagnote {
+    float : left;
+}
+
+otagnote {
+    float : right;
+}
+
+otagnote,
+otagnote {
+    display : inline;
+}
+
+otagnotesStmt {
+    display : block;
+}
+
+otagnum {
+    display : inline;
+}
+
+otagopener {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagopener
+otagp {
+    text-align : justify !important;
+    text-indent : 0 !important;
+}
+
+otagorig {
+    display : inline;
+}
+
+otagp {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagpb {
+    display : none;
+}
+
+otagdiv
+otagpersName, div placeName, div orgName, div title {
+    color: #336699;
+}
+
+otagprincipal {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagptr {
+    color : navy;
+    text-decoration : underline;
+    background-color : inherit;
+}
+
+otagpublicationStmt {
+        display : block;
+    margin-bottom : 0.5em;
+}
+
+otagpublicationStmt
+otagp {
+    display : block;
+    margin-bottom : 0;
+}
+
+otagpublisher {
+    display : inline;
+}
+
+otagimprint>
+otagpublisher,
+otagpublicationStmt>
+otagpublisher {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagpubPlace {
+    display : inline;
+}
+
+otagimprint>
+otagpubPlace,
+otagpublicationStmt>
+otagpubPlace {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagq {
+    display : inline;
+    quotes : '"' '"' "'" "'";
+    margin-top : 0em;
+    margin-left : 0em;
+    margin-right : 0em;
+    margin-bottom : 0em;
+}
+
+otagq,
+otagargument>
+otagq,
+otagbody>
+otagq,
+otagcit>
+otagq,
+otagdiv>
+otagq,
+otagdiv0>
+otagq,
+otagdiv1>
+otagq,
+otagdiv2>
+otagq,
+otagdiv3>
+otagq,
+otagdiv4>
+otagq,
+otagdiv5>
+otagq,
+otagdiv6>
+otagq,
+otagdiv7>
+otagq,
+otagepigraph>
+otagq {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-left : 3em;
+    margin-right : 3em;
+    quotes : none;
+}
+
+otagref {
+    display : inline;
+    color : blue;
+    background-color : inherit;
+}
+
+otagreg {
+    display : inline;
+    font-style : italic;
+}
+
+otagrendition {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagresp {
+    display : block;
+}
+
+otagrespStmt {
+    display : block;
+    margin-left:1em;
+}
+
+otagbibl
+otagrespStmt {
+    display : inline;
+}
+
+otagrow {
+    display : table-row;
+}
+
+otagrow {
+    color : inherit;
+    background-color : #BBBBBB;
+}
+
+otagrs {
+    display : inline;
+}
+
+otags {
+    display : inline;
+}
+
+otagsalute {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-top : 1em;
+}
+
+otagsamplingDecl {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagseg {
+    display : inline;
+}
+
+otagseriesStmt {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagsic {
+    display : inline;
+    color : red;
+    background-color : inherit;
+}
+
+otagsigned {
+    display : block;
+    text-align : right;
+}
+
+otagsoCalled {
+    display : inline;
+    font-style : italic;
+    quotes : "'" "'";
+}
+
+otagsp {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-left : 2em;
+}
+
+otagdiv
+otagp {
+    text-align : justify;
+    text-indent : 30px;
+}
+
+otagspeaker {
+    display : inline;
+    font-weight : bold;
+}
+
+otagsponsor {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagstage {
+    display : inline;
+    font-style : italic;
+}
+
+otagtable {
+    text-align : center;
+    display : table;
+    margin : 1em
+}
+
+otagtable>
+otaghead {
+    display : table-caption;
+    font-style : italic;
+    margin-bottom : 6pt;
+}
+
+otagtagUsage {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagtaxonomy {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagterm {
+    font-family : sans-serif;
+    color : blue;
+    background-color : inherit;
+    display : inline;
+}
+
+otagtextClass {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagtime {
+    display : inline;
+}
+
+otagtitle {
+    display : inline;
+}
+
+otagtitle {
+    display : block;
+    font-weight:normal;
+}
+
+otagtitle,
+otagtitle {
+    font-style : italic;
+}
+
+otagtitle {
+    font-style : normal;
+}
+
+otagtitle,
+otagtitle {
+    font-style : normal;
+}
+
+otagseriesStmt>
+otagtitle,
+otagtitleStmt>
+otagtitle {
+    color:gray;
+    font-weight : bold;
+}
+
+otagtitlePage {
+    display : block;
+    border : thin black solid;
+    margin-bottom : 2em;
+    text-align : center;
+    padding-top : 1em;
+    padding-left : 1em;
+    padding-right : 1em;
+    padding-bottom : 1em;
+}
+
+otagtitlePart {
+    display : block;
+}
+
+otagtitleStmt {
+    margin-bottom : 1em;
+    color : #333;
+}
+
+otagtrailer {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagunclear {
+    display : inline;
+    color : gray;
+    background-color : inherit;
+    font-style : italic;
+}
+
+ header-related material
+otagteiHeader {
+    display : block;
+    color : gray;
+    background-color : rgb(251, 242, 234);
+    padding : .5em;
+}
+
+otagteiHeader
+otagtitle {
+    color:gray;
+}
+
+otagtitleStmt>
+otagauthor {
+    display : block;
+    margin-left : 1em;
+}
+
+otagauthority {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagavailability {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagfileDesc {
+        display : block;
+    margin-bottom : .5em;
+}
+
+otagsourceDesc {
+        display : block;
+    border : thin silver solid;
+    padding : .5em .5em 0 .5em;
+}
+
+otagsourceDesc
+otagp {
+    margin : 0;
+}
+
+otagrevisionDesc {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagcatDesc {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagencodingDesc {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagprofileDesc {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagprojectDesc {
+    display : block;
+    margin-bottom : 1em;
+}
+
+otagdocDate {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagdocImprint
+otagdocDate {
+    display : inline;
+}
+
+otagdocEdition {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagdocImprint {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+otagdocTitle {
+    display : block;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    font-weight:bold;
+}
+
+ OUCS additions
+Button {
+    font-family : monospace;
+    color : red;
+    font-weight : bold;
+    background-color : rgb(75%, 75%, 75%)
+}
+
+otagValue {
+    font-family : monospace;
+    color : rgb(255, 102, 0);
+    background-color : inherit;
+}
+
+otagCode {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+otagField {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+otagFilespec {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+otagInput {
+    font-family : monospace;
+    color : green;
+    background-color : inherit;
+}
+
+otagKey {
+    font-family : monospace;
+    text-decoration : underline;
+    color : green;
+    background-color : inherit;
+}
+
+otagLink {
+    font-family : monospace;
+    color : green;
+    background-color : inherit;
+    text-decoration : underline;
+}
+
+otagMenu {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+otagOutput {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+otagIcon {
+    color : inherit;
+    background-color : #B0E0E6;
+    font-weight : bold;
+}
+
+otagScreen {
+    font-family : monospace;
+    padding-top : 3mm;
+    padding-left : 4pt;
+    padding-bottom : 2pt;
+    display : block;
+    margin-top : 12pt;
+    margin-bottom : 12pt;
+    white-space : pre;
+    color : inherit;
+    background-color : #FFCC99;
+}*/

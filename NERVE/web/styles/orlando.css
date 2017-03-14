@@ -1,0 +1,188 @@
+/*.otag:before{
+    content: "<" attr(otag) ">";
+    font-size: small;
+}
+
+.otag:after{
+    content: "</" attr(otag) ">";
+    font-size: small;
+}*/
+
+otagEVENTS {
+    font-family : Georgia, serif;
+    line-height : 1.5;
+    color : #333;
+    margin : 10px 25px;
+}
+otagORLANDOHEADER {
+    font-size : 16px;
+    display : block;
+    background : #EEE;
+    margin-bottom: 1.5em;
+    padding: .5em;
+}
+otagFILEDESC {
+    /*    content : url(img/orlando/CWRC_logo.png);*/
+    background-color : #FFF;
+    color : gray;
+}
+otagDOCTITLE {
+    font-weight : normal;
+    color : black;
+    color:gray;
+    font-weight:bold;
+}
+otagDOCAUTHOR,
+otagDOCEDITOR,
+otagDOCEXTENT,
+otagPUBLICATIONSTMT,
+otagTITLESTMT,
+otagPUBPLACE {
+    display : block;
+}
+otagRESPONSIBILITY {
+    font-family : Verdana, Geneva, sans-serif;
+    font-size : small;
+    background-color : #F0EDFC;
+    display : list-item;
+}
+otagEMPH {
+    font-style : italic;
+}
+otagFOREIGN {
+    font-style : italic;
+}
+TITLE[TITLETYPE = "MONOGRAPHIC"],
+otagTITLE[TITLETYPE = "JOURNAL"] {
+    font-style : italic;
+    color : #336699;
+}
+otagTITLE[TITLETYPE = "SERIES"] {
+    font-style : normal;
+    color : #336699;
+}
+otagTITLE[TITLETYPE = "ANALYTIC"],
+otagTITLE[TITLETYPE = "UNPUBLISHED"] {
+    font-style : normal;
+    color : #336699;
+}
+otagTITLE[TITLETYPE = "ANALYTIC"]:before,
+otagTITLE[TITLETYPE = "UNPUBLISHED"]:before {
+    content : open-quote;
+}
+otagTITLE[TITLETYPE = "ANALYTIC"]:after,
+otagTITLE[TITLETYPE = "UNPUBLISHED"]:after {
+    content : close-quote;
+}
+otagADDRLINE {
+    display : list-item;
+}
+otagIDNO {
+    display : list-item;
+}
+otagAVAILABILITY {
+    display : inline;
+}
+otagP {
+    display : block;
+}
+otagRESEARCHNOTE {
+    background-color : #FBEFEF;
+    color : #663366;
+    font-family : Arial, Helvetica, sans-serif;
+    font-size : smaller;
+    display : list-item;
+}
+otagDIV0 HEADING {
+    display : list-item;
+    font-weight : bold;
+    font-size : x-large;
+    color : #039;
+    margin : 25px 0 0 0;
+}
+otagDIV1 {
+    margin : 20px 0 0 0;
+}
+otagDIV1 HEADING {
+    display : block;
+    font-weight : bold;
+    font-size : large;
+    color : #039;
+}
+otagCHRONEVENT {
+    display : block;
+    margin : 15px 0;
+}
+otagCHRONSTRUCT {
+    display : block;
+    padding : 0 0 0 30px;
+}
+otagCHRONSTRUCT DATE {
+    font-weight : bold;
+    display : inline;
+}
+otagCHRONSTRUCT DATE:after {
+    content : ": ";
+}
+otagCHRONSTRUCT[CHRONCOLUMN = "WOMENWRITERS"] {
+    background-repeat : no-repeat;
+}
+
+otagCHRONSTRUCT[CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
+    background-repeat : no-repeat;
+}
+
+otagCHRONSTRUCT[CHRONCOLUMN = "SOCIALCLIMATE"] {
+    background-repeat : no-repeat;
+}
+
+otagCHRONSTRUCT[CHRONCOLUMN = "WRITINGCLIMATE"] {
+    background-repeat : no-repeat;
+}
+
+otagSHORTPROSE P {
+    padding-left : 4em;
+    margin : 10px 0 0 0;
+}
+
+otagBIBCIT:before {
+    content : "(";
+}
+otagBIBCIT:after {
+    content : ")";
+}
+otagSCHOLARNOTE P {
+    background-color : #E0E0F8;
+}
+otagNAME {
+    color : #336699;
+}
+otagORGNAME {
+    color : #336699;
+}
+otagAREA {
+    font-weight : bold;
+    color : #336699;
+}
+otagTOPIC {
+    font-weight : bold;
+    color : #336699;
+}
+otagQUOTE:before {
+    content : open-quote;
+}
+otagQUOTE:after {
+    content : close-quote;
+}
+otagQUOTE[DIRECT = "N"]:before {
+    content : "'";
+}
+otagQUOTE[DIRECT = "N"]:after {
+    content : "'";
+}
+otagSOCALLED:before {
+    content : "'";
+}
+otagSOCALLED:after {
+    content : "'";
+}

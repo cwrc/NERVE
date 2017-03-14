@@ -1,0 +1,344 @@
+@font-face{
+    /* see http://www.webdesignerdepot.com/2013/01/how-to-use-any-font-you-like-with-css3/ */
+    font-family: 'fontAwesome';
+    src: url('fonts/fontawesome-webfont.eot');
+    src: url('fonts/fontawesome-webfont.ttf');
+    src: url('fonts/FontAwesome.otf');
+}
+
+body{
+    -webkit-user-select: none;
+}
+
+#container{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-width: 640px;
+    min-height: 480px;
+    background-color: lightblue;
+}
+
+#menuArea{
+    position: absolute;
+    border: 0px;
+    height: 100px;
+}
+
+#entityPanel {
+    position: absolute;
+    top: 115px;
+    height: calc(100% - 150px);
+    width: 60%;
+    min-width: 300px;
+    left: 15%;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    font-size: 18px;
+    word-wrap: normal;
+    overflow-y: scroll;
+    line-height: 150%;
+    -webkit-user-select: auto;
+}
+
+#dialogFade{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(206, 206, 228, 0.5);
+    left: 0px;
+    top: 0px;
+    z-index: 5;
+}
+
+#entityDialog{
+    position: absolute;
+    top: 115px;
+    width: calc(25% - 40px);
+    height: calc(100% - 150px);
+    min-width: 200px;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    left: calc(75% + 20px);
+    padding: 10px;
+}
+
+.messagePanelSmall {
+    position: absolute;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    top: calc(100% - 30px);
+    left: 15%;
+    height: 20px;
+    font-size: 14px;
+    word-wrap: normal;
+    overflow-y: scroll;
+    padding: 8px;
+    line-height: 100%;
+    z-index: 2;
+    -webkit-user-select: auto;
+    width: 60%;
+    min-width: 300px;
+}
+
+.messagePanelBig {
+    position: absolute;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    top: calc(100% - 310px);
+    left: 15%;
+    height: 300px;
+    font-size: 14px;
+    word-wrap: normal;
+    overflow-y: scroll;
+    padding: 8px;
+    line-height: 100%;
+    z-index: 2;
+    -webkit-user-select: auto;
+    width: 60%;
+    min-width: 300px;
+}
+
+#epsTextArea{
+    position: absolute;
+    top: 85px;
+    left: 15%;
+    width: 200px;
+}
+
+#epsNext{
+    position: absolute;
+    top: 85px;
+    left: calc(15% + 300px);
+    width: 80px;
+}
+
+#epsPrev{
+    position: absolute;
+    top: 85px;
+    left: calc(15% + 210px);
+    width: 80px;
+}
+
+#menuContainer{
+    position: absolute;
+    width: 100%;
+    height: 75px;
+    border-bottom: 2px solid black;
+}
+
+#menuInfo{
+    position: absolute;
+    width: 15%;
+    text-align: center;
+    border-right: 2px solid black;
+    height: 100%;
+}
+
+#userMessage{
+    position: fixed;
+    text-align: center;
+    font-family: arial;
+    font-weight: 900;
+    font-size: 3.0vw;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0%);
+    color: #ccccff;
+    z-index: 5000;
+    pointer-events:none;
+
+   -webkit-text-stroke-width: 2px;
+   -webkit-text-stroke-color: black;
+}
+
+.userMessageElement{
+    position: relative;
+    text-align: center;
+    font-family: arial;
+    font-weight: 900;
+    font-size: 3.0vw;
+    color: #ccccff;
+    z-index: 5000;
+    pointer-events:none;
+
+   -webkit-text-stroke-width: 2px;
+   -webkit-text-stroke-color: black;
+}
+
+#throbberBG{
+    position: absolute; /* or absolute */
+    z-index: 10000;
+    height: 99%;
+    width: 99%;
+    background: rgba(205,205,205,0.7);
+}
+
+#throbberFG{
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    height: 100px;
+    width: 100%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#throbber{
+    position: absolute;
+    top: calc(50% - 100px);
+    left: calc(50% - 100px);
+    width: 200px;
+    height: 200px;
+}
+
+#message{
+    position: absolute;
+    text-align: center;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 2vw;
+    top: calc(50% - 150px);
+    width: 100%;
+}
+
+#entityPanelSearch{
+    position: relative;
+    top: 10px;
+}
+
+.entityDialogMember{
+    width: 100%;
+    padding: 0px 0px 8px 0px;
+}
+
+.entityDialogDictionary{
+    display: table;
+    width: 100%;
+    padding: 0px 0px 8px 0px;
+}
+
+.entityDialogDictTB{
+    position: relative;
+    width: 80%;
+    left: 12px;
+}
+
+.entityDialogDictCB{
+    width: 20px;
+}
+
+.entityDialogTB{
+    width: 95%;
+}
+
+#fullname{
+    font-weight: normal;
+    font-size: 12px;
+    text-align: center;
+}
+
+#link{
+    font-weight: normal;
+    font-size: 12px;
+    text-align: center;
+}
+
+#documentTitle{
+    position: absolute;
+    color: #424242;
+    height: 40px;
+    left: calc(15% + 20px);
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.inactiveForeground{
+    color: #b0b0d0;
+}
+
+/* menu bar styles */
+#menuBar{
+    position: absolute;
+    left: 15%;
+    width: calc(85% - 20px);
+    height: 33px;
+    top: 40px;
+    font-family: arial;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+
+.menu{
+    position: relative;
+    width: 200px;
+    height: 100%;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.menu:hover{
+    background-color: lightskyblue;
+    -webkit-transition: box-shadow 0.25s;
+    box-shadow: 0px 0px 5px #c0c0df;
+    height: 100%;
+}
+
+.menuTitle{
+    position: relative;
+    left: 4px;
+    top: 4px;
+}
+
+.menuItem{
+    position: relative;
+    font-weight: normal;
+    width: 200px;
+    z-index: 5;
+    padding-left: 4px;
+}
+
+.activeText{
+    color: white;
+}
+
+.itemContainer{
+    position: relative;
+    display: none;
+    top: 7px;
+    background-color: lightskyblue;
+}
+
+.subItemContainer{
+    position: absolute;
+    display: none;
+    background-color: lightskyblue;
+    left: 200px;
+    top: 0px;
+}
+
+.menu:hover .itemContainer{
+    display: block;
+}
+
+.menuItem:hover{
+    background-color:#0099ff;
+    -webkit-transition: box-shadow 0.25s;
+    box-shadow: 0px 0px 5px #c0c0df;
+}
+
+.menuItem:hover .subItemContainer{
+    display: block;
+}
+
+.menuSC{
+    position: absolute;
+    display: inline-block;
+    right: 4px;
+    font-size: 14px;
+}

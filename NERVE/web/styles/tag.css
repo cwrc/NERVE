@@ -1,0 +1,69 @@
+tagged{
+    position: relative;
+    margin: auto;
+    color: #990033;
+/*    -webkit-user-select: none;  webkit (safari, chrome) browsers
+    -moz-user-select: none;  mozilla browsers
+    -khtml-user-select: none;  webkit (konqueror) browsers
+    -ms-user-select: none;  IE10+ */
+    cursor: pointer;
+}
+
+entity{
+    z-index: 2;
+}
+
+tagged.selected{
+    background-color: yellow;
+    color: black;
+}
+
+tagged.notSelected{
+    color: blue;
+}
+
+tagged.notLinked{
+    color: #990033;
+}
+
+/*entity:hover{
+    color: blue;
+}*/
+
+lemma{
+    display: none;
+/*    -webkit-user-select: none;  webkit (safari, chrome) browsers
+    -moz-user-select: none;  mozilla browsers
+    -khtml-user-select: none;  webkit (konqueror) browsers
+    -ms-user-select: none;  IE10+ */
+}
+
+taglink{
+    display: none;
+/*    -webkit-user-select: none;  webkit (safari, chrome) browsers
+    -moz-user-select: none;  mozilla browsers
+    -khtml-user-select: none;  webkit (konqueror) browsers
+    -ms-user-select: none;  IE10+ */
+}
+
+tagName{
+    color: green;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-30%);
+    top: 18px;
+    text-align: center;
+    font-variant: small-caps;
+    font-size: 10px;
+    z-index: 3;
+
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
+selected{
+    color: white;
+    background-color: #318DFD;
+}

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="http://cwrc.ca/templates/css/orlando.css" type="text/css"?>
+<?xml-model href="http://cwrc.ca/schemas/orlando_biography_v2.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<BIOGRAPHY SEX="FEMALE" PERSON="WRITER">
+    <ORLANDOHEADER TYPE="text">
+        <FILEDESC>
+            <TITLESTMT>
+                <DOCTITLE>Carol Shields : biography</DOCTITLE>
+            </TITLESTMT>
+            <PUBLICATIONSTMT>
+                <AUTHORITY>Orlando Project</AUTHORITY>
+            </PUBLICATIONSTMT>
+            <SOURCEDESC>Created from original research by members of the Orlando Project</SOURCEDESC>
+        </FILEDESC>
+        <REVISIONDESC>
+            <RESPONSIBILITY RESP="MPO" WORKSTATUS="SUB" WORKVALUE="I">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">12 January 2010</DATE>
+                <ITEM>Initial document given to tagger.</ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="IMG" WORKSTATUS="RWT" WORKVALUE="I">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">21 January 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="IMG" WORKSTATUS="RWT" WORKVALUE="P">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">31 January 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="IMG" WORKSTATUS="RWT" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">13 February 2010</DATE>
+                <ITEM>rwt c, ready for cas and for pilot99</ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="LJH" WORKSTATUS="CAS" WORKVALUE="I">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">29 April 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="LJH" WORKSTATUS="CAS" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">29 April 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="IMG" WORKSTATUS="RBV" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">1 May 2010</DATE>
+                <ITEM>cft c, rbv c</ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="MPO" WORKSTATUS="CFB" WORKVALUE="I">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">14 June 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="MPO" WORKSTATUS="CFB" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">15 June 2010</DATE>
+                <ITEM>cft c (mpo), cfb c, pilot 40</ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="IMG" WORKSTATUS="PUB" WORKVALUE="I">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">16 June 2010</DATE>
+                <ITEM>pub i</ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="CSK" WORKSTATUS="REV" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">16 June 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="MPO" WORKSTATUS="REV" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">16 June 2010</DATE>
+                <ITEM> </ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY RESP="MPO" WORKSTATUS="PUB" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">25 June 2010</DATE>
+                <ITEM>pilot 40, pub c</ITEM>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY WORKSTATUS="PUB" RESP="AAR" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">27 October 2013</DATE>
+                <ITEM/>
+            </RESPONSIBILITY>
+            <RESPONSIBILITY WORKSTATUS="REV" RESP="AGL" WORKVALUE="C">
+                <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">17 November 2013</DATE>
+                <ITEM>orgname cleanup</ITEM>
+            </RESPONSIBILITY>
+        </REVISIONDESC>
+    </ORLANDOHEADER>
+    <DIV0>
+        <HEADING>Biography</HEADING>
+        <STANDARD WROTEORPUBLISHEDAS="WROTEPUBLISHEDASYES">Shields, Carol</STANDARD>
+        <DIV1>
+            <PERSONNAME>
+                <DIV2>
+                    <DATASTRUCT>
+                        <DATAITEM>
+                            <BIRTHNAME WROTEORPUBLISHEDAS="WROTEPUBLISHEDASYES"> <GIVEN>Carol</GIVEN> <GIVEN>Ann</GIVEN> <SURNAME>Warner</SURNAME> </BIRTHNAME>
+                        </DATAITEM>
+                        <DATAITEM>
+                            <MARRIED WROTEORPUBLISHEDAS="WROTEPUBLISHEDASYES" REG="Shields, Carol">Shields</MARRIED>
+                        </DATAITEM>
+                    </DATASTRUCT>
+                </DIV2>
+            </PERSONNAME>
+        </DIV1>
+        <DIV1>
+            <HEADING>Birth and Background</HEADING>
+            <BIRTH>
+                <DIV2>
+                    <CHRONSTRUCT RELEVANCE="SELECTIVE" CHRONCOLUMN="WRITINGCLIMATE" RESP="SYS"> <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">2 June 1935</DATE> <CHRONPROSE> <BIRTHPOSITION POSITION="YOUNGEST">Carol Ann Warner (later CS) was born at Oak Park, Illinois, the youngest in a family of three children. She had one sister and one brother.</BIRTHPOSITION> </CHRONPROSE> <BIBCITS><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT><BIBCIT PLACEHOLDER="Wachtel 39" DBREF="60927">39</BIBCIT></BIBCITS> </CHRONSTRUCT>
+                    <SHORTPROSE>
+                        <P>It was an easy birth. CS hated it as a child when her mother used to tell her she <QUOTE DIRECT="Y">just slipped out like a lump of butter.</QUOTE> <BIBCITS><BIBCIT PLACEHOLDER="Wachtel 54" DBREF="60927">54</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </BIRTH>
+        </DIV1>
+        <DIV1>
+            <CULTURALFORMATION>
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>She was born into the <NATIONALITY SELF-DEFINED="SELFYES" REG="American">mid-American</NATIONALITY> <RACECOLOUR SELF-DEFINED="SELFYES" FOREBEAR="FAMILY">white</RACECOLOUR> <CLASS SOCIALRANK="MANAGERIAL" SELF-DEFINED="SELFYES">middle class</CLASS>, with <NATIONALHERITAGE FOREBEAR="MOTHER" SELF-DEFINED="SELFYES" REG="Swedish">immigrant experience</NATIONALHERITAGE> only a couple of generations back in her family. Neither of her parents had finished college, but they counted on their children to rise in the world through education.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 38, 39" DBREF="60927">38, 39</BIBCIT></BIBCITS> CS became <NATIONALITY SELF-DEFINED="SELFYES" REG="Canadian">Canadian</NATIONALITY> through marriage and residence.</P>
+                    </SHORTPROSE>
+                </DIV2>
+                <RELIGION>
+                    <DIV2>
+                        <SHORTPROSE>
+                            <P>CS's family was church-going, <DENOMINATION SELF-DEFINED="SELFYES" REG="Methodist">Methodist</DENOMINATION>. For a while she attended a <DENOMINATION SELF-DEFINED="SELFYES" REG="Society of Friends">Quaker</DENOMINATION> meeting, but by the 1980s she described herself as <QUOTE DIRECT="Y"><DENOMINATION SELF-DEFINED="SELFYES" REG="agnostic">notreligious</DENOMINATION></QUOTE>.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 38, 50" DBREF="60927">38,50</BIBCIT></BIBCITS></P>
+                        </SHORTPROSE>
+                    </DIV2>
+                </RELIGION>
+            </CULTURALFORMATION>
+        </DIV1>
+        <DIV1>
+            <LOCATION RELATIONTO="LIVED">
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>Oak Park, where CS was raised, had associations with Ernest Hemingway, but while CS was growing up there it was a middle-class suburb of Chicago, entirely WASP (white Anglo-Saxon Protestant). She later described it as like <QUOTE DIRECT="Y">living in a paper bag.</QUOTE> <BIBCITS><BIBCIT PLACEHOLDER="Wachtel 38" DBREF="60927">38</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </LOCATION>
+        </DIV1>
+        <DIV1>
+            <FAMILY>
+                <MEMBER RELATION="MOTHER">
+                    <DIV2>
+                        <HEADING>Parents</HEADING>
+                        <SHORTPROSE>
+                            <P>Her mother, born Inez Selgren, was of Swedish origin. She had been a <JOB>teacher</JOB>, but did not work while her children were young. She died in 1971.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 38" DBREF="60927">38</BIBCIT><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT><BIBCIT PLACEHOLDER="Shields, Small prelims" DBREF="60994">prelims</BIBCIT></BIBCITS></P>
+                        </SHORTPROSE>
+                    </DIV2>
+                </MEMBER>
+                <MEMBER RELATION="FATHER">
+                    <DIV2>
+                        <SHORTPROSE>
+                            <P>Her father, Robert E. Warner, <JOB REG="manager">managed a candy company</JOB>. CS later said she regretted the fact that her family communicated so little among themselves.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 38" DBREF="60927">38</BIBCIT><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT><BIBCIT PLACEHOLDER="Colvin" DBREF="61346"></BIBCIT></BIBCITS></P>
+                        </SHORTPROSE>
+                    </DIV2>
+                </MEMBER>
+            </FAMILY>
+        </DIV1>
+        <DIV1>
+            <HEADING>Education</HEADING>
+            <EDUCATION MODE="SELF-TAUGHT">
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>Always <QUOTE DIRECT="Y">a book-oriented kid,</QUOTE> <BIBCITS><BIBCIT PLACEHOLDER="Wachtel 39" DBREF="60927">39</BIBCIT></BIBCITS> Carol Warner (later CS) read everything she could find and loved it all, including the old-fashioned children's books that had belonged to her parents. Among the adult books that she met first were <TEXT>Betty Wehner Smith's A Tree Grows in Brooklyn</TEXT> and works by <TEXT>Edna Ferber</TEXT>.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 40" DBREF="60927">40</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </EDUCATION>
+            <EDUCATION MODE="INSTITUTIONAL">
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>After highschool in Oak Park (where every one of the 750 students in her graduating class was white), she attended the conservative, undemanding <SCHOOL INSTITUTION="PRIVATE" INSTITUTIONLEVEL="POST-SECONDARY" REG="Hanover College" RELIGIOUS="RELIGIOUSYES">Hanover College</SCHOOL>, where most of her attention was given to boys and dances. A year abroad at <SCHOOL STUDENTBODY="CO-ED" INSTITUTIONLEVEL="POST-SECONDARY" REG="University of Exeter" RELIGIOUS="RELIGIOUSYES">Exeter University</SCHOOL>, UK, was a revelation of something different. Her tutor tore up the daily grade-sheet provided by Hanover, and to her astonishment students sat around <SUBJECT REG="literature">talking about books</SUBJECT> in their spare time. She met her future husband at Exeter, but nevertheless returned to Hanover to finish her <DEGREE>BA</DEGREE>, which was awarded in 1957.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 38, 41-2" DBREF="60927">38,41-2</BIBCIT><BIBCIT PLACEHOLDER="CA" DBREF="16185"> </BIBCIT></BIBCITS></P>
+                        <P>Later she took advantage of her position as a faculty wife to enroll for a course in <SUBJECT REG="creative writing">writing for magazines</SUBJECT> (at her husband's suggestion) at the <SCHOOL STUDENTBODY="CO-ED" INSTITUTIONLEVEL="POST-SECONDARY" REG="University of Toronto" RELIGIOUS="RELIGIOUSYES">University of Toronto</SCHOOL>—which changed the direction of her life—and then, in the 1970s, for an <DEGREE>MA in <SUBJECT>Canadian Literature</SUBJECT></DEGREE> at the <SCHOOL STUDENTBODY="CO-ED" INSTITUTIONLEVEL="POST-SECONDARY" REG="University of Ottawa" RELIGIOUS="RELIGIOUSYES">University of Ottawa</SCHOOL> (awarded in 1975), with a thesis on Susanna Moodie.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 42, 43" DBREF="60927">42, 43</BIBCIT><BIBCIT PLACEHOLDER="CA" DBREF="16185"> </BIBCIT></BIBCITS> At Ottawa her graduate adviser told her: <QUOTE DIRECT="Y">We have not had much success with part-time, married women.</QUOTE> (It was 1969, just before the influx of such women, who were to achieve <QUOTE DIRECT="Y">enormous success</QUOTE>.) CS finished this degree in 1975, after dropping out for a while to write.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 44, 45" DBREF="60927">44, 45</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </EDUCATION>
+        </DIV1>
+        <DIV1>
+            <HEADING>Married Life</HEADING>
+            <FAMILY>
+                <MEMBER RELATION="HUSBAND">
+                    <MARRIAGE> <DIV2> <CHRONSTRUCT RELEVANCE="COMPREHENSIVE" CHRONCOLUMN="WRITINGCLIMATE" RESP="IMG"> <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">20 July 1957</DATE> <CHRONPROSE> Carol Warner married Donald Hugh Shields, a <JOB REG="engineer">civil engineer</JOB> who later <JOB REG="academic">taught engineering as an academic subject</JOB>.</CHRONPROSE> <BIBCITS><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT><BIBCIT PLACEHOLDER="Colvin" DBREF="61346"></BIBCIT></BIBCITS> </CHRONSTRUCT> <SHORTPROSE> <P>She had met him while he was a <SIGNIFICANTACTIVITY PHILANTHROPYVOLUNTEER="PHILANTHROPYVOLUNTEERYES">graduate student</SIGNIFICANTACTIVITY> at the University of Exeter in England. He was a Canadian from Saskatchewan. They got married after her graduation, <CHILDREN NUMBER="5">and she had her first baby, her son John, the next year. At this stage her only ambition was to be a mother and homemaker. She had four more children (Anne, Catherine, Margaret, and Sara), and by the time of her death had ten grandchildren.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 37, 42" DBREF="60927">37, 42</BIBCIT><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT><BIBCIT PLACEHOLDER="Colvin" DBREF="61346"></BIBCIT></BIBCITS></CHILDREN></P> </SHORTPROSE> </DIV2> </MARRIAGE>
+                </MEMBER>
+            </FAMILY>
+        </DIV1>
+        <DIV1>
+            <LOCATION RELATIONTO="MOVED">
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>CS began married life in a little apartment in Vancouver (wondering fleetingly why it was she who did all the cooking). Her husband's career as doctoral student and then as faculty member took her to Toronto, back to England, and then to Ottawa. By 1990 she was living in Winnipeg, Manitoba, but after she and her husband retired they moved to Victoria, British Columbia, where she spent the end of her life in a new, large, beautiful house.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 44, 42, 43, 37" DBREF="60927">44, 42, 43, 37</BIBCIT><BIBCIT PLACEHOLDER="Colvin" DBREF="61346"></BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </LOCATION>
+        </DIV1>
+        <DIV1>
+            <OCCUPATION>
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>While studying for her MA, CS began working at home as <JOB>editorial assistant</JOB> on a scholarly quarterly, <EMPLOYER>Canadian Slavonic Papers</EMPLOYER>. She held this position from 1972 to 1974. She <JOB REG="academic">taught</JOB> at the <EMPLOYER>University of Ottawa</EMPLOYER> after doing her MA there, and then, already a published writer, held a post as professor of English at the <EMPLOYER>University of Manitoba</EMPLOYER> until 2000. She was <JOB REG="university chancellor">Chancellor</JOB> of the <EMPLOYER>University of Winnipeg</EMPLOYER>, 1996-2000.<BIBCITS><BIBCIT PLACEHOLDER="Wachtel 45" DBREF="60927">45</BIBCIT><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT><BIBCIT PLACEHOLDER="Clark 23" DBREF="61347">23</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </OCCUPATION>
+        </DIV1>
+        <DIV1>
+            <FRIENDSASSOCIATES>
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>CS, who had said that in the 1960s she <QUOTE DIRECT="Y">knew no writers,</QUOTE> became a personal friend of her fellow author Alice Munro, who called her (according to Margaret Atwood) <QUOTE DIRECT="Y">just a luminous person.</QUOTE> <BIBCITS><BIBCIT PLACEHOLDER="Atwood 28" DBREF="61345" QTDIN="QTDINYES">28</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </FRIENDSASSOCIATES>
+        </DIV1>
+        <DIV1>
+            <HEADING>Illness and Death</HEADING>
+            <HEALTH ISSUE="PHYSICAL">
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>Shields was diagnosed with breast cancer in 1998. Though she underwent a mastectomy followed by chemotherapy, the cancer re-appeared in her liver in 2000.<BIBCITS><BIBCIT PLACEHOLDER="Colvin" DBREF="61346"/><BIBCIT PLACEHOLDER="O'Malley" DBREF="62588"/><BIBCIT PLACEHOLDER="CBC News Online" DBREF="63786"/></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </HEALTH>
+        </DIV1>
+        <DIV1>
+            <LOCATION RELATIONTO="TRAVELLED">
+                <DIV2>
+                    <SHORTPROSE>
+                        <P>She made a visit to England during the period of remission.<BIBCITS><BIBCIT PLACEHOLDER="Atwood 28" DBREF="61345" QTDIN="QTDINYES">28</BIBCIT></BIBCITS></P>
+                    </SHORTPROSE>
+                </DIV2>
+            </LOCATION>
+        </DIV1>
+        <DIV1>
+            <DEATH>
+                <DIV2>
+                    <CHRONSTRUCT RELEVANCE="SELECTIVE" CHRONCOLUMN="WRITINGCLIMATE" RESP="SYS"> <DATE CALENDAR="NEWSTYLE" CERTAINTY="CERT">16 July 2003</DATE> <CHRONPROSE>CS died of secondary <CAUSE>breast cancer</CAUSE> in Victoria, BC.</CHRONPROSE> <BIBCITS><BIBCIT PLACEHOLDER="CA" DBREF="16185"></BIBCIT></BIBCITS> </CHRONSTRUCT>
+                </DIV2>
+            </DEATH>
+        </DIV1>
+        <WORKSCITED>
+            <SOURCE>Unless otherwise noted, all information is from the FC.</SOURCE>
+            <SOURCE>Atwood, Margaret. To the light house. 2003.</SOURCE>
+            <SOURCE>Clark, Alex. Carol Shields, 2003.</SOURCE>
+            <SOURCE>Colvin, Clare. Carol Shields. 2003.</SOURCE>
+            <SOURCE>Contemporary Authors online.</SOURCE>
+            <SOURCE>Wachtel, Eleanor. Carol Shields.</SOURCE>
+        </WORKSCITED>
+    </DIV0>
+</BIOGRAPHY>

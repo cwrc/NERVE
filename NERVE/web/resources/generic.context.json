@@ -1,0 +1,54 @@
+{
+    "name": "Generic",
+    "linkAttribute": "LINK",
+    "idAttribute": "ID",
+    "lemmaAttribute": "LEMMA",
+    "writeToDictionary": "generic",
+    "dictionaryAttribute": "data-dictionary",
+    "readFromDictionary": [
+        "generic",
+        "geonames"
+    ],
+    "tags": [
+        {
+            "name": "ORG",
+            "dictionary": "ORGANIZATION",
+            "nerMap": "ORGANIZATION",
+            "dialog": "ORGANIZATION"
+        },
+        {
+            "name": "LOC",
+            "dictionary": "PLACE",
+            "nerMap": "LOCATION",
+            "dialog": "PLACE"
+        },
+        {
+            "name": "PER",
+            "dictionary": "PERSON",
+            "nerMap": "PERSON",
+            "dialog": "PERSON"
+        },
+        {
+            "name": "TTL",
+            "dictionary": "TITLE",
+            "lemmaAttribute": "REG",
+            "dialog": "TITLE"
+        }
+    ],
+    "htmlLabels": {
+        "tagged": "tagged",
+        "tagName": "tagname",
+        "lemma": "lemma",
+        "entity": "entity",
+        "taglink": "taglink"
+    },
+    "tagNameRules": {
+        "prefix": "nervep",
+        "attribute": "nervea"
+    },
+    "styles": [
+        "generic.css"
+    ],
+    "tagStyle" : "tags.css",
+    "schema": "http://$host/nerve/resources/generic.rng"
+}

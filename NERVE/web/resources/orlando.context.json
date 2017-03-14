@@ -1,0 +1,62 @@
+{
+    "name"               : "Orlando",
+    "linkAttribute"      : "REF",
+    "idAttribute"        : "annotationId",
+    "lemmaAttribute"     : "REG",
+    "writeToDictionary"  : "generic",
+    "readFromDictionary" : [
+        "generic",
+        "geonames"
+    ],
+    "tags" : [
+        {
+            "name"           : "ORGNAME",
+            "dictionary"     : "ORGANIZATION",
+            "lemmaAttribute" : "STANDARD",
+            "nerMap"         : "ORGANIZATION",
+            "dialog"         : "ORGANIZATION"
+        },
+        {
+            "name"           : "DATE",
+            "linkAttribute"  : "",
+            "idAttribute"    : "",
+            "lemmaAttribute" : ""
+        },
+        {
+            "name"           : "PLACE",
+            "dictionary"     : "PLACE",
+            "lemmaAttribute" : "",
+            "nerMap"         : "LOCATION",
+            "dialog"         : "PLACE"
+        },
+        {
+            "name"           : "NAME",
+            "dictionary"     : "PERSON",
+            "lemmaAttribute" : "STANDARD",
+            "nerMap"         : "PERSON",
+            "dialog"         : "PERSON"
+        },
+        {
+            "name"           : "TITLE",
+            "dictionary"     : "TITLE",
+            "lemmaAttribute" : "REG",
+            "dialog"         : "TITLE"
+        }
+    ],
+    "htmlLabels" : {
+        "tagged"  : "tagged",
+        "tagName" : "tagname",
+        "lemma"   : "lemma",
+        "entity"  : "entity",
+        "taglink" : "taglink"
+    },
+    "tagNameRules" : {
+        "prefix" : "otag",
+        "attribute" : "oattr"
+    },
+    "styles" : [
+        "orlando.css"
+    ],
+    "tagStyle" : "tags.css",
+    "schema" : "http://cwrc.ca/schemas/orlando_biography_v2.rng"
+}

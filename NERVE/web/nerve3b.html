@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NERVE 1.4.1a</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="resources/NERVE.png">
+
+        <link rel="stylesheet" type="text/css" href="styles/nerveb.css" />
+        <link rel="stylesheet" type="text/css" href="dialogs/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="dialogs/css/datepicker.css">
+        <link rel="stylesheet" type="text/css" href="dialogs/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="dialogs/css/cD.css">
+        <link rel="stylesheet" type="text/css" href="styles/tag.css"/>
+
+        <!-- External Libraries -->
+        <script src="dialogs/js/lib/jquery-3.1.1.js"></script>
+        <!--<script src="dialogs/js/lib/jquery-1.11.0.js"></script>-->
+        <!--<script src="dialogs/js/lib/jquery-ui-1.10.4.custom.js"></script>-->
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" accesskey="" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
+        <script src="dialogs/js/lib/knockout-2.3.0.js"></script>
+        <script src="dialogs/js/lib/bootstrap-datepicker.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script src="dialogs/js/cwrc-api.js"></script>
+        <script src="dialogs/js/cD.js"></script>
+        <script src="dialogs/js/app.js"></script>
+
+        <script src="javaScript/modules/utility.js" type="text/javascript"></script>
+        <script src="javaScript/classes/util/response.js" type="text/javascript"></script>
+        <script src="javaScript/modules/storage.js" type="text/javascript"></script>
+        <script src="javaScript/modules/keyboardCodeEnum.js" type="text/javascript"></script>
+        <script src="javaScript/modules/fileOperations.js" type="text/javascript"></script>
+
+        <script src="javaScript/classes/dictionary/dictionary.js" type="text/javascript"></script>
+        <script src="javaScript/classes/collection/collection.js" type="text/javascript"></script>
+        <!--<script src="javaScript/classes/searchCollection/searchCollection.js" type="text/javascript"></script>-->
+        <script src="javaScript/classes/taggedentity/taggedEntity.js" type="text/javascript"></script>
+        <script src="javaScript/classes/util/searchUtility.js" type="text/javascript"></script>
+
+        <script src="javaScript/classes/mvc/dialogs.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/controller.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/events.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/schema.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/context.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/model.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/view.js" type="text/javascript"></script>
+        <script src="javaScript/classes/mvc/listeners.js" type="text/javascript"></script>
+        <script src="javaScript/classes/util/selected.js" type="text/javascript"></script>
+        <script src="javaScript/classes/coder/decoder.js" type="text/javascript"></script>
+        <script src="javaScript/classes/coder/encoder.js" type="text/javascript"></script>
+        <script src="javaScript/main.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <!-- typically hidden stuff -->
+        <div id="userMessage"></div>
+        <div id="throbberBG">
+            <img id="throbber" src="resources/loader400.gif"/>
+            <div id="message"></div>
+        </div>
+        <!-- ---------------------- -->
+
+        <div id="container">
+            <div id="menuContainer">
+                <div id="menuInfo">
+                    <div id="abbr">NERVE 1.4.1a</div>
+                    <div id="fullname">Named Entity Recognition Vetting Environment</div>
+                    <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
+                </div>
+                <div id="documentTitle">Document Title</div>
+                <div id="menuBar">
+                    <div class="menu">
+                        <div class="menuTitle">File</div>
+                        <div class="itemContainer">
+                            <div class="menuItem" id="menuOpen">Open<div class="menuSC">Ctrl-O</div></div>
+                            <div class="menuItem" id="menuSave">Save<div class="menuSC">Ctrl-S</div></div>
+                            <div class="menuItem" id="menuClose">Close</div>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="menuTitle">Edit</div>
+                        <div class="itemContainer">
+                            <div class="menuItem">Schema<div class="menuSC">&#9654;</div>
+                                <div class="subItemContainer">
+                                    <div class="menuItem activeText" id="menuORLANDO" data-value="true">Orlando</div>
+                                    <div class="menuItem" id="menuCWRC">CWRC</div>
+                                    <div class="menuItem" id="menuTEI">TEI</div>
+                                </div>
+                            </div>
+                            <div class="menuItem" id="menuTags" data-value="false">Show Tags</div>
+                            <div class="menuItem" id="menuReset">Reset All</div>
+                            <div class="menuItem" id="menuClear">Clear Selection<div class="menuSC">esc</div></div>
+                            <div class="menuItem" id="menuUndo">Undo<div class="menuSC">Ctrl-Z</div></div>
+                            <div class="menuItem" id="menuRedo">Redo<div class="menuSC">Ctrl-Y</div></div>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="menuTitle">Action</div>
+                        <div class="itemContainer">
+                            <div class="menuItem" id="menuTag">Tag<div class="menuSC">Ctrl-E</div></div>
+                            <div class="menuItem" id="menuUntag">Remove Tag<div class="menuSC">Ctrl-R</div></div>
+                            <div class="menuItem" id="menuFind">Find<div class="menuSC">Ctrl-F</div></div>
+                            <div class="menuItem" id="menuDictDel">Dictionary Delete</div>
+                            <div class="menuItem" id="menuMerge">Merge Entities<div class="menuSC">Ctrl-M</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input id="epsTextArea">
+            <button id="epsPrev">Previous</button>
+            <button id="epsNext">Next</button>
+
+            <div id="entityPanel"></div>
+            <div id="messagePanel" class="messagePanelSmall"></div>
+
+            <div class="inactiveForeground" id="entityDialog">
+                <div id="dialogFade"></div>
+                <div class="entityDialogMember">Tag Name</div>
+                <select id="selectTagName"></select>
+
+                <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text"/></div>
+                <button id="searchDialog" type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+                <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text"/></div>
+                <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text"/></div>
+
+                <div class="entityDialogMember">
+                    <input class="entityDialogDictCB" id="cbDictionary" type="checkbox"/>
+                    <span id="dictMsg">Update To Dictionary</span>
+                    <div><select id="selectDictionary"></select></div>
+                </div>
+            </div>
+
+            <div id="dialogsHolder"></div>
+        </div>
+    </body>
+</html>

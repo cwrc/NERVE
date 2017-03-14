@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="DocumentNavigator" default="default" basedir=".">
+    <description>Builds, tests, and runs the project DocumentNavigator.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <property name="root" value="D:/Dropbox/Projects/groups/autoTagger/nerve-core/DocumentNavigator"/>
+
+    <target name="antlr-clean">
+        <delete>
+          <fileset dir="${root}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
+        </delete>
+    </target>
+
+    <target name="antlr">
+        <echo message="***** ANTLR"/>
+
+        <java jar="D:/Dropbox/Projects/lib/antlr-4.5.3-complete.jar" fork="false">
+             <arg value="-o"/>
+             <arg value="${root}/src/ca/sharcnet/nerve/docnav/generated/"/>
+             <arg value="${root}/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4"/>
+        </java>
+        <java jar="D:/Dropbox/Projects/lib/antlr-4.5.3-complete.jar" fork="false">
+             <arg value="-o"/>
+             <arg value="${root}/src/ca/sharcnet/nerve/docnav/generated/"/>
+             <arg value="${root}/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4"/>
+        </java>
+    </target>
+
+
+
+</project>

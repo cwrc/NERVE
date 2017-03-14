@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<style>
+#main{
+    width: 200px;
+}
+
+.vert{
+    background-color:whitesmoke;
+    display:block;
+    width: 100%;
+}
+</style>
+
+<div id="main">
+
+<input id="exText" class="vert" type="text" name="other" value="Name">
+<select id="exSelect" class="vert" name="example">
+    <option value="Name">Name</option>
+    <option value="Place">Place</option>
+    <option value="Date">Date</option>
+</select>
+
+</div>
+
+<script>
+var selector = document.getElementById("exSelect");
+selector.onchange = function(){
+    var s = document.getElementById("exSelect");
+    var t = document.getElementById("exText");
+
+    var value = s.options[s.selectedIndex].value;
+    t.value = value;
+};
+</script>
+
+</body>
+</html>

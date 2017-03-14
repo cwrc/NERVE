@@ -1,0 +1,9 @@
+.otag:before{
+    content: "<" attr(otag) ">";
+    font-size: small;
+}
+
+.otag:after{
+    content: "</" attr(otag) ">";
+    font-size: small;
+}

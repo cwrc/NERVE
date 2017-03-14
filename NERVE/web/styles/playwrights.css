@@ -1,0 +1,323 @@
+otagRESEARCHNOTE{
+    display:none;
+    background-color:#FBEFEF;
+    color:#663366;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:smaller;
+    margin:0%;
+    padding:0%;
+}
+
+otagCWRCHEADER,
+otagFILEDESC,
+otagDOCTITLE,
+otagDOCAUTHOR{
+    display:list-item
+}
+
+otagFILEDESC{
+    content:url(http://cwrc.ca/templates/images/CWRC_logo.png);
+    background-color:#B8B891;
+    color:#555;
+    font-weight:normal;
+}
+
+otagDOCTITLE{
+    font-variant:small-caps;
+    font-size:x-large;
+    font-weight:bold;
+}
+
+otagDOCAUTHOR{
+    font-weight:bold
+}
+
+otagPUBLICATIONSTMT,
+otagSOURCEDESC,
+otagREVISIONDESC,
+otagRESPONSIBILITY{
+    display:none
+}
+
+otagENTRY{
+    display:block;
+    margin-left:3%
+}
+
+otagP,
+otagLISTBIBCIT{
+    line-height:150%
+}
+
+otagHEADING{
+    display:block;
+    font-weight:bold;
+    color:brown;
+    padding-bottom:12pt
+}
+
+otagHEADING[SUBTYPE = "1"]{
+    font-size:3em;
+    text-align:center;
+    padding-top:1em
+}
+
+otagHEADING[SUBTYPE = "2"]{
+    font-size:2em;
+    padding-bottom:1%;
+    margin-bottom:1%;
+    border-bottom:solid;
+    padding-top:2%;
+    border-color:black
+}
+
+otagHEADING[SUBTYPE = "3"]{
+    font-size:1.5em;
+    padding-left:4%;
+    padding-top:1em;
+    padding-bottom:0.5em
+}
+
+otagTEXTSCOPE
+otagHEADING[SUBTYPE = "3"]{
+    padding-left:0%
+}
+
+otagHEADING[SUBTYPE = "4"]{
+    font-size:1em;
+
+    padding-top:1em;
+    padding-bottom:0.2em
+}
+
+otagFIGURE{
+    display:block;
+    text-align:center;
+    border:thin solid white;
+    margin:0.5em;
+    padding:0.5em
+}
+
+otagENTRY
+otagPERSONNAME,
+otagENTRY
+otagBIRTH,
+otagENTRY
+otagRESIDENCEANDMOBILITY,
+otagENTRY
+otagCULTURALFORMATION,
+otagENTRY
+otagPRODUCTION,
+otagENTRY
+otagFAMILY,
+otagENTRY
+otagRECEPTION,
+otagENTRY
+otagOCCUPATION,
+otagENTRY
+otagEDUCATION,
+otagENTRY
+otagOTHERLIFEEVENT,
+otagENTRY
+otagTEXTSCOPE{
+    display:block;
+    margin-left:4%;
+}
+
+otagTEXTSCOPE
+otagPRODUCTION,
+otagTEXTSCOPE
+otagRECEPTION{
+    display:block;
+    margin-left:0%
+}
+
+otagPERSONNAME
+otagP
+otagBIRTHNAME,
+otagBIRTHNAME
+otagGIVEN,
+otagBIRTHNAME
+otagSURNAME,
+otagPERSONNAME
+otagP
+otagNICKNAME,
+otagENTRY
+otagBIRTH,
+otagBIRTH
+otagCHRONSTRUCT
+otagDATE,
+otagBIRTH
+otagCHRONSTRUCT
+otagCHRONPROSE,
+otagENTRY
+otagRESIDENCEANDMOBILITY
+otagP,
+otagENTRY
+otagPRODUCTION
+otagP,
+otagENTRY
+otagCULTURALFORMATION
+otagP,
+otagFAMILY
+otagP,
+otagENTRY
+otagRECEPTION,
+otagENTRY
+otagOCUPATION
+otagP {
+    display:block;
+    margin-bottom:1em;
+}
+
+otagGIVEN:before{
+    content:"First Name:";
+    display:inline-block;
+    padding-right:0.5em
+
+}
+
+otagGIVEN+
+otagGIVEN{
+    display:block
+}
+
+otagGIVEN+
+otagGIVEN:before{
+    content:"Middle Name:";
+    display:inline-block;
+    padding-right:0.5em
+}
+
+otagSURNAME:before{
+    content:"Last Name at Birth:";
+    padding-right:0.5em
+}
+
+otagNICKNAME:before{
+    content:"Nickname:";
+    padding-right:0.5em
+}
+
+otagGENDER:before{
+    content:"Gender:";
+    padding-right:0.5em
+}
+
+otagEDUCATION
+otagCHRONSTRUCT,
+otagOTHERLIFEEVENT
+otagCHRONSTRUCT,
+otagOCCUPATION
+otagCHRONSTRUCT,
+otagRECEPTION
+otagCHRONSTRUCT,
+otagEDUCATION
+otagDATASTRUCT,
+otagOTHERLIFEEVENT
+otagDATASTRUCT,
+otagOCCUPATION
+otagDATASTRUCT,
+otagRECEPTION
+otagDATASTRUCT{
+    display:block
+}
+
+otagCHRONSTRUCT
+otagDATE,
+otagCHRONSTRUCT
+otagDATERANGE{
+    display:table-cell;
+    width:9em;
+    padding-right:0%
+}
+
+otagCHRONPROSE{
+    display:table-cell;
+    line-height:150%
+}
+
+otagDATASTRUCT{
+    width:auto;
+    line-height:150%
+}
+
+otagTEXTSCOPE
+otagPRODUCTION
+otagP{
+    display:block;
+    padding-left:12em;
+    padding-bottom:0%;
+    margin-bottom:0%
+}
+
+otagBIRTH
+otagCHRONSTRUCT
+otagCHRONPROSE,
+otagBIRTH
+otagCHRONSTRUCT
+otagDATE{
+    display:block; width:100%
+}
+
+otagTEXTUALFEATURES{
+    padding-top:0%;
+    margin-top:0%
+}
+
+otagTEXTUALFEATURES
+otagHEADING{
+    padding-top:0%;
+    margin-top:1em
+}
+
+otagTEXTUALFEATURES
+otagP{
+    display:block;
+}
+
+otagTITLE[LEVEL = "MONOGRAPHIC"]{
+    font-style:italic
+}
+
+otagTITLE[LEVEL = "ANALYTIC"]:before{
+    content:"\""
+}
+
+otagTITLE[LEVEL = "ANALYTIC"]:after{
+    content:"\""
+}
+
+otagEMPH{
+    font-style:italic
+}
+
+otagSOCALLED:before{
+    content:"\""
+}
+
+otagSOCALLED:after{
+    content:"\""
+}
+
+otagTITLE[LEVEL = "UNPUBLISHED"] EMPH{
+    font-style:italic;
+}
+
+otagHEADING
+otagTITLE
+otagEMPH{
+    color:brown
+}
+
+otagHEADING
+otagTITLE{
+    display:inline;
+    padding-top:1%;
+    padding-bottom:1%;
+    color:brown
+}
+
+otagTITLE[LEVEL = "MONOGRAPHIC"] TITLE[LEVEL = "MONOGRAPHIC"]{
+    font-style:normal
+}
