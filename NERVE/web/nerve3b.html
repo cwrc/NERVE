@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NERVE 1.4.1a</title>
+        <title>NERVE 1.4.2a</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="resources/NERVE.png">
@@ -17,7 +17,7 @@
         <script src="dialogs/js/lib/jquery-3.1.1.js"></script>
         <!--<script src="dialogs/js/lib/jquery-1.11.0.js"></script>-->
         <!--<script src="dialogs/js/lib/jquery-ui-1.10.4.custom.js"></script>-->
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" accesskey="" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
         <script src="dialogs/js/lib/knockout-2.3.0.js"></script>
         <script src="dialogs/js/lib/bootstrap-datepicker.js"></script>
 
@@ -65,7 +65,7 @@
         <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">
-                    <div id="abbr">NERVE 1.4.1a</div>
+                    <div id="abbr">NERVE 1.4.2a</div>
                     <div id="fullname">Named Entity Recognition Vetting Environment</div>
                     <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>
@@ -77,23 +77,21 @@
                             <div class="menuItem" id="menuOpen">Open<div class="menuSC">Ctrl-O</div></div>
                             <div class="menuItem" id="menuSave">Save<div class="menuSC">Ctrl-S</div></div>
                             <div class="menuItem" id="menuClose">Close</div>
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="menuTitle">Edit</div>
-                        <div class="itemContainer">
-                            <div class="menuItem">Schema<div class="menuSC">&#9654;</div>
+                            <div class="menuItem">Set Schema<div class="menuSC">&#9654;</div>
                                 <div class="subItemContainer">
                                     <div class="menuItem activeText" id="menuORLANDO" data-value="true">Orlando</div>
                                     <div class="menuItem" id="menuCWRC">CWRC</div>
                                     <div class="menuItem" id="menuTEI">TEI</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="menuTitle">View</div>
+                        <div class="itemContainer">
                             <div class="menuItem" id="menuTags" data-value="false">Show Tags</div>
-                            <div class="menuItem" id="menuReset">Reset All</div>
                             <div class="menuItem" id="menuClear">Clear Selection<div class="menuSC">esc</div></div>
-                            <div class="menuItem" id="menuUndo">Undo<div class="menuSC">Ctrl-Z</div></div>
-                            <div class="menuItem" id="menuRedo">Redo<div class="menuSC">Ctrl-Y</div></div>
+                            <div class="menuItem" id="menuReset">Clear All</div>
                         </div>
                     </div>
                     <div class="menu">
@@ -104,6 +102,8 @@
                             <div class="menuItem" id="menuFind">Find<div class="menuSC">Ctrl-F</div></div>
                             <div class="menuItem" id="menuDictDel">Dictionary Delete</div>
                             <div class="menuItem" id="menuMerge">Merge Entities<div class="menuSC">Ctrl-M</div></div>
+                            <div class="menuItem" id="menuUndo">Undo<div class="menuSC">Ctrl-Z</div></div>
+                            <div class="menuItem" id="menuRedo">Redo<div class="menuSC">Ctrl-Y</div></div>
                         </div>
                     </div>
                 </div>
