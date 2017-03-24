@@ -5,7 +5,7 @@ DOCUMENT_POSITION_CONTAINS = 8;
 DOCUMENT_POSITION_CONTAINED_BY = 16;
 DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32;
 
-/* global selected, model, search, TaggedEntity, this.factory, Utility, trace, cD, Range, DOMException */
+/* global selected, model, search, TaggedEntity, this.factory, Utility, trace, cD, Range, DOMException, Function */
 /* (^[ ]+)([a-zA-z]+)(\(.*\)[ ]?\{) */
 /* $1$2$3\nUtility.log(Events, "$2"); */
 
@@ -305,7 +305,6 @@ class Controller {
         Utility.enforceTypes(arguments, String, ["optional", Function], ["optional", Function]);
 
         let url = "resources/" + contextName.toLowerCase() + ".context.json";
-        Utility.trace(Controller, 3, url);
 
         this.fileOps.loadFromServer(url, (contents) => {
             this.settings.setValue("savedState", "contextName", contextName);
@@ -322,10 +321,9 @@ class Controller {
         this.model.setContext(jsonString);
         this.dictionary = new Dictionary(this.model);
         this.view.setContext(this.model.getContext());
+        
         var defaultTagName = this.model.getContext().getTags()[0].name;
-
         this.setTagName(defaultTagName);
-
         this.setDictionary(this.model.getContext().writeToDictionary());
         this.view.setDictionary(this.model.getContext().writeToDictionary());
     }

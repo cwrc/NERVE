@@ -1,55 +1,37 @@
-/*.otag:before{
-    content: "<" attr(otag) ">";
-    font-size: small;
-}
-
-.otag:after{
-    content: "</" attr(otag) ">";
-    font-size: small;
-}*/
-
-.otag{
-    display: block;
-}
-
-/*otagTEI {
+.xmltag[xmltagname="TEI"] {
     margin : 10px 25px;
     font-family : Georgia, serif;
     line-height : 1.5;
 }
 
-otagabbr {
+.xmltag[xmltagname="abbr"] {
     display : inline;
 }
 
-otagadd {
+.xmltag[xmltagname="add"] {
     display : inline;
-    color : green;
-    background-color : inherit;
     text-decoration : underline;
 }
 
-otaganchor {
+.xmltag[xmltagname="anchor"] {
     display : none;
 }
 
-otagargument {
+.xmltag[xmltagname="argument"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagatt {
+.xmltag[xmltagname="att"] {
     display : inline;
     font-family : sans-serif;
-    color : blue;
-    background-color : inherit;
 }
 
-otagauthor {
+.xmltag[xmltagname="author"] {
     display : inline;
 }
 
-otagback {
+.xmltag[xmltagname="back"] {
     display : block;
     border : thin black solid;
     margin-top : 1em;
@@ -59,370 +41,362 @@ otagback {
     padding-bottom : 0.5em;
 }
 
-otagbibl {
+.xmltag[xmltagname="bibl"] {
     display : inline;
 }
 
-otagdiv {
+.xmltag[xmltagname="div"] {
     text-indent: -2em;
     margin:0 0 0 2em;
 }
 
-otagbibl>
-otagnote {
+.xmltag[xmltagname="bibl"]>
+.xmltag[xmltagname="note"] {
     display : inline;
 }
 
-otagbibl>
-otagtitle {
+.xmltag[xmltagname="bibl"]>
+.xmltag[xmltagname="title"] {
     content: "Alternate Title: " !important;
 }
 
-otagbibl>
-otagtitle {
+.xmltag[xmltagname="bibl"]>
+.xmltag[xmltagname="title"] {
     content: "";
 }
 
-otagargument>
-otagbibl,
-otagbody>
-otagbibl,
-otagcit>
-otagbibl,
-otagdiv>
-otagbibl,
-otagdiv0>
-otagbibl,
-otagdiv1>
-otagbibl,
-otagdiv2>
-otagbibl,
-otagdiv3>
-otagbibl,
-otagdiv4>
-otagbibl,
-otagdiv5>
-otagbibl,
-otagdiv6>
-otagbibl,
-otagdiv7>
-otagbibl,
-otagepigraph>
-otagbibl,
-otaglistBibl>
-otagbibl>
-otagbibl,
-otagtaxonomy>
-otagbibl {
+.xmltag[xmltagname="argument"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="body"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="cit"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div0"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div1"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div2"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div3"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div4"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div5"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div6"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="div7"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="epigraph"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="list"]
+.xmltag[xmltagname="ibl"]>
+.xmltag[xmltagname="bibl"]>
+.xmltag[xmltagname="bibl"],
+.xmltag[xmltagname="taxonomy"]>
+.xmltag[xmltagname="bibl"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagbiblFull {
+.xmltag[xmltagname="biblFull"] {
     display : inline;
 }
 
-otagargument>
-otagbiblFull,
-otagbody>
-otagbiblFull,
-otagcit>
-otagbiblFull,
-otagdiv>
-otagbiblFull,
-otagdiv0>
-otagbiblFull,
-otagdiv1>
-otagbiblFull,
-otagdiv2>
-otagbiblFull,
-otagdiv3>
-otagbiblFull,
-otagdiv4>
-otagbiblFull,
-otagdiv5>
-otagbiblFull,
-otagdiv6>
-otagbiblFull,
-otagdiv7>
-otagbiblFull,
-otagepigraph>
-otagbiblFull,
-otaglistBibl>
-otagbiblFull>
-otagbiblFull,
-otagtaxonomy>
-otagbiblFull {
+.xmltag[xmltagname="argument"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="body"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="cit"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div0"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div1"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div2"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div3"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div4"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div5"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div6"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="div7"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="epigraph"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="listBibl"]>
+.xmltag[xmltagname="biblFull"]>
+.xmltag[xmltagname="biblFull"],
+.xmltag[xmltagname="taxonomy"]>
+.xmltag[xmltagname="biblFull"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagbiblScope {
+.xmltag[xmltagname="biblScope"] {
     display : inline;
 }
 
-otagimprint>
-otagbiblScope {
+.xmltag[xmltagname="imprint"]>
+.xmltag[xmltagname="biblScope"] {
     display : block;
 }
 
-otagbody {
+.xmltag[xmltagname="body"] {
     margin-top : 5px;
     padding : 0 2em 0 0;
     display : block;
     counter-reset : div1;
 }
 
-otagbyline {
+.xmltag[xmltagname="byline"] {
     display : block;
     font-style : italic;
     margin-bottom : 0.5em;
 }
 
-otagcategory {
+.xmltag[xmltagname="category"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagcatRef {
+.xmltag[xmltagname="catRef"] {
     display : none;
 }
 
-otagcell {
+.xmltag[xmltagname="cell"] {
     display : table-cell;
     border : 1px solid #EEEFEE;
     padding : 3px;
-    color : inherit;
-    background-color : inherit;
 }
 
-otagcell {
-    color : inherit;
-    background-color : #BBBBBB;
-}
-
-otagchange {
+.xmltag[xmltagname="change"] {
     display : block;
     margin-bottom : 1em;
     margin-left : 2em;
 }
 
-otagcit {
+.xmltag[xmltagname="cit"] {
     display : inline;
 }
 
-otagargument>
-otagcit,
-otagbody>
-otagcit,
-otagdiv>
-otagcit,
-otagdiv0>
-otagcit,
-otagdiv1>
-otagcit,
-otagdiv2>
-otagcit,
-otagdiv3>
-otagcit,
-otagdiv4>
-otagcit,
-otagdiv5>
-otagcit,
-otagdiv6>
-otagcit,
-otagdiv7>
-otagcit,
-otagepigraph>
-otagcit {
+.xmltag[xmltagname="argument"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div0"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div1"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div2"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div3"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div4"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div5"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div6"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="div7"] >
+.xmltag[xmltagname="cit"] ,
+.xmltag[xmltagname="epigraph"] >
+.xmltag[xmltagname="cit"] {
     display : block;
     margin-bottom : 0.5em;
     margin-top : 0.5em;
 }
 
-otagclassCode {
+.xmltag[xmltagname="classCode"] {
     display : block;
 }
 
-otagelementSpec,
-otagmacroSpec,
-otagclassSpec {
+.xmltag[xmltagname="elementSpec"],
+.xmltag[xmltagname="macroSpec"],
+.xmltag[xmltagname="classSpec"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagcloser {
+.xmltag[xmltagname="closer"] {
     display : block;
     margin-bottom : 1em;
     width : 95%;
 }
 
-otagcode {
+.xmltag[xmltagname="code"] {
     display : inline;
     font-family : monospace;
 }
 
-otagcorr {
+.xmltag[xmltagname="corr"] {
     display : inline;
-    color : green;
-    background-color : inherit;
 }
 
-otagcreation {
+.xmltag[xmltagname="creation"] {
     display : block;
 }
 
-otagdate {
+.xmltag[xmltagname="date"] {
     display : inline;
 }
 
-otagchange>
-otagdate,
-otagpublicationStmt>
-otagdate {
+.xmltag[xmltagname="change"]>
+.xmltag[xmltagname="date"],
+.xmltag[xmltagname="publicationStmt"]>
+.xmltag[xmltagname="date"] {
     display : block;
     font-weight : bold;
 }
 
-otagdateline {
+.xmltag[xmltagname="dateline"] {
     display : inline;
 }
 
-otagdel {
+.xmltag[xmltagname="del"] {
     display : inline;
     color : red;
     background-color : inherit;
     text-decoration : line-through;
 }
 
-otagdistributor {
+.xmltag[xmltagname="distributor"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagbody>
-otagdiv {
+.xmltag[xmltagname="body"]>
+.xmltag[xmltagname="div"] {
     display : block;
     counter-increment : div1;
     counter-reset : div2;
     margin : 0 0 1.5em 0;
 }
 
-otagbody>
-otagdiv>
-otagdiv {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="div"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div2;
     counter-reset : div3;
 }
 
-otagbody>
-otagdiv>
-otagdiv>
-otagdiv {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="div"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div3;
 }
 
-otagbody>
-otagdiv {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] {
     margin-bottom : 2em !important;
 }
 
-otagdiv {
+.xmltag[xmltagname="div"] {
     counter-reset:line;
 }
 
-otagdiv1 {
+.xmltag[xmltagname="div1"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div1;
     counter-reset : div2;
 }
 
-otagdiv2 {
+.xmltag[xmltagname="div2"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div2;
     counter-reset : div3;
 }
 
-otagdiv3 {
+.xmltag[xmltagname="div3"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div3;
     counter-reset : div4;
 }
 
-otagdiv4 {
+.xmltag[xmltagname="div4"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div4;
     counter-reset : div5;
 }
 
-otagdiv5 {
+.xmltag[xmltagname="div5"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div5;
     counter-reset : div6;
 }
 
-otagdiv6 {
+.xmltag[xmltagname="div6"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div6;
     counter-reset : div7;
 }
 
-otagdiv7 {
+.xmltag[xmltagname="div7"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div7;
 }
 
-otagdivGen {
+.xmltag[xmltagname="divGen"] {
     display : none;
 }
 
-otagdocAuthor {
+.xmltag[xmltagname="docAuthor"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagbyline
-otagdocAuthor {
+.xmltag[xmltagname="byline"]
+.xmltag[xmltagname="docAuthor"] {
     display : inline;
 }
 
 
-otagedition {
+.xmltag[xmltagname="edition"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagbibl
-otagedition {
+.xmltag[xmltagname="bibl"]
+.xmltag[xmltagname="edition"] {
     display : inline;
 }
 
-otageditionStmt {
+.xmltag[xmltagname="editionStmt"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otageditor {
+.xmltag[xmltagname="editor"] {
     display : block;
 }
 
-otagbibl
-otageditor {
+.xmltag[xmltagname="bibl"]
+.xmltag[xmltagname="editor"] {
     display : inline;
 }
 
-otageg {
+.xmltag[xmltagname="eg"] {
     font-family : monospace;
     padding-top : 3mm;
     padding-left : 4pt;
@@ -435,77 +409,77 @@ otageg {
     background-color : #FFCC99;
 }
 
-otagargument>
-otageg,
-otagbody>
-otageg,
-otagdiv>
-otageg,
-otagdiv0>
-otageg,
-otagdiv1>
-otageg,
-otagdiv2>
-otageg,
-otagdiv3>
-otageg,
-otagdiv4>
-otageg,
-otagdiv5>
-otageg,
-otagdiv6>
-otageg,
-otagdiv7>
-otageg,
-otagepigraph>
-otageg {
+.xmltag[xmltagname="argument"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div0"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div1"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div2"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div3"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div4"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div5"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div6"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="div7"] >
+.xmltag[xmltagname="eg"],
+.xmltag[xmltagname="epigraph"] >
+.xmltag[xmltagname="eg"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagemph {
+.xmltag[xmltagname="emph"] {
     display : inline;
     font-style : italic;
 }
 
-otagepigraph {
+.xmltag[xmltagname="epigraph"] {
     display : block;
     margin-bottom : 1em;
     text-align : center;
 }
 
-otagextent {
+.xmltag[xmltagname="extent"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagbibl
-otagextent {
+.xmltag[xmltagname="bibl"]
+.xmltag[xmltagname="extent"] {
     display : inline;
 }
 
-otaggraphic {
+.xmltag[xmltagname="graphic"] {
     color : gray;
     background-color : inherit;
     content : "{" attr(url) "}";
 }
 
-otagfigure {
+.xmltag[xmltagname="figure"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagforeign {
+.xmltag[xmltagname="foreign"] {
     display : inline;
     font-style : italic;
 }
 
-otagformula {
+.xmltag[xmltagname="formula"] {
     display : inline;
     font-style : italic;
 }
 
-otagfront {
+.xmltag[xmltagname="front"] {
     display : block;
     margin-bottom : 1em;
     padding-top : 0.5em;
@@ -514,35 +488,35 @@ otagfront {
     padding-bottom : 0.5em;
 }
 
-otagfunder {
+.xmltag[xmltagname="funder"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otaggap {
+.xmltag[xmltagname="gap"] {
     display : none;
 }
 
-otaggi,
-otagtag {
+.xmltag[xmltagname="gi"],
+.xmltag[xmltagname="tag"] {
     display : inline;
     font-family : sans-serif;
-    color : blue;
+    color : black;
     background-color : inherit;
 }
 
-otaggloss {
+.xmltag[xmltagname="gloss"] {
     display : inline;
 }
 
-otaggroup {
+.xmltag[xmltagname="group"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagbody>
-otagdiv>
-otaghead {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="head"] {
     display : block;
     padding-top : 7px;
     padding-bottom : 10px;
@@ -553,16 +527,16 @@ otaghead {
     font-size : 18px;
 }
 
-otagbody>
-otagdiv>
-otaghead author {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] >
+head .xmltag[xmltagname="author"] {
     font-weight:normal;
 }
 
-otagbody>
-otagdiv>
-otagdiv>
-otaghead {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="head"] {
     display : block;
     padding-top : 14px;
     padding-bottom : 10px;
@@ -574,11 +548,11 @@ otaghead {
     margin-top : 11px;
 }
 
-otagbody>
-otagdiv>
-otagdiv>
-otagdiv>
-otaghead {
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="head"] {
     display : block;
     padding-top : 14px;
     padding-bottom : 10px;
@@ -590,193 +564,193 @@ otaghead {
     margin-top : 1em;
 }
 
-otagdiv
-otagopener
-otagdateline {
+.xmltag[xmltagname="div"]
+.xmltag[xmltagname="opener"]
+.xmltag[xmltagname="dateline"] {
     display : block;
     text-align : right;
     width : 95%;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     background-color : yellow;
     color : black;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     background-color : inherit;
     color : inherit;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     font-weight : bold;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     font-style : italic;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     text-decoration : underline;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     font-style : italic;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     font-variant : small-caps;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     vertical-align : super;
     font-size : smaller;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     vertical-align : sub;
     font-size : smaller;
 }
 
-otaghi {
+.xmltag[xmltagname="hi"] {
     display : inline;
     text-decoration : underline;
 }
 
-otagident {
+.xmltag[xmltagname="ident"] {
     display : inline;
     font-family : monospace;
 }
 
-otagidno {
+.xmltag[xmltagname="idno"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagbibl
-otagidno {
+.xmltag[xmltagname="bibl"]
+.xmltag[xmltagname="idno"] {
     display : inline;
 }
 
-otagimprint {
+.xmltag[xmltagname="imprint"] {
     display : inline;
 }
 
-otagindex {
+.xmltag[xmltagname="index"] {
     display : none;
 }
 
-otaginterp {
+.xmltag[xmltagname="interp"] {
     display : none;
 }
 
-otaginterpGrp {
+.xmltag[xmltagname="interpGrp"] {
     display : none;
 }
 
-otaglist
-otagitem {
+.xmltag[xmltagname="list"]
+.xmltag[xmltagname="item"] {
     display : block;
     margin-left : 1em;
 }
 
-otaglist
-otagitem {
+.xmltag[xmltagname="list"]
+.xmltag[xmltagname="item"] {
     display : list-item;
     margin-left : 12pt;
 }
 
-otagitem {
+.xmltag[xmltagname="item"] {
     display : list-item;
     margin-left : 12pt;
 }
 
-otagchange
-otagitem {
+.xmltag[xmltagname="change"]
+.xmltag[xmltagname="item"] {
     display : block;
     margin-bottom : 0.5em;
     margin-left : 1em;
     margin-top : 0.5em;
 }
 
-otagkeywords {
+.xmltag[xmltagname="keywords"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagkw {
+.xmltag[xmltagname="kw"] {
     display : inline;
     font-style : italic;
 }
 
-otagl {
+.xmltag[xmltagname="l"] {
     display : block;
     white-space : nowrap;
 }
 
-otaglabel {
+.xmltag[xmltagname="label"] {
     display : inline;
     font-weight : bold;
 }
 
-otagLabel {
+.xmltag[xmltagname="Label"] {
     display : inline;
     font-weight : bold;
     color : #2F4F4F;
     background-color : inherit;
 }
 
-otagargument>
-otaglabel,
-otagbody>
-otaglabel,
-otagdiv>
-otaglabel,
-otagdiv0>
-otaglabel,
-otagdiv1>
-otaglabel,
-otagdiv2>
-otaglabel,
-otagdiv3>
-otaglabel,
-otagdiv4>
-otaglabel,
-otagdiv5>
-otaglabel,
-otagdiv6>
-otaglabel,
-otagdiv7>
-otaglabel,
-otagepigraph>
-otaglabel {
+.xmltag[xmltagname="argument"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div0"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div1"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div2"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div3"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div4"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div5"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div6"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="div7"] >
+.xmltag[xmltagname="label"] ,
+.xmltag[xmltagname="epigraph"] >
+.xmltag[xmltagname="label"] {
     display : block;
     font-weight : bold;
 }
 
-otaglangUsage {
+.xmltag[xmltagname="langUsage"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otaglb {
+.xmltag[xmltagname="lb"] {
     display : block;
 }
 
-otaglg {
+.xmltag[xmltagname="lg"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     display : block;
     list-style-type : disc;
     list-style-position : outside;
@@ -785,166 +759,166 @@ otaglist {
     margin-top : 1em;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     display : inline;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     list-style-type : disc;
     list-style-position : outside;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     list-style-type : disc;
     list-style-position : outside;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     list-style-type : decimal;
     list-style-position : outside;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     list-style-type : decimal;
     list-style-position : outside;
 }
 
-otaglist {
+.xmltag[xmltagname="list"] {
     list-style-type : none;
 }
 
-otaglistBibl {
+.xmltag[xmltagname="listBibl"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagmentioned {
+.xmltag[xmltagname="mentioned"] {
     display : inline;
     font-style : italic;
 }
 
-otagmilestone {
+.xmltag[xmltagname="milestone"] {
     display : none;
 }
 
-otagname {
+.xmltag[xmltagname="name"] {
     display : inline;
 }
 
-otagnote {
+.xmltag[xmltagname="note"] {
     display : block;
     color:#999;
 }
 
-otagopener
-otagnote {
+.xmltag[xmltagname="opener"]
+.xmltag[xmltagname="note"] {
     display : block;
     color:#999;
 }
 
-otagdiv
-otagnote
-otagpersName, div note orgName, div note title, div note placeName {
+.xmltag[xmltagname="div"]
+.xmltag[xmltagname="note"]
+.xmltag[xmltagname="persName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="note"] .xmltag[xmltagname="orgName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="note"] .xmltag[xmltagname="title"], .xmltag[xmltagname="div"] .xmltag[xmltagname="note"] .xmltag[xmltagname="placeName"] {
     color:#6DB0CC !important;
 }
 
-otagnote {
+.xmltag[xmltagname="note"] {
     float : left;
 }
 
-otagnote {
+.xmltag[xmltagname="note"] {
     float : right;
 }
 
-otagnote,
-otagnote {
+.xmltag[xmltagname="note"],
+.xmltag[xmltagname="note"] {
     display : inline;
 }
 
-otagnotesStmt {
+.xmltag[xmltagname="notesStmt"] {
     display : block;
 }
 
-otagnum {
+.xmltag[xmltagname="num"] {
     display : inline;
 }
 
-otagopener {
+.xmltag[xmltagname="opener"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagopener
-otagp {
+.xmltag[xmltagname="opener"]
+.xmltag[xmltagname="p"] {
     text-align : justify !important;
     text-indent : 0 !important;
 }
 
-otagorig {
+.xmltag[xmltagname="orig"] {
     display : inline;
 }
 
-otagp {
+.xmltag[xmltagname="p"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagpb {
+.xmltag[xmltagname="pb"] {
     display : none;
 }
 
-otagdiv
-otagpersName, div placeName, div orgName, div title {
+.xmltag[xmltagname="div"]
+.xmltag[xmltagname="persName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="placeName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="orgName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="title"] {
     color: #336699;
 }
 
-otagprincipal {
+.xmltag[xmltagname="principal"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagptr {
+.xmltag[xmltagname="ptr"] {
     color : navy;
     text-decoration : underline;
     background-color : inherit;
 }
 
-otagpublicationStmt {
+.xmltag[xmltagname="publicationStmt"] {
         display : block;
     margin-bottom : 0.5em;
 }
 
-otagpublicationStmt
-otagp {
+.xmltag[xmltagname="publicationStmt"]
+.xmltag[xmltagname="p"] {
     display : block;
     margin-bottom : 0;
 }
 
-otagpublisher {
+.xmltag[xmltagname="publisher"] {
     display : inline;
 }
 
-otagimprint>
-otagpublisher,
-otagpublicationStmt>
-otagpublisher {
+.xmltag[xmltagname="imprint"] >
+.xmltag[xmltagname="publisher"],
+.xmltag[xmltagname="publicationStmt"] >
+.xmltag[xmltagname="publisher"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagpubPlace {
+.xmltag[xmltagname="pubPlace"] {
     display : inline;
 }
 
-otagimprint>
-otagpubPlace,
-otagpublicationStmt>
-otagpubPlace {
+.xmltag[xmltagname="imprint"] >
+.xmltag[xmltagname="pubPlace"],
+.xmltag[xmltagname="publicationStmt"] >
+.xmltag[xmltagname="pubPlace"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagq {
+.xmltag[xmltagname="q"] {
     display : inline;
     quotes : '"' '"' "'" "'";
     margin-top : 0em;
@@ -953,33 +927,33 @@ otagq {
     margin-bottom : 0em;
 }
 
-otagq,
-otagargument>
-otagq,
-otagbody>
-otagq,
-otagcit>
-otagq,
-otagdiv>
-otagq,
-otagdiv0>
-otagq,
-otagdiv1>
-otagq,
-otagdiv2>
-otagq,
-otagdiv3>
-otagq,
-otagdiv4>
-otagq,
-otagdiv5>
-otagq,
-otagdiv6>
-otagq,
-otagdiv7>
-otagq,
-otagepigraph>
-otagq {
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="argument"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="body"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="cit"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div0"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div1"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div2"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div3"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div4"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div5"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div6"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="div7"] >
+.xmltag[xmltagname="q"],
+.xmltag[xmltagname="epigraph"] >
+.xmltag[xmltagname="q"] {
     display : block;
     margin-bottom : 0.5em;
     margin-left : 3em;
@@ -987,188 +961,188 @@ otagq {
     quotes : none;
 }
 
-otagref {
+.xmltag[xmltagname="ref"] {
     display : inline;
-    color : blue;
+    color : black;
     background-color : inherit;
 }
 
-otagreg {
+.xmltag[xmltagname="reg"] {
     display : inline;
     font-style : italic;
 }
 
-otagrendition {
+.xmltag[xmltagname="rendition"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagresp {
+.xmltag[xmltagname="resp"] {
     display : block;
 }
 
-otagrespStmt {
+.xmltag[xmltagname="respStmt"] {
     display : block;
     margin-left:1em;
 }
 
-otagbibl
-otagrespStmt {
+.xmltag[xmltagname="bibl"]
+.xmltag[xmltagname="respStmt"] {
     display : inline;
 }
 
-otagrow {
+.xmltag[xmltagname="row"] {
     display : table-row;
 }
 
-otagrow {
+.xmltag[xmltagname="row"] {
     color : inherit;
     background-color : #BBBBBB;
 }
 
-otagrs {
+.xmltag[xmltagname="rs"] {
     display : inline;
 }
 
-otags {
+.xmltag[xmltagname="s"] {
     display : inline;
 }
 
-otagsalute {
+.xmltag[xmltagname="salute"] {
     display : block;
     margin-bottom : 0.5em;
     margin-top : 1em;
 }
 
-otagsamplingDecl {
+.xmltag[xmltagname="samplingDecl"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagseg {
+.xmltag[xmltagname="seg"] {
     display : inline;
 }
 
-otagseriesStmt {
+.xmltag[xmltagname="seriesStmt"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagsic {
+.xmltag[xmltagname="sic"] {
     display : inline;
     color : red;
     background-color : inherit;
 }
 
-otagsigned {
+.xmltag[xmltagname="signed"] {
     display : block;
     text-align : right;
 }
 
-otagsoCalled {
+.xmltag[xmltagname="soCalled"] {
     display : inline;
     font-style : italic;
     quotes : "'" "'";
 }
 
-otagsp {
+.xmltag[xmltagname="sp"] {
     display : block;
     margin-bottom : 0.5em;
     margin-left : 2em;
 }
 
-otagdiv
-otagp {
+.xmltag[xmltagname="div"]
+.xmltag[xmltagname="p"] {
     text-align : justify;
     text-indent : 30px;
 }
 
-otagspeaker {
+.xmltag[xmltagname="speaker"] {
     display : inline;
     font-weight : bold;
 }
 
-otagsponsor {
+.xmltag[xmltagname="sponsor"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagstage {
+.xmltag[xmltagname="stage"] {
     display : inline;
     font-style : italic;
 }
 
-otagtable {
+.xmltag[xmltagname="table"] {
     text-align : center;
     display : table;
     margin : 1em
 }
 
-otagtable>
-otaghead {
+.xmltag[xmltagname="table"] >
+.xmltag[xmltagname="head"] {
     display : table-caption;
     font-style : italic;
     margin-bottom : 6pt;
 }
 
-otagtagUsage {
+.xmltag[xmltagname="tagUsage"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagtaxonomy {
+.xmltag[xmltagname="taxonomy"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagterm {
+.xmltag[xmltagname="term"] {
     font-family : sans-serif;
-    color : blue;
+    color : black;
     background-color : inherit;
     display : inline;
 }
 
-otagtextClass {
+.xmltag[xmltagname="textClass"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagtime {
+.xmltag[xmltagname="time"] {
     display : inline;
 }
 
-otagtitle {
+.xmltag[xmltagname="title"] {
     display : inline;
 }
 
-otagtitle {
+.xmltag[xmltagname="title"] {
     display : block;
     font-weight:normal;
 }
 
-otagtitle,
-otagtitle {
+.xmltag[xmltagname="title"],
+.xmltag[xmltagname="title"] {
     font-style : italic;
 }
 
-otagtitle {
+.xmltag[xmltagname="title"] {
     font-style : normal;
 }
 
-otagtitle,
-otagtitle {
+.xmltag[xmltagname="title"],
+.xmltag[xmltagname="title"] {
     font-style : normal;
 }
 
-otagseriesStmt>
-otagtitle,
-otagtitleStmt>
-otagtitle {
+.xmltag[xmltagname="seriesStmt"] >
+.xmltag[xmltagname="title"],
+.xmltag[xmltagname="titleStmt"] >
+.xmltag[xmltagname="title"] {
     color:gray;
     font-weight : bold;
 }
 
-otagtitlePage {
+.xmltag[xmltagname="titlePage"] {
     display : block;
     border : thin black solid;
     margin-bottom : 2em;
@@ -1179,195 +1153,195 @@ otagtitlePage {
     padding-bottom : 1em;
 }
 
-otagtitlePart {
+.xmltag[xmltagname="titlePart"] {
     display : block;
 }
 
-otagtitleStmt {
+.xmltag[xmltagname="titleStmt"] {
     margin-bottom : 1em;
     color : #333;
 }
 
-otagtrailer {
+.xmltag[xmltagname="trailer"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagunclear {
+.xmltag[xmltagname="unclear"] {
     display : inline;
     color : gray;
     background-color : inherit;
     font-style : italic;
 }
 
- header-related material
-otagteiHeader {
+ .xmltag[xmltagname="header-related"] .xmltag[xmltagname="material"]
+.xmltag[xmltagname="teiHeader"] {
     display : block;
     color : gray;
     background-color : rgb(251, 242, 234);
     padding : .5em;
 }
 
-otagteiHeader
-otagtitle {
+.xmltag[xmltagname="teiHeader"]
+.xmltag[xmltagname="title"] {
     color:gray;
 }
 
-otagtitleStmt>
-otagauthor {
+.xmltag[xmltagname="titleStmt"] >
+.xmltag[xmltagname="author"] {
     display : block;
     margin-left : 1em;
 }
 
-otagauthority {
+.xmltag[xmltagname="authority"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagavailability {
+.xmltag[xmltagname="availability"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagfileDesc {
+.xmltag[xmltagname="fileDesc"] {
         display : block;
     margin-bottom : .5em;
 }
 
-otagsourceDesc {
+.xmltag[xmltagname="sourceDesc"] {
         display : block;
     border : thin silver solid;
     padding : .5em .5em 0 .5em;
 }
 
-otagsourceDesc
-otagp {
+.xmltag[xmltagname="sourceDesc"]
+.xmltag[xmltagname="p"] {
     margin : 0;
 }
 
-otagrevisionDesc {
+.xmltag[xmltagname="revisionDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagcatDesc {
+.xmltag[xmltagname="catDesc"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagencodingDesc {
+.xmltag[xmltagname="encodingDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagprofileDesc {
+.xmltag[xmltagname="profileDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagprojectDesc {
+.xmltag[xmltagname="projectDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-otagdocDate {
+.xmltag[xmltagname="docDate"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagdocImprint
-otagdocDate {
+.xmltag[xmltagname="docImprint"]
+.xmltag[xmltagname="docDate"] {
     display : inline;
 }
 
-otagdocEdition {
+.xmltag[xmltagname="docEdition"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagdocImprint {
+.xmltag[xmltagname="docImprint"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-otagdocTitle {
+.xmltag[xmltagname="docTitle"] {
     display : block;
     font-weight : bold;
     margin-bottom : 0.5em;
     font-weight:bold;
 }
 
- OUCS additions
-Button {
+.xmltag[xmltagname="OUCS"] .xmltag[xmltagname="additions"]
+.xmltag[xmltagname="Button"] {
     font-family : monospace;
     color : red;
     font-weight : bold;
     background-color : rgb(75%, 75%, 75%)
 }
 
-otagValue {
+.xmltag[xmltagname="Value"] {
     font-family : monospace;
     color : rgb(255, 102, 0);
     background-color : inherit;
 }
 
-otagCode {
+.xmltag[xmltagname="Code"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-otagField {
+.xmltag[xmltagname="Field"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-otagFilespec {
+.xmltag[xmltagname="Filespec"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-otagInput {
+.xmltag[xmltagname="Input"] {
     font-family : monospace;
     color : green;
     background-color : inherit;
 }
 
-otagKey {
+.xmltag[xmltagname="Key"] {
     font-family : monospace;
     text-decoration : underline;
     color : green;
     background-color : inherit;
 }
 
-otagLink {
+.xmltag[xmltagname="Link"] {
     font-family : monospace;
     color : green;
     background-color : inherit;
     text-decoration : underline;
 }
 
-otagMenu {
+.xmltag[xmltagname="Menu"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-otagOutput {
+.xmltag[xmltagname="Output"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-otagIcon {
+.xmltag[xmltagname="Icon"] {
     color : inherit;
     background-color : #B0E0E6;
     font-weight : bold;
 }
 
-otagScreen {
+.xmltag[xmltagname="Screen"] {
     font-family : monospace;
     padding-top : 3mm;
     padding-left : 4pt;
@@ -1378,4 +1352,4 @@ otagScreen {
     white-space : pre;
     color : inherit;
     background-color : #FFCC99;
-}*/
+}

@@ -146,7 +146,7 @@ class View {
 
         /* remove all styles of current context */
         if (this.context !== null) {
-            for (let stylename of context.styles()) {
+            for (let stylename of this.context.styles()) {
                 this.detachStyle(stylename);
             }
         }

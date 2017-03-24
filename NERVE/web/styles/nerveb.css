@@ -8,6 +8,7 @@
 
 body{
     -webkit-user-select: none;
+    /*background-color: lightblue;*/
 }
 
 #container{
@@ -15,6 +16,8 @@ body{
     position: absolute;
     width: 100%;
     height: 100%;
+    left: 0px;
+    top: 0px;
     min-width: 640px;
     min-height: 480px;
     background-color: lightblue;
@@ -29,7 +32,7 @@ body{
 #entityPanel {
     position: absolute;
     top: 115px;
-    height: calc(100% - 150px);
+    height: calc(100% - 180px);
     width: 60%;
     min-width: 300px;
     left: 15%;
@@ -55,7 +58,7 @@ body{
 #entityDialog{
     position: absolute;
     top: 115px;
-    width: calc(25% - 40px);
+    width: calc(25% - 50px);
     height: calc(100% - 150px);
     min-width: 200px;
     border: 1px solid black;
@@ -64,17 +67,15 @@ body{
     padding: 10px;
 }
 
-.messagePanelSmall {
+#messagePanel{
     position: absolute;
     border: 1px solid black;
     background-color: whitesmoke;
-    top: calc(100% - 30px);
+    bottom: 13px;
     left: 15%;
-    height: 20px;
     font-size: 14px;
     word-wrap: normal;
     overflow-y: scroll;
-    padding: 8px;
     line-height: 100%;
     z-index: 2;
     -webkit-user-select: auto;
@@ -82,22 +83,12 @@ body{
     min-width: 300px;
 }
 
+.messagePanelSmall {
+    height: 40px;
+}
+
 .messagePanelBig {
-    position: absolute;
-    border: 1px solid black;
-    background-color: whitesmoke;
-    top: calc(100% - 310px);
-    left: 15%;
     height: 300px;
-    font-size: 14px;
-    word-wrap: normal;
-    overflow-y: scroll;
-    padding: 8px;
-    line-height: 100%;
-    z-index: 2;
-    -webkit-user-select: auto;
-    width: 60%;
-    min-width: 300px;
 }
 
 #epsTextArea{

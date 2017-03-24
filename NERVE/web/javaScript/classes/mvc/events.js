@@ -147,7 +147,6 @@ class Events {
         this.view.showThrobber(true);
         this.view.pushThrobberMessage("Loading Context");
         this.controller.loadContext(contextName.toLowerCase(), onContextLoadSuccess, onContextLoadFailure);
-
     }
     menuDelete() {
         Utility.log(Events, "menuDelete");

@@ -1,9 +1,23 @@
-.otag:before{
-    content: "<" attr(otag) ">";
+/* include this css file to show the tag-name around tags */
+
+.xmltag:before{
+    content: "<" attr(xmltagname) ">";
     font-size: small;
 }
 
-.otag:after{
-    content: "</" attr(otag) ">";
+.xmltag:after{
+    content: "</" attr(xmltagname) ">";
+    font-size: small;
+}
+
+.xmltag:hover:before{
+    content: "<" attr(xmltagname) ">";
+    color: red;
+    font-size: small;
+}
+
+.xmltag:hover:after{
+    content: "</" attr(xmltagname) ">";
+    color: red;
     font-size: small;
 }

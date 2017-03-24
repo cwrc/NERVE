@@ -1,188 +1,178 @@
-/*.otag:before{
-    content: "<" attr(otag) ">";
-    font-size: small;
-}
-
-.otag:after{
-    content: "</" attr(otag) ">";
-    font-size: small;
-}*/
-
-otagEVENTS {
+.xmltag[xmltagname="EVENTS"] {
     font-family : Georgia, serif;
     line-height : 1.5;
     color : #333;
     margin : 10px 25px;
 }
-otagORLANDOHEADER {
+.xmltag[xmltagname="ORLANDOHEADER"] {
     font-size : 16px;
     display : block;
     background : #EEE;
     margin-bottom: 1.5em;
     padding: .5em;
 }
-otagFILEDESC {
+.xmltag[xmltagname="FILEDESC"] {
     /*    content : url(img/orlando/CWRC_logo.png);*/
     background-color : #FFF;
     color : gray;
 }
-otagDOCTITLE {
+.xmltag[xmltagname="DOCTITLE"] {
     font-weight : normal;
     color : black;
     color:gray;
     font-weight:bold;
 }
-otagDOCAUTHOR,
-otagDOCEDITOR,
-otagDOCEXTENT,
-otagPUBLICATIONSTMT,
-otagTITLESTMT,
-otagPUBPLACE {
+.xmltag[xmltagname="DOCAUTHOR"],
+.xmltag[xmltagname="DOCEDITOR"],
+.xmltag[xmltagname="DOCEXTENT"],
+.xmltag[xmltagname="PUBLICATIONSTMT"],
+.xmltag[xmltagname="TITLESTMT"],
+.xmltag[xmltagname="PUBPLACE"] {
     display : block;
 }
-otagRESPONSIBILITY {
+.xmltag[xmltagname="RESPONSIBILITY"] {
     font-family : Verdana, Geneva, sans-serif;
     font-size : small;
     background-color : #F0EDFC;
     display : list-item;
 }
-otagEMPH {
+.xmltag[xmltagname="EMPH"] {
     font-style : italic;
 }
-otagFOREIGN {
+.xmltag[xmltagname="FOREIGN"] {
     font-style : italic;
 }
-TITLE[TITLETYPE = "MONOGRAPHIC"],
-otagTITLE[TITLETYPE = "JOURNAL"] {
+.xmltag[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
+.xmltag[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
     font-style : italic;
     color : #336699;
 }
-otagTITLE[TITLETYPE = "SERIES"] {
+.xmltag[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
     font-style : normal;
     color : #336699;
 }
-otagTITLE[TITLETYPE = "ANALYTIC"],
-otagTITLE[TITLETYPE = "UNPUBLISHED"] {
+.xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
+.xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
     font-style : normal;
     color : #336699;
 }
-otagTITLE[TITLETYPE = "ANALYTIC"]:before,
-otagTITLE[TITLETYPE = "UNPUBLISHED"]:before {
+.xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
+.xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
     content : open-quote;
 }
-otagTITLE[TITLETYPE = "ANALYTIC"]:after,
-otagTITLE[TITLETYPE = "UNPUBLISHED"]:after {
+.xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
+.xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
     content : close-quote;
 }
-otagADDRLINE {
+.xmltag[xmltagname="ADDRLINE"] {
     display : list-item;
 }
-otagIDNO {
+.xmltag[xmltagname="IDNO"] {
     display : list-item;
 }
-otagAVAILABILITY {
+.xmltag[xmltagname="AVAILABILITY"] {
     display : inline;
 }
-otagP {
+.xmltag[xmltagname="P"] {
     display : block;
 }
-otagRESEARCHNOTE {
+.xmltag[xmltagname="RESEARCHNOTE"] {
     background-color : #FBEFEF;
     color : #663366;
     font-family : Arial, Helvetica, sans-serif;
     font-size : smaller;
     display : list-item;
 }
-otagDIV0 HEADING {
+.xmltag[xmltagname="DIV0"] .xmltag[xmltagname="HEADING"] {
     display : list-item;
     font-weight : bold;
     font-size : x-large;
     color : #039;
     margin : 25px 0 0 0;
 }
-otagDIV1 {
+.xmltag[xmltagname="DIV1"] {
     margin : 20px 0 0 0;
 }
-otagDIV1 HEADING {
+.xmltag[xmltagname="DIV1"] .xmltag[xmltagname="HEADING"] {
     display : block;
     font-weight : bold;
     font-size : large;
     color : #039;
 }
-otagCHRONEVENT {
+.xmltag[xmltagname="CHRONEVENT"] {
     display : block;
     margin : 15px 0;
 }
-otagCHRONSTRUCT {
+.xmltag[xmltagname="CHRONSTRUCT"] {
     display : block;
     padding : 0 0 0 30px;
 }
-otagCHRONSTRUCT DATE {
+.xmltag[xmltagname="CHRONSTRUCT"] .xmltag[xmltagname="DATE"] {
     font-weight : bold;
     display : inline;
 }
-otagCHRONSTRUCT DATE:after {
+.xmltag[xmltagname="CHRONSTRUCT"] .xmltag[xmltagname="DATE"]:after {
     content : ": ";
 }
-otagCHRONSTRUCT[CHRONCOLUMN = "WOMENWRITERS"] {
+.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WOMENWRITERS"] {
     background-repeat : no-repeat;
 }
 
-otagCHRONSTRUCT[CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
+.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
     background-repeat : no-repeat;
 }
 
-otagCHRONSTRUCT[CHRONCOLUMN = "SOCIALCLIMATE"] {
+.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "SOCIALCLIMATE"] {
     background-repeat : no-repeat;
 }
 
-otagCHRONSTRUCT[CHRONCOLUMN = "WRITINGCLIMATE"] {
+.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WRITINGCLIMATE"] {
     background-repeat : no-repeat;
 }
 
-otagSHORTPROSE P {
+.xmltag[xmltagname="SHORTPROSE"] .xmltag[xmltagname="P"] {
     padding-left : 4em;
     margin : 10px 0 0 0;
 }
 
-otagBIBCIT:before {
+.xmltag[xmltagname="BIBCIT"]:before {
     content : "(";
 }
-otagBIBCIT:after {
+.xmltag[xmltagname="BIBCIT"]:after {
     content : ")";
 }
-otagSCHOLARNOTE P {
+.xmltag[xmltagname="SCHOLARNOTE"] .xmltag[xmltagname="P"] {
     background-color : #E0E0F8;
 }
-otagNAME {
+.xmltag[xmltagname="NAME"] {
     color : #336699;
 }
-otagORGNAME {
+.xmltag[xmltagname="ORGNAME"] {
     color : #336699;
 }
-otagAREA {
+.xmltag[xmltagname="AREA"] {
     font-weight : bold;
     color : #336699;
 }
-otagTOPIC {
+.xmltag[xmltagname="TOPIC"] {
     font-weight : bold;
     color : #336699;
 }
-otagQUOTE:before {
+.xmltag[xmltagname="QUOTE"]:before {
     content : open-quote;
 }
-otagQUOTE:after {
+.xmltag[xmltagname="QUOTE"]:after {
     content : close-quote;
 }
-otagQUOTE[DIRECT = "N"]:before {
+.xmltag[xmltagname="QUOTE"][DIRECT = "N"]:before {
     content : "'";
 }
-otagQUOTE[DIRECT = "N"]:after {
+.xmltag[xmltagname="QUOTE"][DIRECT = "N"]:after {
     content : "'";
 }
-otagSOCALLED:before {
+.xmltag[xmltagname="SOCALLED"]:before {
     content : "'";
 }
-otagSOCALLED:after {
+.xmltag[xmltagname="SOCALLED"]:after {
     content : "'";
 }

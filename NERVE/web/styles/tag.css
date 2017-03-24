@@ -67,3 +67,7 @@ selected{
     color: white;
     background-color: #318DFD;
 }
+
+.xmltag{
+    display: inline;
+}
