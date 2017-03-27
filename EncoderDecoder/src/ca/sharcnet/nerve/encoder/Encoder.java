@@ -453,14 +453,13 @@ public class Encoder {
      */
     private void wrapNonEntityTag(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
 
-        StringBuilder builder = new StringBuilder();
+        JSONObject jsonObj = new JSONObject();
         for (Attribute attr : node.getAttributes()) {
-            node.addAttribute(new Attribute(context.getAttrPrefix() + attr.getKey(), attr.getKey()));
-            builder.append(attr.getKey()).append(":'").append(attr.getValue()).append("';");
+            jsonObj.put(attr.getKey(), attr.getValue());
         }
         node.clearAttributes();
 
-        if (builder.length() > 0) node.addAttribute(Constants.XML_ATTR_LIST, builder.toString());
+        node.addAttribute(Constants.XML_ATTR_LIST, jsonObj.toString());
         node.addAttribute(Constants.ORIGINAL_TAGNAME_ATTR, node.getName());
         node.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
         node.setName(Constants.HTML_NONENTITY_TAGNAME);
