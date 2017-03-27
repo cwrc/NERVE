@@ -434,12 +434,12 @@ public class Encoder {
     private void wrapTags(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         trace(METHOD, "wrapTags(ElementNode " + node.getName() + ")");
 
-        if (context.isTagName(node.getName())) {
-            TagInfo tagInfo = context.getTagInfo(node.getName());
-            wrapEntityTag(tagInfo, node);
-        } else {
-            wrapNonEntityTag(node);
-        }
+//        if (context.isTagName(node.getName())) {
+//            TagInfo tagInfo = context.getTagInfo(node.getName());
+//            wrapEntityTag(tagInfo, node);
+//        } else {
+            wrapTag(node);
+//        }
     }
 
     /**
@@ -451,8 +451,7 @@ public class Encoder {
     @throws IOException
     @throws SQLException
      */
-    private void wrapNonEntityTag(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-
+    private void wrapTag(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         JSONObject jsonObj = new JSONObject();
         for (Attribute attr : node.getAttributes()) {
             jsonObj.put(attr.getKey(), attr.getValue());
@@ -461,8 +460,9 @@ public class Encoder {
 
         node.addAttribute(Constants.XML_ATTR_LIST, jsonObj.toString());
         node.addAttribute(Constants.ORIGINAL_TAGNAME_ATTR, node.getName());
-        node.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
-        node.setName(Constants.HTML_NONENTITY_TAGNAME);
+        if (context.isTagName(node.getName()))  node.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
+        else node.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
+        node.setName(Constants.HTML_TAGNAME);
 
         for (Node child : node.childNodes()) {
             if (child.getType() == Node.NodeType.ELEMENT) {
@@ -471,60 +471,49 @@ public class Encoder {
         }
     }
 
-    private void wrapEntityTag(TagInfo tagInfo, ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "wrapTags(TagInfo, ElementNode)");
-
-        trace(DEBUG, "\n --- wrapEntityTag");
-        trace(DEBUG, node.toString());
-
-        if (tagInfo == null) throw new NullPointerException();
-        if (node == null) throw new NullPointerException();
-
-        ElementNode taggedNode = new ElementNode(htmlLabels.tagged(), null, null);
-
-        ElementNode entityNode = new ElementNode(htmlLabels.entity(), node.getAttributes(), node.childNodes());
-        for (Node child : entityNode.childNodes()) {
-            if (child.getType() == Node.NodeType.ELEMENT) {
-                wrapNonEntityTag((ElementNode) child);
-            }
-        }
-
-        ElementNode tagNameNode = new ElementNode(htmlLabels.tagName(), null, null);
-        ElementNode linkNode = null;
-
-        String lemma = node.innerText();
-
-        for (Attribute attr : node.getAttributes()) {
-            if (attr.getKey().equals(context.getDictionaryAttribute())) {
-                trace(BRANCH, " - attr.getKey().equals(context.getDictionaryAttribute())");
-
-                taggedNode.addAttribute(attr);
-                entityNode.removeAttribute(attr.getKey());
-            } else if (attr.getKey().equals(tagInfo.getLinkAttribute())) {
-                trace(BRANCH, " - attr.getKey().equals(tagInfo.getLinkAttribute())");
-
-                linkNode = new ElementNode(htmlLabels.link(), attr.getValue());
-                entityNode.removeAttribute(attr.getKey());
-            } else if (attr.getKey().equals(tagInfo.getLemmaAttribute())) {
-                trace(BRANCH, " - attr.getKey().equals(tagInfo.getLemmaAttribute())");
-
-                lemma = node.getAttribute(tagInfo.getLemmaAttribute()).getValue();
-                entityNode.removeAttribute(attr.getKey());
-            } else {
-                entityNode.addAttribute(new Attribute(context.getAttrPrefix() + attr.getKey(), attr.getKey()));
-            }
-        }
-
-        ElementNode lemmaNode = new ElementNode(htmlLabels.lemma(), lemma);
-
-        tagNameNode.addChild(new TextNode(tagInfo.getName()));
-
-        taggedNode.addChild(entityNode);
-        taggedNode.addChild(tagNameNode);
-        taggedNode.addChild(lemmaNode);
-        if (linkNode != null) taggedNode.addChild(linkNode);
-        node.replaceWith(taggedNode);
-    }
+//    private void wrapEntityTag(TagInfo tagInfo, ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+//        if (tagInfo == null) throw new NullPointerException();
+//        if (node == null) throw new NullPointerException();
+//
+//        ElementNode taggedNode = new ElementNode(htmlLabels.tagged(), null, null);
+//
+//        ElementNode entityNode = new ElementNode(htmlLabels.entity(), node.getAttributes(), node.childNodes());
+//        for (Node child : entityNode.childNodes()) {
+//            if (child.getType() == Node.NodeType.ELEMENT) {
+//                wrapTag((ElementNode) child);
+//            }
+//        }
+//
+//        ElementNode tagNameNode = new ElementNode(htmlLabels.tagName(), null, null);
+//        ElementNode linkNode = null;
+//
+//        String lemma = node.innerText();
+//
+//        for (Attribute attr : node.getAttributes()) {
+//            if (attr.getKey().equals(context.getDictionaryAttribute())) {
+//                taggedNode.addAttribute(attr);
+//                entityNode.removeAttribute(attr.getKey());
+//            } else if (attr.getKey().equals(tagInfo.getLinkAttribute())) {
+//                linkNode = new ElementNode(htmlLabels.link(), attr.getValue());
+//                entityNode.removeAttribute(attr.getKey());
+//            } else if (attr.getKey().equals(tagInfo.getLemmaAttribute())) {
+//                lemma = node.getAttribute(tagInfo.getLemmaAttribute()).getValue();
+//                entityNode.removeAttribute(attr.getKey());
+//            } else {
+//                entityNode.addAttribute(new Attribute(context.getAttrPrefix() + attr.getKey(), attr.getKey()));
+//            }
+//        }
+//
+//        ElementNode lemmaNode = new ElementNode(htmlLabels.lemma(), lemma);
+//
+//        tagNameNode.addChild(new TextNode(tagInfo.getName()));
+//
+//        taggedNode.addChild(entityNode);
+//        taggedNode.addChild(tagNameNode);
+//        taggedNode.addChild(lemmaNode);
+//        if (linkNode != null) taggedNode.addChild(linkNode);
+//        node.replaceWith(taggedNode);
+//    }
 
     private String getUniqueID(String idAttrName) {
         trace(METHOD, "getUniqueID(TString)");
