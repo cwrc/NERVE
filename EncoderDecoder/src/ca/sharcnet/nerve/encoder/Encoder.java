@@ -243,11 +243,9 @@ public class Encoder {
         for (Node child : node.childNodes()) {
             if (child.getType() == Node.NodeType.TEXT) {
                 trace(BRANCH, " - child.getType() == Node.NodeType.TEXT");
-
                 lookupTag((TextNode) child, knownEntities);
             } else if (child.getType() == Node.NodeType.ELEMENT) {
                 trace(BRANCH, " - child.getType() == Node.NodeType.ELEMENT");
-
                 lookupTag((ElementNode) child, knownEntities);
             }
         }
@@ -440,12 +438,11 @@ public class Encoder {
             TagInfo tagInfo = context.getTagInfo(node.getName());
             wrapEntityTag(tagInfo, node);
         } else {
-            wrapNonEntityTag(node, true);
+            wrapNonEntityTag(node);
         }
     }
 
     /**
-
     @param node the node to wrap
     @param allowEntities if false wrap all child tags as if they are non-entity tags
     @throws ClassNotFoundException
@@ -454,14 +451,19 @@ public class Encoder {
     @throws IOException
     @throws SQLException
      */
-    private void wrapNonEntityTag(ElementNode node, boolean allowEntities) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    private void wrapNonEntityTag(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+
+        StringBuilder builder = new StringBuilder();
         for (Attribute attr : node.getAttributes()) {
             node.addAttribute(new Attribute(context.getAttrPrefix() + attr.getKey(), attr.getKey()));
+            builder.append(attr.getKey()).append(":'").append(attr.getValue()).append("';");
         }
+        node.clearAttributes();
 
-        node.addAttribute(context.getTagPrefix(), node.getName());
-        node.addAttribute("class", context.getTagPrefix());
-        node.setName(context.getTagPrefix() + node.getName());
+        if (builder.length() > 0) node.addAttribute(Constants.XML_ATTR_LIST, builder.toString());
+        node.addAttribute(Constants.ORIGINAL_TAGNAME_ATTR, node.getName());
+        node.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
+        node.setName(Constants.HTML_NONENTITY_TAGNAME);
 
         for (Node child : node.childNodes()) {
             if (child.getType() == Node.NodeType.ELEMENT) {
@@ -484,7 +486,7 @@ public class Encoder {
         ElementNode entityNode = new ElementNode(htmlLabels.entity(), node.getAttributes(), node.childNodes());
         for (Node child : entityNode.childNodes()) {
             if (child.getType() == Node.NodeType.ELEMENT) {
-                wrapNonEntityTag((ElementNode) child, false);
+                wrapNonEntityTag((ElementNode) child);
             }
         }
 
