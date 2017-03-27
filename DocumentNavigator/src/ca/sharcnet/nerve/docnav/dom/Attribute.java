@@ -66,7 +66,7 @@ public final class Attribute {
     */
     @Override
     public String toString(){
-        return getKey() + "=\"" + getValue() + "\"";
+        return getKey() + "='" + getValue() + "'";
     }
 
     /**
