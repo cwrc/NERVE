@@ -14,25 +14,24 @@ class Controller {
      *
      * @param {View} view
      * @param {Model} model
-     * @param {TaggedEntityFactory} factory
      * @param {FileOperations} fileOps
      * @returns {Controller}
      */
-    constructor(view, model, factory, fileOps, events) {
+    constructor(view, model, fileOps, loader) {
         Utility.log(Controller, "constructor");
-        Utility.enforceTypes(arguments, View, Model, TaggedEntityFactory, FileOperations);
+        Utility.enforceTypes(arguments, View, Model, FileOperations, ContextLoader);
 
         this.view = view;
         this.model = model;
-        this.factory = factory;
         this.fileOps = fileOps;
+        this.contextLoader = loader;
 
         this.dialogs = new Dialogs(this);
         this.selected = new Collection();
-        this.dictionary = new Dictionary(model);
+        this.dictionary = new Dictionary();
         this.settings = new Storage("controller");
         this.lastText = ""; /* last text selected or entity clicked on */
-        this.searchUtility = new SearchUtility("#entityPanel", model);
+        this.searchUtility = new SearchUtility("#entityPanel");
 
         this.currentEntity = "";
         this.currentLemma = "";
@@ -40,52 +39,80 @@ class Controller {
         this.currentTagName = "";
         this.currentDict = "";
         this.pollDictionaryDelay = null;
+        this.copiedInfo = null;
+        this.isSaved = false;
     }
+
     setEventHandler(events) {
         Utility.log(Controller, "setEventHandler");
         Utility.enforceTypes(arguments, Events);
         this.dialogs = new Dialogs(this, events);
     }
 
+    setListener(listener) {
+        Utility.log(Controller, "setListener");
+        Utility.enforceTypes(arguments, Listeners);
+        this.listener = listener;
+    }
+
+    notifyDialogInput(){
+        Utility.log(Controller, "notifyDialogInput");
+        Utility.enforceTypes(arguments);
+
+        let dialogValues = this.view.getDialogs();
+        this.selected.$().entityTag(dialogValues.tagName);
+        this.selected.$().text(dialogValues.entity);
+        this.selected.$().lemma(dialogValues.lemma);
+        this.selected.$().link(dialogValues.link);
+    }
+
     copyData(entityFrom, entityTo){
+        Utility.log(Controller, "addSelected");
+        Utility.enforceTypes(arguments, HTMLDivElement, HTMLDivElement);
+
         entityTo.setLemma(entityFrom.getLemma());
         entityTo.setLink(entityFrom.getLink());
         entityTo.setTagName(entityFrom.getTagName());
+        
+        this.isSaved = false;
         return new Response(true, `Entity data copied`);
     }
 
     addSelected(taggedEntity) {
         Utility.log(Controller, "addSelected");
-        Utility.enforceTypes(arguments, TaggedEntity);
+        Utility.enforceTypes(arguments, HTMLDivElement);
 
         this.selected.add(taggedEntity);
-        taggedEntity.markupSelect();
-        this.lastText = taggedEntity.getEntity();
-
-        let rvalue = new Collection(this.selected.toArray());
-        if (rvalue.isEmpty()) this.view.setDialogFade(true);
-        else this.view.setDialogFade(false);
-
-        return rvalue;
+        $(taggedEntity).addClass("selected");
+        this.view.setDialogFade(false);
     }
+
     toggleSelect(taggedEntity) {
         Utility.log(Controller, "toggleSelect");
-        Utility.enforceTypes(arguments, TaggedEntity);
+        Utility.enforceTypes(arguments, HTMLDivElement);
 
-        if (this.selected.contains(taggedEntity)) {
-            this.selected.remove(taggedEntity);
-            taggedEntity.markupUnselect();
-        } else {
+        if (!this.selected.contains(taggedEntity)){
             this.selected.add(taggedEntity);
-            taggedEntity.markupSelect();
-            this.lastText = taggedEntity.getEntity();
+            $(taggedEntity).addClass("selected");
+            this.addSelected(taggedEntity);
+            this.view.setDialogFade(false);
         }
-
-        let rvalue = new Collection(this.selected.toArray());
-        if (rvalue.isEmpty()) this.view.setDialogFade(true);
-        else this.view.setDialogFade(false);
-        return rvalue;
+        else{
+            this.selected.remove(taggedEntity);
+            $(taggedEntity).removeClass("selected");
+            if (this.selected.isEmpty()) this.view.setDialogFade(true);
+        }
     }
+
+    unselectAll() {
+        Utility.log(Controller, "unselectAll");
+        Utility.enforceTypes(arguments);
+
+        this.selected.$().removeClass("selected");
+        this.selected.clear();
+        this.view.setDialogFade(true);
+    }
+
     fillFind() {
         Utility.log(Controller, "fillFind");
         Utility.enforceTypes(arguments);
@@ -110,50 +137,40 @@ class Controller {
     }
     deleteSelectedEntities(dictionary) {
         Utility.log(Controller, "deleteSelectedEntities");
-        this.selected.forEach((taggedEntity) => {
+        
+        this.selected.each((taggedEntity) => {
             this.dictionary.deleteEntity(taggedEntity.getEntity(), this.currentDict);
         });
         this.pollDictionaryUpdate(100, "EMPTY");
         this.view.setDialogFade(true);
+        this.isSaved = false;
     }
-    /* The following 'set' functions both set the saved value and update  */
-    /* all selected entities.  The saved value is used when "setDialogs   */
-    /* is called.                                                         */
-    setEntity(value) {
-        Utility.log(Controller, "setEntity");
-        Utility.enforceTypes(arguments, String);
 
-        this.dialogs.setQueryTerm(value);
-        this.currentEntity = value;
-        this.selected.forEach((entity) => entity.setEntity(value));
-    }
-    setTagName(value) {
-        Utility.log(Controller, "setTagName");
-        Utility.enforceTypes(arguments, String);
-
-        this.currentTagName = value;
-        this.selected.forEach((entity) => entity.setTagName(value));
-    }
-    setLemma(value) {
-        Utility.log(Controller, "setLemma");
-        Utility.enforceTypes(arguments, String);
-
-        this.currentLemma = value;
-        this.selected.forEach((entity) => entity.setLemma(value));
-    }
-    setLink(value) {
-        Utility.log(Controller, "setLink");
-        Utility.enforceTypes(arguments, String);
-
-        this.currentLink = value;
-        this.selected.forEach((entity) => entity.setLink(value));
-    }
     setDictionary(value) {
         Utility.log(Controller, "setDictionary");
         Utility.enforceTypes(arguments, String);
         this.currentDict = value;
         this.pollDictionaryUpdate(0, "MATCH");
     }
+    
+    copyInfo(){
+        Utility.log(Controller, "copyInfo");
+        Utility.enforceTypes(arguments);    
+        if (this.selected.isEmpty()) return;
+        this.copiedInfo = this.view.getDialogs();
+    }
+    
+    pasteInfo(){
+        Utility.log(Controller, "pasteInfo");
+        Utility.enforceTypes(arguments);        
+        if (this.copiedInfo === null || this.selected.isEmpty()) return;
+        this.selected.$().entityTag(this.copiedInfo.tagName);
+        this.selected.$().lemma(this.copiedInfo.lemma);
+        this.selected.$().link(this.copiedInfo.link);
+        this.view.setDialogs(this.selected.getLast());
+        this.isSaved = false;
+    }
+    
     clearDialogs() {
         Utility.log(Controller, "clearDialogs");
         Utility.enforceTypes(arguments);
@@ -163,76 +180,137 @@ class Controller {
         this.currentLemma = "";
         this.currentLink = "";
 
-        this.setDictionary(this.__getContext().writeToDictionary());
-        this.view.setDictionary(this.__getContext().writeToDictionary());
+        this.setDictionary(this.context.writeToDictionary());
+        this.view.setDictionary(this.context.writeToDictionary());
 
         this.__enableDictionaryUpdate(false);
         this.view.setDictionaryMessage(" -------------------- ");
     }
+    
     setDialogs(taggedEntity, delay) {
         Utility.log(Controller, "setDialogs");
-        Utility.enforceTypes(arguments, TaggedEntity, ["optional", Number]);
+        Utility.enforceTypes(arguments, HTMLDivElement, ["optional", Number]);
         if (typeof delay === "undefined") delay = 0;
 
         this.view.setDialogs(taggedEntity);
-        this.currentEntity = taggedEntity.getEntity();
-        this.currentLemma = taggedEntity.getLemma();
-        this.currentLink = taggedEntity.getLink();
-        this.currentTagName = taggedEntity.getTagName();
 
-        if (taggedEntity.hasDictionary() && taggedEntity.getDictionary() === this.currentDict) {
-            this.currentDict = taggedEntity.getDictionary();
-            this.pollDictionaryUpdate(delay, "MATCH");
-        } else {
-            taggedEntity.setDictionary(this.currentDict);
-            this.pollDictionaryUpdate(delay, "EMPTY");
-        }
+//        if (taggedEntity.hasDictionary() && taggedEntity.getDictionary() === this.currentDict) {
+//            this.currentDict = taggedEntity.getDictionary();
+//            this.pollDictionaryUpdate(delay, "MATCH");
+//        } else {
+//            taggedEntity.setDictionary(this.currentDict);
+//            this.pollDictionaryUpdate(delay, "EMPTY");
+//        }
     }
-    copyDataToSelectedTags() {
-        Utility.log(Controller, "copyDataToSelectedTags");
-        Utility.enforceTypes(arguments);
-
-        let count = 0;
-
-        this.selected.forEach((entity) => {
-            if (this.currentTagName !== entity.getTagName()
-                    || this.currentLemma !== entity.getLemma()
-                    || this.currentLink !== entity.getLink()) {
-
-                console.log(this.currentTagName !== entity.getTagName());
-                console.log(this.currentLemma !== entity.getLemma());
-                console.log(this.currentLink !== entity.getLink());
-
-                entity.setTagName(this.currentTagName);
-                entity.setLemma(this.currentLemma);
-                entity.setLink(this.currentLink);
-                count++;
-            }
-        });
-
-        let rvalue = {};
-        rvalue.count = count;
-        rvalue.tagName = this.currentTagName;
-        rvalue.lemma = this.currentLemma;
-        rvalue.link = this.currentLink;
-        return rvalue;
-    }
+    
     tagSelectedRange() {
         Utility.log(Controller, "tagSelectedRange");
         Utility.enforceTypes(arguments);
 
         let selection = window.getSelection();
         if (selection.rangeCount === 0) return new Response(false, "No text selected");
-        let range = selection.getRangeAt(0);
-        let taggedEntity = this.factory.constructFromRange(range, this.currentTagName);
-
-        let response = new Response(true, `New "${this.currentTagName}" entity created.`);
-        response.tagName = this.currentTagName;
-        response.lemma = this.currentLemma;
-        response.link = this.currentLink;
+        let range = selection.getRangeAt(0);   
+        let tagName = this.view.getDialogs().tagName;
+        if (!this.context.schema.isValid(range.commonAncestorContainer, tagName)){
+            return new Response(false, `Tagging "${tagName}" is not valid in the Schema at this location.`);
+        }
+        let taggedEntity = this.constructEntityFromRange(range, tagName);
+        let response = new Response(true, `New "${tagName}" entity created.`);
         response.taggedEntity = taggedEntity;
+        selection.removeAllRanges();
+        this.addSelected(taggedEntity);
+
+        this.isSaved = false;
         return response;
     }
+
+    constructEntityFromRange(range, tagName) {
+        Utility.log(Controller, "constructEntityFromRange");
+        Utility.enforceTypes(arguments, Range, String);
+        
+        if (!this.__validifyTagRange(range)) return false;
+        range = this.__trimRange(range);
+        
+        let contents = range.extractContents();
+        var ele = document.createElement("div");
+        
+        $(ele).addClass("taggedentity");
+        $(ele).attr($.fn.xmlAttr.defaults.attrName, "{}");
+        $(ele).attr($.fn.xmlAttr.defaults.xmlTagName, tagName);
+        $(ele).append(contents);
+        $(ele).lemma($(ele).text());
+
+        range.deleteContents();
+        range.insertNode(ele);
+        this.listener.addTaggedEntity(ele);
+        this.setDialogs(ele, 0);
+
+        /* TODO set identifier */
+
+        this.isSaved = false;
+        return ele;
+    }
+
+    __validifyTagRange(range) {
+        Utility.log(Controller, "__validifyTagRange");
+        Utility.verifyArguments(arguments, 1);
+
+        if (range.collapsed) return false;
+//        if (this.__checkForChildTags(range)) return false; /* TODO */
+
+        /* ensure entire range is withen the Entity Panel */
+        var epFlag = false;
+        var current = range.commonAncestorContainer;
+
+        var i = 0;
+        while (typeof current !== "undefined" && current !== null) {
+            if (typeof current.getAttribute !== "undefined" && current.getAttribute('id') === "entityPanel") {
+                epFlag = true;
+                break;
+            }
+            current = current.parentElement;
+            i++;
+            if (i === 100){
+                throw "SANITY CHECK FAILED";
+                break;
+            } 
+        }
+
+        return epFlag;
+    }
+    __checkForChildTags(range) {
+        Utility.log(Controller, "__checkForChildTags");
+        var flag = false;
+
+        if (!range.commonAncestorContainer.getElementsByTagName) {
+            return false;
+        }
+
+        var elements = range.commonAncestorContainer.getElementsByTagName("*");
+
+        for (var i = 0; i < elements.length; i++) {
+            if (range.intersectsNode(elements[i])) {
+                if (elements[i].tagName.toLowerCase() === this.context.htmlLabels.tagged.toLowerCase()) {
+                    flag = true;
+                }
+            }
+        }
+
+        return flag;
+    }
+    __trimRange(range) {
+        Utility.log(Controller, "__trimRange");
+        while (range.toString().charAt(range.toString().length - 1) === ' ') {
+            range.setEnd(range.endContainer, range.endOffset - 1);
+        }
+
+        while (range.toString().charAt(0) === ' ') {
+            range.setStart(range.startContainer, range.startOffset + 1);
+        }
+
+        return range;
+    }
+
     /* add all selected entities to the dictionary */
     updateDictionaryOnSelected() {
         Utility.log(Controller, "updateDictionaryOnSelected");
@@ -240,7 +318,7 @@ class Controller {
 
         let count = this.selected.size();
 
-        this.selected.forEach((taggedEntity) => {
+        this.selected.each((taggedEntity) => {
             this.dictionary.addEntity(taggedEntity, () => {
                 count = count - 1;
                 if (count === 0) this.pollDictionaryUpdate(100, "MATCH");
@@ -254,44 +332,36 @@ class Controller {
         if (this.selected.isEmpty()) return new Response(false, "");
 
         let count = this.selected.size();
-        this.selected.forEachInvoke("deconstruct");
-        this.selected.clear();
+        this.selected.$().contents().unwrap();
         this.view.clearDialogs();
-        document.getElementById("entityPanel").normalize();
-
         this.view.setDialogFade(true);
+        
+        this.isSaved = false;
         let message = count + " entit" + (count === 1 ? "y" : "ies") + " untagged";
         return new Response(true, message);
     }
-    unselectAll() {
-        Utility.log(Controller, "unselectAll");
-        Utility.enforceTypes(arguments);
 
-        this.selected.forEachInvoke("markupUnselect");
-        this.selected.clear();
-        this.view.setDialogFade(true);
-    }
     selectSameEntities(taggedEntity) {
         Utility.log(Controller, "selectSameEntities");
         Utility.enforceTypes(arguments, TaggedEntity);
-
-        let labelMatch = this.factory.getFunctional((entity) => {
-            if (entity.getLemma() === "") return false;
-            if (entity.getLemma() !== this.currentLemma) return false;
-            return true;
-        });
-
-        let linkMatch = this.factory.getFunctional((entity) => {
-            if (entity.getLink() === "") return false;
-            if (entity.getLink() !== this.currentLink) return false;
-            return true;
-        });
-
-        this.selected.addAll(labelMatch);
-        this.selected.addAll(linkMatch);
-        this.selected.forEach((e) => e.markupSelect());
-
-        return new Collection(this.selected.toArray());
+//
+//        let labelMatch = this.factory.getFunctional((entity) => {
+//            if (entity.getLemma() === "") return false;
+//            if (entity.getLemma() !== this.currentLemma) return false;
+//            return true;
+//        });
+//
+//        let linkMatch = this.factory.getFunctional((entity) => {
+//            if (entity.getLink() === "") return false;
+//            if (entity.getLink() !== this.currentLink) return false;
+//            return true;
+//        });
+//
+//        this.selected.addAll(labelMatch);
+//        this.selected.addAll(linkMatch);
+//        this.selected.each((e) => e.markupSelect());
+//
+//        return new Collection(this.selected.toArray());
     }
     /*
      * Load a context from the sever, set the model and factory contexts
@@ -303,36 +373,17 @@ class Controller {
     loadContext(contextName, success = function() {}, failure = function(){}) {
         Utility.log(Controller, "loadContext");
         Utility.enforceTypes(arguments, String, ["optional", Function], ["optional", Function]);
-
-        let url = "resources/" + contextName.toLowerCase() + ".context.json";
-
-        this.fileOps.loadFromServer(url, (contents) => {
-            this.settings.setValue("savedState", "contextName", contextName);
-            this.__setContext(contents);
-            success(this.__getContext());
-        }, (status, text) => {
-            failure(status, text, contextName);
-        });
+        this.contextLoader.loadContext(contextName, success, failure);
     }
-    __setContext(jsonString) {
-        Utility.log(Controller, "__setContext");
-        Utility.enforceTypes(arguments, String);
-
-        this.model.setContext(jsonString);
-        this.dictionary = new Dictionary(this.model);
-        this.view.setContext(this.model.getContext());
-        
-        var defaultTagName = this.model.getContext().getTags()[0].name;
-        this.setTagName(defaultTagName);
-        this.setDictionary(this.model.getContext().writeToDictionary());
-        this.view.setDictionary(this.model.getContext().writeToDictionary());
-    }
-    __getContext() {
-        Utility.log(Controller, "__getContext");
-        Utility.enforceTypes(arguments);
-
-        return this.model.getContext();
-    }
+   
+    setContext(context){
+        Utility.log(Controller, "setContext");
+        Utility.enforceTypes(arguments, Context);  
+        this.context = context;
+        this.dictionary.setContext(context);
+        this.searchUtility.setContext(context);
+    }   
+   
     __enableDictionaryUpdate(value) {
         Utility.log(Controller, "__enableDictionaryUpdate");
         Utility.enforceTypes(arguments, Boolean);
@@ -398,28 +449,28 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         this.dialogs.setQueryTerm(this.currentEntity);
-        let tag = this.__getContext().getTagInfo(this.currentTagName);
+        let tag = this.context.getTagInfo(this.currentTagName);
         this.dialogs.showDialog(tag.dialog);
     }
     find() {
         Utility.log(Controller, "find");
         Utility.enforceTypes(arguments);
-
-        let count = 0;
-        let value = this.view.getSearchTerm();
-        if (value !== "") {
-
-            this.factory.forEach((e) => {
-                if (e.getEntity() === value) {
-                    e.markupSelect();
-                    this.selected.add(e);
-                    count++;
-                }
-            });
-        }
-
-        this.__fillDialogsFromCollection();
-        return new Response(true, `${count} instance${count > 1 ? "s" : ""} of "${value}" selected`);
+//
+//        let count = 0;
+//        let value = this.view.getSearchTerm();
+//        if (value !== "") {
+//
+//            this.factory.forEach((e) => {
+//                if (e.getEntity() === value) {
+//                    e.markupSelect();
+//                    this.selected.add(e);
+//                    count++;
+//                }
+//            });
+//        }
+//
+//        this.__fillDialogsFromCollection();
+//        return new Response(true, `${count} instance${count > 1 ? "s" : ""} of "${value}" selected`);
     }
     __fillDialogsFromCollection() {
         Utility.log(Controller, "__fillDialogsFromCollection");
@@ -430,7 +481,7 @@ class Controller {
         let e = this.selected.getFirst();
         this.setDialogs(e, 0);
 
-        this.selected.forEach((e) => {
+        this.selected.each((e) => {
             if (e.getEntity() !== this.currentEntity) {
                 this.currentEntity = "";
                 this.view.setEntity("");
@@ -448,7 +499,7 @@ class Controller {
                 this.view.setTagName("");
             }
             if (e.getDictionary() !== this.currentDict) {
-                let dictionary = this.__getContext().writeToDictionary();
+                let dictionary = this.context.writeToDictionary();
                 this.currentDict = dictionary;
                 this.view.setDictionary(dictionary);
             }
@@ -457,26 +508,26 @@ class Controller {
     selectByEntity() {
         Utility.log(Controller, "selectByEntity");
         Utility.enforceTypes(arguments);
-
-        if (this.currentEntity === "") return;
-        this.factory.forEach((e) => {
-            if (e.getEntity() === this.currentEntity) {
-                e.markupSelect();
-                this.selected.add(e);
-            }
-        });
+//
+//        if (this.currentEntity === "") return;
+//        this.factory.forEach((e) => {
+//            if (e.getEntity() === this.currentEntity) {
+//                e.markupSelect();
+//                this.selected.add(e);
+//            }
+//        });
     }
     smartSelect() {
         Utility.log(Controller, "smartSelect");
         Utility.enforceTypes(arguments);
-
-        if (!this.selected.isEmpty()) {
-            var last = this.selected.getLast();
-            this.factory.getSimilarEntities(last).forEach((e) => {
-                e.markupSelect();
-                this.selected.add(e);
-            });
-        }
+//
+//        if (!this.selected.isEmpty()) {
+//            var last = this.selected.getLast();
+//            this.factory.getSimilarEntities(last).forEach((e) => {
+//                e.markupSelect();
+//                this.selected.add(e);
+//            });
+//        }
     }
     /* not in unit tests */
     loadFromFile(loadStart = function() {}, successCB = function() {}, failureCB = function(){}){
@@ -486,12 +537,11 @@ class Controller {
         this.fileOps.loadFromFile((text, filename) => {
             Utility.trace(Controller, 3, "loadFromFile():fileOps.loadFromFile()");
             loadStart(filename);
-            this.encode(text,
-                    filename,
-                    (json) => {
+            this.encode(text, filename, (json) => {
+                this.isSaved = true;
                 successCB(json);
             },
-                    (status, text) => {
+            (status, text) => {
                 failureCB(status, text);
             }
             );
@@ -502,7 +552,7 @@ class Controller {
         Utility.log(Controller, "encode");
         Utility.enforceTypes(arguments, String, String, ["optional", Function], ["optional", Function]);
 
-        this.fileOps.encode(text, this.__getContext(),
+        this.fileOps.encode(text, this.context,
                 (result) => {
             this.model.setDocument(result, filename);
             successCallback();
@@ -517,49 +567,33 @@ class Controller {
 
         this.unselectAll();
         let contents = this.model.getDocument();
-        this.fileOps.decode(contents, this.__getContext(),
+        this.fileOps.decode(contents, this.context,
                 (result) => {
             this.fileOps.saveToFile(result, this.model.getFilename());
-            successCB();
+            this.isSaved = true;
+            successCB();            
         },
                 (status, text) => {
             failureCB(status, text);
         }
         );
     }
+    
     mergeSelectedEntities() {
         Utility.log(Controller, "mergeSelectedEntities");
         Utility.enforceTypes(arguments);
 
-        this.selected.forEach((entity) => {
-            if (entity.elementSharesParent(this.selected.getFirst()) === false) {
-                return new Response(false, "Can not merge entities that do not share a common parent.");
-            }
-        });
-
-        let start = null;
-        let end = null;
-
-        this.selected.forEach((entity) => {
-            let range = entity.deconstruct();
-            if (start === null) start = range;
-            end = range;
-        });
-
-        let range = new Range();
-
-        if (start.startOffset < end.endOffset) {
-            range.setStart(start.startContainer, start.startOffset);
-            range.setEnd(end.endContainer, end.endOffset);
-        } else {
-            range.setEnd(start.startContainer, start.endOffset);
-            range.setStart(end.endContainer, end.startOffset);
-        }
-
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-        return this.tagSelectedRange();
+        let ele = this.selected.$().mergeElements();
+        $(ele).addClass("taggedentity");
+        $(ele).attr($.fn.xmlAttr.defaults.attrName, "{}");
+        $(ele).entityTag(this.view.getDialogs().tagName);
+        $(ele).lemma(this.view.getDialogs().lemma);
+        $(ele).link(this.view.getDialogs().link);
+        this.listener.addTaggedEntity(ele);
+        this.selected.clear();
+        this.addSelected(ele[0]);
     }
+    
     search(text, direction) {
         Utility.log(Controller, "search");
         Utility.enforceTypes(arguments, String, String);
@@ -581,5 +615,12 @@ class Controller {
             this.view.scrollTo(r);
             this.setDialogs(r, 0);
         }
+    }
+    
+    closeDocument(){
+        Utility.log(Controller, "closeDocument");
+        Utility.enforceTypes(arguments);
+        
+        this.view.setDocument("");
     }
 }

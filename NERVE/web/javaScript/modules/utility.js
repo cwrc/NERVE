@@ -4,18 +4,16 @@ Utility = {
     globalTraceLevel: "local",
     enableAssertions: true,
     classes: {
-        Events: 0,
-        Controller: 0,
-        View: 0,
+        Events: 2,
+        Controller: 2,
+        View: 2,
         Collection : 0,
-        SearchCollection : 0,
         FileOperations : 0,
         Dictionary : 0,
         Context: 0,
         Response: 0,
         Model: 0,
-        Listeners: 0,
-        TaggedEntity: 0
+        Listeners: 0
     },
     logger: {
         logRecord: {}

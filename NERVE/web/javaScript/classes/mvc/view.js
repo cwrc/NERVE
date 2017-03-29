@@ -101,15 +101,25 @@ class View {
 
         document.getElementById("documentTitle").innerHTML = text;
     }
-    setDialogs(taggedEntity) {
+    setDialogs(entity) {
         Utility.log(View, "setDialogs");
-        Utility.enforceTypes(arguments, TaggedEntity);
+        Utility.enforceTypes(arguments, HTMLDivElement);
 
-        document.getElementById("txtEntity").value = taggedEntity.getEntity();
-        document.getElementById("txtLemma").value = taggedEntity.getLemma();
-        document.getElementById("txtLink").value = taggedEntity.getLink();
-        document.getElementById("selectTagName").value = taggedEntity.getTagName();
-        if (taggedEntity.hasDictionary()) this.setDictionary(taggedEntity.getDictionary());
+        $("#txtEntity").val($(entity).text());
+        $("#txtLemma").val($(entity).lemma());
+        $("#txtLink").val($(entity).link());
+        $("#selectTagName").val($(entity).entityTag());
+    }
+    getDialogs(){
+        Utility.log(View, "getDialogs");
+        Utility.enforceTypes(arguments);
+
+        return {
+            entity : $("#txtEntity").val(),
+            lemma : $("#txtLemma").val(),
+            link : $("#txtLink").val(),
+            tagName : $("#selectTagName").val()
+        };
     }
     setTagName(string) {
         Utility.log(View, "setTagName");
@@ -150,6 +160,10 @@ class View {
                 this.detachStyle(stylename);
             }
         }
+
+        let contextName = context.getName().toLowerCase();
+        $(`[data-context]`).removeClass("activeText");
+        $(`[data-context='${contextName}']`).addClass("activeText");
 
         this.context = context;
 

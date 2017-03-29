@@ -28,12 +28,18 @@ class Events {
         Utility.enforceTypes(arguments, View, Model, Controller, ["optional", Function]);
 
         this.clearConsole = false;
-
         this.view = view;
         this.model = model;
         this.controller = controller;
         this.msgHnd = new MessageHandler(view);
     }
+    
+    setContext(context){
+        Utility.log(Events, "setContext");
+        Utility.enforceTypes(arguments, Context);  
+        this.context = context;
+    }
+    
     buttonFind(event) {
         Utility.log(Events, "buttonFind");
         Utility.enforceTypes(arguments, Event);
@@ -46,15 +52,16 @@ class Events {
         this.controller.find();
         event.stopPropagation();
     }
+    
     cbDictionaryClick(event) {
         Utility.log(Events, "cbDictionaryClick");
         Utility.enforceTypes(arguments, Event);
         event.stopPropagation();
     }
+    
     cbDictionaryChange(event) {
         Utility.log(Events, "cbDictionaryChange");
         Utility.enforceTypes(arguments, Event);
-
         this.controller.updateDictionaryOnSelected();
     }
 
@@ -68,9 +75,11 @@ class Events {
 
     documentClick(event) {
         Utility.log(Events, "documentClick");
-        Utility.enforceTypes(arguments, Event);
+//        Utility.enforceTypes(arguments, Event);
 
         if (event.altKey){
+            console.log(event);
+            window.inspectedElement = event.target;
             console.log(event.target);
             return;
         }
@@ -112,20 +121,26 @@ class Events {
         let settings = new Storage();
 
         if (value === true){
-            this.view.attachStyle(this.model.getContext().getTagStyle());
+            this.view.attachStyle(this.context.getTagStyle());
             settings.setValue("tags", "show", "true");
         } else {
-            this.view.detachStyle(this.model.getContext().getTagStyle());
+            this.view.detachStyle(this.context.getTagStyle());
             settings.setValue("tags", "show", "false");
         }
-
-
     }
     menuClose(){
         Utility.log(Events, "menuClose");
         Utility.enforceTypes(arguments);
-        window.alert("This menu item has not yet been implemented");
+        this.controller.closeDocument();
     }
+
+    menuCopy() {
+        Utility.log(Events, "menuCopy");
+        Utility.enforceTypes(arguments);
+
+        this.controller.copyInfo();
+    }    
+    
     menuContextChange(contextName) {
         Utility.log(Events, "menuContextChange");
         if (this.clearConsole) console.clear();
@@ -168,7 +183,7 @@ class Events {
         event.stopPropagation();
 
         let response = this.controller.mergeSelectedEntities();
-        if (response.hasMessage()) this.view.showUserMessage(response.message);
+//        if (response.hasMessage()) this.view.showUserMessage(response.message);
     }
 
     menuOpen() {
@@ -192,6 +207,13 @@ class Events {
             }
         );
     }
+
+    menuPaste() {
+        Utility.log(Events, "menuPaste");
+        Utility.enforceTypes(arguments);
+
+        this.controller.pasteInfo();
+    }    
 
     menuRedo() {
         Utility.log(Events, "menuRedo");
@@ -245,13 +267,13 @@ class Events {
         Utility.log(Events, "menuTag");
         Utility.enforceTypes(arguments);
 
-        let copyResult = this.controller.copyDataToSelectedTags();
+//        let copyResult = this.controller.copyDataToSelectedTags();
 
-        if (copyResult.count !== 0) {
-            if (copyResult.count === 1) this.view.showUserMessage("'" + copyResult.lemma + "' copied to 1 entity");
-            else this.view.showUserMessage("'" + copyResult.lemma + "' copied to " + copyResult.count + " entities");
-            return;
-        }
+//        if (copyResult.count !== 0) {
+//            if (copyResult.count === 1) this.view.showUserMessage("'" + copyResult.lemma + "' copied to 1 entity");
+//            else this.view.showUserMessage("'" + copyResult.lemma + "' copied to " + copyResult.count + " entities");
+//            return;
+//        }
 
         let response = this.controller.tagSelectedRange();
         if (response.hasMessage()) this.view.showUserMessage(response.message);
@@ -261,6 +283,7 @@ class Events {
             this.controller.setDialogs(response.taggedEntity, 0);
         }
     }
+    
     menuUndo() {
         Utility.log(Events, "menuUndo");
         Utility.enforceTypes(arguments);
@@ -268,6 +291,7 @@ class Events {
         this.controller.unselectAll();
         this.model.revertState();
     }
+    
     menuUntag() {
         Utility.log(Events, "menuUntag");
         Utility.enforceTypes(arguments);
@@ -303,6 +327,7 @@ class Events {
 
         this.controller.setDictionary(newValue);
     }
+    
     showSearchDialog(event) {
         Utility.log(Events, "showSearchDialog");
         Utility.enforceTypes(arguments, Event);
@@ -310,14 +335,14 @@ class Events {
         this.controller.showSearchDialog();
         event.stopPropagation();
     }
-    taggedEntityClick(event, taggedEntity) {
+    taggedEntityClick(taggedEntity) {
         Utility.log(Events, "taggedEntityClick");
-        Utility.enforceTypes(arguments, Event, TaggedEntity);
+        Utility.enforceTypes(arguments, HTMLDivElement);
 
         if (window.event.altKey) {
-            /* strictly for debugging / tests, not part of the test bed */
+            /* strictly for debugging */
             window.debug = taggedEntity;
-            console.log(taggedEntity.element);
+            console.log(taggedEntity);
             event.stopPropagation();
         } else {
             if (this.clearConsole)
@@ -330,9 +355,7 @@ class Events {
                 this.controller.toggleSelect(taggedEntity);
                 this.controller.setDialogs(taggedEntity, 0);
             }
-
             event.stopPropagation();
-
         }
     }
     taggedEntityDoubleClick(event, taggedEntity) {
@@ -348,7 +371,6 @@ class Events {
     }
     textBoxBlur(event) {
         Utility.log(Events, "textBoxBlur");
-        Utility.enforceTypes(arguments, Event);
 
         event.stopPropagation();
         if (this.controller.selected.size() > 0 && this.textBoxValueChange === true) {
@@ -356,25 +378,17 @@ class Events {
         }
         this.textBoxValueChange = false;
     }
+
     textBoxClick(event) {
         Utility.log(Events, "textBoxClick");
-        Utility.enforceTypes(arguments, Event);
         event.stopPropagation();
-
     }
-    textBoxInput(functionId, value) {
+    textBoxInput(event) {
         Utility.log(Events, "textBoxInput");
-        Utility.enforceTypes(arguments, String, String);
-
-        this.controller[functionId](value);
-        this.controller.selected.forEachInvoke(functionId, value);
-        this.controller.pollDictionaryUpdate(250);
+        this.controller.notifyDialogInput();
     }
-    textBoxChange(functionId, value) {
+    textBoxChange(event) {
         Utility.log(Events, "textBoxChange");
-        Utility.enforceTypes(arguments, String, String);
-
-        this.controller[functionId](value);
-        this.model.saveState();
+        this.controller.notifyDialogInput();
     }
 }

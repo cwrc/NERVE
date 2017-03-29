@@ -20,7 +20,7 @@ body{
     top: 0px;
     min-width: 640px;
     min-height: 480px;
-    background-color: lightblue;
+    background-color: lightblue;    
 }
 
 #menuArea{
@@ -32,8 +32,8 @@ body{
 #entityPanel {
     position: absolute;
     top: 115px;
-    height: calc(100% - 180px);
-    width: 60%;
+    height: calc(100% - 210px);
+    width: calc(60% - 30px);
     min-width: 300px;
     left: 15%;
     border: 1px solid black;
@@ -41,7 +41,8 @@ body{
     font-size: 18px;
     word-wrap: normal;
     overflow-y: scroll;
-    line-height: 150%;
+    line-height: 175%;
+    padding: 15px;
     -webkit-user-select: auto;
 }
 
@@ -245,6 +246,7 @@ body{
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
+    -webkit-user-select: auto;
 }
 
 .inactiveForeground{
@@ -321,6 +323,7 @@ body{
     background-color:#0099ff;
     -webkit-transition: box-shadow 0.25s;
     box-shadow: 0px 0px 5px #c0c0df;
+    width: 195px;
 }
 
 .menuItem:hover .subItemContainer{

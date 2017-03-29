@@ -13,6 +13,9 @@ class Collection {
             while (i--) this.innerArray[i] = array[i];
         }
     }
+    $(){
+        return $(this.innerArray);
+    }
     add(obj) {
         Utility.log(Collection, "add");
         Utility.enforceTypes(arguments, Object);
@@ -56,31 +59,13 @@ class Collection {
 
         this.innerArray = [];
     }
-    forEach(callback) {
-        Utility.log(Collection, "forEach");
+    each(callback) {
+        Utility.log(Collection, "each");
         Utility.enforceTypes(arguments, Function);
 
         for (var i = 0; i < this.innerArray.length; i++) {
             callback(this.innerArray[i]);
         }
-    }
-    /* invoke a method on each object    */
-    /* argument = fName, arg0, ..., argN */
-    forEachInvoke() {
-        Utility.log(Collection, "forEachInvoke");
-        var fName = [].shift.apply(arguments);
-        Utility.assertType(fName, String);
-        let count = 0;
-
-        for (var i = 0; i < this.innerArray.length; i++) {
-            if (typeof this.innerArray[i][fName] !== "function") {
-                throw "Invalid type exception"; /* TODO change to actual error */
-            }
-            this.innerArray[i][fName].apply(this.innerArray[i], arguments);
-            count++;
-        }
-
-        return count;
     }
     get(i) {
         Utility.log(Collection, "get");
@@ -124,7 +109,7 @@ class Collection {
 
         let rvalue = false;
 
-        this.forEach((thisObj) => {
+        this.each((thisObj) => {
             if (thisObj === obj) {
                 rvalue = true;
             }

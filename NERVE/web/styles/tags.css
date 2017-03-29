@@ -10,7 +10,7 @@
     font-size: small;
 }
 
-.xmltag:hover:before{
+/*.xmltag:hover:before{
     content: "<" attr(xmltagname) ">";
     color: red;
     font-size: small;
@@ -20,4 +20,4 @@
     content: "</" attr(xmltagname) ">";
     color: red;
     font-size: small;
-}
+}*/

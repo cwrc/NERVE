@@ -12,87 +12,42 @@ localStorage.constructor.prototype.putObject = function (obj, objectID) {
 };
 
 class Storage {
-    constructor(settingsName = "settings") {
-        Storage.traceLevel = 0;
-        Utility.log(Storage, "constructor");
-        Utility.enforceTypes(arguments, ["optional", String]);
-
+    constructor(settingsName = location.pathname.split("/")[1]) {
         this.sName = settingsName;
-    }
-    getValue(category, settingName, defaultValue = null) {
-        Utility.log(Storage, "getValue");
-        Utility.enforceTypes(arguments, String, String, ["optional", "unchecked"]);
 
-        var settings = localStorage.getObject(this.sName);
-        var cat = this.__nonNullProperty(settings, category);
-        if (typeof cat[settingName] === "undefined" || cat[settingName] === null) {
-            cat[settingName] = defaultValue;
-            localStorage.putObject(settings, this.sName);
-        }
-        return cat[settingName];
-    }
-    hasValue(category, settingName) {
-        Utility.log(Storage, "hasValue");
-        Utility.enforceTypes(arguments, String, String);
-
-        var settings = localStorage.getObject(this.sName);
-        var cat = this.__nonNullProperty(settings, category);
-        if (typeof cat[settingName] === "undefined" || cat[settingName] === null) {
-            return false;
-        } else {
-            return true;
+        if (!localStorage.hasOwnProperty(settingsName)) {
+            localStorage.putObject({}, settingsName);
         }
     }
-    clearCategory(category) {
-        Utility.log(Storage, "clearCategory");
-        Utility.enforceTypes(arguments, String);
-
+    clearAll() {
+        localStorage.putObject({}, this.sName);
+    }
+    getValue(key) {
         var settings = localStorage.getObject(this.sName);
-        delete settings[category];
+        return settings[key];
+    }
+    hasValue(key) {
+        var settings = localStorage.getObject(this.sName);
+        if (typeof settings[key] === "undefined" || settings[key] === null) return false;
+        return true;
+    }
+    deleteValue(key) {
+        var settings = localStorage.getObject(this.sName);
+        delete settings[key];
         localStorage.putObject(settings, this.sName);
     }
-    clearValue(category, settingName) {
-        Utility.log(Storage, "clearValue");
-        Utility.enforceTypes(arguments, String, String);
-
+    setValue(key, value) {
         var settings = localStorage.getObject(this.sName);
-        if (typeof settings[category] === "undefine" || settings[cat] === null) {
-            return;
-        }
-        delete settings[category][settingName];
-        localStorage.putObject(settings, this.sName);
-    }
-    getCategory(category) {
-        Utility.log(Storage, "getCategory");
-        Utility.enforceTypes(arguments, String);
-
-        var settings = localStorage.getObject(this.sName);
-        var cat = this.__nonNullProperty(settings, category);
-        localStorage.putObject(settings, this.sName);
-        return cat;
-    }
-    setValue(category, settingName, value) {
-        Utility.log(Storage, "setValue");
-        Utility.enforceTypes(arguments, String, String, String);
-
-        var settings = localStorage.getObject(this.sName);
-        var cat = this.__nonNullProperty(settings, category);
-        cat[settingName] = value;
+        settings[key] = value;
         localStorage.putObject(settings, this.sName);
     }
     __nonNullProperty(object, property) {
-        Utility.log(Storage, "__nonNullProperty");
-        Utility.enforceTypes(arguments, Object, String);
-
         if ((typeof object[property] === "undefined") || object[property] === null) {
             object[property] = {};
         }
         return object[property];
     }
     toString() {
-        Utility.log(Storage, "toString");
-        Utility.enforceTypes(arguments);
-
         return JSON.stringify(localStorage.getObject(this.sName), null, 2);
     }
 }

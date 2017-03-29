@@ -4,8 +4,11 @@ class Listeners {
     constructor(view, events) {
         this.view = view;
         this.events = events;
+
+        /* entity dialog box events */
         this.setupListeners();
 
+        /* search events */
         $("#epsNext").click((event)=>{event.stopPropagation(); this.events.searchNext($("#epsTextArea").val());});
         $("#epsPrev").click((event)=>{event.stopPropagation(); this.events.searchPrev($("#epsTextArea").val());});
         $("#epsTextArea").keyup((event)=>{
@@ -14,7 +17,7 @@ class Listeners {
             this.events.searchNext($("#epsTextArea").val());
         });
 
-        /* menu Events */
+        /* menu events */
         $("#menuSave").click((event)=>{event.stopPropagation(); this.events.menuSave();});
         $("#menuOpen").click(()=>{event.stopPropagation(); this.events.menuOpen();});
         $("#menuClose").click(()=>{event.stopPropagation(); this.events.menuClose();});
@@ -27,6 +30,8 @@ class Listeners {
         $("#menuClear").click((event)=>{event.stopPropagation(); this.events.menuClearSelection();});
         $("#menuUndo").click((event)=>{event.stopPropagation(); this.events.menuUndo();});
         $("#menuRedo").click((event)=>{event.stopPropagation(); this.events.menuRedo();});
+        $("#menuCopy").click((event)=>{event.stopPropagation(); this.events.menuCopy();});
+        $("#menuPaste").click((event)=>{event.stopPropagation(); this.events.manuPaste();});        
 
         $("#menuTag").click((event)=>{event.stopPropagation(); this.events.menuTag();});
         $("#menuUntag").click((event)=>{event.stopPropagation(); this.events.menuUntag();});
@@ -38,6 +43,7 @@ class Listeners {
         $(document).keydown((event)=>{
             if (event.ctrlKey || event.metaKey){
                 switch(event.key){
+                    case "c": this.events.menuCopy(); break;
                     case "e": this.events.menuTag(); break;
                     case "f": this.events.menuFind(); break;
                     case "u": this.events.menuUntag(); break;
@@ -45,6 +51,7 @@ class Listeners {
                     case "o": this.events.menuOpen(); break;
                     case "r": this.events.menuUntag(); break;
                     case "s": this.events.menuSave(); break;
+                    case "v": this.events.menuPaste(); break;
                     case "y": this.events.menuRedo(); break;
                     case "z": this.events.menuUndo(); break;
                     default: return;
@@ -61,6 +68,18 @@ class Listeners {
             event.preventDefault();
             event.stopPropagation();
         });
+
+        /* entity & document events */
+        $(".taggedentity").click((event)=>events.taggedEntityClick(event.currentTarget));
+        $(".taggedentity").dblclick((event)=>events.taggedEntityClick(event.currentTarget));
+        
+        /* Default Document Click Event */
+        $(document).click((event) => this.events.documentClick(event));     
+    }
+
+    addTaggedEntity(ele){
+        $(ele).click((event)=>this.events.taggedEntityClick(event.currentTarget));
+        $(ele).dblclick((event)=>this.events.taggedEntityClick(event.currentTarget));
     }
 
     switchContext(context){
@@ -86,20 +105,27 @@ class Listeners {
         return rvalue;
     }
 
-    addTBListeners(functionId, textBoxId) {
-        var element = document.getElementById(textBoxId);
-        Utility.assertType(element, Element);
-        element.addEventListener('blur',   (event)=>this.events.textBoxBlur(event), false);
-        element.addEventListener('click',  (event)=>this.events.textBoxClick(event), false);
-        element.addEventListener('input',  (event)=>this.events.textBoxInput(functionId, element.value), false);
-        element.addEventListener('change', (event)=>this.events.textBoxChange(functionId, element.value), false);
-    }
-
     setupListeners() {
-        this.addTBListeners("setEntity", "txtEntity");
-        this.addTBListeners("setLemma", "txtLemma");
-        this.addTBListeners("setLink", "txtLink");
-        this.addTBListeners("setTagName", "selectTagName");
+        /* text box listeners */
+        $("#txtEntity").blur((event)=>this.events.textBoxBlur(event));
+        $("#txtLemma").blur((event)=>this.events.textBoxBlur(event));
+        $("#txtLink").blur((event)=>this.events.textBoxBlur(event));
+        $("#selectTagName").blur((event)=>this.events.textBoxBlur(event));
+
+        $("#txtEntity").click((event)=>this.events.textBoxClick(event));
+        $("#txtLemma").click((event)=>this.events.textBoxClick(event));
+        $("#txtLink").click((event)=>this.events.textBoxClick(event));
+        $("#selectTagName").click((event)=>this.events.textBoxClick(event));
+
+        $("#txtEntity").change((event)=>this.events.textBoxChange(event));
+        $("#txtLemma").change((event)=>this.events.textBoxChange(event));
+        $("#txtLink").change((event)=>this.events.textBoxChange(event));
+        $("#selectTagName").change((event)=>this.events.textBoxChange(event));
+
+        $("#txtEntity").on("input", (event)=>this.events.textBoxInput(event));
+        $("#txtLemma").on("input", (event)=>this.events.textBoxInput(event));
+        $("#txtLink").on("input", (event)=>this.events.textBoxInput(event));
+        $("#selectTagName").on("input", (event)=>this.events.textBoxInput(event));
 
         document.getElementById("cbDictionary").addEventListener("click", (event) => this.events.cbDictionaryClick(event), false);
         document.getElementById("cbDictionary").addEventListener("change", (event) => this.events.cbDictionaryChange(event), false);
@@ -112,12 +138,7 @@ class Listeners {
 
         document.getElementById("searchDialog").addEventListener("click", (event) => this.events.showSearchDialog(event), false);
 
-        /* Default Document Click Event */
-        /* the default click event will clear all selected elements */
-        document.addEventListener("click", (event) => this.events.documentClick(event), false);
 
-        /* on the entity panel, pressing ctrl will prevent clearing of selections */
-//        document.getElementById("entityPanel").addEventListener("click", (event) => this.events.entityPanelClick(event), false);
 
         /* control delete and backspace this.events */
         document.addEventListener('keydown', function (event) {

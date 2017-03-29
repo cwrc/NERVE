@@ -1,36 +1,37 @@
 /* global trace, Utility */
 
-class HasContext {
-    constructor() {
-        EmptySchema.traceLevel = 0;
-        Utility.log(EmptySchema, "constructor");
-        this.context = new Context();
-        this.context.load({tags: []});
-    }
-    getContext() {
-        Utility.log(HasContext, "getContext");
-        Utility.enforceTypes(arguments);
-        return Utility.assertType(this.context, Context);
-    }
-}
-
-class Model extends HasContext {
-    constructor(view, factory, settings) {
-        super();
+class Model {
+    constructor(view, settings) {
         Model.traceLevel = 0;
         Utility.log(Model, "constructor");
-        Utility.enforceTypes(arguments, View, TaggedEntityFactory, Storage);
+        Utility.enforceTypes(arguments, View, Storage);
 
         this.view = view;
-        this.factory = factory;
         this.settings = settings;
         this.variables = {};
 
         this.maxStateIndex = 30;
         this.__resetState();
-
-        this.textBoxValueChange = false;
+        
+        if (this.settings.hasValue("document") && this.settings.hasValue("title")){
+            this.setDocument(this.settings.getValue("document"), this.settings.getValue("title"));
+        }
     }
+    
+    reset(){
+        Utility.log(Model, "reset");
+        Utility.enforceTypes(arguments);
+        this.__resetState();
+        this.settings.setValue("document", "");
+        this.settings.setValue("title", "");
+    }
+    
+    setListener(listener) {
+        Utility.log(Model, "setListener");
+        Utility.enforceTypes(arguments, Listeners);
+        this.listener = listener;
+    }    
+    
     /**
      * Assign a $name = value variable that will serve as find replace when
      * loading the context.
@@ -44,16 +45,10 @@ class Model extends HasContext {
         this.variables[name] = value;
     }
 
-    setContext(jsonString, onSuccess = function() {}, onFailure = function(){}) {
+    setContext(context) {
         Utility.log(Model, "setContext");
-        Utility.enforceTypes(arguments, String, ["optional", Function], ["optional", Function]);
-
-        for (let name in this.variables) {
-            jsonString = jsonString.replace("$" + name, this.variables[name]);
-        }
-
-        this.context = new Context();
-        this.context.load(JSON.parse(jsonString), onSuccess, onFailure);
+        Utility.enforceTypes(arguments, Context);
+        this.context = context;
     }
 
     saveState() {
@@ -71,8 +66,8 @@ class Model extends HasContext {
 
         this.settings.setValue("current", "document", this.getDocument());
         this.stateList[this.stateIndex] = this.getDocument();
-
     }
+    
     revertState() {
         Utility.log(Model, "revertState");
         Utility.enforceTypes(arguments);
@@ -84,10 +79,11 @@ class Model extends HasContext {
 
         this.settings.setValue("current", "document", this.getDocument());
         this.view.setDocument(document);
-        this.__markupDocument();
+        this.listener.addTaggedEntity(".taggedentity");
 
         return true;
     }
+    
     advanceState() {
         Utility.log(Model, "advanceState");
         Utility.enforceTypes(arguments);
@@ -99,10 +95,8 @@ class Model extends HasContext {
 
         this.settings.setValue("current", "document", document);
         this.view.setDocument(document);
-        this.__markupDocument();
-
-
     }
+    
     __resetState() {
         Utility.log(Model, "__resetState");
         Utility.enforceTypes(arguments);
@@ -117,28 +111,24 @@ class Model extends HasContext {
         this.stateList[0] = this.getDocument();
 
     }
+    
     setDocument(text, filename) {
         Utility.log(Model, "setDocument");
         Utility.enforceTypes(arguments, String, String);
 
         this.view.setDocument(text);
         this.view.setFilename(filename);
-        this.settings.setValue("model", "document", this.getDocument());
-        this.settings.setValue("model", "filename", filename);
-
-        this.factory.clear();
-        let dom = this.view.getDOMObject();
-        this.factory.addElementTree(dom);
-
+        this.settings.setValue("document", text);
+        this.settings.setValue("filename", filename);
         this.__resetState();
-
     }
+    
     getFilename() {
         Utility.log(Model, "getFilename");
         Utility.enforceTypes(arguments);
-
         return this.settings.getValue("model", "filename", "filename");
     }
+    
     /**
      * Return a string representing the current document.
      * @returns {String}
@@ -146,27 +136,22 @@ class Model extends HasContext {
     getDocument() {
         Utility.log(Model, "getDocument");
         Utility.enforceTypes(arguments);
-
         return this.view.getDOMObject().innerHTML;
     }
-
-    __markupDocument() {
-        Utility.log(Model, "__markupDocument");
-        Utility.enforceTypes(arguments);
-
-        this.factory.clear();
-        let dom = this.view.getDOMObject();
-        var taggedElements = dom.getElementsByTagName("tagged");
-        for (var i = 0; i < taggedElements.length; i++) {
-            this.factory.fromValidElement(taggedElements[i]);
-        }
-    }
-    
-    constructEntityFromElement(element, tagName, identifier = - 1) {
-        Utility.log(Model, "constructEntityFromElement");
-        Utility.enforceTypes(arguments, HTMLElement, String, ["optional", Number]);
-
-        let taggedEntity = this.factory.constructFromElement(element, tagName, identifier);
-        return taggedEntity;
-    }
 }
+
+Model.xmlAttr = function(element, attr, value){
+    let rvalue = {};
+    if ($(element).attr("xmlattrs") === undefined){
+        $(element).attr("xmlattrs", "")
+        return rvalue;
+    }
+    let xmlAttr = $(element).attr("xmlattrs").split(";");
+
+    for (let s of xmlAttr){
+        console.log(s);
+    }
+
+    if (typeof value === "undefined") return xmlAttr[0];
+};
+

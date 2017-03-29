@@ -6,12 +6,10 @@
 /* global Utility, trace                                                      */
 
 class Dictionary {
-    constructor(hasContext) {
+    constructor() {
         Dictionary.traceLevel = 0;
         Utility.log(Dictionary, "constructor");
-        Utility.enforceTypes(arguments, HasContext);
-
-        this.context = hasContext.getContext();
+        Utility.enforceTypes(arguments);
 
         this.server = "";
         if (location.host === "131.104.49.115:8888") {
@@ -29,11 +27,13 @@ class Dictionary {
         this.deleteEntityURL = this.__getServerName() + "/DeleteEntity.do";
         this.clearDebugURL = this.__getServerName() + "/ClearDebug.do";
     }
-    __getContext() {
-        Utility.log(Dictionary, "__getContext");
-        Utility.enforceTypes(arguments);
-        return Utility.assertType(this.context, Context);
+    
+    setContext(context){
+        Utility.log(Dictionary, "setContext");
+        Utility.enforceTypes(arguments, Context);
+        this.context = context;
     }
+    
     /* for testing, not part of test suite */
     clearDebugDictionary(callback) {
         Utility.log(Dictionary, "clearDebugDictionary");
@@ -52,7 +52,7 @@ class Dictionary {
         }.bind(this);
 
         xhttp.open("POST", url, true);
-        xhttp.send(JSON.stringify(this.__getContext()));
+        xhttp.send(JSON.stringify(this.context));
     }
     __getServerName() {
         Utility.log(Dictionary, "__getServerName");
@@ -78,7 +78,7 @@ class Dictionary {
         }.bind(this);
 
         xhttp.open("POST", url, true);
-        xhttp.send(JSON.stringify(this.__getContext()));
+        xhttp.send(JSON.stringify(this.context));
     }
     matchEntity(entity, successCB = function() {}, failureCB = function(){}) {
         Utility.log(Dictionary, "matchEntity");
@@ -118,7 +118,7 @@ class Dictionary {
             } else if (row.lemma !== lemma) {
                 Utility.trace(Dictionary, 3, "NON MATCH LEMMA");
                 successCB(Dictionary.matchResult.EXISTS);
-            } else if (this.__getContext().getTagInfo(row.tag).name !== tagName) {
+            } else if (this.context.getTagInfo(row.tag).name !== tagName) {
                 Utility.trace(Dictionary, 3, "NON MATCH TAGNAME");
                 successCB(Dictionary.matchResult.EXISTS);
             } else {
@@ -145,7 +145,7 @@ class Dictionary {
         }.bind(this);
 
         xhttp.open("POST", url, true);
-        xhttp.send(JSON.stringify(this.__getContext()));
+        xhttp.send(JSON.stringify(this.context));
     }
 
     populateTaggedEntity(taggedEntity, successCB = function() {}, failureCB = function(){}){
@@ -167,11 +167,12 @@ class Dictionary {
 
             taggedEntity.setLink(row.link);
             taggedEntity.setLemma(row.lemma);
-            taggedEntity.setTagName(this.__getContext().getTagInfo(row.tag).name);
+            taggedEntity.setTagName(this.context.getTagInfo(row.tag).name);
             successCB(taggedEntity);
         }, failureCB());
     }
 
+    /* add new entity to the 'custom' dictionary */
     addEntity(entity, successCB = function() {}, failureCB = function(){}) {
         Utility.log(Dictionary, "addEntity");
         Utility.enforceTypes(arguments, TaggedEntity, ["optional", Function], ["optional", Function]);
@@ -182,7 +183,7 @@ class Dictionary {
         url += "&lemma=" + encodeURIComponent(entity.getLemma());
         url += "&link=" + encodeURIComponent(entity.getLink());
         url += "&tag=" + encodeURIComponent(entity.getTagName());
-        url += "&collection=" + encodeURIComponent(entity.getDictionary());
+        url += "&collection=" + encodeURIComponent("custom");
 
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === 4) {
@@ -195,7 +196,7 @@ class Dictionary {
         }.bind(this);
 
         xhttp.open("POST", url, true);
-        xhttp.send(JSON.stringify(this.__getContext()));
+        xhttp.send(JSON.stringify(this.context));
     }
 }
 

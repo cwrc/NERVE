@@ -1,23 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* global Utility */
 
 class SearchUtility{
 
-    constructor(srcSelector, hasContext){
+    constructor(srcSelector){
         Utility.log(SearchUtility, "constructor");
-        Utility.enforceTypes(arguments, String, HasContext);
+        Utility.enforceTypes(arguments, String);
 
         this.srcSelector = srcSelector;
         this.element = $(srcSelector)[0];
         this.current = -1;
         this.instances = null;
-        this.hasContext = hasContext;
         this.term = "";
+    }
+
+    setContext(context){
+        Utility.log(SearchUtility, "setContext");
+        Utility.enforceTypes(arguments, Context);
+        this.context = context;
     }
 
     search(term) {
@@ -58,7 +57,7 @@ class SearchUtility{
         Utility.enforceTypes(arguments, [HTMLElement, Comment], String, Array);
 
         for (var child of ele.childNodes) {
-            if (child.nodeName.toLowerCase() === this.hasContext.getContext().getHTMLLabel("tagged").toLowerCase()) {
+            if (child.nodeName.toLowerCase() === this.context.getHTMLLabel("tagged").toLowerCase()) {
                 let taggedEntity = $(child).data("entityObject");
                 if (taggedEntity.getEntity() === term) foundObjects.push(taggedEntity);
                 continue;
@@ -86,6 +85,4 @@ class SearchUtility{
         }
         return foundObjects;
     }
-
 }
-

@@ -61,13 +61,15 @@ class Schema {
     }
     getPath(element, tagName) {
         Utility.log(Schema, "getPath");
-        Utility.enforceTypes(arguments, HTMLElement, String);
+        Utility.enforceTypes(arguments, Node, String);
+
+        while (element.nodeType !== 3) element = element.parentNode;
 
         /* build path */
         let path = [];
         let current = element.parentElement;
         while (current.id !== "entityPanel") {
-            path.push(current.getAttribute(this.context.getTagNameRule("prefix")));
+            path.push($(current).entityTag());
             current = current.parentElement;
         }
 
@@ -76,7 +78,7 @@ class Schema {
     }
     isValid(element, tagName) {
         Utility.log(Schema, "isValid");
-        Utility.enforceTypes(arguments, HTMLElement, String);
+        Utility.enforceTypes(arguments, Node, String);
 
         let path = this.getPath(element, tagName);
         return this.isValidPath(path);
