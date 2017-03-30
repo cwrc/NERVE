@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="16">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="17">
         <file>
             <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
             <bookmark id="14">
@@ -10,22 +10,27 @@
             </bookmark>
             <bookmark id="12">
                 <name/>
-                <line>255</line>
+                <line>253</line>
                 <key/>
             </bookmark>
             <bookmark id="15">
                 <name/>
-                <line>435</line>
+                <line>433</line>
+                <key/>
+            </bookmark>
+            <bookmark id="17">
+                <name/>
+                <line>453</line>
                 <key/>
             </bookmark>
             <bookmark id="11">
                 <name/>
-                <line>569</line>
+                <line>559</line>
                 <key/>
             </bookmark>
             <bookmark id="13">
                 <name/>
-                <line>608</line>
+                <line>598</line>
                 <key/>
             </bookmark>
         </file>
@@ -50,11 +55,12 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/nerve-core/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
         </group>
         <group name="Nerve - Core"/>
-        <group>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/nerve-core/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/nerve-core/EncoderDecoder/src/ca/sharcnet/nerve/encoder/OnAccept.java</file>
-        </group>
         <group name="NERVE3"/>
         <group name="Nerve 1.3"/>
+        <group>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Main.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/resources/config.txt</file>
+        </group>
     </open-files>
 </project-private>

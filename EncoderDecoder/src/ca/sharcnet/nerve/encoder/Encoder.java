@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve.encoder;
 
+import ca.sharcnet.nerve.Constants;
 import ca.fa.utility.SQLHelper;
 import ca.fa.utility.collections.SimpleCollection;
 import ca.sharcnet.nerve.context.*;
@@ -28,7 +29,6 @@ public class Encoder {
     public static final TRACES[] activeTraces = {};
 
     public static final void trace(TRACES type, String text) {
-        Logger logger = getLogger(Decoder.class.getName());
         if (Arrays.asList(activeTraces).contains(type)) {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
             String filename = stackTrace[2].getFileName();
@@ -52,7 +52,23 @@ public class Encoder {
     private final SQLHelper sql;
     private final Classifier classifier;
     private Schema schema = null;
-    private Document document;
+    private Document document = null;
+
+    public Encoder(Document document, Context context, SQLHelper sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+        trace(METHOD, "Encoder()");
+
+        if (document == null) throw new NullPointerException();
+        if (context == null) throw new NullPointerException();
+        if (sql == null) throw new NullPointerException();
+        if (classifier == null) throw new NullPointerException();
+
+        this.sql = sql;
+        this.context = context;
+        this.htmlLabels = context.htmlLables();
+        this.document = document;
+        this.classifier = classifier;
+        this.inputStream = null;
+    }
 
     public Encoder(InputStream stream, Context context, SQLHelper sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         trace(METHOD, "Encoder()");
@@ -85,97 +101,49 @@ public class Encoder {
         trace(METHOD, " : Encoder()");
     }
 
-    public void checkContext() {
-        trace(METHOD, "checkContext()");
+    public Encoder(Document document, Context context, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+        trace(METHOD, "Encoder()");
 
-        if (context.getTagPrefix() == null) {
-            trace(BRANCH, " - context.getTagPrefix() == null");
-            throw new RuntimeException("tagNameRules.prefix in context file is missing");
-        }
+        if (document == null) throw new NullPointerException();
+        if (context == null) throw new NullPointerException();
+        if (classifier == null) throw new NullPointerException();
 
-        if (context.getTagPrefix().isEmpty()) {
-            trace(BRANCH, " - context.getTagPrefix().isEmpty()");
+        this.sql = null;
+        this.context = context;
+        this.htmlLabels = context.htmlLables();
+        this.inputStream = null;
+        this.classifier = classifier;
+        this.document = document;
 
-            throw new RuntimeException("tagNameRules.prefix in context file is empty");
-        }
+        trace(METHOD, " : Encoder()");
+    }
 
-        if (context.getAttrPrefix() == null) {
-            trace(BRANCH, " - context.getAttrPrefix() == null");
-            throw new RuntimeException("tagNameRules.attribute in context file is missing");
-        }
+    public Encoder(InputStream stream, Context context, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+        trace(METHOD, "Encoder()");
 
-        if (context.getAttrPrefix().isEmpty()) {
-            trace(BRANCH, " - context.getAttrPrefix().isEmpty()");
-            throw new RuntimeException("tagNameRules.attribute in context file is empty");
-        }
+        if (stream == null) throw new NullPointerException();
+        if (context == null) throw new NullPointerException();
+        if (classifier == null) throw new NullPointerException();
 
-        if (context.getTagPrefix().toLowerCase().equals(context.getAttrPrefix().toLowerCase())) {
-            trace(BRANCH, " - context.getTagPrefix().toLowerCase().equals(context.getAttrPrefix().toLowerCase())");
-            throw new RuntimeException("tagNameRules.attribute == tagNameRules.prefix in context (case insensative)");
-        }
+        this.sql = null;
+        this.context = context;
+        this.htmlLabels = context.htmlLables();
+        this.inputStream = stream;
+        this.classifier = classifier;
 
-        trace(METHOD, " : checkContext()");
+        trace(METHOD, " : Encoder()");
     }
 
     public void encode(OutputStream outStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         trace(METHOD, "encode()");
-        checkContext();
 
         if (outStream == null) throw new NullPointerException();
-        document = DocumentNavigator.documentFromStream(inputStream);
+        if (document == null) document = DocumentNavigator.documentFromStream(inputStream);
 
-        lookupTag();
+        if (this.sql != null) lookupTag();
         processNER(document);
-        commentMeta();
-        process();
-
+        wrapTag(document);
         outStream.write(document.toString().getBytes());
-    }
-
-    public void oldencode(OutputStream outStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        trace(METHOD, "encode()");
-        checkContext();
-
-        if (outStream == null) {
-            trace(BRANCH, " - outStream == null) ");
-            throw new NullPointerException();
-        }
-
-        document = DocumentNavigator.documentFromStream(inputStream);
-
-        if (parameters.contains(Parameter.LOOKUP_TAG)) {
-            trace(BRANCH, " - parameters.contains(Parameter.LOOKUP_TAG)");
-            lookupTag();
-        }
-        if (parameters.contains(Parameter.LOOKUP_LEMMA)) {
-            trace(BRANCH, " - parameters.contains(Parameter.LOOKUP_LEMMA)");
-            lookupLemma(document);
-        }
-        if (context != null && parameters.contains(Parameter.NER)) {
-            trace(BRANCH, " - context != null && parameters.contains(Parameter.NER)");
-            processNER(document);
-        }
-        if (parameters.contains(Parameter.LOOKUP_LINK)) {
-            trace(BRANCH, " - parameters.contains(Parameter.LOOKUP_LINK)");
-            lookupLink(document);
-        }
-        if (parameters.contains(Parameter.ADD_ID)) {
-            trace(BRANCH, " - parameters.contains(Parameter.ADD_ID)");
-            addUID(document);
-        }
-        if (parameters.contains(Parameter.COMMENT_META)) {
-            trace(BRANCH, " - parameters.contains(Parameter.COMMENT_META)");
-            commentMeta();
-        }
-        if (parameters.contains(Parameter.ENCODE_PROCESS)) {
-            trace(BRANCH, " - parameters.contains(Parameter.ENCODE_PROCESS)");
-            process();
-        }
-        trace(BRANCH, " - else");
-        outStream.write(document.toString().getBytes());
-
-        trace(PRINT_FINAL, document.toString());
-        trace(METHOD, " : encode()");
     }
 
     public void setSchema(Schema schema) {
@@ -184,14 +152,16 @@ public class Encoder {
     }
 
     /**
-    Include one or more parameters that alter the behaviour of the encoder.<br>
-    <ul>
-    <li> NER : automatically add NER markup to the text before processing.
-    <li> NO_PROCESSING : do not wrap tags with proprietory html markup.
-    <li> COMMENT_META : wrap all meta-data tags with comment tags.
-    <li> NO_ID : during processing, do not assign a unique identifier.
-    </ul>
-    @param parameters
+     * Include one or more parameters that alter the behaviour of the
+     * encoder.<br>
+     * <ul>
+     * <li> NER : automatically add NER markup to the text before processing.
+     * <li> NO_PROCESSING : do not wrap tags with proprietory html markup.
+     * <li> COMMENT_META : wrap all meta-data tags with comment tags.
+     * <li> NO_ID : during processing, do not assign a unique identifier.
+     * </ul>
+     *
+     * @param parameters
      */
     public void setParameters(Encoder.Parameter... parameters) {
         if (parameters == null || parameters.length == 0) return;
@@ -259,32 +229,32 @@ public class Encoder {
 
         /* choose the largest matching known entity */
         knownEntities.seekLine(
-            innerText,
-            (string, row) -> {
-                TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
-                ElementNode elementNode = new ElementNode(tagInfo.getName(), string);
+                innerText,
+                (string, row) -> {
+                    TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
+                    ElementNode elementNode = new ElementNode(tagInfo.getName(), string);
 
-                NodePath path = child.getNodePath();
-                path.add(elementNode);
+                    NodePath path = child.getNodePath();
+                    path.add(elementNode);
 
-                if (schema != null && !schema.isValidPath(path)) {/* verify the schema */
-                    trace(BRANCH, " - schema != null && !schema.isValidPath(path)");
+                    if (schema != null && !schema.isValidPath(path)) {/* verify the schema */
+                        trace(BRANCH, " - schema != null && !schema.isValidPath(path)");
 
+                        newNodes.add(new TextNode(string));
+                    } else {
+                        String lemmaAttribute = context.getTagInfo(row.getString("tag")).getLemmaAttribute();
+                        if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
+
+                        String linkAttribute = context.getTagInfo(row.getString("tag")).getLinkAttribute();
+                        if (!linkAttribute.isEmpty()) elementNode.addAttribute(linkAttribute, row.getString("link"));
+                        newNodes.add(elementNode);
+
+                        elementNode.addAttribute(context.getDictionaryAttribute(), row.getString("collection"));
+                    }
+                },
+                (string) -> {
                     newNodes.add(new TextNode(string));
-                } else {
-                    String lemmaAttribute = context.getTagInfo(row.getString("tag")).getLemmaAttribute();
-                    if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
-
-                    String linkAttribute = context.getTagInfo(row.getString("tag")).getLinkAttribute();
-                    if (!linkAttribute.isEmpty()) elementNode.addAttribute(linkAttribute, row.getString("link"));
-                    newNodes.add(elementNode);
-
-                    elementNode.addAttribute(context.getDictionaryAttribute(), row.getString("collection"));
                 }
-            },
-            (string) -> {
-                newNodes.add(new TextNode(string));
-            }
         );
 
         child.replaceWith(newNodes);
@@ -418,102 +388,48 @@ public class Encoder {
         }
     }
 
-    private void commentMeta() {
-        trace(METHOD, "commentMeta()");
-        NodeList<Node> nodesByType = document.getNodesByType(NodeType.METADATA);
-        for (Node node : nodesByType) {
-            node.replaceWith(new CommentNode(node.innerText()));
-        }
-    }
-
-    private void process() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "process()");
-        wrapTags(document);
-    }
-
-    private void wrapTags(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "wrapTags(ElementNode " + node.getName() + ")");
-
-//        if (context.isTagName(node.getName())) {
-//            TagInfo tagInfo = context.getTagInfo(node.getName());
-//            wrapEntityTag(tagInfo, node);
-//        } else {
-            wrapTag(node);
-//        }
-    }
-
     /**
-    @param node the node to wrap
-    @param allowEntities if false wrap all child tags as if they are non-entity tags
-    @throws ClassNotFoundException
-    @throws InstantiationException
-    @throws IllegalAccessException
-    @throws IOException
-    @throws SQLException
+     * @param node the node to wrap
+     * @param allowEntities if false wrap all child tags as if they are
+     * non-entity tags
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IOException
+     * @throws SQLException
      */
-    private void wrapTag(ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    private void wrapTag(Node node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+        trace(METHOD, "wrapTag(" + node.getType() + ")");
+
+        if (node.getType() != NodeType.ELEMENT && node.getType() != NodeType.METADATA) return;
+        AttributeNode attrNode = (AttributeNode) node;
+
+
         JSONObject jsonObj = new JSONObject();
-        for (Attribute attr : node.getAttributes()) {
+        for (Attribute attr : attrNode.getAttributes()) {
             jsonObj.put(attr.getKey(), attr.getValue());
         }
-        node.clearAttributes();
+        attrNode.clearAttributes();
 
-        node.addAttribute(Constants.XML_ATTR_LIST, jsonObj.toString());
-        node.addAttribute(Constants.ORIGINAL_TAGNAME_ATTR, node.getName());
-        if (context.isTagName(node.getName()))  node.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
-        else node.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
-        node.setName(Constants.HTML_TAGNAME);
-
-        for (Node child : node.childNodes()) {
-            if (child.getType() == Node.NodeType.ELEMENT) {
-                wrapTags((ElementNode) child);
+        trace(DEBUG, "node.getName() : " + node.getName());
+        trace(DEBUG, "context.isTagName(node.getName() : " + context.isTagName(node.getName()));
+        if (node.getType() == NodeType.METADATA) {
+            attrNode = (AttributeNode) attrNode.replaceWith(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
+            attrNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
+        } else if (context.isTagName(node.getName())) {
+            attrNode.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
+        } else {
+            attrNode.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
+            ElementNode eNode = (ElementNode) attrNode;
+            for (Node child : eNode.childNodes()) {
+                wrapTag(child);
             }
         }
-    }
 
-//    private void wrapEntityTag(TagInfo tagInfo, ElementNode node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-//        if (tagInfo == null) throw new NullPointerException();
-//        if (node == null) throw new NullPointerException();
-//
-//        ElementNode taggedNode = new ElementNode(htmlLabels.tagged(), null, null);
-//
-//        ElementNode entityNode = new ElementNode(htmlLabels.entity(), node.getAttributes(), node.childNodes());
-//        for (Node child : entityNode.childNodes()) {
-//            if (child.getType() == Node.NodeType.ELEMENT) {
-//                wrapTag((ElementNode) child);
-//            }
-//        }
-//
-//        ElementNode tagNameNode = new ElementNode(htmlLabels.tagName(), null, null);
-//        ElementNode linkNode = null;
-//
-//        String lemma = node.innerText();
-//
-//        for (Attribute attr : node.getAttributes()) {
-//            if (attr.getKey().equals(context.getDictionaryAttribute())) {
-//                taggedNode.addAttribute(attr);
-//                entityNode.removeAttribute(attr.getKey());
-//            } else if (attr.getKey().equals(tagInfo.getLinkAttribute())) {
-//                linkNode = new ElementNode(htmlLabels.link(), attr.getValue());
-//                entityNode.removeAttribute(attr.getKey());
-//            } else if (attr.getKey().equals(tagInfo.getLemmaAttribute())) {
-//                lemma = node.getAttribute(tagInfo.getLemmaAttribute()).getValue();
-//                entityNode.removeAttribute(attr.getKey());
-//            } else {
-//                entityNode.addAttribute(new Attribute(context.getAttrPrefix() + attr.getKey(), attr.getKey()));
-//            }
-//        }
-//
-//        ElementNode lemmaNode = new ElementNode(htmlLabels.lemma(), lemma);
-//
-//        tagNameNode.addChild(new TextNode(tagInfo.getName()));
-//
-//        taggedNode.addChild(entityNode);
-//        taggedNode.addChild(tagNameNode);
-//        taggedNode.addChild(lemmaNode);
-//        if (linkNode != null) taggedNode.addChild(linkNode);
-//        node.replaceWith(taggedNode);
-//    }
+        attrNode.addAttribute(Constants.XML_ATTR_LIST, jsonObj.toString());
+        attrNode.addAttribute(Constants.ORIGINAL_TAGNAME_ATTR, node.getName());
+        attrNode.setName(Constants.HTML_TAGNAME);
+    }
 
     private String getUniqueID(String idAttrName) {
         trace(METHOD, "getUniqueID(TString)");
@@ -567,7 +483,7 @@ public class Encoder {
                 }
 
                 /* Go through the nodes in the node list and change the names */
-                /* from dicionary to context taginfo name.                    */
+ /* from dicionary to context taginfo name.                    */
                 for (Node nerNode : nerList) {
                     if (nerNode.getType() == NodeType.ELEMENT) {
                         trace(BRANCH, " - nerNode.getType() == NodeType.ELEMENT)");
@@ -585,7 +501,7 @@ public class Encoder {
     }
 
     private NodeList<Node> applyNamedEntityRecognizer(String text) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        trace(METHOD, "applyNamedEntityRecognizer(" + text + ")");
+        trace(METHOD, "applyNamedEntityRecognizer(...)");
         String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
         /* at least one alphabet character upper or lower case */
 
