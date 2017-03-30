@@ -1,19 +1,16 @@
 package ca.sharcnet.nerve.docnav.dom;
-
+import ca.sharcnet.nerve.docnav.selector.Select;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
 A {@link Node} that allows for attributes and children.  Any time a mutable object,
 such as another element is added to this this node a copy is made.  Any time a
 collection is returned from this object ({@link ElementNode#childNodes()}, {@link ElementNode#getAttributes()})
-the colleciton returned is non-mutable.
+the collection returned is non-mutable.
 @author edward
  */
-public class ElementNode extends Node {
-
-    private final NodeList<Node> children;
-    private final AttributeList attributes;
+public class ElementNode extends AttributeNode {
+    private final NodeList<Node> children = new NodeList<>();
 
     /**
     By-value constructor, without children or attributes.
@@ -24,7 +21,16 @@ public class ElementNode extends Node {
         this(NodeType.ELEMENT, name, null, null, null);
     }
 
-    /** a convienince function to create an element node with just one text node
+    /**
+    By-value constructor, without children or attributes.
+    @param name a non-null non-empty string
+    @throws NullPointerException if name is null or empty.
+     */
+    public ElementNode(String name, AttributeList attributes) {
+        super(NodeType.ELEMENT, name, attributes, null);
+    }
+
+    /** a convenience function to create an element node with just one text node
     as a child
      * @param name
      * @param text
@@ -55,15 +61,9 @@ public class ElementNode extends Node {
     @param parent the parent of this node.
      */
     ElementNode(NodeType type, String name, AttributeList attributes, NodeList<Node> children, ElementNode parent) {
-        super(NodeType.ELEMENT, "", name, parent);
+        super(NodeType.ELEMENT, name, attributes, parent);
         if (name.isEmpty()) throw new NullPointerException();
 
-        this.attributes = new AttributeList();
-        if (attributes != null) {
-            for (Attribute a : attributes) this.addAttribute(a);
-        }
-
-        this.children = new NodeList<>();
         if (children != null) {
             for (Node a : children) this.addChild(a);
         }
@@ -78,10 +78,6 @@ public class ElementNode extends Node {
 
     public int childCount(){
         return children.size();
-    }
-
-    public void clearAttributes() {
-        this.attributes.clear();
     }
 
     /**
@@ -124,65 +120,6 @@ public class ElementNode extends Node {
         Node copy = child.copy(this);
         children.add(index, copy);
         return copy;
-    }
-
-    /**
-    Determine if this node contains an attribute.
-    @param key the attribute name to poll for
-     */
-    public final boolean hasAttribute(String key) {
-        assert attributes != null;
-        return attributes.contains(key);
-    }
-
-    /**
-    Retrieve and attribute from this node.
-    @param key the attribute name to retreive
-    @return the attribute to which the specified key is mapped
-    @throws IndexOutOfBoundsException if this node does not have an attribute with 'key'
-     */
-    public final Attribute getAttribute(String key) {
-        if (!attributes.contains(key)) throw new IndexOutOfBoundsException();
-        return attributes.get(key);
-    }
-
-    /**
-    Retrive the attribute value from the node, if the node doesn't have the
-    given attribute, return an empty string.
-    @param key the attribute name to retreive
-    @return the value to which the specified key is mapped, if not mapped => "".
-     */
-    public final String getAttributeValue(String key) {
-        if (!attributes.contains(key)) return "";
-        return attributes.get(key).getValue();
-    }
-
-    /**
-    Add an attribute to this node.  The attribute passed in is copied before
-    being added.
-    @param attribute the attribute to add
-     */
-    public final void addAttribute(Attribute attribute) {
-        attributes.add(new Attribute(attribute));
-    }
-
-    /**
-    Add a new attribute to this node with provided key/value pair;
-    @param key
-    @param value
-     */
-    public final void addAttribute(String key, String value) {
-        attributes.add(new Attribute(key, value));
-    }
-
-    /**
-     * Will remove any attribute with the 'key' value if it exists, otherwise
-     * no action is taken.
-     * @param key the key string of the attribute to remove
-     */
-    public void removeAttribute(String key) {
-        if (!attributes.contains(key)) return;
-        this.attributes.remove(key);
     }
 
     /**
@@ -313,14 +250,6 @@ public class ElementNode extends Node {
         return nodes;
     }
 
-    /**
-     * @return a non-reflective list of this node's attributes
-     */
-    public AttributeList getAttributes() {
-        AttributeList arrayList = new AttributeList();
-        for (Attribute a : attributes) arrayList.add(a);
-        return arrayList;
-    }
 
     /**
     Search the node tree to determine if it contains 'node'.
@@ -397,12 +326,25 @@ public class ElementNode extends Node {
      @return
      */
     public NodeList<Node> getNodesByName(String name, boolean caseSensative) {
+        if (name.equals("*")) return getAllNodes(new NodeList<>());
         return recursiveNodesByName(name, new NodeList<>(), caseSensative, null);
     }
 
     public NodeList<ElementNode> getElementsByName(String name, boolean caseSensative) {
         if (name.equals("*")) return getAllElements(new NodeList<>());
         else return recursiveNodesByName(name, new NodeList<>(), caseSensative, NodeType.ELEMENT);
+    }
+
+    private NodeList<Node> getAllNodes(NodeList<Node> list){
+        list.add(this);
+        for (Node node : this.children) {
+            if (node.getType() == NodeType.ELEMENT) {
+                ((ElementNode) node).getAllNodes(list);
+            } else {
+                list.add(node);
+            }
+        }
+        return list;
     }
 
     private NodeList<ElementNode> getAllElements(NodeList<ElementNode> list){
@@ -530,15 +472,6 @@ public class ElementNode extends Node {
         return new ElementNode(this.getType(), name, this.getAttributes(), this.childNodes(), null);
     }
 
-    public ElementNode setName(String name) {
-        if (name.startsWith("@")
-            || name.contains(" ")) {
-            throw new RuntimeException("Invalid node name");
-        }
-        super.name = name;
-        return this;
-    }
-
     /**
     Returns a new node with a different type keeping the other parameters.
     The new node will not have a parent, all child nodes will also be copied.
@@ -629,5 +562,9 @@ public class ElementNode extends Node {
                 this.recurseChildFirst(consumer);
                 break;
         }
+    }
+
+    public Select select(){
+        return new Select(this);
     }
 }

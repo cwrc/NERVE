@@ -1,7 +1,6 @@
 package ca.sharcnet.nerve.docnav.dom;
 
 public class Schema {
-
     private final Document grammar;
     private final NodeList<ElementNode> references;
 
@@ -37,7 +36,6 @@ public class Schema {
     }
 
     private ElementNode nextNode(ElementNode schemaNode, String name) {
-        System.out.println("nextNode " + schemaNode.getName() + ":" + schemaNode.getAttributeValue("name") + " has " + name);
         NodeList<ElementNode> childElements = schemaNode.childElements();
 
         for (ElementNode n : childElements) {
@@ -48,8 +46,6 @@ public class Schema {
     }
 
     private ElementNode check(ElementNode eleNode, String name) {
-        System.out.println(" - check " + eleNode.getName() + ":" + eleNode.getAttributeValue("name") + " = " + name);
-
         if (eleNode.getName().equals("element") && eleNode.getAttributeValue("name").equals(name)) {
             return eleNode;
         }

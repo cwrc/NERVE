@@ -20,6 +20,15 @@ public class Node {
         this.parent = null;
     }
 
+    public Node setName(String name) {
+        if (name.startsWith("@")
+            || name.contains(" ")) {
+            throw new RuntimeException("Invalid node name");
+        }
+        this.name = name;
+        return this;
+    }    
+    
     Node(NodeType type, String innerText, String name, ElementNode parent) {
         if (name == null) throw new NullPointerException();
         this.type = type;

@@ -6,8 +6,6 @@ import ca.sharcnet.nerve.docnav.generated.EncodeLexer;
 import ca.sharcnet.nerve.docnav.generated.EncodeParser;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
 import org.antlr.v4.runtime.ANTLRInputStream;
