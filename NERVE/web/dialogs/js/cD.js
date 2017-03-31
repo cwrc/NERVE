@@ -204,7 +204,6 @@ $(function () {
         // XXX Add namespace
 
         entity.setPersonSchema = function (url) {
-            console.log(`entity.setPersonSchema(${url})`);
             $.ajax({
                 type: "GET",
                 async: true, //async: false,

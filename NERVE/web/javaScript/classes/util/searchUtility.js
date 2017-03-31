@@ -6,11 +6,10 @@ class SearchUtility{
         Utility.log(SearchUtility, "constructor");
         Utility.enforceTypes(arguments, String);
 
-        this.srcSelector = srcSelector;
-        this.element = $(srcSelector)[0];
+        this.rootElement = $(srcSelector)[0];
         this.current = -1;
-        this.instances = null;
-        this.term = "";
+        this.instances = [];
+        this.lastTerm = "";
     }
 
     setContext(context){
@@ -19,16 +18,22 @@ class SearchUtility{
         this.context = context;
     }
 
+    reset(){
+        this.current = -1;
+        this.instances = [];
+        this.lastTerm = "";
+    }
+
     search(term) {
         Utility.log(SearchUtility, "search");
         Utility.enforceTypes(arguments, String);
 
-        if (this.term === term || term === "") return this.instances.length;
-        this.term = term;
+        if (term === null || this.lastTerm === term || term.length === 0) return this.instances.length;
+        this.lastTerm = term;
 
         term = term.trim();
         if (term === "") return;
-        this.instances = this.__searchRecurse(this.element, term, []);
+        this.instances = this.__searchRecurse(this.rootElement, term, []);
         this.current = -1;
 
         document.getElementById("entityPanel").focus();
@@ -57,13 +62,7 @@ class SearchUtility{
         Utility.enforceTypes(arguments, [HTMLElement, Comment], String, Array);
 
         for (var child of ele.childNodes) {
-            if (child.nodeName.toLowerCase() === this.context.getHTMLLabel("tagged").toLowerCase()) {
-                let taggedEntity = $(child).data("entityObject");
-                if (taggedEntity.getEntity() === term) foundObjects.push(taggedEntity);
-                continue;
-            } else if (child.nodeName.toLowerCase() === "selected") {
-                continue;
-            } else if (child.nodeName !== "#text") {
+            if (child.nodeName !== "#text") {
                 this.__searchRecurse(child, term, foundObjects);
             } else if (typeof child.textContent !== "undefined") {
 

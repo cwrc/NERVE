@@ -131,6 +131,7 @@ class FileOperations {
         anchor.setAttribute("download", filename);
         anchor.click();
     }
+    
     encode(input, context, successCallback = function() {}, errorCallback = function(){}) {
         Utility.log(FileOperations, "encode");
         Utility.enforceTypes(arguments, String, Context, ["optional", Function], ["optional", Function]);
@@ -138,12 +139,11 @@ class FileOperations {
         var xhttp = new XMLHttpRequest();
         var data = {};
 
-        /* TODO change encode to accept a proper json stringified object instead of string in string */
+        /* TODO? change encode to accept a proper json stringified object instead of string in string */
         data.context = JSON.stringify(context.dataObject);
         data.input = input;
 
         var url = "http://" + this.getServerName() + "/Encode.do?";
-//        url += this.getAttributes("settings-encoder") + "ENCODE_PROCESS";
 
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === 4) {

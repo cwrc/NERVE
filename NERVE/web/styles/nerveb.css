@@ -11,6 +11,10 @@ body{
     /*background-color: lightblue;*/
 }
 
+.pinkBG{
+    background-color: #ffd0d0;
+}
+
 #container{
     display: none;
     position: absolute;
@@ -20,7 +24,7 @@ body{
     top: 0px;
     min-width: 640px;
     min-height: 480px;
-    background-color: lightblue;    
+    background-color: lightblue;
 }
 
 #menuArea{
@@ -200,28 +204,25 @@ body{
 }
 
 .entityDialogMember{
-    width: 100%;
     padding: 0px 0px 8px 0px;
-}
-
-.entityDialogDictionary{
-    display: table;
-    width: 100%;
-    padding: 0px 0px 8px 0px;
-}
-
-.entityDialogDictTB{
     position: relative;
-    width: 80%;
-    left: 12px;
+    width: 90%;
+    left: 5%;
 }
 
-.entityDialogDictCB{
-    width: 20px;
+.entityDialogTB{}
+
+#dictionary{
+    position: relative;
+    width: 100%;
 }
 
-.entityDialogTB{
-    width: 95%;
+#dictionary > button{
+    position: absolute;
+    display: none;
+    width: 90%;
+    left: 5%;
+    top: 0px;
 }
 
 #fullname{

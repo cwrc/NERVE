@@ -1,14 +1,22 @@
 /* global Utility */
 
 class Listeners {
-    constructor(view, events) {
+    constructor(view, events, controller) {
+        Utility.log(Listeners, "constructor");
+        Utility.enforceTypes(arguments, View, Events, Controller);
+
         this.view = view;
         this.events = events;
+        this.controller = controller;
 
         /* entity dialog box events */
-        this.setupListeners();
+        $("#txtEntity").on("input", (event)=>this.controller.notifyDialogInput("text"));
+        $("#txtLemma").on("input", (event)=>this.controller.notifyDialogInput("lemma"));
+        $("#txtLink").on("input", (event)=>this.controller.notifyDialogInput("link"));
+        $("#selectTagName").on("input", (event)=>this.controller.notifyDialogInput("tag"));
 
         /* search events */
+        $("#searchDialog").click((event) => this.events.showSearchDialog(event));
         $("#epsNext").click((event)=>{event.stopPropagation(); this.events.searchNext($("#epsTextArea").val());});
         $("#epsPrev").click((event)=>{event.stopPropagation(); this.events.searchPrev($("#epsTextArea").val());});
         $("#epsTextArea").keyup((event)=>{
@@ -31,7 +39,8 @@ class Listeners {
         $("#menuUndo").click((event)=>{event.stopPropagation(); this.events.menuUndo();});
         $("#menuRedo").click((event)=>{event.stopPropagation(); this.events.menuRedo();});
         $("#menuCopy").click((event)=>{event.stopPropagation(); this.events.menuCopy();});
-        $("#menuPaste").click((event)=>{event.stopPropagation(); this.events.manuPaste();});        
+        $("#menuPaste").click((event)=>{event.stopPropagation(); this.events.manuPaste();});
+        $("#menuSelectLemma").click((event)=>{event.stopPropagation(); this.controller.selectLikeEntitiesByLemma();});
 
         $("#menuTag").click((event)=>{event.stopPropagation(); this.events.menuTag();});
         $("#menuUntag").click((event)=>{event.stopPropagation(); this.events.menuUntag();});
@@ -39,10 +48,37 @@ class Listeners {
         $("#menuDictDel").click((event)=>{event.stopPropagation(); this.events.menuDelete();});
         $("#menuMerge").click((event)=>{event.stopPropagation(); this.events.menuMerge();});
 
+        $("#dictAdd").click((event)=>{event.stopPropagation(); this.controller.dictAdd();});
+        $("#dictRemove").click((event)=>{event.stopPropagation(); this.controller.dictRemove();});
+        $("#dictUpdate").click((event)=>{event.stopPropagation(); this.controller.dictUpdate();});
+
+        /* control delete and backspace this.events */
+        document.addEventListener('keydown', function (event) {
+            var d = event.srcElement || event.target;
+            if (event.keyCode !== 8 && event.keyCode !== 46) return;
+            if (
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'PASSWORD') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'FILE') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'SEARCH') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'EMAIL') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'NUMBER') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'DATE') ||
+                    (d.tagName.toUpperCase() === 'TEXTAREA') ||
+                    (d.hasAttribute("contenteditable") && d.getAttribute("contenteditable") === "true")
+                    ) {
+                event.stopPropagation();
+                return;
+            }
+
+            event.preventDefault();
+        }, true);
+
         /* key Press Events */
         $(document).keydown((event)=>{
             if (event.ctrlKey || event.metaKey){
                 switch(event.key){
+                    case "a": this.controller.selectLikeEntitiesByLemma(); break;
                     case "c": this.events.menuCopy(); break;
                     case "e": this.events.menuTag(); break;
                     case "f": this.events.menuFind(); break;
@@ -70,16 +106,16 @@ class Listeners {
         });
 
         /* entity & document events */
-        $(".taggedentity").click((event)=>events.taggedEntityClick(event.currentTarget));
-        $(".taggedentity").dblclick((event)=>events.taggedEntityClick(event.currentTarget));
-        
+        this.addTaggedEntity(".taggedentity");
+
         /* Default Document Click Event */
-        $(document).click((event) => this.events.documentClick(event));     
+        $("#entityPanel").click((event) => this.events.documentClick(event));
     }
 
+    /* call every time a new tagged entity is created */
     addTaggedEntity(ele){
-        $(ele).click((event)=>this.events.taggedEntityClick(event.currentTarget));
-        $(ele).dblclick((event)=>this.events.taggedEntityClick(event.currentTarget));
+        $(ele).click((event)=>{event.stopPropagation(); this.events.taggedEntityClick(event.currentTarget);});
+        $(ele).dblclick((event)=>{event.stopPropagation(); this.controller.selectLikeEntitiesByLemma();});
     }
 
     switchContext(context){
@@ -103,63 +139,5 @@ class Listeners {
             $("#menuTags").data("value", false);
         }
         return rvalue;
-    }
-
-    setupListeners() {
-        /* text box listeners */
-        $("#txtEntity").blur((event)=>this.events.textBoxBlur(event));
-        $("#txtLemma").blur((event)=>this.events.textBoxBlur(event));
-        $("#txtLink").blur((event)=>this.events.textBoxBlur(event));
-        $("#selectTagName").blur((event)=>this.events.textBoxBlur(event));
-
-        $("#txtEntity").click((event)=>this.events.textBoxClick(event));
-        $("#txtLemma").click((event)=>this.events.textBoxClick(event));
-        $("#txtLink").click((event)=>this.events.textBoxClick(event));
-        $("#selectTagName").click((event)=>this.events.textBoxClick(event));
-
-        $("#txtEntity").change((event)=>this.events.textBoxChange(event));
-        $("#txtLemma").change((event)=>this.events.textBoxChange(event));
-        $("#txtLink").change((event)=>this.events.textBoxChange(event));
-        $("#selectTagName").change((event)=>this.events.textBoxChange(event));
-
-        $("#txtEntity").on("input", (event)=>this.events.textBoxInput(event));
-        $("#txtLemma").on("input", (event)=>this.events.textBoxInput(event));
-        $("#txtLink").on("input", (event)=>this.events.textBoxInput(event));
-        $("#selectTagName").on("input", (event)=>this.events.textBoxInput(event));
-
-        document.getElementById("cbDictionary").addEventListener("click", (event) => this.events.cbDictionaryClick(event), false);
-        document.getElementById("cbDictionary").addEventListener("change", (event) => this.events.cbDictionaryChange(event), false);
-        document.getElementById("selectDictionary").addEventListener("click", (event) => this.events.selDictionaryClick(event), false);
-        document.getElementById("selectDictionary").addEventListener(
-                "change",
-                (event) => this.events.selDictionaryChange(event, document.getElementById("selectDictionary").value),
-                false
-                );
-
-        document.getElementById("searchDialog").addEventListener("click", (event) => this.events.showSearchDialog(event), false);
-
-
-
-        /* control delete and backspace this.events */
-        document.addEventListener('keydown', function (event) {
-            var d = event.srcElement || event.target;
-            if (event.keyCode !== 8 && event.keyCode !== 46) return;
-            if (
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT') ||
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'PASSWORD') ||
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'FILE') ||
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'SEARCH') ||
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'EMAIL') ||
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'NUMBER') ||
-                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'DATE') ||
-                    (d.tagName.toUpperCase() === 'TEXTAREA') ||
-                    (d.hasAttribute("contenteditable") && d.getAttribute("contenteditable") === "true")
-                    ) {
-                event.stopPropagation();
-                return;
-            }
-
-            event.preventDefault();
-        }, true);
     }
 }

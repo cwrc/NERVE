@@ -63,7 +63,10 @@ class Schema {
         Utility.log(Schema, "getPath");
         Utility.enforceTypes(arguments, Node, String);
 
-        while (element.nodeType !== 3) element = element.parentNode;
+        console.log(element);
+        while (element.nodeType !== 3){
+            element = element.parentNode;
+        }
 
         /* build path */
         let path = [];

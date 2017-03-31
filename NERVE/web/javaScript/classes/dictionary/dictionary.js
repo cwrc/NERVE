@@ -22,18 +22,18 @@ class Dictionary {
             this.server = "/nerve";
         }
 
-        this.__getEntitiesURL = this.__getServerName() + "/GetEntities.do";
-        this.addEntityURL = this.__getServerName() + "/AddEntity.do";
-        this.deleteEntityURL = this.__getServerName() + "/DeleteEntity.do";
-        this.clearDebugURL = this.__getServerName() + "/ClearDebug.do";
+        this.getEntitiesURL = this.server + "/GetEntities.do";
+        this.addEntityURL = this.server + "/AddEntity.do";
+        this.deleteEntityURL = this.server + "/DeleteEntity.do";
+        this.clearDebugURL = this.server + "/ClearDebug.do";
     }
-    
+
     setContext(context){
         Utility.log(Dictionary, "setContext");
         Utility.enforceTypes(arguments, Context);
         this.context = context;
     }
-    
+
     /* for testing, not part of test suite */
     clearDebugDictionary(callback) {
         Utility.log(Dictionary, "clearDebugDictionary");
@@ -90,11 +90,7 @@ class Dictionary {
         Utility.log(Dictionary, "matches");
         Utility.enforceTypes(arguments, String, String, String, String, String, ["optional", Function], ["optional", Function]);
 
-        this.__getEntities(
-                entity,
-                dictionary,
-                (jsonText) => {
-
+        this.getEntities( entity, dictionary, (jsonText) => {
             Utility.assertType(jsonText, String);
             let json = JSON.parse(jsonText);
 
@@ -127,17 +123,19 @@ class Dictionary {
             }
         }, failureCB());
     }
-    __getEntities(entity, dictionary, successCB = function() {}, failureCB = function(){}) {
-        Utility.log(Dictionary, "__getEntities");
-        Utility.enforceTypes(arguments, String, String, ["optional", Function], ["optional", Function]);
+
+    getEntities(entity, successCB = function() {}, failureCB = function(){}) {
+        Utility.log(Dictionary, "getEntities");
+        Utility.enforceTypes(arguments, HTMLDivElement, ["optional", Function], ["optional", Function]);
 
         var xhttp = new XMLHttpRequest();
-        var url = this.__getEntitiesURL + "?entity=" + entity + "&dictionary=" + dictionary;
+        var url = this.getEntitiesURL + "?entity=" + $(entity).text();
 
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState === 4) {
                 if (xhttp.status === 200) {
-                    successCB(xhttp.responseText);
+                    let jsonObj = JSON.parse(xhttp.responseText);
+                    successCB(jsonObj.rows);
                 } else {
                     failureCB(xhttp.status, xhttp.responseText);
                 }
@@ -148,30 +146,6 @@ class Dictionary {
         xhttp.send(JSON.stringify(this.context));
     }
 
-    populateTaggedEntity(taggedEntity, successCB = function() {}, failureCB = function(){}){
-        Utility.log(Dictionary, "populateTaggedEntity");
-        Utility.enforceTypes(arguments, TaggedEntity, ["optional", Function], ["optional", Function]);
-
-        this.__getEntities(
-                taggedEntity.getEntity(),
-                taggedEntity.getDictionary(),
-                (jsonText) => {
-            Utility.assertType(jsonText, String);
-
-            let json = JSON.parse(jsonText);
-            if (json.rows.length === 0) {
-                successCB(taggedEntity);
-                return;
-            }
-            let row = json.rows[0];
-
-            taggedEntity.setLink(row.link);
-            taggedEntity.setLemma(row.lemma);
-            taggedEntity.setTagName(this.context.getTagInfo(row.tag).name);
-            successCB(taggedEntity);
-        }, failureCB());
-    }
-
     /* add new entity to the 'custom' dictionary */
     addEntity(entity, successCB = function() {}, failureCB = function(){}) {
         Utility.log(Dictionary, "addEntity");
@@ -179,10 +153,10 @@ class Dictionary {
 
         var xhttp = new XMLHttpRequest();
         var url = this.addEntityURL + "?";
-        url += "entity=" + encodeURIComponent(entity.getEntity());
-        url += "&lemma=" + encodeURIComponent(entity.getLemma());
-        url += "&link=" + encodeURIComponent(entity.getLink());
-        url += "&tag=" + encodeURIComponent(entity.getTagName());
+        url += "entity=" + encodeURIComponent($(entity).text());
+        url += "&lemma=" + encodeURIComponent($(entity).lemma());
+        url += "&link=" + encodeURIComponent($(entity).link());
+        url += "&tag=" + encodeURIComponent($(entity).entityTag());
         url += "&collection=" + encodeURIComponent("custom");
 
         xhttp.onreadystatechange = function () {

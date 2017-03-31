@@ -23,9 +23,8 @@ class ContextLoader {
         this.context.load({tags: []});
     }
 
-    loadContext(contextName, success = function() {}, failure = function(){}){
-        
-    }
+    loadContext(contextName, success = function() {}, failure = function(){}){}
+    lookupContext(fullpath){}
 }
 
 class Main extends ContextLoader{
@@ -51,7 +50,7 @@ class Main extends ContextLoader{
         this.controller.setEventHandler(this.events);
 
         let onContextLoadSuccess = function () {
-            this.listener = new Listeners(this.view, this.events);
+            this.listener = new Listeners(this.view, this.events, this.controller);
             this.controller.setListener(this.listener);
             this.model.setListener(this.listener);
             this.view.popThrobberMessage();
@@ -70,7 +69,7 @@ class Main extends ContextLoader{
         let contextName = "orlando";
         if (this.settings.hasValue("contextName")){
             contextName = this.settings.getValue("contextName");
-        } 
+        }
         this.loadContext(contextName, onContextLoadSuccess, onContextLoadFailure);
     }
 
@@ -80,14 +79,18 @@ class Main extends ContextLoader{
         this.fileOps.loadFromServer(url, (contents) => {
             this.settings.setValue("contextName", contextName);
             this.context.load(JSON.parse(contents), success, failure);
-            
+
             this.model.setContext(this.context);
             this.controller.setContext(this.context);
             this.view.setContext(this.context);
-            this.events.setContext(this.context);  
+            this.events.setContext(this.context);
             $.fn.xmlAttr.defaults.context = this.context;
         }, (status, text) => {
             failure(status, text, contextName);
         });
+    }
+
+    lookupContext(fullpath){
+        console.log(fullpath.split("/"));
     }
 }

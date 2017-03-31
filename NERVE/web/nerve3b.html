@@ -26,7 +26,7 @@
         <script src="dialogs/js/cwrc-api.js"></script>
         <script src="dialogs/js/cD.js"></script>
         <script src="dialogs/js/app.js"></script>
-        
+
         <script src="javaScript/classes/util/customQuery.js" type="text/javascript"></script>
         <script src="javaScript/modules/utility.js" type="text/javascript"></script>
         <script src="javaScript/classes/util/response.js" type="text/javascript"></script>
@@ -96,10 +96,10 @@
                             <div class="menuItem" id="menuTag">Tag<div class="menuSC">Ctrl-E</div></div>
                             <div class="menuItem" id="menuUntag">Remove Tag<div class="menuSC">Ctrl-R</div></div>
                             <div class="menuItem" id="menuFind">Find<div class="menuSC">Ctrl-F</div></div>
-                            <div class="menuItem" id="menuDictDel">Dictionary Delete</div>
+                            <div class="menuItem" id="menuSelectLemma">Select by Lemma<div class="menuSC">Ctrl-A</div></div>
                             <div class="menuItem" id="menuMerge">Merge Entities<div class="menuSC">Ctrl-M</div></div>
                             <div class="menuItem" id="menuCopy">Copy<div class="menuSC">Ctrl-C</div></div>
-                            <div class="menuItem" id="menuPaste">Paste<div class="menuSC">Ctrl-V</div></div>                            
+                            <div class="menuItem" id="menuPaste">Paste<div class="menuSC">Ctrl-V</div></div>
                             <div class="menuItem" id="menuUndo">Undo<div class="menuSC">Ctrl-Z</div></div>
                             <div class="menuItem" id="menuRedo">Redo<div class="menuSC">Ctrl-Y</div></div>
                         </div>
@@ -117,17 +117,16 @@
             <div class="inactiveForeground" id="entityDialog">
                 <div id="dialogFade"></div>
                 <div class="entityDialogMember">Tag Name</div>
-                <select id="selectTagName"></select>
-
+                <div class="entityDialogMember"><select id="selectTagName"></select></div>
                 <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text"/></div>
-                <button id="searchDialog" type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+                <div class="entityDialogMember"><button id="searchDialog" type="button" class="btn btn-default"><i class="fa fa-search"></i></button></div>
                 <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text"/></div>
                 <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text"/></div>
 
-                <div class="entityDialogMember">
-                    <input class="entityDialogDictCB" id="cbDictionary" type="checkbox"/>
-                    <span id="dictMsg">Update To Dictionary</span>
-                    <div><select id="selectDictionary"></select></div>
+                <div id="dictionary">
+                    <button id="dictAdd"    type="button" class="btn-dict">Add to Dictionary</button>
+                    <button id="dictRemove" type="button" class="btn-dict">Remove From Dictionary</i></button>
+                    <button id="dictUpdate" type="button" class="btn-dict">Update Dictionary</button>
                 </div>
             </div>
 

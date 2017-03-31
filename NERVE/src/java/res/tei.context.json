@@ -1,0 +1,58 @@
+{
+    "name"               : "TEI",
+    "linkAttribute"      : "ref",
+    "idAttribute"        : "annotationID",
+    "lemmaAttribute"     : "key",
+    "writeToDictionary"  : "generic",
+    "readFromDictionary" : [
+        "generic",
+        "geonames"
+    ],
+    "tags" : [
+        {
+            "name"           : "orgName",
+            "dictionary"     : "ORGANIZATION",
+            "nerMap"         : "ORGANIZATION",
+            "dialog"         : "ORGANIZATION"
+        },
+        {
+            "name"           : "date",
+            "linkAttribute"  : "",
+            "idAttribute"    : "",
+            "lemmaAttribute" : "when"
+        },
+        {
+            "name"           : "placeName",
+            "dictionary"     : "PLACE",
+            "nerMap"         : "LOCATION",
+            "dialog"         : "PLACE"
+        },
+        {
+            "name"           : "persName",
+            "dictionary"     : "PERSON",
+            "nerMap"         : "PERSON",
+            "dialog"         : "PERSON"
+        },
+        {
+            "name"           : "title",
+            "dictionary"     : "TITLE",
+            "dialog"         : "TITLE"
+        }
+    ],
+    "htmlLabels" : {
+        "tagged"  : "tagged",
+        "tagName" : "tagname",
+        "lemma"   : "lemma",
+        "entity"  : "entity",
+        "taglink" : "taglink"
+    },
+    "tagNameRules" : {
+        "prefix" : "otag",
+        "attribute" : "oattr"
+    },
+    "styles" : [
+        "tei.css"
+    ],
+    "tagStyle" : "tags.css",
+    "schema" : "http://cwrc.ca/schemas/cwrc_tei_lite.rng"
+}

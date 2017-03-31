@@ -25,20 +25,61 @@ class View {
         }, false);
     }
 
+    setDictionaryButton(button){
+        Utility.log(View, "setDictionaryButton");
+        Utility.enforceTypes(arguments, String);
+
+        $("#dictionary > button").hide();
+        switch(button){
+            case "add":
+                $("#dictAdd").show();
+            break;
+            case "remove":
+                $("#dictRemove").show();
+            break;
+            case "update":
+                $("#dictUpdate").show();
+            break;
+        }
+    }
+
     scrollTo(element){
         Utility.log(View, "scrollTo");
-        Utility.enforceTypes(arguments, [Element, TaggedEntity]);
-
-        if (element instanceof TaggedEntity) element = element.element;
+//        Utility.enforceTypes(arguments, [Element]);
 
         $("#entityPanel").scrollTop(
             $(element).offset().top - $("#entityPanel").offset().top + $("#entityPanel").scrollTop() - ($("#entityPanel").height() / 2)
         );
     }
 
+    clearDialogBG(){
+        $(".entityDialogMember > input, .entityDialogMember > select").removeClass("pinkBG");
+    }
+
+    setDialogBG(item) {
+        switch (item) {
+            case "tag":
+                $("#selectTagName").addClass("pinkBG");
+                break;
+            case "text":
+                $("#txtEntity").addClass("pinkBG");
+                break;
+            case "lemma":
+                $("#txtLemma").addClass("pinkBG");
+                break;
+            case "link":
+                $("#txtLink").addClass("pinkBG");
+                break;
+        }
+    }
+
     setDialogFade(value = true){
         Utility.log(View, "setDialogFade");
         Utility.enforceTypes(arguments, Boolean);
+
+        this.clearDialogs();
+        this.clearDialogBG();
+        this.setDictionaryButton("none");
 
         if (value){
             $("#dialogFade").show();
@@ -190,8 +231,6 @@ class View {
             }
         }
 
-        this.__setDictionaries(context.readFromDictionary());
-
         return document.getElementById("selectTagName").firstChild.value;
     }
     /* add a link element to the head of the document as a style sheet.  Adds
@@ -226,43 +265,6 @@ class View {
         }
     }
 
-    __setDictionaries(dictStringArray) {
-        Utility.log(View, "__setDictionaries");
-        Utility.enforceTypes(arguments, Array);
-
-        let selectElement = document.getElementById("selectDictionary");
-        while (selectElement.firstChild) {
-            selectElement.removeChild(selectElement.firstChild);
-        }
-
-        for (var dictString of dictStringArray) {
-            let selectItemElement = document.createElement("option");
-            selectItemElement.innerHTML = dictString;
-            selectItemElement.value = dictString;
-            selectElement.appendChild(selectItemElement);
-        }
-    }
-    setDictionary(value) {
-        Utility.log(View, "setDictionary");
-        Utility.enforceTypes(arguments, String);
-
-        document.getElementById("selectDictionary").value = value;
-    }
-    enableDictionaryUpdate(value) {
-        Utility.log(View, "enableDictionaryUpdate");
-        Utility.enforceTypes(arguments, Boolean);
-
-        let ele = document.getElementById("cbDictionary");
-        if (ele.checked !== value) {
-            ele.checked = value;
-        }
-    }
-    setDictionaryMessage(message) {
-        Utility.log(View, "setDictionaryMessage");
-        Utility.enforceTypes(arguments, String);
-
-        document.getElementById("dictMsg").innerHTML = message;
-    }
     clearThrobber() {
         this.showThrobber(false);
         $("message").text("");

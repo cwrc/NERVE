@@ -12,26 +12,29 @@ class Model {
 
         this.maxStateIndex = 30;
         this.__resetState();
-        
-        if (this.settings.hasValue("document") && this.settings.hasValue("title")){
-            this.setDocument(this.settings.getValue("document"), this.settings.getValue("title"));
+
+        if (this.settings.hasValue("document") && this.settings.hasValue("filename")){
+            this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
+            $(".selected").removeClass("selected");
         }
     }
-    
+
     reset(){
         Utility.log(Model, "reset");
         Utility.enforceTypes(arguments);
         this.__resetState();
-        this.settings.setValue("document", "");
-        this.settings.setValue("title", "");
+        this.view.setDocument("");
+        this.view.setFilename("");
+        this.settings.deleteValue("document");
+        this.settings.deleteValue("filename");
     }
-    
+
     setListener(listener) {
         Utility.log(Model, "setListener");
         Utility.enforceTypes(arguments, Listeners);
         this.listener = listener;
-    }    
-    
+    }
+
     /**
      * Assign a $name = value variable that will serve as find replace when
      * loading the context.
@@ -64,10 +67,10 @@ class Model {
             }
         }
 
-        this.settings.setValue("current", "document", this.getDocument());
+        this.settings.setValue("document", this.getDocument());
         this.stateList[this.stateIndex] = this.getDocument();
     }
-    
+
     revertState() {
         Utility.log(Model, "revertState");
         Utility.enforceTypes(arguments);
@@ -77,13 +80,13 @@ class Model {
         this.stateIndex = this.stateIndex - 1;
         let document = this.stateList[this.stateIndex];
 
-        this.settings.setValue("current", "document", this.getDocument());
+        this.settings.setValue("document", this.getDocument());
         this.view.setDocument(document);
         this.listener.addTaggedEntity(".taggedentity");
 
         return true;
     }
-    
+
     advanceState() {
         Utility.log(Model, "advanceState");
         Utility.enforceTypes(arguments);
@@ -96,7 +99,7 @@ class Model {
         this.settings.setValue("current", "document", document);
         this.view.setDocument(document);
     }
-    
+
     __resetState() {
         Utility.log(Model, "__resetState");
         Utility.enforceTypes(arguments);
@@ -109,26 +112,24 @@ class Model {
         }
 
         this.stateList[0] = this.getDocument();
-
     }
-    
+
     setDocument(text, filename) {
         Utility.log(Model, "setDocument");
         Utility.enforceTypes(arguments, String, String);
-
         this.view.setDocument(text);
         this.view.setFilename(filename);
         this.settings.setValue("document", text);
         this.settings.setValue("filename", filename);
         this.__resetState();
     }
-    
+
     getFilename() {
         Utility.log(Model, "getFilename");
         Utility.enforceTypes(arguments);
         return this.settings.getValue("model", "filename", "filename");
     }
-    
+
     /**
      * Return a string representing the current document.
      * @returns {String}
@@ -137,6 +138,15 @@ class Model {
         Utility.log(Model, "getDocument");
         Utility.enforceTypes(arguments);
         return this.view.getDOMObject().innerHTML;
+    }
+
+    setEntityValues(selector, values){
+        Utility.log(Model, "setEntityValues");
+        Utility.enforceTypes(arguments, HTMLDivElement, Object);
+
+        $(selector).entityTag(values.tagName);
+        $(selector).lemma(values.lemma);
+        $(selector).link(values.link);
     }
 }
 

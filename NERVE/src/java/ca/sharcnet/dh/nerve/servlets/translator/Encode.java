@@ -11,6 +11,11 @@ import ca.sharcnet.nerve.encoder.ClassifierException;
 import ca.sharcnet.nerve.encoder.Encoder;
 import ca.fa.utility.streams.StreamUtil;
 import ca.sharcnet.nerve.context.*;
+import ca.sharcnet.nerve.docnav.dom.Attribute;
+import ca.sharcnet.nerve.docnav.dom.AttributeNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.Node.NodeType;
+import ca.sharcnet.nerve.docnav.selector.Select;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,7 +40,7 @@ public class Encode extends CustomServlet {
     protected boolean processRequest(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws ServletException, IOException, FileNotFoundException {
         try {
             JSONObject inJSON = StreamUtil.getJSON(request.getInputStream());
-            Context context = ContextLoader.load(inJSON.getString("context"));
+            Context context = ContextLoader.load(inJSON.getString("context")); /* default context sent from browser */
             String inputString = inJSON.getString("input");
             ByteArrayInputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
             InputStream cfgStream = this.getServletContext().getResourceAsStream("/WEB-INF/config.txt");
@@ -47,7 +52,35 @@ public class Encode extends CustomServlet {
             InputStream resourceAsStream = super.getServletContext().getResourceAsStream(config.getProperty("classifier"));
             assert resourceAsStream != null;
             BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(resourceAsStream));
-            encoder = new Encoder(inputStream, context, sql, new Classifier(bis));
+            Document doc = DocumentNavigator.documentFromStream(inputStream);
+
+
+            /* check document for schema to override default context */
+            Select selection = doc.select().name("xml-model");
+            Node node = selection.get(0);
+            if (node.getType() == NodeType.METADATA){
+                System.out.println(node);
+                AttributeNode aNode = (AttributeNode) node;
+                if (aNode.hasAttribute("href")){
+                    Attribute attr = aNode.getAttribute("href");
+                    String value = attr.getValue();
+
+                    if (value.contains("orlando_biography_v2.rng")){
+                        System.out.println("Loading Context " + value);
+                        context = ContextLoader.load(Encode.class.getResourceAsStream("/res/orlando.context.json"));
+                    }
+                    else if (value.contains("cwrc_entry.rng")){
+                        System.out.println("Loading Context " + value);
+                        context = ContextLoader.load(Encode.class.getResourceAsStream("/res/cwrc.context.json"));
+                    }
+                    else if (value.contains("cwrc_tei_lite.rng")){
+                        System.out.println("Loading Context " + value);
+                        context = ContextLoader.load(Encode.class.getResourceAsStream("/res/tei.context.json"));
+                    }
+                }
+            }
+
+            encoder = new Encoder(doc, context, sql, new Classifier(bis));
             resourceAsStream.close();
 
             /** add the schema **/
