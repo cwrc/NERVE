@@ -4,7 +4,6 @@ import ca.sharcnet.nerve.Constants;
 import ca.fa.utility.SQLHelper;
 import ca.fa.utility.collections.SimpleCollection;
 import ca.sharcnet.nerve.context.*;
-import ca.sharcnet.nerve.decode.Decoder;
 import static ca.sharcnet.nerve.encoder.Encoder.TRACES.*;
 import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
@@ -15,8 +14,6 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.logging.Logger;
-import static java.util.logging.Logger.getLogger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +23,7 @@ public class Encoder {
     public enum TRACES {
         METHOD, EXCEPTION, DEBUG, SQL, PRINT_FINAL, BRANCH
     };
-    public static final TRACES[] activeTraces = {};
+    public static final TRACES[] activeTraces = {DEBUG};
 
     public static final void trace(TRACES type, String text) {
         if (Arrays.asList(activeTraces).contains(type)) {
@@ -260,134 +257,6 @@ public class Encoder {
         child.replaceWith(newNodes);
     }
 
-    private void lookupLemma(ElementNode node) throws SQLException {
-        trace(METHOD, "lookupLemma(ElementNode)");
-        if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
-
-        if (context.getExcludedTags().contains(node.getName())) {
-            trace(BRANCH, " - context.getExcludedTags().contains(node.getName())");
-
-            return;
-        } else if (context.isRecognizedTagName(node.getName())) {
-            trace(BRANCH, " - context.isRecognizedTagName(node.getName())");
-
-            /* if node has lemma attribute and overwrite lemma not selected, then exit */
-            String lemmaAttribute = context.getTagInfo(node.getName()).getLemmaAttribute();
-            if (lemmaAttribute.isEmpty()) {
-                trace(BRANCH, " - lemmaAttribute.isEmpty()");
-
-                return;
-            }
-            if (!parameters.contains(Parameter.OVERWRITE_LEMMA) && node.hasAttribute(lemmaAttribute)) {
-                trace(BRANCH, " - !parameters.contains(Parameter.OVERWRITE_LEMMA) && node.hasAttribute(lemmaAttribute)");
-
-                return;
-            }
-
-            String innerText = SQLHelper.sanitize(node.innerText());
-            String nodeName = SQLHelper.sanitize(node.getName());
-
-            String dictionaries = context.readFromDictionarySQLString();
-            if (!dictionaries.isEmpty()) dictionaries = " and (" + dictionaries + ")";
-
-            String query = "select * from dictionary";
-            query += " where entity = \"" + innerText + "\"";
-            query += " and tag = \"" + nodeName + "\"";
-            query += dictionaries;
-
-            trace(SQL, query);
-
-            JSONArray matchedEntities = sql.queryToJSONArray(query);
-            if (matchedEntities.length() == 0) return;
-            JSONObject jsonObject = matchedEntities.getJSONObject(0);
-            String attrValue = jsonObject.getString("lemma");
-            String attrName = context.getTagInfo(node.getName()).getLemmaAttribute();
-            node.addAttribute(new Attribute(attrName, attrValue));
-        } else {
-            NodeList<Node> childNodes = node.childNodes();
-            childNodes.removeIf(n -> n.getType() != NodeType.ELEMENT);
-            for (Node child : childNodes) {
-                lookupLemma((ElementNode) child);
-            }
-        }
-    }
-
-    private void addUID(ElementNode node) throws SQLException {
-        trace(METHOD, "addUID(ElementNode)");
-        if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
-
-        if (context.isTagName(node.getName())) {
-            trace(BRANCH, " - context.isRecognizedTagName(node.getName())");
-
-            String idAttrName = context.getTagInfo(node.getName()).getIDAttribute();
-            if (idAttrName.isEmpty()) return;
-            if (node.hasAttribute(idAttrName)) return;
-            String attrValue = this.getUniqueID(idAttrName);
-            node.addAttribute(new Attribute(idAttrName, attrValue));
-        } else {
-            NodeList<Node> childNodes = node.childNodes();
-            childNodes.removeIf(n -> n.getType() != NodeType.ELEMENT);
-            for (Node child : childNodes) {
-                addUID((ElementNode) child);
-            }
-        }
-    }
-
-    /* TODO double check the logic on this */
-    private void lookupLink(ElementNode node) throws SQLException {
-        trace(METHOD, "lookupLink(ElementNode)");
-        if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
-
-        if (context.getExcludedTags().contains(node.getName())) {
-            trace(BRANCH, " - context.getExcludedTags().contains(node.getName())");
-
-            return;
-        } else if (context.isRecognizedTagName(node.getName())) {
-            trace(BRANCH, " - context.isRecognizedTagName(node.getName())");
-
-            /* if node has lemma attribute and overwrite lemma not selected, then exit */
-            String linkAttr = context.getTagInfo(node.getName()).getLinkAttribute();
-            if (linkAttr.isEmpty()) {
-                trace(BRANCH, " - linkAttr.isEmpty()");
-
-                return;
-            }
-            if (!parameters.contains(Parameter.OVERWRITE_LINK) && node.hasAttribute(linkAttr)) {
-                trace(BRANCH, " - !parameters.contains(Parameter.OVERWRITE_LINK) && node.hasAttribute(linkAttr)");
-
-                return;
-            }
-
-            String innerText = SQLHelper.sanitize(node.innerText());
-            String nodeName = SQLHelper.sanitize(node.getName());
-
-            String dictionaries = context.readFromDictionarySQLString();
-            if (!dictionaries.isEmpty()) dictionaries = " and (" + dictionaries + ")";
-
-            String query = "select * from dictionary";
-            query += " where entity = \"" + innerText + "\"";
-            query += " and tag = \"" + nodeName + "\"";
-            query += dictionaries;
-
-            trace(SQL, query);
-
-            JSONArray matchedEntities = sql.queryToJSONArray(query);
-
-            if (matchedEntities.length() == 0) return;
-
-            JSONObject jsonObject = matchedEntities.getJSONObject(0);
-            String attrValue = jsonObject.getString("link");
-            String attrName = context.getTagInfo(node.getName()).getLinkAttribute();
-            node.addAttribute(new Attribute(attrName, attrValue));
-        } else {
-            NodeList<Node> childNodes = node.childNodes();
-            childNodes.removeIf(n -> n.getType() != NodeType.ELEMENT);
-            for (Node child : childNodes) {
-                lookupLink((ElementNode) child);
-            }
-        }
-    }
-
     /**
      * @param node the node to wrap
      * @param allowEntities if false wrap all child tags as if they are
@@ -404,15 +273,14 @@ public class Encoder {
         if (node.getType() != NodeType.ELEMENT && node.getType() != NodeType.METADATA) return;
         AttributeNode attrNode = (AttributeNode) node;
 
-
         JSONObject jsonObj = new JSONObject();
         for (Attribute attr : attrNode.getAttributes()) {
-            jsonObj.put(attr.getKey(), attr.getValue());
+            if (!attr.getKey().equals("data-dictionary")){
+                jsonObj.put(attr.getKey(), attr.getValue());
+                attrNode.removeAttribute(attr.getKey());
+            }
         }
-        attrNode.clearAttributes();
 
-        trace(DEBUG, "node.getName() : " + node.getName());
-        trace(DEBUG, "context.isTagName(node.getName() : " + context.isTagName(node.getName()));
         if (node.getType() == NodeType.METADATA) {
             attrNode = (AttributeNode) attrNode.replaceWith(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
             attrNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
@@ -429,16 +297,6 @@ public class Encoder {
         attrNode.addAttribute(Constants.XML_ATTR_LIST, jsonObj.toString());
         attrNode.addAttribute(Constants.ORIGINAL_TAGNAME_ATTR, node.getName());
         attrNode.setName(Constants.HTML_TAGNAME);
-    }
-
-    private String getUniqueID(String idAttrName) {
-        trace(METHOD, "getUniqueID(TString)");
-        int value = (int) (Math.random() * 100000);
-
-        while (!document.getNodesByAttribute(idAttrName, "NV" + value).isEmpty()) {
-            value = (int) (Math.random() % 100000);
-        }
-        return "NV" + value;
     }
 
     private void processNER(ElementNode node) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
@@ -483,7 +341,7 @@ public class Encoder {
                 }
 
                 /* Go through the nodes in the node list and change the names */
- /* from dicionary to context taginfo name.                    */
+                /* from dicionary to context taginfo name.                    */
                 for (Node nerNode : nerList) {
                     if (nerNode.getType() == NodeType.ELEMENT) {
                         trace(BRANCH, " - nerNode.getType() == NodeType.ELEMENT)");
@@ -502,24 +360,34 @@ public class Encoder {
 
     private NodeList<Node> applyNamedEntityRecognizer(String text) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         trace(METHOD, "applyNamedEntityRecognizer(...)");
-        String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
+
         /* at least one alphabet character upper or lower case */
+        String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
 
+        /* if there is not at least one alphabet character, retuern an empty list */
         if (text == null || text.isEmpty() || !text.matches(matchRegex)) return new NodeList<>();
+
+        /* classify the text and put it in a fragment tag */
         text = classifier.classify("<fragment>" + text + "</fragment>");
-
         if (text.isEmpty()) return new NodeList<>();
+
+        /* create a document out of the text */
         Document localDoc = DocumentNavigator.documentFromString(text);
+        NodeList<ElementNode> nodes = localDoc.getElementsByName("*");
 
-        NodeList<ElementNode> nodes = localDoc.getNodesByType(NodeType.ELEMENT).<ElementNode>asListType();
+        /* for each node in the document (from above) if it's an NER node     */
+        /* change it's tagname to a valid tag name occording to the contxt    */
+        /* and set it's lemma if it doens't already have one                  */
         for (ElementNode node : nodes) {
-            if (context.isRecognizedTagName(node.getName())) {
+            if (context.isNERMapTagName(node.getName())) {
                 trace(BRANCH, " - context.isRecognizedTagName(node.getName()))");
-
                 TagInfo tagInfo = context.getTagInfo(node.getName());
                 node.setName(tagInfo.getName());
-            } else {
-                /* should unwrap node here */
+                trace(DEBUG, tagInfo.toString());
+                trace(DEBUG, "add ner lemma attr '" + tagInfo.getLemmaAttribute() + "' '" + node.innerText() + "'");
+                if (!tagInfo.getLemmaAttribute().isEmpty()){
+                    node.addAttribute(new Attribute(tagInfo.getLemmaAttribute(), node.innerText()));
+                }
             }
         }
 
