@@ -1,36 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="17">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="21">
         <file>
             <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
-            <bookmark id="14">
+            <bookmark id="19">
                 <name/>
-                <line>92</line>
+                <line>133</line>
                 <key/>
             </bookmark>
-            <bookmark id="12">
+            <bookmark id="20">
                 <name/>
-                <line>253</line>
+                <line>384</line>
                 <key/>
             </bookmark>
-            <bookmark id="15">
+            <bookmark id="21">
                 <name/>
-                <line>433</line>
-                <key/>
-            </bookmark>
-            <bookmark id="17">
-                <name/>
-                <line>453</line>
-                <key/>
-            </bookmark>
-            <bookmark id="11">
-                <name/>
-                <line>559</line>
-                <key/>
-            </bookmark>
-            <bookmark id="13">
-                <name/>
-                <line>598</line>
+                <line>387</line>
                 <key/>
             </bookmark>
         </file>
@@ -61,6 +46,9 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Main.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/resources/config.txt</file>
+        </group>
+        <group name="Frontier Web App">
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
         </group>
     </open-files>
 </project-private>

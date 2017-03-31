@@ -1,11 +1,7 @@
 package ca.sharcnet.nerve.context;
-import java.util.ArrayList;
-import java.util.Collection;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class TagInfo {
-
     private String linkAttribute;
     private String idAttribute;
     private boolean caseSensative = false;
@@ -28,6 +24,20 @@ public class TagInfo {
         if (json.has("dictionary")) {
             this.dictionaryName = json.getString("dictionary");
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append("TagInfo\n");
+        builder.append("- linkAttribute: ").append(linkAttribute).append("\n");
+        builder.append("- idAttribute: ").append(idAttribute).append("\n");
+        builder.append("- caseSensative: ").append(caseSensative).append("\n");
+        builder.append("- name: ").append(name).append("\n");
+        builder.append("- lemmaAttribute: ").append(lemmaAttribute).append("\n");
+        builder.append("- dictionaryName: ").append(dictionaryName).append("\n");
+        builder.append("- nerMap: ").append(nerMap).append("\n");
+        return builder.toString();
     }
 
     public boolean isNerMap(String string) {
