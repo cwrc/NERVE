@@ -50,13 +50,8 @@
         "entity"  : "entity",
         "taglink" : "taglink"
     },
-    "tagNameRules" : {
-        "prefix" : "otag",
-        "attribute" : "oattr"
-    },
     "styles" : [
         "playwrights.css"
     ],
-    "tagStyle" : "tags.css",
     "schema" : "http://cwrc.ca/schemas/cwrc_entry.rng"
 }

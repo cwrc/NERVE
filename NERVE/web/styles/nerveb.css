@@ -217,12 +217,20 @@ body{
     width: 100%;
 }
 
+#sourceDictionary{
+    text-overflow: ellipsis;
+    position: absolute;
+    left: 5%;
+    top: 25px;
+}
+
 #dictionary > button{
     position: absolute;
     display: none;
     width: 90%;
     left: 5%;
     top: 0px;
+    text-overflow: ellipsis;
 }
 
 #fullname{

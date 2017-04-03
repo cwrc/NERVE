@@ -191,9 +191,20 @@ class Controller {
     }
 
     dictAdd(){
+        Utility.log(Controller, "dictAdd");
+        Utility.enforceTypes(arguments);
+        if (this.selected.isEmpty()) return;
+        this.dictionary.addEntity(this.selected.getLast());
+        this.view.setDictionary("custom");
+        this.view.setDictionaryButton("remove");
     }
 
     dictRemove(){
+        Utility.log(Controller, "dictRemove");
+        Utility.enforceTypes(arguments);
+        if (this.selected.isEmpty()) return;
+        this.dictionary.removeEntity(this.selected.getLast());
+        this.pollDictionary(this.selected.getLast());
     }
 
     dictUpdate(){
@@ -211,6 +222,18 @@ class Controller {
         return new Response(true, `Entity data copied`);
     }
 
+    setSelected(taggedEntity) {
+        Utility.log(Controller, "setSelected");
+        Utility.enforceTypes(arguments, HTMLDivElement);
+
+        this.selected.$().removeClass("selected");
+        this.selected.clear();
+        this.selected.add(taggedEntity);
+        $(taggedEntity).addClass("selected");
+        this.view.setDialogFade(false);
+        this.setDialogs(taggedEntity, 0);
+    }
+
     addSelected(taggedEntity) {
         Utility.log(Controller, "addSelected");
         Utility.enforceTypes(arguments, HTMLDivElement);
@@ -219,7 +242,6 @@ class Controller {
         $(taggedEntity).addClass("selected");
         this.view.setDialogFade(false);
         this.setDialogs(taggedEntity, 0);
-        this.pollDictionary(taggedEntity);
     }
 
     toggleSelect(taggedEntity) {
@@ -262,8 +284,8 @@ class Controller {
         else if (!this.selected.isEmpty()){
             console.log("b");
             let last = this.selected.getLast();
-            this.view.setFindText(last.getEntity());
-            this.search(last.getEntity(), "next");
+            this.view.setFindText($(last).text());
+            this.search($(last).text(), "next");
         } else {
             this.view.setFindText("");
         }
@@ -278,19 +300,6 @@ class Controller {
         this.copiedInfo = this.view.getDialogs();
     }
 
-    clearDialogs() {
-        Utility.log(Controller, "clearDialogs");
-        Utility.enforceTypes(arguments);
-
-        this.view.clearDialogs();
-
-        this.setDictionary(this.context.writeToDictionary());
-        this.view.setDictionary(this.context.writeToDictionary());
-
-        this.__enableDictionaryUpdate(false);
-        this.view.setDictionaryMessage(" -------------------- ");
-    }
-
     setDialogs(taggedEntity, delay) {
         Utility.log(Controller, "setDialogs");
         Utility.enforceTypes(arguments, HTMLDivElement, ["optional", Number]);
@@ -301,8 +310,10 @@ class Controller {
         this.pollDialogs();
     }
 
+    /* check the dialogs and see if they match all the entities selected,     */
+    /* update view accordingly.                                               */
     pollDialogs(){
-        Utility.log(Controller, "setDialogs");
+        Utility.log(Controller, "pollDialogs");
         Utility.enforceTypes(arguments);
 
         let flagLemma = true;
@@ -454,18 +465,32 @@ class Controller {
         Utility.enforceTypes(arguments, HTMLDivElement);
         this.view.setDictionaryButton("none");
         $(entity).removeAttr("data-dictionary");
+        this.view.setDictionary("");
 
         this.dictionary.getEntities(entity, (rows) => {
-            if (rows.length === 0){
+            if (rows.length === 0) {
                 this.view.setDictionaryButton("add");
-            }
-            else {
+            } else {
                 let dictTag = this.context.getTagInfo($(entity).entityTag()).dictionary;
-                for (let row of rows){
-                    if (row.lemma === $(entity).lemma() && row.link === $(entity).link() && row.tag === dictTag){
+                for (let row of rows) {
+                    if (row.lemma === $(entity).lemma() && row.link === $(entity).link() && row.tag === dictTag) {
                         $(entity).attr("data-dictionary", row.collection);
                         if (row.collection === "custom") break;
                     }
+                }
+
+                if (typeof $(entity).attr("data-dictionary") === "undefined") {
+                    this.view.setDictionaryButton("add");
+                    for (let row of rows) {
+                        if (row.collection === "custom"){
+                            this.view.setDictionaryButton("update");
+                            break;
+                        }
+                    }
+                } else {
+                    this.view.setDictionary($(entity).attr("data-dictionary"));
+                    if ($(entity).attr("data-dictionary") !== "custom") this.view.setDictionaryButton("add");
+                    else this.view.setDictionaryButton("remove");
                 }
             }
         });

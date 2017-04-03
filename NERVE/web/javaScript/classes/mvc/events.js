@@ -46,7 +46,6 @@ class Events {
 
         if (!event.ctrlKey) {
             this.controller.unselectAll();
-            this.controller.clearDialogs();
         }
 
         this.controller.find();
@@ -89,7 +88,6 @@ class Events {
 
         if (!event.ctrlKey) {
             this.controller.unselectAll();
-            this.controller.clearDialogs();
         }
 
         event.stopPropagation();
@@ -108,10 +106,10 @@ class Events {
         let settings = new Storage();
 
         if (value === true){
-            this.view.attachStyle(this.context.getTagStyle());
+            this.view.attachStyle("tags.css");
             settings.setValue("tags", "show", "true");
         } else {
-            this.view.detachStyle(this.context.getTagStyle());
+            this.view.detachStyle("tags.css");
             settings.setValue("tags", "show", "false");
         }
     }
@@ -298,11 +296,8 @@ class Events {
             console.log(taggedEntity);
             event.stopPropagation();
         } else {
-            if (this.clearConsole)
-                console.clear();
             if (!event.ctrlKey && !event.metaKey) {
-                this.controller.unselectAll();
-                this.controller.addSelected(taggedEntity);
+                this.controller.setSelected(taggedEntity);
             } else {
                 this.controller.toggleSelect(taggedEntity);
             }

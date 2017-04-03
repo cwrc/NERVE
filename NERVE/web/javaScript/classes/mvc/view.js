@@ -9,6 +9,7 @@ class View {
         this.delayThrobber = null;
         this.serverIP = serverIP;
         this.throbberMessageStack = [];
+        this.lastFade = true;
 
         this.usrMsgHnd = new UserMessageHandler();
         this.usrMsgHnd.setContainer(document.getElementById("userMessage"));
@@ -23,6 +24,12 @@ class View {
         panel.addEventListener("mouseout", (event) => {
             panel.className = "messagePanelSmall";
         }, false);
+    }
+
+    setDictionary(source){
+        Utility.log(View, "setDictionary");
+        Utility.enforceTypes(arguments, String);
+        $("#sourceDictionary").text("Source: " + source);
     }
 
     setDictionaryButton(button){
@@ -53,10 +60,13 @@ class View {
     }
 
     clearDialogBG(){
+        Utility.log(View, "clearDialogBG");
         $(".entityDialogMember > input, .entityDialogMember > select").removeClass("pinkBG");
     }
 
     setDialogBG(item) {
+        Utility.log(View, "setDialogBG");
+
         switch (item) {
             case "tag":
                 $("#selectTagName").addClass("pinkBG");
@@ -77,13 +87,12 @@ class View {
         Utility.log(View, "setDialogFade");
         Utility.enforceTypes(arguments, Boolean);
 
-        this.clearDialogs();
-        this.clearDialogBG();
-        this.setDictionaryButton("none");
-
         if (value){
             $("#dialogFade").show();
             $("#entityDialog").addClass("inactiveForeground");
+            this.clearDialogs();
+            this.clearDialogBG();
+            this.setDictionaryButton("none");
         }
         else{
             $("#dialogFade").hide();

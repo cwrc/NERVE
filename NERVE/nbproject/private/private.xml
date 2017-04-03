@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="123">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="129">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="123">
                 <name/>
-                <line>49</line>
+                <line>164</line>
                 <key/>
             </bookmark>
             <bookmark id="121">
                 <name/>
-                <line>70</line>
+                <line>203</line>
+                <key/>
+            </bookmark>
+            <bookmark id="127">
+                <name/>
+                <line>213</line>
                 <key/>
             </bookmark>
             <bookmark id="122">
                 <name/>
-                <line>185</line>
+                <line>289</line>
+                <key/>
+            </bookmark>
+            <bookmark id="125">
+                <name/>
+                <line>298</line>
+                <key/>
+            </bookmark>
+            <bookmark id="128">
+                <name/>
+                <line>451</line>
+                <key/>
+            </bookmark>
+            <bookmark id="124">
+                <name/>
+                <line>607</line>
                 <key/>
             </bookmark>
         </file>
@@ -54,6 +74,11 @@
                 <line>0</line>
                 <key/>
             </bookmark>
+            <bookmark id="129">
+                <name/>
+                <line>42</line>
+                <key/>
+            </bookmark>
         </file>
         <file>
             <url>web/javaScript/classes/search/searchCollection.js</url>
@@ -82,17 +107,17 @@
             </bookmark>
             <bookmark id="57">
                 <name/>
-                <line>54</line>
+                <line>55</line>
                 <key/>
             </bookmark>
             <bookmark id="75">
                 <name/>
-                <line>153</line>
+                <line>162</line>
                 <key/>
             </bookmark>
             <bookmark id="95">
                 <name/>
-                <line>164</line>
+                <line>167</line>
                 <key/>
             </bookmark>
         </file>
@@ -134,17 +159,17 @@
             <url>web/javaScript/classes/mvc/view.js</url>
             <bookmark id="104">
                 <name/>
-                <line>53</line>
+                <line>94</line>
                 <key/>
             </bookmark>
             <bookmark id="100">
                 <name/>
-                <line>223</line>
+                <line>262</line>
                 <key/>
             </bookmark>
             <bookmark id="101">
                 <name/>
-                <line>223</line>
+                <line>262</line>
                 <key/>
             </bookmark>
         </file>
@@ -182,10 +207,11 @@
         <group/>
         <group name="Frontier Web App">
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/util/customQuery.js</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/mvc/events.js</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/mvc/listeners.js</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/mvc/controller.js</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/collection/collection.js</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/mvc/context.js</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/mvc/model.js</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/nerve3b.html</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/classes/mvc/view.js</file>
         </group>
     </open-files>

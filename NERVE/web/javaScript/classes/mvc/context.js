@@ -223,12 +223,4 @@ class Context {
         }
         return false;
     }
-    getTagStyle(){
-        Utility.log(Context, "getTagStyle");
-        Utility.enforceTypes(arguments);
-        if (typeof this.dataObject.tagStyle === undefined || this.dataObject.tagStyle === null) {
-            return [];
-        }
-        return this.dataObject.tagStyle;
-    }
 }

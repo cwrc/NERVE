@@ -9,15 +9,3 @@
     content: "</" attr(xmltagname) ">";
     font-size: small;
 }
-
-/*.xmltag:hover:before{
-    content: "<" attr(xmltagname) ">";
-    color: red;
-    font-size: small;
-}
-
-.xmltag:hover:after{
-    content: "</" attr(xmltagname) ">";
-    color: red;
-    font-size: small;
-}*/
