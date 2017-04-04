@@ -78,7 +78,8 @@ miscList returns [NodeList nodes = new NodeList();]
     ;
 
 misc
-    : DTD       {$miscList::nodes.add(new MetaDataNode($DTD.text));}
+    : INSTR     {$miscList::nodes.add(new InstructionNode($INSTR.text));}
+    | DOCTYPE   {$miscList::nodes.add(new DoctypeNode($DOCTYPE.text));}
     | SEA_WS    {$miscList::nodes.add(new TextNode($SEA_WS.text));}
     | COMMENT   {$miscList::nodes.add(new CommentNode($COMMENT.text));}
     ;

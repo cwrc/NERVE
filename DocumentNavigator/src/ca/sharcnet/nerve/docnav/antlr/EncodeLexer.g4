@@ -13,7 +13,10 @@ lexer grammar EncodeLexer;
 COMMENT     :   '<!--' (COMMENT|.)*? '-->'
             ;
 
-DTD         :   ('<!' | '<?') (DTD|.)*? '>'
+INSTR       :   ('<?') (INSTR|.)*? '>'
+            ;
+
+DOCTYPE     :   ('<!') (DOCTYPE|.)*? '>'
             ;
 
 EntityRef   :   '&' Name ';'

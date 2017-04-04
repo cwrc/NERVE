@@ -4,10 +4,10 @@ package ca.sharcnet.nerve.docnav.dom;
  * immutable base class from which all other nodes are derived
  */
 public class Node {
-
     public enum NodeType {
-        DOCUMENT, TEXT, ELEMENT, COMMENT, METADATA
+        DOCUMENT, TEXT, ELEMENT, COMMENT, INSTRUCTION, DOCTYPE
     };
+
     private final NodeType type;
     private final String innerText;
     private ElementNode parent;
@@ -27,8 +27,8 @@ public class Node {
         }
         this.name = name;
         return this;
-    }    
-    
+    }
+
     Node(NodeType type, String innerText, String name, ElementNode parent) {
         if (name == null) throw new NullPointerException();
         this.type = type;
@@ -140,7 +140,7 @@ public class Node {
         NodeList<Node> children = parent.childNodes();
         int i = children.indexOf(this);
         parent.removeChild(this);
-        return parent.addChild(i, newNode);
+        return parent.addChildCopy(i, newNode);
     }
 
     /**
@@ -156,7 +156,7 @@ public class Node {
         parent.removeChild(this);
 
         for (Node newNode : list) {
-            parent.addChild(i, newNode.copy(parent));
+            parent.addChildCopy(i, newNode.copy(parent));
             i++;
         }
     }

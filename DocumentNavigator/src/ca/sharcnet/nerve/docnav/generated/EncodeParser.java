@@ -1,4 +1,4 @@
-// Generated from D:/Dropbox/Projects/groups/autoTagger/nerve-core/DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.5.3
+// Generated from D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.5.3
 
     package ca.sharcnet.nerve.docnav.generated;
     import ca.sharcnet.nerve.docnav.dom.*;
@@ -21,9 +21,9 @@ public class EncodeParser extends AbstractParser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		COMMENT=1, DTD=2, EntityRef=3, CharRef=4, SEA_WS=5, OPEN=6, TEXT=7, CATCHALL1=8, 
-		CLOSE=9, SLASH_CLOSE=10, SLASH=11, EQUALS=12, STRING=13, Name=14, S=15, 
-		CATCHALL2=16;
+		COMMENT=1, INSTR=2, DOCTYPE=3, EntityRef=4, CharRef=5, SEA_WS=6, OPEN=7, 
+		TEXT=8, CATCHALL1=9, CLOSE=10, SLASH_CLOSE=11, SLASH=12, EQUALS=13, STRING=14, 
+		Name=15, S=16, CATCHALL2=17;
 	public static final int
 		RULE_start = 0, RULE_contents = 1, RULE_content = 2, RULE_element = 3, 
 		RULE_startTag = 4, RULE_endTag = 5, RULE_reference = 6, RULE_attributes = 7, 
@@ -34,13 +34,13 @@ public class EncodeParser extends AbstractParser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, null, null, null, null, null, "'<'", null, null, "'>'", "'/>'", 
+		null, null, null, null, null, null, null, "'<'", null, null, "'>'", "'/>'", 
 		"'/'", "'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "COMMENT", "DTD", "EntityRef", "CharRef", "SEA_WS", "OPEN", "TEXT", 
-		"CATCHALL1", "CLOSE", "SLASH_CLOSE", "SLASH", "EQUALS", "STRING", "Name", 
-		"S", "CATCHALL2"
+		null, "COMMENT", "INSTR", "DOCTYPE", "EntityRef", "CharRef", "SEA_WS", 
+		"OPEN", "TEXT", "CATCHALL1", "CLOSE", "SLASH_CLOSE", "SLASH", "EQUALS", 
+		"STRING", "Name", "S", "CATCHALL2"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -743,7 +743,7 @@ public class EncodeParser extends AbstractParser {
 			setState(98);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT) | (1L << DTD) | (1L << SEA_WS))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT) | (1L << INSTR) | (1L << DOCTYPE) | (1L << SEA_WS))) != 0)) {
 				{
 				{
 				setState(95);
@@ -768,10 +768,12 @@ public class EncodeParser extends AbstractParser {
 	}
 
 	public static class MiscContext extends ParserRuleContext {
-		public Token DTD;
+		public Token INSTR;
+		public Token DOCTYPE;
 		public Token SEA_WS;
 		public Token COMMENT;
-		public TerminalNode DTD() { return getToken(EncodeParser.DTD, 0); }
+		public TerminalNode INSTR() { return getToken(EncodeParser.INSTR, 0); }
+		public TerminalNode DOCTYPE() { return getToken(EncodeParser.DOCTYPE, 0); }
 		public TerminalNode SEA_WS() { return getToken(EncodeParser.SEA_WS, 0); }
 		public TerminalNode COMMENT() { return getToken(EncodeParser.COMMENT, 0); }
 		public MiscContext(ParserRuleContext parent, int invokingState) {
@@ -792,28 +794,36 @@ public class EncodeParser extends AbstractParser {
 		MiscContext _localctx = new MiscContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_misc);
 		try {
-			setState(107);
+			setState(109);
 			switch (_input.LA(1)) {
-			case DTD:
+			case INSTR:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(101);
-				((MiscContext)_localctx).DTD = match(DTD);
-				((MiscListContext)getInvokingContext(10)).nodes.add(new MetaDataNode((((MiscContext)_localctx).DTD!=null?((MiscContext)_localctx).DTD.getText():null)));
+				((MiscContext)_localctx).INSTR = match(INSTR);
+				((MiscListContext)getInvokingContext(10)).nodes.add(new InstructionNode((((MiscContext)_localctx).INSTR!=null?((MiscContext)_localctx).INSTR.getText():null)));
 				}
 				break;
-			case SEA_WS:
+			case DOCTYPE:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(103);
+				((MiscContext)_localctx).DOCTYPE = match(DOCTYPE);
+				((MiscListContext)getInvokingContext(10)).nodes.add(new DoctypeNode((((MiscContext)_localctx).DOCTYPE!=null?((MiscContext)_localctx).DOCTYPE.getText():null)));
+				}
+				break;
+			case SEA_WS:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(105);
 				((MiscContext)_localctx).SEA_WS = match(SEA_WS);
 				((MiscListContext)getInvokingContext(10)).nodes.add(new TextNode((((MiscContext)_localctx).SEA_WS!=null?((MiscContext)_localctx).SEA_WS.getText():null)));
 				}
 				break;
 			case COMMENT:
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(105);
+				setState(107);
 				((MiscContext)_localctx).COMMENT = match(COMMENT);
 				((MiscListContext)getInvokingContext(10)).nodes.add(new CommentNode((((MiscContext)_localctx).COMMENT!=null?((MiscContext)_localctx).COMMENT.getText():null)));
 				}
@@ -834,32 +844,33 @@ public class EncodeParser extends AbstractParser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\22p\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\23r\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\4\r\t\r\3\2\3\2\3\2\3\2\3\2\3\3\7\3!\n\3\f\3\16\3$\13\3\3\4\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\61\n\4\3\5\3\5\3\5\3\5\3\5\3"+
 		"\5\3\5\3\5\3\5\3\5\3\5\5\5>\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3"+
 		"\7\3\7\3\7\3\b\3\b\3\b\3\b\5\bP\n\b\3\t\7\tS\n\t\f\t\16\tV\13\t\3\n\3"+
 		"\n\3\n\3\n\3\n\3\13\6\13^\n\13\r\13\16\13_\3\f\7\fc\n\f\f\f\16\ff\13\f"+
-		"\3\r\3\r\3\r\3\r\3\r\3\r\5\rn\n\r\3\r\2\2\16\2\4\6\b\n\f\16\20\22\24\26"+
-		"\30\2\3\4\2\7\7\t\tn\2\32\3\2\2\2\4\"\3\2\2\2\6\60\3\2\2\2\b=\3\2\2\2"+
-		"\n?\3\2\2\2\fE\3\2\2\2\16O\3\2\2\2\20T\3\2\2\2\22W\3\2\2\2\24]\3\2\2\2"+
-		"\26d\3\2\2\2\30m\3\2\2\2\32\33\5\26\f\2\33\34\5\b\5\2\34\35\5\26\f\2\35"+
-		"\36\b\2\1\2\36\3\3\2\2\2\37!\5\6\4\2 \37\3\2\2\2!$\3\2\2\2\" \3\2\2\2"+
-		"\"#\3\2\2\2#\5\3\2\2\2$\"\3\2\2\2%&\5\24\13\2&\'\b\4\1\2\'\61\3\2\2\2"+
-		"()\5\b\5\2)*\b\4\1\2*\61\3\2\2\2+,\5\16\b\2,-\b\4\1\2-\61\3\2\2\2./\7"+
-		"\3\2\2/\61\b\4\1\2\60%\3\2\2\2\60(\3\2\2\2\60+\3\2\2\2\60.\3\2\2\2\61"+
-		"\7\3\2\2\2\62\63\5\n\6\2\63\64\5\4\3\2\64\65\5\f\7\2\65\66\b\5\1\2\66"+
-		">\3\2\2\2\678\7\b\2\289\7\20\2\29:\5\20\t\2:;\7\f\2\2;<\b\5\1\2<>\3\2"+
-		"\2\2=\62\3\2\2\2=\67\3\2\2\2>\t\3\2\2\2?@\7\b\2\2@A\7\20\2\2AB\5\20\t"+
-		"\2BC\7\13\2\2CD\b\6\1\2D\13\3\2\2\2EF\7\b\2\2FG\7\r\2\2GH\7\20\2\2HI\7"+
-		"\13\2\2IJ\b\7\1\2J\r\3\2\2\2KL\7\5\2\2LP\b\b\1\2MN\7\6\2\2NP\b\b\1\2O"+
-		"K\3\2\2\2OM\3\2\2\2P\17\3\2\2\2QS\5\22\n\2RQ\3\2\2\2SV\3\2\2\2TR\3\2\2"+
-		"\2TU\3\2\2\2U\21\3\2\2\2VT\3\2\2\2WX\7\20\2\2XY\7\16\2\2YZ\7\17\2\2Z["+
-		"\b\n\1\2[\23\3\2\2\2\\^\t\2\2\2]\\\3\2\2\2^_\3\2\2\2_]\3\2\2\2_`\3\2\2"+
-		"\2`\25\3\2\2\2ac\5\30\r\2ba\3\2\2\2cf\3\2\2\2db\3\2\2\2de\3\2\2\2e\27"+
-		"\3\2\2\2fd\3\2\2\2gh\7\4\2\2hn\b\r\1\2ij\7\7\2\2jn\b\r\1\2kl\7\3\2\2l"+
-		"n\b\r\1\2mg\3\2\2\2mi\3\2\2\2mk\3\2\2\2n\31\3\2\2\2\n\"\60=OT_dm";
+		"\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\rp\n\r\3\r\2\2\16\2\4\6\b\n\f\16\20"+
+		"\22\24\26\30\2\3\4\2\b\b\n\nq\2\32\3\2\2\2\4\"\3\2\2\2\6\60\3\2\2\2\b"+
+		"=\3\2\2\2\n?\3\2\2\2\fE\3\2\2\2\16O\3\2\2\2\20T\3\2\2\2\22W\3\2\2\2\24"+
+		"]\3\2\2\2\26d\3\2\2\2\30o\3\2\2\2\32\33\5\26\f\2\33\34\5\b\5\2\34\35\5"+
+		"\26\f\2\35\36\b\2\1\2\36\3\3\2\2\2\37!\5\6\4\2 \37\3\2\2\2!$\3\2\2\2\""+
+		" \3\2\2\2\"#\3\2\2\2#\5\3\2\2\2$\"\3\2\2\2%&\5\24\13\2&\'\b\4\1\2\'\61"+
+		"\3\2\2\2()\5\b\5\2)*\b\4\1\2*\61\3\2\2\2+,\5\16\b\2,-\b\4\1\2-\61\3\2"+
+		"\2\2./\7\3\2\2/\61\b\4\1\2\60%\3\2\2\2\60(\3\2\2\2\60+\3\2\2\2\60.\3\2"+
+		"\2\2\61\7\3\2\2\2\62\63\5\n\6\2\63\64\5\4\3\2\64\65\5\f\7\2\65\66\b\5"+
+		"\1\2\66>\3\2\2\2\678\7\t\2\289\7\21\2\29:\5\20\t\2:;\7\r\2\2;<\b\5\1\2"+
+		"<>\3\2\2\2=\62\3\2\2\2=\67\3\2\2\2>\t\3\2\2\2?@\7\t\2\2@A\7\21\2\2AB\5"+
+		"\20\t\2BC\7\f\2\2CD\b\6\1\2D\13\3\2\2\2EF\7\t\2\2FG\7\16\2\2GH\7\21\2"+
+		"\2HI\7\f\2\2IJ\b\7\1\2J\r\3\2\2\2KL\7\6\2\2LP\b\b\1\2MN\7\7\2\2NP\b\b"+
+		"\1\2OK\3\2\2\2OM\3\2\2\2P\17\3\2\2\2QS\5\22\n\2RQ\3\2\2\2SV\3\2\2\2TR"+
+		"\3\2\2\2TU\3\2\2\2U\21\3\2\2\2VT\3\2\2\2WX\7\21\2\2XY\7\17\2\2YZ\7\20"+
+		"\2\2Z[\b\n\1\2[\23\3\2\2\2\\^\t\2\2\2]\\\3\2\2\2^_\3\2\2\2_]\3\2\2\2_"+
+		"`\3\2\2\2`\25\3\2\2\2ac\5\30\r\2ba\3\2\2\2cf\3\2\2\2db\3\2\2\2de\3\2\2"+
+		"\2e\27\3\2\2\2fd\3\2\2\2gh\7\4\2\2hp\b\r\1\2ij\7\5\2\2jp\b\r\1\2kl\7\b"+
+		"\2\2lp\b\r\1\2mn\7\3\2\2np\b\r\1\2og\3\2\2\2oi\3\2\2\2ok\3\2\2\2om\3\2"+
+		"\2\2p\31\3\2\2\2\n\"\60=OT_do";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

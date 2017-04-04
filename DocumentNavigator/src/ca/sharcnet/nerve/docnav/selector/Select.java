@@ -25,7 +25,7 @@ public class Select extends NodeList<Node> {
 
     public Select attribute(String key) {
         for (Node node : nodes) {
-            if (node.getType() == NodeType.ELEMENT || node.getType() == NodeType.METADATA) {
+            if (node.getType() == NodeType.ELEMENT || node.getType() == NodeType.INSTRUCTION) {
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute(key) && !this.contains(node)) {
                     this.add(node);
@@ -37,7 +37,7 @@ public class Select extends NodeList<Node> {
 
     public Select attribute(String key, String value) {
         for (Node node : nodes) {
-            if (node.getType() == NodeType.ELEMENT || node.getType() == NodeType.METADATA) {
+            if (node.getType() == NodeType.ELEMENT || node.getType() == NodeType.INSTRUCTION) {
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute(key) && aNode.getAttributeValue(key).equals(value) && !this.contains(node)) {
                     this.add(node);

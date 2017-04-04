@@ -37,7 +37,7 @@ public class ElementNode extends AttributeNode {
      */
     public ElementNode(String name, String text) {
         this(name);
-        this.addChild(new TextNode(text));
+        this.addChildCopy(new TextNode(text));
     }
 
     /**
@@ -65,7 +65,7 @@ public class ElementNode extends AttributeNode {
         if (name.isEmpty()) throw new NullPointerException();
 
         if (children != null) {
-            for (Node a : children) this.addChild(a);
+            for (Node a : children) this.addChildCopy(a);
         }
     }
 
@@ -104,7 +104,7 @@ public class ElementNode extends AttributeNode {
      * @param child the node to add
      * @return the copy of 'child' that was inserted
      */
-    public final Node addChild(Node child) {
+    public final Node addChildCopy(Node child) {
         Node copy = child.copy(this);
         children.add(copy);
         return copy;
@@ -116,7 +116,7 @@ public class ElementNode extends AttributeNode {
      * @param child the child node to add
      * @return the copy of 'child' that was inserted
      */
-    public Node addChild(int index, Node child) {
+    public Node addChildCopy(int index, Node child) {
         Node copy = child.copy(this);
         children.add(index, copy);
         return copy;
@@ -276,7 +276,7 @@ public class ElementNode extends AttributeNode {
     @param nodes a {@link NodeList} of nodes to add
      */
     public void addChildNodes(NodeList<Node> nodes) {
-        for (Node node : nodes) this.addChild(node);
+        for (Node node : nodes) this.addChildCopy(node);
     }
 
     /**
