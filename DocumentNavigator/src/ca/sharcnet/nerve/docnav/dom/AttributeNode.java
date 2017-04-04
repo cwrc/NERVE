@@ -5,18 +5,17 @@ public abstract class AttributeNode extends Node  {
 
     AttributeNode(NodeType type, String innerText, String name, ElementNode parent){
         super(type, innerText, name, parent);
-        this.attributes = new AttributeList();        
+        this.attributes = new AttributeList();
     }
-    
+
     AttributeNode(NodeType type, String name, AttributeList attributes, ElementNode parent){
         super(type, "", name, parent);
         this.attributes = new AttributeList();
-        
+
         if (attributes != null) {
             for (Attribute a : attributes) this.addAttribute(a);
         }
     }
-    
 
     /**
      * @return a non-reflective list of this node's attributes
@@ -25,12 +24,12 @@ public abstract class AttributeNode extends Node  {
         AttributeList arrayList = new AttributeList();
         for (Attribute a : attributes) arrayList.add(a);
         return arrayList;
-    }    
-    
+    }
+
     public void clearAttributes() {
         this.attributes.clear();
-    }    
-    
+    }
+
     /**
     Determine if this node contains an attribute.
     @param key the attribute name to poll for
@@ -88,5 +87,5 @@ public abstract class AttributeNode extends Node  {
     public void removeAttribute(String key) {
         if (!attributes.contains(key)) return;
         this.attributes.remove(key);
-    }    
+    }
 }

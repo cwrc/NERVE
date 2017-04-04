@@ -70,18 +70,7 @@ public class ElementNode extends AttributeNode {
     }
 
     /**
-        Remove all child nodes from this node;
-     */
-    public void clearChildren() {
-        this.children.clear();
-    }
-
-    public int childCount(){
-        return children.size();
-    }
-
-    /**
-    Copy constructor that accepts a new parent node value.
+    Copy method that accepts a new parent node value.
     @param newParent
     @return
      */
@@ -91,12 +80,33 @@ public class ElementNode extends AttributeNode {
     }
 
     /**
-    Copy constructor.
+    Copy method.
     @return a new element node with no parent
      */
     @Override
     public ElementNode copy() {
         return new ElementNode(getType(), getName(), attributes, children, null);
+    }
+
+    /**
+     *  Remove all child nodes from this node.
+     */
+    public void clearChildren() {
+        this.children.clear();
+    }
+
+    /**
+     *  Return a count of the child nodes attached to this node.
+     */
+    public int childCount(){
+        return children.size();
+    }
+
+    /**
+     * @return a non-reflective list of this node's child nodes
+     */
+    public NodeList<Node> childNodes() {
+        return new NodeList<>(this.children);
     }
 
     /**
@@ -123,116 +133,62 @@ public class ElementNode extends AttributeNode {
     }
 
     /**
-    @return an xml compliant string.
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("<").append(this.getName());
-        for (Attribute a : attributes) {
-            builder.append(" ").append(a.toString());
-        }
-        builder.append(">");
-        for (Node n : children) builder.append(n.toString());
-        builder.append("</").append(this.getName()).append(">");
-        return builder.toString();
+     * Remove a node from a parent
+     * @param child the node to remove
+     * @return the node removed, null if this node does not contain child.
+    */
+    public Node removeChild(Node child) {
+        if (!this.contains(child)) return null;
+        children.remove(child);
+        child.setParent(null);
+        return child;
     }
 
     /**
-    @return an xml compliant string.
-     */
-    public String toString(int indent) {
-        return toString(indent, 0);
+    * Append a child to this parent if the child already has a parent, the child
+    * is removed from that parent node first.  If the nodes parent is this node
+    * it is still removed then reattached to the end of the list of child nodes.
+    * @param child the node to add
+    * @return the child node.
+    */
+    public Node addChild(Node child){
+        if (child.hasParent()) child.getParent().removeChild(child);
+        this.children.add(child);
+        child.setParent(this);
+        return child;
     }
 
     /**
-    @return an xml compliant string.
-     */
-    private String toString(int indent, int mult) {
-        StringBuilder builder = new StringBuilder();
-        int spaces = indent * mult;
-
-        for (int i = 0; i < spaces; i++) builder.append(".");
-        builder.append("<").append(this.getName());
-        for (Attribute a : attributes) {
-            builder.append(" ").append(a.toString());
-        }
-        builder.append(">\n");
-
-        for (Node n : children) {
-            if (n.getType() == NodeType.ELEMENT) {
-                ElementNode e = (ElementNode) n;
-                builder.append(e.toString(indent, mult + 1));
-            } else {
-                builder.append(n.toString());
-            }
-        }
-
-        for (int i = 0; i < spaces; i++) builder.append(",");
-        builder.append("</").append(this.getName()).append(">\n");
-        return builder.toString();
+    * Add child to this parent at index provided.  If the child already has a
+    * parent, the child is removed from that parent node first.  If the child's
+    * parent is this node it is first removed then inserted into the list of
+    * child nodes.
+     * @param index The location to add the child node at.
+    * @param child the node to add
+    * @return the child node.
+    */
+    public Node addChild(int index, Node child){
+        if (child.hasParent()) child.getParent().removeChild(child);
+        this.children.add(index, child);
+        child.setParent(this);
+        return child;
     }
 
     /**
-    The inner text for an element node is the concatanation of the inner text
-    for all it's child nodes.  Unlike {@see toString} the surrounding tags
-    are ommitted.
-     * @return
+    Add all children from a list to the end of this nodes child list.
+    @param nodes a {@link NodeList} of nodes to add
      */
-    @Override
-    public String innerText() {
-        StringBuilder builder = new StringBuilder();
-        for (Node n : children) builder.append(n.innerText());
-        return builder.toString();
+    public void addChildNodes(NodeList<Node> nodes) {
+        for (Node node : nodes) this.addChild(node);
     }
 
     /**
-    If recurse is true, return a concatanation of the inner text for all it's child nodes.
-    If recurse if false, return a concatanation of the inner text for all it's child nodes of type TEXT.
-    Unlike {@see toString} the surrounding tags are ommitted.
-     * @return
+    Retrieve a specific child node by index.
+    @param index the location of the child to retrieve
+    @return the node located at index
      */
-    public String innerText(boolean recurse) {
-        if (recurse) return innerText();
-
-        StringBuilder builder = new StringBuilder();
-        for (Node n : children) {
-            if (n.getType() == Node.NodeType.TEXT) {
-                builder.append(n.innerText());
-            }
-        }
-        return builder.toString();
-    }
-
-    /**
-    @return a string that represtents an xml start tag
-     */
-    public String startTag() {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("<").append(this.getName());
-        for (Attribute a : attributes) {
-            builder.append(" ").append(a.toString());
-        }
-        builder.append(">");
-        return builder.toString();
-    }
-
-    /**
-    @return a string that represtents an xml end tag
-     */
-    public String endTag() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("</").append(this.getName()).append(">");
-        return builder.toString();
-    }
-
-    /**
-     * @return a non-reflective list of this node's child nodes
-     */
-    public NodeList<Node> childNodes() {
-        return new NodeList<>(this.children);
+    public Node getChild(int index) {
+        return this.childNodes().get(index);
     }
 
     /**
@@ -250,7 +206,6 @@ public class ElementNode extends AttributeNode {
         return nodes;
     }
 
-
     /**
     Search the node tree to determine if it contains 'node'.
     @param node the node to search for
@@ -266,32 +221,10 @@ public class ElementNode extends AttributeNode {
         return false;
     }
 
-    public Node removeChild(Node node) {
-        children.remove(node);
-        return node;
-    }
-
     /**
-    Add all children from a list to the end of this nodes child list.
-    @param nodes a {@link NodeList} of nodes to add
-     */
-    public void addChildNodes(NodeList<Node> nodes) {
-        for (Node node : nodes) this.addChildCopy(node);
-    }
-
-    /**
-    Retrieve a specific child node by index.
-    @param index the location of the child to retrieve
-    @return the node located at index
-     */
-    public Node getChild(int index) {
-        return this.childNodes().get(index);
-    }
-
-    /*
-    In this nodes parent, replace this node with this node's children, the child
-    nodes are NOT copied.
-     */
+    * In this nodes parent, replace this node with this node's children, the child
+    * nodes are NOT copied.  This is essentially an unwrap function.
+    */
     public void replaceWithChildren() {
         if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
 
@@ -462,48 +395,6 @@ public class ElementNode extends AttributeNode {
     }
 
     /**
-    Returns a new node with a different name keeping the other parameters.
-    The new node will not have a parent, all child nodes will also be copied.
-    @param name
-    @return
-     */
-    @Override
-    public ElementNode renameCopy(String name) {
-        return new ElementNode(this.getType(), name, this.getAttributes(), this.childNodes(), null);
-    }
-
-    /**
-    Returns a new node with a different type keeping the other parameters.
-    The new node will not have a parent, all child nodes will also be copied.
-    @param type
-    @return
-     */
-    @Override
-    public ElementNode retypeCopy(NodeType type) {
-        return new ElementNode(type, this.getName(), this.getAttributes(), this.childNodes(), null);
-    }
-
-    public String toTreeString() {
-        StringBuilder builder = new StringBuilder();
-        this.toTreeString(0, builder);
-        return builder.toString();
-    }
-
-    private void toTreeString(int depth, StringBuilder builder) {
-        for (int i = 0; i < depth; i++) builder.append("    ");
-        builder.append(this.startTag()).append("\n");
-
-        for (Node child : this.children) {
-            if (child.getType() == NodeType.ELEMENT) {
-                ((ElementNode) child).toTreeString(depth + 1, builder);
-            }
-        }
-
-        for (int i = 0; i < depth; i++) builder.append("    ");
-        builder.append(this.endTag()).append("\n");
-    }
-
-    /**
     Retrieve an inorder list of all nodes from the document root to this node,
     inclusive.
     @return
@@ -567,4 +458,135 @@ public class ElementNode extends AttributeNode {
     public Select select(){
         return new Select(this);
     }
+
+    // <editor-fold defaultstate="collapsed" desc="String building methods">
+
+    /**
+    @return a string that represtents an xml start tag
+     */
+    public String startTag() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("<").append(this.getName());
+        for (Attribute a : attributes) {
+            builder.append(" ").append(a.toString());
+        }
+        builder.append(">");
+        return builder.toString();
+    }
+
+    /**
+    @return a string that represtents an xml end tag
+     */
+    public String endTag() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("</").append(this.getName()).append(">");
+        return builder.toString();
+    }
+
+    public String toTreeString() {
+        StringBuilder builder = new StringBuilder();
+        this.toTreeString(0, builder);
+        return builder.toString();
+    }
+
+    private void toTreeString(int depth, StringBuilder builder) {
+        for (int i = 0; i < depth; i++) builder.append("    ");
+        builder.append(this.startTag()).append("\n");
+
+        for (Node child : this.children) {
+            if (child.getType() == NodeType.ELEMENT) {
+                ((ElementNode) child).toTreeString(depth + 1, builder);
+            }
+        }
+
+        for (int i = 0; i < depth; i++) builder.append("    ");
+        builder.append(this.endTag()).append("\n");
+    }
+
+    /**
+    @return an xml compliant string.
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("<").append(this.getName());
+        for (Attribute a : attributes) {
+            builder.append(" ").append(a.toString());
+        }
+        builder.append(">");
+        for (Node n : children) builder.append(n.toString());
+        builder.append("</").append(this.getName()).append(">");
+        return builder.toString();
+    }
+
+    /**
+    @return an xml compliant string.
+     */
+    public String toString(int indent) {
+        return toString(indent, 0);
+    }
+
+    /**
+    @return an xml compliant string.
+     */
+    private String toString(int indent, int mult) {
+        StringBuilder builder = new StringBuilder();
+        int spaces = indent * mult;
+
+        for (int i = 0; i < spaces; i++) builder.append(".");
+        builder.append("<").append(this.getName());
+        for (Attribute a : attributes) {
+            builder.append(" ").append(a.toString());
+        }
+        builder.append(">\n");
+
+        for (Node n : children) {
+            if (n.getType() == NodeType.ELEMENT) {
+                ElementNode e = (ElementNode) n;
+                builder.append(e.toString(indent, mult + 1));
+            } else {
+                builder.append(n.toString());
+            }
+        }
+
+        for (int i = 0; i < spaces; i++) builder.append(",");
+        builder.append("</").append(this.getName()).append(">\n");
+        return builder.toString();
+    }
+
+    /**
+    The inner text for an element node is the concatanation of the inner text
+    for all it's child nodes.  Unlike {@see toString} the surrounding tags
+    are ommitted.
+     * @return
+     */
+    @Override
+    public String innerText() {
+        StringBuilder builder = new StringBuilder();
+        for (Node n : children) builder.append(n.innerText());
+        return builder.toString();
+    }
+
+    /**
+     * If recurse is true, return a concatanation of the inner text for all it's child nodes.
+     * If recurse if false, return a concatanation of the inner text for all it's child nodes of type TEXT.
+     * Unlike {@see toString} the surrounding tags are ommitted.
+     * @param recurse
+     * @return
+     */
+    public String innerText(boolean recurse) {
+        if (recurse) return innerText();
+
+        StringBuilder builder = new StringBuilder();
+        for (Node n : children) {
+            if (n.getType() == Node.NodeType.TEXT) {
+                builder.append(n.innerText());
+            }
+        }
+        return builder.toString();
+    }
+
+    // </editor-fold>
 }

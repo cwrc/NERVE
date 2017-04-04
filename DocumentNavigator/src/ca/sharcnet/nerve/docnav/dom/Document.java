@@ -25,13 +25,13 @@ public class Document extends ElementNode{
 
     /**
     Copy constructor.
-    @return a new element node with no parent
+    @return a new document node with no parent
     */
     @Override
     public Document copy() {
         ElementNode elementNode = super.copy();
-        elementNode = elementNode.renameCopy("@DOCUMENT");
-        elementNode = elementNode.retypeCopy(NodeType.DOCUMENT);
+        elementNode.setName("@DOCUMENT");
+        elementNode.setType(NodeType.DOCUMENT);
         return (Document) elementNode;
     }
 }

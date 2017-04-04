@@ -5,7 +5,7 @@
             <url>src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</url>
             <bookmark id="1">
                 <name/>
-                <line>382</line>
+                <line>278</line>
                 <key/>
             </bookmark>
         </file>
@@ -32,6 +32,11 @@
         <group name="Nerve - Core"/>
         <group name="NERVE3"/>
         <group>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/Node.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/AttributeNode.java</file>
+        </group>
+        <group name="Frontier Web App">
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/Node.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/AttributeNode.java</file>

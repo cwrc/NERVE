@@ -8,7 +8,7 @@ public class Node {
         DOCUMENT, TEXT, ELEMENT, COMMENT, INSTRUCTION, DOCTYPE
     };
 
-    private final NodeType type;
+    private NodeType type;
     private final String innerText;
     private ElementNode parent;
     protected String name;
@@ -26,6 +26,11 @@ public class Node {
             throw new RuntimeException("Invalid node name");
         }
         this.name = name;
+        return this;
+    }
+
+    Node setType(NodeType type){
+        this.type = type;
         return this;
     }
 
