@@ -82,6 +82,13 @@ public class Node {
         return type;
     }
 
+    public boolean isType(NodeType ... types) {
+        for (NodeType type : types){
+            if (this.type == type) return true;
+        }
+        return false;
+    }
+
     public String innerText() {
         return innerText;
     }
@@ -134,18 +141,26 @@ public class Node {
     }
 
     /**
-    In this nodes parent, replace this node with a copy of 'newNode'
+    In this nodes parent, replace this node with 'newNode'.
     @param newNode
     @return the copy of 'newNode' used
     @throws DocNavException if the this node does not have a parent node
      */
     public Node replaceWith(Node newNode) {
         if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
+        this.parent.replaceChild(this, newNode);
+        return newNode;
+    }
 
-        NodeList<Node> children = parent.childNodes();
-        int i = children.indexOf(this);
-        parent.removeChild(this);
-        return parent.addChildCopy(i, newNode);
+    /**
+    In this nodes parent, replace this node with a copy of 'newNode'
+    @param newNode
+    @return the copy of 'newNode' used
+    @throws DocNavException if the this node does not have a parent node
+     */
+    public Node replaceWithCopy(Node newNode) {
+        if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
+        return this.parent.replaceChild(this, newNode.copy());
     }
 
     /**
@@ -153,7 +168,7 @@ public class Node {
     @param list a list of nodes to use
     @throws DocNavException if the this node does not have a parent node
      */
-    public void replaceWith(NodeList<Node> list) {
+    public void replaceWithCopy(NodeList<Node> list) {
         if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
         ElementNode parent = this.getParent();
         NodeList<Node> children = parent.childNodes();

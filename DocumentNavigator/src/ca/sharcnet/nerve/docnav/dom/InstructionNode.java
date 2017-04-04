@@ -15,7 +15,7 @@ public class InstructionNode extends AttributeNode{
     }
 
     public InstructionNode(){
-        this("", null);
+        super(NodeType.INSTRUCTION, "", "@METADATA", null);
     }
 
     InstructionNode(String innerText, ElementNode parent){
@@ -61,11 +61,11 @@ public class InstructionNode extends AttributeNode{
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("<").append("?").append(" ").append(this.getName());
+        builder.append("<").append("?").append(this.getName());
         for (Attribute a : attributes) {
             builder.append(" ").append(a.toString());
         }
-        builder.append(" ").append("?").append(">");
+        builder.append("?").append(">");
         return builder.toString();
     }
 }

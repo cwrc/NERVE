@@ -1,5 +1,7 @@
 package ca.sharcnet.nerve.docnav.dom;
 
+import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.ELEMENT;
+
 /**
 * Root object for all structured documents.  Is of type NodeType.DOCUMENT, and
 * has node name "@DOCUMENT".  Otherwise it is identical to an
@@ -19,7 +21,10 @@ public class Document extends ElementNode{
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for (Node n : this.childNodes()) builder.append(n.toString());
+        for (Node n : this.childNodes()){
+            if (n.isType(ELEMENT)) builder.append(n.toString());
+            else builder.append(n.toString()).append("\n");
+        }
         return builder.toString();
     }
 

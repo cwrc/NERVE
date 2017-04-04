@@ -17,7 +17,7 @@ public final class Attribute {
     */
     public Attribute(Attribute that){
         this.key = that.getKey();
-        this.value = that.getValue();
+        this.setValue(that.getValue());
     }
 
     /**
@@ -43,21 +43,33 @@ public final class Attribute {
         return key;
     }
 
-    /**
-    Retrieve the value.
-    @return a non-null string
-    */
-    public String getValue() {
-        return value;
-    }
-
     public void setKey(String key) {
         this.key = key;
     }
 
     public void setValue(String value) {
-        value = value.replaceAll("\"", "\\\"");
-        this.value = value;
+        String v = value;
+//        v = v.replaceAll("&", "&amp;"); /* TODO catch ampersands */
+        v = v.replaceAll("<", "&lt;");
+//        v = v.replaceAll("\"", "\\\"");
+        v = v.replaceAll("\"", "&quot;");
+        this.value = v;
+    }
+
+    /**
+    Retrieve the value.
+    @return a non-null string
+    */
+    public String getValue() {
+        String v = value;
+        v = v.replaceAll("&lt;", "<");
+        v = v.replaceAll("&quot;", "\"");
+//        v = v.replaceAll("&amp;", "&");  /* TODO catch ampersands */
+        return v;
+    }
+
+    public String getRawValue(){
+        return value;
     }
 
     /**
@@ -66,7 +78,11 @@ public final class Attribute {
     */
     @Override
     public String toString(){
-        return getKey() + "='" + getValue() + "'";
+        return getKey() + "=\"" + getValue() + "\"";
+    }
+
+    public String toRawString(){
+        return getKey() + "=\"" + getRawValue() + "\"";
     }
 
     /**

@@ -229,12 +229,21 @@ public class ElementNode extends AttributeNode {
         if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
 
         int i = getParent().childNodes().indexOf(this);
+        ElementNode parent = this.getParent();
         getParent().removeChild(this);
+        NodeList<Node> childNodes = this.childNodes();
 
-        for (Node node : this.children) {
-            getParent().children.add(i, node);
-            node.setParent(getParent());
+        for (Node node : childNodes) {
+            parent.addChild(i, node); /* should i be i++ ? */
         }
+    }
+
+    public Node replaceChild(Node child, Node with){
+        if (child.getParent() != this) throw new DocNavException("Can not replace a child from a different parent.");
+        int idx = this.children.indexOf(child);
+        this.removeChild(child);
+        this.addChild(idx, with);
+        return with;
     }
 
     /**
@@ -478,6 +487,24 @@ public class ElementNode extends AttributeNode {
     /**
     @return a string that represtents an xml end tag
      */
+
+    /**
+     * Conver this node to a string without traversing child nodes
+     * @return
+    */
+    public String toShortString(){
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("<").append(this.getName());
+        for (Attribute a : attributes) {
+            builder.append(" ").append(a.toString());
+        }
+        builder.append(">");
+        if (this.childCount() > 0) builder.append("...");
+        builder.append("</").append(this.getName()).append(">");
+        return builder.toString();
+    }
+
     public String endTag() {
         StringBuilder builder = new StringBuilder();
         builder.append("</").append(this.getName()).append(">");
@@ -513,7 +540,7 @@ public class ElementNode extends AttributeNode {
 
         builder.append("<").append(this.getName());
         for (Attribute a : attributes) {
-            builder.append(" ").append(a.toString());
+            builder.append(" ").append(a.toRawString());
         }
         builder.append(">");
         for (Node n : children) builder.append(n.toString());
