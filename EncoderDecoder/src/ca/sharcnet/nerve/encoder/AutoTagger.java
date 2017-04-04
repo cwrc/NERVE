@@ -147,14 +147,14 @@ public class AutoTagger {
             }
         );
 
-        child.replaceWith(newNodes);
+        child.replaceWithCopy(newNodes);
     }
 
     private void commentMeta() {
         trace(METHOD, "commentMeta()");
-        NodeList<Node> nodesByType = document.getNodesByType(NodeType.METADATA);
+        NodeList<Node> nodesByType = document.getNodesByType(NodeType.INSTRUCTION);
         for (Node node : nodesByType) {
-            node.replaceWith(new CommentNode(node.innerText()));
+            node.replaceWithCopy(new CommentNode(node.innerText()));
         }
     }
 
@@ -217,7 +217,7 @@ public class AutoTagger {
                 }
 
                 /* replace the current node with the node list */
-                if (nerList.size() > 0) current.replaceWith(nerList);
+                if (nerList.size() > 0) current.replaceWithCopy(nerList);
             }
         }
     }

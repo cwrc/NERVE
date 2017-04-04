@@ -1,5 +1,6 @@
-package ca.sharcnet.nerve.encoder;
+package ca.sharcnet.nerve.decode;
 
+import ca.sharcnet.nerve.encoder.*;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
@@ -7,7 +8,6 @@ import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.Schema;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -18,11 +18,19 @@ import javax.xml.parsers.ParserConfigurationException;
 public class Main {
 
     public static void main(String... args) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ClassifierException {
-        System.out.println(run());
+        String run = ca.sharcnet.nerve.encoder.Main.run();
+        run = "<doc>\n" + run + "\n</doc>";
+        Document doc = DocumentNavigator.documentFromString(run);
+        Decoder decoder = new Decoder();
+        decoder.decode(doc, System.out);
+
+//            InputStream stream = Main.class.getResourceAsStream("/resources/newXMLDocument.xml");
+//            Document doc = DocumentNavigator.documentFromStream(stream);
+//            System.out.println(doc);
     }
 
-    public static String run() throws ClassifierException, IOException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
-        InputStream resourceAsStream = Main.class.getResourceAsStream("/resources/minimal.orlando.xml");
+    public static String run() throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ClassifierException {
+        InputStream resourceAsStream = Main.class.getResourceAsStream("/resources/newXMLDocument.xml");
         Document document = DocumentNavigator.documentFromStream(resourceAsStream);
         Context context = ContextLoader.load(Main.class.getResourceAsStream("/resources/orlando.context.json"));
 
@@ -40,8 +48,13 @@ public class Main {
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String s = baos.toString();
         encoder.encode(baos);
-        return baos.toString();
+        String s = baos.toString();
+
+        s = "<doc>" + s + "</doc>";
+
+        System.out.println(s);
+        Document d = DocumentNavigator.documentFromString(s);
+        return "";
     }
 }

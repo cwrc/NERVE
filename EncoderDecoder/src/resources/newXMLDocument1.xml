@@ -1,0 +1,243 @@
+<doc><div class="xmlprolog" xmlattrs="{&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;version&quot;:&quot;1.0&quot;}" xmltagname="xml"></div>
+<div class="xmlprolog" xmlattrs="{&quot;href&quot;:&quot;http://cwrc.ca/templates/css/orlando.css&quot;,&quot;type&quot;:&quot;text/css&quot;}" xmltagname="xml-stylesheet"></div>
+<div class="xmlprolog" xmlattrs="{&quot;schematypens&quot;:&quot;http://relaxng.org/ns/structure/1.0&quot;,&quot;href&quot;:&quot;http://cwrc.ca/schemas/orlando_biography_v2.rng&quot;,&quot;type&quot;:&quot;application/xml&quot;}" xmltagname="xml-model"></div>
+<div class="xmltag" xmlattrs="{&quot;PERSON&quot;:&quot;WRITER&quot;,&quot;SEX&quot;:&quot;FEMALE&quot;}" xmltagname="BIOGRAPHY">
+    <div class="xmltag" xmlattrs="{&quot;TYPE&quot;:&quot;text&quot;}" xmltagname="ORLANDOHEADER">
+        <div class="xmltag" xmlattrs="{}" xmltagname="FILEDESC">
+            <div class="xmltag" xmlattrs="{}" xmltagname="TITLESTMT">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DOCTITLE">Carol Shields : biography</div>
+            </div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="PUBLICATIONSTMT">
+                <div class="xmltag" xmlattrs="{}" xmltagname="AUTHORITY">Orlando Project</div>
+            </div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCEDESC">Created from original research by members of the Orlando Project</div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="REVISIONDESC">
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;I&quot;,&quot;RESP&quot;:&quot;MPO&quot;,&quot;WORKSTATUS&quot;:&quot;SUB&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">12 January 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">Initial document given to tagger.</div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;I&quot;,&quot;RESP&quot;:&quot;IMG&quot;,&quot;WORKSTATUS&quot;:&quot;RWT&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">21 January 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;P&quot;,&quot;RESP&quot;:&quot;IMG&quot;,&quot;WORKSTATUS&quot;:&quot;RWT&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">31 January 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;IMG&quot;,&quot;WORKSTATUS&quot;:&quot;RWT&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">13 February 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">rwt c, ready for cas and for pilot99</div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;I&quot;,&quot;RESP&quot;:&quot;LJH&quot;,&quot;WORKSTATUS&quot;:&quot;CAS&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">29 April 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;LJH&quot;,&quot;WORKSTATUS&quot;:&quot;CAS&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">29 April 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;IMG&quot;,&quot;WORKSTATUS&quot;:&quot;RBV&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">1 May 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">cft c, rbv c</div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;I&quot;,&quot;RESP&quot;:&quot;MPO&quot;,&quot;WORKSTATUS&quot;:&quot;CFB&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">14 June 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;MPO&quot;,&quot;WORKSTATUS&quot;:&quot;CFB&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">15 June 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">cft c (mpo), cfb c, pilot 40</div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;I&quot;,&quot;RESP&quot;:&quot;IMG&quot;,&quot;WORKSTATUS&quot;:&quot;PUB&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">16 June 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">pub i</div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;CSK&quot;,&quot;WORKSTATUS&quot;:&quot;REV&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">16 June 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;MPO&quot;,&quot;WORKSTATUS&quot;:&quot;REV&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">16 June 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"> </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;MPO&quot;,&quot;WORKSTATUS&quot;:&quot;PUB&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">25 June 2010</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">pilot 40, pub c</div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;AAR&quot;,&quot;WORKSTATUS&quot;:&quot;PUB&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">27 October 2013</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"></div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;AGL&quot;,&quot;WORKSTATUS&quot;:&quot;REV&quot;}" xmltagname="RESPONSIBILITY">
+                <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&q
+Info:   uot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">17 November 2013</div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="ITEM">orgname cleanup</div>
+            </div>
+        </div>
+    </div>
+    <div class="xmltag" xmlattrs="{}" xmltagname="DIV0">
+        <div class="xmltag" xmlattrs="{}" xmltagname="HEADING">Biography</div>
+        <div class="xmltag" xmlattrs="{&quot;WROTEORPUBLISHEDAS&quot;:&quot;WROTEPUBLISHEDASYES&quot;}" xmltagname="STANDARD">Shields, Carol</div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="PERSONNAME">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DATASTRUCT">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="DATAITEM">
+                            <div class="xmltag" xmlattrs="{&quot;WROTEORPUBLISHEDAS&quot;:&quot;WROTEPUBLISHEDASYES&quot;}" xmltagname="BIRTHNAME"> <div class="xmltag" xmlattrs="{}" xmltagname="GIVEN">Carol</div> <div class="xmltag" xmlattrs="{}" xmltagname="GIVEN">Ann</div> <div class="xmltag" xmlattrs="{}" xmltagname="SURNAME">Warner</div> </div>
+                        </div>
+                        <div class="xmltag" xmlattrs="{}" xmltagname="DATAITEM">
+                            <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;Shields, Carol&quot;,&quot;WROTEORPUBLISHEDAS&quot;:&quot;WROTEPUBLISHEDASYES&quot;}" xmltagname="MARRIED">Shields</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="HEADING">Birth and Background</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="BIRTH">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{&quot;CHRONCOLUMN&quot;:&quot;WRITINGCLIMATE&quot;,&quot;RELEVANCE&quot;:&quot;SELECTIVE&quot;,&quot;RESP&quot;:&quot;SYS&quot;}" xmltagname="CHRONSTRUCT"> <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">2 June 1935</div> <div class="xmltag" xmlattrs="{}" xmltagname="CHRONPROSE"> <div class="xmltag" xmlattrs="{&quot;POSITION&quot;:&quot;YOUNGEST&quot;}" xmltagname="BIRTHPOSITION"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;http://viaf.org/viaf/4944537/&quot;,&quot;STANDARD&quot;:&quot;Carol Shields&quot;}" xmltagname="NAME">Carol Ann Warner</div> (later CS) was born at <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4904381&quot;,&quot;REG&quot;:&quot;Oak Park, United States&quot;}" xmltagname="PLACE">Oak Park</div>, <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;Illinois&quot;}" xmltagname="PLACE">Illinois</div>, the youngest in a family of three children. She had one sister and one brother.</div> </div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 39&quot;}" xmltagname="BIBCIT">39</div></div> </div>
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">It was an easy birth. CS hated it as a child when her mother used to tell her she <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">just slipped out like a lump of butter.</div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 54&quot;}" xmltagname="BIBCIT">54</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="CULTURALFORMATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">She was born into the <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;REG&quot;:&quot;American&quot;}" xmltagname="NATIONALITY">mid-American</div> <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;FOREBEAR&quot;:&quot;FAMILY&quot;}" xmltagname="RACECOLOUR">white</div> <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;SOCIALRANK&quot;:&quot;MANAGERIAL&quot;}" xmltagname="CLASS">middle class</div>, with <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;REG&quot;:&quot;Swedish&quot;,&quot;FOREBEAR&quot;:&quot;MOTHER&quot;}" xmltagname="NATIONALHERITAGE">immigrant experience</div> only a couple of generations back in her family. Neither of her parents had finished college, but they counted on their children to rise in the world through education.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 38, 39&quot;}" xmltagname="BIBCIT">38, 39</div></div> CS became <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;REG&quot;:&quot;Canadian&quot;}" xmltagname="NATIONALITY">Canadian</div> through marriage and residence.</div>
+                    </div>
+                </div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="RELIGION">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                            <div class="xmltag" xmlattrs="{}" xmltagname="P">CS's family was church-going, <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;REG&quot;:&quot;Methodist&quot;}" xmltagname="DENOMINATION">Methodist</div>. For a while she attended a <div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;REG&quot;:&quot;Society of Friends&quot;}" xmltagname="DENOMINATION">Quaker</div> meeting, but by the 1980s she described herself as <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE"><div class="xmltag" xmlattrs="{&quot;SELF-DEFINED&quot;:&quot;SELFYES&quot;,&quot;REG&quot;:&quot;agnostic&quot;}" xmltagname="DENOMINATION">notreligious</div></div>.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 38, 50&quot;}" xmltagname="BIBCIT">38,50</div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{&quot;RELATIONTO&quot;:&quot;LIVED&quot;}" xmltagname="LOCATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4904381&quot;,&quot;REG&quot;:&quot;Oak Park, United States&quot;}" xmltagname="PLACE">Oak Park</div>, where CS was raised, had associations with Ernest Hemingway, but while CS was growing up there it was a middle-class suburb of <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4887398&quot;,&quot;REG&quot;:&quot;Chicago, United States&quot;}" xmltagname="PLACE">Chicago</div>, entirely WASP (white Anglo-Saxon Protestant). She later described it as like <div class="xmltag" xmlattrs="{&quot;DIR
+Info:   ECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">living in a paper bag.</div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 38&quot;}" xmltagname="BIBCIT">38</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="FAMILY">
+                <div class="xmltag" xmlattrs="{&quot;RELATION&quot;:&quot;MOTHER&quot;}" xmltagname="MEMBER">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="HEADING">Parents</div>
+                        <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                            <div class="xmltag" xmlattrs="{}" xmltagname="P">Her mother, born <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Inez Selgren&quot;}" xmltagname="NAME">Inez Selgren</div>, was of Swedish origin. She had been a <div class="xmltag" xmlattrs="{}" xmltagname="JOB">teacher</div>, but did not work while her children were young. She died in 1971.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 38&quot;}" xmltagname="BIBCIT">38</div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60994&quot;,&quot;PLACEHOLDER&quot;:&quot;Shields, Small prelims&quot;}" xmltagname="BIBCIT">prelims</div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="xmltag" xmlattrs="{&quot;RELATION&quot;:&quot;FATHER&quot;}" xmltagname="MEMBER">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                            <div class="xmltag" xmlattrs="{}" xmltagname="P">Her father, <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Robert E. Warner&quot;}" xmltagname="NAME">Robert E. Warner</div>, <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;manager&quot;}" xmltagname="JOB">managed a candy company</div>. CS later said she regretted the fact that her family communicated so little among themselves.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 38&quot;}" xmltagname="BIBCIT">38</div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61346&quot;,&quot;PLACEHOLDER&quot;:&quot;Colvin&quot;}" xmltagname="BIBCIT"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="HEADING">Education</div>
+            <div class="xmltag" xmlattrs="{&quot;MODE&quot;:&quot;SELF-TAUGHT&quot;}" xmltagname="EDUCATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">Always <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">a book-oriented kid,</div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 39&quot;}" xmltagname="BIBCIT">39</div></div> <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Carol Warner&quot;}" xmltagname="NAME">Carol Warner</div> (later CS) read everything she could find and loved it all, including the old-fashioned children's books that had belonged to her parents. Among the adult books that she met first were <div class="xmltag" xmlattrs="{}" xmltagname="TEXT"><div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Betty Wehner Smith&quot;}" xmltagname="NAME">Betty Wehner Smith</div>'s A Tree Grows in <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/5110302&quot;,&quot;REG&quot;:&quot;Brooklyn, United States&quot;}" xmltagname="PLACE">Brooklyn</div></div> and works by <div class="xmltag" xmlattrs="{}" xmltagname="TEXT"><div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Edna Ferber&quot;}" xmltagname="NAME">Edna Ferber</div></div>.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 40&quot;}" xmltagname="BIBCIT">40</div></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="xmltag" xmlattrs="{&quot;MODE&quot;:&quot;INSTITUTIONAL&quot;}" xmltagname="EDUCATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">After highschool in <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4904381&quot;,&quot;REG&quot;:&quot;Oak Park, United States&quot;}" xmltagname="PLACE">Oak Park</div> (where every one of the 750 students in her graduating class was white), she attended the conservative, undemanding <div class="xmltag" xmlattrs="{&quot;INSTITUTIONLEVEL&quot;:&quot;POST-SECONDARY&quot;,&quot;INSTITUTION&quot;:&quot;PRIVATE&quot;,&quot;REG&quot;:&quot;Hanover College&quot;,&quot;RELIGIOUS&quot;:&quot;RELIGIOUSYES&quot;}" xmltagname="SCHOOL"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4357340&quot;,&quot;REG&quot;:&quot;Hanover, United States&quot;}" xmltagname="PLACE">Hanover</div> College</div>, where most of her attention was given to boys and dances. A year abroad at <div class="xmltag" xmlattrs="{&quot;INSTITUTIONLEVEL&quot;:&quot;POST-SECONDARY&quot;,&quot;STUDENTBODY&quot;:&quot;CO-ED&quot;,&quot;REG&quot;:&quot;University of Exeter&quot;,&quot;RELIGIOUS&quot;:&quot;RELIGIOUSYES&quot;}" xmltagname="SCHOOL"><div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;Exeter&quot;}" xmltagname="PLACE">Exeter</div> <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div></div>, <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;UK&quot;}" xmltagname="PLACE">UK</div>, was a revelation of something different. Her tutor tore up the daily grade-sheet provided by <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4357340&quot;,&quot;REG&quot;:&quot;Hanover, United States&quot;}" xmltagname="PLACE">Hanover</div>, and to her astonishment students sat around <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;literature&quot;}" xmltagname="SUBJECT">talking about books</div> in their spare time. She met her future husband at <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;Exeter&quot;}" xmltagname="PLACE">Exeter</div>, but nevertheless returned to <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4357340&quot;,&quot;REG&quot;:&quot;Hanover, United States&quot;}" xmltagname="PLACE">Hanover</div> to finish her <div class="xmltag" xmlattrs="{}" xmltagname="DEGREE">BA</div>, which was awarded in 1957.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 38, 41-2&quot;}" xmltagname="BIBCIT">38,41-2</div><div class="xmltag" xmlattrs=
+Info:   "{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"> </div></div></div>
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">Later she took advantage of her position as a faculty wife to enroll for a course in <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;creative writing&quot;}" xmltagname="SUBJECT">writing for magazines</div> (at her husband's suggestion) at the <div class="xmltag" xmlattrs="{&quot;INSTITUTIONLEVEL&quot;:&quot;POST-SECONDARY&quot;,&quot;STUDENTBODY&quot;:&quot;CO-ED&quot;,&quot;REG&quot;:&quot;University of Toronto&quot;,&quot;RELIGIOUS&quot;:&quot;RELIGIOUSYES&quot;}" xmltagname="SCHOOL"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div> of <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6167865&quot;,&quot;REG&quot;:&quot;Toronto, Canada&quot;}" xmltagname="PLACE">Toronto</div></div>—which changed the direction of her life—and then, in the 1970s, for an <div class="xmltag" xmlattrs="{}" xmltagname="DEGREE">MA in <div class="xmltag" xmlattrs="{}" xmltagname="SUBJECT">Canadian Literature</div></div> at the <div class="xmltag" xmlattrs="{&quot;INSTITUTIONLEVEL&quot;:&quot;POST-SECONDARY&quot;,&quot;STUDENTBODY&quot;:&quot;CO-ED&quot;,&quot;REG&quot;:&quot;University of Ottawa&quot;,&quot;RELIGIOUS&quot;:&quot;RELIGIOUSYES&quot;}" xmltagname="SCHOOL"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div> of <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6094817&quot;,&quot;REG&quot;:&quot;Ottawa, Canada&quot;}" xmltagname="PLACE">Ottawa</div></div> (awarded in 1975), with a thesis on <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Susanna Moodie&quot;}" xmltagname="NAME">Susanna Moodie</div>.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 42, 43&quot;}" xmltagname="BIBCIT">42, 43</div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"> </div></div> At <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6094817&quot;,&quot;REG&quot;:&quot;Ottawa, Canada&quot;}" xmltagname="PLACE">Ottawa</div> her graduate adviser told her: <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">We have not had much success with part-time, married women.</div> (It was 1969, just before the influx of such women, who were to achieve <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">enormous success</div>.) <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;CS&quot;}" xmltagname="ORGNAME">CS</div> finished this degree in 1975, after dropping out for a while to write.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 44, 45&quot;}" xmltagname="BIBCIT">44, 45</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="HEADING">Married Life</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="FAMILY">
+                <div class="xmltag" xmlattrs="{&quot;RELATION&quot;:&quot;HUSBAND&quot;}" xmltagname="MEMBER">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="MARRIAGE"> <div class="xmltag" xmlattrs="{}" xmltagname="DIV2"> <div class="xmltag" xmlattrs="{&quot;CHRONCOLUMN&quot;:&quot;WRITINGCLIMATE&quot;,&quot;RELEVANCE&quot;:&quot;COMPREHENSIVE&quot;,&quot;RESP&quot;:&quot;IMG&quot;}" xmltagname="CHRONSTRUCT"> <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">20 July 1957</div> <div class="xmltag" xmlattrs="{}" xmltagname="CHRONPROSE"> <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Carol Warner&quot;}" xmltagname="NAME">Carol Warner</div> married <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Donald Hugh Shields&quot;}" xmltagname="NAME">Donald Hugh Shields</div>, a <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;engineer&quot;}" xmltagname="JOB">civil engineer</div> who later <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;academic&quot;}" xmltagname="JOB">taught engineering as an academic subject</div>.</div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61346&quot;,&quot;PLACEHOLDER&quot;:&quot;Colvin&quot;}" xmltagname="BIBCIT"></div></div> </div> <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE"> <div class="xmltag" xmlattrs="{}" xmltagname="P">She had met him while he was a <div class="xmltag" xmlattrs="{&quot;PHILANTHROPYVOLUNTEER&quot;:&quot;PHILANTHROPYVOLUNTEERYES&quot;}" xmltagname="SIGNIFICANTACTIVITY">graduate student</div> at the <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div> of <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;Exeter&quot;}" xmltagname="PLACE">Exeter</div> in <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;England&quot;}" xmltagname="PLACE">England</div>. He was a Canadian from <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;Saskatchewan&quot;}" xmltagname="PLACE">Saskatchewan</div>. They got married after her graduation, <div class="xmltag" xmlattrs="{&quot;NUMBER&quot;:&quot;5&quot;}" xmltagname="CHILDREN">and she had her first baby, her son <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;John&quot;}" xmltagname="NAME">John</div>, the next year. At this stage her only ambition was to be a mother and homemaker. She had four more children (<div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Anne&quot;}" xmltagname="NAME">Anne</div>, <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Catherine&quot;}" xmltagname="NAME">Catherine</div>, <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Margaret&quot;}" xmltagname="NAME">Margaret</div>, and <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Sara&quot;}" xmltagname="NAME">Sara</div>), and by the time of her death had ten grandchildren.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 37, 42&quot;}" xmltagname="BIBCIT">37, 42</div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61346&quot;,&quot;PLACEHOLDER&quot;:&quot;Colvin&quot;}" xmltagname="BIBCIT"></div></div></div></div> </div> </div> </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{&quot;RELATIONTO&quot;:&quot;MOVED&quot;}" xmltagname="LOCATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">CS began married life in a little apartment in <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6173331&quot;,&quot;REG&quot;:&quot;Vancouver,
+Info:   Canada&quot;}" xmltagname="PLACE">Vancouver</div> (wondering fleetingly why it was she who did all the cooking). Her husband's career as doctoral student and then as faculty member took her to <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6167865&quot;,&quot;REG&quot;:&quot;Toronto, Canada&quot;}" xmltagname="PLACE">Toronto</div>, back to England, and then to <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6094817&quot;,&quot;REG&quot;:&quot;Ottawa, Canada&quot;}" xmltagname="PLACE">Ottawa</div>. By 1990 she was living in <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6183235&quot;,&quot;REG&quot;:&quot;Winnipeg, Canada&quot;}" xmltagname="PLACE">Winnipeg</div>, Manitoba, but after she and her husband retired they moved to <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/3832934&quot;,&quot;REG&quot;:&quot;Victoria, Argentina&quot;}" xmltagname="PLACE">Victoria</div>, British <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4352053&quot;,&quot;REG&quot;:&quot;Columbia, United States&quot;}" xmltagname="PLACE">Columbia</div>, where she spent the end of her life in a new, large, beautiful house.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 44, 42, 43, 37&quot;}" xmltagname="BIBCIT">44, 42, 43, 37</div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61346&quot;,&quot;PLACEHOLDER&quot;:&quot;Colvin&quot;}" xmltagname="BIBCIT"></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="OCCUPATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">While studying for her MA, CS began working at home as <div class="xmltag" xmlattrs="{}" xmltagname="JOB">editorial assistant</div> on a scholarly quarterly, <div class="xmltag" xmlattrs="{}" xmltagname="EMPLOYER">Canadian Slavonic Papers</div>. She held this position from 1972 to 1974. She <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;academic&quot;}" xmltagname="JOB">taught</div> at the <div class="xmltag" xmlattrs="{}" xmltagname="EMPLOYER"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div> of <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6094817&quot;,&quot;REG&quot;:&quot;Ottawa, Canada&quot;}" xmltagname="PLACE">Ottawa</div></div> after doing her MA there, and then, already a published writer, held a post as professor of English at the <div class="xmltag" xmlattrs="{}" xmltagname="EMPLOYER"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div> of <div class="taggedentity" xmlattrs="{&quot;REG&quot;:&quot;Manitoba&quot;}" xmltagname="PLACE">Manitoba</div></div> until 2000. She was <div class="xmltag" xmlattrs="{&quot;REG&quot;:&quot;university chancellor&quot;}" xmltagname="JOB">Chancellor</div> of the <div class="xmltag" xmlattrs="{}" xmltagname="EMPLOYER"><div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/7260219&quot;,&quot;REG&quot;:&quot;University, United States&quot;}" xmltagname="PLACE">University</div> of <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/6183235&quot;,&quot;REG&quot;:&quot;Winnipeg, Canada&quot;}" xmltagname="PLACE">Winnipeg</div></div>, 1996-2000.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;60927&quot;,&quot;PLACEHOLDER&quot;:&quot;Wachtel 45&quot;}" xmltagname="BIBCIT">45</div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61347&quot;,&quot;PLACEHOLDER&quot;:&quot;Clark 23&quot;}" xmltagname="BIBCIT">23</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="FRIENDSASSOCIATES">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">CS, who had said that in the 1960s she <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">knew no writers,</div> became a personal friend of her fellow author <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/4670234&quot;,&quot;REG&quot;:&quot;Alice, United States&quot;}" xmltagname="PLACE">Alice</div> <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Munro&quot;}" xmltagname="NAME">Munro</div>, who called her (according to <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Margaret Atwood&quot;}" xmltagname="NAME">Margaret Atwood</div>) <div class="xmltag" xmlattrs="{&quot;DIRECT&quot;:&quot;Y&quot;}" xmltagname="QUOTE">just a luminous person.</div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61345&quot;,&quot;QTDIN&quot;:&quot;QTDINYES&quot;,&quot;PLACEHOLDER&quot;:&quot;Atwood 28&quot;}" xmltagname="BIBCIT">28</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="HEADING">Illness and Death</div>
+            <div class="xmltag" xmlattrs="{&quot;ISSUE&quot;:&quot;PHYSICAL&quot;}" xmltagname="HEALTH">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">Shields was diagnosed with breast cancer in 1998. Though she underwent a mastectomy followed by chemotherapy, the cancer re-appeared in her liver in 2000.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61346&quot;,&quot;PLACEHOLDER&quot;:&quot;Colvin&quot;}" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;62588&quot;,&quot;PLACEHOLDER&quot;:&quot;O" malley"}'="" xmltagname="BIBCIT"></div><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;63786&quot;,&quot;PLACEHOLDER&quot;:&quot;CBC News Online&quot;}" xmltagname="BIBCIT"></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{&quot;RELATIONTO&quot;:&quot;TRAVELLED&quot;}" xmltagname="LOCATION">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="SHORTPROSE">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="P">She made a visit to England during the period of remission.<div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;61345&quot;,&quot;QTDIN&quot;:&quot;QTDINYES&quot;,&quot;PLACEHOLDER&quot;:&quot;Atwood 28&quot;}" xmltagname="BIBCIT">28</div></div></div>
+                    </div>
+                </div>
+Info:   </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+            <div class="xmltag" xmlattrs="{}" xmltagname="DEATH">
+                <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                    <div class="xmltag" xmlattrs="{&quot;CHRONCOLUMN&quot;:&quot;WRITINGCLIMATE&quot;,&quot;RELEVANCE&quot;:&quot;SELECTIVE&quot;,&quot;RESP&quot;:&quot;SYS&quot;}" xmltagname="CHRONSTRUCT"> <div class="taggedentity" xmlattrs="{&quot;CERTAINTY&quot;:&quot;CERT&quot;,&quot;CALENDAR&quot;:&quot;NEWSTYLE&quot;}" xmltagname="DATE">16 July 2003</div> <div class="xmltag" xmlattrs="{}" xmltagname="CHRONPROSE">CS died of secondary <div class="xmltag" xmlattrs="{}" xmltagname="CAUSE">breast cancer</div> in <div data-dictionary="geonames" class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/3832934&quot;,&quot;REG&quot;:&quot;Victoria, Argentina&quot;}" xmltagname="PLACE">Victoria</div>, BC.</div> <div class="xmltag" xmlattrs="{}" xmltagname="BIBCITS"><div class="xmltag" xmlattrs="{&quot;DBREF&quot;:&quot;16185&quot;,&quot;PLACEHOLDER&quot;:&quot;CA&quot;}" xmltagname="BIBCIT"></div></div> </div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="WORKSCITED">
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCE">Unless otherwise noted, all information is from the FC.</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCE">Atwood, Margaret. To the light house. 2003.</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCE">Clark, Alex. Carol Shields, 2003.</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCE">Colvin, Clare. Carol Shields. 2003.</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCE">Contemporary Authors online.</div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="SOURCE">Wachtel, Eleanor. Carol Shields.</div>
+        </div>
+    </div>
+</div>
+</doc>

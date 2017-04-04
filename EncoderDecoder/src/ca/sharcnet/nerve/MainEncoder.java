@@ -1,6 +1,5 @@
 package ca.sharcnet.nerve;
-
-import ca.fa.utility.SQLHelper;
+import ca.fa.utility.sql.SQL;
 import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
 import ca.sharcnet.nerve.docnav.dom.Document;
@@ -30,7 +29,7 @@ public class MainEncoder {
 
         Properties config = new Properties();
         config.load(cfgStream);
-        SQLHelper sql = new SQLHelper(config);
+        SQL sql = new SQL(config);
 
         Classifier classifier = new Classifier(config.getProperty("classifier"));
         Context context = ContextLoader.load(contextStream);

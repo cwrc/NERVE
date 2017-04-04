@@ -11,9 +11,9 @@
             </TITLESTMT>
             <PUBLICATIONSTMT>
                 <AUTHORITY>Authority (Header)</AUTHORITY>
-            </PUBLICATIONSTMT>    
+            </PUBLICATIONSTMT>
             <SOURCEDESC>Source Description (Header)</SOURCEDESC>
-        </FILEDESC> 
+        </FILEDESC>
         <REVISIONDESC>
             <RESPONSIBILITY WORKSTATUS="RWT" RESP="CRF" WORKVALUE="C">
                 <DATE>30 June 2016</DATE>
@@ -27,12 +27,13 @@
                 <DIV2>
                     <DATASTRUCT>
                         <DATAITEM>
-                            <BIRTHNAME> 
+                            <BIRTHNAME>
                                 <GIVEN>Sophia</GIVEN>
                                 <GIVEN>Louisa</GIVEN>
-                                <SURNAME>Jex-Blake</SURNAME> 
+                                <SURNAME>Jex-Blake</SURNAME>
                             </BIRTHNAME>
                             <SCHOLARNOTE>
+                                <BIBCIT PLACEHOLDER="O'Malley" DBREF="62588"/>
                                 <P>Jex-Blake&apos;s family name was changed from Blake by her grandfather, in honour of his grandmother Elizabeth Jex.</P>
                             </SCHOLARNOTE>
                         </DATAITEM>

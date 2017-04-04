@@ -1,0 +1,47 @@
+<doc>
+    <div xmlattrs='{"encoding":"UTF-8","version":"1.0"}' xmltagname='xml' class='xmlprolog'></div>
+    <div xmlattrs='{"schematypens":"http://relaxng.org/ns/structure/1.0","href":"http://cwrc.ca/schemas/orlando_biography.rng","type":"application/xml"}' xmltagname='xml-model' class='xmlprolog'></div>
+    <div xmlattrs='{"href":"http://cwrc.ca/templates/css/orlando.css","type":"text/css"}' xmltagname='xml-stylesheet' class='xmlprolog'></div>
+    <div class='xmldoctype' xmlinnertext='&lt;!DOCTYPE ORLANDO [ &lt;!ENTITY % character_entities SYSTEM "http://cwrc.ca/schemas/character_entities.dtd"> %character_entities; ]>'></div>
+
+    <div xmlattrs='{"PERSON":"BRWWRITER","SEX":"FEMALE"}' xmltagname='BIOGRAPHY' class='xmltag'>
+        <div xmlattrs='{"TYPE":"text"}' xmltagname='ORLANDOHEADER' class='xmltag'>
+            <div xmlattrs='{}' xmltagname='FILEDESC' class='xmltag'>
+                <div xmlattrs='{}' xmltagname='TITLESTMT' class='xmltag'>
+                    <div xmlattrs='{}' xmltagname='DOCTITLE' class='xmltag'>Document Title (Header)</div>
+                </div>
+                <div xmlattrs='{}' xmltagname='PUBLICATIONSTMT' class='xmltag'>
+                    <div xmlattrs='{}' xmltagname='AUTHORITY' class='xmltag'>Authority (Header)</div>
+                </div>
+                <div xmlattrs='{}' xmltagname='SOURCEDESC' class='xmltag'>Source Description (Header)</div>
+            </div>
+            <div xmlattrs='{}' xmltagname='REVISIONDESC' class='xmltag'>
+                <div xmlattrs='{"WORKVALUE":"C","RESP":"CRF","WORKSTATUS":"RWT"}' xmltagname='RESPONSIBILITY' class='xmltag'>
+                    <div xmlattrs='{}' xmltagname='DATE' class='xmltag'>30 June 2016</div>
+                    <div xmlattrs='{}' xmltagname='ITEM' class='xmltag'></div>
+                </div>
+            </div>
+        </div>
+        <div xmlattrs='{}' xmltagname='DIV0' class='xmltag'>
+            <div xmlattrs='{}' xmltagname='DIV1' class='xmltag'>
+                <div xmlattrs='{}' xmltagname='PERSONNAME' class='xmltag'>
+                    <div xmlattrs='{}' xmltagname='DIV2' class='xmltag'>
+                        <div xmlattrs='{}' xmltagname='DATASTRUCT' class='xmltag'>
+                            <div xmlattrs='{}' xmltagname='DATAITEM' class='xmltag'>
+                                <div xmlattrs='{}' xmltagname='BIRTHNAME' class='xmltag'>
+                                    <div xmlattrs='{}' xmltagname='GIVEN' class='xmltag'>Sophia</div>
+                                    <div xmlattrs='{}' xmltagname='GIVEN' class='xmltag'>Louisa</div>
+                                    <div xmlattrs='{}' xmltagname='SURNAME' class='xmltag'>Jex-Blake</div>
+                                </div>
+                                <div xmlattrs='{}' xmltagname='SCHOLARNOTE' class='xmltag'>
+                                    <div xmlattrs='{}' xmltagname='P' class='xmltag'>
+                                        <div xmlattrs='{"STANDARD":"Jex-Blake"}' xmltagname='NAME' class='xmltag'>Jex-Blake</div>&apos;s family name was changed from <div xmlattrs='{"STANDARD":"Blake"}' xmltagname='NAME' class='xmltag'>Blake</div> by her grandfather, in honour of his grandmother <div xmlattrs='{"STANDARD":"Elizabeth Jex"}' xmltagname='NAME' class='xmltag'>Elizabeth Jex</div>.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</doc>

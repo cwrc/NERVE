@@ -1,13 +1,13 @@
 package ca.sharcnet.nerve.encoder;
-
 import ca.sharcnet.nerve.Constants;
-import ca.fa.utility.SQLHelper;
 import ca.fa.utility.collections.SimpleCollection;
+import ca.fa.utility.sql.SQL;
 import ca.sharcnet.nerve.context.*;
 import static ca.sharcnet.nerve.encoder.Encoder.TRACES.*;
 import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
 import ca.sharcnet.nerve.docnav.dom.Node.NodeType;
+import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,9 +21,9 @@ import org.json.JSONObject;
 public class Encoder {
 
     public enum TRACES {
-        METHOD, EXCEPTION, DEBUG, SQL, PRINT_FINAL, BRANCH
+        METHOD, EXCEPTION, DEBUG, PRINT_FINAL, BRANCH
     };
-    public static final TRACES[] activeTraces = {DEBUG};
+    public static final TRACES[] activeTraces = {};
 
     public static final void trace(TRACES type, String text) {
         if (Arrays.asList(activeTraces).contains(type)) {
@@ -45,13 +45,12 @@ public class Encoder {
     private final SimpleCollection<Parameter> parameters = new SimpleCollection<>();
     private final InputStream inputStream;
     private final Context context;
-    private final HtmlLabels htmlLabels;
-    private final SQLHelper sql;
+    private final SQL sql;
     private final Classifier classifier;
     private Schema schema = null;
     private Document document = null;
 
-    public Encoder(Document document, Context context, SQLHelper sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    public Encoder(Document document, Context context, SQL sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         trace(METHOD, "Encoder()");
 
         if (document == null) throw new NullPointerException();
@@ -61,13 +60,12 @@ public class Encoder {
 
         this.sql = sql;
         this.context = context;
-        this.htmlLabels = context.htmlLables();
         this.document = document;
         this.classifier = classifier;
         this.inputStream = null;
     }
 
-    public Encoder(InputStream stream, Context context, SQLHelper sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    public Encoder(InputStream stream, Context context, SQL sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         trace(METHOD, "Encoder()");
 
         if (stream == null) throw new NullPointerException();
@@ -77,12 +75,11 @@ public class Encoder {
 
         this.sql = sql;
         this.context = context;
-        this.htmlLabels = context.htmlLables();
         this.inputStream = stream;
         this.classifier = classifier;
     }
 
-    public Encoder(InputStream stream, Context context, SQLHelper sql) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    public Encoder(InputStream stream, Context context, SQL sql) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         trace(METHOD, "Encoder()");
 
         if (stream == null) throw new NullPointerException();
@@ -91,7 +88,6 @@ public class Encoder {
 
         this.sql = sql;
         this.context = context;
-        this.htmlLabels = context.htmlLables();
         this.inputStream = stream;
         this.classifier = null;
 
@@ -107,7 +103,6 @@ public class Encoder {
 
         this.sql = null;
         this.context = context;
-        this.htmlLabels = context.htmlLables();
         this.inputStream = null;
         this.classifier = classifier;
         this.document = document;
@@ -124,7 +119,6 @@ public class Encoder {
 
         this.sql = null;
         this.context = context;
-        this.htmlLabels = context.htmlLables();
         this.inputStream = stream;
         this.classifier = classifier;
 
@@ -187,10 +181,9 @@ public class Encoder {
         String dictionaries = context.readFromDictionarySQLString();
         if (!dictionaries.isEmpty()) dictionaries = "where " + dictionaries;
         String query = String.format("select * from dictionary %s", dictionaries);
-        trace(SQL, query);
         StringMatch knownEntities = new StringMatch();
 
-        JSONArray sqlResult = sql.queryToJSONArray(query);
+        JSONArray sqlResult = sql.query(query);
 
         for (int i = 0; i < sqlResult.length(); i++) {
             JSONObject row = sqlResult.getJSONObject(i);
@@ -254,7 +247,7 @@ public class Encoder {
                 }
         );
 
-        child.replaceWith(newNodes);
+        child.replaceWithCopy(newNodes);
     }
 
     /**
@@ -268,12 +261,19 @@ public class Encoder {
      * @throws SQLException
      */
     private void wrapTag(Node node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "wrapTag(" + node.getType() + ")");
+        if (!node.isType(ELEMENT, INSTRUCTION, DOCTYPE)) return;
 
-        if (node.getType() != NodeType.ELEMENT && node.getType() != NodeType.METADATA) return;
+        if (node.isType(NodeType.DOCTYPE)) {
+            ElementNode eNode = new ElementNode(Constants.HTML_TAGNAME);
+            eNode.addAttribute("class", Constants.HTML_DOCTYPE_CLASSNAME);
+            eNode.addAttribute(new Attribute(Constants.DOCTYPE_INNERTEXT, node.innerText()));
+            node.replaceWith(eNode);
+            return;
+        }
+
         AttributeNode attrNode = (AttributeNode) node;
-
         JSONObject jsonObj = new JSONObject();
+
         for (Attribute attr : attrNode.getAttributes()) {
             if (!attr.getKey().equals("data-dictionary")){
                 jsonObj.put(attr.getKey(), attr.getValue());
@@ -281,12 +281,14 @@ public class Encoder {
             }
         }
 
-        if (node.getType() == NodeType.METADATA) {
-            attrNode = (AttributeNode) attrNode.replaceWith(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
+        if (node.isType(NodeType.INSTRUCTION)) {
+            attrNode = (AttributeNode) attrNode.replaceWithCopy(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
             attrNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
         } else if (context.isTagName(node.getName())) {
+            System.out.println(node.getName() + " is tag name");
             attrNode.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
         } else {
+            System.out.println(node.getName() + " not tag name");
             attrNode.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
             ElementNode eNode = (ElementNode) attrNode;
             for (Node child : eNode.childNodes()) {
@@ -353,7 +355,7 @@ public class Encoder {
                 }
 
                 /* replace the current node with the node list */
-                if (nerList.size() > 0) current.replaceWith(nerList);
+                if (nerList.size() > 0) current.replaceWithCopy(nerList);
             }
         }
     }

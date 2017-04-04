@@ -9,7 +9,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Main {
-   
+
+    public static void main(String ... args){
+        String s = "{\"PERSON\":\"BRWWRITER\",\"SEX\":\"FEMALE\"}";
+        System.out.println(s);
+        String t = s.replaceAll("\"", "\\\\\"");
+        System.out.println(t);
+    }
+
     public static OutputStream getOutStream(String filepath) throws FileNotFoundException{
         File file = new File(filepath);
         FileOutputStream stream = new FileOutputStream(file);
