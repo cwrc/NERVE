@@ -1,9 +1,9 @@
 package ca.sharcnet.dh.nerve.servlets.translator;
-import ca.fa.utility.SQLHelper;
 import ca.sharcnet.dh.nerve.servlets.CustomServlet;
-import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.decode.Decoder;
 import ca.fa.utility.streams.StreamUtil;
+import ca.sharcnet.nerve.docnav.DocumentNavigator;
+import ca.sharcnet.nerve.docnav.dom.Document;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,18 +24,20 @@ public class Decode extends CustomServlet {
     protected boolean processRequest(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws ServletException, IOException {
         try {
             JSONObject inJSON = StreamUtil.getJSON(request.getInputStream());
-            Context context = ContextLoader.load(inJSON.getString("context"));
             String inputString = inJSON.getString("input");
             ByteArrayInputStream bais = new ByteArrayInputStream(inputString.getBytes());
             InputStream cfgStream = this.getServletContext().getResourceAsStream("/WEB-INF/config.txt");
             Properties config = new Properties();
             config.load(cfgStream);
-            SQLHelper sql = new SQLHelper(config);
 
-            Decoder decoder = new Decoder(bais, context, sql);
-            decoder.setParameters(request.getParameterNames());
+
+            System.out.println(inputString);
+
+            Decoder decoder = new Decoder();
+//            Document document = DocumentNavigator.documentFromStream(bais);
+            Document document = DocumentNavigator.documentFromString(inputString);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            decoder.decode(baos);
+            decoder.decode(document, baos);
 
             json.put("result", "processed");
             json.put("output", baos.toString("UTF-8"));

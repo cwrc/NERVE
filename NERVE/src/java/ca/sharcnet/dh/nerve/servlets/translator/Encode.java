@@ -1,6 +1,5 @@
 package ca.sharcnet.dh.nerve.servlets.translator;
-
-import ca.fa.utility.SQLHelper;
+import ca.fa.utility.sql.SQL;
 import ca.sharcnet.dh.nerve.servlets.CustomServlet;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
 import ca.sharcnet.nerve.docnav.antlr.InvalidTokenException;
@@ -46,7 +45,7 @@ public class Encode extends CustomServlet {
             InputStream cfgStream = this.getServletContext().getResourceAsStream("/WEB-INF/config.txt");
             Properties config = new Properties();
             config.load(cfgStream);
-            SQLHelper sql = new SQLHelper(config);
+            SQL sql = new SQL(config);
 
             Encoder encoder;
             InputStream resourceAsStream = super.getServletContext().getResourceAsStream(config.getProperty("classifier"));
@@ -58,7 +57,7 @@ public class Encode extends CustomServlet {
             /* check document for schema to override default context */
             Select selection = doc.select().name("xml-model");
             Node node = selection.get(0);
-            if (node.getType() == NodeType.METADATA){
+            if (node.getType() == NodeType.INSTRUCTION){
                 System.out.println(node);
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute("href")){

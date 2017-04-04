@@ -139,12 +139,6 @@ class View {
 
         document.getElementById("entityPanel").innerHTML = text;
     }
-    /* TODO prevent return of view state */
-    getDOMObject() {
-        Utility.log(View, "getDOMObject");
-        Utility.enforceTypes(arguments);
-        return document.getElementById("entityPanel");
-    }
     setFilename(text) {
         Utility.log(View, "setFilename");
         Utility.enforceTypes(arguments, String);

@@ -209,12 +209,13 @@ class Events {
     menuSave() {
         Utility.log(Events, "menuSave");
         Utility.enforceTypes(arguments);
-
         this.view.showThrobber(true);
-        this.controller.saveContents(
-            () => this.view.showThrobber(false),
-            () => this.view.showThrobber(false)
-        );
+        this.controller.saveContents(() => this.view.showThrobber(false),(status, text) =>{
+            window.alert("Content Save Failed : " + status);
+            console.log("Content Save Failed");
+            console.log(text);
+            this.view.showThrobber(false)
+        });
     }
     menuSettings(event) {
         Utility.log(Events, "menuSettings");

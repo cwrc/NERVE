@@ -618,14 +618,13 @@ class Controller {
         Utility.enforceTypes(arguments, ["optional", Function], ["optional", Function]);
 
         this.unselectAll();
-        let contents = this.model.getDocument();
-        this.fileOps.decode(contents, this.context,
-                (result) => {
+        let contents = "<doc>" + this.model.getDocument() + "</doc>";
+
+        this.fileOps.decode(contents, this.context, (result) => {
             this.fileOps.saveToFile(result, this.model.getFilename());
             this.isSaved = true;
             successCB();
-        },
-                (status, text) => {
+        }, (status, text) => {
             failureCB(status, text);
         }
         );

@@ -127,7 +127,7 @@ class Model {
     getFilename() {
         Utility.log(Model, "getFilename");
         Utility.enforceTypes(arguments);
-        return this.settings.getValue("model", "filename", "filename");
+        return this.settings.getValue( "filename");
     }
 
     /**
@@ -137,7 +137,7 @@ class Model {
     getDocument() {
         Utility.log(Model, "getDocument");
         Utility.enforceTypes(arguments);
-        return this.view.getDOMObject().innerHTML;
+        return $("#entityPanel").html();
     }
 
     setEntityValues(selector, values){
