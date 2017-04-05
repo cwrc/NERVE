@@ -56,81 +56,18 @@ public class Encoder {
 
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
-        if (sql == null) throw new NullPointerException();
-        if (classifier == null) throw new NullPointerException();
 
         this.sql = sql;
         this.context = context;
         this.document = document;
         this.classifier = classifier;
         this.inputStream = null;
-    }
-
-    public Encoder(InputStream stream, Context context, SQL sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "Encoder()");
-
-        if (stream == null) throw new NullPointerException();
-        if (context == null) throw new NullPointerException();
-        if (sql == null) throw new NullPointerException();
-        if (classifier == null) throw new NullPointerException();
-
-        this.sql = sql;
-        this.context = context;
-        this.inputStream = stream;
-        this.classifier = classifier;
-    }
-
-    public Encoder(InputStream stream, Context context, SQL sql) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "Encoder()");
-
-        if (stream == null) throw new NullPointerException();
-        if (context == null) throw new NullPointerException();
-        if (sql == null) throw new NullPointerException();
-
-        this.sql = sql;
-        this.context = context;
-        this.inputStream = stream;
-        this.classifier = null;
-
-        trace(METHOD, " : Encoder()");
-    }
-
-    public Encoder(Document document, Context context, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "Encoder()");
-
-        if (document == null) throw new NullPointerException();
-        if (context == null) throw new NullPointerException();
-        if (classifier == null) throw new NullPointerException();
-
-        this.sql = null;
-        this.context = context;
-        this.inputStream = null;
-        this.classifier = classifier;
-        this.document = document;
-
-        trace(METHOD, " : Encoder()");
-    }
-
-    public Encoder(InputStream stream, Context context, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "Encoder()");
-
-        if (stream == null) throw new NullPointerException();
-        if (context == null) throw new NullPointerException();
-        if (classifier == null) throw new NullPointerException();
-
-        this.sql = null;
-        this.context = context;
-        this.inputStream = stream;
-        this.classifier = classifier;
-
-        trace(METHOD, " : Encoder()");
     }
 
     public void encode(OutputStream outStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         trace(METHOD, "encode()");
 
         if (outStream == null) throw new NullPointerException();
-        if (document == null) document = DocumentNavigator.documentFromStream(inputStream);
 
         if (this.sql != null) lookupTag();
         processNER(document);
