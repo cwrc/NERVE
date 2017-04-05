@@ -126,8 +126,7 @@ public class Encoder {
 
     private void lookupTag(TextNode child, StringMatch knownEntities) {
         trace(METHOD, "lookupTag('" + child.innerText().replace("\n", "\\n") + "':TextNode, StringMatch)");
-        String innerText = child.innerText().trim();
-        if (innerText.isEmpty()) return;
+        String innerText = child.innerText();
         final NodeList<Node> newNodes = new NodeList<>();
 
         /* choose the largest matching known entity */
