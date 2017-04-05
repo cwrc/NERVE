@@ -80,40 +80,6 @@ public class Encoder {
         this.schema = schema;
     }
 
-    /**
-     * Include one or more parameters that alter the behaviour of the
-     * encoder.<br>
-     * <ul>
-     * <li> NER : automatically add NER markup to the text before processing.
-     * <li> NO_PROCESSING : do not wrap tags with proprietory html markup.
-     * <li> COMMENT_META : wrap all meta-data tags with comment tags.
-     * <li> NO_ID : during processing, do not assign a unique identifier.
-     * </ul>
-     *
-     * @param parameters
-     */
-    public void setParameters(Encoder.Parameter... parameters) {
-        if (parameters == null || parameters.length == 0) return;
-        this.parameters.addAll(Arrays.asList(parameters));
-    }
-
-    public void setParameters(Enumeration<String> parameterNames) {
-        trace(METHOD, "setParameters()");
-        while (parameterNames.hasMoreElements()) {
-            String nextElement = parameterNames.nextElement();
-
-            /* ensure the parameter exists */
-            for (Encoder.Parameter p : Encoder.Parameter.values()) {
-                if (p.name().equals(nextElement)) {
-                    trace(BRANCH, " - p.name().equals(nextElement)");
-
-                    this.parameters.add(Encoder.Parameter.valueOf(nextElement));
-                    break;
-                }
-            }
-        }
-    }
-
     private void lookupTag() throws SQLException {
         trace(METHOD, "lookupTag()");
         List<String> dictionaries = context.readFromDictionary();
