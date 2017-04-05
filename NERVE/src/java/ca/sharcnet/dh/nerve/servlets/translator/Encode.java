@@ -39,7 +39,6 @@ public class Encode extends CustomServlet {
     protected boolean processRequest(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws ServletException, IOException, FileNotFoundException {
         try {
             JSONObject inJSON = StreamUtil.getJSON(request.getInputStream());
-            Context context = ContextLoader.load(inJSON.getString("context")); /* default context sent from browser */
             String inputString = inJSON.getString("input");
             ByteArrayInputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
             InputStream cfgStream = this.getServletContext().getResourceAsStream("/WEB-INF/config.txt");
@@ -57,6 +56,8 @@ public class Encode extends CustomServlet {
             /* check document for schema to override default context */
             Select selection = doc.select().name("xml-model");
             Node node = selection.get(0);
+            Context context = null;
+            
             if (node.getType() == NodeType.INSTRUCTION){
                 System.out.println(node);
                 AttributeNode aNode = (AttributeNode) node;
@@ -90,8 +91,6 @@ public class Encode extends CustomServlet {
                 Schema schema = new Schema(document);
                 encoder.setSchema(schema);
             }
-
-            encoder.setParameters(request.getParameterNames());
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             encoder.encode(baos);
