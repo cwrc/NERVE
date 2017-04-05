@@ -36,7 +36,7 @@ public class Main {
 
         InputStream cStream = Main.class.getResourceAsStream("/resources/english.all.3class.distsim.crf.ser.gz");
         BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
-        Encoder encoder = new Encoder(document, context, new Classifier(bis));
+        Encoder encoder = new Encoder(document, context, null, new Classifier(bis));
         cStream.close();
 
         String schemaURL = context.schemaName;

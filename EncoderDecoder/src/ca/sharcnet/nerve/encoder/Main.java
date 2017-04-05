@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve.encoder;
 
+import ca.fa.utility.sql.SQL;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -26,9 +28,14 @@ public class Main {
         Document document = DocumentNavigator.documentFromStream(resourceAsStream);
         Context context = ContextLoader.load(Main.class.getResourceAsStream("/resources/orlando.context.json"));
 
+        Properties config = new Properties();
+        InputStream cfgStream = Main.class.getResourceAsStream("/resources/config.txt");
+        config.load(cfgStream);
+        SQL sql = new SQL(config);
+
         InputStream cStream = Main.class.getResourceAsStream("/resources/english.all.3class.distsim.crf.ser.gz");
         BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
-        Encoder encoder = new Encoder(document, context, new Classifier(bis));
+        Encoder encoder = new Encoder(document, context, sql, new Classifier(bis));
         cStream.close();
 
         String schemaURL = context.schemaName;

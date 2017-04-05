@@ -1,11 +1,7 @@
 {
     "name"               : "TEI",
-    "linkAttribute"      : "ref",
-    "idAttribute"        : "annotationID",
-    "lemmaAttribute"     : "key",
-    "writeToDictionary"  : "generic",
     "readFromDictionary" : [
-        "generic",
+        "custom",
         "geonames"
     ],
     "tags" : [

@@ -1,7 +1,7 @@
 {
     "name"               : "Orlando",
     "readFromDictionary" : [
-        "generic",
+        "custom",
         "geonames"
     ],
     "tags" : [

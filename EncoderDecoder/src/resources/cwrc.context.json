@@ -1,7 +1,7 @@
 {
     "name"               : "CWRC",
     "readFromDictionary" : [
-        "generic",
+        "custom",
         "geonames"
     ],
     "tags" : [

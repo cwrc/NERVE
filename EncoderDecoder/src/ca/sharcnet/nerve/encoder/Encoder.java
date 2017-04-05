@@ -86,7 +86,7 @@ public class Encoder {
 
         StringBuilder builder = new StringBuilder();
         if (dictionaries.size() > 0){
-            builder.append(" collection = \"").append(dictionaries.get(0)).append("\" ");
+            builder.append("collection = \"").append(dictionaries.get(0)).append("\" ");
             for (int i = 1 ; i < dictionaries.size(); i++){
                 builder.append(" OR collection = \"").append(dictionaries.get(i)).append("\" ");
             }
@@ -94,9 +94,10 @@ public class Encoder {
 
         String query = "select * from dictionary";
         if (builder.length() > 0){
-            query = String.format("select * from dictionary whgere %s", builder.toString());
+            query = String.format("select * from dictionary where %s", builder.toString());
         }
         StringMatch knownEntities = new StringMatch();
+        System.out.println(query);
         JSONArray sqlResult = sql.query(query);
 
         for (int i = 0; i < sqlResult.length(); i++) {
@@ -116,10 +117,8 @@ public class Encoder {
         /* for all child nodes, process TEXT nodes, recurse ELEMENT nodes */
         for (Node child : node.childNodes()) {
             if (child.getType() == Node.NodeType.TEXT) {
-                trace(BRANCH, " - child.getType() == Node.NodeType.TEXT");
                 lookupTag((TextNode) child, knownEntities);
             } else if (child.getType() == Node.NodeType.ELEMENT) {
-                trace(BRANCH, " - child.getType() == Node.NodeType.ELEMENT");
                 lookupTag((ElementNode) child, knownEntities);
             }
         }
@@ -127,38 +126,35 @@ public class Encoder {
 
     private void lookupTag(TextNode child, StringMatch knownEntities) {
         trace(METHOD, "lookupTag('" + child.innerText().replace("\n", "\\n") + "':TextNode, StringMatch)");
-        String innerText = child.innerText();
-
+        String innerText = child.innerText().trim();
+        if (innerText.isEmpty()) return;
         final NodeList<Node> newNodes = new NodeList<>();
 
         /* choose the largest matching known entity */
-        knownEntities.seekLine(
-                innerText,
-                (string, row) -> {
-                    TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
-                    ElementNode elementNode = new ElementNode(tagInfo.name, string);
+        OnAccept onAccept = (string, row) -> {
+            TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
+            ElementNode elementNode = new ElementNode(tagInfo.name, string);
 
-                    NodePath path = child.getNodePath();
-                    path.add(elementNode);
+            NodePath path = child.getNodePath();
+            path.add(elementNode);
 
-                    if (schema != null && !schema.isValidPath(path)) {/* verify the schema */
-                        trace(BRANCH, " - schema != null && !schema.isValidPath(path)");
+            if (schema != null && !schema.isValidPath(path)) {/* verify the schema */
+                newNodes.add(new TextNode(string));
+            } else {
+                String lemmaAttribute = context.getTagInfo(row.getString("tag")).lemmaAttribute;
+                if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
 
-                        newNodes.add(new TextNode(string));
-                    } else {
-                        String lemmaAttribute = context.getTagInfo(row.getString("tag")).lemmaAttribute;
-                        if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
+                String linkAttribute = context.getTagInfo(row.getString("tag")).linkAttribute;
+                if (!linkAttribute.isEmpty()) elementNode.addAttribute(linkAttribute, row.getString("link"));
+                newNodes.add(elementNode);
+            }
+        };
 
-                        String linkAttribute = context.getTagInfo(row.getString("tag")).linkAttribute;
-                        if (!linkAttribute.isEmpty()) elementNode.addAttribute(linkAttribute, row.getString("link"));
-                        newNodes.add(elementNode);
-                    }
-                },
-                (string) -> {
-                    newNodes.add(new TextNode(string));
-                }
-        );
+        OnReject onReject = (string) -> {
+            newNodes.add(new TextNode(string));
+        };
 
+        knownEntities.seekLine(innerText, onAccept, onReject);
         child.replaceWithCopy(newNodes);
     }
 
@@ -185,12 +181,15 @@ public class Encoder {
 
         AttributeNode attrNode = (AttributeNode) node;
         JSONObject jsonObj = new JSONObject();
-
+        for (Attribute attr : attrNode.getAttributes()){
+            jsonObj.put(attr.getKey(), attr.getValue());
+        }
         attrNode.clearAttributes();
 
         if (node.isType(NodeType.INSTRUCTION)) {
-            attrNode = (AttributeNode) attrNode.replaceWithCopy(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
-            attrNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
+            ElementNode eNode = new ElementNode(Constants.HTML_TAGNAME);
+            attrNode.replaceWith(eNode);
+            eNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
         } else if (context.isTagName(node.getName())) {
             attrNode.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
         } else {
