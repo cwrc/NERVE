@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.context;
-import ca.sharcnet.nerve.docnav.dom.Attribute;
 import java.util.HashMap;
 import org.json.JSONObject;
 
@@ -29,6 +28,7 @@ public class TagInfo {
         }
     }
 
+    public HashMap<String, String> defaults(){ return new HashMap<>(this.defaults); }
     public String getDefault(String key){ return defaults.get(key);}
     public Boolean hasDefault(String key){ return defaults.containsKey(key);}
 }

@@ -1,9 +1,6 @@
 package ca.sharcnet.nerve.encoder;
 import ca.fa.utility.collections.graph.PathResult;
 import ca.fa.utility.collections.graph.Tree;
-import ca.fa.utility.streams.ArrayPrinter;
-import static ca.sharcnet.nerve.encoder.Encoder.TRACES.METHOD;
-import java.util.Arrays;
 import org.json.JSONObject;
 
 public class StringMatch {
@@ -40,7 +37,6 @@ public class StringMatch {
         @param accept
 //     */
     public void seekLine(String source, OnAccept accept, OnReject reject) {
-        Encoder.trace(METHOD, "seekLine '" + source + "'");
         String regex = String.format("(?=(?!^)%1$s)(?<!%1$s)|(?!%1$s)(?<=%1$s)", tokenRegex);
         String[] tokens = source.split(regex);
 

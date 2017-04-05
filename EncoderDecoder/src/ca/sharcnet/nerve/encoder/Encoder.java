@@ -1,50 +1,20 @@
 package ca.sharcnet.nerve.encoder;
 import ca.sharcnet.nerve.Constants;
-import ca.fa.utility.collections.SimpleCollection;
 import ca.fa.utility.sql.SQL;
 import ca.sharcnet.nerve.context.*;
-import static ca.sharcnet.nerve.encoder.Encoder.TRACES.*;
 import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
 import ca.sharcnet.nerve.docnav.dom.Node.NodeType;
 import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Encoder {
-
-    public enum TRACES {
-        METHOD, EXCEPTION, DEBUG, PRINT_FINAL, BRANCH
-    };
-    public static final TRACES[] activeTraces = {};
-
-    public static final void trace(TRACES type, String text) {
-        if (Arrays.asList(activeTraces).contains(type)) {
-            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-            String filename = stackTrace[2].getFileName();
-            int line = stackTrace[2].getLineNumber();
-//            logger.info(Thread.currentThread().getName() + " " + filename + " " + line + " : " + text);
-            System.out.println(Thread.currentThread().getName() + " " + filename + " " + line + " : " + text);
-        }
-    }
-
-    /* --- end of trace --- */
-    public enum Parameter {
-        ADD_ID, NER, ENCODE_PROCESS, COMMENT_META, LOOKUP_TAG, LOOKUP_LEMMA, LOOKUP_LINK, OVERWRITE_LEMMA, OVERWRITE_LINK,
-        EXTRACT_LEMMAS, DECODE_PROCESS, UNCOMMENT_META, RETAIN_ALIAS, ADD_DEBUG_ATTR
-        /* included from decoder to prevent exception */
-    };
-
-    private final SimpleCollection<Parameter> parameters = new SimpleCollection<>();
-    private final InputStream inputStream;
     private final Context context;
     private final SQL sql;
     private final Classifier classifier;
@@ -52,8 +22,6 @@ public class Encoder {
     private Document document = null;
 
     public Encoder(Document document, Context context, SQL sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        trace(METHOD, "Encoder()");
-
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
 
@@ -61,12 +29,9 @@ public class Encoder {
         this.context = context;
         this.document = document;
         this.classifier = classifier;
-        this.inputStream = null;
     }
 
     public void encode(OutputStream outStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        trace(METHOD, "encode()");
-
         if (outStream == null) throw new NullPointerException();
 
         if (this.sql != null) lookupTag();
@@ -76,12 +41,10 @@ public class Encoder {
     }
 
     public void setSchema(Schema schema) {
-        trace(METHOD, "setSchema()");
         this.schema = schema;
     }
 
     private void lookupTag() throws SQLException {
-        trace(METHOD, "lookupTag()");
         List<String> dictionaries = context.readFromDictionary();
 
         StringBuilder builder = new StringBuilder();
@@ -97,7 +60,6 @@ public class Encoder {
             query = String.format("select * from dictionary where %s", builder.toString());
         }
         StringMatch knownEntities = new StringMatch();
-        System.out.println(query);
         JSONArray sqlResult = sql.query(query);
 
         for (int i = 0; i < sqlResult.length(); i++) {
@@ -108,7 +70,6 @@ public class Encoder {
     }
 
     private void lookupTag(ElementNode node, StringMatch knownEntities) {
-        trace(METHOD, "lookupTag(ElementNode, StringMatch)");
         if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
 
         /* return if the element node is already tagged */
@@ -124,8 +85,15 @@ public class Encoder {
         }
     }
 
+    private void addDefaultAttributes(ElementNode eNode){
+        TagInfo tagInfo = context.getTagInfo(eNode.getName());
+        for (String key : tagInfo.defaults().keySet()){
+            if (eNode.hasAttribute(key)) continue;
+            eNode.addAttribute(key, tagInfo.getDefault(key));
+        }
+    }
+
     private void lookupTag(TextNode child, StringMatch knownEntities) {
-        trace(METHOD, "lookupTag('" + child.innerText().replace("\n", "\\n") + "':TextNode, StringMatch)");
         String innerText = child.innerText();
         final NodeList<Node> newNodes = new NodeList<>();
 
@@ -133,6 +101,7 @@ public class Encoder {
         OnAccept onAccept = (string, row) -> {
             TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
             ElementNode elementNode = new ElementNode(tagInfo.name, string);
+            addDefaultAttributes(elementNode);
 
             NodePath path = child.getNodePath();
             path.add(elementNode);
@@ -205,13 +174,11 @@ public class Encoder {
     }
 
     private void processNER(ElementNode node) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        trace(METHOD, "preProcessNER(" + node.getName() + ")");
         if (context == null) throw new NullPointerException("Context is null.");
         if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
 
         /* if the node is specifically excluded or it's already considered tagged exit */
         if (context.isTagName(node.getName())) {
-            trace(BRANCH, " - context.isRecognizedTagName(node.getName())");
             return;
         }
 
@@ -220,11 +187,8 @@ public class Encoder {
         NodeList<Node> children = node.childNodes();
         for (Node current : children) {
             if (current.getType() == NodeType.ELEMENT) {
-                trace(BRANCH, " - current.getType() == NodeType.ELEMENT) ");
                 processNER((ElementNode) current);
             } else if (current.getType() == NodeType.TEXT) {
-                trace(BRANCH, " - current.getType() == NodeType.TEXT) ");
-
                 /* get a nodelist, zero or more of which will be element nodes, which in turn represent found entities */
                 NodeList<Node> nerList = applyNamedEntityRecognizer(current.innerText());
 
@@ -233,13 +197,9 @@ public class Encoder {
                     Node nerNode = nerList.get(i);
                     if (nerNode.getType() != NodeType.ELEMENT) continue;
                     ElementNode nerEleNode = (ElementNode) nerNode;
-                    if (parameters.contains(Parameter.ADD_DEBUG_ATTR)) {
-                        trace(BRANCH, " - parameters.contains(Parameter.ADD_DEBUG_ATTR)");
-                    }
                     NodePath path = current.getNodePath();
                     path.add(nerEleNode);
                     if (schema != null && !schema.isValidPath(path)) {
-                        trace(BRANCH, " - schema != null && !schema.isValidPath(path)");
                         TextNode textNode = new TextNode(nerEleNode.innerText());
                         nerList.set(i, textNode);
                     }
@@ -249,8 +209,6 @@ public class Encoder {
                 /* from dicionary to context taginfo name.                    */
                 for (Node nerNode : nerList) {
                     if (nerNode.getType() == NodeType.ELEMENT) {
-                        trace(BRANCH, " - nerNode.getType() == NodeType.ELEMENT)");
-
                         ElementNode nerElementNode = (ElementNode) nerNode;
                         TagInfo tagInfo = context.getTagInfo(nerElementNode.getName());
                         nerElementNode.setName(tagInfo.name);
@@ -264,8 +222,6 @@ public class Encoder {
     }
 
     private NodeList<Node> applyNamedEntityRecognizer(String text) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        trace(METHOD, "applyNamedEntityRecognizer(...)");
-
         /* at least one alphabet character upper or lower case */
         String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
 
@@ -281,15 +237,14 @@ public class Encoder {
         NodeList<ElementNode> nodes = localDoc.getElementsByName("*");
 
         /* for each node in the document (from above) if it's an NER node     */
-        /* change it's tagname to a valid tag name occording to the contxt    */
-        /* and set it's lemma if it doens't already have one                  */
+        /* change it's tagname to a valid tag name occording to the context   */
+        /* and set it's lemma if it doens't already have one.                 */
+        /* ensure that the node has the default attributes                    */
         for (ElementNode node : nodes) {
             if (context.isNERMap(node.getName())){ /* if node name is an NER tag name */
-                trace(BRANCH, " - context.isRecognizedTagName(node.getName()))");
                 TagInfo tagInfo = context.getTagInfo(node.getName());
                 node.setName(tagInfo.name);
-                trace(DEBUG, tagInfo.toString());
-                trace(DEBUG, "add ner lemma attr '" + tagInfo.lemmaAttribute + "' '" + node.innerText() + "'");
+                addDefaultAttributes(node);
                 if (!tagInfo.lemmaAttribute.isEmpty()){
                     node.addAttribute(new Attribute(tagInfo.lemmaAttribute, node.innerText()));
                 }
