@@ -1,19 +1,14 @@
 /* global Utility, Function */
 
 class Context {
-    constructor(){
+    constructor(jsonObject, onSuccess = function() {}, onFailure = function(){}){
         Utility.log(Context, "constructor");
-        Utility.enforceTypes(arguments);
-    }
-
-    load(jsonObject, onSuccess = function() {}, onFailure = function(){}) {
-        Utility.log(Context, "load");
         Utility.enforceTypes(arguments, Object, ["optional", Function], ["optional", Function]);
 
         for (let x in jsonObject) this[x] = jsonObject[x];
 
         if (typeof this.schemaName !== "undefined"){
-            this.schema = new Schema(this);
+            this.schema = new Schema();
             this.schema.load(this.schemaName, onSuccess, onFailure);
         }
     }

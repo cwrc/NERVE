@@ -83,7 +83,7 @@ public class Encode extends CustomServlet {
             resourceAsStream.close();
 
             /** add the schema **/
-            String schemaURL = context.getSchema();
+            String schemaURL = context.schemaName;
             if (schemaURL != null && !schemaURL.isEmpty()) {
                 InputStream schemaStream = new URL(schemaURL).openStream();
                 Document document = DocumentNavigator.documentFromStream(schemaStream);

@@ -39,7 +39,7 @@ public class AddEntity extends CustomServlet {
 
             if (tag != null && !tag.isEmpty()){
                 TagInfo tagInfo = context.getTagInfo(tag);
-                tag = tagInfo.getDictionaryMap();
+                tag = tagInfo.dictionary;
             }
 
             String q = String.format("insert into dictionary (entity, lemma, link, tag, collection) values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\") ON DUPLICATE KEY UPDATE lemma=\"%s\", link=\"%s\", tag=\"%s\"", entity, lemma, link, tag, collection, lemma, link, tag);

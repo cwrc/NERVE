@@ -17,7 +17,7 @@
             "dictionary"     : "ORGANIZATION",
             "nerMap"         : "ORGANIZATION",
             "dialog"         : "ORGANIZATION",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "date",
@@ -27,7 +27,7 @@
             "dictionary"     : "",
             "nerMap"         : "",
             "dialog"         : "",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "placeName",
@@ -37,7 +37,7 @@
             "dictionary"     : "PLACE",
             "nerMap"         : "LOCATION",
             "dialog"         : "PLACE",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "persName",
@@ -47,7 +47,7 @@
             "dictionary"     : "PERSON",
             "nerMap"         : "PERSON",
             "dialog"         : "PERSON",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "title",
@@ -57,7 +57,7 @@
             "dictionary"     : "TITLE",
             "dialog"         : "TITLE",
             "nerMap"         : "",
-            "defaults"       : []
+            "defaults"       : {}
         }
     ],
     "styles" : [

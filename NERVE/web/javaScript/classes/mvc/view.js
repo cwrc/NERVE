@@ -224,14 +224,16 @@ class View {
             opt.innerHTML = context.tags[i].name;
             document.getElementById("selectTagName").appendChild(opt);
         }
-        document.getElementById("selectTagName").value = document.getElementById("selectTagName").firstChild.value;
+
+//        $("selectTagName").value();
+//        document.getElementById("selectTagName").value = document.getElementById("selectTagName").firstChild.value;
 
         /* load new .css files */
         for (let stylename of context.styles) {
             this.attachStyle(stylename);
         }
 
-        return document.getElementById("selectTagName").firstChild.value;
+//        return document.getElementById("selectTagName").firstChild.value;
     }
     /* add a link element to the head of the document as a style sheet.  Adds
      * a link id = filename so it's easily found again.

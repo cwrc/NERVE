@@ -2,7 +2,6 @@
 
 class Schema {
     constructor() {
-        Schema.traceLevel = 0;
         Utility.log(Schema, "constructor");
         Utility.enforceTypes(arguments);
     }
@@ -62,10 +61,12 @@ class Schema {
         Utility.log(Schema, "getPath");
         Utility.enforceTypes(arguments, Node, String);
 
-        console.log(element);
-        while (element.nodeType !== 3){
-            element = element.parentNode;
-        }
+//        console.log(" - " + element);
+//        while (element.nodeType !== 3){
+//            console.log(" - " + element);
+//            element = element.parentNode;
+//            if (element === null) return null;
+//        }
 
         /* build path */
         let path = [];

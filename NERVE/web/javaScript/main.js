@@ -19,8 +19,11 @@ function windowLoad() {
 
 class ContextLoader {
     constructor() {
-        this.context = new Context();
-        this.context.load({tags:[], styles:[]});
+        this.context = new Context({
+            name: "",
+            tags:[],
+            styles:[]
+        });
     }
 
     loadContext(contextName, success = function() {}, failure = function(){}){}
@@ -78,19 +81,18 @@ class Main extends ContextLoader{
     loadContext(contextName, success = function() {}, failure = function(){}) {
         let url = "resources/" + contextName.toLowerCase() + ".context.json";
 
+        let onLoad = ()=>{
+            success();
+        };
+
         this.fileOps.loadFromServer(url, (contents) => {
             this.settings.setValue("contextName", contextName);
-
-            let onLoad = ()=>{
-                this.model.setContext(this.context);
-                this.controller.setContext(this.context);
-                this.view.setContext(this.context);
-                this.events.setContext(this.context);
-                $.fn.xmlAttr.defaults.context = this.context;
-                success();
-            }
-
-            this.context.load(JSON.parse(contents), onLoad, failure);
+            this.context = new Context(JSON.parse(contents), onLoad, failure);
+            this.model.setContext(this.context);
+            this.controller.setContext(this.context);
+            this.view.setContext(this.context);
+            this.events.setContext(this.context);
+            $.fn.xmlAttr.defaults.context = this.context;            
         }, (status, text) => {
             failure(status, text, contextName);
         });

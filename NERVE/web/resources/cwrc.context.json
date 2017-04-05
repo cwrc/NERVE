@@ -13,7 +13,7 @@
             "nerMap"         : "ORGANIZATION",
             "dialog"         : "ORGANIZATION",
             "idAttribute"    : "annotationID",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "DATE",
@@ -23,7 +23,7 @@
             "nerMap"         : "",
             "dialog"         : "",
             "idAttribute"    : "",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "PLACE",
@@ -33,7 +33,7 @@
             "nerMap"         : "LOCATION",
             "dialog"         : "PLACE",
             "idAttribute"    : "annotationID",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "NAME",
@@ -43,7 +43,7 @@
             "nerMap"         : "PERSON",
             "dialog"         : "PERSON",
             "idAttribute"    : "annotationID",
-            "defaults"       : []
+            "defaults"       : {}
         },
         {
             "name"           : "TITLE",
@@ -53,7 +53,7 @@
             "nerMap"         : "",
             "dialog"         : "TITLE",
             "idAttribute"    : "annotationID",
-            "defaults"       : []
+            "defaults"       : {}
         }
     ],
     "styles" : [

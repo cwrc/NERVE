@@ -76,13 +76,13 @@
 
         if (typeof value === "undefined"){
             let tagName = $(this).attr(opts.xmlTagName);
-            let lemmaAttr = context.getTagInfo(tagName).lemma;
+            let lemmaAttr = context.getTagInfo(tagName).lemmaAttribute;
             return $(this).xmlAttr(lemmaAttr);
         }
 
         return this.each(function() {
             let tagName = $(this).attr(opts.xmlTagName);
-            let lemmaAttr = context.getTagInfo(tagName).lemma;
+            let lemmaAttr = context.getTagInfo(tagName).lemmaAttribute;
             $(this).xmlAttr(lemmaAttr, value);
         });
     };
@@ -95,13 +95,13 @@
 
         if (typeof value === "undefined"){
             let tagName = $(this).attr(opts.xmlTagName);
-            let linkAttr = context.getTagInfo(tagName).link;
+            let linkAttr = context.getTagInfo(tagName).linkAttribute;
             return $(this).xmlAttr(linkAttr);
         }
 
         return this.each(function() {
             let tagName = $(this).attr(opts.xmlTagName);
-            let linkAttr = context.getTagInfo(tagName).link;
+            let linkAttr = context.getTagInfo(tagName).linkAttribute;
             $(this).xmlAttr(linkAttr, value);
         });
     };

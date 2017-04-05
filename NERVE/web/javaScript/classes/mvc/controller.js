@@ -118,6 +118,7 @@ class Controller {
 
         this.dictionary.getEntities(entity, (rows) => {
             for (let row of rows) {
+                console.log(row);
                 values.tagName = this.context.getTagInfo(row.tag).name;
                 values.lemma = row.lemma;
                 values.link = row.link;
@@ -506,6 +507,7 @@ class Controller {
             } else {
                 let dictTag = this.context.getTagInfo($(entity).entityTag()).dictionary;
                 for (let row of rows) {
+                    console.log(row);
                     if (row.lemma === $(entity).lemma() && row.link === $(entity).link() && row.tag === dictTag) {
                         $(entity).attr("data-dictionary", row.collection);
                         if (row.collection === "custom") break;
@@ -513,6 +515,7 @@ class Controller {
                 }
 
                 if (typeof $(entity).attr("data-dictionary") === "undefined") {
+                    console.log("undefined");
                     this.view.setDictionaryButton("add");
                     for (let row of rows) {
                         if (row.collection === "custom"){
@@ -521,6 +524,8 @@ class Controller {
                         }
                     }
                 } else {
+                    console.log("defined");
+                    console.log($(entity).attr("data-dictionary"));
                     this.view.setDictionary($(entity).attr("data-dictionary"));
                     if ($(entity).attr("data-dictionary") !== "custom") this.view.setDictionaryButton("add");
                     else this.view.setDictionaryButton("remove");
