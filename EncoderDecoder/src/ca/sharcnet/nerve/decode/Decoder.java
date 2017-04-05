@@ -43,9 +43,7 @@ public class Decoder {
                 return iNode;
             }
             case HTML_DOCTYPE_CLASSNAME:{
-                Attribute attribute = srcNode.getAttribute(DOCTYPE_INNERTEXT);
                 DoctypeNode dNode = new DoctypeNode(srcNode.getAttributeValue(DOCTYPE_INNERTEXT));
-                System.out.println(dNode);
                 return dNode;
             }
         };

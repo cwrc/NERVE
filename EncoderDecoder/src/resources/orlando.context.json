@@ -1,9 +1,5 @@
 {
     "name"               : "Orlando",
-    "linkAttribute"      : "REF",
-    "idAttribute"        : "annotationId",
-    "lemmaAttribute"     : "REG",
-    "writeToDictionary"  : "generic",
     "readFromDictionary" : [
         "generic",
         "geonames"
@@ -13,49 +9,55 @@
             "name"           : "ORGNAME",
             "dictionary"     : "ORGANIZATION",
             "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
             "nerMap"         : "ORGANIZATION",
-            "dialog"         : "ORGANIZATION"
+            "dialog"         : "ORGANIZATION",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
         },
         {
             "name"           : "DATE",
+            "dictionary"     : "",
+            "lemmaAttribute" : "REG",
             "linkAttribute"  : "",
+            "nerMap"         : "",
+            "dialog"         : "",
             "idAttribute"    : "",
-            "lemmaAttribute" : ""
+            "defaults"       : {}
         },
         {
             "name"           : "PLACE",
             "dictionary"     : "PLACE",
-            "lemmaAttribute" : "",
+            "lemmaAttribute" : "REG",
+            "linkAttribute"  : "REF",
             "nerMap"         : "LOCATION",
-            "dialog"         : "PLACE"
+            "dialog"         : "PLACE",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
         },
         {
             "name"           : "NAME",
             "dictionary"     : "PERSON",
             "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
             "nerMap"         : "PERSON",
-            "dialog"         : "PERSON"
+            "dialog"         : "PERSON",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
         },
         {
             "name"           : "TITLE",
             "dictionary"     : "TITLE",
             "lemmaAttribute" : "REG",
-            "dialog"         : "TITLE"
+            "linkAttribute"  : "REF",
+            "nerMap"         : "",
+            "dialog"         : "TITLE",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
         }
     ],
-    "htmlLabels" : {
-        "tagged"  : "tagged",
-        "tagName" : "tagname",
-        "lemma"   : "lemma",
-        "entity"  : "entity",
-        "taglink" : "taglink"
-    },
-    "tagNameRules" : {
-        "prefix" : "otag",
-        "attribute" : "oattr"
-    },
     "styles" : [
         "orlando.css"
     ],
-    "schema" : "http://cwrc.ca/schemas/orlando_biography_v2.rng"
+    "schemaName" : "http://cwrc.ca/schemas/orlando_biography_v2.rng"
 }

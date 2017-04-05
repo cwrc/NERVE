@@ -39,7 +39,7 @@ public class Main {
         Encoder encoder = new Encoder(document, context, new Classifier(bis));
         cStream.close();
 
-        String schemaURL = context.getSchema();
+        String schemaURL = context.schemaName;
         if (schemaURL != null && !schemaURL.isEmpty()) {
             InputStream schemaStream = new URL(schemaURL).openStream();
             Document schemaDocument = DocumentNavigator.documentFromStream(schemaStream);

@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -178,11 +179,21 @@ public class Encoder {
 
     private void lookupTag() throws SQLException {
         trace(METHOD, "lookupTag()");
-        String dictionaries = context.readFromDictionarySQLString();
-        if (!dictionaries.isEmpty()) dictionaries = "where " + dictionaries;
-        String query = String.format("select * from dictionary %s", dictionaries);
-        StringMatch knownEntities = new StringMatch();
+        List<String> dictionaries = context.readFromDictionary();
 
+        StringBuilder builder = new StringBuilder();
+        if (dictionaries.size() > 0){
+            builder.append(" collection = \"").append(dictionaries.get(0)).append("\" ");
+            for (int i = 1 ; i < dictionaries.size(); i++){
+                builder.append(" OR collection = \"").append(dictionaries.get(i)).append("\" ");
+            }
+        }
+
+        String query = "select * from dictionary";
+        if (builder.length() > 0){
+            query = String.format("select * from dictionary whgere %s", builder.toString());
+        }
+        StringMatch knownEntities = new StringMatch();
         JSONArray sqlResult = sql.query(query);
 
         for (int i = 0; i < sqlResult.length(); i++) {
@@ -197,7 +208,7 @@ public class Encoder {
         if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
 
         /* return if the element node is already tagged */
-        if (context.isTagName(node.getName())) return;
+        if (context.tags().containsKey(node.getName())) return;
 
         /* for all child nodes, process TEXT nodes, recurse ELEMENT nodes */
         for (Node child : node.childNodes()) {
@@ -222,7 +233,7 @@ public class Encoder {
                 innerText,
                 (string, row) -> {
                     TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
-                    ElementNode elementNode = new ElementNode(tagInfo.getName(), string);
+                    ElementNode elementNode = new ElementNode(tagInfo.name, string);
 
                     NodePath path = child.getNodePath();
                     path.add(elementNode);
@@ -232,14 +243,12 @@ public class Encoder {
 
                         newNodes.add(new TextNode(string));
                     } else {
-                        String lemmaAttribute = context.getTagInfo(row.getString("tag")).getLemmaAttribute();
+                        String lemmaAttribute = context.getTagInfo(row.getString("tag")).lemmaAttribute;
                         if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
 
-                        String linkAttribute = context.getTagInfo(row.getString("tag")).getLinkAttribute();
+                        String linkAttribute = context.getTagInfo(row.getString("tag")).linkAttribute;
                         if (!linkAttribute.isEmpty()) elementNode.addAttribute(linkAttribute, row.getString("link"));
                         newNodes.add(elementNode);
-
-                        elementNode.addAttribute(context.getDictionaryAttribute(), row.getString("collection"));
                     }
                 },
                 (string) -> {
@@ -280,10 +289,8 @@ public class Encoder {
             attrNode = (AttributeNode) attrNode.replaceWithCopy(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
             attrNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
         } else if (context.isTagName(node.getName())) {
-            System.out.println(node.getName() + " is tag name");
             attrNode.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
         } else {
-            System.out.println(node.getName() + " not tag name");
             attrNode.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
             ElementNode eNode = (ElementNode) attrNode;
             for (Node child : eNode.childNodes()) {
@@ -302,7 +309,7 @@ public class Encoder {
         if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
 
         /* if the node is specifically excluded or it's already considered tagged exit */
-        if (context.isRecognizedTagName(node.getName())) {
+        if (context.isTagName(node.getName())) {
             trace(BRANCH, " - context.isRecognizedTagName(node.getName())");
             return;
         }
@@ -345,7 +352,7 @@ public class Encoder {
 
                         ElementNode nerElementNode = (ElementNode) nerNode;
                         TagInfo tagInfo = context.getTagInfo(nerElementNode.getName());
-                        nerElementNode.setName(tagInfo.getName());
+                        nerElementNode.setName(tagInfo.name);
                     }
                 }
 
@@ -376,14 +383,14 @@ public class Encoder {
         /* change it's tagname to a valid tag name occording to the contxt    */
         /* and set it's lemma if it doens't already have one                  */
         for (ElementNode node : nodes) {
-            if (context.isNERMapTagName(node.getName())) {
+            if (context.isNERMap(node.getName())){ /* if node name is an NER tag name */
                 trace(BRANCH, " - context.isRecognizedTagName(node.getName()))");
                 TagInfo tagInfo = context.getTagInfo(node.getName());
-                node.setName(tagInfo.getName());
+                node.setName(tagInfo.name);
                 trace(DEBUG, tagInfo.toString());
-                trace(DEBUG, "add ner lemma attr '" + tagInfo.getLemmaAttribute() + "' '" + node.innerText() + "'");
-                if (!tagInfo.getLemmaAttribute().isEmpty()){
-                    node.addAttribute(new Attribute(tagInfo.getLemmaAttribute(), node.innerText()));
+                trace(DEBUG, "add ner lemma attr '" + tagInfo.lemmaAttribute + "' '" + node.innerText() + "'");
+                if (!tagInfo.lemmaAttribute.isEmpty()){
+                    node.addAttribute(new Attribute(tagInfo.lemmaAttribute, node.innerText()));
                 }
             }
         }
