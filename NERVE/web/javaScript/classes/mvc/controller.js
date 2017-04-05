@@ -14,6 +14,7 @@ class Controller {
      * @param {View} view
      * @param {Model} model
      * @param {FileOperations} fileOps
+     * @param {ContextLoader} loader
      * @returns {Controller}
      */
     constructor(view, model, fileOps, loader) {
@@ -31,7 +32,7 @@ class Controller {
         this.settings = new Storage("controller");
         this.searchUtility = new SearchUtility("#entityPanel");
 
-        this.pollDictionaryDelay = null;
+        this.dTimeout = null;
         this.copiedInfo = null;
         this.isSaved = false;
     }
@@ -42,21 +43,29 @@ class Controller {
         Utility.enforceTypes(arguments);
         if (this.copiedInfo === null || this.selected.isEmpty()) return;
         this.model.setEntityValues(this.selected.$(), this.copiedInfo);
+        this.model.setupTaggedEntity(this.selected.$());
         this.view.setDialogs(this.selected.getLast());
         this.view.setSearchText("");
         this.searchUtility.reset();
         this.isSaved = false;
+        this.model.saveState();
     }
 
     mergeSelectedEntities() {
         Utility.log(Controller, "mergeSelectedEntities");
         Utility.enforceTypes(arguments);
 
-        let ele = this.selected.$().mergeElements();
+        try{
+            var ele = this.selected.$().mergeElements();
+        } catch (error){
+            this.view.showUserMessage(error.message);
+            return;
+        }
+
         $(ele).attr($.fn.xmlAttr.defaults.attrName, "{}");
         $(ele).addClass("taggedentity");
-        this.model.setEntityValues(ele, this.view.getDialogs());
-        this.listener.addTaggedEntity(ele);
+        this.model.setEntityValues($(ele), this.view.getDialogs());
+        this.model.setupTaggedEntity($(ele));
         this.selected.clear();
         this.addSelected(ele[0]);
 
@@ -66,30 +75,6 @@ class Controller {
         this.isSaved = false;
     }
 
-    notifyDialogInput(dialog) {
-        Utility.log(Controller, "notifyDialogInput");
-        Utility.enforceTypes(arguments, String);
-
-        let dialogValues = this.view.getDialogs();
-        switch (dialog) {
-            case "tag":
-                this.selected.$().entityTag(dialogValues.tagName);
-                break;
-            case "text":
-                this.selected.$().text(dialogValues.entity);
-                break;
-            case "lemma":
-                this.selected.$().lemma(dialogValues.lemma);
-                break;
-            case "link":
-                this.selected.$().link(dialogValues.link);
-                break;
-        }
-
-        this.view.setSearchText("");
-        this.searchUtility.reset();
-        this.pollDialogs();
-    }
     tagSelectedRange() {
         Utility.log(Controller, "tagSelectedRange");
         Utility.enforceTypes(arguments);
@@ -109,6 +94,7 @@ class Controller {
 
         let callback = (values)=>{
             this.model.setEntityValues(taggedEntity, values);
+            this.model.setupTaggedEntity(taggedEntity);
             selection.removeAllRanges();
             document.normalize();
             this.addSelected(taggedEntity);
@@ -116,12 +102,16 @@ class Controller {
             this.isSaved = false;
             this.view.showUserMessage(`New "${tagName}" entity created.`);
             this.view.setSearchText("");
-            this.searchUtility.reset();
+//            this.searchUtility.reset();
         };
         this.getValues(taggedEntity, {tagName:tagName, lemma:$(taggedEntity).text(), link:""}, callback);
     }
 
-    /* use when a new entity is created, currently only with tagSelectedRange */
+    /**
+     *  Use when a new entity is created, currently only with tagSelectedRange
+     *  Fills in the entity values with those from the dictionary.
+     *  The default values are given with "values".
+     **/
     getValues(entity, values, callback){
         Utility.log(Controller, "getValues");
         Utility.enforceTypes(arguments, HTMLDivElement, Object, Function);
@@ -155,6 +145,34 @@ class Controller {
         this.view.showUserMessage(count + " entit" + (count === 1 ? "y" : "ies") + " untagged");
         this.view.setSearchText("");
         this.searchUtility.reset();
+    }
+
+/* end of active model control */
+
+    notifyDialogInput(dialog) {
+        Utility.log(Controller, "notifyDialogInput");
+        Utility.enforceTypes(arguments, String);
+
+        let dialogValues = this.view.getDialogs();
+        switch (dialog) {
+            case "tag":
+                this.selected.$().entityTag(dialogValues.tagName);
+                break;
+            case "text":
+                this.selected.$().text(dialogValues.entity);
+                break;
+            case "lemma":
+                this.selected.$().lemma(dialogValues.lemma);
+                break;
+            case "link":
+                this.selected.$().link(dialogValues.link);
+                break;
+        }
+
+        this.view.setSearchText("");
+        this.searchUtility.reset();
+        this.pollDialogs();
+        this.pollDictionaryDelayed(this.selected.getLast(), 500);
     }
 
     /* other */
@@ -205,9 +223,16 @@ class Controller {
         if (this.selected.isEmpty()) return;
         this.dictionary.removeEntity(this.selected.getLast());
         this.pollDictionary(this.selected.getLast());
+        $(this.selected.getLast()).removeAttr("data-dictionary");
     }
 
     dictUpdate(){
+        Utility.log(Controller, "dictUpdate");
+        Utility.enforceTypes(arguments);
+        if (this.selected.isEmpty()) return;
+        this.dictionary.addEntity(this.selected.getLast());
+        this.view.setDictionary("custom");
+        this.view.setDictionaryButton("remove");
     }
 
     copyData(entityFrom, entityTo){
@@ -317,23 +342,25 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         let flagLemma = true;
-        let flatLink = true;
+        let flagLink = true;
         let flagText = true;
         let flagTag = true;
         let first = this.selected.getFirst();
 
         this.selected.each((entity)=>{
             if ($(entity).lemma() !== $(first).lemma()) flagLemma = false;
-            if ($(entity).link() !== $(first).link()) flatLink = false;
+            if ($(entity).link() !== $(first).link()) flagLink = false;
             if ($(entity).text() !== $(first).text()) flagText = false;
             if ($(entity).entityTag() !== $(first).entityTag()) flagTag = false;
         });
 
         this.view.clearDialogBG();
         if (!flagLemma) this.view.setDialogBG("lemma");
-        if (!flatLink) this.view.setDialogBG("link");
+        if (!flagLink) this.view.setDialogBG("link");
         if (!flagText) this.view.setDialogBG("text");
         if (!flagTag) this.view.setDialogBG("tag");
+
+        return flagLemma && flagLink && flagText && flagTag;
     }
 
     __constructEntityFromRange(range, tagName) {
@@ -354,7 +381,6 @@ class Controller {
 
         range.deleteContents();
         range.insertNode(ele);
-        this.listener.addTaggedEntity(ele);
         this.setDialogs(ele, 0);
 
         /* TODO set identifier */
@@ -454,6 +480,13 @@ class Controller {
 
         this.dictionaryUpdate = value;
         this.view.enableDictionaryUpdate(value);
+    }
+
+    pollDictionaryDelayed(entity, delay){
+        if (this.dTimeout !== null) clearTimeout(this.dTimeout);
+        this.dTimeout = setTimeout(()=>{
+            this.pollDictionary(entity);
+        }, delay);
     }
 
    /* If no results are found set button to add.
@@ -578,7 +611,7 @@ class Controller {
 
         let successfullEncode = (text)=>{
             this.model.setDocument(text, fname);
-            this.listener.addTaggedEntity(".taggedentity");
+            this.model.setupTaggedEntity($(".taggedentity"));
             this.isSaved = true;
 
             let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");

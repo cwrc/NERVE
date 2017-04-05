@@ -1,9 +1,8 @@
 package ca.sharcnet.dh.nerve.servlets.dictionary;
-import ca.fa.utility.SQLHelper;
+import ca.fa.utility.sql.SQL;
 import ca.fa.utility.streams.StreamUtil;
 import ca.sharcnet.dh.nerve.servlets.CustomServlet;
 import ca.sharcnet.nerve.context.Context;
-import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.context.TagInfo;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ public class AddEntity extends CustomServlet {
         try {
             Properties config = new Properties();
             config.load(getServletContext().getResourceAsStream("/WEB-INF/config.txt"));
-            SQLHelper sql = new SQLHelper(config);
+            SQL sql = new SQL(config);
 
             String jsonString = StreamUtil.toString(request.getInputStream());
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -44,6 +43,7 @@ public class AddEntity extends CustomServlet {
             }
 
             String q = String.format("insert into dictionary (entity, lemma, link, tag, collection) values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\") ON DUPLICATE KEY UPDATE lemma=\"%s\", link=\"%s\", tag=\"%s\"", entity, lemma, link, tag, collection, lemma, link, tag);
+            System.out.println(q);
             int r = sql.update(q);
             if (r == 0) return this.setFailure("insertion failed");
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {

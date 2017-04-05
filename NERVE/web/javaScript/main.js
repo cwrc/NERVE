@@ -53,6 +53,7 @@ class Main extends ContextLoader{
             this.listener = new Listeners(this.view, this.events, this.controller);
             this.controller.setListener(this.listener);
             this.model.setListener(this.listener);
+            this.model.loadStoredDoc();
             this.view.popThrobberMessage();
             this.view.showThrobber(false);
             $("#container").show();
@@ -70,6 +71,7 @@ class Main extends ContextLoader{
         if (this.settings.hasValue("contextName")){
             contextName = this.settings.getValue("contextName");
         }
+
         this.loadContext(contextName, onContextLoadSuccess, onContextLoadFailure);
     }
 
@@ -78,13 +80,17 @@ class Main extends ContextLoader{
 
         this.fileOps.loadFromServer(url, (contents) => {
             this.settings.setValue("contextName", contextName);
-            this.context.load(JSON.parse(contents), success, failure);
 
-            this.model.setContext(this.context);
-            this.controller.setContext(this.context);
-            this.view.setContext(this.context);
-            this.events.setContext(this.context);
-            $.fn.xmlAttr.defaults.context = this.context;
+            let onLoad = ()=>{
+                this.model.setContext(this.context);
+                this.controller.setContext(this.context);
+                this.view.setContext(this.context);
+                this.events.setContext(this.context);
+                $.fn.xmlAttr.defaults.context = this.context;
+                success();
+            }
+
+            this.context.load(JSON.parse(contents), onLoad, failure);
         }, (status, text) => {
             failure(status, text, contextName);
         });

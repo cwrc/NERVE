@@ -1,4 +1,4 @@
-/* global trace, Utility */
+/* global trace, Utility, Listeners */
 
 class Model {
     constructor(view, settings) {
@@ -10,12 +10,18 @@ class Model {
         this.settings = settings;
         this.variables = {};
 
+        /* refers to the index of the last saved state -1 if never saved */
+        this.stateIndex = -1;
         this.maxStateIndex = 30;
         this.__resetState();
+    }
 
+    loadStoredDoc(){
         if (this.settings.hasValue("document") && this.settings.hasValue("filename")){
             this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
             $(".selected").removeClass("selected");
+            console.log("here");
+            this.setupTaggedEntity($(".taggedentity"));
         }
     }
 
@@ -142,18 +148,33 @@ class Model {
 
     setEntityValues(selector, values){
         Utility.log(Model, "setEntityValues");
-        Utility.enforceTypes(arguments, HTMLDivElement, Object);
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery], Object);
 
         $(selector).entityTag(values.tagName);
         $(selector).lemma(values.lemma);
         $(selector).link(values.link);
+    }
+
+    setupTaggedEntity(selector){
+        Utility.log(Model, "setupTaggedEntity");
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+
+        $(selector).each((i, ele)=>{
+            console.log($(ele).text() + " : " + $(ele).link());
+            this.listener.addTaggedEntity(ele);
+            if ($(ele).link() === "" || typeof $(ele).link() === "undefined"){
+                $(ele).addClass("notLinked");
+            } else {
+                $(ele).addClass("linked");
+            }
+        });
     }
 }
 
 Model.xmlAttr = function(element, attr, value){
     let rvalue = {};
     if ($(element).attr("xmlattrs") === undefined){
-        $(element).attr("xmlattrs", "")
+        $(element).attr("xmlattrs", "");
         return rvalue;
     }
     let xmlAttr = $(element).attr("xmlattrs").split(";");
