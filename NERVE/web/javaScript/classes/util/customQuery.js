@@ -38,7 +38,7 @@
             if (start === null || range.startOffset < start.startOffset) start = range;
             if (end === null || range.endOffset > end.endOffset) end = range;
         });
-        
+
         let range = new Range();
         range.setStart(start.startContainer, start.startOffset);
         range.setEnd(end.endContainer, end.endOffset);
@@ -76,13 +76,13 @@
 
         if (typeof value === "undefined"){
             let tagName = $(this).attr(opts.xmlTagName);
-            let lemmaAttr = context.getLemmaAttribute(tagName);
+            let lemmaAttr = context.getTagInfo(tagName).lemma;
             return $(this).xmlAttr(lemmaAttr);
         }
 
         return this.each(function() {
             let tagName = $(this).attr(opts.xmlTagName);
-            let lemmaAttr = context.getLemmaAttribute(tagName);
+            let lemmaAttr = context.getTagInfo(tagName).lemma;
             $(this).xmlAttr(lemmaAttr, value);
         });
     };
@@ -95,13 +95,13 @@
 
         if (typeof value === "undefined"){
             let tagName = $(this).attr(opts.xmlTagName);
-            let linkAttr = context.getLinkAttribute(tagName);
+            let linkAttr = context.getTagInfo(tagName).link;
             return $(this).xmlAttr(linkAttr);
         }
 
         return this.each(function() {
             let tagName = $(this).attr(opts.xmlTagName);
-            let linkAttr = context.getLinkAttribute(tagName);
+            let linkAttr = context.getTagInfo(tagName).link;
             $(this).xmlAttr(linkAttr, value);
         });
     };

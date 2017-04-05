@@ -1,9 +1,5 @@
 {
     "name"               : "CWRC",
-    "linkAttribute"      : "REF",
-    "idAttribute"        : "annotationID",
-    "lemmaAttribute"     : "STANDARD",
-    "writeToDictionary"  : "generic",
     "readFromDictionary" : [
         "generic",
         "geonames"
@@ -13,45 +9,55 @@
             "name"           : "ORGNAME",
             "dictionary"     : "ORGANIZATION",
             "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
             "nerMap"         : "ORGANIZATION",
-            "dialog"         : "ORGANIZATION"
+            "dialog"         : "ORGANIZATION",
+            "idAttribute"    : "annotationID",
+            "defaults"       : []
         },
         {
             "name"           : "DATE",
+            "dictionary"     : "",
+            "lemmaAttribute" : "",
             "linkAttribute"  : "",
+            "nerMap"         : "",
+            "dialog"         : "",
             "idAttribute"    : "",
-            "lemmaAttribute" : ""
+            "defaults"       : []
         },
         {
             "name"           : "PLACE",
             "dictionary"     : "PLACE",
             "lemmaAttribute" : "REG",
+            "linkAttribute"  : "REF",
             "nerMap"         : "LOCATION",
-            "dialog"         : "PLACE"
+            "dialog"         : "PLACE",
+            "idAttribute"    : "annotationID",
+            "defaults"       : []
         },
         {
             "name"           : "NAME",
             "dictionary"     : "PERSON",
             "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
             "nerMap"         : "PERSON",
-            "dialog"         : "PERSON"
+            "dialog"         : "PERSON",
+            "idAttribute"    : "annotationID",
+            "defaults"       : []
         },
         {
             "name"           : "TITLE",
             "dictionary"     : "TITLE",
             "lemmaAttribute" : "REG",
-            "dialog"         : "TITLE"
+            "linkAttribute"  : "REF",
+            "nerMap"         : "",
+            "dialog"         : "TITLE",
+            "idAttribute"    : "annotationID",
+            "defaults"       : []
         }
     ],
-    "htmlLabels" : {
-        "tagged"  : "tagged",
-        "tagName" : "tagname",
-        "lemma"   : "lemma",
-        "entity"  : "entity",
-        "taglink" : "taglink"
-    },
     "styles" : [
         "playwrights.css"
     ],
-    "schema" : "http://cwrc.ca/schemas/cwrc_entry.rng"
+    "schemaName" : "http://cwrc.ca/schemas/cwrc_entry.rng"
 }

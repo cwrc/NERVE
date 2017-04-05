@@ -200,12 +200,12 @@ class View {
 
         /* remove all styles of current context */
         if (this.context !== null) {
-            for (let stylename of this.context.styles()) {
+            for (let stylename of this.context.styles) {
                 this.detachStyle(stylename);
             }
         }
 
-        let contextName = context.getName().toLowerCase();
+        let contextName = context.name.toLowerCase();
         $(`[data-context]`).removeClass("activeText");
         $(`[data-context='${contextName}']`).addClass("activeText");
 
@@ -218,20 +218,17 @@ class View {
         }
 
         /* set the available tags in the drop down selector */
-        let tags = context.tags();
-        for (var i = 0; i < tags.length; i++) {
+        for (var i = 0; i < context.tags.length; i++) {
             var opt = document.createElement('option');
-            opt.value = tags[i].name;
-            opt.innerHTML = tags[i].name;
+            opt.value = context.tags[i].name;
+            opt.innerHTML = context.tags[i].name;
             document.getElementById("selectTagName").appendChild(opt);
         }
         document.getElementById("selectTagName").value = document.getElementById("selectTagName").firstChild.value;
 
         /* load new .css files */
-        if (context.styles()) {
-            for (let stylename of context.styles()) {
-                this.attachStyle(stylename);
-            }
+        for (let stylename of context.styles) {
+            this.attachStyle(stylename);
         }
 
         return document.getElementById("selectTagName").firstChild.value;

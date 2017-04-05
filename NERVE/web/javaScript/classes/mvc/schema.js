@@ -1,13 +1,12 @@
 /* global Context, Utility, Function */
 
 class Schema {
-    constructor(context) {
+    constructor() {
         Schema.traceLevel = 0;
         Utility.log(Schema, "constructor");
-        Utility.enforceTypes(arguments, Context);
-
-        this.context = context;
+        Utility.enforceTypes(arguments);
     }
+
     load(url, onSuccess = function() {}, onFailure = function() {}) {
         Utility.log(Schema, "load");
         Utility.enforceTypes(arguments, String, ["optional", Function], ["optional", Function]);

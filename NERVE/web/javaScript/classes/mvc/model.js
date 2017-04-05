@@ -20,7 +20,6 @@ class Model {
         if (this.settings.hasValue("document") && this.settings.hasValue("filename")){
             this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
             $(".selected").removeClass("selected");
-            console.log("here");
             this.setupTaggedEntity($(".taggedentity"));
         }
     }
@@ -160,7 +159,6 @@ class Model {
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
 
         $(selector).each((i, ele)=>{
-            console.log($(ele).text() + " : " + $(ele).link());
             this.listener.addTaggedEntity(ele);
             if ($(ele).link() === "" || typeof $(ele).link() === "undefined"){
                 $(ele).addClass("notLinked");

@@ -118,12 +118,12 @@ class Listeners {
         $(ele).dblclick((event)=>{event.stopPropagation(); this.controller.selectLikeEntitiesByLemma();});
     }
 
-    switchContext(context){
+    switchContext(contextName){
         $("#menuORLANDO").removeClass("activeText");
         $("#menuCWRC").removeClass("activeText");
         $("#menuTEI").removeClass("activeText");
-        $(`#menu${context.toUpperCase()}`).addClass("activeText");
-        this.events.menuContextChange(context);
+        $(`#menu${contextName.toUpperCase()}`).addClass("activeText");
+        this.events.menuContextChange(contextName);
     }
 
     menuShowTags(){

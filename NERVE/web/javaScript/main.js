@@ -20,7 +20,7 @@ function windowLoad() {
 class ContextLoader {
     constructor() {
         this.context = new Context();
-        this.context.load({tags: []});
+        this.context.load({tags:[], styles:[]});
     }
 
     loadContext(contextName, success = function() {}, failure = function(){}){}
