@@ -274,12 +274,7 @@ public class Encoder {
         AttributeNode attrNode = (AttributeNode) node;
         JSONObject jsonObj = new JSONObject();
 
-        for (Attribute attr : attrNode.getAttributes()) {
-            if (!attr.getKey().equals("data-dictionary")){
-                jsonObj.put(attr.getKey(), attr.getValue());
-                attrNode.removeAttribute(attr.getKey());
-            }
-        }
+        attrNode.clearAttributes();
 
         if (node.isType(NodeType.INSTRUCTION)) {
             attrNode = (AttributeNode) attrNode.replaceWithCopy(new ElementNode(Constants.HTML_TAGNAME, attrNode.getAttributes()));
