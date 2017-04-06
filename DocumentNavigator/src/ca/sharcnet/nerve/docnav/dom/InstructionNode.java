@@ -10,26 +10,21 @@ public class InstructionNode extends AttributeNode{
     @param innerText
     */
     public InstructionNode(String innerText){
-        this(innerText, null);
+        this();
         parse(innerText);
     }
 
     public InstructionNode(){
-        super(NodeType.INSTRUCTION, "", "@METADATA", null);
+        super(NodeType.INSTRUCTION, "", "@METADATA");
     }
 
-    InstructionNode(String innerText, ElementNode parent){
-        super(NodeType.INSTRUCTION, innerText, "@METADATA", parent);
-        parse(innerText);
-    }
-
-    public InstructionNode setName(String name) {
-        if (name.startsWith("@")
-            || name.contains(" ")) {
-            throw new RuntimeException("Invalid node name");
+    @Override
+    public Node copy() {
+        InstructionNode that = new InstructionNode();
+        for (Attribute attr : this.attributes){
+            that.addAttribute(attr.key, attr.value);
         }
-        super.name = name;
-        return this;
+        return that;
     }
 
     private void parse(String innerText){
@@ -47,11 +42,6 @@ public class InstructionNode extends AttributeNode{
                 this.attributes.add(new Attribute(a[0], value));
             }
         }
-    }
-
-    @Override
-    Node copy(ElementNode newParent){
-        return new InstructionNode(this.innerText(), newParent);
     }
 
     /**

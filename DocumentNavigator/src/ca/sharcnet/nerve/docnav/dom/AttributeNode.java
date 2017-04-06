@@ -3,13 +3,13 @@ package ca.sharcnet.nerve.docnav.dom;
 public abstract class AttributeNode extends Node  {
     final AttributeList attributes;
 
-    AttributeNode(NodeType type, String innerText, String name, ElementNode parent){
-        super(type, innerText, name, parent);
+    AttributeNode(NodeType type, String innerText, String name){
+        super(type, name);
         this.attributes = new AttributeList();
     }
 
-    AttributeNode(NodeType type, String name, AttributeList attributes, ElementNode parent){
-        super(type, "", name, parent);
+    AttributeNode(NodeType type, String name, AttributeList attributes){
+        super(type, name);
         this.attributes = new AttributeList();
 
         if (attributes != null) {

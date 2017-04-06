@@ -3,41 +3,29 @@ package ca.sharcnet.nerve.docnav.dom;
 /**
  * immutable base class from which all other nodes are derived
  */
-public class Node {
+public abstract class Node {
     public enum NodeType {
         DOCUMENT, TEXT, ELEMENT, COMMENT, INSTRUCTION, DOCTYPE
     };
 
-    private NodeType type;
-    private final String innerText;
+    private final NodeType type;
     private ElementNode parent;
     protected String name;
 
-    public Node(NodeType type, String innerText, String name) {
+    public Node(NodeType type, String name) {
         this.type = type;
-        this.innerText = innerText;
         this.name = name;
         this.parent = null;
     }
 
     public Node setName(String name) {
-        if (name.startsWith("@")
-            || name.contains(" ")) {
-            throw new RuntimeException("Invalid node name");
-        }
         this.name = name;
         return this;
     }
 
-    Node setType(NodeType type){
-        this.type = type;
-        return this;
-    }
-
-    Node(NodeType type, String innerText, String name, ElementNode parent) {
+    Node(NodeType type, String name, ElementNode parent) {
         if (name == null) throw new NullPointerException();
         this.type = type;
-        this.innerText = innerText;
         this.name = name;
         this.parent = parent;
     }
@@ -56,13 +44,7 @@ public class Node {
         return (E) this;
     }
 
-    Node copy(ElementNode newParent) {
-        return new Node(type, innerText, name, newParent);
-    }
-
-    public Node copy() {
-        return new Node(type, innerText, null);
-    }
+    public abstract Node copy();
 
     /**
     Traverse the DOM to determine the node depth.
@@ -89,10 +71,6 @@ public class Node {
         return false;
     }
 
-    public String innerText() {
-        return innerText;
-    }
-
     public String getName() {
         return name;
     }
@@ -107,37 +85,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return innerText;
-    }
-
-    /**
-    Returns a new node with a different name keeping the other parameters.
-    The new node will not have a parent.
-    @param name
-    @return
-     */
-    public Node renameCopy(String name) {
-        return new Node(this.getType(), this.innerText(), name);
-    }
-
-    /**
-    Returns a new node with a different type keeping the other parameters.
-    The new node will not have a parent.
-    @param name
-    @return
-     */
-    public Node retypeCopy(NodeType type) {
-        return new Node(type, this.innerText(), this.getName());
-    }
-
-    /**
-    Returns a new node with a different inner text keeping the other parameters.
-    The new node will not have a parent.
-    @param name
-    @return
-     */
-    public Node setText(String text) {
-        return new Node(this.getType(), text, this.getName());
+        return "<" + name + "></" + name + ">";
     }
 
     /**
@@ -152,33 +100,10 @@ public class Node {
         return newNode;
     }
 
-    /**
-    In this nodes parent, replace this node with a copy of 'newNode'
-    @param newNode
-    @return the copy of 'newNode' used
-    @throws DocNavException if the this node does not have a parent node
-     */
-    public Node replaceWithCopy(Node newNode) {
+    public NodeList replaceWith(NodeList nodes) {
         if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
-        return this.parent.replaceChild(this, newNode.copy());
-    }
-
-    /**
-    In this nodes parent, replace this node with a copy of all nodes in list
-    @param list a list of nodes to use
-    @throws DocNavException if the this node does not have a parent node
-     */
-    public void replaceWithCopy(NodeList<Node> list) {
-        if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
-        ElementNode parent = this.getParent();
-        NodeList<Node> children = parent.childNodes();
-        int i = children.indexOf(this);
-        parent.removeChild(this);
-
-        for (Node newNode : list) {
-            parent.addChildCopy(i, newNode.copy(parent));
-            i++;
-        }
+        this.parent.replaceChild(this, nodes);
+        return nodes;
     }
 
     /**

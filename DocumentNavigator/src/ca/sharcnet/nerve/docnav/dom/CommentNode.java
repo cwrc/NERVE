@@ -5,35 +5,26 @@ The inner text of a comment node does not contain the braces.
 @author edward
 */
 public class CommentNode extends Node{
+    private final String commentText;
+
     /**
-    By-value constructor, if 'innerText' starts with '&gt!--' and ends with
+    By-value constructor, if 'sourceText' starts with '&gt!--' and ends with
     '--&lt', 'innertext' will have the enclosing comment markup truncated.
-    @param innerText
+    @param sourceText
     */
-    public CommentNode(String innerText){
-        this(innerText.startsWith("<!--") && innerText.endsWith("-->") ? innerText.substring(4, innerText.length() - 3) : innerText, null);
-    }
-
-    /**
-    Copy contructor.  Create a new comment node from the innertext of a given
-    node.  No truncation takes place.
-    @param that the source node
-    */
-    public CommentNode(Node that){
-        this(that.innerText(), null);
-    }
-
-    CommentNode(String innerText, ElementNode parent){
-        super(NodeType.COMMENT, innerText, "@COMMENT", parent);
-    }
-
-    @Override
-    CommentNode copy(ElementNode newParent){
-        return new CommentNode(this.innerText(), newParent);
+    public CommentNode(String sourceText){
+        super(NodeType.COMMENT, "@COMMENT");
+        String string = sourceText.startsWith("<!--") && sourceText.endsWith("-->") ? sourceText.substring(4, sourceText.length() - 3) : sourceText;
+        this.commentText = string;
     }
 
     @Override
     public String toString(){
-        return "<!--" + innerText() + "-->";
+        return "<!--" + commentText + "-->";
+    }
+
+    @Override
+    public Node copy() {
+        return new CommentNode(commentText);
     }
 }

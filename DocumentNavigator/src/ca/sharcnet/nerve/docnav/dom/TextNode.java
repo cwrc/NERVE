@@ -1,22 +1,28 @@
 package ca.sharcnet.nerve.docnav.dom;
 
 public class TextNode extends Node{
+    private String innerText;
 
     public TextNode(String innerText){
-        this(innerText, null);
+        super(NodeType.TEXT, "@TEXT");
+        this.innerText = innerText;
     }
 
-    TextNode(String innerText, ElementNode parent){
-        super(NodeType.TEXT, innerText, "@TEXT", parent);
+    public String getText() {
+        return innerText;
     }
 
-    @Override
-    Node copy(ElementNode newParent){
-        return new TextNode(this.innerText(), newParent);
+    public void setText(String s) {
+        innerText = s;
     }
 
     @Override
     public String toString(){
-        return this.innerText();
+        return this.innerText;
+    }
+
+    @Override
+    public Node copy() {
+        return new TextNode(innerText);
     }
 }

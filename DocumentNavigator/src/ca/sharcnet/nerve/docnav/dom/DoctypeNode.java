@@ -7,22 +7,15 @@ The inner text of a meta data node does contain the braces.
 @author edward
 */
 public class DoctypeNode extends Node{
+    private final String innerText;
 
     /**
     By-value constructor.
     @param innerText
     */
     public DoctypeNode(String innerText){
-        super(DOCTYPE, innerText, "@DOCTYPE");
-    }
-
-    public DoctypeNode(String innerText, ElementNode parent){
-        super(DOCTYPE, innerText, "@DOCTYPE", parent);
-    }
-
-    @Override
-    Node copy(ElementNode newParent){
-        return new DoctypeNode(this.innerText(), newParent);
+        super(DOCTYPE, "@DOCTYPE");
+        this.innerText = innerText;
     }
 
     /**
@@ -30,6 +23,11 @@ public class DoctypeNode extends Node{
      */
     @Override
     public String toString() {
-        return this.innerText();
+        return innerText;
+    }
+
+    @Override
+    public Node copy() {
+        return new DoctypeNode(innerText);
     }
 }
