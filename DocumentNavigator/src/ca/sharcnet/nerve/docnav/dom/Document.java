@@ -20,8 +20,7 @@ public class Document extends ElementNode{
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (Node n : this.childNodes()){
-            if (n.isType(NodeType.TEXT)) builder.append("<" + n.getName() +">" + n.toString() + "</" + n.getName() +">");
-            else builder.append(n.toString());
+            builder.append(n.toString());
         }
         return builder.toString();
     }

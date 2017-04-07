@@ -4,53 +4,40 @@ package ca.sharcnet.nerve.docnav.dom;
  * immutable base class from which all other nodes are derived
  */
 public abstract class Node {
-    public enum NodeType {
-        DOCUMENT, TEXT, ELEMENT, COMMENT, INSTRUCTION, DOCTYPE
-    };
-
-    private final NodeType type;
+    private final IsNodeType type;
     private ElementNode parent;
     protected String name;
 
-    public Node(NodeType type, String name) {
+    public Node(IsNodeType type, String name) {
         this.type = type;
         this.name = name;
         this.parent = null;
     }
 
-    public Node setName(String name) {
+    final void setParent(ElementNode parent){
+        this.parent = parent;
+    }
+
+    /**
+    Set the node name, may mean different things to different nodes.
+    */
+    final public Node setName(String name) {
         this.name = name;
         return this;
     }
 
-    Node(NodeType type, String name, ElementNode parent) {
-        if (name == null) throw new NullPointerException();
-        this.type = type;
-        this.name = name;
-        this.parent = parent;
-    }
-
-    void setParent(ElementNode parent){
-        this.parent = parent;
-    }
-
     /**
-    Return an unchecked cast of this to class 'E'.
-    @param <E> the class to cast to
-    @return this node, not copied
-     */
-    @SuppressWarnings("unchecked")
-    public <E extends Node> E asType() {
-        return (E) this;
-    }
-
+    Return a copy of this node.  All attached components should also be
+    copied.
+    @return A new node.
+    */
     public abstract Node copy();
 
     /**
-    Traverse the DOM to determine the node depth.
+    Traverse up the DOM to determine the node depth.
     @return node depth
     */
-    public int depth(){
+    public final int depth(){
         int depth = 0;
         Node current = this.parent;
         while (current != null){
@@ -60,12 +47,21 @@ public abstract class Node {
         return depth;
     }
 
-    public NodeType getType() {
+    /**
+    Return the type of node that was set when created.
+    @return
+    */
+    public IsNodeType getType() {
         return type;
     }
 
-    public boolean isType(NodeType ... types) {
-        for (NodeType type : types){
+    /**
+    Determine if this nodes type matches one of the given types.
+    @param types
+    @return
+    */
+    public boolean isType(IsNodeType ... types) {
+        for (IsNodeType type : types){
             if (this.type == type) return true;
         }
         return false;
@@ -75,17 +71,22 @@ public abstract class Node {
         return name;
     }
 
-    public ElementNode getParent() {
+    /**
+    Return this nodes parent, if this node has not parent the behaviour is
+    undefined.
+    @return
+    @throws DocNavException if the this node does not have a parent node
+    */
+    public final ElementNode getParent() {
+        if (this.parent == null) throw new DocNavException("Can not replace a node with no parent.");
         return parent;
     }
 
+    /**
+    Determine if this node has a parent node.
+    */
     public boolean hasParent() {
         return parent != null;
-    }
-
-    @Override
-    public String toString() {
-        return "<" + name + "></" + name + ">";
     }
 
     /**
@@ -100,26 +101,15 @@ public abstract class Node {
         return newNode;
     }
 
-    public NodeList replaceWith(NodeList nodes) {
-        if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
-        this.parent.replaceChild(this, nodes);
-        return nodes;
-    }
-
     /**
-    Retrieve an inorder list of all nodes from the document root to this node,
-    inclusive.
-    @return
-    */
-    public NodePath getNodePath(){
-        NodePath list = new NodePath();
-        ElementNode current = this.getParent();
-
-        while (current != null && !current.getName().equals("@DOCUMENT")){
-            list.add(0, current);
-            current = current.getParent();
-        }
-
+    In this nodes parent, replace this node all nodes in 'list'.
+    @param list
+    @return the copy of 'newNode' used
+    @throws DocNavException if the this node does not have a parent node
+     */
+    public NodeList <? extends Node> replaceWith(NodeList list) {
+        if (this.getParent() == null) throw new DocNavException("Can not replace a node with no parent.");
+        this.parent.replaceChild(this, list);
         return list;
     }
 }

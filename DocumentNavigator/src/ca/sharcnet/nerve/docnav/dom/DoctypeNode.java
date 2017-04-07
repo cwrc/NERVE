@@ -1,6 +1,5 @@
 package ca.sharcnet.nerve.docnav.dom;
-
-import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.DOCTYPE;
+import static ca.sharcnet.nerve.docnav.dom.NodeType.DOCTYPE;
 
 /**
 The inner text of a meta data node does contain the braces.
@@ -16,6 +15,11 @@ public class DoctypeNode extends Node{
     public DoctypeNode(String innerText){
         super(DOCTYPE, "@DOCTYPE");
         this.innerText = innerText;
+    }
+
+    @Override
+    public NodeType getType(){
+        return (NodeType) super.getType();
     }
 
     /**

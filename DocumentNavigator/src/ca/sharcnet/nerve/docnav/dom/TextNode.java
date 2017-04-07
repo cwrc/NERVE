@@ -8,6 +8,11 @@ public class TextNode extends Node{
         this.innerText = innerText;
     }
 
+    @Override
+    public NodeType getType(){
+        return (NodeType) super.getType();
+    }
+
     public String getText() {
         return innerText;
     }

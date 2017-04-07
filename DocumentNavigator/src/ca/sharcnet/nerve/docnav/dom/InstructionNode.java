@@ -19,6 +19,11 @@ public class InstructionNode extends AttributeNode{
     }
 
     @Override
+    public NodeType getType(){
+        return (NodeType) super.getType();
+    }
+
+    @Override
     public Node copy() {
         InstructionNode that = new InstructionNode();
         for (Attribute attr : this.attributes){

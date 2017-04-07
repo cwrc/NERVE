@@ -43,11 +43,11 @@ public final class Attribute {
         return key;
     }
 
-    public void setKey(String key) {
+    private void setKey(String key) {
         this.key = key;
     }
 
-    public void setValue(String value) {
+    private void setValue(String value) {
         String v = value;
 //        v = v.replaceAll("&", "&amp;"); /* TODO catch ampersands */
         v = v.replaceAll("<", "&lt;");

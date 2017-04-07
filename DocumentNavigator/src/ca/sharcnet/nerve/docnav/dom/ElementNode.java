@@ -1,7 +1,5 @@
 package ca.sharcnet.nerve.docnav.dom;
-
-import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.ELEMENT;
-import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.TEXT;
+import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.selector.Select;
 import java.util.function.Consumer;
 
@@ -13,7 +11,6 @@ the collection returned is non-mutable.
 @author edward
  */
 public class ElementNode extends AttributeNode {
-
     private final NodeList<Node> children = new NodeList<>();
 
     /**
@@ -82,6 +79,11 @@ public class ElementNode extends AttributeNode {
         return new ElementNode(getType(), getName(), attributes, children);
     }
 
+    @Override
+    public NodeType getType(){
+        return (NodeType) super.getType();
+    }
+
     /**
      *  Remove all child nodes from this node.
      */
@@ -109,7 +111,8 @@ public class ElementNode extends AttributeNode {
      * @return the node removed, null if this node does not contain child.
      */
     public Node removeChild(Node child) {
-        if (child.getParent() == this) return null;
+        if (child == null) throw new NullPointerException();
+        if (child.getParent() != this) return null;
         children.remove(child);
         child.setParent(null);
         return child;
@@ -151,15 +154,6 @@ public class ElementNode extends AttributeNode {
      */
     public void addChildNodes(NodeList<Node> nodes) {
         for (Node node : nodes) this.addChild(node);
-    }
-
-    /**
-    Retrieve a specific child node by index.
-    @param index the location of the child to retrieve
-    @return the node located at index
-     */
-    public Node getChild(int index) {
-        return this.childNodes().get(index);
     }
 
     /**
