@@ -1,25 +1,37 @@
 package ca.sharcnet.nerve.decode;
 import static ca.sharcnet.nerve.Constants.*;
-import ca.sharcnet.nerve.docnav.dom.Attribute;
+import ca.sharcnet.nerve.context.Context;
+import ca.sharcnet.nerve.context.TagInfo;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.InstructionNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 import ca.sharcnet.nerve.docnav.dom.DoctypeNode;
-import ca.sharcnet.nerve.docnav.dom.Node.NodeType;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import org.json.JSONObject;
 
 public class Decoder {
+    private Context context = null;
 
-    public void decode(Document srcDoc, OutputStream outStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    public Document decode(Document srcDoc, Context context) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+        this.context = context;
         Document destDoc = new Document();
-        ElementNode first = (ElementNode) srcDoc.getChild(0);
+        ElementNode first = (ElementNode) srcDoc.childNodes().get(0);
         for (ElementNode child : first.childElements()) destDoc.addChild(unwrap(child));
-        outStream.write(destDoc.toString().getBytes());
+        addDefaultAttributes(destDoc);
+        if (context != null) writeDefaults(destDoc);
+        return destDoc;
+    }
+
+    private void addDefaultAttributes(ElementNode eNode){
+        TagInfo tagInfo = context.getTagInfo(eNode.getName());
+        for (String key : tagInfo.defaults().keySet()){
+            if (eNode.hasAttribute(key)) continue;
+            eNode.addAttribute(key, tagInfo.getDefault(key));
+        }
     }
 
     private Node unwrap(Node node) {
@@ -50,5 +62,9 @@ public class Decoder {
 
         /* all possibilities should be accounted for in the switch statement */
         throw new RuntimeException("Sanity Check Failed");
+    }
+
+    private void writeDefaults(Document destDoc) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -1,13 +1,14 @@
 package ca.sharcnet.nerve.encoder;
-
 import ca.fa.utility.sql.SQL;
+import ca.sharcnet.nerve.Constants;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.Schema;
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,17 @@ public class Main {
 
     public static void main(String... args) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ClassifierException {
         System.out.println(run());
+//        InputStream resourceAsStream = Main.class.getResourceAsStream("/resources/minimal.orlando.xml");
+//        Document document = DocumentNavigator.documentFromStream(resourceAsStream);
+//        System.out.println(document);
+//        System.out.println("\n ----------------------------------------------------------------------------------- \n");
+//        for (Node child : document.childNodes()){
+//            Node copy = child.copy();
+//            copy.setName(copy.getName() + "-copy");
+//            child.replaceWith(copy);
+//        }
+//
+//        System.out.println(document);
     }
 
     public static String run() throws ClassifierException, IOException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
@@ -46,9 +58,12 @@ public class Main {
             encoder.setSchema(schema);
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String s = baos.toString();
-        encoder.encode(baos);
-        return baos.toString();
+        Document encoded = encoder.encode();
+
+        ElementNode schemaNode = new ElementNode(Constants.HTML_TAGNAME);
+        schemaNode.addAttribute(Constants.CONTEXT_ATTRIBUTE, context.name);
+        encoded.addChild(0, schemaNode);
+
+        return encoded.toString();
     }
 }

@@ -3,9 +3,12 @@
 <?xml-stylesheet type="text/css" href="http://cwrc.ca/templates/css/orlando.css"?>
 <!DOCTYPE ORLANDO [ <!ENTITY % character_entities SYSTEM "http://cwrc.ca/schemas/character_entities.dtd"> %character_entities; ]>
 
+<!-- valid comment #1 -->
+
 <BIOGRAPHY SEX="FEMALE" PERSON="BRWWRITER">
     <ORLANDOHEADER TYPE="text">
         <FILEDESC>
+            <!-- valid comment #2 -->
             <TITLESTMT>
                 <DOCTITLE>Document Title (Header)</DOCTITLE>
             </TITLESTMT>
@@ -36,6 +39,8 @@
                                 <BIBCIT PLACEHOLDER="O'Malley" DBREF="62588"/>
                                 <P>Jex-Blake&apos;s family name was changed from Blake by her grandfather, in honour of his grandmother Elizabeth Jex.</P>
                                 <P>Carol Ann Warner</P>
+                                <P>this is the middle of the sentence</P>
+                                <P>The title of the book is <TITLE>I'm a book!</TITLE></P>
                             </SCHOLARNOTE>
                         </DATAITEM>
                     </DATASTRUCT>

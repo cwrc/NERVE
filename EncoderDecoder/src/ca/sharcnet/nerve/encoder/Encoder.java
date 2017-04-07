@@ -4,10 +4,8 @@ import ca.fa.utility.sql.SQL;
 import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
-import ca.sharcnet.nerve.docnav.dom.Node.NodeType;
-import static ca.sharcnet.nerve.docnav.dom.Node.NodeType.*;
+import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,13 +29,11 @@ public class Encoder {
         this.classifier = classifier;
     }
 
-    public void encode(OutputStream outStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        if (outStream == null) throw new NullPointerException();
-
+    public Document encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (this.sql != null) lookupTag();
         processNER(document);
         wrapTag(document);
-        outStream.write(document.toString().getBytes());
+        return document;
     }
 
     public void setSchema(Schema schema) {
@@ -56,9 +52,8 @@ public class Encoder {
         }
 
         String query = "select * from dictionary";
-        if (builder.length() > 0){
-            query = String.format("select * from dictionary where %s", builder.toString());
-        }
+        if (builder.length() > 0) query = String.format("select * from dictionary where %s", builder.toString());
+
         StringMatch knownEntities = new StringMatch();
         JSONArray sqlResult = sql.query(query);
 
@@ -77,33 +72,24 @@ public class Encoder {
 
         /* for all child nodes, process TEXT nodes, recurse ELEMENT nodes */
         for (Node child : node.childNodes()) {
-            if (child.getType() == Node.NodeType.TEXT) {
+            if (child.getType() == NodeType.TEXT) {
                 lookupTag((TextNode) child, knownEntities);
-            } else if (child.getType() == Node.NodeType.ELEMENT) {
+            } else if (child.getType() == NodeType.ELEMENT) {
                 lookupTag((ElementNode) child, knownEntities);
             }
         }
     }
 
-    private void addDefaultAttributes(ElementNode eNode){
-        TagInfo tagInfo = context.getTagInfo(eNode.getName());
-        for (String key : tagInfo.defaults().keySet()){
-            if (eNode.hasAttribute(key)) continue;
-            eNode.addAttribute(key, tagInfo.getDefault(key));
-        }
-    }
-
     private void lookupTag(TextNode child, StringMatch knownEntities) {
-        String innerText = child.innerText();
+        String innerText = child.getText();
         final NodeList<Node> newNodes = new NodeList<>();
 
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
             TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
             ElementNode elementNode = new ElementNode(tagInfo.name, string);
-            addDefaultAttributes(elementNode);
 
-            NodePath path = child.getNodePath();
+            NodePath path = child.getParent().getNodePath();
             path.add(elementNode);
 
             if (schema != null && !schema.isValidPath(path)) {/* verify the schema */
@@ -123,7 +109,7 @@ public class Encoder {
         };
 
         knownEntities.seekLine(innerText, onAccept, onReject);
-        child.replaceWithCopy(newNodes);
+        child.replaceWith(newNodes);
     }
 
     /**
@@ -142,7 +128,8 @@ public class Encoder {
         if (node.isType(NodeType.DOCTYPE)) {
             ElementNode eNode = new ElementNode(Constants.HTML_TAGNAME);
             eNode.addAttribute("class", Constants.HTML_DOCTYPE_CLASSNAME);
-            eNode.addAttribute(new Attribute(Constants.DOCTYPE_INNERTEXT, node.innerText()));
+            DoctypeNode dNode = (DoctypeNode) node;
+            eNode.addAttribute(new Attribute(Constants.DOCTYPE_INNERTEXT, dNode.toString()));
             node.replaceWith(eNode);
             return;
         }
@@ -156,7 +143,7 @@ public class Encoder {
 
         if (node.isType(NodeType.INSTRUCTION)) {
             ElementNode eNode = new ElementNode(Constants.HTML_TAGNAME);
-            attrNode.replaceWith(eNode);
+            attrNode = (AttributeNode) attrNode.replaceWith(eNode);
             eNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
         } else if (context.isTagName(node.getName())) {
             attrNode.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
@@ -190,14 +177,15 @@ public class Encoder {
                 processNER((ElementNode) current);
             } else if (current.getType() == NodeType.TEXT) {
                 /* get a nodelist, zero or more of which will be element nodes, which in turn represent found entities */
-                NodeList<Node> nerList = applyNamedEntityRecognizer(current.innerText());
+                TextNode tNode = (TextNode) current;
+                NodeList<Node> nerList = applyNamedEntityRecognizer(tNode.getText());
 
                 /* for each element node in the list ensure the path is valid, otherwise convert it to a text node */
                 for (int i = 0; i < nerList.size(); i++) {
                     Node nerNode = nerList.get(i);
                     if (nerNode.getType() != NodeType.ELEMENT) continue;
                     ElementNode nerEleNode = (ElementNode) nerNode;
-                    NodePath path = current.getNodePath();
+                    NodePath path = current.getParent().getNodePath();
                     path.add(nerEleNode);
                     if (schema != null && !schema.isValidPath(path)) {
                         TextNode textNode = new TextNode(nerEleNode.innerText());
@@ -216,7 +204,7 @@ public class Encoder {
                 }
 
                 /* replace the current node with the node list */
-                if (nerList.size() > 0) current.replaceWithCopy(nerList);
+                if (nerList.size() > 0) current.replaceWith(nerList);
             }
         }
     }
@@ -244,14 +232,14 @@ public class Encoder {
             if (context.isNERMap(node.getName())){ /* if node name is an NER tag name */
                 TagInfo tagInfo = context.getTagInfo(node.getName());
                 node.setName(tagInfo.name);
-                addDefaultAttributes(node);
                 if (!tagInfo.lemmaAttribute.isEmpty()){
                     node.addAttribute(new Attribute(tagInfo.lemmaAttribute, node.innerText()));
                 }
             }
         }
 
-        NodeList<Node> childNodes = localDoc.getChild(0).<ElementNode>asType().childNodes();
+        ElementNode eNode = (ElementNode) localDoc.childNodes().get(0);
+        NodeList<Node> childNodes = eNode.childNodes();
         return childNodes;
     }
 }

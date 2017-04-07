@@ -1,13 +1,15 @@
 package ca.sharcnet.nerve.decode;
 
+import ca.sharcnet.nerve.Constants;
 import ca.sharcnet.nerve.encoder.*;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Schema;
+import ca.sharcnet.nerve.docnav.selector.Select;
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -20,13 +22,19 @@ public class Main {
     public static void main(String... args) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ClassifierException {
         String run = ca.sharcnet.nerve.encoder.Main.run();
         run = "<doc>\n" + run + "\n</doc>";
-        Document doc = DocumentNavigator.documentFromString(run);
-        Decoder decoder = new Decoder();
-        decoder.decode(doc, System.out);
+        Document encoded = DocumentNavigator.documentFromString(run);
 
-//            InputStream stream = Main.class.getResourceAsStream("/resources/newXMLDocument.xml");
-//            Document doc = DocumentNavigator.documentFromStream(stream);
-//            System.out.println(doc);
+        Select selected = encoded.select().attribute(Constants.CONTEXT_ATTRIBUTE);
+        if (selected.isEmpty()) throw new RuntimeException("Context element not found.");
+        ElementNode contextNode = (ElementNode) selected.get(0);
+        encoded.removeChild(contextNode);
+        System.out.println(encoded.toString());
+
+        String contextPath = String.format("/resources/%s.context.json", contextNode.getAttributeValue(Constants.CONTEXT_ATTRIBUTE));
+        Context context = ContextLoader.load(ca.sharcnet.nerve.encoder.Main.class.getResourceAsStream(contextPath));
+        Document decoded = new Decoder().decode(encoded, context);
+
+        System.out.println(decoded.toString());
     }
 
     public static String run() throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ClassifierException {
@@ -47,14 +55,12 @@ public class Main {
             encoder.setSchema(schema);
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        encoder.encode(baos);
-        String s = baos.toString();
+        Document encoded = encoder.encode();
+        String s = encoded.toString();
 
         s = "<doc>" + s + "</doc>";
 
         System.out.println(s);
-        Document d = DocumentNavigator.documentFromString(s);
-        return "";
+        return s;
     }
 }
