@@ -16,5 +16,4 @@ public class NodeImpl extends Node {
     public Node copy() {
         throw new UnsupportedOperationException();
     }
-
 }

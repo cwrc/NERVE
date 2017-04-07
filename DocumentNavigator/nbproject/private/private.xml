@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
-        <file>
-            <url>src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>278</line>
-                <key/>
-            </bookmark>
-        </file>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4">
         <file>
             <url>src/ca/sharcnet/nerve/docnav/dom/Schema.java</url>
             <bookmark id="3">
                 <name/>
                 <line>52</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</url>
+            <bookmark id="4">
+                <name/>
+                <line>176</line>
+                <key/>
+            </bookmark>
+            <bookmark id="1">
+                <name/>
+                <line>229</line>
                 <key/>
             </bookmark>
         </file>
@@ -37,9 +42,11 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/AttributeNode.java</file>
         </group>
         <group name="Frontier Web App">
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/Node.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/NodeTest.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/AttributeNode.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/ElementNodeTest.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/HasChildNodes.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/helpers/NodeImpl.java</file>
         </group>
     </open-files>
 </project-private>

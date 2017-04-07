@@ -84,25 +84,20 @@ public class ElementNode extends AttributeNode {
         return (NodeType) super.getType();
     }
 
-    /**
-     *  Remove all child nodes from this node.
-     */
-    public void clearChildren() {
-        this.children.clear();
+    public NodeList<Node> childNodes(){
+        return new NodeList<>(this.children);
     }
 
-    /**
-     *  Return a count of the child nodes attached to this node.
-     */
     public int childCount() {
         return children.size();
     }
 
     /**
-     * @return a non-reflective list of this node's child nodes
+     *  Remove all child nodes from this node.
      */
-    public NodeList<Node> childNodes() {
-        return new NodeList<>(this.children);
+    public void clearChildren() {
+        for (Node child : children) child.setParent(null);
+        children.clear();
     }
 
     /**
@@ -113,19 +108,20 @@ public class ElementNode extends AttributeNode {
     public Node removeChild(Node child) {
         if (child == null) throw new NullPointerException();
         if (child.getParent() != this) return null;
-        children.remove(child);
+        this.children.remove(child);
         child.setParent(null);
         return child;
     }
 
     /**
-     * Append a child to this parent if the child already has a parent, the child
-     * is removed from that parent node first.  If the nodes parent is this node
-     * it is still removed then reattached to the end of the list of child nodes.
+     * Append child to this parent.  If the child already has a
+     * parent, the child is removed from that parent node first.  If the child's
+     * parent is this node it is first removed then inserted into the list of
+     * child nodes.
      * @param child the node to add
      * @return the child node.
      */
-    public final Node addChild(Node child) {
+    public Node addChild(Node child) {
         if (child.hasParent()) child.getParent().removeChild(child);
         this.children.add(child);
         child.setParent(this);
