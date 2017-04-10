@@ -1,6 +1,7 @@
 package ca.sharcnet.nerve.docnav.dom;
-
+import ca.sharcnet.nerve.docnav.selector.Select;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -13,14 +14,18 @@ public class NodeList <E extends Node> extends ArrayList<E>{
     /**
     * Create a new node list, populating it with references of all the nodes in
     * the 'that' node list.
-    * @param that
+    * @param collection The collection whose elements are to be placed into this list
     */
-    public NodeList(NodeList <? extends E> that){
-        for (E node : that) this.add(node);
+    public NodeList(Collection <? extends E> collection){
+        super(collection);
     }
 
     public void add(NodeList <? extends E> that){
         for (E node : that) this.add(node);
+    }
+
+    public Select select(){
+        return new Select(this);
     }
 
     /**

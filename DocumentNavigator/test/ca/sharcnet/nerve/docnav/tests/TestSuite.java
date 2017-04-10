@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+    ca.sharcnet.nerve.docnav.tests.ElementNodeTest.class,
     ca.sharcnet.nerve.docnav.tests.DocumentTest.class,
     ca.sharcnet.nerve.docnav.tests.NodeTest.class
 })

@@ -26,8 +26,9 @@ public abstract class AttributeNode extends Node  {
         return arrayList;
     }
 
-    public void clearAttributes() {
+    public AttributeNode clearAttributes() {
         this.attributes.clear();
+        return this;
     }
 
     /**
@@ -37,6 +38,17 @@ public abstract class AttributeNode extends Node  {
     public final boolean hasAttribute(String key) {
         assert attributes != null;
         return attributes.contains(key);
+    }
+
+    /**
+    Determine if this node contains an attribute with the given value.
+    @param key the attribute name to poll for
+     * @param value
+     */
+    public final boolean hasAttribute(String key, Object value) {
+        assert attributes != null;
+        if (!attributes.contains(key)) return false;
+        return attributes.get(key).value.equals(value.toString());
     }
 
     /**
@@ -66,8 +78,9 @@ public abstract class AttributeNode extends Node  {
     being added.
     @param attribute the attribute to add
      */
-    public final void addAttribute(Attribute attribute) {
+    public final AttributeNode addAttribute(Attribute attribute) {
         attributes.add(new Attribute(attribute));
+        return this;
     }
 
     /**
@@ -75,8 +88,9 @@ public abstract class AttributeNode extends Node  {
     @param key
     @param value
      */
-    public final void addAttribute(String key, String value) {
-        attributes.add(new Attribute(key, value));
+    public final AttributeNode addAttribute(String key, Object value) {
+        attributes.add(new Attribute(key, value.toString()));
+        return this;
     }
 
     /**
@@ -84,8 +98,9 @@ public abstract class AttributeNode extends Node  {
      * no action is taken.
      * @param key the key string of the attribute to remove
      */
-    public void removeAttribute(String key) {
-        if (!attributes.contains(key)) return;
+    public AttributeNode removeAttribute(String key) {
+        if (!attributes.contains(key)) return this;
         this.attributes.remove(key);
+        return this;
     }
 }

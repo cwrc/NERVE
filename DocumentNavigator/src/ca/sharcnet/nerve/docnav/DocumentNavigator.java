@@ -24,7 +24,7 @@ public class DocumentNavigator {
         parser.start();
 
         Document root = new Document();
-        root.addChildNodes(parser.getNodes());
+        root.addChild(parser.getNodes());
         return root;
     }
 
@@ -40,7 +40,7 @@ public class DocumentNavigator {
         parser.start();
 
         Document root = new Document();
-        root.addChildNodes(parser.getNodes());
+        root.addChild(parser.getNodes());
         return root;
     }
 }
