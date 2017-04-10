@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="21">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="22">
         <file>
             <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
+            <bookmark id="22">
+                <name/>
+                <line>77</line>
+                <key/>
+            </bookmark>
             <bookmark id="19">
                 <name/>
-                <line>132</line>
+                <line>116</line>
                 <key/>
             </bookmark>
             <bookmark id="20">
                 <name/>
-                <line>383</line>
+                <line>240</line>
                 <key/>
             </bookmark>
             <bookmark id="21">
                 <name/>
-                <line>386</line>
+                <line>240</line>
                 <key/>
             </bookmark>
         </file>
@@ -47,6 +52,8 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/resources/config.txt</file>
         </group>
-        <group name="Frontier Web App"/>
+        <group name="Frontier Web App">
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/resources/minimal.orlando.xml</file>
+        </group>
     </open-files>
 </project-private>

@@ -20,7 +20,7 @@ public class Decoder {
         this.context = context;
         Document destDoc = new Document();
         ElementNode first = (ElementNode) srcDoc.childNodes().get(0);
-        for (ElementNode child : first.childElements()) destDoc.addChild(unwrap(child));
+        for (Node child : first.select().all()) destDoc.addChild(unwrap(child));
         addDefaultAttributes(destDoc);
         if (context != null) writeDefaults(destDoc);
         return destDoc;

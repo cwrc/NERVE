@@ -20,7 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class Main {
 
     public static void main(String... args) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ClassifierException {
-        String run = ca.sharcnet.nerve.encoder.Main.run();
+        String run = new ca.sharcnet.nerve.encoder.Main().run().toString();
         run = "<doc>\n" + run + "\n</doc>";
         Document encoded = DocumentNavigator.documentFromString(run);
 

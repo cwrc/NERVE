@@ -31,7 +31,7 @@ public class Encoder {
 
     public Document encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (this.sql != null) lookupTag();
-        processNER(document);
+        if (this.classifier != null) processNER(document);
         wrapTag(document);
         return document;
     }
@@ -87,14 +87,12 @@ public class Encoder {
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
             TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
-            ElementNode elementNode = new ElementNode(tagInfo.name, string);
 
-            NodePath path = child.getParent().getNodePath();
-            path.add(elementNode);
-
-            if (schema != null && !schema.isValidPath(path)) {/* verify the schema */
+            /* verify the schema */
+            if (schema != null && !schema.isValid(child.getParent(), tagInfo.name)) {
                 newNodes.add(new TextNode(string));
             } else {
+                ElementNode elementNode = new ElementNode(tagInfo.name, string);
                 String lemmaAttribute = context.getTagInfo(row.getString("tag")).lemmaAttribute;
                 if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
 
@@ -123,7 +121,7 @@ public class Encoder {
      * @throws SQLException
      */
     private void wrapTag(Node node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-        if (!node.isType(ELEMENT, INSTRUCTION, DOCTYPE)) return;
+        if (!node.isType(DOCUMENT, ELEMENT, INSTRUCTION, DOCTYPE)) return;
 
         if (node.isType(NodeType.DOCTYPE)) {
             ElementNode eNode = new ElementNode(Constants.HTML_TAGNAME);
@@ -185,9 +183,7 @@ public class Encoder {
                     Node nerNode = nerList.get(i);
                     if (nerNode.getType() != NodeType.ELEMENT) continue;
                     ElementNode nerEleNode = (ElementNode) nerNode;
-                    NodePath path = current.getParent().getNodePath();
-                    path.add(nerEleNode);
-                    if (schema != null && !schema.isValidPath(path)) {
+                    if (schema != null && !schema.isValid(current.getParent(), nerEleNode.getName())) {
                         TextNode textNode = new TextNode(nerEleNode.innerText());
                         nerList.set(i, textNode);
                     }
@@ -222,18 +218,19 @@ public class Encoder {
 
         /* create a document out of the text */
         Document localDoc = DocumentNavigator.documentFromString(text);
-        NodeList<ElementNode> nodes = localDoc.getElementsByName("*");
+        NodeList<ElementNode> nodes = localDoc.select().all();
 
         /* for each node in the document (from above) if it's an NER node     */
         /* change it's tagname to a valid tag name occording to the context   */
         /* and set it's lemma if it doens't already have one.                 */
         /* ensure that the node has the default attributes                    */
-        for (ElementNode node : nodes) {
+        for (Node node : nodes) {
             if (context.isNERMap(node.getName())){ /* if node name is an NER tag name */
                 TagInfo tagInfo = context.getTagInfo(node.getName());
                 node.setName(tagInfo.name);
                 if (!tagInfo.lemmaAttribute.isEmpty()){
-                    node.addAttribute(new Attribute(tagInfo.lemmaAttribute, node.innerText()));
+                    ElementNode eNode = (ElementNode) node;
+                    eNode.addAttribute(new Attribute(tagInfo.lemmaAttribute, eNode.innerText()));
                 }
             }
         }
