@@ -157,6 +157,9 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.3.2a/NERVE/build.xml</file>
         </group>
         <group/>
-        <group name="Frontier Web App"/>
+        <group name="Frontier Web App">
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/src/java/ca/sharcnet/dh/nerve/servlets/translator/Encode.java</file>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/src/java/ca/sharcnet/dh/nerve/servlets/translator/Decode.java</file>
+        </group>
     </open-files>
 </project-private>

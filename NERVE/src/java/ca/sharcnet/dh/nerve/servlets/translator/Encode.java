@@ -13,11 +13,10 @@ import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
 import ca.sharcnet.nerve.docnav.dom.AttributeNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
-import ca.sharcnet.nerve.docnav.dom.Node.NodeType;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.selector.Select;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,29 +51,25 @@ public class Encode extends CustomServlet {
             BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(resourceAsStream));
             Document doc = DocumentNavigator.documentFromStream(inputStream);
 
-
-            /* check document for schema to override default context */
+            /* check document for schema to set the context */
+            System.out.println(doc);
             Select selection = doc.select().name("xml-model");
             Node node = selection.get(0);
+
             Context context = null;
-            
             if (node.getType() == NodeType.INSTRUCTION){
-                System.out.println(node);
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute("href")){
                     Attribute attr = aNode.getAttribute("href");
                     String value = attr.getValue();
 
                     if (value.contains("orlando_biography_v2.rng")){
-                        System.out.println("Loading Context " + value);
                         context = ContextLoader.load(Encode.class.getResourceAsStream("/res/orlando.context.json"));
                     }
                     else if (value.contains("cwrc_entry.rng")){
-                        System.out.println("Loading Context " + value);
                         context = ContextLoader.load(Encode.class.getResourceAsStream("/res/cwrc.context.json"));
                     }
                     else if (value.contains("cwrc_tei_lite.rng")){
-                        System.out.println("Loading Context " + value);
                         context = ContextLoader.load(Encode.class.getResourceAsStream("/res/tei.context.json"));
                     }
                 }
@@ -92,11 +87,10 @@ public class Encode extends CustomServlet {
                 encoder.setSchema(schema);
             }
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            encoder.encode(baos);
+            Document encoded = encoder.encode();
 
             json.put("result", "processed");
-            json.put("output", baos.toString("UTF-8"));
+            json.put("output", encoded);
         } catch (InvalidTokenException | ParserConfigurationException | ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException | ClassifierException | ClassCastException | NullPointerException ex) {
             super.exception(response, ex);
             return false;

@@ -53,7 +53,7 @@
             "dictionary"     : "TITLE",
             "dialog"         : "TITLE",
             "nerMap"         : "",
-            "defaults"       : {}
+            "defaults"       : {"LEVEL": "m"}
         }
     ],
     "styles" : [

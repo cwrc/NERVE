@@ -694,4 +694,12 @@ class Controller {
         Utility.enforceTypes(arguments);
         this.model.reset();
     }
+
+    goLink(){
+        Utility.log(Controller, "goLink");
+        Utility.enforceTypes(arguments);
+        let url = $("#txtLink").val();
+        var win = window.open("http://" + url, '_blank');
+        win.focus();
+    }
 }

@@ -53,7 +53,7 @@
             "nerMap"         : "",
             "dialog"         : "TITLE",
             "idAttribute"    : "annotationId",
-            "defaults"       : {}
+            "defaults"       : {"TITLETYPE": "MONOGRAPHIC"}
         }
     ],
     "styles" : [

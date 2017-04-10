@@ -14,6 +14,7 @@ class Listeners {
         $("#txtLemma").on("input", (event)=>this.controller.notifyDialogInput("lemma"));
         $("#txtLink").on("input", (event)=>this.controller.notifyDialogInput("link"));
         $("#selectTagName").on("input", (event)=>this.controller.notifyDialogInput("tag"));
+        $("#goLink").click((event)=>this.controller.goLink());
 
         /* search events */
         $("#searchDialog").click((event) => this.events.showSearchDialog(event));

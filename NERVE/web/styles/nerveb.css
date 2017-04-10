@@ -210,6 +210,17 @@ body{
     left: 5%;
 }
 
+#goLink{
+    position: relative;
+    display: inline-block;
+    left: 5px;
+    border-radius: 3px;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
 .entityDialogTB{}
 
 #dictionary{
