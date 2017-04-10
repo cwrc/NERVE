@@ -20,7 +20,9 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     ca.sharcnet.nerve.docnav.tests.ElementNodeTest.class,
     ca.sharcnet.nerve.docnav.tests.DocumentTest.class,
-    ca.sharcnet.nerve.docnav.tests.NodeTest.class
+    ca.sharcnet.nerve.docnav.tests.NodeTest.class,
+    ca.sharcnet.nerve.docnav.tests.SelectTest.class,
+    ca.sharcnet.nerve.docnav.tests.RefineTest.class
 })
 public class TestSuite {
 

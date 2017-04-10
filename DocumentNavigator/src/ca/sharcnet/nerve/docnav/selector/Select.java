@@ -1,33 +1,30 @@
 package ca.sharcnet.nerve.docnav.selector;
-
 import ca.sharcnet.nerve.docnav.dom.AttributeNode;
-import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 
-public class Select extends NodeList<ElementNode> {
+public class Select extends NodeList<Node> {
+    private final NodeList<Node> allNodes;
+    private NodeType[] types;
 
-    private final NodeList<ElementNode> allNodes;
+    public Select(ElementNode ele) {this(ele, ELEMENT);}
+    public Select(NodeList<? extends Node> list) {this(list, ELEMENT);}
 
-    public Select(ElementNode ele) {
+    public Select(ElementNode ele, NodeType ... types) {
+        this.types = types;
         allNodes = new NodeList<>();
-        if (ele.isType(NodeType.DOCUMENT)) {
-            for (Node child : ele.childNodes()) {
-                this.addElement(child);
-            }
-        } else {
-            addElement(ele);
-        }
+        addElement(ele);
     }
 
-    public Select(NodeList<? extends Node> list) {
+    public Select(NodeList<? extends Node> list, NodeType ... types) {
+        this.types = types;
         allNodes = new NodeList<>();
         for (Node node : list) {
-            if (node.isType(NodeType.ELEMENT)) {
-                allNodes.add((ElementNode) node);
+            if (node.isType(this.types)){
+                allNodes.add(node);
             }
         }
     }
@@ -37,10 +34,9 @@ public class Select extends NodeList<ElementNode> {
     }
 
     private void addElement(Node node) {
-        if (!node.isType(NodeType.ELEMENT)) return;
-        ElementNode ele = (ElementNode) node;
-        allNodes.add(ele);
-        for (Node child : ele.childNodes()) {
+        if (node.isType(this.types)) allNodes.add(node);
+        if (!node.isType(ELEMENT, DOCUMENT)) return;
+        for (Node child : ((ElementNode)node).childNodes()) {
             this.addElement(child);
         }
     }
@@ -72,7 +68,7 @@ public class Select extends NodeList<ElementNode> {
     @return
      */
     public Select name(String... names) {
-        for (ElementNode node : allNodes) {
+        for (Node node : allNodes) {
             for (String name : names) {
                 if (node.getName().equals(name) && !this.contains(node)) {
                     this.add(node);
@@ -88,7 +84,7 @@ public class Select extends NodeList<ElementNode> {
     @return
      */
     public Select attribute(String key) {
-        for (ElementNode node : allNodes) {
+        for (Node node : allNodes) {
             if (node.isType(ELEMENT, INSTRUCTION)) {
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute(key) && !this.contains(node)) {
@@ -106,7 +102,7 @@ public class Select extends NodeList<ElementNode> {
     @return
      */
     public Select attribute(String key, Object value) {
-        for (ElementNode node : allNodes) {
+        for (Node node : allNodes) {
             if (node.isType(ELEMENT, INSTRUCTION)) {
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute(key) && aNode.hasAttribute(key, value) && !this.contains(node)) {

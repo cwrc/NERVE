@@ -2,6 +2,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.InstructionNode;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.dom.TextNode;
 import ca.sharcnet.nerve.docnav.selector.Select;
 import org.junit.Assert;
@@ -14,7 +15,7 @@ public class SelectTest {
     public SelectTest() {
         this.empty = new Document();
         this.document = new Document();
-        document.addChild(new InstructionNode());
+        document.addChild(new InstructionNode("<?xml-model model=\"orlando\">"));
         document.addChild(new TextNode("\n"));
         ElementNode root = (ElementNode) document.addChild(new ElementNode("root"));
         root.addAttribute("root", "GROOT!");
@@ -131,5 +132,11 @@ public class SelectTest {
     public void chained_attr_value(){
         /* there is crossover between odd and ima-one */
         Assert.assertEquals(10, document.select().attribute("index", 2).attribute("index", 1).size());
+    }
+
+    @Test
+    public void non_element(){
+        /* there is crossover between odd and ima-one */
+        Assert.assertEquals(1, document.select(NodeType.INSTRUCTION).all().size());
     }
 }
