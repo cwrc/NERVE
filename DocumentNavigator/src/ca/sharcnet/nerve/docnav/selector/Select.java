@@ -5,25 +5,20 @@ import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
+import java.util.Collection;
 
-public class Select extends NodeList<Node> {
-    private final NodeList<Node> allNodes;
-    private NodeType[] types;
+public class Select extends NodeList<ElementNode> {
+    private final NodeList<ElementNode> allNodes;
 
-    public Select(ElementNode ele) {this(ele, ELEMENT);}
-    public Select(NodeList<? extends Node> list) {this(list, ELEMENT);}
-
-    public Select(ElementNode ele, NodeType ... types) {
-        this.types = types;
+    public Select(ElementNode ele) {
         allNodes = new NodeList<>();
         addElement(ele);
     }
 
-    public Select(NodeList<? extends Node> list, NodeType ... types) {
-        this.types = types;
+    public Select(Collection<? extends ElementNode> list) {
         allNodes = new NodeList<>();
-        for (Node node : list) {
-            if (node.isType(this.types)){
+        for (ElementNode node : list) {
+            if (node.isType(NodeType.ELEMENT)){
                 allNodes.add(node);
             }
         }
@@ -34,7 +29,7 @@ public class Select extends NodeList<Node> {
     }
 
     private void addElement(Node node) {
-        if (node.isType(this.types)) allNodes.add(node);
+        if (node.isType(ELEMENT)) allNodes.add((ElementNode)node);
         if (!node.isType(ELEMENT, DOCUMENT)) return;
         for (Node child : ((ElementNode)node).childNodes()) {
             this.addElement(child);
@@ -68,7 +63,7 @@ public class Select extends NodeList<Node> {
     @return
      */
     public Select name(String... names) {
-        for (Node node : allNodes) {
+        for (ElementNode node : allNodes) {
             for (String name : names) {
                 if (node.getName().equals(name) && !this.contains(node)) {
                     this.add(node);
@@ -84,7 +79,7 @@ public class Select extends NodeList<Node> {
     @return
      */
     public Select attribute(String key) {
-        for (Node node : allNodes) {
+        for (ElementNode node : allNodes) {
             if (node.isType(ELEMENT, INSTRUCTION)) {
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute(key) && !this.contains(node)) {
@@ -102,7 +97,7 @@ public class Select extends NodeList<Node> {
     @return
      */
     public Select attribute(String key, Object value) {
-        for (Node node : allNodes) {
+        for (ElementNode node : allNodes) {
             if (node.isType(ELEMENT, INSTRUCTION)) {
                 AttributeNode aNode = (AttributeNode) node;
                 if (aNode.hasAttribute(key) && aNode.hasAttribute(key, value) && !this.contains(node)) {

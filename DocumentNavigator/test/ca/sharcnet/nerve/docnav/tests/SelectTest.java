@@ -133,10 +133,4 @@ public class SelectTest {
         /* there is crossover between odd and ima-one */
         Assert.assertEquals(10, document.select().attribute("index", 2).attribute("index", 1).size());
     }
-
-    @Test
-    public void non_element(){
-        /* there is crossover between odd and ima-one */
-        Assert.assertEquals(1, document.select(NodeType.INSTRUCTION).all().size());
-    }
 }

@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve.docnav.selector;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,7 +31,7 @@ public class Refine extends NodeList<ElementNode> {
 
         Iterator<ElementNode> iterator = this.iterator();
         while (iterator.hasNext()){
-            ElementNode eNode = iterator.next();
+            Node eNode = iterator.next();
             if (!list.contains(eNode.getName())){
                 iterator.remove();
             }
@@ -43,7 +44,7 @@ public class Refine extends NodeList<ElementNode> {
 
         Iterator<ElementNode> iterator = this.iterator();
         while (iterator.hasNext()){
-            ElementNode eNode = iterator.next();
+            Node eNode = iterator.next();
             if (list.contains(eNode.getName())){
                 iterator.remove();
             }

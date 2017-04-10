@@ -239,10 +239,6 @@ public class ElementNode extends AttributeNode {
         }
     }
 
-    public Select select(NodeType ... types) {
-        return new Select(this, types);
-    }
-
     public Select select() {
         return new Select(this);
     }

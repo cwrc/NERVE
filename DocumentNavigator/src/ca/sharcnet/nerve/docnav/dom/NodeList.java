@@ -24,10 +24,6 @@ public class NodeList <E extends Node> extends ArrayList<E>{
         for (E node : that) this.add(node);
     }
 
-    public Select select(){
-        return new Select(this);
-    }
-
     /**
      *
      * @param predicate

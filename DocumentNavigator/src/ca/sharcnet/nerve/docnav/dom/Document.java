@@ -16,6 +16,13 @@ public class Document extends ElementNode{
         super(NodeType.DOCUMENT, "@DOCUMENT", source.getAttributes(), source.childNodes());
     }
 
+    public InstructionNode getInstructionNode(String name){
+        for (Node node : this.childNodes()){
+            if (node.isType(NodeType.INSTRUCTION) && node.getName().equals(name)) return (InstructionNode) node;
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

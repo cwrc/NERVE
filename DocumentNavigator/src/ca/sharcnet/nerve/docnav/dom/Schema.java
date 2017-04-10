@@ -28,12 +28,12 @@ public class Schema {
             node.getParent().removeChild(node);
         }
 
-        for (ElementNode node : document.select().all()) {
+        for (Node node : document.select().all()) {
             if (node.getName().equals("start")) continue;
             if (node.getName().equals("element")) continue;
             if (node.getName().equals("define")) continue;
             if (node.getName().equals("ref")) continue;
-            if (node.hasParent()) node.replaceWithChildren();
+            if (node.hasParent()) ((ElementNode)node).replaceWithChildren();
         }
     }
 
@@ -97,7 +97,7 @@ public class Schema {
 
         Select byReference = new Select(references).attribute("name", name);
         if (byReference.isEmpty()) throw new RuntimeException("SCHEMA: Reference not found");
-        return byReference.get(0);
+        return (ElementNode) byReference.get(0);
     }
 
     /**
