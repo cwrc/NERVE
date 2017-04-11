@@ -55,7 +55,7 @@ public class ElementNode extends AttributeNode {
     @param children list of child nodes to be added, null is considered an empty list.
     @param parent the parent of this node.
      */
-    ElementNode(NodeType type, String name, AttributeList attributes, NodeList<Node> children) {
+    protected ElementNode(IsNodeType type, String name, AttributeList attributes, NodeList<Node> children) {
         super(type, name, attributes);
         if (name.isEmpty()) throw new NullPointerException();
 
@@ -256,6 +256,23 @@ public class ElementNode extends AttributeNode {
         }
         builder.append(">");
         for (Node n : children) builder.append(n.toString());
+        builder.append("</").append(this.getName()).append(">");
+
+        return builder.toString();
+    }
+
+    /**
+    @return an xml compliant string.
+     */
+    public String toString(boolean innerText) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("<").append(this.getName());
+        for (Attribute a : attributes) {
+            builder.append(" ").append(a.toRawString());
+        }
+        builder.append(">");
+        if (innerText) for (Node n : children) builder.append(n.toString());
         builder.append("</").append(this.getName()).append(">");
 
         return builder.toString();
