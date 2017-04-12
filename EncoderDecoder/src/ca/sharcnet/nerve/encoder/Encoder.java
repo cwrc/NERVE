@@ -5,12 +5,19 @@ import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
+import ca.sharcnet.nerve.docnav.selector.Select;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ca.sharcnet.nerve.HasStreams;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
+import java.util.zip.GZIPInputStream;
 
 public class Encoder {
     private final Context context;
@@ -18,6 +25,53 @@ public class Encoder {
     private final Classifier classifier;
     private Schema schema = null;
     private Document document = null;
+
+    public static Document encode(Document document, HasStreams hasStreams) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException{
+        /* connect to SQL */
+        Properties config = new Properties();
+        InputStream cfgStream = hasStreams.getResourceStream("config.txt");
+        config.load(cfgStream);
+        SQL sql = new SQL(config);
+
+        /* build classifier */
+        InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
+        BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
+        Classifier classifier = new Classifier(bis);
+        cStream.close();
+
+        /* check document for schema to set the context */
+        InstructionNode iNode = document.getInstructionNode("xml-model");
+
+        Context context = null;
+        if (iNode.getType() == NodeType.INSTRUCTION) {
+            AttributeNode aNode = iNode;
+            if (aNode.hasAttribute("href")) {
+                Attribute attr = aNode.getAttribute("href");
+                String value = attr.getValue();
+
+                if (value.contains("orlando_biography_v2.rng")) {
+                    context = ContextLoader.load(hasStreams.getResourceStream("orlando.context.json"));
+                } else if (value.contains("cwrc_entry.rng")) {
+                    context = ContextLoader.load(hasStreams.getResourceStream("resources/cwrc.context.json"));
+                } else if (value.contains("cwrc_tei_lite.rng")) {
+                    context = ContextLoader.load(hasStreams.getResourceStream("resources/tei.context.json"));
+                }
+            }
+        }
+
+        Encoder encoder = new Encoder(document, context, sql, classifier);
+
+        /** add the schema **/
+        String schemaURL = context.schemaName;
+        if (schemaURL != null && !schemaURL.isEmpty()) {
+            InputStream schemaStream = new URL(schemaURL).openStream();
+            Document schemaDocument = DocumentNavigator.documentFromStream(schemaStream);
+            Schema schema = new Schema(schemaDocument);
+            encoder.setSchema(schema);
+        }
+
+        return encoder.encode();
+    }
 
     public Encoder(Document document, Context context, SQL sql, Classifier classifier) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
@@ -33,6 +87,10 @@ public class Encoder {
         if (this.sql != null) lookupTag();
         if (this.classifier != null) processNER(document);
         wrapTag(document);
+
+        Select selected = document.select().attribute(Constants.ORIGINAL_TAGNAME_ATTR, "xml-model");
+        selected.get(0).addAttribute(Constants.CONTEXT_ATTRIBUTE, context.name);
+
         return document;
     }
 
