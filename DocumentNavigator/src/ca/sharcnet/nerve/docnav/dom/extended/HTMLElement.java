@@ -48,6 +48,7 @@ public final class HTMLElement extends ElementNode{
     }
 
     public boolean hasClassName(String ... names){
+        if (!this.hasAttribute("class")) return false;
         String[] split = this.getAttributeValue("class").split(" ");
         for (String s1 : names){
             for (String s2 : split){
