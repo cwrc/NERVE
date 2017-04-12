@@ -177,12 +177,6 @@ class Controller {
     }
 
     /* other */
-    setEventHandler(events) {
-        Utility.log(Controller, "setEventHandler");
-        Utility.enforceTypes(arguments, Events);
-        this.dialogs = new Dialogs(this, events);
-    }
-
     setListener(listener) {
         Utility.log(Controller, "setListener");
         Utility.enforceTypes(arguments, Listeners);
@@ -291,6 +285,7 @@ class Controller {
         Utility.log(Controller, "unselectAll");
         Utility.enforceTypes(arguments);
 
+        window.getSelection().empty();
         this.selected.$().removeClass("selected");
         this.selected.clear();
         this.view.setDialogFade(true);
@@ -534,35 +529,18 @@ class Controller {
         });
     }
 
-    /* not in unit tests */
     showSearchDialog() {
         Utility.log(Controller, "showSearchDialog");
         Utility.enforceTypes(arguments);
 
-        this.dialogs.setQueryTerm(this.currentEntity);
-        let tag = this.context.getTagInfo(this.currentTagName);
+        let tagName = this.view.getDialogs().tagName;
+        let text = this.view.getDialogs().entity;
+
+        this.dialogs.setQueryTerm(text);
+        let tag = this.context.getTagInfo(tagName);
         this.dialogs.showDialog(tag.dialog);
     }
-    find() {
-        Utility.log(Controller, "find");
-        Utility.enforceTypes(arguments);
-//
-//        let count = 0;
-//        let value = this.view.getSearchTerm();
-//        if (value !== "") {
-//
-//            this.factory.forEach((e) => {
-//                if (e.getEntity() === value) {
-//                    e.markupSelect();
-//                    this.selected.add(e);
-//                    count++;
-//                }
-//            });
-//        }
-//
-//        this.__fillDialogsFromCollection();
-//        return new Response(true, `${count} instance${count > 1 ? "s" : ""} of "${value}" selected`);
-    }
+
     __fillDialogsFromCollection() {
         Utility.log(Controller, "__fillDialogsFromCollection");
         Utility.enforceTypes(arguments);
@@ -650,22 +628,29 @@ class Controller {
         this.fileOps.loadFromFile(successfullLoad);
     }
 
-    /* not in unit tests */
-    saveContents(successCB = function() {}, failureCB = function(){}) {
+
+    saveContents() {
         Utility.log(Controller, "saveContents");
         Utility.enforceTypes(arguments, ["optional", Function], ["optional", Function]);
 
+        this.view.showThrobber(true);
         this.unselectAll();
         let contents = "<doc>" + this.model.getDocument() + "</doc>";
 
-        this.fileOps.decode(contents, this.context, (result) => {
+        let success = (result)=>{
             this.fileOps.saveToFile(result, this.model.getFilename());
             this.isSaved = true;
-            successCB();
-        }, (status, text) => {
-            failureCB(status, text);
-        }
-        );
+            this.view.showThrobber(false)
+        };
+
+        let failure = (status, text)=>{
+            this.view.showThrobber(false);
+            window.alert("Content Save Failed : " + status);
+            console.log("Content Save Failed");
+            console.log(text);
+        };
+
+        this.fileOps.decode(contents, this.context, success, failure);
     }
 
     search(text, direction) {

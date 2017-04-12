@@ -11,8 +11,9 @@ import ca.sharcnet.nerve.encoder.Encoder;
 import ca.fa.utility.streams.StreamUtil;
 import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
-import ca.sharcnet.nerve.docnav.dom.AttributeNode;
-import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.Constants;
+import ca.sharcnet.nerve.docnav.dom.InstructionNode;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.selector.Select;
 import java.io.BufferedInputStream;
@@ -53,14 +54,12 @@ public class Encode extends CustomServlet {
 
             /* check document for schema to set the context */
             System.out.println(doc);
-            Select selection = doc.select().name("xml-model");
-            Node node = selection.get(0);
+            InstructionNode iNode = doc.getInstructionNode("xml-model");
 
             Context context = null;
-            if (node.getType() == NodeType.INSTRUCTION){
-                AttributeNode aNode = (AttributeNode) node;
-                if (aNode.hasAttribute("href")){
-                    Attribute attr = aNode.getAttribute("href");
+            if (iNode.getType() == NodeType.INSTRUCTION){
+                if (iNode.hasAttribute("href")){
+                    Attribute attr = iNode.getAttribute("href");
                     String value = attr.getValue();
 
                     if (value.contains("orlando_biography_v2.rng")){

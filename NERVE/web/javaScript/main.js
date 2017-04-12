@@ -37,7 +37,6 @@ class Main extends ContextLoader{
         this.model = null;
         this.controller = null;
         this.view = null;
-        this.events = null;
         this.listener = null;
         this.fileOps = new FileOperations();
     }
@@ -47,13 +46,10 @@ class Main extends ContextLoader{
         this.view.pushThrobberMessage("Loading JavaScript Objects");
         this.model = new Model(this.view, this.settings);
         this.model.setVariable("host", location.host);
-
         this.controller = new Controller(this.view, this.model, this.fileOps, this);
-        this.events = new Events(this.view, this.model, this.controller);
-        this.controller.setEventHandler(this.events);
 
         let onContextLoadSuccess = function () {
-            this.listener = new Listeners(this.view, this.events, this.controller);
+            this.listener = new Listeners(this.view, this.controller);
             this.controller.setListener(this.listener);
             this.model.setListener(this.listener);
             this.model.loadStoredDoc();
@@ -91,8 +87,7 @@ class Main extends ContextLoader{
             this.model.setContext(this.context);
             this.controller.setContext(this.context);
             this.view.setContext(this.context);
-            this.events.setContext(this.context);
-            $.fn.xmlAttr.defaults.context = this.context;            
+            $.fn.xmlAttr.defaults.context = this.context;
         }, (status, text) => {
             failure(status, text, contextName);
         });

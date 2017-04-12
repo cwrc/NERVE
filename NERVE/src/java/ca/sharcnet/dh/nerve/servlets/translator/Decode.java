@@ -37,31 +37,14 @@ public class Decode extends CustomServlet {
             config.load(cfgStream);
 
             Document document = DocumentNavigator.documentFromString(inputString);
+            System.out.println(document);
 
             /* check document for schema to set the context */
-            Select selection = document.select().attribute("class", Constants.HTML_PROLOG_CLASSNAME);
-            if (selection.isEmpty()) throw new RuntimeException("Schema instruction element not found.");
-            Node node = selection.get(0);
-            Context context = null;
-
-            if (node.getType() == NodeType.INSTRUCTION){
-                AttributeNode aNode = (AttributeNode) node;
-                if (aNode.hasAttribute("href")){
-                    Attribute attr = aNode.getAttribute("href");
-                    String value = attr.getValue();
-
-                    if (value.contains("orlando_biography_v2.rng")){
-                        context = ContextLoader.load(Encode.class.getResourceAsStream("/res/orlando.context.json"));
-                    }
-                    else if (value.contains("cwrc_entry.rng")){
-                        context = ContextLoader.load(Encode.class.getResourceAsStream("/res/cwrc.context.json"));
-                    }
-                    else if (value.contains("cwrc_tei_lite.rng")){
-                        context = ContextLoader.load(Encode.class.getResourceAsStream("/res/tei.context.json"));
-                    }
-                }
-            }
-
+            Select selected = document.select().attribute(Constants.ORIGINAL_TAGNAME_ATTR, "xml-model");
+            if (selected.isEmpty()) throw new RuntimeException("Schema instruction element not found.");
+            String contextName = selected.get(0).getAttributeValue(Constants.CONTEXT_ATTRIBUTE);
+            contextName = "/res/" + contextName.toLowerCase() + ".context.json";
+            Context context = ContextLoader.load(Encode.class.getResourceAsStream(contextName));
             Document decoded = new Decoder().decode(document, context);
 
             json.put("result", "processed");

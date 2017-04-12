@@ -2,10 +2,10 @@
 /* global cD, Utility, trace */
 
 class Dialogs {
-    constructor(controller, events) {
+    constructor(controller) {
         Dialogs.traceLevel = 0;
         Utility.log(Dialogs, "constructor");
-        Utility.enforceTypes(arguments, Controller, [Events, "optional"]);
+        Utility.enforceTypes(arguments, Controller);
 
         cD.setCwrcApi("http://" + Dialogs.getHost() + "/islandora/cwrc_entities/v1/");
         cD.setRepositoryBaseObjectURL('http://cwrc-dev-01.srv.ualberta.ca/islandora/object/');
@@ -37,7 +37,6 @@ class Dialogs {
     setQueryTerm(queryTerm) {
         Utility.log(Dialogs, "setQueryTerm");
         Utility.enforceTypes(arguments, String);
-
         this.opts.query = queryTerm;
     }
 

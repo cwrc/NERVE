@@ -36,7 +36,7 @@ class SearchUtility{
         this.instances = this.__searchRecurse(this.rootElement, term, []);
         this.current = -1;
 
-        document.getElementById("entityPanel").focus();
+        $("#entityPanel").focus();
         return this.instances.length;
     }
 
