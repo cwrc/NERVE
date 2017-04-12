@@ -27,7 +27,7 @@ class Controller {
         this.contextLoader = loader;
 
         this.dialogs = new Dialogs(this);
-        this.selected = new Collection();
+        this.collection = new Collection();
         this.dictionary = new Dictionary();
         this.settings = new Storage("controller");
         this.searchUtility = new SearchUtility("#entityPanel");
@@ -41,10 +41,10 @@ class Controller {
     pasteInfo(){
         Utility.log(Controller, "pasteInfo");
         Utility.enforceTypes(arguments);
-        if (this.copiedInfo === null || this.selected.isEmpty()) return;
-        this.model.setEntityValues(this.selected.$(), this.copiedInfo);
-        this.model.setupTaggedEntity(this.selected.$());
-        this.view.setDialogs(this.selected.getLast());
+        if (this.copiedInfo === null || this.collection.isEmpty()) return;
+        this.model.setEntityValues(this.collection.$(), this.copiedInfo);
+        this.model.setupTaggedEntity(this.collection.$());
+        this.view.setDialogs(this.collection.getLast());
         this.view.setSearchText("");
         this.searchUtility.reset();
         this.isSaved = false;
@@ -56,7 +56,7 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         try{
-            var ele = this.selected.$().mergeElements();
+            var ele = this.collection.$().mergeElements();
         } catch (error){
             this.view.showUserMessage(error.message);
             return;
@@ -66,7 +66,7 @@ class Controller {
         $(ele).addClass("taggedentity");
         this.model.setEntityValues($(ele), this.view.getDialogs());
         this.model.setupTaggedEntity($(ele));
-        this.selected.clear();
+        this.collection.clear();
         this.addSelected(ele[0]);
 
         this.model.saveState();
@@ -80,13 +80,15 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         let selection = window.getSelection();
-        if (selection.rangeCount === 0) return new Response(false, "No text selected");
+        if (selection.rangeCount === 0){
+            this.view.showUserMessage("No text selected");
+            return;
+        }
         let range = selection.getRangeAt(0);
         let tagName = this.view.getDialogs().tagName;
 
         if (!this.context.schema.isValid(range.commonAncestorContainer, tagName)){
-            let message = `Tagging "${tagName}" is not valid in the Schema at this location.`;
-            this.view.showUserMessage(message);
+            this.view.showUserMessage(`Tagging "${tagName}" is not valid in the Schema at this location.`);
             return;
         }
 
@@ -133,10 +135,10 @@ class Controller {
         Utility.log(Controller, "untagAll");
         Utility.enforceTypes(arguments);
 
-        if (this.selected.isEmpty()) return new Response(false, "");
+        if (this.collection.isEmpty()) return new Response(false, "");
 
-        let count = this.selected.size();
-        this.selected.$().contents().unwrap();
+        let count = this.collection.size();
+        this.collection.$().contents().unwrap();
         this.view.clearDialogs();
         this.view.setDialogFade(true);
         document.normalize();
@@ -157,23 +159,23 @@ class Controller {
         let dialogValues = this.view.getDialogs();
         switch (dialog) {
             case "tag":
-                this.selected.$().entityTag(dialogValues.tagName);
+                this.collection.$().entityTag(dialogValues.tagName);
                 break;
             case "text":
-                this.selected.$().text(dialogValues.entity);
+                this.collection.$().text(dialogValues.entity);
                 break;
             case "lemma":
-                this.selected.$().lemma(dialogValues.lemma);
+                this.collection.$().lemma(dialogValues.lemma);
                 break;
             case "link":
-                this.selected.$().link(dialogValues.link);
+                this.collection.$().link(dialogValues.link);
                 break;
         }
 
         this.view.setSearchText("");
         this.searchUtility.reset();
         this.pollDialogs();
-        this.pollDictionaryDelayed(this.selected.getLast(), 500);
+        this.pollDictionaryDelayed(this.collection.getLast(), 500);
     }
 
     /* other */
@@ -187,27 +189,27 @@ class Controller {
         Utility.log(Controller, "selectLikeEntitiesByLemma");
         Utility.enforceTypes(arguments);
 
-        if (this.selected.isEmpty()) return;
-        let lastEle = this.selected.getLast();
+        if (this.collection.isEmpty()) return;
+        let lastEle = this.collection.getLast();
         if (typeof $(lastEle).lemma() === "undefined") return;
 
         $(".taggedentity").each((i, ele)=>{
             if ($(ele).lemma() === $(lastEle).lemma()){
-                this.selected.add(ele);
+                this.collection.add(ele);
                 $(ele).addClass("selected");
             }
         });
 
         this.pollDialogs();
-        let count = this.selected.size();
+        let count = this.collection.size();
         this.view.showUserMessage(count + " entit" + (count === 1 ? "y" : "ies") + " selected");
     }
 
     dictAdd(){
         Utility.log(Controller, "dictAdd");
         Utility.enforceTypes(arguments);
-        if (this.selected.isEmpty()) return;
-        this.dictionary.addEntity(this.selected.getLast());
+        if (this.collection.isEmpty()) return;
+        this.dictionary.addEntity(this.collection.getLast());
         this.view.setDictionary("custom");
         this.view.setDictionaryButton("remove");
     }
@@ -215,17 +217,17 @@ class Controller {
     dictRemove(){
         Utility.log(Controller, "dictRemove");
         Utility.enforceTypes(arguments);
-        if (this.selected.isEmpty()) return;
-        this.dictionary.removeEntity(this.selected.getLast());
-        this.pollDictionary(this.selected.getLast());
-        $(this.selected.getLast()).removeAttr("data-dictionary");
+        if (this.collection.isEmpty()) return;
+        this.dictionary.removeEntity(this.collection.getLast());
+        this.pollDictionary(this.collection.getLast());
+        $(this.collection.getLast()).removeAttr("data-dictionary");
     }
 
     dictUpdate(){
         Utility.log(Controller, "dictUpdate");
         Utility.enforceTypes(arguments);
-        if (this.selected.isEmpty()) return;
-        this.dictionary.addEntity(this.selected.getLast());
+        if (this.collection.isEmpty()) return;
+        this.dictionary.addEntity(this.collection.getLast());
         this.view.setDictionary("custom");
         this.view.setDictionaryButton("remove");
     }
@@ -246,9 +248,9 @@ class Controller {
         Utility.log(Controller, "setSelected");
         Utility.enforceTypes(arguments, HTMLDivElement);
 
-        this.selected.$().removeClass("selected");
-        this.selected.clear();
-        this.selected.add(taggedEntity);
+        this.collection.$().removeClass("selected");
+        this.collection.clear();
+        this.collection.add(taggedEntity);
         $(taggedEntity).addClass("selected");
         this.view.setDialogFade(false);
         this.setDialogs(taggedEntity, 0);
@@ -258,7 +260,7 @@ class Controller {
         Utility.log(Controller, "addSelected");
         Utility.enforceTypes(arguments, HTMLDivElement);
 
-        this.selected.add(taggedEntity);
+        this.collection.add(taggedEntity);
         $(taggedEntity).addClass("selected");
         this.view.setDialogFade(false);
         this.setDialogs(taggedEntity, 0);
@@ -268,16 +270,16 @@ class Controller {
         Utility.log(Controller, "toggleSelect");
         Utility.enforceTypes(arguments, HTMLDivElement);
 
-        if (!this.selected.contains(taggedEntity)){
-            this.selected.add(taggedEntity);
+        if (!this.collection.contains(taggedEntity)){
+            this.collection.add(taggedEntity);
             $(taggedEntity).addClass("selected");
             this.addSelected(taggedEntity);
             this.view.setDialogFade(false);
         }
         else{
-            this.selected.remove(taggedEntity);
+            this.collection.remove(taggedEntity);
             $(taggedEntity).removeClass("selected");
-            if (this.selected.isEmpty()) this.view.setDialogFade(true);
+            if (this.collection.isEmpty()) this.view.setDialogFade(true);
         }
     }
 
@@ -285,9 +287,9 @@ class Controller {
         Utility.log(Controller, "unselectAll");
         Utility.enforceTypes(arguments);
 
-        window.getSelection().empty();
-        this.selected.$().removeClass("selected");
-        this.selected.clear();
+        window.getSelection().removeAllRanges();
+        this.collection.$().removeClass("selected");
+        this.collection.clear();
         this.view.setDialogFade(true);
     }
 
@@ -297,14 +299,12 @@ class Controller {
 
         let selection = window.getSelection();
         if (selection.rangeCount !== 0 && window.getSelection().getRangeAt(0).toString().trim() !== ""){
-            console.log("a");
             let text = window.getSelection().getRangeAt(0).toString().trim();
             this.view.setFindText(text);
             this.search(text, "next");
         }
-        else if (!this.selected.isEmpty()){
-            console.log("b");
-            let last = this.selected.getLast();
+        else if (!this.collection.isEmpty()){
+            let last = this.collection.getLast();
             this.view.setFindText($(last).text());
             this.search($(last).text(), "next");
         } else {
@@ -317,7 +317,7 @@ class Controller {
     copyInfo(){
         Utility.log(Controller, "copyInfo");
         Utility.enforceTypes(arguments);
-        if (this.selected.isEmpty()) return;
+        if (this.collection.isEmpty()) return;
         this.copiedInfo = this.view.getDialogs();
     }
 
@@ -331,32 +331,21 @@ class Controller {
         this.pollDialogs();
     }
 
-    /* check the dialogs and see if they match all the entities selected,     */
-    /* update view accordingly.                                               */
+    /* Set the BG of the entity dialog componets if not all of the collection */
+    /* match on the respective value.                                         */
     pollDialogs(){
         Utility.log(Controller, "pollDialogs");
         Utility.enforceTypes(arguments);
 
-        let flagLemma = true;
-        let flagLink = true;
-        let flagText = true;
-        let flagTag = true;
-        let first = this.selected.getFirst();
-
-        this.selected.each((entity)=>{
-            if ($(entity).lemma() !== $(first).lemma()) flagLemma = false;
-            if ($(entity).link() !== $(first).link()) flagLink = false;
-            if ($(entity).text() !== $(first).text()) flagText = false;
-            if ($(entity).entityTag() !== $(first).entityTag()) flagTag = false;
-        });
-
+        let first = this.collection.getFirst();
         this.view.clearDialogBG();
-        if (!flagLemma) this.view.setDialogBG("lemma");
-        if (!flagLink) this.view.setDialogBG("link");
-        if (!flagText) this.view.setDialogBG("text");
-        if (!flagTag) this.view.setDialogBG("tag");
 
-        return flagLemma && flagLink && flagText && flagTag;
+        this.collection.each((entity)=>{
+            if ($(entity).lemma() !== $(first).lemma()) this.view.setDialogBG("lemma");
+            if ($(entity).link() !== $(first).link()) this.view.setDialogBG("link");
+            if ($(entity).text() !== $(first).text()) this.view.setDialogBG("text");
+            if ($(entity).entityTag() !== $(first).entityTag()) this.view.setDialogBG("tag");
+        });
     }
 
     __constructEntityFromRange(range, tagName) {
@@ -502,15 +491,12 @@ class Controller {
             } else {
                 let dictTag = this.context.getTagInfo($(entity).entityTag()).dictionary;
                 for (let row of rows) {
-                    console.log(row);
                     if (row.lemma === $(entity).lemma() && row.link === $(entity).link() && row.tag === dictTag) {
                         $(entity).attr("data-dictionary", row.collection);
                         if (row.collection === "custom") break;
                     }
                 }
-
                 if (typeof $(entity).attr("data-dictionary") === "undefined") {
-                    console.log("undefined");
                     this.view.setDictionaryButton("add");
                     for (let row of rows) {
                         if (row.collection === "custom"){
@@ -519,8 +505,6 @@ class Controller {
                         }
                     }
                 } else {
-                    console.log("defined");
-                    console.log($(entity).attr("data-dictionary"));
                     this.view.setDictionary($(entity).attr("data-dictionary"));
                     if ($(entity).attr("data-dictionary") !== "custom") this.view.setDictionaryButton("add");
                     else this.view.setDictionaryButton("remove");
@@ -545,12 +529,12 @@ class Controller {
         Utility.log(Controller, "__fillDialogsFromCollection");
         Utility.enforceTypes(arguments);
 
-        if (this.selected.isEmpty()) return;
+        if (this.collection.isEmpty()) return;
 
-        let e = this.selected.getFirst();
+        let e = this.collection.getFirst();
         this.setDialogs(e, 0);
 
-        this.selected.each((e) => {
+        this.collection.each((e) => {
             if (e.getEntity() !== this.currentEntity) {
                 this.currentEntity = "";
                 this.view.setEntity("");
@@ -665,7 +649,6 @@ class Controller {
         if (direction === "prev") r = this.searchUtility.prev();
 
         this.unselectAll();
-        window.getSelection().removeAllRanges();
         window.getSelection().addRange(r);
         let parent = r.commonAncestorContainer.parentElement;
         this.view.scrollTo(parent);
