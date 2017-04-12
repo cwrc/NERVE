@@ -135,9 +135,6 @@ class Listeners {
     }
 
     taggedEntityClick(taggedEntity) {
-        Utility.log(Events, "taggedEntityClick");
-        Utility.enforceTypes(arguments, HTMLDivElement);
-
         if (window.event.altKey) {
             /* strictly for debugging */
             window.debug = taggedEntity;
