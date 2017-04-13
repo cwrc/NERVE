@@ -50,11 +50,11 @@ public class Encoder {
                 String value = attr.getValue();
 
                 if (value.contains("orlando_biography_v2.rng")) {
-                    context = ContextLoader.load(hasStreams.getResourceStream("orlando.context.json"));
+                    context = ContextLoader.load(hasStreams.getResourceStream("contexts/orlando.context.json"));
                 } else if (value.contains("cwrc_entry.rng")) {
-                    context = ContextLoader.load(hasStreams.getResourceStream("resources/cwrc.context.json"));
+                    context = ContextLoader.load(hasStreams.getResourceStream("contexts/cwrc.context.json"));
                 } else if (value.contains("cwrc_tei_lite.rng")) {
-                    context = ContextLoader.load(hasStreams.getResourceStream("resources/tei.context.json"));
+                    context = ContextLoader.load(hasStreams.getResourceStream("contexts/tei.context.json"));
                 }
             }
         }

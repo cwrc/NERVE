@@ -1,6 +1,4 @@
 package ca.sharcnet.nerve.decode;
-import ca.sharcnet.nerve.decode.*;
-import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.encoder.*;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;

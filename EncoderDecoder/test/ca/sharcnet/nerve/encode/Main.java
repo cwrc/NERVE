@@ -1,8 +1,9 @@
-package ca.sharcnet.nerve.encoder;
-
+package ca.sharcnet.nerve.encode;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentNavigator;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.encoder.ClassifierException;
+import ca.sharcnet.nerve.encoder.Encoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ public class Main implements HasStreams{
     }
 
     public InputStream getInputStream() {
+//          return this.getClass().getResourceAsStream("/resources/orlando/tei_no_tags.xml");
         return this.getClass().getResourceAsStream("/resources/orlando/orlando_no_tags.xml");
     }
 
