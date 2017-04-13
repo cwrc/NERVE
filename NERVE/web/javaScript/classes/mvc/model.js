@@ -59,6 +59,12 @@ class Model {
         this.context = context;
     }
 
+    /**
+     * Call 'saveState()' after any change that you want to be able to recover
+     * to.  This is typically any change in the model that can be seen by the
+     * user.
+     * @returns {undefined}
+     */
     saveState() {
         Utility.log(Model, "saveState");
         Utility.enforceTypes(arguments);
@@ -87,9 +93,8 @@ class Model {
 
         this.settings.setValue("document", this.getDocument());
         this.view.setDocument(document);
-        this.listener.addTaggedEntity(".taggedentity");
 
-        return true;
+        $(".taggedentity").removeClass("selected");
     }
 
     advanceState() {
@@ -103,6 +108,8 @@ class Model {
 
         this.settings.setValue("current", "document", document);
         this.view.setDocument(document);
+
+        $(".taggedentity").removeClass("selected");
     }
 
     __resetState() {
@@ -159,9 +166,8 @@ class Model {
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
 
         $(selector).each((i, ele)=>{
-            this.listener.addTaggedEntity(ele);
             if ($(ele).link() === "" || typeof $(ele).link() === "undefined"){
-                $(ele).addClass("notLinked");
+                $(ele).removeClass("linked");
             } else {
                 $(ele).addClass("linked");
             }

@@ -47,31 +47,28 @@ class Main extends ContextLoader{
         this.model = new Model(this.view, this.settings);
         this.model.setVariable("host", location.host);
         this.controller = new Controller(this.view, this.model, this.fileOps, this);
+        this.listener = new Listeners(this.view, this.controller);
+        this.view.popThrobberMessage();
+        this.view.showThrobber(false);
+        $("#container").show();
 
-        let onContextLoadSuccess = function () {
-            this.listener = new Listeners(this.view, this.controller);
-            this.controller.setListener(this.listener);
-            this.model.setListener(this.listener);
-            this.model.loadStoredDoc();
-            this.view.popThrobberMessage();
-            this.view.showThrobber(false);
-            $("#container").show();
-        }.bind(this);
-
-        let onContextLoadFailure = function (status, text, contextName) {
-            this.view.pushThrobberMessage(`Failed to load schema : ${contextName}\n`);
-            let msg = `Failed to load schema : ${contextName}\n`;
-            msg += "return status : " + status;
-            console.log(text);
-            window.alert(msg);
-        }.bind(this);
-
-        let contextName = "orlando";
-        if (this.settings.hasValue("contextName")){
-            contextName = this.settings.getValue("contextName");
-        }
-
-        this.loadContext(contextName, onContextLoadSuccess, onContextLoadFailure);
+//        let onContextLoadSuccess = function () {
+//            this.listener = new Listeners(this.view, this.controller);
+//            this.controller.setListener(this.listener);
+//            this.model.setListener(this.listener);
+//            this.model.loadStoredDoc();
+//            this.view.popThrobberMessage();
+//            this.view.showThrobber(false);
+//            $("#container").show();
+//        }.bind(this);
+//
+//        let onContextLoadFailure = function (status, text, contextName) {
+//            this.view.pushThrobberMessage(`Failed to load schema : ${contextName}\n`);
+//            let msg = `Failed to load schema : ${contextName}\n`;
+//            msg += "return status : " + status;
+//            console.log(text);
+//            window.alert(msg);
+//        }.bind(this);
     }
 
     loadContext(contextName, success = function() {}, failure = function(){}) {

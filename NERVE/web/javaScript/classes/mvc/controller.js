@@ -38,6 +38,24 @@ class Controller {
     }
 
     /* active model changers */
+    updateAllSelected(dialogValues) {
+        Utility.log(Controller, "updateAllSelected");
+        Utility.enforceTypes(arguments, Object);
+
+        this.collection.$().entityTag(dialogValues.tagName);
+        this.collection.$().text(dialogValues.entity);
+        this.collection.$().lemma(dialogValues.lemma);
+        this.collection.$().link(dialogValues.link);
+
+        this.model.setupTaggedEntity(this.collection.$());
+
+        this.view.setSearchText("");
+        this.searchUtility.reset();
+        this.pollDialogs();
+        this.pollDictionaryDelayed(this.collection.getLast(), 500);
+        this.model.saveState();
+    }
+
     pasteInfo(){
         Utility.log(Controller, "pasteInfo");
         Utility.enforceTypes(arguments);
@@ -150,33 +168,23 @@ class Controller {
         this.searchUtility.reset();
     }
 
-/* end of active model control */
+    revertState(){
+        Utility.log(Controller, "revertState");
+        Utility.enforceTypes(arguments);
 
-    notifyDialogInput(dialog) {
-        Utility.log(Controller, "notifyDialogInput");
-        Utility.enforceTypes(arguments, String);
-
-        let dialogValues = this.view.getDialogs();
-        switch (dialog) {
-            case "tag":
-                this.collection.$().entityTag(dialogValues.tagName);
-                break;
-            case "text":
-                this.collection.$().text(dialogValues.entity);
-                break;
-            case "lemma":
-                this.collection.$().lemma(dialogValues.lemma);
-                break;
-            case "link":
-                this.collection.$().link(dialogValues.link);
-                break;
-        }
-
-        this.view.setSearchText("");
-        this.searchUtility.reset();
-        this.pollDialogs();
-        this.pollDictionaryDelayed(this.collection.getLast(), 500);
+        this.unselectAll();
+        this.model.revertState();
     }
+
+    advanceState(){
+        Utility.log(Controller, "advanceState");
+        Utility.enforceTypes(arguments);
+
+        this.unselectAll();
+        this.model.advanceState();
+    }
+
+    /* end of active model control */
 
     /* other */
     setListener(listener) {
@@ -667,7 +675,10 @@ class Controller {
         Utility.log(Controller, "goLink");
         Utility.enforceTypes(arguments);
         let url = $("#txtLink").val();
-        var win = window.open("http://" + url, '_blank');
+        if (!url.startsWith("http") && !url.startsWith("https")){
+            url = "http://" + $("#txtLink").val();
+        }
+        var win = window.open(url, '_blank');
         win.focus();
     }
 }

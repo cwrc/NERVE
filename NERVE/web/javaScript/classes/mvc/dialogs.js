@@ -20,11 +20,11 @@ class Dialogs {
 
         this.opts = {
             success: function (result, event) {
-                this.setLemma(result.name);
-                this.setLink(result.uri);
-                this.view.setLemma(result.name);
-                this.view.setLink(result.uri);
-                this.pollDictionaryUpdate(0);
+                this.updateAllSelected({
+                    lemma : result.name,
+                    link : result.uri,
+                });
+                this.view.setDialogs(this.collection.getLast());
             }.bind(controller),
             error: function (errorThrown) {
                 console.log("error");

@@ -18,13 +18,13 @@
     -ms-user-select: none; /* IE10+ */
 }
 
-.taggedentity.notLinked:before{
-    color: red;
+.taggedentity.linked:before{
+    color: green;
 }
 
 .taggedentity:before{
     content: attr(xmltagname);
-    color: green;
+    color: red;
     position: absolute;
     text-align: center;
     font-variant: small-caps;

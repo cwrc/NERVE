@@ -8,11 +8,31 @@ class Listeners {
         this.view = view;
         this.controller = controller;
 
-        /* entity dialog box events */
-        $("#txtEntity").on("input", (event)=>this.controller.notifyDialogInput("text"));
-        $("#txtLemma").on("input", (event)=>this.controller.notifyDialogInput("lemma"));
-        $("#txtLink").on("input", (event)=>this.controller.notifyDialogInput("link"));
-        $("#selectTagName").on("input", (event)=>this.controller.notifyDialogInput("tag"));
+        /* entity dialog box events -- this section has a state */
+        this.entityValues = null;
+        $("#txtEntity").on("input", ()=>{
+            if (this.entityValues === null) this.entityValues = {};
+            this.entityValues.entity = $("#txtEntity").val();
+        });
+        $("#txtLemma").on("input", ()=>{
+            if (this.entityValues === null) this.entityValues = {};
+            this.entityValues.lemma = $("#txtEntity").val();
+        });
+        $("#txtLink").on("input", ()=>{
+            if (this.entityValues === null) this.entityValues = {};
+            this.entityValues.link = $("#txtEntity").val();
+        });
+
+        $(".entityDialogTB").blur(()=>{
+            if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
+            this.entityValues = null;
+        });
+        /* end of section with a state */
+
+        $("#selectTagName").on("input", (event)=>{
+            this.controller.updateAllSelected({tagName : $("#selectTagName").val()});
+        });
+
         $("#goLink").click((event)=>this.controller.goLink());
 
         /* search events */
@@ -26,16 +46,16 @@ class Listeners {
             this.controller.search($("#epsTextArea").val(), "next");
         });
 
-        /* menu events */
+        /* menu events key events fire these events */
         $("#menuSave").click((event)=>{event.stopPropagation(); this.controller.saveContents();});
-        $("#menuOpen").click(()=>{event.stopPropagation(); this.controller.loadDocument();});
-        $("#menuClose").click(()=>{event.stopPropagation(); this.controller.closeDocument();});
+        $("#menuOpen").click((event)=>{event.stopPropagation(); this.controller.loadDocument();});
+        $("#menuClose").click((event)=>{event.stopPropagation(); this.controller.closeDocument();});
 
         $("#menuTags").click((event)=>{event.stopPropagation();  this.menuShowTags();});
         $("#menuReset").click((event)=>{event.stopPropagation(); localStorage.clear(); location.reload(true);});
         $("#menuClear").click((event)=>{event.stopPropagation(); this.controller.unselectAll();});
-        $("#menuUndo").click((event)=>{event.stopPropagation(); this.controller.unselectAll(); this.model.revertState();});
-        $("#menuRedo").click((event)=>{event.stopPropagation(); this.controller.unselectAll(); this.model.advanceState();});
+        $("#menuUndo").click((event)=>{event.stopPropagation(); this.controller.revertState();});
+        $("#menuRedo").click((event)=>{event.stopPropagation(); this.controller.advanceState();});
         $("#menuCopy").click((event)=>{event.stopPropagation(); this.controller.copyInfo();});
         $("#menuPaste").click((event)=>{event.stopPropagation(); this.controller.pasteInfo();});
         $("#menuSelectLemma").click((event)=>{event.stopPropagation(); this.controller.selectLikeEntitiesByLemma();});
@@ -53,6 +73,11 @@ class Listeners {
         $("#menuORLANDO").click((event)=>{event.stopPropagation(); this.switchContext("ORLANDO");});
         $("#menuCWRC").click((event)=>{event.stopPropagation(); this.switchContext("CWRC");});
         $("#menuTEI").click((event)=>{event.stopPropagation(); this.switchContext("TEI");});
+
+        $("#menuWiki").click((event)=>{
+            var win = window.open("https://github.com/cwrc/NERVE/wiki", '_blank');
+            win.focus();
+        });
 
         /* control delete and backspace this.events */
         document.addEventListener('keydown', function (event) {
@@ -78,27 +103,43 @@ class Listeners {
 
         /* key Press Events */
         $(document).keydown((event)=>{
+            var d = event.srcElement || event.target;
+            if (
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'PASSWORD') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'FILE') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'SEARCH') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'EMAIL') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'NUMBER') ||
+                    (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'DATE') ||
+                    (d.tagName.toUpperCase() === 'TEXTAREA') ||
+                    (d.hasAttribute("contenteditable") && d.getAttribute("contenteditable") === "true")
+                    ) {
+                console.log(d.tagName);
+                event.stopPropagation();
+                return;
+            }
+
             if (event.ctrlKey || event.metaKey){
                 switch(event.key){
-                    case "a": this.controller.selectLikeEntitiesByLemma(); break;
-                    case "c": this.events.menuCopy(); break;
-                    case "e": this.events.menuTag(); break;
-                    case "f": this.events.menuFind(); break;
-                    case "u": this.events.menuUntag(); break;
-                    case "m": this.events.menuMerge(); break;
-                    case "o": this.events.menuOpen(); break;
-                    case "r": this.events.menuUntag(); break;
-                    case "s": this.events.menuSave(); break;
-                    case "v": this.events.menuPaste(); break;
-                    case "y": this.events.menuRedo(); break;
-                    case "z": this.events.menuUndo(); break;
+                    case "a": $("#menuSelectLemma").click(); break;
+                    case "c": $("#menuCopy").click(); break;
+                    case "e": $("#menuTag").click(); break;
+                    case "f": $("#menuFind").click(); break;
+                    case "m": $("#menuMerge").click(); break;
+                    case "o": $("#menuOpen").click(); break;
+                    case "r": $("#menuUntag").click(); break;
+                    case "s": $("#menuSave").click(); break;
+                    case "v": $("#menuPaste").click(); break;
+                    case "y": $("#menuRedo").click(); break;
+                    case "z": $("#menuUndo").click(); break;
                     default: return;
                 }
             } else { /* no ctrl/meta */
                 switch(event.key){
                     case "Backspace":
-                    case "Delete": this.events.menuUntag(); break;
-                    case "Escape": this.events.menuClearSelection(); break;
+                    case "Delete": $("#menuUntag").click(); break;
+                    case "Escape": $("#menuClear").click(); break;
                     default: return;
                 }
             }
@@ -107,57 +148,57 @@ class Listeners {
             event.stopPropagation();
         });
 
-        /* entity & document events */
-        this.addTaggedEntity(".taggedentity");
-
         /* Default Document Click Event */
         $("#entityPanel").click((event) => this.documentClick(event));
+        $("#entityPanel").dblclick((event) => this.documentDblClick(event));
     }
 
     documentClick(event){
+        let srcElement = event.originalEvent.srcElement;
+
+        /* strictly for debugging */
         if (event.altKey){
-            /* strictly for debugging */
-            console.log(event);
             window.debug = event.target;
-            console.log(event.target);
             return;
         }
 
-        if (event.ctrlKey) return;
-        this.controller.unselectAll();
-        event.stopPropagation();
+        if (!window.getSelection().isCollapsed) return;
+
+        if ($(srcElement).hasClass("taggedentity")){
+            this.taggedEntityClick(event, srcElement);
+            event.stopPropagation();
+        } else if (!event.ctrlKey){
+            this.controller.unselectAll();
+            event.stopPropagation();
+        }
     }
 
-    /* call every time a new tagged entity is created */
-    addTaggedEntity(ele){
-        $(ele).click((event)=>{event.stopPropagation(); this.taggedEntityClick(event.currentTarget);});
-        $(ele).dblclick((event)=>{event.stopPropagation(); this.controller.selectLikeEntitiesByLemma();});
+    documentDblClick(event){
+        let srcElement = event.originalEvent.srcElement;
+        if ($(srcElement).hasClass("taggedentity")){
+            window.getSelection().removeAllRanges();
+            this.controller.selectLikeEntitiesByLemma();
+            event.stopPropagation();
+        }
     }
 
-    taggedEntityClick(taggedEntity) {
+    taggedEntityClick(event, taggedEntity) {
         if (window.event.altKey) {
             /* strictly for debugging */
             window.debug = taggedEntity;
             console.log(taggedEntity);
-            event.stopPropagation();
         } else {
             if (!event.ctrlKey && !event.metaKey) {
                 this.controller.setSelected(taggedEntity);
             } else {
                 this.controller.toggleSelect(taggedEntity);
             }
-            event.stopPropagation();
         }
     }
 
     /* context switching is deprecated */
     switchContext(contextName){
         window.alert("'Switch Schema' is deprectated; the context/schema is now detected from the file.  In future releases this menu option will be removed.");
-        $("#menuORLANDO").removeClass("activeText");
-        $("#menuCWRC").removeClass("activeText");
-        $("#menuTEI").removeClass("activeText");
-        $(`#menu${contextName.toUpperCase()}`).addClass("activeText");
-        this.events.menuContextChange(contextName);
     }
 
     menuShowTags(){
