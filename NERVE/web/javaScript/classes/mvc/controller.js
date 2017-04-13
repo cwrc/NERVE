@@ -633,7 +633,7 @@ class Controller {
         let success = (result)=>{
             this.fileOps.saveToFile(result, this.model.getFilename());
             this.isSaved = true;
-            this.view.showThrobber(false)
+            this.view.showThrobber(false);
         };
 
         let failure = (status, text)=>{

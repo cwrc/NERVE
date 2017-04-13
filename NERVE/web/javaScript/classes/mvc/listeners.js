@@ -10,71 +10,144 @@ class Listeners {
 
         /* entity dialog box events -- this section has a state */
         this.entityValues = null;
-        $("#txtEntity").on("input", ()=>{
+        $("#txtEntity").on("input", () => {
             if (this.entityValues === null) this.entityValues = {};
             this.entityValues.entity = $("#txtEntity").val();
         });
-        $("#txtLemma").on("input", ()=>{
+        $("#txtLemma").on("input", () => {
             if (this.entityValues === null) this.entityValues = {};
             this.entityValues.lemma = $("#txtEntity").val();
         });
-        $("#txtLink").on("input", ()=>{
+        $("#txtLink").on("input", () => {
             if (this.entityValues === null) this.entityValues = {};
             this.entityValues.link = $("#txtEntity").val();
         });
 
-        $(".entityDialogTB").blur(()=>{
+        $(".entityDialogTB").blur(() => {
             if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
             this.entityValues = null;
         });
         /* end of section with a state */
 
-        $("#selectTagName").on("input", (event)=>{
-            this.controller.updateAllSelected({tagName : $("#selectTagName").val()});
+        $("#selectTagName").on("input", (event) => {
+            this.controller.updateAllSelected({tagName: $("#selectTagName").val()});
         });
 
-        $("#goLink").click((event)=>this.controller.goLink());
+        $("#goLink").click((event) => this.controller.goLink());
 
         /* search events */
-        $("#searchDialog").click((event) =>{event.stopPropagation(); this.controller.showSearchDialog();});
-        $("#epsNext").click((event)=>{event.stopPropagation(); this.controller.search($("#epsTextArea").val(), "next");});
-        $("#epsPrev").click((event)=>{event.stopPropagation(); this.controller.search($("#epsTextArea").val(), "prev");});
+        $("#searchDialog").click((event) => {
+            event.stopPropagation();
+            this.controller.showSearchDialog();
+        });
+        $("#epsNext").click((event) => {
+            event.stopPropagation();
+            this.controller.search($("#epsTextArea").val(), "next");
+        });
+        $("#epsPrev").click((event) => {
+            event.stopPropagation();
+            this.controller.search($("#epsTextArea").val(), "prev");
+        });
 
-        $("#epsTextArea").keyup((event)=>{
+        $("#epsTextArea").keyup((event) => {
             if (event.keyCode !== 13) return;
             event.stopPropagation();
             this.controller.search($("#epsTextArea").val(), "next");
         });
 
         /* menu events key events fire these events */
-        $("#menuSave").click((event)=>{event.stopPropagation(); this.controller.saveContents();});
-        $("#menuOpen").click((event)=>{event.stopPropagation(); this.controller.loadDocument();});
-        $("#menuClose").click((event)=>{event.stopPropagation(); this.controller.closeDocument();});
+        $("#menuSave").click((event) => {
+            event.stopPropagation();
+            this.controller.saveContents();
+        });
+        $("#menuOpen").click((event) => {
+            event.stopPropagation();
+            this.controller.loadDocument();
+        });
+        $("#menuClose").click((event) => {
+            event.stopPropagation();
+            this.controller.closeDocument();
+        });
 
-        $("#menuTags").click((event)=>{event.stopPropagation();  this.menuShowTags();});
-        $("#menuReset").click((event)=>{event.stopPropagation(); localStorage.clear(); location.reload(true);});
-        $("#menuClear").click((event)=>{event.stopPropagation(); this.controller.unselectAll();});
-        $("#menuUndo").click((event)=>{event.stopPropagation(); this.controller.revertState();});
-        $("#menuRedo").click((event)=>{event.stopPropagation(); this.controller.advanceState();});
-        $("#menuCopy").click((event)=>{event.stopPropagation(); this.controller.copyInfo();});
-        $("#menuPaste").click((event)=>{event.stopPropagation(); this.controller.pasteInfo();});
-        $("#menuSelectLemma").click((event)=>{event.stopPropagation(); this.controller.selectLikeEntitiesByLemma();});
+        $("#menuTags").click((event) => {
+            event.stopPropagation();
+            this.menuShowTags();
+        });
+        $("#menuReset").click((event) => {
+            event.stopPropagation();
+            localStorage.clear();
+            location.reload(true);
+        });
+        $("#menuClear").click((event) => {
+            event.stopPropagation();
+            this.controller.unselectAll();
+        });
+        $("#menuUndo").click((event) => {
+            event.stopPropagation();
+            this.controller.revertState();
+        });
+        $("#menuRedo").click((event) => {
+            event.stopPropagation();
+            this.controller.advanceState();
+        });
+        $("#menuCopy").click((event) => {
+            event.stopPropagation();
+            this.controller.copyInfo();
+        });
+        $("#menuPaste").click((event) => {
+            event.stopPropagation();
+            this.controller.pasteInfo();
+        });
+        $("#menuSelectLemma").click((event) => {
+            event.stopPropagation();
+            this.controller.selectLikeEntitiesByLemma();
+        });
 
-        $("#menuTag").click((event)=>{event.stopPropagation(); this.controller.tagSelectedRange();});
-        $("#menuUntag").click((event)=>{event.stopPropagation(); this.controller.untagAll();});
-        $("#menuFind").click((event)=>{event.stopPropagation(); this.controller.fillFind();});
-        $("#menuMerge").click((event)=>{event.stopPropagation(); this.controller.mergeSelectedEntities();});
+        $("#menuTag").click((event) => {
+            event.stopPropagation();
+            this.controller.tagSelectedRange();
+        });
+        $("#menuUntag").click((event) => {
+            event.stopPropagation();
+            this.controller.untagAll();
+        });
+        $("#menuFind").click((event) => {
+            event.stopPropagation();
+            this.controller.fillFind();
+        });
+        $("#menuMerge").click((event) => {
+            event.stopPropagation();
+            this.controller.mergeSelectedEntities();
+        });
 
-        $("#dictAdd").click((event)=>{event.stopPropagation(); this.controller.dictAdd();});
-        $("#dictRemove").click((event)=>{event.stopPropagation(); this.controller.dictRemove();});
-        $("#dictUpdate").click((event)=>{event.stopPropagation(); this.controller.dictUpdate();});
+        $("#dictAdd").click((event) => {
+            event.stopPropagation();
+            this.controller.dictAdd();
+        });
+        $("#dictRemove").click((event) => {
+            event.stopPropagation();
+            this.controller.dictRemove();
+        });
+        $("#dictUpdate").click((event) => {
+            event.stopPropagation();
+            this.controller.dictUpdate();
+        });
 
         /* the ability to switch context is deprecated */
-        $("#menuORLANDO").click((event)=>{event.stopPropagation(); this.switchContext("ORLANDO");});
-        $("#menuCWRC").click((event)=>{event.stopPropagation(); this.switchContext("CWRC");});
-        $("#menuTEI").click((event)=>{event.stopPropagation(); this.switchContext("TEI");});
+        $("#menuORLANDO").click((event) => {
+            event.stopPropagation();
+            this.switchContext("ORLANDO");
+        });
+        $("#menuCWRC").click((event) => {
+            event.stopPropagation();
+            this.switchContext("CWRC");
+        });
+        $("#menuTEI").click((event) => {
+            event.stopPropagation();
+            this.switchContext("TEI");
+        });
 
-        $("#menuWiki").click((event)=>{
+        $("#menuWiki").click((event) => {
             var win = window.open("https://github.com/cwrc/NERVE/wiki", '_blank');
             win.focus();
         });
@@ -102,7 +175,7 @@ class Listeners {
         }, true);
 
         /* key Press Events */
-        $(document).keydown((event)=>{
+        $(document).keydown((event) => {
             var d = event.srcElement || event.target;
             if (
                     (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT') ||
@@ -120,27 +193,55 @@ class Listeners {
                 return;
             }
 
-            if (event.ctrlKey || event.metaKey){
-                switch(event.key){
-                    case "a": $("#menuSelectLemma").click(); break;
-                    case "c": $("#menuCopy").click(); break;
-                    case "e": $("#menuTag").click(); break;
-                    case "f": $("#menuFind").click(); break;
-                    case "m": $("#menuMerge").click(); break;
-                    case "o": $("#menuOpen").click(); break;
-                    case "r": $("#menuUntag").click(); break;
-                    case "s": $("#menuSave").click(); break;
-                    case "v": $("#menuPaste").click(); break;
-                    case "y": $("#menuRedo").click(); break;
-                    case "z": $("#menuUndo").click(); break;
-                    default: return;
+            if (event.ctrlKey || event.metaKey) {
+                switch (event.key) {
+                    case "a":
+                        $("#menuSelectLemma").click();
+                        break;
+                    case "c":
+                        $("#menuCopy").click();
+                        break;
+                    case "e":
+                        $("#menuTag").click();
+                        break;
+                    case "f":
+                        $("#menuFind").click();
+                        break;
+                    case "m":
+                        $("#menuMerge").click();
+                        break;
+                    case "o":
+                        $("#menuOpen").click();
+                        break;
+                    case "r":
+                        $("#menuUntag").click();
+                        break;
+                    case "s":
+                        $("#menuSave").click();
+                        break;
+                    case "v":
+                        $("#menuPaste").click();
+                        break;
+                    case "y":
+                        $("#menuRedo").click();
+                        break;
+                    case "z":
+                        $("#menuUndo").click();
+                        break;
+                    default:
+                        return;
                 }
             } else { /* no ctrl/meta */
-                switch(event.key){
+                switch (event.key) {
                     case "Backspace":
-                    case "Delete": $("#menuUntag").click(); break;
-                    case "Escape": $("#menuClear").click(); break;
-                    default: return;
+                    case "Delete":
+                        $("#menuUntag").click();
+                        break;
+                    case "Escape":
+                        $("#menuClear").click();
+                        break;
+                    default:
+                        return;
                 }
             }
 
@@ -152,59 +253,48 @@ class Listeners {
         $("#entityPanel").click((event) => this.documentClick(event));
         $("#entityPanel").dblclick((event) => this.documentDblClick(event));
     }
-
-    documentClick(event){
+    documentClick(event) {
         let srcElement = event.originalEvent.srcElement;
 
         /* strictly for debugging */
-        if (event.altKey){
+        console.log(event.altKey);
+        if (event.altKey) {
+            console.log(event.target);
             window.debug = event.target;
             return;
         }
 
         if (!window.getSelection().isCollapsed) return;
 
-        if ($(srcElement).hasClass("taggedentity")){
-            this.taggedEntityClick(event, srcElement);
+        if ($(srcElement).hasClass("taggedentity")) {
+            if (!event.ctrlKey && !event.metaKey) {
+                this.controller.setSelected(srcElement);
+            } else {
+                this.controller.toggleSelect(srcElement);
+            }
             event.stopPropagation();
-        } else if (!event.ctrlKey){
+        } else if (!event.ctrlKey) {
             this.controller.unselectAll();
             event.stopPropagation();
         }
     }
-
-    documentDblClick(event){
+    documentDblClick(event) {
         let srcElement = event.originalEvent.srcElement;
-        if ($(srcElement).hasClass("taggedentity")){
+        if ($(srcElement).hasClass("taggedentity")) {
             window.getSelection().removeAllRanges();
             this.controller.selectLikeEntitiesByLemma();
             event.stopPropagation();
         }
     }
 
-    taggedEntityClick(event, taggedEntity) {
-        if (window.event.altKey) {
-            /* strictly for debugging */
-            window.debug = taggedEntity;
-            console.log(taggedEntity);
-        } else {
-            if (!event.ctrlKey && !event.metaKey) {
-                this.controller.setSelected(taggedEntity);
-            } else {
-                this.controller.toggleSelect(taggedEntity);
-            }
-        }
-    }
-
     /* context switching is deprecated */
-    switchContext(contextName){
+    switchContext(contextName) {
         window.alert("'Switch Schema' is deprectated; the context/schema is now detected from the file.  In future releases this menu option will be removed.");
     }
-
-    menuShowTags(){
+    menuShowTags() {
         let rvalue = false;
         console.log($("#menuTags").data("value"));
-        if ($("#menuTags").data("value") === false){
+        if ($("#menuTags").data("value") === false) {
             rvalue = true;
             $("#menuTags").addClass("activeText");
             $("#menuTags").data("value", true);
@@ -214,7 +304,7 @@ class Listeners {
             $("#menuTags").data("value", false);
         }
 
-        if (rvalue === true){
+        if (rvalue === true) {
             this.view.attachStyle("tags.css");
         } else {
             this.view.detachStyle("tags.css");
