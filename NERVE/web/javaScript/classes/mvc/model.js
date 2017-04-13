@@ -20,8 +20,9 @@ class Model {
         if (this.settings.hasValue("document") && this.settings.hasValue("filename")){
             this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
             $(".selected").removeClass("selected");
-            this.setupTaggedEntity($(".taggedentity"));
+            return true;
         }
+        return false;
     }
 
     reset(){

@@ -50,44 +50,48 @@ class Main extends ContextLoader{
         this.listener = new Listeners(this.view, this.controller);
         this.view.popThrobberMessage();
         this.view.showThrobber(false);
-        $("#container").show();
 
-//        let onContextLoadSuccess = function () {
-//            this.listener = new Listeners(this.view, this.controller);
-//            this.controller.setListener(this.listener);
-//            this.model.setListener(this.listener);
-//            this.model.loadStoredDoc();
-//            this.view.popThrobberMessage();
-//            this.view.showThrobber(false);
-//            $("#container").show();
-//        }.bind(this);
-//
-//        let onContextLoadFailure = function (status, text, contextName) {
-//            this.view.pushThrobberMessage(`Failed to load schema : ${contextName}\n`);
-//            let msg = `Failed to load schema : ${contextName}\n`;
-//            msg += "return status : " + status;
-//            console.log(text);
-//            window.alert(msg);
-//        }.bind(this);
+        if (this.model.loadStoredDoc() && this.settings.hasValue("context-name")){
+            let contextName = this.settings.getValue("context-name");
+            this.loadContext(contextName, ()=>{
+                this.model.setupTaggedEntity($(".taggedentity"));
+                this.view.showThrobber(false);
+                $("#container").show();
+            });
+        } else {
+            this.view.showThrobber(false);
+            $("#container").show();
+        }
     }
 
     loadContext(contextName, success = function() {}, failure = function(){}) {
         let url = "resources/" + contextName.toLowerCase() + ".context.json";
 
-        let onLoad = ()=>{
+        let contextCreateSuccess = (context)=>{
+            this.model.setContext(context);
+            this.controller.setContext(context);
+            this.view.setContext(context);
+            $.fn.xmlAttr.defaults.context = context;
+            this.settings.setValue("context-name", context.name);
             success();
         };
 
-        this.fileOps.loadFromServer(url, (contents) => {
-            this.settings.setValue("contextName", contextName);
-            this.context = new Context(JSON.parse(contents), onLoad, failure);
-            this.model.setContext(this.context);
-            this.controller.setContext(this.context);
-            this.view.setContext(this.context);
-            $.fn.xmlAttr.defaults.context = this.context;
-        }, (status, text) => {
-            failure(status, text, contextName);
-        });
+        let contextCreateFailure = (status, text)=>{
+            window.alert("Unable to create context object : " + status);
+            console.log(text);
+            failure(status, text);
+        };
+
+        let fileLoadSuccess = (contents)=>{
+            this.context = new Context(JSON.parse(contents), contextCreateSuccess, contextCreateFailure);
+        };
+
+        let fileLoadFailure = (status, text)=>{
+            window.alert("Unable to retrieve context file from server : " + status);
+            console.log(text);
+        };
+
+        this.fileOps.loadFromServer(url, fileLoadSuccess, fileLoadFailure);
     }
 
     lookupContext(fullpath){

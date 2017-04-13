@@ -576,7 +576,7 @@ class Controller {
         let successfullLoad = (text, filename)=>{
             fname = filename;
             beforeEncode(filename);
-            this.fileOps.encode(text, this.context, successfullEncode, onFailure);
+            this.fileOps.encode(text, successfullEncode, onFailure);
         };
 
         let beforeEncode = (filename)=>{
@@ -584,29 +584,30 @@ class Controller {
             this.view.setThrobberMessage("Encoding file\n" + filename);
         };
 
-        let successfullEncode = (text)=>{
-            this.model.setDocument(text, fname);
+        let onContextCreate = (text)=>{
             this.model.setupTaggedEntity($(".taggedentity"));
             this.isSaved = true;
+            this.view.clearThrobber();
+        };
 
+        let successfullEncode = (text)=>{
+            this.model.setDocument(text, fname);
             let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
+
             if (typeof schemaPath === "string"){
                 let split = schemaPath.split("/");
                 switch (split[split.length - 1]){
                     case "orlando_biography_v2.rng":
-                        this.contextLoader.loadContext("orlando");
+                        this.contextLoader.loadContext("orlando", ()=>onContextCreate(text));
                     break;
                     case "cwrc_entry.rng":
-                        this.contextLoader.loadContext("cwrc");
+                        this.contextLoader.loadContext("cwrc", ()=>onContextCreate(text));
                     break;
                     case "cwrc_tei_lite.rng":
-                        this.contextLoader.loadContext("tei");
+                        this.contextLoader.loadContext("tei", ()=>onContextCreate(text));
                     break;
-
                 }
             }
-
-            this.view.clearThrobber();
         };
 
         let onFailure = (status, text)=>{

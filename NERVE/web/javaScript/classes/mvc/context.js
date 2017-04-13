@@ -9,7 +9,7 @@ class Context {
 
         if (typeof this.schemaName !== "undefined"){
             this.schema = new Schema();
-            this.schema.load(this.schemaName, onSuccess, onFailure);
+            this.schema.load(this.schemaName, ()=>onSuccess(this), onFailure);
         }
     }
 
