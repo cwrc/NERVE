@@ -13,6 +13,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ca.sharcnet.nerve.HasStreams;
+import ca.sharcnet.nerve.docnav.schema.Schema;
+import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -41,6 +43,7 @@ public class Encoder {
 
         /* check document for schema to set the context */
         InstructionNode iNode = document.getInstructionNode("xml-model");
+        if (iNode == null) throw new RuntimeException("Instruction node 'xml-model' not found");
 
         Context context = null;
         if (iNode.getType() == NodeType.INSTRUCTION) {
@@ -55,7 +58,11 @@ public class Encoder {
                     context = ContextLoader.load(hasStreams.getResourceStream("contexts/cwrc.context.json"));
                 } else if (value.contains("cwrc_tei_lite.rng")) {
                     context = ContextLoader.load(hasStreams.getResourceStream("contexts/tei.context.json"));
+                } else{
+                    throw new RuntimeException("Unknown context '" + value + "'");
                 }
+            } else {
+                throw new RuntimeException("xml-model node missing href attribute");
             }
         }
 
@@ -65,8 +72,7 @@ public class Encoder {
         String schemaURL = context.schemaName;
         if (schemaURL != null && !schemaURL.isEmpty()) {
             InputStream schemaStream = new URL(schemaURL).openStream();
-            Document schemaDocument = DocumentNavigator.documentFromStream(schemaStream);
-            Schema schema = new Schema(schemaDocument);
+            Schema schema = RelaxNGSchemaLoader.schemaFromStream(schemaStream);
             encoder.setSchema(schema);
         }
 
@@ -221,9 +227,7 @@ public class Encoder {
         if (node == null) throw new NullPointerException("ElementNode 'node' is null.");
 
         /* if the node is specifically excluded or it's already considered tagged exit */
-        if (context.isTagName(node.getName())) {
-            return;
-        }
+        if (context.isTagName(node.getName())) return;
 
         /* for all child element nodes recurse   */
         /* for all child text nodes, perform NER */
@@ -239,16 +243,16 @@ public class Encoder {
                 /* for each element node in the list ensure the path is valid, otherwise convert it to a text node */
                 for (int i = 0; i < nerList.size(); i++) {
                     Node nerNode = nerList.get(i);
-                    if (nerNode.getType() != NodeType.ELEMENT) continue;
-                    ElementNode nerEleNode = (ElementNode) nerNode;
-                    if (schema != null && !schema.isValid(current.getParent(), nerEleNode.getName())) {
-                        TextNode textNode = new TextNode(nerEleNode.innerText());
+                    if (!nerNode.isType(NodeType.ELEMENT)) continue;
+                    ElementNode eNode = (ElementNode) nerNode;
+                    if (schema != null && !schema.isValid(node, eNode.getName())) {
+                        TextNode textNode = new TextNode(eNode.innerText());
                         nerList.set(i, textNode);
                     }
                 }
 
                 /* Go through the nodes in the node list and change the names */
-                /* from dicionary to context taginfo name.                    */
+                /* from dictionary to context taginfo name.                   */
                 for (Node nerNode : nerList) {
                     if (nerNode.getType() == NodeType.ELEMENT) {
                         ElementNode nerElementNode = (ElementNode) nerNode;
@@ -275,7 +279,7 @@ public class Encoder {
         if (text.isEmpty()) return new NodeList<>();
 
         /* create a document out of the text */
-        Document localDoc = DocumentNavigator.documentFromString(text);
+        Document localDoc = DocumentLoader.documentFromString(text);
         NodeList<ElementNode> nodes = localDoc.select().all();
 
         /* for each node in the document (from above) if it's an NER node     */
