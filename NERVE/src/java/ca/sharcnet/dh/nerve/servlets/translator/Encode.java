@@ -1,21 +1,19 @@
 package ca.sharcnet.dh.nerve.servlets.translator;
 import ca.fa.utility.sql.SQL;
 import ca.sharcnet.dh.nerve.servlets.CustomServlet;
-import ca.sharcnet.nerve.docnav.DocumentNavigator;
+import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.antlr.InvalidTokenException;
 import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.nerve.docnav.dom.Schema;
 import ca.sharcnet.nerve.encoder.Classifier;
 import ca.sharcnet.nerve.encoder.ClassifierException;
 import ca.sharcnet.nerve.encoder.Encoder;
 import ca.fa.utility.streams.StreamUtil;
 import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
-import ca.sharcnet.nerve.Constants;
 import ca.sharcnet.nerve.docnav.dom.InstructionNode;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
-import ca.sharcnet.nerve.docnav.selector.Select;
+import ca.sharcnet.nerve.docnav.schema.Schema;
+import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -50,7 +48,7 @@ public class Encode extends CustomServlet {
             InputStream resourceAsStream = super.getServletContext().getResourceAsStream(config.getProperty("classifier"));
             assert resourceAsStream != null;
             BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(resourceAsStream));
-            Document doc = DocumentNavigator.documentFromStream(inputStream);
+            Document doc = DocumentLoader.documentFromStream(inputStream);
 
             /* check document for schema to set the context */
             System.out.println(doc);
@@ -81,8 +79,7 @@ public class Encode extends CustomServlet {
             String schemaURL = context.schemaName;
             if (schemaURL != null && !schemaURL.isEmpty()) {
                 InputStream schemaStream = new URL(schemaURL).openStream();
-                Document document = DocumentNavigator.documentFromStream(schemaStream);
-                Schema schema = new Schema(document);
+                Schema schema = RelaxNGSchemaLoader.schemaFromStream(schemaStream);
                 encoder.setSchema(schema);
             }
 

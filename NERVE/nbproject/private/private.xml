@@ -1,29 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="133">
-        <file>
-            <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
-            <bookmark id="78">
-                <name/>
-                <line>44</line>
-                <key/>
-            </bookmark>
-            <bookmark id="77">
-                <name/>
-                <line>187</line>
-                <key/>
-            </bookmark>
-            <bookmark id="114">
-                <name/>
-                <line>378</line>
-                <key/>
-            </bookmark>
-        </file>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="136">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
-            <bookmark id="133">
+            <bookmark id="136">
                 <name/>
-                <line>224</line>
+                <line>570</line>
                 <key/>
             </bookmark>
         </file>
@@ -56,10 +38,10 @@
             </bookmark>
         </file>
         <file>
-            <url>web/cwrcDialogs.js</url>
-            <bookmark id="52">
+            <url>web/javaScript/classes/util/customQuery.js</url>
+            <bookmark id="134">
                 <name/>
-                <line>1807</line>
+                <line>90</line>
                 <key/>
             </bookmark>
         </file>
@@ -72,20 +54,7 @@
             </bookmark>
             <bookmark id="129">
                 <name/>
-                <line>42</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/classes/menu/menu.js</url>
-            <bookmark id="30">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-            <bookmark id="29">
-                <name/>
-                <line>0</line>
+                <line>105</line>
                 <key/>
             </bookmark>
         </file>
@@ -116,17 +85,56 @@
             </bookmark>
             <bookmark id="57">
                 <name/>
-                <line>55</line>
+                <line>56</line>
                 <key/>
             </bookmark>
             <bookmark id="75">
                 <name/>
-                <line>162</line>
+                <line>171</line>
                 <key/>
             </bookmark>
             <bookmark id="95">
                 <name/>
-                <line>167</line>
+                <line>176</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
+            <bookmark id="78">
+                <name/>
+                <line>44</line>
+                <key/>
+            </bookmark>
+            <bookmark id="77">
+                <name/>
+                <line>187</line>
+                <key/>
+            </bookmark>
+            <bookmark id="114">
+                <name/>
+                <line>378</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/cwrcDialogs.js</url>
+            <bookmark id="52">
+                <name/>
+                <line>1807</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/classes/menu/menu.js</url>
+            <bookmark id="30">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+            <bookmark id="29">
+                <name/>
+                <line>0</line>
                 <key/>
             </bookmark>
         </file>
@@ -157,9 +165,6 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.3.2a/NERVE/build.xml</file>
         </group>
         <group/>
-        <group name="Frontier Web App">
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/src/java/ca/sharcnet/dh/nerve/servlets/translator/Encode.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/src/java/ca/sharcnet/dh/nerve/servlets/translator/Decode.java</file>
-        </group>
+        <group name="Frontier Web App"/>
     </open-files>
 </project-private>

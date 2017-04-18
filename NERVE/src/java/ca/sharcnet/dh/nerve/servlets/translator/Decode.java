@@ -5,7 +5,7 @@ import ca.fa.utility.streams.StreamUtil;
 import ca.sharcnet.nerve.Constants;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
-import ca.sharcnet.nerve.docnav.DocumentNavigator;
+import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
 import ca.sharcnet.nerve.docnav.dom.AttributeNode;
 import ca.sharcnet.nerve.docnav.dom.Document;
@@ -36,7 +36,7 @@ public class Decode extends CustomServlet {
             Properties config = new Properties();
             config.load(cfgStream);
 
-            Document document = DocumentNavigator.documentFromString(inputString);
+            Document document = DocumentLoader.documentFromString(inputString);
             System.out.println(document);
 
             /* check document for schema to set the context */
