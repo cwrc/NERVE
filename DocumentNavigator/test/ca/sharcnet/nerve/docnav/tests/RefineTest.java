@@ -60,26 +60,26 @@ public class RefineTest {
     public void keepElement() {
         ElementNode root = (ElementNode) document.childNodes().get(2);
         ElementNode div = (ElementNode) root.childNodes().get(1);
-        List<ElementNode> result = document.select().all().refine().keepElement(div);
+        List<ElementNode> result = document.select().all().keepElement(div);
         Assert.assertEquals(1, result.size());
     }
 
     @Test
     public void keepName() {
-        List<ElementNode> result = document.select().all().refine().keepName("div");
+        List<ElementNode> result = document.select().all().keepName("div");
         Assert.assertEquals(4, result.size());
     }
 
     @Test
     public void removeName() {
-        List<ElementNode> result = document.select().all().refine().removeName("link");
+        List<ElementNode> result = document.select().all().removeName("link");
         Assert.assertEquals(5, result.size());
     }
 
     @Test
     public void keepAttribute() {
         int odd = document.select().attribute("odd").size();
-        List<ElementNode> result = document.select().all().refine().keepAttribute("odd");
+        List<ElementNode> result = document.select().all().keepAttribute("odd");
         Assert.assertEquals(odd, result.size());
     }
 
@@ -87,19 +87,19 @@ public class RefineTest {
     public void removeAttribute() {
         int count = document.select().all().size();
         int odd = document.select().attribute("odd").size();
-        List<ElementNode> result = document.select().all().refine().removeAttribute("odd");
+        List<ElementNode> result = document.select().all().removeAttribute("odd");
         Assert.assertEquals(count - odd, result.size());
     }
 
     @Test
     public void keepAttributeValue() {
-        List<ElementNode> result = document.select().all().refine().keepAttribute("index", 0);
+        List<ElementNode> result = document.select().all().keepAttribute("index", 0);
         Assert.assertEquals(6, result.size());
     }
 
     @Test
     public void removeAttributeValue() {
-        List<ElementNode> result = document.select().all().refine().removeAttribute("index", 0);
+        List<ElementNode> result = document.select().all().removeAttribute("index", 0);
         Assert.assertEquals(15, result.size());
     }
 }

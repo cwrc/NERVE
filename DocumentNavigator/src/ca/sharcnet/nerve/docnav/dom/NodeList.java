@@ -3,7 +3,6 @@ import ca.sharcnet.nerve.docnav.selector.Select;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class NodeList <E extends Node> extends ArrayList<E>{
 
@@ -22,32 +21,6 @@ public class NodeList <E extends Node> extends ArrayList<E>{
 
     public void add(NodeList <? extends E> that){
         for (E node : that) this.add(node);
-    }
-
-    /**
-     *
-     * @param predicate
-     * @return
-     */
-    public NodeList<E> filter(Predicate <E> predicate){
-        NodeList <E> rvalue = new NodeList<>();
-        this.forEach((node)->{
-            if (predicate.test(node)) rvalue.add(node);
-        });
-        return rvalue;
-    }
-
-    /**
-    A convienince function to return a nodelist of a certain type.  The list
-    returned is a non-relective copy.
-    @param <T>
-    @return
-    */
-    @Deprecated
-    public <T extends Node> NodeList<T> asListType(){
-        NodeList<T> newList = new NodeList<>();
-        for (Node n : this) newList.add((T)n);
-        return newList;
     }
 
     public String toString(Function<E, String> function){

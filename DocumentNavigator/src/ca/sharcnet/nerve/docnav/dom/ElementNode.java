@@ -1,17 +1,11 @@
 package ca.sharcnet.nerve.docnav.dom;
 
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
+import ca.sharcnet.nerve.docnav.selector.ElementList;
 import ca.sharcnet.nerve.docnav.selector.Select;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
-A {@link Node} that allows for attributes and children.  Any time a mutable object,
-such as another element is added to this this node a copy is made.  Any time a
-collection is returned from this object ({@link ElementNode#childNodes()}, {@link ElementNode#getAttributes()})
-the collection returned is non-mutable.
-@author edward
- */
 public class ElementNode extends AttributeNode {
 
     private final NodeList<Node> children = new NodeList<>();
@@ -80,6 +74,10 @@ public class ElementNode extends AttributeNode {
 
     public NodeList<Node> childNodes() {
         return new NodeList<>(this.children);
+    }
+
+    public ElementList childElements() {
+        return new ElementList(this.children);
     }
 
     public int childCount() {
@@ -239,6 +237,11 @@ public class ElementNode extends AttributeNode {
         }
     }
 
+    /**
+    Return a collection of all child nodes and recursivly child nodes of
+    child nodes.
+    @return
+    */
     public Select select() {
         return new Select(this);
     }

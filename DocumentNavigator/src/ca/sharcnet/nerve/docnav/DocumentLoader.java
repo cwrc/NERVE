@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.ANTLRErrorStrategy;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class DocumentNavigator {
+public class DocumentLoader {
 
     public static Document documentFromStream(InputStream srcStream) throws IOException {
         EncodeLexer lexer = new EncodeLexer(new ANTLRInputStream(srcStream));

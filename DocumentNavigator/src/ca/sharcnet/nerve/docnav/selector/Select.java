@@ -7,25 +7,34 @@ import ca.sharcnet.nerve.docnav.dom.NodeType;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import java.util.Collection;
 
-public class Select extends NodeList<ElementNode> {
+public class Select extends ElementList {
     private final NodeList<ElementNode> allNodes;
 
+    /**
+    Create a new Select object from an element node and all it's children
+    recursivly.
+    @param ele
+    */
     public Select(ElementNode ele) {
+        super();
         allNodes = new NodeList<>();
         addElement(ele);
     }
 
-    public Select(Collection<? extends ElementNode> list) {
+    public Select(Collection<? extends Node> list) {
+        super();
         allNodes = new NodeList<>();
-        for (ElementNode node : list) {
+        for (Node node : list) {
             if (node.isType(NodeType.ELEMENT)){
-                allNodes.add(node);
+                allNodes.add((ElementNode)node);
             }
         }
     }
 
-    public Refine refine() {
-        return new Refine(this);
+
+    public void reset(){
+        this.clear();
+        this.all();
     }
 
     private void addElement(Node node) {

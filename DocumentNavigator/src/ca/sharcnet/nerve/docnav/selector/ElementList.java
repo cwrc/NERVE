@@ -2,21 +2,32 @@ package ca.sharcnet.nerve.docnav.selector;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class Refine extends NodeList<ElementNode> {
-    public Refine (Collection <ElementNode> collection){
-        super(collection);
+public class ElementList extends NodeList<ElementNode> {
+
+    public ElementList(){
+        super();
     }
 
-    Refine(Select select) {
-        super(select);
+    public ElementList (Collection <? extends Node> collection){
+        super();
+        for (Node node : collection) {
+            if (node.isType(NodeType.ELEMENT)){
+                this.add((ElementNode)node);
+            }
+        }
     }
 
-    public Refine keepElement(ElementNode element){
+    public Select select(){
+        return new Select(this);
+    }
+
+    public ElementList keepElement(ElementNode element){
         if (this.contains(element)){
             this.clear();
             this.add(element);
@@ -26,7 +37,7 @@ public class Refine extends NodeList<ElementNode> {
         return this;
     }
 
-    public Refine keepName(String ... aNames){
+    public ElementList keepName(String ... aNames){
         List<String> list = Arrays.asList(aNames);
 
         Iterator<ElementNode> iterator = this.iterator();
@@ -39,7 +50,7 @@ public class Refine extends NodeList<ElementNode> {
         return this;
     }
 
-    public Refine removeName(String ... aNames){
+    public ElementList removeName(String ... aNames){
         List<String> list = Arrays.asList(aNames);
 
         Iterator<ElementNode> iterator = this.iterator();
@@ -52,7 +63,7 @@ public class Refine extends NodeList<ElementNode> {
         return this;
     }
 
-    public Refine keepAttribute(String key){
+    public ElementList keepAttribute(String key){
 
         Iterator<ElementNode> iterator = this.iterator();
         while (iterator.hasNext()){
@@ -62,7 +73,7 @@ public class Refine extends NodeList<ElementNode> {
         return this;
     }
 
-    public Refine removeAttribute(String key){
+    public ElementList removeAttribute(String key){
 
         Iterator<ElementNode> iterator = this.iterator();
         while (iterator.hasNext()){
@@ -72,7 +83,7 @@ public class Refine extends NodeList<ElementNode> {
         return this;
     }
 
-    public Refine keepAttribute(String key, Object value){
+    public ElementList keepAttribute(String key, Object value){
 
         Iterator<ElementNode> iterator = this.iterator();
         while (iterator.hasNext()){
@@ -82,7 +93,7 @@ public class Refine extends NodeList<ElementNode> {
         return this;
     }
 
-    public Refine removeAttribute(String key, Object value){
+    public ElementList removeAttribute(String key, Object value){
 
         Iterator<ElementNode> iterator = this.iterator();
         while (iterator.hasNext()){

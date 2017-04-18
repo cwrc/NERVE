@@ -1,12 +1,15 @@
-package ca.sharcnet.nerve.docnav.dom;
-
+package ca.sharcnet.nerve.docnav.schema;
+import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.NodeList;
 import ca.sharcnet.nerve.docnav.selector.Select;
 
-public class Schema {
+public class SchemaObject implements Schema{
     private final Document grammar;
     private final NodeList<ElementNode> references;
 
-    public Schema(Document document) {
+    public SchemaObject(Document document) {
         this.reduceGrammar(document);
         this.grammar = new Document(document.select().name("start").get(0));
         this.references = document.select().name("define");
@@ -37,11 +40,25 @@ public class Schema {
         }
     }
 
-    private ElementNode check(ElementNode currentSchemaNode, String name) {
-        Select select = currentSchemaNode.select().name("ref");
-        if (select.isEmpty()) return null;
+    /**
+    Return true if this element does not violate the schema.
+    @param element
+    @return
+    */
+    public boolean verboseValid(ElementNode element){
+        NodeList <ElementNode> elementPath = getNodePath(element);
+        ElementNode current = grammar;
+        boolean rvalue = true;
 
-        return null;
+        for (ElementNode pathNode : elementPath) {
+            String nextNodeName = pathNode.getName();
+            System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
+            if (current != null) current = nextNode(current, nextNodeName);
+            if (current == null) rvalue = false;
+        }
+
+        System.out.println();
+        return rvalue;
     }
 
     /**
@@ -59,6 +76,36 @@ public class Schema {
             if (current == null) return false;
         }
         return true;
+    }
+
+    /**
+    Return true if this element does not violate the schema.
+    @param element
+    @return
+    */
+    public boolean verboseValid(ElementNode element, String childNodeName){
+        NodeList <ElementNode> elementPath = getNodePath(element);
+        ElementNode current = grammar;
+        boolean rvalue = true;
+
+        for (ElementNode pathNode : elementPath) {
+            System.out.print(pathNode.getType() + pathNode.getName() + " ");
+        }
+
+        for (ElementNode pathNode : elementPath) {
+            String nextNodeName = pathNode.getName();
+            if (current != null) current = nextNode(current, nextNodeName);
+            if (current == null) rvalue = false;
+            System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
+        }
+
+        if (rvalue && nextNode(current, childNodeName) == null){
+            rvalue = false;
+            System.out.print("[" + childNodeName + "(" + (rvalue ? "" : "X") + ")]");
+        }
+
+        System.out.println();
+        return rvalue;
     }
 
     /**
