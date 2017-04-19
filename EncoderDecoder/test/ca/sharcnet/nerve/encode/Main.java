@@ -22,7 +22,8 @@ public class Main implements HasStreams{
 //        return this.getClass().getResourceAsStream("/resources/orlando/tei_no_tags.xml");
 //        return this.getClass().getResourceAsStream("/resources/orlando/orlando_no_tags.xml");
 //        return this.getClass().getResourceAsStream("/resources/orlando/minimal.orlando.xml");
-        return this.getClass().getResourceAsStream("/resources/orlando/minimal.tei.xml");
+//        return this.getClass().getResourceAsStream("/resources/orlando/minimal.tei.xml");
+        return this.getClass().getResourceAsStream("/resources/orlando/orlando.fragment.xml");
     }
 
     @Override

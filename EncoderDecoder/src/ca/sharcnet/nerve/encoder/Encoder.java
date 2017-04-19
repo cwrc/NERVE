@@ -13,6 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ca.sharcnet.nerve.HasStreams;
+import static ca.sharcnet.nerve.context.Context.NameType.DICTIONARY;
+import static ca.sharcnet.nerve.context.Context.NameType.NERMAP;
+import static ca.sharcnet.nerve.context.Context.NameType.TAGINFO;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import java.io.BufferedInputStream;
@@ -150,17 +153,18 @@ public class Encoder {
 
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
-            TagInfo tagInfo = context.getTagInfo(row.getString("tag"));
+            System.out.println(row.getString("tag"));
+            TagInfo tagInfo = context.getTagInfo(row.getString("tag"), DICTIONARY);
 
             /* verify the schema */
             if (schema != null && !schema.isValid(child.getParent(), tagInfo.name)) {
                 newNodes.add(new TextNode(string));
             } else {
                 ElementNode elementNode = new ElementNode(tagInfo.name, string);
-                String lemmaAttribute = context.getTagInfo(row.getString("tag")).lemmaAttribute;
+                String lemmaAttribute = context.getTagInfo(row.getString("tag"), DICTIONARY).lemmaAttribute;
                 if (!lemmaAttribute.isEmpty()) elementNode.addAttribute(lemmaAttribute, row.getString("lemma"));
 
-                String linkAttribute = context.getTagInfo(row.getString("tag")).linkAttribute;
+                String linkAttribute = context.getTagInfo(row.getString("tag"), DICTIONARY).linkAttribute;
                 if (!linkAttribute.isEmpty()) elementNode.addAttribute(linkAttribute, row.getString("link"));
                 newNodes.add(elementNode);
             }
@@ -207,7 +211,7 @@ public class Encoder {
             ElementNode eNode = new ElementNode(Constants.HTML_TAGNAME);
             attrNode = (AttributeNode) attrNode.replaceWith(eNode);
             eNode.addAttribute("class", Constants.HTML_PROLOG_CLASSNAME);
-        } else if (context.isTagName(node.getName())) {
+        } else if (context.hasTagInfo(node.getName(), TAGINFO)) {
             attrNode.addAttribute("class", Constants.HTML_ENTITY_CLASSNAME);
         } else {
             attrNode.addAttribute("class", Constants.HTML_NONENTITY_CLASSNAME);
@@ -256,7 +260,7 @@ public class Encoder {
                 for (Node nerNode : nerList) {
                     if (nerNode.getType() == NodeType.ELEMENT) {
                         ElementNode nerElementNode = (ElementNode) nerNode;
-                        TagInfo tagInfo = context.getTagInfo(nerElementNode.getName());
+                        TagInfo tagInfo = context.getTagInfo(nerElementNode.getName(), NERMAP);
                         nerElementNode.setName(tagInfo.name);
                     }
                 }
@@ -287,8 +291,9 @@ public class Encoder {
         /* and set it's lemma if it doens't already have one.                 */
         /* ensure that the node has the default attributes                    */
         for (Node node : nodes) {
-            if (context.isNERMap(node.getName())){ /* if node name is an NER tag name */
-                TagInfo tagInfo = context.getTagInfo(node.getName());
+            /* if node name is an NER tag name */
+            if (context.isNERMap(node.getName())){
+                TagInfo tagInfo = context.getTagInfo(node.getName(), NERMAP);
                 node.setName(tagInfo.name);
                 if (!tagInfo.lemmaAttribute.isEmpty()){
                     ElementNode eNode = (ElementNode) node;
