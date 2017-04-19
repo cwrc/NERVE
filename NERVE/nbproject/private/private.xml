@@ -2,6 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="136">
         <file>
+            <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
+            <bookmark id="78">
+                <name/>
+                <line>44</line>
+                <key/>
+            </bookmark>
+            <bookmark id="77">
+                <name/>
+                <line>187</line>
+                <key/>
+            </bookmark>
+            <bookmark id="114">
+                <name/>
+                <line>378</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="136">
                 <name/>
@@ -38,6 +56,14 @@
             </bookmark>
         </file>
         <file>
+            <url>web/cwrcDialogs.js</url>
+            <bookmark id="52">
+                <name/>
+                <line>1807</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/classes/util/customQuery.js</url>
             <bookmark id="134">
                 <name/>
@@ -55,6 +81,19 @@
             <bookmark id="129">
                 <name/>
                 <line>105</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/classes/menu/menu.js</url>
+            <bookmark id="30">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+            <bookmark id="29">
+                <name/>
+                <line>0</line>
                 <key/>
             </bookmark>
         </file>
@@ -100,45 +139,6 @@
             </bookmark>
         </file>
         <file>
-            <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
-            <bookmark id="78">
-                <name/>
-                <line>44</line>
-                <key/>
-            </bookmark>
-            <bookmark id="77">
-                <name/>
-                <line>187</line>
-                <key/>
-            </bookmark>
-            <bookmark id="114">
-                <name/>
-                <line>378</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/cwrcDialogs.js</url>
-            <bookmark id="52">
-                <name/>
-                <line>1807</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/classes/menu/menu.js</url>
-            <bookmark id="30">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-            <bookmark id="29">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>web/dialogs/js/app.js</url>
             <bookmark id="41">
                 <name/>
@@ -164,7 +164,9 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.3.2a/NERVE/web/javaScript/classes/mvc/listeners.js</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.3.2a/NERVE/build.xml</file>
         </group>
-        <group/>
         <group name="Frontier Web App"/>
+        <group>
+            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/NERVE/web/javaScript/main.js</file>
+        </group>
     </open-files>
 </project-private>
