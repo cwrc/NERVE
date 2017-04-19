@@ -5,22 +5,22 @@
             <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
             <bookmark id="22">
                 <name/>
-                <line>77</line>
+                <line>83</line>
                 <key/>
             </bookmark>
             <bookmark id="19">
                 <name/>
-                <line>116</line>
+                <line>122</line>
                 <key/>
             </bookmark>
             <bookmark id="20">
                 <name/>
-                <line>238</line>
+                <line>244</line>
                 <key/>
             </bookmark>
             <bookmark id="21">
                 <name/>
-                <line>238</line>
+                <line>244</line>
                 <key/>
             </bookmark>
         </file>
@@ -52,9 +52,6 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/resources/config.txt</file>
         </group>
-        <group name="Frontier Web App">
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/test/ca/sharcnet/nerve/encode/Main.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
-        </group>
+        <group name="Frontier Web App"/>
     </open-files>
 </project-private>

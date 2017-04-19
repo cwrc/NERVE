@@ -28,8 +28,7 @@ public class Decoder {
         Select selected = document.select().attribute(Constants.CONTEXT_ATTRIBUTE);
         if (selected.isEmpty()) throw new RuntimeException("Context element not found.");
         ElementNode contextNode = selected.get(0);
-
-        String contextPath = String.format("%s.context.json", contextNode.getAttributeValue(Constants.CONTEXT_ATTRIBUTE));
+        String contextPath = String.format("/contexts/%s.context.json", contextNode.getAttributeValue(Constants.CONTEXT_ATTRIBUTE).toLowerCase());
         Context context = ContextLoader.load(hasStreams.getResourceStream(contextPath));
         Document decoded = new Decoder().decode(document, context);
         return decoded;
