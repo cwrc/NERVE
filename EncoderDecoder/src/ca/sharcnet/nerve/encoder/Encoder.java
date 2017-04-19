@@ -153,7 +153,6 @@ public class Encoder {
 
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
-            System.out.println(row.getString("tag"));
             TagInfo tagInfo = context.getTagInfo(row.getString("tag"), DICTIONARY);
 
             /* verify the schema */
@@ -258,9 +257,11 @@ public class Encoder {
                 /* Go through the nodes in the node list and change the names */
                 /* from dictionary to context taginfo name.                   */
                 for (Node nerNode : nerList) {
-                    if (nerNode.getType() == NodeType.ELEMENT) {
+                    String nodeName = nerNode.getName();
+                    if (nerNode.getType() == NodeType.ELEMENT && context.hasTagInfo(nodeName, NERMAP)) {
+                        System.out.println("<" + nerNode.getName() + ">");
                         ElementNode nerElementNode = (ElementNode) nerNode;
-                        TagInfo tagInfo = context.getTagInfo(nerElementNode.getName(), NERMAP);
+                        TagInfo tagInfo = context.getTagInfo(nodeName, NERMAP);
                         nerElementNode.setName(tagInfo.name);
                     }
                 }
