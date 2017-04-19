@@ -21,17 +21,17 @@ class ContextLoader {
     constructor() {
         this.context = new Context({
             name: "",
-            tags:[],
-            styles:[]
+            tags: [],
+            styles: []
         });
     }
-
-    loadContext(contextName, success = function() {}, failure = function(){}){}
-    lookupContext(fullpath){}
+    loadContext(contextName, success = function() {}, failure = function(){}){
+    }
+    lookupContext(fullpath) {}
 }
 
-class Main extends ContextLoader{
-    constructor(){
+class Main extends ContextLoader {
+    constructor() {
         super();
         this.settings = new Storage();
         this.model = null;
@@ -40,7 +40,6 @@ class Main extends ContextLoader{
         this.listener = null;
         this.fileOps = new FileOperations();
     }
-
     initialize(clientIP) {
         this.view = new View(clientIP);
         this.view.pushThrobberMessage("Loading JavaScript Objects");
@@ -51,50 +50,59 @@ class Main extends ContextLoader{
         this.view.popThrobberMessage();
         this.view.showThrobber(false);
 
-        if (this.model.loadStoredDoc() && this.settings.hasValue("context-name")){
+        if (this.model.loadStoredDoc() && this.settings.hasValue("context-name")) {
             let contextName = this.settings.getValue("context-name");
-            this.loadContext(contextName, ()=>{
+            this.loadContext(contextName, () => {
                 this.model.setupTaggedEntity($(".taggedentity"));
                 this.view.showThrobber(false);
-                $("#container").show();
+
+                setTimeout(() => {
+                    $("#container").show();
+                    this.view.tagnameManager.pollDocument();
+                }, 500);
             });
         } else {
             this.view.showThrobber(false);
-            $("#container").show();
+            setTimeout(() => {
+                $("#container").show();
+                this.view.tagnameManager.pollDocument();
+            }, 500);
         }
     }
-
     loadContext(contextName, success = function() {}, failure = function(){}) {
         let url = "resources/" + contextName.toLowerCase() + ".context.json";
 
-        let contextCreateSuccess = (context)=>{
+        let contextCreateSuccess = (context) => {
             this.model.setContext(context);
             this.controller.setContext(context);
             this.view.setContext(context);
             $.fn.xmlAttr.defaults.context = context;
             this.settings.setValue("context-name", context.name);
+            setTimeout(() => {
+                console.log("*** FORCING POLL DOCUMENT");
+                this.view.tagnameManager.pollDocument();
+            }, 1000);
             success();
         };
 
-        let contextCreateFailure = (status, text)=>{
+        let contextCreateFailure = (status, text) => {
             window.alert("Unable to create context object : " + status);
             console.log(text);
             failure(status, text);
         };
 
-        let fileLoadSuccess = (contents)=>{
+        let fileLoadSuccess = (contents) => {
             this.context = new Context(JSON.parse(contents), contextCreateSuccess, contextCreateFailure);
         };
 
-        let fileLoadFailure = (status, text)=>{
+        let fileLoadFailure = (status, text) => {
             window.alert("Unable to retrieve context file from server : " + status);
             console.log(text);
         };
 
         this.fileOps.loadFromServer(url, fileLoadSuccess, fileLoadFailure);
     }
-
-    lookupContext(fullpath){
+    lookupContext(fullpath) {
         console.log(fullpath.split("/"));
     }
 }

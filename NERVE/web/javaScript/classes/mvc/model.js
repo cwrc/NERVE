@@ -15,17 +15,15 @@ class Model {
         this.maxStateIndex = 30;
         this.__resetState();
     }
-
-    loadStoredDoc(){
-        if (this.settings.hasValue("document") && this.settings.hasValue("filename")){
+    loadStoredDoc() {
+        if (this.settings.hasValue("document") && this.settings.hasValue("filename")) {
             this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
             $(".selected").removeClass("selected");
             return true;
         }
         return false;
     }
-
-    reset(){
+    reset() {
         Utility.log(Model, "reset");
         Utility.enforceTypes(arguments);
         this.__resetState();
@@ -34,13 +32,11 @@ class Model {
         this.settings.deleteValue("document");
         this.settings.deleteValue("filename");
     }
-
     setListener(listener) {
         Utility.log(Model, "setListener");
         Utility.enforceTypes(arguments, Listeners);
         this.listener = listener;
     }
-
     /**
      * Assign a $name = value variable that will serve as find replace when
      * loading the context.
@@ -53,13 +49,11 @@ class Model {
         Utility.enforceTypes(arguments, String, String);
         this.variables[name] = value;
     }
-
     setContext(context) {
         Utility.log(Model, "setContext");
         Utility.enforceTypes(arguments, Context);
         this.context = context;
     }
-
     /**
      * Call 'saveState()' after any change that you want to be able to recover
      * to.  This is typically any change in the model that can be seen by the
@@ -82,7 +76,6 @@ class Model {
         this.settings.setValue("document", this.getDocument());
         this.stateList[this.stateIndex] = this.getDocument();
     }
-
     revertState() {
         Utility.log(Model, "revertState");
         Utility.enforceTypes(arguments);
@@ -97,7 +90,6 @@ class Model {
 
         $(".taggedentity").removeClass("selected");
     }
-
     advanceState() {
         Utility.log(Model, "advanceState");
         Utility.enforceTypes(arguments);
@@ -112,7 +104,6 @@ class Model {
 
         $(".taggedentity").removeClass("selected");
     }
-
     __resetState() {
         Utility.log(Model, "__resetState");
         Utility.enforceTypes(arguments);
@@ -126,23 +117,21 @@ class Model {
 
         this.stateList[0] = this.getDocument();
     }
-
     setDocument(text, filename) {
         Utility.log(Model, "setDocument");
         Utility.enforceTypes(arguments, String, String);
+        this.view.clear();
         this.view.setDocument(text);
         this.view.setFilename(filename);
         this.settings.setValue("document", text);
         this.settings.setValue("filename", filename);
         this.__resetState();
     }
-
     getFilename() {
         Utility.log(Model, "getFilename");
         Utility.enforceTypes(arguments);
-        return this.settings.getValue( "filename");
+        return this.settings.getValue("filename");
     }
-
     /**
      * Return a string representing the current document.
      * @returns {String}
@@ -152,8 +141,7 @@ class Model {
         Utility.enforceTypes(arguments);
         return $("#entityPanel").html();
     }
-
-    setEntityValues(selector, values){
+    setEntityValues(selector, values) {
         Utility.log(Model, "setEntityValues");
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery], Object);
 
@@ -161,13 +149,12 @@ class Model {
         $(selector).lemma(values.lemma);
         $(selector).link(values.link);
     }
-
-    setupTaggedEntity(selector){
+    setupTaggedEntity(selector) {
         Utility.log(Model, "setupTaggedEntity");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery, String]);
 
-        $(selector).each((i, ele)=>{
-            if ($(ele).link() === "" || typeof $(ele).link() === "undefined"){
+        $(selector).each((i, ele) => {
+            if ($(ele).link() === "" || typeof $(ele).link() === "undefined") {
                 $(ele).removeClass("linked");
             } else {
                 $(ele).addClass("linked");
@@ -176,18 +163,18 @@ class Model {
     }
 }
 
-Model.xmlAttr = function(element, attr, value){
-    let rvalue = {};
-    if ($(element).attr("xmlattrs") === undefined){
-        $(element).attr("xmlattrs", "");
-        return rvalue;
-    }
-    let xmlAttr = $(element).attr("xmlattrs").split(";");
-
-    for (let s of xmlAttr){
-        console.log(s);
-    }
-
-    if (typeof value === "undefined") return xmlAttr[0];
-};
+//Model.xmlAttr = function(element, attr, value){
+//    let rvalue = {};
+//    if ($(element).attr("xmlattrs") === undefined){
+//        $(element).attr("xmlattrs", "");
+//        return rvalue;
+//    }
+//    let xmlAttr = $(element).attr("xmlattrs").split(";");
+//
+//    for (let s of xmlAttr){
+//        console.log(s);
+//    }
+//
+//    if (typeof value === "undefined") return xmlAttr[0];
+//};
 

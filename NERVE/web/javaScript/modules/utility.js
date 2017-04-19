@@ -13,7 +13,8 @@ Utility = {
         Context: 0,
         Response: 0,
         Model: 2,
-        Listeners: 0
+        Listeners: 0,
+        TagnameManager: 0
     },
     logger: {
         logRecord: {}

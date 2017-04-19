@@ -1,11 +1,100 @@
 /* global TaggedEntity, Utility, trace, Context, enums, Events, HTMLElement, Element */
 
+class TagnameManager {
+    constructor() {
+        Utility.log(TagnameManager, "constructor");
+        Utility.enforceTypes(arguments);
+
+        this.observer = new MutationObserver((mutations) => this.onMutationEvent(mutations));
+        let config = {attributes: true, subtree: true, attributeFilter: ["xmltagname", "class"]};
+        let target = document.getElementById("entityPanel");
+        this.observer.observe(target, config);
+    }
+
+    resetTagnames(){
+        Utility.log(TagnameManager, "resetTagnames");
+        Utility.enforceTypes(arguments);
+        $("#tagnamePanel").empty();
+        $(".taggedentity").each((i, target)=>{
+            this.clearTagnameElement(target);
+            this.addTagnameElement(target);
+            this.formatTagnameElement(target);
+        });
+    }
+
+    pollDocument(){
+        Utility.log(TagnameManager, "pollDocument");
+        Utility.enforceTypes(arguments);
+        $(".taggedentity").each((i, ele)=> this.onMutation(ele));
+    }
+
+    onMutationEvent(mutations) {
+        Utility.log(TagnameManager, "onMutationEvent");
+        Utility.enforceTypes(arguments, Array);
+        mutations.forEach((mutation)=>{
+            this.onMutation(mutation.target);
+        });
+    }
+
+    onMutation(target){
+//        Utility.log(TagnameManager, "onMutation");
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+
+        let tnEle = $(target).data("tagnameElement");
+        if (typeof tnEle === "undefined") this.addTagnameElement(target);
+        this.formatTagnameElement(target);
+    }
+
+    addTagnameElement(target){
+//        Utility.log(TagnameManager, "addTagnameElement");
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+
+        let tagname = $(target).entityTag();
+        let div = document.createElement("div");
+        $(div).text(tagname);
+        $(div).addClass("tagname");
+        $("#tagnamePanel").append(div);
+        $(div).data("source", target);
+        $(target).data("tagnameElement", div);
+    }
+
+    formatTagnameElement(target){
+//        Utility.log(TagnameManager, "formatTagnameElement");
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+
+        let tagname = $(target).entityTag();
+        let div = $(target).data("tagnameElement");
+        $(div).text(tagname);
+
+        if ($(target).hasClass("linked")){
+            $(div).addClass("linked");
+        } else {
+            $(div).removeClass("linked");
+        }
+
+        let diff = $(target).width() - $(div).width();
+        let left = $(target).position().left + (diff / 2);
+        let top = $(target).position().top + 12;
+        $(div).css({top: top, left: left});
+    }
+
+    clearTagnameElement(target){
+//        Utility.log(TagnameManager, "clearTagnameElement");
+        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+
+        let tnEle = $(target).data("tagnameElement");
+        if (typeof tnEle === "undefined") return;
+        $(tnEle).remove();
+    }
+}
+
 class View {
     constructor(serverIP) {
         View.traceLevel = 0;
         Utility.log(View, "constructor");
         Utility.enforceTypes(arguments, String);
 
+        this.tagnameManager = new TagnameManager();
         this.delayThrobber = null;
         this.serverIP = serverIP;
         this.throbberMessageStack = [];
@@ -133,6 +222,15 @@ class View {
         document.getElementById("txtLemma").value = "";
         document.getElementById("txtLink").value = "";
     }
+
+    clear(){
+        Utility.log(View, "clear");
+        Utility.enforceTypes(arguments);
+
+        $("#entityPanel").empty();
+        $("#tagnamePanel").empty();
+    }
+
     setDocument(text) {
         Utility.log(View, "setDocument");
         Utility.enforceTypes(arguments, String);
@@ -243,6 +341,7 @@ class View {
     attachStyle(filename) {
         Utility.log(View, "attachStyle");
         Utility.enforceTypes(arguments, String);
+        console.log(filename);
 
         var fileref = document.createElement("link");
         fileref.setAttribute("rel", "stylesheet");

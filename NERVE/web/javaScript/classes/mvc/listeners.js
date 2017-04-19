@@ -8,6 +8,8 @@ class Listeners {
         this.view = view;
         this.controller = controller;
 
+        $(window).resize(() => this.view.tagnameManager.pollDocument());
+
         /* entity dialog box events -- this section has a state */
         this.entityValues = null;
         $("#txtEntity").on("input", () => {
@@ -16,16 +18,22 @@ class Listeners {
         });
         $("#txtLemma").on("input", () => {
             if (this.entityValues === null) this.entityValues = {};
-            this.entityValues.lemma = $("#txtEntity").val();
+            this.entityValues.lemma = $("#txtLemma").val();
         });
         $("#txtLink").on("input", () => {
             if (this.entityValues === null) this.entityValues = {};
-            this.entityValues.link = $("#txtEntity").val();
+            this.entityValues.link = $("#txtLink").val();
         });
 
         $(".entityDialogTB").blur(() => {
             if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
             this.entityValues = null;
+        });
+
+        $(".entityDialogTB").keyup((event) => {
+            if (event.keyCode !== 13) return;
+            if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
+            event.stopPropagation();
         });
         /* end of section with a state */
 
@@ -252,12 +260,27 @@ class Listeners {
         /* Default Document Click Event */
         $("#entityPanel").click((event) => this.documentClick(event));
         $("#entityPanel").dblclick((event) => this.documentDblClick(event));
+        $("#tagnamePanel").click((event) => {
+            if (event.altKey) {
+                console.log(event.target);
+                window.debug = event.target;
+                return;
+            }
+            let srcElement = event.originalEvent.srcElement;
+            if ($(srcElement).hasClass("tagname")) {
+                let sourceEntity = $(srcElement).data("source");
+                if (!event.ctrlKey && !event.metaKey) {
+                    this.controller.setSelected(sourceEntity);
+                } else {
+                    this.controller.toggleSelect(sourceEntity);
+                }
+            }
+        });
     }
     documentClick(event) {
         let srcElement = event.originalEvent.srcElement;
 
         /* strictly for debugging */
-        console.log(event.altKey);
         if (event.altKey) {
             console.log(event.target);
             window.debug = event.target;
@@ -286,14 +309,15 @@ class Listeners {
             event.stopPropagation();
         }
     }
-
     /* context switching is deprecated */
     switchContext(contextName) {
         window.alert("'Switch Schema' is deprectated; the context/schema is now detected from the file.  In future releases this menu option will be removed.");
     }
     menuShowTags() {
         let rvalue = false;
+
         console.log($("#menuTags").data("value"));
+
         if ($("#menuTags").data("value") === false) {
             rvalue = true;
             $("#menuTags").addClass("activeText");
@@ -309,5 +333,7 @@ class Listeners {
         } else {
             this.view.detachStyle("tags.css");
         }
+
+        setTimeout(() => this.view.tagnameManager.resetTagnames(), 100);
     }
 }

@@ -8,7 +8,6 @@
 
 body{
     -webkit-user-select: none;
-    /*background-color: lightblue;*/
 }
 
 .pinkBG{
@@ -33,7 +32,7 @@ body{
     height: 100px;
 }
 
-#entityPanel {
+#panelContainer{
     position: absolute;
     top: 115px;
     height: calc(100% - 210px);
@@ -41,10 +40,19 @@ body{
     min-width: 300px;
     left: 15%;
     border: 1px solid black;
+    overflow-y: scroll;
     background-color: whitesmoke;
+    -webkit-user-select: auto;
+}
+
+#entityPanel, #tagnamePanel{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: calc(100% - 30px);
     font-size: 18px;
     word-wrap: normal;
-    overflow-y: scroll;
     line-height: 175%;
     padding: 15px;
     -webkit-user-select: auto;
@@ -325,6 +333,7 @@ body{
     display: none;
     top: 7px;
     background-color: lightskyblue;
+    z-index: 5;
 }
 
 .subItemContainer{
@@ -333,6 +342,7 @@ body{
     background-color: lightskyblue;
     left: 200px;
     top: 0px;
+    z-index: 5;
 }
 
 .menu:hover .itemContainer{

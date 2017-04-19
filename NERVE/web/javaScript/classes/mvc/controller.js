@@ -91,6 +91,8 @@ class Controller {
         this.view.setSearchText("");
         this.searchUtility.reset();
         this.isSaved = false;
+
+        this.view.tagnameManager.resetTagnames();
     }
 
     tagSelectedRange() {
@@ -156,6 +158,7 @@ class Controller {
         if (this.collection.isEmpty()) return new Response(false, "");
 
         let count = this.collection.size();
+        this.collection.$().each((i, ele)=>this.view.tagnameManager.clearTagnameElement(ele));
         this.collection.$().contents().unwrap();
         this.view.clearDialogs();
         this.view.setDialogFade(true);
@@ -174,6 +177,7 @@ class Controller {
 
         this.unselectAll();
         this.model.revertState();
+        this.view.tagnameManager.resetTagnames();
     }
 
     advanceState(){
@@ -182,6 +186,7 @@ class Controller {
 
         this.unselectAll();
         this.model.advanceState();
+        this.view.tagnameManager.resetTagnames();
     }
 
     /* end of active model control */
@@ -588,10 +593,12 @@ class Controller {
             this.model.setupTaggedEntity($(".taggedentity"));
             this.isSaved = true;
             this.view.clearThrobber();
+            setTimeout(()=>this.view.tagnameManager.resetTagnames(), 500);
         };
 
         let successfullEncode = (text)=>{
             this.model.setDocument(text, fname);
+            this.view.tagnameManager.pollDocument();
             let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
 
             if (typeof schemaPath === "string"){
@@ -669,6 +676,7 @@ class Controller {
     closeDocument(){
         Utility.log(Controller, "closeDocument");
         Utility.enforceTypes(arguments);
+        this.view.clear();
         this.model.reset();
     }
 
