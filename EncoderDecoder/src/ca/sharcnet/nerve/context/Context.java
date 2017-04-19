@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class Context implements Serializable {
 
-    public enum NameType {
+    public enum NameSource {
         TAGINFO, DICTIONARY, DIALOG, NERMAP
     };
 
@@ -60,9 +60,9 @@ public class Context implements Serializable {
         return false;
     }
 
-    public boolean hasTagInfo(String tagname, NameType... groups) {
+    public boolean hasTagInfo(String tagname, NameSource... validSources) {
         for (TagInfo tagInfo : tags.values()) {
-            for (NameType t : groups) {
+            for (NameSource t : validSources) {
                 switch(t){
                     case TAGINFO:
                         if (tagInfo.name.equals(tagname)) return true;
@@ -82,9 +82,9 @@ public class Context implements Serializable {
         return false;
     }
 
-    public TagInfo getTagInfo(String tagname, NameType... groups) {
+    public TagInfo getTagInfo(String tagname, NameSource... groups) {
         for (TagInfo tagInfo : tags.values()) {
-            for (NameType t : groups) {
+            for (NameSource t : groups) {
                 switch(t){
                     case TAGINFO:
                         if (tagInfo.name.equals(tagname)) return tagInfo;
