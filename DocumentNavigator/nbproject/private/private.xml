@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="5">
         <file>
             <url>src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</url>
             <bookmark id="4">
                 <name/>
-                <line>171</line>
+                <line>169</line>
                 <key/>
             </bookmark>
             <bookmark id="1">
                 <name/>
-                <line>193</line>
+                <line>191</line>
                 <key/>
             </bookmark>
         </file>
@@ -19,6 +19,14 @@
             <bookmark id="3">
                 <name/>
                 <line>62</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</url>
+            <bookmark id="5">
+                <name/>
+                <line>99</line>
                 <key/>
             </bookmark>
         </file>
@@ -41,9 +49,6 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/AttributeNode.java</file>
         </group>
-        <group name="Frontier Web App">
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/Schema.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/Node.java</file>
-        </group>
+        <group name="Frontier Web App"/>
     </open-files>
 </project-private>
