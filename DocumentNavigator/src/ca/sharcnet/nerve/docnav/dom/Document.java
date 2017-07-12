@@ -42,4 +42,12 @@ public class Document extends ElementNode{
     public Query query(String select){
         return new Query(this, select);
     }
+
+    public Query queryInstructionNodes(String select){
+        Query query = new Query();
+        for (Node node : this.childNodes()){
+            if (node.isType(NodeType.INSTRUCTION)) query.add((ElementNode)node);
+        }
+        return query.filter(select);
+    }
 }
