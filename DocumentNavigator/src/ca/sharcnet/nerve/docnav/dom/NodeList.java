@@ -23,6 +23,11 @@ public class NodeList <E extends Node> extends ArrayList<E>{
         for (E node : that) this.add(node);
     }
 
+    public boolean add(E e){
+        if (!this.contains(e)) return super.add(e);
+        return false;
+    }
+
     public String toString(Function<E, String> function){
         return toString(function, "");
     }

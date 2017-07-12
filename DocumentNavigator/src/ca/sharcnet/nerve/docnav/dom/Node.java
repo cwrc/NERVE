@@ -14,6 +14,11 @@ public abstract class Node {
         this.parent = null;
     }
 
+    public void detach(){
+        if (this.parent == null) throw new NullPointerException();
+        this.parent.removeChild(this);
+    }
+
     final void setParent(ElementNode parent){
         this.parent = parent;
     }

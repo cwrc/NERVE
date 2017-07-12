@@ -3,11 +3,11 @@ package ca.sharcnet.nerve.docnav.dom;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.selector.ElementList;
 import ca.sharcnet.nerve.docnav.selector.Select;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ElementNode extends AttributeNode {
-
+public class ElementNode extends AttributeNode implements Iterable <ElementNode>{
     private final NodeList<Node> children = new NodeList<>();
 
     /**
@@ -51,10 +51,17 @@ public class ElementNode extends AttributeNode {
      */
     protected ElementNode(IsNodeType type, String name, AttributeList attributes, NodeList<Node> children) {
         super(type, name, attributes);
+
         if (name.isEmpty()) throw new NullPointerException();
 
         if (children != null) {
-            for (Node child : children) this.addChild(child.copy());
+            for (Node child : children){
+                if (child == null){
+                    System.out.println("Child element null " + name);
+                    System.exit(0);
+                }
+                this.addChild(child.copy());
+            }
         }
     }
 
@@ -78,6 +85,10 @@ public class ElementNode extends AttributeNode {
 
     public ElementList childElements() {
         return new ElementList(this.children);
+    }
+
+    public Iterable<ElementNode> childIterator(){
+        return childElements();
     }
 
     public int childCount() {
@@ -246,6 +257,22 @@ public class ElementNode extends AttributeNode {
         return new Select(this);
     }
 
+    /* return a string with this nodes name, id, and classes that will accepted by a query */
+    public String toSelect(){
+        String name = this.getName();
+        String id = this.getAttributeValue("id");
+        String classes = this.getAttributeValue("class");
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(name);
+        if (!id.isEmpty()) builder.append("#").append(id);
+        if (!classes.isEmpty()){
+            String[] split = classes.split("[ ]+");
+            for (String s : split) builder.append(".").append(s);
+        }
+        return builder.toString();
+    }
+
     /**
     @return an xml compliant string.
      */
@@ -299,4 +326,13 @@ public class ElementNode extends AttributeNode {
     }
 
     // </editor-fold>
+
+    /**
+    Return an intertor that will iterate through all of a nodes decendent nodes, not self inclusive.
+    @author edward
+    */
+    @Override
+    public Iterator<ElementNode> iterator() {
+        return new ElementNodeIterator(this);
+    }
 }

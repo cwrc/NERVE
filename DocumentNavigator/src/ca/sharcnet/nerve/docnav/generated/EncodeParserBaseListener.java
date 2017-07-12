@@ -1,4 +1,4 @@
-// Generated from D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.5.3
+// Generated from D:\Dropbox\projects.new\groups\nerve\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.5.3
 
     package ca.sharcnet.nerve.docnav.generated;
     import ca.sharcnet.nerve.docnav.dom.*;

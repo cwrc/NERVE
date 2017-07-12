@@ -45,8 +45,8 @@ CLOSE       :   '>'                     -> popMode ;
 SLASH_CLOSE :   '/>'                    -> popMode ;
 SLASH       :   '/' ;
 EQUALS      :   '=' ;
-STRING      :   '"' ~[<"]* '"'
-            |   '\'' ~[<']* '\''
+STRING      :   '"' ~["]* '"'
+            |   '\'' ~[']* '\''
             ;
 
 Name        :   NameStartChar NameChar* ;

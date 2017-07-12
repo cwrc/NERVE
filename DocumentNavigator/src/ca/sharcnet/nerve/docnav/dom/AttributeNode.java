@@ -1,5 +1,9 @@
 package ca.sharcnet.nerve.docnav.dom;
 
+/**
+A node that contains attributes, ie. ElementNode
+@author edward
+*/
 public abstract class AttributeNode extends Node  {
     final AttributeList attributes;
 

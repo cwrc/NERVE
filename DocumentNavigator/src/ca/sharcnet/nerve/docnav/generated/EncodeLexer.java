@@ -1,4 +1,4 @@
-// Generated from D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4 by ANTLR 4.5.3
+// Generated from D:\Dropbox\projects.new\groups\nerve\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4 by ANTLR 4.5.3
 
     package ca.sharcnet.nerve.docnav.generated;
 
@@ -118,8 +118,8 @@ public class EncodeLexer extends Lexer {
 		"\3\23\3\23\3\24\3\24\3\24\3\24\5\24\u00b8\n\24\3\25\5\25\u00bb\n\25\3"+
 		"\26\3\26\5\67EQ\2\27\4\3\6\4\b\5\n\6\f\7\16\b\20\t\22\n\24\13\26\f\30"+
 		"\r\32\16\34\17\36\20 \21\"\22$\2&\2(\2*\2,\23\4\2\3\f\4\2\13\13\"\"\5"+
-		"\2((>>@@\4\2$$>>\4\2))>>\5\2\13\f\17\17\"\"\5\2\62;CHch\3\2\62;\4\2/\60"+
-		"aa\5\2\u00b9\u00b9\u0302\u0371\u2041\u2042\n\2<<C\\c|\u2072\u2191\u2c02"+
+		"\2((>>@@\3\2$$\3\2))\5\2\13\f\17\17\"\"\5\2\62;CHch\3\2\62;\4\2/\60aa"+
+		"\5\2\u00b9\u00b9\u0302\u0371\u2041\u2042\n\2<<C\\c|\u2072\u2191\u2c02"+
 		"\u2ff1\u3003\ud801\uf902\ufdd1\ufdf2\uffff\u00cc\2\4\3\2\2\2\2\6\3\2\2"+
 		"\2\2\b\3\2\2\2\2\n\3\2\2\2\2\f\3\2\2\2\2\16\3\2\2\2\2\20\3\2\2\2\2\22"+
 		"\3\2\2\2\2\24\3\2\2\2\3\26\3\2\2\2\3\30\3\2\2\2\3\32\3\2\2\2\3\34\3\2"+

@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve.docnav.selector;
 import ca.sharcnet.nerve.docnav.dom.AttributeNode;
+import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;

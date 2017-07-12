@@ -4,7 +4,11 @@
     <description>Builds, tests, and runs the project DocumentNavigator.</description>
     <import file="nbproject/build-impl.xml"/>
 
-    <property name="root" value="D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/DocumentNavigator"/>
+    <property name="root" location="."/>
+
+    <target name="echo-root">
+        <echo message="Root: ${root}"/>
+    </target>
 
     <target name="antlr-clean">
         <delete>
@@ -13,7 +17,8 @@
     </target>
 
     <target name="antlr">
-        <echo message="***** ANTLR"/>
+        <echo message="Building ANTLR"/>
+        <echo message="Root: ${root}"/>
 
         <java jar="D:/Dropbox/Projects/lib/jars/antlr-4.5.3-complete.jar" fork="false">
              <arg value="-o"/>

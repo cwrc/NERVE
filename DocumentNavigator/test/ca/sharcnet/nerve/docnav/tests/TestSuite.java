@@ -22,7 +22,9 @@ import org.junit.runners.Suite;
     ca.sharcnet.nerve.docnav.tests.DocumentTest.class,
     ca.sharcnet.nerve.docnav.tests.NodeTest.class,
     ca.sharcnet.nerve.docnav.tests.SelectTest.class,
-    ca.sharcnet.nerve.docnav.tests.RefineTest.class
+    ca.sharcnet.nerve.docnav.tests.RefineTest.class,
+    ca.sharcnet.nerve.docnav.tests.QueryTest.class,
+    ca.sharcnet.nerve.docnav.tests.QueryOperationsTest.class
 })
 public class TestSuite {
 
