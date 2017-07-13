@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="5">
         <file>
-            <url>src/ca/sharcnet/nerve/docnav/dom/Schema.java</url>
-            <bookmark id="3">
-                <name/>
-                <line>62</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</url>
             <bookmark id="4">
                 <name/>
@@ -19,6 +11,14 @@
             <bookmark id="1">
                 <name/>
                 <line>202</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ca/sharcnet/nerve/docnav/dom/Schema.java</url>
+            <bookmark id="3">
+                <name/>
+                <line>62</line>
                 <key/>
             </bookmark>
         </file>
@@ -51,11 +51,10 @@
         </group>
         <group name="Frontier Web App">
             <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/resources/multi.xml</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/resources/document.xml</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/query/Query.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/Main.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/resources/deep.xml</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/QueryTest.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/NodeTest.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/resources/text.xml</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/QueryOperationsTest.java</file>
         </group>
     </open-files>
 </project-private>

@@ -9,8 +9,7 @@ public class Query extends NodeList<ElementNode> {
 
     private SelectAny selectAny;
 
-    public Query() {
-    }
+    public Query() {}
 
     public Query(Iterable<ElementNode> iterable, String select) {
         selectAny = new SelectAny(select);
@@ -195,6 +194,19 @@ public class Query extends NodeList<ElementNode> {
     }
 
     /**
+    Retrieve the attribute value for the first matched element.  Returns a null if no attribute is found or the set is
+    empty.
+    @param key
+    @param value
+    @return
+     */
+    public Boolean hasAttr(String key) {
+        if (this.isEmpty()) return false;
+        ElementNode node = this.get(0);
+        return node.hasAttribute(key);
+    }
+
+    /**
     Remove the attribute for all matched elements.  No operation taken on elements without the attribute.
     empty.
     @param key
@@ -293,6 +305,106 @@ public class Query extends NodeList<ElementNode> {
         });
     }
 
+    /**
+    Create a copy of each selected node.  These copies will be detached from a parent, but will
+    contain children, copies of which may also be returned.
+    @return a query containing all copies.
+    */
+    public Query copy(){
+        Query query = new Query();
+        this.forEach(n->query.add(n.copy()));
+        return query;
+    }
+
+    /**
+    Add a copy of 'node' to the end of each selected element.
+    @param node
+    */
+    public void append(ElementNode node){
+        this.forEach(n->n.addChild(node.copy()));
+    }
+    
+    public void append(Query query){
+        this.forEach(n->{
+            query.forEach(node->n.addChild(node.copy()));
+        });
+    }    
+
+    /**
+    Move all selected elements to the end of 'node'.
+    @param node
+    */
+    public void appendTo(ElementNode node){
+        this.forEach(n->node.addChild(n));
+    }
+
+    public void appendTo(Query query){
+        this.forEach(n->query.first().addChild(n));
+    }    
+    
+    /**
+    Add a copy of 'node' to the beginning of each selected element.
+    @param node
+    */
+    public void prepend(ElementNode node){
+        int k = 0;
+        for (ElementNode n : this) n.addChild(k++, node.copy());
+    }
+
+    public void prepend(Query query){
+        for (ElementNode node : query){
+            this.prepend(node);
+        }
+    }        
+    
+    /**
+    Move all selected elements to the beginning of 'node'.
+    @param node
+    */
+    public void prependTo(ElementNode node){
+        int k = 0;
+        for (ElementNode n : this)node.addChild(k++, n);
+    }
+    
+    /**
+    Move all selected elements to the beginning of the first selected element in 'query'.
+    @param node
+    */
+    public void prependTo(Query query){
+        int k = 0;
+        for (ElementNode n : this)query.first().addChild(k++, n);
+    }    
+
+    /**
+    Attach a new node with 'name' to the end of all selected elements.
+    @param name
+    @return a query containing all new nodes.
+    */
+    public Query appendNew(String name){
+        Query query = new Query();
+        this.forEach(n->{
+            ElementNode elementNode = new ElementNode(name);
+            query.add(elementNode);
+            n.addChild(elementNode);
+        });
+        return query;
+    }
+
+    /**
+    Attach a new node with 'name' to the beginning of all selected elements.
+    @param name
+    @return a query containing all new nodes.
+    */
+    public Query prependNew(String name){
+        Query query = new Query();
+        this.forEach(n->{
+            ElementNode elementNode = new ElementNode(name);
+            query.add(0, elementNode);
+            n.addChild(0, elementNode);
+        });
+        return query;
+    }
+
     public ElementNode first() {
         if (this.isEmpty()) return null;
         return this.get(0);
@@ -300,6 +412,6 @@ public class Query extends NodeList<ElementNode> {
 
     public ElementNode last() {
         if (this.isEmpty()) return null;
-        return this.get(this.size());
+        return this.get(this.size() - 1);
     }
 }

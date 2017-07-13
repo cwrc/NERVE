@@ -97,7 +97,7 @@ public class QueryTest implements HasStreams{
     public void test_all_child() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query("root > *");
-        assertEquals(2, query.size());
+        assertEquals(3, query.size());
         assertEquals("div", query.get(0).getName());
         assertEquals("div", query.get(1).getName());
     }
