@@ -4,7 +4,7 @@ package ca.sharcnet.nerve.docnav.dom;
 The inner text of a meta data node does contain the braces.
 @author edward
 */
-public class InstructionNode extends ElementNode{
+public class InstructionNode extends Node{
     /**
     By-value constructor.
     @param innerText
@@ -15,7 +15,7 @@ public class InstructionNode extends ElementNode{
     }
 
     public InstructionNode(){
-        super(NodeType.INSTRUCTION, "@METADATA", null, null);
+        super(NodeType.INSTRUCTION, "@METADATA");
     }
 
     @Override

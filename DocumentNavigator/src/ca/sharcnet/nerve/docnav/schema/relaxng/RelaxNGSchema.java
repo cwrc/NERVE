@@ -1,21 +1,19 @@
 package ca.sharcnet.nerve.docnav.schema.relaxng;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
-import ca.sharcnet.nerve.docnav.selector.ElementList;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import java.util.HashMap;
 
 public final class RelaxNGSchema extends Document implements Schema{
-    private final ElementNode start;
-    private final HashMap<String, ElementNode> defines = new HashMap<>();
+    private final Node start;
+    private final HashMap<String, Node> defines = new HashMap<>();
 
     public RelaxNGSchema(Document doc){
         super(doc);
-        this.start = this.select().name("start").get(0);
-        for (ElementNode node : this.select().name("define")){
-            defines.put(node.getAttributeValue("name"), node);
-        }
+        this.start = query("start").first();
+        query("define").forEach(node->defines.put(node.getAttributeValue("name"), node));
     }
 
     /**
@@ -24,12 +22,12 @@ public final class RelaxNGSchema extends Document implements Schema{
     @return
     */
     @Override
-    public boolean isValid(ElementNode element, String childNodeName){
-        NodeList <ElementNode> elementPath = getNodePath(element);
-        ElementNode current = start;
+    public boolean isValid(Node element, String childNodeName){
+        NodeList elementPath = getNodePath(element);
+        Node current = start;
         boolean rvalue = true;
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.getName();
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
@@ -45,12 +43,12 @@ public final class RelaxNGSchema extends Document implements Schema{
     @return
     */
     @Override
-    public boolean isValid(ElementNode element){
-        NodeList <ElementNode> elementPath = getNodePath(element);
-        ElementNode current = start;
+    public boolean isValid(Node element){
+        NodeList elementPath = getNodePath(element);
+        Node current = start;
         boolean rvalue = true;
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.getName();
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
@@ -64,11 +62,11 @@ public final class RelaxNGSchema extends Document implements Schema{
     inclusive.
     @return
      */
-    private NodeList <ElementNode> getNodePath(ElementNode eNode) {
-        NodeList<ElementNode> list = new NodeList<>();
+    private NodeList getNodePath(Node eNode) {
+        NodeList list = new NodeList();
         list.add(eNode);
 
-        ElementNode current = eNode.getParent();
+        Node current = eNode.getParent();
         while (current != null && !current.getName().equals("@DOCUMENT")) {
             list.add(0, current);
             current = current.getParent();
@@ -83,33 +81,26 @@ public final class RelaxNGSchema extends Document implements Schema{
     @param name The name of the next potential node
     @return a node if valid, null if not.
     */
-    private ElementNode nextNode(ElementNode current, String name) {
-        ElementList elements =
-            current
-            .childElements()
-            .keepName("element")
-            .keepAttribute("name", name);
+    private Node nextNode(Node current, String name) {
+        NodeList elements = current.query(String.format("element[name='%s']", name));
 
         if (!elements.isEmpty()){
             return elements.get(0);
         }
 
-        ElementList refs = current.childElements().keepName("ref");
+        NodeList refs = current.query("ref");
 
-        for (ElementNode ref : refs){
+        for (Node ref : refs){
             String refname = ref.getAttributeValue("name");
             if (!defines.containsKey(refname)) throw new RuntimeException("define name = '" + refname + "' not found");
-            ElementNode next = nextNode(defines.get(refname), name);
+            Node next = nextNode(defines.get(refname), name);
             if (next != null) return next;
         }
 
-        ElementList others =
-            current
-            .childElements()
-            .keepName("zeroOrMore", "oneOrMore", "optional", "group", "choice", "interleave");
+        NodeList others = current.query("zeroOrMore, oneOrMore, optional, group, choice, interleave");
 
-        for (ElementNode other : others){
-            ElementNode next = nextNode(other, name);
+        for (Node other : others){
+            Node next = nextNode(other, name);
             if (next != null) return next;
         }
 

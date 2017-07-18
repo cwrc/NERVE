@@ -13,13 +13,8 @@ public class DoctypeNode extends Node{
     @param innerText
     */
     public DoctypeNode(String innerText){
-        super(DOCTYPE, "@DOCTYPE");
+        super(NodeType.DOCTYPE, "@DOCTYPE");
         this.innerText = innerText;
-    }
-
-    @Override
-    public NodeType getType(){
-        return (NodeType) super.getType();
     }
 
     /**
@@ -31,7 +26,7 @@ public class DoctypeNode extends Node{
     }
 
     @Override
-    public Node copy() {
+    public DoctypeNode copy() {
         return new DoctypeNode(innerText);
     }
 }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RelaxNGSchema.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;DocumentNavigator3&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ca.sharcnet.nerve.docnav.schema.relaxng</a> &gt; <span class="el_source">RelaxNGSchema.java</span></div><h1>RelaxNGSchema.java</h1><pre class="source lang-java linenums">package ca.sharcnet.nerve.docnav.schema.relaxng;
+import ca.sharcnet.nerve.docnav.schema.Schema;
+import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.NodeList;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
+import java.util.HashMap;
+
+public final class RelaxNGSchema extends Document implements Schema{
+    private final Node start;
+<span class="nc" id="L11">    private final HashMap&lt;String, Node&gt; defines = new HashMap&lt;&gt;();</span>
+
+    public RelaxNGSchema(Document doc){
+<span class="nc" id="L14">        super(doc);</span>
+<span class="nc" id="L15">        this.start = query(&quot;start&quot;).first();</span>
+<span class="nc" id="L16">        query(&quot;define&quot;).forEach(node-&gt;defines.put(node.getAttributeValue(&quot;name&quot;), node));</span>
+<span class="nc" id="L17">    }</span>
+
+    /**
+    Return true if this element, with the child node, does not violate the schema.
+    @param element
+    @return
+    */
+    @Override
+    public boolean isValid(Node element, String childNodeName){
+<span class="nc" id="L26">        NodeList elementPath = getNodePath(element);</span>
+<span class="nc" id="L27">        Node current = start;</span>
+<span class="nc" id="L28">        boolean rvalue = true;</span>
+
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (Node pathNode : elementPath) {</span>
+<span class="nc" id="L31">            String nextNodeName = pathNode.getName();</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            if (current != null) current = nextNode(current, nextNodeName);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (current == null) rvalue = false;</span>
+<span class="nc" id="L34">        }</span>
+
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        if (current != null &amp;&amp; nextNode(current, childNodeName) == null) rvalue = false;</span>
+<span class="nc" id="L37">        return rvalue;</span>
+    }
+
+    /**
+    Return true if this element, with the child node, does not violate the schema.
+    @param element
+    @return
+    */
+    @Override
+    public boolean isValid(Node element){
+<span class="nc" id="L47">        NodeList elementPath = getNodePath(element);</span>
+<span class="nc" id="L48">        Node current = start;</span>
+<span class="nc" id="L49">        boolean rvalue = true;</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (Node pathNode : elementPath) {</span>
+<span class="nc" id="L52">            String nextNodeName = pathNode.getName();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (current != null) current = nextNode(current, nextNodeName);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (current == null) rvalue = false;</span>
+<span class="nc" id="L55">        }</span>
+
+<span class="nc" id="L57">        return rvalue;</span>
+    }
+
+    /**
+    Retrieve an inorder list of all nodes from the document root to this node,
+    inclusive.
+    @return
+     */
+    private NodeList getNodePath(Node eNode) {
+<span class="nc" id="L66">        NodeList list = new NodeList();</span>
+<span class="nc" id="L67">        list.add(eNode);</span>
+
+<span class="nc" id="L69">        Node current = eNode.getParent();</span>
+<span class="nc bnc" id="L70" title="All 4 branches missed.">        while (current != null &amp;&amp; !current.getName().equals(&quot;@DOCUMENT&quot;)) {</span>
+<span class="nc" id="L71">            list.add(0, current);</span>
+<span class="nc" id="L72">            current = current.getParent();</span>
+        }
+<span class="nc" id="L74">        return list;</span>
+    }
+
+    /**
+    Given a schema element, if an element with 'name' is a valid child, return
+    the matching schema element.
+    @param current The current node in question
+    @param name The name of the next potential node
+    @return a node if valid, null if not.
+    */
+    private Node nextNode(Node current, String name) {
+<span class="nc" id="L85">        NodeList elements = current.query(String.format(&quot;element[name='%s']&quot;, name));</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!elements.isEmpty()){</span>
+<span class="nc" id="L88">            return elements.get(0);</span>
+        }
+
+<span class="nc" id="L91">        NodeList refs = current.query(&quot;ref&quot;);</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (Node ref : refs){</span>
+<span class="nc" id="L94">            String refname = ref.getAttributeValue(&quot;name&quot;);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (!defines.containsKey(refname)) throw new RuntimeException(&quot;define name = '&quot; + refname + &quot;' not found&quot;);</span>
+<span class="nc" id="L96">            Node next = nextNode(defines.get(refname), name);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            if (next != null) return next;</span>
+<span class="nc" id="L98">        }</span>
+
+<span class="nc" id="L100">        NodeList others = current.query(&quot;zeroOrMore, oneOrMore, optional, group, choice, interleave&quot;);</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (Node other : others){</span>
+<span class="nc" id="L103">            Node next = nextNode(other, name);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (next != null) return next;</span>
+<span class="nc" id="L105">        }</span>
+
+<span class="nc" id="L107">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

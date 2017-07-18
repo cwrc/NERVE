@@ -24,12 +24,14 @@ public class Console {
 
     public static void logMethod() {
         StackTraceElement ele = Thread.currentThread().getStackTrace()[2];
-        log("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "()");
+        log("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "()");        
     }
 
     public static void logMethod(Object object) {
         StackTraceElement ele = Thread.currentThread().getStackTrace()[2];
-        out.println("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "() : " + object.toString());
+        out.print("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "() : ");
+        if (object.getClass().isArray()) out.println(Arrays.toString((Object[]) object));
+        else out.println(object);
     }
 
     public static void trace(Object object) {

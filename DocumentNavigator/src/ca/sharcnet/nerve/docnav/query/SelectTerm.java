@@ -1,11 +1,11 @@
 package ca.sharcnet.nerve.docnav.query;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SelectTerm extends Select {
+class SelectTerm extends Select {
     String id;
     String name;
     ArrayList<Attribute> attributes = new ArrayList<>();
@@ -44,19 +44,19 @@ public class SelectTerm extends Select {
         if (name.equals("*")) name = "";
         wants.remove(0);
     }
+//
+//    @Override
+//    public String toString(){
+//        StringBuilder builder = new StringBuilder();
+//        builder.append("name: ").append(name).append("\n");
+//        builder.append("id: ").append(id).append("\n");
+//        builder.append("classes: ").append(Arrays.toString(wants.toArray())).append("\n");
+//        builder.append("attributes: ").append(Arrays.toString(attributes.toArray())).append("\n");
+//        return builder.toString();
+//    }
 
     @Override
-    public String toString(){
-        StringBuilder builder = new StringBuilder();
-        builder.append("name: ").append(name).append("\n");
-        builder.append("id: ").append(id).append("\n");
-        builder.append("classes: ").append(Arrays.toString(wants.toArray())).append("\n");
-        builder.append("attributes: ").append(Arrays.toString(attributes.toArray())).append("\n");
-        return builder.toString();
-    }
-
-    @Override
-    boolean check(ElementNode element) {
+    boolean check(Node element) {
         if (!this.name.isEmpty() && !element.getName().equals(this.name)) return false;
         if (!this.id.isEmpty() && !element.getAttributeValue("id").equals(this.id)) return false;
         for (Attribute attr : attributes){

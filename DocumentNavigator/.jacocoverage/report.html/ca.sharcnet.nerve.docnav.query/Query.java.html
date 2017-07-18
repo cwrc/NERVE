@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Query.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;DocumentNavigator3&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ca.sharcnet.nerve.docnav.query</a> &gt; <span class="el_source">Query.java</span></div><h1>Query.java</h1><pre class="source lang-java linenums">package ca.sharcnet.nerve.docnav.query;
+import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.IsNodeType;
+import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.NodeList;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
+import ca.sharcnet.nerve.docnav.dom.TextNode;
+import java.util.Arrays;
+import java.util.List;
+
+public class Query extends NodeList {
+    private SelectAny selectAny;
+
+<span class="fc" id="L14">    public Query() {}</span>
+
+<span class="fc" id="L16">    public Query(Iterable&lt;Node&gt; iterable, String select) {</span>
+<span class="fc" id="L17">        selectAny = new SelectAny(select);</span>
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        for (Node element : iterable) {</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            if (selectAny.check(element)) this.add(element);</span>
+<span class="fc" id="L21">        }</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (this.isEmpty()) return &quot;[]&quot;;</span>
+
+<span class="fc" id="L28">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="fc" id="L30">        builder.append(&quot;[&quot;);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (int i = 0; i &lt; this.size() - 1; i++) {</span>
+<span class="fc" id="L32">            builder.append(this.get(i).toSelect()).append(&quot;, &quot;);</span>
+        }
+<span class="fc" id="L34">        builder.append(this.get(this.size() - 1).toSelect());</span>
+<span class="fc" id="L35">        builder.append(&quot;]&quot;);</span>
+<span class="fc" id="L36">        return builder.toString();</span>
+    }
+
+    /* Query operations */
+    public Query filter(String select) {
+<span class="fc" id="L41">        return new Query(this, select);</span>
+    }
+
+    /**
+        Change the name of all elements in this query return the value of the first element.
+        @param name
+     */
+    public String name(String name) {
+<span class="fc" id="L49">        this.forEach(n -&gt; n.setName(name));</span>
+<span class="fc" id="L50">        return this.get(0).getName();</span>
+    }
+
+    /**
+        Return the name value of the first element in this query.'
+        Returns null if there are no selected elements.
+     */
+    public String name() {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (this.isEmpty()) return null;</span>
+<span class="fc" id="L59">        return this.get(0).getName();</span>
+    }
+
+    /**
+        Adds the specified class(es) to each element in the set of matched elements.  Each string is assumed to be a
+        space seperated list of class names. It's important to note that this method does not replace a class. It simply
+        adds the class, appending it to any which may already be assigned to the elements. It will only add the class
+        if it is not already present.
+        @param classNames Zero or more strings, each of which is a space deliminated list of classNames.
+     */
+    public void addClass(String... classNames) {
+<span class="fc" id="L70">        this.forEach(node -&gt; {</span>
+<span class="fc" id="L71">            String prevClassAttr = node.getAttributeValue(&quot;class&quot;);</span>
+<span class="fc" id="L72">            List&lt;String&gt; has = Arrays.asList(prevClassAttr.split(&quot;[ ]+&quot;));</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            for (String s1 : classNames) {</span>
+<span class="fc" id="L75">                String[] split = s1.split(&quot;[ ]+&quot;);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">                for (String s2 : split) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">                    if (!has.contains(s2)) {</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                        if (prevClassAttr.isEmpty()) prevClassAttr = s2;</span>
+<span class="fc" id="L79">                        else prevClassAttr += &quot; &quot; + s2;</span>
+                    }
+                }
+            }
+
+<span class="fc" id="L84">            node.addAttribute(&quot;class&quot;, prevClassAttr);</span>
+<span class="fc" id="L85">        });</span>
+<span class="fc" id="L86">    }</span>
+
+    /**
+        Determine whether any of the matched elements are assigned the given class.
+        @param classNames Zero or more strings, each of which is a space deliminated list of classNames.
+        @return true if any element in the query contains any of the listed classnames.
+     */
+    public boolean hasClass(String... classNames) {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (Node node : this) {</span>
+<span class="fc" id="L95">            String prevClassAttr = node.getAttributeValue(&quot;class&quot;);</span>
+<span class="fc" id="L96">            List&lt;String&gt; has = Arrays.asList(prevClassAttr.split(&quot;[ ]+&quot;));</span>
+
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            for (String s1 : classNames) {</span>
+<span class="fc" id="L99">                String[] split = s1.split(&quot;[ ]+&quot;);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">                for (String s2 : split) {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                    if (has.contains(s2)) return true;</span>
+                }
+            }
+<span class="fc" id="L104">        };</span>
+<span class="fc" id="L105">        return false;</span>
+    }
+
+    /**
+    Description: Remove a single class, multiple classes, or all classes from each element in the set of matched
+    elements.  If one or more class names are included as a parameter, then only those classes will be removed from the
+    set of matched elements. If no class names are specified in the parameter, all classes will be removed.  If the
+    class name is repeated in the class attribute the behavior is undefined.
+    @param classNames
+     */
+    public void removeClass(String... classNames) {
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (classNames.length == 0) {</span>
+<span class="fc" id="L117">            this.forEach(n -&gt; n.removeAttribute(&quot;class&quot;));</span>
+<span class="fc" id="L118">            return;</span>
+        }
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        for (Node node : this) {</span>
+<span class="fc" id="L122">            String prevClassAttr = node.getAttributeValue(&quot;class&quot;);</span>
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            for (String s1 : classNames) {</span>
+<span class="fc" id="L125">                String[] split = s1.split(&quot;[ ]+&quot;);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                for (String s2 : split) {</span>
+<span class="fc" id="L127">                    prevClassAttr = prevClassAttr.replaceAll(s2, &quot;&quot;);</span>
+                }
+            }
+
+<span class="fc" id="L131">            prevClassAttr = prevClassAttr.trim();</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            if (prevClassAttr.isEmpty()) node.removeAttribute(&quot;class&quot;);</span>
+<span class="fc" id="L133">            else node.addAttribute(&quot;class&quot;, prevClassAttr);</span>
+<span class="fc" id="L134">        }</span>
+<span class="fc" id="L135">    }</span>
+
+    /**
+        Remove all matched elements from the document after refining the selection.
+     * @param select
+     */
+    public void remove(String select) {
+<span class="fc" id="L142">        Query filter = this.filter(select);</span>
+<span class="fc" id="L143">        filter.detach();</span>
+<span class="fc" id="L144">    }</span>
+
+    /**
+        Remove all matched elements from the document.
+     */
+    public void detach() {
+        try {
+<span class="fc" id="L151">            this.forEach(node -&gt; node.detach());</span>
+<span class="fc" id="L152">        } catch (NullPointerException ex) {</span>
+<span class="fc" id="L153">            throw new QueryOperationException(ex);</span>
+<span class="fc" id="L154">        }</span>
+<span class="fc" id="L155">    }</span>
+
+    /**
+    Replace all selected nodes with their children.
+     */
+    public void extract() {
+<span class="fc" id="L161">        this.forEach(node -&gt; node.replaceWithChildren());</span>
+<span class="fc" id="L162">    }</span>
+
+    /**
+    Retrieve the attribute value for the first matched element.  Returns a null if no attribute is found or the set is
+    empty.
+    @param key
+    @param value
+    @return
+     */
+    public String attr(String key) {
+<span class="fc bfc" id="L172" title="All 2 branches covered.">        if (this.isEmpty()) return null;</span>
+<span class="fc" id="L173">        Node node = this.get(0);</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (!node.hasAttribute(key)) return null;</span>
+<span class="fc" id="L175">        return node.getAttributeValue(key);</span>
+    }
+
+    /**
+    Determine if the first matched element contains the given attribute.
+    Returns false if no elements are selected.
+    @param key
+    @param value
+    @return
+     */
+    public Boolean hasAttr(String key) {
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (this.isEmpty()) return false;</span>
+<span class="fc" id="L187">        Node node = this.get(0);</span>
+<span class="fc" id="L188">        return node.hasAttribute(key);</span>
+    }
+
+    /**
+    Remove the attribute for all matched elements.  No operation taken on elements without the attribute.
+    empty.
+    @param key
+    @return
+     */
+    public void removeAttr(String key) {
+<span class="fc" id="L198">        this.forEach(node -&gt; node.removeAttribute(key));</span>
+<span class="fc" id="L199">    }</span>
+
+    /**
+    Set the attribute of all matched element.s
+    @param key
+    @param value
+     */
+    public void attr(String key, Object value) {
+<span class="fc" id="L207">        this.forEach(node -&gt; node.addAttribute(key, value));</span>
+<span class="fc" id="L208">    }</span>
+
+    /**
+        Return the child elemants of each matched element as a new query.
+     */
+    public Query children(IsNodeType ... types) {
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">        if (types.length == 0) types = new IsNodeType[]{NodeType.ELEMENT};</span>
+<span class="fc" id="L215">        Query query = new Query();</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        for (Node node : this) query.add(node.childNodes(types));</span>
+<span class="fc" id="L217">        return query;</span>
+    }
+
+    /**
+    Return a new query of elements which are contained in both queries.
+    @param that
+    @return
+     */
+    public Query intersect(Query match) {
+<span class="fc" id="L226">        Query query = new Query();</span>
+<span class="fc" id="L227">        this.forEach(n1 -&gt; {</span>
+<span class="fc" id="L228">            match.forEach(n2 -&gt; {</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">                if (n1 == n2) query.add(n1);</span>
+<span class="fc" id="L230">            });</span>
+<span class="fc" id="L231">        });</span>
+<span class="fc" id="L232">        return query;</span>
+    }
+
+    /**
+    Return a new query of elements which are 'this' and not in 'that'.
+    @param that
+    @return
+     */
+    public Query unique(Query that) {
+<span class="fc" id="L241">        Query query = new Query();</span>
+<span class="fc" id="L242">        this.forEach(n1 -&gt; {</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            if (!that.contains(n1)) query.add(n1);</span>
+<span class="fc" id="L244">        });</span>
+<span class="fc" id="L245">        return query;</span>
+    }
+
+    /**
+    Return a new query of elements which are 'this' or in 'that', but not in both.
+    @param that
+    @return
+     */
+    public Query xor(Query that) {
+<span class="fc" id="L254">        Query query = new Query();</span>
+<span class="fc" id="L255">        this.forEach(node -&gt; {</span>
+<span class="fc bfc" id="L256" title="All 2 branches covered.">            if (!that.contains(node)) query.add(node);</span>
+<span class="fc" id="L257">        });</span>
+<span class="fc" id="L258">        that.forEach(node -&gt; {</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">            if (!this.contains(node)) query.add(node);</span>
+<span class="fc" id="L260">        });</span>
+<span class="fc" id="L261">        return query;</span>
+    }
+
+    /**
+    Returns the text content of the first element (and all it's decendents).
+     * @return The text of the first element, or null if query is empty.
+    */
+    public String text(){
+<span class="fc bfc" id="L269" title="All 2 branches covered.">        if (this.isEmpty()) return null;</span>
+<span class="fc" id="L270">        return this.get(0).innerText();</span>
+    }
+
+    /**
+    Replaces all children of each selected element with a single text node containing the specified string.
+     * @param string
+    */
+    public void text(String string){
+<span class="fc" id="L278">        this.forEach(node-&gt;{</span>
+<span class="fc" id="L279">            node.clearChildren();</span>
+<span class="fc" id="L280">            node.addChild(new TextNode(string));</span>
+<span class="fc" id="L281">        });</span>
+<span class="fc" id="L282">    }</span>
+
+    /**
+    Create a copy of each selected node.  These copies will be detached from a parent, but will
+    contain children, copies of which may also be returned.
+    @return a query containing all copies.
+    */
+    public Query copy(){
+<span class="fc" id="L290">        Query query = new Query();</span>
+<span class="fc" id="L291">        this.forEach(n-&gt;query.add(n.copy()));</span>
+<span class="fc" id="L292">        return query;</span>
+    }
+
+    /**
+     * Add a copy of 'node' to the beginning of each selected element.  Given the child nodes of a selected element
+     * = {c0 ... cN}, child nodes + {n0 ... nN} = {n0 ... nN, c0 ... cN}.
+     * @param nodes
+    */
+    public void append(Iterable&lt;Node&gt; nodes){
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        for (Node n : this){</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">            for (Node m : nodes){</span>
+<span class="fc" id="L303">                n.addChild(m.copy());</span>
+<span class="fc" id="L304">            }</span>
+<span class="fc" id="L305">        }</span>
+<span class="fc" id="L306">    }</span>
+
+    /**
+     * Add a copy of 'node' to the beginning of each selected element.  Given the child nodes of a selected element
+     * = {c0 ... cN}, child nodes + {n0 ... nN} = {n0 ... nN, c0 ... cN}.
+     * @param nodes
+    */
+    public void prepend(Iterable&lt;Node&gt; nodes){
+<span class="fc bfc" id="L314" title="All 2 branches covered.">        for (Node n : this){</span>
+<span class="fc" id="L315">            int k = 0;</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">            for (Node m : nodes){</span>
+<span class="fc" id="L317">                n.addChild(k++, m.copy());</span>
+<span class="fc" id="L318">            }</span>
+<span class="fc" id="L319">        }</span>
+<span class="fc" id="L320">    }</span>
+
+    /**
+    Attach a new node with 'name' to the end of all selected elements.
+    @param name
+    @return a query containing all new nodes.
+    */
+    public Query appendNew(String name){
+<span class="fc" id="L328">        Query query = new Query();</span>
+<span class="fc" id="L329">        this.forEach(n-&gt;{</span>
+<span class="fc" id="L330">            Node elementNode = new ElementNode(name);</span>
+<span class="fc" id="L331">            query.add(elementNode);</span>
+<span class="fc" id="L332">            n.addChild(elementNode);</span>
+<span class="fc" id="L333">        });</span>
+<span class="fc" id="L334">        return query;</span>
+    }
+
+    /**
+    Attach a new node with 'name' to the beginning of all selected elements.
+    @param name
+    @return a query containing all new nodes.
+    */
+    public Query prependNew(String name){
+<span class="fc" id="L343">        Query query = new Query();</span>
+<span class="fc" id="L344">        this.forEach(n-&gt;{</span>
+<span class="fc" id="L345">            Node elementNode = new ElementNode(name);</span>
+<span class="fc" id="L346">            query.add(0, elementNode);</span>
+<span class="fc" id="L347">            n.addChild(0, elementNode);</span>
+<span class="fc" id="L348">        });</span>
+<span class="fc" id="L349">        return query;</span>
+    }
+
+    /**
+     * Replace all selected elements with a copy of 'node'.  All of the child nodes of the selected elements will be
+     * discarded.
+     * @param node
+     * @return a new Query object containing all new copies created by this method.
+     */
+    public Query replaceWith(Node node){
+<span class="fc" id="L359">        Query query = new Query();</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        for (Node element : this){</span>
+<span class="fc" id="L361">            Node copy = node.copy();</span>
+<span class="fc" id="L362">            query.add(copy);</span>
+<span class="fc" id="L363">            element.replaceWith(copy);</span>
+<span class="fc" id="L364">        }</span>
+<span class="fc" id="L365">        return query;</span>
+    }
+
+    public Node first() {
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        if (this.isEmpty()) return null;</span>
+<span class="fc" id="L370">        return this.get(0);</span>
+    }
+
+    public Node last() {
+<span class="fc bfc" id="L374" title="All 2 branches covered.">        if (this.isEmpty()) return null;</span>
+<span class="fc" id="L375">        return this.get(this.size() - 1);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

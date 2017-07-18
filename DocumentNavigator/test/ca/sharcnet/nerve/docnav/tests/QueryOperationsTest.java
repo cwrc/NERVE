@@ -5,11 +5,14 @@ import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.NodeList;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.query.QueryOperationException;
-import ca.sharcnet.nerve.docnav.selector.ElementList;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import junit.framework.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -29,7 +32,7 @@ public class QueryOperationsTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query("*");
         query.name("div");
-        for (ElementNode e : query) assertEquals("div", e.getName());
+        for (Node e : query) assertEquals("div", e.getName());
         query = doc.query("div");
         assertEquals(21, query.size());
     }
@@ -130,14 +133,14 @@ public class QueryOperationsTest implements HasStreams {
     public void test_remove() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query("div");
-        query.remove();
+        query.detach();
         assertEquals(1, doc.query("*").size());
     }
 
     @Test
     public void test_remove_part() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        doc.query("a").remove();
+        doc.query("a").detach();
         assertEquals(0, doc.query("a").size());
         assertEquals(false, doc.toString().contains("<a"));
     }
@@ -150,7 +153,7 @@ public class QueryOperationsTest implements HasStreams {
     @Test
     public void test_remove_multi() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        doc.query(".second, .top").remove();
+        doc.query(".second, .top").detach();
         assertEquals(0, doc.query("top center bottom second").size());
     }
 
@@ -164,8 +167,8 @@ public class QueryOperationsTest implements HasStreams {
     public void test_remove_multi_ex() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query(".second, .top");
-        query.remove();
-        query.remove();
+        query.detach();
+        query.detach();
     }
 
     /**
@@ -192,7 +195,7 @@ public class QueryOperationsTest implements HasStreams {
     @Test
     public void test_remove_extract_multi() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        doc.query(".first, a, b, c, d").extract("");
+        doc.query(".first, a, b, c, d").extract();
         assertEquals(3, doc.query("*").size());
     }
 
@@ -201,6 +204,13 @@ public class QueryOperationsTest implements HasStreams {
     public void test_attr() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         assertEquals("alpha", doc.query("a").attr("data"));
+    }
+
+    /* first element doesn't have attribute */
+    @Test
+    public void test_attr_empty_select() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(null, doc.query("").attr("data"));
     }
 
     /* first element doesn't have attribute */
@@ -338,7 +348,7 @@ public class QueryOperationsTest implements HasStreams {
     @Test
     public void test_append_new_4() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        Query appendNew = doc.query(".second").appendNew("div");       
+        Query appendNew = doc.query(".second").appendNew("div");
         assertEquals(doc.query(".second > div").last(), appendNew.first());
     }
 
@@ -347,8 +357,8 @@ public class QueryOperationsTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         doc.query(".second").appendNew("div");
         assertEquals(4, doc.query(".second").children().size());
-    }            
-    
+    }
+
     @Test
     public void test_prepend_new_1() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
@@ -369,38 +379,270 @@ public class QueryOperationsTest implements HasStreams {
         Query prependNew = doc.query(".third").prependNew("div");
         assertEquals(doc.query(".third > div").first(), prependNew.first());
     }
-    
+
     @Test
     public void test_prepend_new_4() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query prependNew = doc.query(".second").prependNew("abc");
         assertEquals(doc.query(".second > *").first(), prependNew.first());
-    }    
-    
+    }
+
     @Test
     public void test_prepend_new_5() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         doc.query(".second").prependNew("divvv");
         assertEquals(4, doc.query(".second").children().size());
-    }        
-    
+    }
+
+    /**
+    Replace all selected elements with a copy of 'node'.
+    @throws IOException
+     */
     @Test
-    public void test_append_to() throws IOException{
+    public void test_replace_with_none() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        Query query = doc.query(".first *");
-        doc.query(".third").appendNew("z");
-        query.appendTo(doc.query(".third"));
-        assertEquals(9, doc.query(".third").children().size());
-        assertEquals(doc.query(".third > *").toString(), "[z, a#j, b#k, c#l, d#m, a#n, b#o, c#p, d#q]");
-    }    
-    
+        String before = doc.query("*").toString();
+        Query query = doc.query("none"); /* there are no 'none' nodes in the doc */
+        ElementNode node = new ElementNode("new");
+        query.replaceWith(node);
+        assertEquals(before, doc.query("*").toString());
+    }
+
+    /**
+    Replace all selected elements with a copy of 'node'.
+    @throws IOException
+     */
     @Test
-    public void test_prepend_to() throws IOException{
+    public void test_replace_with_one() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        Query query = doc.query(".first *");
-        doc.query(".third").appendNew("z");
-        query.prependTo(doc.query(".third"));
-        assertEquals(9, doc.query(".third").children().size());
-        assertEquals(doc.query(".third > *").toString(), "[a#j, b#k, c#l, d#m, a#n, b#o, c#p, d#q, z]");
-    }        
+        Query query = doc.query(".first");
+        ElementNode node = new ElementNode("new");
+        query.replaceWith(node);
+        assertEquals("[new, div.second, div.third]", doc.query("root > *").toString());
+        assertEquals("[]", doc.query(".new > *").toString()); /* no child nodes */
+    }
+
+    /**
+    Replace ALL selected elements with a copy of 'node'.
+    @throws IOException
+     */
+    @Test
+    public void test_replace_with_many() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        doc.query(".first, .second, .third").replaceWith(new ElementNode("new"));
+        assertEquals("[new, new, new]", doc.query("root > *").toString());
+    }
+
+
+    /**
+    Replace all selected elements with a copy of 'node'.  Returns a query collection of the new nodes.
+    @throws IOException
+     */
+    @Test
+    public void test_replace_with_many_rvalue() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        Query query = doc.query(".first");
+        ElementNode node = new ElementNode("div");
+        node.addAttribute("class", "new");
+        query.replaceWith(node);
+    }
+
+    /**
+    None selected, no source
+    */
+    @Test
+    public void test_prepend_0() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        String before = doc.toString();
+        doc.query("").prepend(new Query());
+        assertEquals(before, doc.toString());
+    }
+
+    /**
+    One selected, no source, no previous children.
+    */
+    @Test
+    public void test_prepend_1() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        String before = doc.toString();
+        doc.query(".third").prepend(new Query());
+        assertEquals(before, doc.toString());
+    }
+
+
+    /**
+    One selected, one source, no previous children.
+    */
+    @Test
+    public void test_prepend_2() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        doc.query(".third").prepend(new ElementNode("new"));
+        assertEquals("[new]", doc.query(".third > *").toString());
+    }
+
+    /**
+    One selected, many source, no previous children.
+    */
+    @Test
+    public void test_prepend_3() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+
+        List<Node> list = new NodeList();
+        list.add(new ElementNode("one"));
+        list.add(new ElementNode("two"));
+        list.add(new ElementNode("three"));
+
+        doc.query(".third").prepend(list);
+        assertEquals("[one, two, three]", doc.query(".third > *").toString());
+    }
+
+    /**
+    Many selected, no source, no previous children.
+    */
+    @Test
+    public void test_prepend_5() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        String before = doc.toString();
+        doc.query(".first, .second, .third").prepend(new Query());
+        assertEquals(before, doc.toString());
+    }
+
+    /**
+    One selected, none source, some previous children.
+    */
+    @Test
+    public void test_prepend_6() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        doc.query(".first, .second, .third").prepend(new ElementNode("new"));
+        assertEquals("[new, a#j, a#n]", doc.query(".first > *").toString());
+        assertEquals("[new, b#a.top.left, b#d.center.left, b#g.bottom.left]", doc.query(".second > *").toString());
+        assertEquals("[new]", doc.query(".third > *").toString());
+    }
+
+
+    @Test
+    public void name_none() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(null, doc.query("").name());
+    }
+
+    @Test
+    public void name_one() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals("div", doc.query(".first").name());
+    }
+
+    @Test
+    public void name_many() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals("c", doc.query(".middle").name());
+    }
+
+    @Test
+    public void has_attr_true() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(true, doc.query(".middle").hasAttr("class"));
+    }
+
+    @Test
+    public void has_attr_false() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(false, doc.query("root").hasAttr("class"));
+    }
+
+    @Test
+    public void has_attr_empty() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(false, doc.query("").hasAttr("class"));
+    }
+
+    /**
+    None selected, no source
+    */
+    @Test
+    public void test_append_0() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        String before = doc.toString();
+        doc.query("").append(new Query());
+        assertEquals(before, doc.toString());
+    }
+
+    /**
+    One selected, no source, no previous children.
+    */
+    @Test
+    public void test_append_1() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        String before = doc.toString();
+        doc.query(".third").append(new Query());
+        assertEquals(before, doc.toString());
+    }
+
+
+    /**
+    One selected, one source, no previous children.
+    */
+    @Test
+    public void test_append_2() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        doc.query(".third").append(new ElementNode("new"));
+        assertEquals("[new]", doc.query(".third > *").toString());
+    }
+
+    /**
+    One selected, many source, no previous children.
+    */
+    @Test
+    public void test_append_3() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+
+        List<Node> list = new NodeList();
+        list.add(new ElementNode("one"));
+        list.add(new ElementNode("two"));
+        list.add(new ElementNode("three"));
+
+        doc.query(".third").append(list);
+        assertEquals("[one, two, three]", doc.query(".third > *").toString());
+    }
+
+    /**
+    Many selected, no source, no previous children.
+    */
+    @Test
+    public void test_append_5() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        String before = doc.toString();
+        doc.query(".first, .second, .third").append(new Query());
+        assertEquals(before, doc.toString());
+    }
+
+    /**
+    One selected, none source, some previous children.
+    */
+    @Test
+    public void test_append_6() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        doc.query(".first, .second, .third").append(new ElementNode("new"));
+        assertEquals("[a#j, a#n, new]", doc.query(".first > *").toString());
+        assertEquals("[b#a.top.left, b#d.center.left, b#g.bottom.left, new]", doc.query(".second > *").toString());
+        assertEquals("[new]", doc.query(".third > *").toString());
+    }
+
+    @Test
+    public void test_last_empty_set() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(null, doc.query("").last());
+    }
+
+    @Test
+    public void test_first_empty_set() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(null, doc.query("").first());
+    }
+
+    @Test
+    public void test_text_empty_set() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        assertEquals(null, doc.query("").text());
+    }
 }

@@ -6,7 +6,7 @@ parser grammar EncodeParser;
 }
 
 options {
-    tokenVocab=EncodeLexer;
+    tokenVocab = EncodeLexer;
     superClass = AbstractParser;
 }
 

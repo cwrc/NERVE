@@ -1,6 +1,7 @@
 package ca.sharcnet.nerve.docnav.dom.extended;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.IsNodeType;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 
@@ -15,8 +16,8 @@ public final class HTMLElement extends ElementNode{
         super(name);
     }
 
-    public HTMLElement(ElementNode node){
-        super(NodeType.ELEMENT, node.getName(), node.getAttributes(), node.childNodes());
+    public HTMLElement(Node node){
+        super(node.getName(), node.getAttributes(), node.childNodes());
     }
 
     @Override

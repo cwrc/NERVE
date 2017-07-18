@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Console.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;DocumentNavigator3&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ca.sharcnet.nerve</a> &gt; <span class="el_source">Console.java</span></div><h1>Console.java</h1><pre class="source lang-java linenums">package ca.sharcnet.nerve;
+
+import java.io.PrintStream;
+import java.util.Arrays;
+
+/**
+ * Utility class for printing debugging information to terminal.
+ *
+ * @author Ed Armstrong
+ */
+public class Console {
+
+<span class="nc" id="L13">    private Console() {</span>
+<span class="nc" id="L14">    }</span>
+<span class="nc" id="L15">    public static PrintStream out = System.out;</span>
+
+    public static void log(Object object) {
+<span class="nc" id="L18">        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];</span>
+<span class="nc" id="L19">        String s = &quot;null&quot;;</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (object != null) s = object.toString();</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (object.getClass().isArray()) s = Arrays.toString((Object[]) object);</span>
+<span class="nc" id="L22">        out.println(&quot;[&quot; + ele.getFileName() + &quot;:&quot; + ele.getLineNumber() + &quot;] &quot; + s);</span>
+<span class="nc" id="L23">    }</span>
+
+    public static void logMethod() {
+<span class="nc" id="L26">        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];</span>
+<span class="nc" id="L27">        log(&quot;[&quot; + ele.getFileName() + &quot;:&quot; + ele.getLineNumber() + &quot;] &quot; + ele.getClassName().substring(ele.getClassName().lastIndexOf(&quot;.&quot;) + 1) + &quot;.&quot; + ele.getMethodName() + &quot;()&quot;);        </span>
+<span class="nc" id="L28">    }</span>
+
+    public static void logMethod(Object object) {
+<span class="nc" id="L31">        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];</span>
+<span class="nc" id="L32">        out.print(&quot;[&quot; + ele.getFileName() + &quot;:&quot; + ele.getLineNumber() + &quot;] &quot; + ele.getClassName().substring(ele.getClassName().lastIndexOf(&quot;.&quot;) + 1) + &quot;.&quot; + ele.getMethodName() + &quot;() : &quot;);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (object.getClass().isArray()) out.println(Arrays.toString((Object[]) object));</span>
+<span class="nc" id="L34">        else out.println(object);</span>
+<span class="nc" id="L35">    }</span>
+
+    public static void trace(Object object) {
+<span class="nc" id="L38">        StackTraceElement[] eles = Thread.currentThread().getStackTrace();</span>
+<span class="nc" id="L39">        out.println(&quot;TRACE:&quot;);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (int i = 2; i &lt; eles.length; i++) out.println(eles[i]);</span>
+
+<span class="nc" id="L42">        String s = &quot;null&quot;;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (object != null) s= object.toString();</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">        if (object != null &amp;&amp; object.getClass().isArray()) s = Arrays.toString((Object[]) object);</span>
+<span class="nc" id="L45">        out.println(s);</span>
+<span class="nc" id="L46">    }</span>
+
+    public static void trace() {
+<span class="nc" id="L49">        StackTraceElement[] eles = Thread.currentThread().getStackTrace();</span>
+<span class="nc" id="L50">        out.println(&quot;TRACE:&quot;);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (int i = 2; i &lt; eles.length; i++) out.println(eles[i]);</span>
+<span class="nc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

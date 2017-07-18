@@ -20,10 +20,10 @@ public class AttributeList extends ArrayList<Attribute>{
     key values are added.
     @param that the list to copy from
     */
-    public AttributeList(Collection<Attribute> that){
-        for (Attribute a : that){
-            that.add(a);
-        }
+    public AttributeList(Collection<Attribute> that){        
+        that.forEach((a) -> {
+            this.add(new Attribute(a));
+        });
     }
 
     /**

@@ -9,6 +9,9 @@ import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.NodeList;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,14 +30,9 @@ public class Isolated implements HasStreams{
     }
 
     @Test
-    public void test_all_child() throws IOException{
-        Console.logMethod();
-        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        Query query = doc.query("root > *");
-        Console.log(query);
-        assertEquals(2, query.size());
-        assertEquals("div", query.get(0).getName());
-        assertEquals("div", query.get(1).getName());
+    public void test_doctype() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
+        assertEquals(0, doc.query("").size());
     }
 
 }

@@ -1,43 +1,35 @@
 package ca.sharcnet.nerve.docnav.schema;
 import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
-import ca.sharcnet.nerve.docnav.selector.Select;
+import ca.sharcnet.nerve.docnav.query.Query;
 
 public class SchemaObject implements Schema{
     private final Document grammar;
-    private final NodeList<ElementNode> references;
+    private final NodeList references;
 
     public SchemaObject(Document document) {
         this.reduceGrammar(document);
-        this.grammar = new Document(document.select().name("start").get(0));
-        this.references = document.select().name("define");
+        this.grammar = new Document(document.query("start").first());
+        this.references = document.query("define");
     }
 
     /**
      * 1) For each 'oneOrMore' node, attach its child nodes to its parent.
      */
-    private void reduceGrammar(ElementNode document) {
-        for (Node node : document.select().name("a:documentation")) {
-            node.getParent().removeChild(node);
-        }
+    private void reduceGrammar(Node document) {
+        document.query("a:documentation").detach();
+        document.query("attribute").detach();
+        document.query("text").detach();
+        document.query("text").detach();
 
-        for (Node node : document.select().name("attribute")) {
-            node.getParent().removeChild(node);
-        }
-
-        for (Node node : document.select().name("text")) {
-            node.getParent().removeChild(node);
-        }
-
-        for (Node node : document.select().all()) {
-            if (node.getName().equals("start")) continue;
-            if (node.getName().equals("element")) continue;
-            if (node.getName().equals("define")) continue;
-            if (node.getName().equals("ref")) continue;
-            if (node.hasParent()) ((ElementNode)node).replaceWithChildren();
-        }
+        document.query("*").forEach(node->{
+            if (node.getName().equals("start")) return;
+            if (node.getName().equals("element")) return;
+            if (node.getName().equals("define")) return;
+            if (node.getName().equals("ref")) return;
+            if (node.hasParent()) node.replaceWithChildren();
+        });
     }
 
     /**
@@ -45,12 +37,12 @@ public class SchemaObject implements Schema{
     @param element
     @return
     */
-    public boolean verboseValid(ElementNode element){
-        NodeList <ElementNode> elementPath = getNodePath(element);
-        ElementNode current = grammar;
+    public boolean verboseValid(Node element){
+        NodeList elementPath = getNodePath(element);
+        Node current = grammar;
         boolean rvalue = true;
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.getName();
             System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
             if (current != null) current = nextNode(current, nextNodeName);
@@ -66,11 +58,11 @@ public class SchemaObject implements Schema{
     @param element
     @return
     */
-    public boolean isValid(ElementNode element){
-        NodeList <ElementNode> elementPath = getNodePath(element);
-        ElementNode current = grammar;
+    public boolean isValid(Node element){
+        NodeList elementPath = getNodePath(element);
+        Node current = grammar;
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.getName();
             current = nextNode(current, nextNodeName);
             if (current == null) return false;
@@ -83,16 +75,16 @@ public class SchemaObject implements Schema{
     @param element
     @return
     */
-    public boolean verboseValid(ElementNode element, String childNodeName){
-        NodeList <ElementNode> elementPath = getNodePath(element);
-        ElementNode current = grammar;
+    public boolean verboseValid(Node element, String childNodeName){
+        NodeList elementPath = getNodePath(element);
+        Node current = grammar;
         boolean rvalue = true;
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             System.out.print(pathNode.getType() + pathNode.getName() + " ");
         }
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.getName();
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
@@ -113,11 +105,11 @@ public class SchemaObject implements Schema{
     @param element
     @return
     */
-    public boolean isValid(ElementNode element, String childNodeName){
-        NodeList <ElementNode> elementPath = getNodePath(element);
-        ElementNode current = grammar;
+    public boolean isValid(Node element, String childNodeName){
+        NodeList elementPath = getNodePath(element);
+        Node current = grammar;
 
-        for (ElementNode pathNode : elementPath) {
+        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.getName();
             current = nextNode(current, nextNodeName);
             if (current == null) return false;
@@ -136,15 +128,14 @@ public class SchemaObject implements Schema{
     @param name The name of the next potential node
     @return a node if valid, null if not.
     */
-    private ElementNode nextNode(ElementNode current, String name) {
-        NodeList<ElementNode> list = current.select().attribute("name", name);
-        if (list.isEmpty()) return null;
-        ElementNode eNode = list.get(0);
-        if (eNode.getName().equals("element")) return eNode;
+    private Node nextNode(Node current, String name) {
+        Query query = current.query(String.format("[name='$1']", name));
+        if (query.isEmpty()) return null;
+        if (query.name().equals("element")) return query.first();
 
-        Select byReference = new Select(references).attribute("name", name);
-        if (byReference.isEmpty()) throw new RuntimeException("SCHEMA: Reference not found");
-        return (ElementNode) byReference.get(0);
+        Query refQuery = references.query(String.format("[name='$1']", name));
+        if (refQuery.isEmpty()) throw new RuntimeException("SCHEMA: Reference not found");
+        return refQuery.first();
     }
 
     /**
@@ -152,11 +143,11 @@ public class SchemaObject implements Schema{
     inclusive.
     @return
      */
-    private NodeList <ElementNode> getNodePath(ElementNode eNode) {
-        NodeList<ElementNode> list = new NodeList<>();
+    private NodeList getNodePath(Node eNode) {
+        NodeList list = new NodeList();
         list.add(eNode);
 
-        ElementNode current = eNode.getParent();
+        Node current = eNode.getParent();
         while (current != null && !current.getName().equals("@DOCUMENT")) {
             list.add(0, current);
             current = current.getParent();
@@ -164,27 +155,27 @@ public class SchemaObject implements Schema{
         return list;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-
-        this.grammar.recurse((element) -> {
-            int d = element.depth();
-            while (d-- > 0)
-                builder.append("  ");
-            builder.append(element.getName()).append(":").append(element.getAttributeValue("name")).append("\n");
-        });
-
-        for (Node node : references) {
-            ElementNode ele = (ElementNode) node;
-            ele.recurse((element) -> {
-                int d = element.depth();
-                while (d-- > 0)
-                    builder.append("  ");
-                builder.append(element.getName()).append(":\"").append(element.getAttributeValue("name")).append("\"\n");
-            });
-        }
-
-        return builder.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder builder = new StringBuilder();
+//
+//        this.grammar.recurse((element) -> {
+//            int d = element.depth();
+//            while (d-- > 0)
+//                builder.append("  ");
+//            builder.append(element.getName()).append(":").append(element.getAttributeValue("name")).append("\n");
+//        });
+//
+//        for (Node node : references) {
+//            Node ele = (Node) node;
+//            ele.recurse((element) -> {
+//                int d = element.depth();
+//                while (d-- > 0)
+//                    builder.append("  ");
+//                builder.append(element.getName()).append(":\"").append(element.getAttributeValue("name")).append("\"\n");
+//            });
+//        }
+//
+//        return builder.toString();
+//    }
 }

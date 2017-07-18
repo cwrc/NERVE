@@ -1,17 +1,17 @@
 package ca.sharcnet.nerve.docnav.query;
 import ca.sharcnet.nerve.Console;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 
-public class SelectAncestor extends SelectLink {
+class SelectAncestor extends SelectLink {
     private final SelectTerm term;
-    private ElementNode current;
+    private Node current;
 
     public SelectAncestor(String select) {
         this.term = new SelectTerm(select);
     }
 
     @Override
-    boolean check(ElementNode element) {
+    boolean check(Node element) {
         current = element;
 
         while(current.hasParent()){
@@ -22,7 +22,12 @@ public class SelectAncestor extends SelectLink {
     }
 
     @Override
-    ElementNode getLast() {
+    Node getLast() {
         return current;
     }
+
+//    @Override
+//    public String toString(){
+//        return term.toString();
+//    }
 }

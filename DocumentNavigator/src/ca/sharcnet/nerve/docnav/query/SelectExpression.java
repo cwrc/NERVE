@@ -1,7 +1,7 @@
 package ca.sharcnet.nerve.docnav.query;
 
 import ca.sharcnet.nerve.Console;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +9,14 @@ import java.util.List;
 A series of one or more select terms seperated by either " ", or ">".
 @author edward
 */
-public class SelectExpression extends Select {
+class SelectExpression extends Select {
     private String selectString;
     private final ArrayList<SelectLink> terms = new ArrayList<>();
 
     public SelectExpression(String select) {
-        this.selectString = select;
-        String[] tokens = tokenize(select);
+        this.selectString = select.trim();
+        if (selectString.isEmpty()) return;
+        String[] tokens = tokenize(selectString);
 
         terms.add(new SelectElement(tokens[tokens.length - 1]));
 
@@ -32,7 +33,8 @@ public class SelectExpression extends Select {
     }
 
     @Override
-    boolean check(ElementNode element) {
+    boolean check(Node element) {
+        if (terms.isEmpty()) return false;
         boolean rvalue = true;
 
         for (SelectLink select : terms){

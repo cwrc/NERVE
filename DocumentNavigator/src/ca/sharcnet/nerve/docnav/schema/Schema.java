@@ -1,5 +1,5 @@
 package ca.sharcnet.nerve.docnav.schema;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 
 public interface Schema {
 
@@ -8,12 +8,12 @@ public interface Schema {
     @param element
     @return
      */
-    boolean isValid(ElementNode element, String childNodeName);
+    boolean isValid(Node element, String childNodeName);
 
     /**
     Return true if this element does not violate the schema.
     @param element
     @return
      */
-    boolean isValid(ElementNode element);
+    boolean isValid(Node element);
 }

@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Node.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;DocumentNavigator3&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ca.sharcnet.nerve.docnav.dom</a> &gt; <span class="el_source">Node.java</span></div><h1>Node.java</h1><pre class="source lang-java linenums">package ca.sharcnet.nerve.docnav.dom;
+import ca.sharcnet.nerve.Console;
+import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
+import ca.sharcnet.nerve.docnav.query.Query;
+import java.util.Iterator;
+import java.util.List;
+
+public abstract class Node implements Iterable&lt;Node&gt;{
+<span class="fc" id="L9">    private NodeList children = new NodeList();</span>
+    final AttributeList attributes;
+    private final IsNodeType type;
+    private Node parent;
+    protected String name;
+
+    /**
+     * Create a new Node, copy all attributes (as copies) copy all children (as copies).
+     * @param type
+     * @param name
+     * @param attributes
+     * @param children
+     */
+<span class="fc" id="L22">    public Node(IsNodeType type, String name, AttributeList attributes, NodeList children) {</span>
+<span class="fc" id="L23">        this.type = type;</span>
+<span class="fc" id="L24">        this.name = name;</span>
+<span class="fc" id="L25">        this.attributes = new AttributeList(attributes);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (Node node : children) this.addChild(node.copy());</span>
+<span class="fc" id="L27">    }</span>
+
+    /**
+     * Create a new Node, with an empty attribute and child lists.
+     * @param type
+     * @param name
+     * @param attributes
+     * @param children
+     */
+<span class="fc" id="L36">    public Node(IsNodeType type, String name) {</span>
+<span class="fc" id="L37">        this.type = type;</span>
+<span class="fc" id="L38">        this.name = name;</span>
+<span class="fc" id="L39">        this.attributes = new AttributeList();</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+    * Returns an itertor that iterates only it's self.
+    * @return
+    */
+    @Override
+    public Iterator&lt;Node&gt; iterator(){
+<span class="fc" id="L48">        return new Iterator&lt;Node&gt;(){</span>
+<span class="fc" id="L49">            Node next = Node.this;</span>
+
+            @Override
+            public boolean hasNext() {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                return next != null;</span>
+            }
+
+            @Override
+            public Node next() {
+<span class="fc" id="L58">                Node r = next;</span>
+<span class="fc" id="L59">                next = null;</span>
+<span class="fc" id="L60">                return r;</span>
+            }
+        };
+    }
+
+    public void detach() {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (this.parent == null) throw new NullPointerException();</span>
+<span class="fc" id="L67">        this.parent.removeChild(this);</span>
+<span class="fc" id="L68">    }</span>
+
+    final void setParent(Node parent) {
+<span class="fc" id="L71">        this.parent = parent;</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Set the node name, may mean different things to different nodes.
+     */
+    final public Node setName(String name) {
+<span class="fc" id="L78">        this.name = name;</span>
+<span class="fc" id="L79">        return this;</span>
+    }
+
+    public String getName() {
+<span class="fc" id="L83">        return name;</span>
+    }
+
+    /**
+     * Traverse up the DOM to determine the node depth.
+     *
+     * @return node depth
+     */
+    public final int depth() {
+<span class="fc" id="L92">        int depth = 0;</span>
+<span class="fc" id="L93">        Node current = this.parent;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        while (current != null) {</span>
+<span class="fc" id="L95">            depth++;</span>
+<span class="fc" id="L96">            current = current.parent;</span>
+        }
+<span class="fc" id="L98">        return depth;</span>
+    }
+
+    /**
+     * Return the type of node that was set when created.
+     *
+     * @return
+     */
+    public IsNodeType getType() {
+<span class="fc" id="L107">        return type;</span>
+    }
+
+    /**
+     * Determine if this nodes type matches one of the given types.
+     *
+     * @param types
+     * @return
+     */
+    public boolean isType(IsNodeType... types) {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        for (IsNodeType type : types) {</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (this.type == type) return true;</span>
+        }
+<span class="fc" id="L120">        return false;</span>
+    }
+
+    /**
+     * Return this nodes parent, if this node has not parent the behaviour is
+     * undefined.
+     *
+     * @return
+     * @throws DocNavException if the this node does not have a parent node
+     */
+    public final Node getParent() {
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (this.parent == null){</span>
+<span class="fc" id="L132">            throw new DocNavException(&quot;Node does not have a parent node.&quot;);</span>
+        }
+<span class="fc" id="L134">        return parent;</span>
+    }
+
+    /**
+     * Determine if this node has a parent node.
+     */
+    public boolean hasParent() {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        return parent != null;</span>
+    }
+
+    /**
+     * In this nodes parent, replace this node with 'newNode'.
+     *
+     * @param newNode
+     * @return the copy of 'newNode' used
+     * @throws DocNavException if the this node does not have a parent node
+     */
+    public Node replaceWith(Node newNode) {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (this.parent == null) throw new DocNavException(&quot;Can not replace a node with no parent.&quot;);</span>
+<span class="fc" id="L153">        this.parent.replaceChild(this, newNode);</span>
+<span class="fc" id="L154">        return newNode;</span>
+    }
+
+    /**
+     * @return a non-reflective list of this node's attributes
+     */
+    public AttributeList getAttributes() {
+<span class="fc" id="L161">        AttributeList arrayList = new AttributeList();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        for (Attribute a : attributes) arrayList.add(a);</span>
+<span class="fc" id="L163">        return arrayList;</span>
+    }
+
+    public Node clearAttributes() {
+<span class="fc" id="L167">        this.attributes.clear();</span>
+<span class="fc" id="L168">        return this;</span>
+    }
+
+    /**
+     * Determine if this node contains an attribute.
+     *
+     * @param key the attribute name to poll for
+     */
+    public final boolean hasAttribute(String key) {
+<span class="fc" id="L177">        return attributes.contains(key);</span>
+    }
+
+    /**
+     * Determine if this node contains an attribute with the given value.
+     *
+     * @param key the attribute name to poll for
+     * @param value
+     */
+    public final boolean hasAttribute(String key, Object value) {
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        if (!attributes.contains(key)) return false;</span>
+<span class="fc" id="L188">        return attributes.get(key).value.equals(value.toString());</span>
+    }
+
+    /**
+     * Retrieve and attribute from this node.
+     *
+     * @param key the attribute name to retreive
+     * @return the attribute to which the specified key is mapped
+     * @throws IndexOutOfBoundsException if this node does not have an attribute
+     * with 'key'
+     */
+    public final Attribute getAttribute(String key) {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (!attributes.contains(key)) throw new UnknownKeyException(key);</span>
+<span class="fc" id="L201">        return attributes.get(key);</span>
+    }
+
+    /**
+     * Retrive the attribute value from the node, if the node doesn't have the
+     * given attribute, return an empty string.
+     *
+     * @param key the attribute name to retreive
+     * @return the value to which the specified key is mapped, if not mapped =&gt;
+     * &quot;&quot;.
+     */
+    public final String getAttributeValue(String key) {
+<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (!attributes.contains(key)) return &quot;&quot;;</span>
+<span class="fc" id="L214">        return attributes.get(key).getValue();</span>
+    }
+
+    /**
+     * Add an attribute to this node. The attribute passed in is copied before
+     * being added.
+     *
+     * @param attribute the attribute to add
+     */
+    public final Node addAttribute(Attribute attribute) {
+<span class="fc" id="L224">        attributes.add(new Attribute(attribute));</span>
+<span class="fc" id="L225">        return this;</span>
+    }
+
+    /**
+     * Add a new attribute to this node with provided key/value pair;
+     *
+     * @param key
+     * @param value
+     */
+    public final Node addAttribute(String key, Object value) {
+<span class="fc" id="L235">        attributes.add(new Attribute(key, value.toString()));</span>
+<span class="fc" id="L236">        return this;</span>
+    }
+
+    /**
+     * Will remove any attribute with the 'key' value if it exists, otherwise no
+     * action is taken.
+     *
+     * @param key the key string of the attribute to remove
+     */
+    public Node removeAttribute(String key) {
+<span class="fc bfc" id="L246" title="All 2 branches covered.">        if (!attributes.contains(key)) return this;</span>
+<span class="fc" id="L247">        this.attributes.remove(key);</span>
+<span class="fc" id="L248">        return this;</span>
+    }
+
+    /**
+     * Copy method.
+     * @return a new element node with no parent
+     */
+    abstract public Node copy();
+
+    /**
+    Retrieve a list of child nodes that decend from this element, and also match 'types'.  If types is not included
+    retrieve all decendent nodes.
+    @param types
+    @return
+    */
+    public NodeList decendentNodes(IsNodeType ... types) {
+<span class="fc" id="L264">        NodeList nodeList = new NodeList();</span>
+
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc" id="L268">                nodeList.add(node);</span>
+<span class="fc" id="L269">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L270">            }</span>
+        } else {
+<span class="fc bfc" id="L272" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">                if (node.isType(types)) nodeList.add(node);</span>
+<span class="fc" id="L274">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L275">            }</span>
+        }
+
+<span class="fc" id="L278">        return nodeList;</span>
+    }
+
+    /**
+    Retrieve a list of child nodes that decend from this element, and also match 'types'.  If types is not included
+    retrieve all decendent nodes.  The matched nodes are added to 'nodeList'.
+    @param types
+    @return
+    */
+    private NodeList decendentNodes(NodeList nodeList, IsNodeType ... types) {
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc" id="L290">                nodeList.add(node);</span>
+<span class="fc" id="L291">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L292">            }</span>
+        } else {
+<span class="fc bfc" id="L294" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">                if (node.isType(types)) nodeList.add(node);</span>
+<span class="fc" id="L296">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L297">            }</span>
+        }
+
+<span class="fc" id="L300">        return nodeList;</span>
+    }
+
+
+    /**
+    Retrieve a list of immediate child nodes that match 'types'.  If types is not included retrieve all child nodes.
+    @param types
+    @return
+    */
+    public NodeList childNodes(IsNodeType ... types) {
+<span class="fc" id="L310">        NodeList nodeList = new NodeList();</span>
+
+<span class="fc bfc" id="L312" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">            for (Node node : this.children) nodeList.add(node);</span>
+        } else {
+<span class="fc bfc" id="L315" title="All 4 branches covered.">            for (Node node : this.children) if (node.isType(types)) nodeList.add(node);</span>
+        }
+
+<span class="fc" id="L318">        return nodeList;</span>
+    }
+
+    public int childCount() {
+<span class="fc" id="L322">        return children.size();</span>
+    }
+
+    /**
+     * Remove all child nodes from this node.
+     */
+    public void clearChildren() {
+<span class="fc bfc" id="L329" title="All 2 branches covered.">        for (Node child : children) child.setParent(null);</span>
+<span class="fc" id="L330">        children.clear();</span>
+<span class="fc" id="L331">    }</span>
+
+    /**
+     * Remove a node from a parent
+     *
+     * @param child the node to remove
+     * @return the node removed, null if this node does not contain child.
+     */
+    public Node removeChild(Node child) {
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        if (child == null) throw new NullPointerException();</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">        if (child.getParent() != this) return null;</span>
+<span class="fc" id="L342">        this.children.remove(child);</span>
+<span class="fc" id="L343">        child.setParent(null);</span>
+<span class="fc" id="L344">        return child;</span>
+    }
+
+    /**
+     * Append child to this parent. If the child already has a parent, the child
+     * is removed from that parent node first. If the child's parent is this
+     * node it is first removed then inserted into the list of child nodes.
+     *
+     * @param child the node to add
+     * @return the child node.
+     */
+    public final Node addChild(Node child) {
+<span class="fc bfc" id="L356" title="All 2 branches covered.">        if (child.hasParent()) child.getParent().removeChild(child);</span>
+<span class="fc" id="L357">        this.children.add(child);</span>
+<span class="fc" id="L358">        child.setParent(this);</span>
+<span class="fc" id="L359">        return child;</span>
+    }
+
+    /**
+     * Add child to this parent at index provided. If the child already has a
+     * parent, the child is removed from that parent node first. If the child's
+     * parent is this node it is first removed then inserted into the list of
+     * child nodes.
+     *
+     * @param index The location to add the child node at.
+     * @param child the node to add
+     * @return the child node.
+     */
+    public Node addChild(int index, Node child) {
+<span class="fc bfc" id="L373" title="All 2 branches covered.">        if (child.hasParent()) child.getParent().removeChild(child);</span>
+<span class="fc" id="L374">        this.children.add(index, child);</span>
+<span class="fc" id="L375">        child.setParent(this);</span>
+<span class="fc" id="L376">        return child;</span>
+    }
+
+    /**
+     * Add all children from a list to the end of this nodes child list.
+     *
+     * @param nodes a {@link NodeList} of nodes to add
+     */
+    public void addChild(List&lt;? extends Node&gt; nodes) {
+<span class="fc bfc" id="L385" title="All 2 branches covered.">        for (Node node : nodes) this.addChild(node);</span>
+<span class="fc" id="L386">    }</span>
+
+    /**
+     * Add all children from a list to the end of this nodes child list.
+     *
+     * @param idx
+     * @param nodes a {@link NodeList} of nodes to add
+     */
+    public void addChild(int idx, List&lt;? extends Node&gt; nodes) {
+<span class="fc bfc" id="L395" title="All 2 branches covered.">        for (Node node : nodes) this.addChild(idx++, node);</span>
+<span class="fc" id="L396">    }</span>
+
+    /**
+     * In this nodes parent, replace this node with this node's children, the
+     * child nodes are NOT copied. This is essentially an unwrap function.
+     */
+    public void replaceWithChildren() {
+<span class="fc" id="L403">        Node parent = this.getParent();</span>
+<span class="fc" id="L404">        int i = parent.childNodes().indexOf(this);</span>
+<span class="fc" id="L405">        getParent().removeChild(this);</span>
+<span class="fc" id="L406">        NodeList childNodes = this.childNodes();</span>
+<span class="fc" id="L407">        parent.addChild(i, childNodes);</span>
+<span class="fc" id="L408">    }</span>
+
+    public Node replaceChild(Node child, Node with) {
+<span class="fc bfc" id="L411" title="All 2 branches covered.">        if (child.getParent() != this) throw new DocNavException(&quot;Can not replace a child from a different parent.&quot;);</span>
+<span class="fc" id="L412">        int idx = this.children.indexOf(child);</span>
+<span class="fc" id="L413">        children.remove(child);</span>
+<span class="fc" id="L414">        child.setParent(null);</span>
+<span class="fc" id="L415">        children.add(idx, with);</span>
+<span class="fc" id="L416">        with.setParent(this);</span>
+<span class="fc" id="L417">        return with;</span>
+    }
+
+    /* return a string with this nodes name, id, and classes that will accepted by a query */
+    public String toSelect() {
+<span class="fc" id="L422">        String name = this.getName();</span>
+<span class="fc" id="L423">        String id = this.getAttributeValue(&quot;id&quot;);</span>
+<span class="fc" id="L424">        String classes = this.getAttributeValue(&quot;class&quot;);</span>
+
+<span class="fc" id="L426">        StringBuilder builder = new StringBuilder();</span>
+<span class="fc" id="L427">        builder.append(name);</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">        if (!id.isEmpty()) builder.append(&quot;#&quot;).append(id);</span>
+<span class="fc bfc" id="L429" title="All 2 branches covered.">        if (!classes.isEmpty()) {</span>
+<span class="fc" id="L430">            String[] split = classes.split(&quot;[ ]+&quot;);</span>
+<span class="fc bfc" id="L431" title="All 2 branches covered.">            for (String s : split) builder.append(&quot;.&quot;).append(s);</span>
+        }
+<span class="fc" id="L433">        return builder.toString();</span>
+    }
+
+    /**
+     * @return an xml compliant string.
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L441">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="fc" id="L443">        builder.append(&quot;&lt;&quot;).append(this.getName());</span>
+<span class="fc bfc" id="L444" title="All 2 branches covered.">        for (Attribute a : attributes) {</span>
+<span class="fc" id="L445">            builder.append(&quot; &quot;).append(a.toRawString());</span>
+<span class="fc" id="L446">        }</span>
+<span class="fc" id="L447">        builder.append(&quot;&gt;&quot;);</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">        for (Node n : children) builder.append(n.toString());</span>
+<span class="fc" id="L449">        builder.append(&quot;&lt;/&quot;).append(this.getName()).append(&quot;&gt;&quot;);</span>
+
+<span class="fc" id="L451">        return builder.toString();</span>
+    }
+
+    /**
+     * @return an xml compliant string.
+     */
+    public String toString(int indent) {
+<span class="fc" id="L458">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="fc bfc" id="L460" title="All 2 branches covered.">        for (int i = 0; i &lt; indent * this.depth(); i++) builder.append(&quot; &quot;);</span>
+<span class="fc" id="L461">        builder.append(&quot;&lt;&quot;).append(this.getName());</span>
+<span class="fc bfc" id="L462" title="All 2 branches covered.">        for (Attribute a : attributes) {</span>
+<span class="fc" id="L463">            builder.append(&quot; &quot;).append(a.toRawString());</span>
+<span class="fc" id="L464">        }</span>
+<span class="fc" id="L465">        builder.append(&quot;&gt;\n&quot;);</span>
+
+<span class="fc bfc" id="L467" title="All 2 branches covered.">        for (Node n : children) builder.append(n.toString(indent));</span>
+
+<span class="fc bfc" id="L469" title="All 2 branches covered.">        for (int i = 0; i &lt; indent * this.depth(); i++) builder.append(&quot; &quot;);</span>
+<span class="fc" id="L470">        builder.append(&quot;&lt;/&quot;).append(this.getName()).append(&quot;&gt;\n&quot;);</span>
+
+<span class="fc" id="L472">        return builder.toString();</span>
+    }
+
+    /**
+     * @return an xml compliant string.
+     */
+    public String toString(boolean innerText) {
+<span class="fc" id="L479">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="fc" id="L481">        builder.append(&quot;&lt;&quot;).append(this.getName());</span>
+<span class="fc bfc" id="L482" title="All 2 branches covered.">        for (Attribute a : attributes) {</span>
+<span class="fc" id="L483">            builder.append(&quot; &quot;).append(a.toRawString());</span>
+<span class="fc" id="L484">        }</span>
+<span class="fc" id="L485">        builder.append(&quot;&gt;&quot;);</span>
+<span class="fc bfc" id="L486" title="All 4 branches covered.">        if (innerText) for (Node n : children) builder.append(n.toString(innerText));</span>
+<span class="fc" id="L487">        builder.append(&quot;&lt;/&quot;).append(this.getName()).append(&quot;&gt;&quot;);</span>
+
+<span class="fc" id="L489">        return builder.toString();</span>
+    }
+
+    /**
+     * The inner text for an element node is the concatanation of the inner text
+     * for all it's child nodes.
+     *
+     * @return
+     */
+    public String innerText() {
+<span class="fc" id="L499">        StringBuilder builder = new StringBuilder();</span>
+<span class="fc bfc" id="L500" title="All 2 branches covered.">        for (Node n : children) {</span>
+<span class="fc bfc" id="L501" title="All 2 branches covered.">            if (n.isType(TEXT)) {</span>
+<span class="fc" id="L502">                builder.append(((TextNode) n).getText());</span>
+<span class="pc bpc" id="L503" title="1 of 2 branches missed.">            } else if (n.isType(ELEMENT)) {</span>
+<span class="fc" id="L504">                builder.append(((Node) n).innerText());</span>
+            }
+<span class="fc" id="L506">        }</span>
+<span class="fc" id="L507">        return builder.toString();</span>
+    }
+
+    /**
+    Create a query out of this node, if types is omitted the default is to return only element nodes.
+    @param select
+    @param types
+    @return
+    */
+    public Query query(String select, IsNodeType ... types){
+<span class="pc bpc" id="L517" title="1 of 2 branches missed.">        if (types.length == 0){</span>
+<span class="fc" id="L518">            types = new IsNodeType[]{NodeType.ELEMENT};</span>
+        }
+<span class="fc" id="L520">        return new Query(this.decendentNodes(types), select);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

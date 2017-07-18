@@ -1,10 +1,8 @@
 package ca.sharcnet.nerve.docnav.query;
-
-import ca.sharcnet.nerve.Console;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import java.util.ArrayList;
 
-public class SelectAny extends Select{
+class SelectAny extends Select{
     private final ArrayList<Select> selectFields = new ArrayList<>();
 
     SelectAny(String select){
@@ -17,7 +15,7 @@ public class SelectAny extends Select{
     }
 
     @Override
-    boolean check(ElementNode element) {
+    boolean check(Node element) {
         for (Select select : selectFields){
             if (select.check(element)) return true;
         }

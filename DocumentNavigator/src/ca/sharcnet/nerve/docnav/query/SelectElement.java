@@ -1,23 +1,29 @@
 package ca.sharcnet.nerve.docnav.query;
 import ca.sharcnet.nerve.Console;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
+import ca.sharcnet.nerve.docnav.dom.Node;
 
-public class SelectElement extends SelectLink {
+class SelectElement extends SelectLink {
     private final SelectTerm term;
-    private ElementNode element;
+    private Node element;
 
     public SelectElement(String select) {
         this.term = new SelectTerm(select);
     }
 
     @Override
-    boolean check(ElementNode element) {
+    boolean check(Node element) {
         this.element = element;
         return term.check(element);
     }
 
     @Override
-    ElementNode getLast() {
+    Node getLast() {
         return element;
     }
+
+//    @Override
+//    public String toString(){
+//        return term.toString();
+//    }
+
 }
