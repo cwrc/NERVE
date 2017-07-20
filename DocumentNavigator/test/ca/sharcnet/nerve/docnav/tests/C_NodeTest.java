@@ -14,6 +14,7 @@ import ca.sharcnet.nerve.docnav.dom.NameConstants;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
+import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Assert;
@@ -89,7 +90,9 @@ public class C_NodeTest implements HasStreams{
         ElementNode node = new ElementNode("div");
         node.addAttribute("class", "ima class");
         Assert.assertFalse(node.hasAttribute("class", "not-here"));
+
     }
+
 
     @Test
     public void test_decendents_hasAttribute_by_value_not_3() throws IOException{
@@ -104,5 +107,18 @@ public class C_NodeTest implements HasStreams{
         node.addAttribute("class", "ima class");
         node.removeAttribute("class");
         Assert.assertFalse(node.hasAttribute("class", "ima class"));
+    }
+
+    @Test
+    public void innerText_with_types() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
+        assertEquals("", doc.innerText().trim());
+    }
+
+    @Test
+    public void instr_attr_value() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("types.xml"));
+        Query query = doc.query(NodeType.INSTRUCTION).filter("context[name]");
+        assertEquals(1, query.size());
     }
 }

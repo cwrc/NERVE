@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Node.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;DocumentNavigator3&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">ca.sharcnet.nerve.docnav.dom</a> &gt; <span class="el_source">Node.java</span></div><h1>Node.java</h1><pre class="source lang-java linenums">package ca.sharcnet.nerve.docnav.dom;
-import ca.sharcnet.nerve.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class Node implements Iterable&lt;Node&gt;{
-<span class="fc" id="L9">    private NodeList children = new NodeList();</span>
+<span class="fc" id="L8">    private NodeList children = new NodeList();</span>
     final AttributeList attributes;
     private final IsNodeType type;
     private Node parent;
@@ -19,12 +18,12 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param attributes
      * @param children
      */
-<span class="fc" id="L22">    public Node(IsNodeType type, String name, AttributeList attributes, NodeList children) {</span>
-<span class="fc" id="L23">        this.type = type;</span>
-<span class="fc" id="L24">        this.name = name;</span>
-<span class="fc" id="L25">        this.attributes = new AttributeList(attributes);</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (Node node : children) this.addChild(node.copy());</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L21">    public Node(IsNodeType type, String name, AttributeList attributes, NodeList children) {</span>
+<span class="fc" id="L22">        this.type = type;</span>
+<span class="fc" id="L23">        this.name = name;</span>
+<span class="fc" id="L24">        this.attributes = new AttributeList(attributes);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (Node node : children) this.addChild(node.copy());</span>
+<span class="fc" id="L26">    }</span>
 
     /**
      * Create a new Node, with an empty attribute and child lists.
@@ -33,11 +32,11 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param attributes
      * @param children
      */
-<span class="fc" id="L36">    public Node(IsNodeType type, String name) {</span>
-<span class="fc" id="L37">        this.type = type;</span>
-<span class="fc" id="L38">        this.name = name;</span>
-<span class="fc" id="L39">        this.attributes = new AttributeList();</span>
-<span class="fc" id="L40">    }</span>
+<span class="fc" id="L35">    public Node(IsNodeType type, String name) {</span>
+<span class="fc" id="L36">        this.type = type;</span>
+<span class="fc" id="L37">        this.name = name;</span>
+<span class="fc" id="L38">        this.attributes = new AttributeList();</span>
+<span class="fc" id="L39">    }</span>
 
     /**
     * Returns an itertor that iterates only it's self.
@@ -45,42 +44,42 @@ public abstract class Node implements Iterable&lt;Node&gt;{
     */
     @Override
     public Iterator&lt;Node&gt; iterator(){
-<span class="fc" id="L48">        return new Iterator&lt;Node&gt;(){</span>
-<span class="fc" id="L49">            Node next = Node.this;</span>
+<span class="fc" id="L47">        return new Iterator&lt;Node&gt;(){</span>
+<span class="fc" id="L48">            Node next = Node.this;</span>
 
             @Override
             public boolean hasNext() {
-<span class="fc bfc" id="L53" title="All 2 branches covered.">                return next != null;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">                return next != null;</span>
             }
 
             @Override
             public Node next() {
-<span class="fc" id="L58">                Node r = next;</span>
-<span class="fc" id="L59">                next = null;</span>
-<span class="fc" id="L60">                return r;</span>
+<span class="fc" id="L57">                Node r = next;</span>
+<span class="fc" id="L58">                next = null;</span>
+<span class="fc" id="L59">                return r;</span>
             }
         };
     }
 
     public void detach() {
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (this.parent == null) throw new NullPointerException();</span>
-<span class="fc" id="L67">        this.parent.removeChild(this);</span>
-<span class="fc" id="L68">    }</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (this.parent == null) throw new NullPointerException();</span>
+<span class="fc" id="L66">        this.parent.removeChild(this);</span>
+<span class="fc" id="L67">    }</span>
 
     final void setParent(Node parent) {
-<span class="fc" id="L71">        this.parent = parent;</span>
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L70">        this.parent = parent;</span>
+<span class="fc" id="L71">    }</span>
 
     /**
      * Set the node name, may mean different things to different nodes.
      */
     final public Node setName(String name) {
-<span class="fc" id="L78">        this.name = name;</span>
-<span class="fc" id="L79">        return this;</span>
+<span class="fc" id="L77">        this.name = name;</span>
+<span class="fc" id="L78">        return this;</span>
     }
 
     public String getName() {
-<span class="fc" id="L83">        return name;</span>
+<span class="fc" id="L82">        return name;</span>
     }
 
     /**
@@ -89,13 +88,13 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return node depth
      */
     public final int depth() {
-<span class="fc" id="L92">        int depth = 0;</span>
-<span class="fc" id="L93">        Node current = this.parent;</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">        while (current != null) {</span>
-<span class="fc" id="L95">            depth++;</span>
-<span class="fc" id="L96">            current = current.parent;</span>
+<span class="fc" id="L91">        int depth = 0;</span>
+<span class="fc" id="L92">        Node current = this.parent;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        while (current != null) {</span>
+<span class="fc" id="L94">            depth++;</span>
+<span class="fc" id="L95">            current = current.parent;</span>
         }
-<span class="fc" id="L98">        return depth;</span>
+<span class="fc" id="L97">        return depth;</span>
     }
 
     /**
@@ -104,7 +103,7 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return
      */
     public IsNodeType getType() {
-<span class="fc" id="L107">        return type;</span>
+<span class="fc" id="L106">        return type;</span>
     }
 
     /**
@@ -114,10 +113,10 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return
      */
     public boolean isType(IsNodeType... types) {
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        for (IsNodeType type : types) {</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (this.type == type) return true;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        for (IsNodeType type : types) {</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">            if (this.type == type) return true;</span>
         }
-<span class="fc" id="L120">        return false;</span>
+<span class="fc" id="L119">        return false;</span>
     }
 
     /**
@@ -128,17 +127,17 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @throws DocNavException if the this node does not have a parent node
      */
     public final Node getParent() {
-<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (this.parent == null){</span>
-<span class="fc" id="L132">            throw new DocNavException(&quot;Node does not have a parent node.&quot;);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (this.parent == null){</span>
+<span class="fc" id="L131">            throw new DocNavException(&quot;Node does not have a parent node.&quot;);</span>
         }
-<span class="fc" id="L134">        return parent;</span>
+<span class="fc" id="L133">        return parent;</span>
     }
 
     /**
      * Determine if this node has a parent node.
      */
     public boolean hasParent() {
-<span class="fc bfc" id="L141" title="All 2 branches covered.">        return parent != null;</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        return parent != null;</span>
     }
 
     /**
@@ -148,24 +147,23 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return the copy of 'newNode' used
      * @throws DocNavException if the this node does not have a parent node
      */
-    public Node replaceWith(Node newNode) {
-<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (this.parent == null) throw new DocNavException(&quot;Can not replace a node with no parent.&quot;);</span>
-<span class="fc" id="L153">        this.parent.replaceChild(this, newNode);</span>
-<span class="fc" id="L154">        return newNode;</span>
-    }
+    public void replaceWith(Iterable &lt;Node&gt; nodes) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (this.parent == null) throw new DocNavException(&quot;Can not replace a node with no parent.&quot;);</span>
+<span class="fc" id="L152">        this.parent.replaceChild(this, nodes);</span>
+<span class="fc" id="L153">    }</span>
 
     /**
      * @return a non-reflective list of this node's attributes
      */
     public AttributeList getAttributes() {
-<span class="fc" id="L161">        AttributeList arrayList = new AttributeList();</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        for (Attribute a : attributes) arrayList.add(a);</span>
-<span class="fc" id="L163">        return arrayList;</span>
+<span class="fc" id="L159">        AttributeList arrayList = new AttributeList();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        for (Attribute a : attributes) arrayList.add(a);</span>
+<span class="fc" id="L161">        return arrayList;</span>
     }
 
     public Node clearAttributes() {
-<span class="fc" id="L167">        this.attributes.clear();</span>
-<span class="fc" id="L168">        return this;</span>
+<span class="fc" id="L165">        this.attributes.clear();</span>
+<span class="fc" id="L166">        return this;</span>
     }
 
     /**
@@ -174,7 +172,7 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param key the attribute name to poll for
      */
     public final boolean hasAttribute(String key) {
-<span class="fc" id="L177">        return attributes.contains(key);</span>
+<span class="fc" id="L175">        return attributes.contains(key);</span>
     }
 
     /**
@@ -184,8 +182,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param value
      */
     public final boolean hasAttribute(String key, Object value) {
-<span class="fc bfc" id="L187" title="All 2 branches covered.">        if (!attributes.contains(key)) return false;</span>
-<span class="fc" id="L188">        return attributes.get(key).value.equals(value.toString());</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (!attributes.contains(key)) return false;</span>
+<span class="fc" id="L186">        return attributes.get(key).value.equals(value.toString());</span>
     }
 
     /**
@@ -197,8 +195,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * with 'key'
      */
     public final Attribute getAttribute(String key) {
-<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (!attributes.contains(key)) throw new UnknownKeyException(key);</span>
-<span class="fc" id="L201">        return attributes.get(key);</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (!attributes.contains(key)) throw new UnknownKeyException(key);</span>
+<span class="fc" id="L199">        return attributes.get(key);</span>
     }
 
     /**
@@ -210,8 +208,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * &quot;&quot;.
      */
     public final String getAttributeValue(String key) {
-<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (!attributes.contains(key)) return &quot;&quot;;</span>
-<span class="fc" id="L214">        return attributes.get(key).getValue();</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        if (!attributes.contains(key)) return &quot;&quot;;</span>
+<span class="fc" id="L212">        return attributes.get(key).getValue();</span>
     }
 
     /**
@@ -221,8 +219,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param attribute the attribute to add
      */
     public final Node addAttribute(Attribute attribute) {
-<span class="fc" id="L224">        attributes.add(new Attribute(attribute));</span>
-<span class="fc" id="L225">        return this;</span>
+<span class="fc" id="L222">        attributes.add(new Attribute(attribute));</span>
+<span class="fc" id="L223">        return this;</span>
     }
 
     /**
@@ -232,8 +230,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param value
      */
     public final Node addAttribute(String key, Object value) {
-<span class="fc" id="L235">        attributes.add(new Attribute(key, value.toString()));</span>
-<span class="fc" id="L236">        return this;</span>
+<span class="fc" id="L233">        attributes.add(new Attribute(key, value.toString()));</span>
+<span class="fc" id="L234">        return this;</span>
     }
 
     /**
@@ -243,9 +241,9 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param key the key string of the attribute to remove
      */
     public Node removeAttribute(String key) {
-<span class="fc bfc" id="L246" title="All 2 branches covered.">        if (!attributes.contains(key)) return this;</span>
-<span class="fc" id="L247">        this.attributes.remove(key);</span>
-<span class="fc" id="L248">        return this;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        if (!attributes.contains(key)) return this;</span>
+<span class="fc" id="L245">        this.attributes.remove(key);</span>
+<span class="fc" id="L246">        return this;</span>
     }
 
     /**
@@ -261,21 +259,21 @@ public abstract class Node implements Iterable&lt;Node&gt;{
     @return
     */
     public NodeList decendentNodes(IsNodeType ... types) {
-<span class="fc" id="L264">        NodeList nodeList = new NodeList();</span>
+<span class="fc" id="L262">        NodeList nodeList = new NodeList();</span>
 
-<span class="fc bfc" id="L266" title="All 2 branches covered.">        if (types.length == 0){</span>
-<span class="fc bfc" id="L267" title="All 2 branches covered.">            for (Node node : this.children){</span>
-<span class="fc" id="L268">                nodeList.add(node);</span>
-<span class="fc" id="L269">                node.decendentNodes(nodeList, types);</span>
-<span class="fc" id="L270">            }</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc" id="L266">                nodeList.add(node);</span>
+<span class="fc" id="L267">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L268">            }</span>
         } else {
-<span class="fc bfc" id="L272" title="All 2 branches covered.">            for (Node node : this.children){</span>
-<span class="fc bfc" id="L273" title="All 2 branches covered.">                if (node.isType(types)) nodeList.add(node);</span>
-<span class="fc" id="L274">                node.decendentNodes(nodeList, types);</span>
-<span class="fc" id="L275">            }</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">                if (node.isType(types)) nodeList.add(node);</span>
+<span class="fc" id="L272">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L273">            }</span>
         }
 
-<span class="fc" id="L278">        return nodeList;</span>
+<span class="fc" id="L276">        return nodeList;</span>
     }
 
     /**
@@ -285,19 +283,19 @@ public abstract class Node implements Iterable&lt;Node&gt;{
     @return
     */
     private NodeList decendentNodes(NodeList nodeList, IsNodeType ... types) {
-<span class="fc bfc" id="L288" title="All 2 branches covered.">        if (types.length == 0){</span>
-<span class="fc bfc" id="L289" title="All 2 branches covered.">            for (Node node : this.children){</span>
-<span class="fc" id="L290">                nodeList.add(node);</span>
-<span class="fc" id="L291">                node.decendentNodes(nodeList, types);</span>
-<span class="fc" id="L292">            }</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc" id="L288">                nodeList.add(node);</span>
+<span class="fc" id="L289">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L290">            }</span>
         } else {
-<span class="fc bfc" id="L294" title="All 2 branches covered.">            for (Node node : this.children){</span>
-<span class="fc bfc" id="L295" title="All 2 branches covered.">                if (node.isType(types)) nodeList.add(node);</span>
-<span class="fc" id="L296">                node.decendentNodes(nodeList, types);</span>
-<span class="fc" id="L297">            }</span>
+<span class="fc bfc" id="L292" title="All 2 branches covered.">            for (Node node : this.children){</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">                if (node.isType(types)) nodeList.add(node);</span>
+<span class="fc" id="L294">                node.decendentNodes(nodeList, types);</span>
+<span class="fc" id="L295">            }</span>
         }
 
-<span class="fc" id="L300">        return nodeList;</span>
+<span class="fc" id="L298">        return nodeList;</span>
     }
 
 
@@ -307,28 +305,28 @@ public abstract class Node implements Iterable&lt;Node&gt;{
     @return
     */
     public NodeList childNodes(IsNodeType ... types) {
-<span class="fc" id="L310">        NodeList nodeList = new NodeList();</span>
+<span class="fc" id="L308">        NodeList nodeList = new NodeList();</span>
 
-<span class="fc bfc" id="L312" title="All 2 branches covered.">        if (types.length == 0){</span>
-<span class="fc bfc" id="L313" title="All 2 branches covered.">            for (Node node : this.children) nodeList.add(node);</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L311" title="All 2 branches covered.">            for (Node node : this.children) nodeList.add(node);</span>
         } else {
-<span class="fc bfc" id="L315" title="All 4 branches covered.">            for (Node node : this.children) if (node.isType(types)) nodeList.add(node);</span>
+<span class="fc bfc" id="L313" title="All 4 branches covered.">            for (Node node : this.children) if (node.isType(types)) nodeList.add(node);</span>
         }
 
-<span class="fc" id="L318">        return nodeList;</span>
+<span class="fc" id="L316">        return nodeList;</span>
     }
 
     public int childCount() {
-<span class="fc" id="L322">        return children.size();</span>
+<span class="fc" id="L320">        return children.size();</span>
     }
 
     /**
      * Remove all child nodes from this node.
      */
     public void clearChildren() {
-<span class="fc bfc" id="L329" title="All 2 branches covered.">        for (Node child : children) child.setParent(null);</span>
-<span class="fc" id="L330">        children.clear();</span>
-<span class="fc" id="L331">    }</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">        for (Node child : children) child.setParent(null);</span>
+<span class="fc" id="L328">        children.clear();</span>
+<span class="fc" id="L329">    }</span>
 
     /**
      * Remove a node from a parent
@@ -337,11 +335,11 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return the node removed, null if this node does not contain child.
      */
     public Node removeChild(Node child) {
-<span class="fc bfc" id="L340" title="All 2 branches covered.">        if (child == null) throw new NullPointerException();</span>
-<span class="fc bfc" id="L341" title="All 2 branches covered.">        if (child.getParent() != this) return null;</span>
-<span class="fc" id="L342">        this.children.remove(child);</span>
-<span class="fc" id="L343">        child.setParent(null);</span>
-<span class="fc" id="L344">        return child;</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">        if (child == null) throw new NullPointerException();</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        if (child.getParent() != this) return null;</span>
+<span class="fc" id="L340">        this.children.remove(child);</span>
+<span class="fc" id="L341">        child.setParent(null);</span>
+<span class="fc" id="L342">        return child;</span>
     }
 
     /**
@@ -353,10 +351,10 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return the child node.
      */
     public final Node addChild(Node child) {
-<span class="fc bfc" id="L356" title="All 2 branches covered.">        if (child.hasParent()) child.getParent().removeChild(child);</span>
-<span class="fc" id="L357">        this.children.add(child);</span>
-<span class="fc" id="L358">        child.setParent(this);</span>
-<span class="fc" id="L359">        return child;</span>
+<span class="fc bfc" id="L354" title="All 2 branches covered.">        if (child.hasParent()) child.getParent().removeChild(child);</span>
+<span class="fc" id="L355">        this.children.add(child);</span>
+<span class="fc" id="L356">        child.setParent(this);</span>
+<span class="fc" id="L357">        return child;</span>
     }
 
     /**
@@ -370,10 +368,10 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @return the child node.
      */
     public Node addChild(int index, Node child) {
-<span class="fc bfc" id="L373" title="All 2 branches covered.">        if (child.hasParent()) child.getParent().removeChild(child);</span>
-<span class="fc" id="L374">        this.children.add(index, child);</span>
-<span class="fc" id="L375">        child.setParent(this);</span>
-<span class="fc" id="L376">        return child;</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">        if (child.hasParent()) child.getParent().removeChild(child);</span>
+<span class="fc" id="L372">        this.children.add(index, child);</span>
+<span class="fc" id="L373">        child.setParent(this);</span>
+<span class="fc" id="L374">        return child;</span>
     }
 
     /**
@@ -382,8 +380,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param nodes a {@link NodeList} of nodes to add
      */
     public void addChild(List&lt;? extends Node&gt; nodes) {
-<span class="fc bfc" id="L385" title="All 2 branches covered.">        for (Node node : nodes) this.addChild(node);</span>
-<span class="fc" id="L386">    }</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">        for (Node node : nodes) this.addChild(node);</span>
+<span class="fc" id="L384">    }</span>
 
     /**
      * Add all children from a list to the end of this nodes child list.
@@ -392,30 +390,32 @@ public abstract class Node implements Iterable&lt;Node&gt;{
      * @param nodes a {@link NodeList} of nodes to add
      */
     public void addChild(int idx, List&lt;? extends Node&gt; nodes) {
-<span class="fc bfc" id="L395" title="All 2 branches covered.">        for (Node node : nodes) this.addChild(idx++, node);</span>
-<span class="fc" id="L396">    }</span>
+<span class="fc bfc" id="L393" title="All 2 branches covered.">        for (Node node : nodes) this.addChild(idx++, node);</span>
+<span class="fc" id="L394">    }</span>
 
     /**
      * In this nodes parent, replace this node with this node's children, the
      * child nodes are NOT copied. This is essentially an unwrap function.
      */
     public void replaceWithChildren() {
-<span class="fc" id="L403">        Node parent = this.getParent();</span>
-<span class="fc" id="L404">        int i = parent.childNodes().indexOf(this);</span>
-<span class="fc" id="L405">        getParent().removeChild(this);</span>
-<span class="fc" id="L406">        NodeList childNodes = this.childNodes();</span>
-<span class="fc" id="L407">        parent.addChild(i, childNodes);</span>
-<span class="fc" id="L408">    }</span>
+<span class="fc" id="L401">        Node parent = this.getParent();</span>
+<span class="fc" id="L402">        int i = parent.childNodes().indexOf(this);</span>
+<span class="fc" id="L403">        getParent().removeChild(this);</span>
+<span class="fc" id="L404">        NodeList childNodes = this.childNodes();</span>
+<span class="fc" id="L405">        parent.addChild(i, childNodes);</span>
+<span class="fc" id="L406">    }</span>
 
-    public Node replaceChild(Node child, Node with) {
-<span class="fc bfc" id="L411" title="All 2 branches covered.">        if (child.getParent() != this) throw new DocNavException(&quot;Can not replace a child from a different parent.&quot;);</span>
-<span class="fc" id="L412">        int idx = this.children.indexOf(child);</span>
-<span class="fc" id="L413">        children.remove(child);</span>
-<span class="fc" id="L414">        child.setParent(null);</span>
-<span class="fc" id="L415">        children.add(idx, with);</span>
-<span class="fc" id="L416">        with.setParent(this);</span>
-<span class="fc" id="L417">        return with;</span>
-    }
+    public void replaceChild(Node child, Iterable &lt;Node&gt; with) {
+<span class="fc bfc" id="L409" title="All 2 branches covered.">        if (child.getParent() != this) throw new DocNavException(&quot;Can not replace a child from a different parent.&quot;);</span>
+<span class="fc" id="L410">        int idx = this.children.indexOf(child);</span>
+<span class="fc" id="L411">        children.remove(child);</span>
+<span class="fc" id="L412">        child.setParent(null);</span>
+
+<span class="fc bfc" id="L414" title="All 2 branches covered.">        for (Node node : with){</span>
+<span class="fc" id="L415">            children.add(idx, node);</span>
+<span class="fc" id="L416">            node.setParent(this);</span>
+<span class="fc" id="L417">        }</span>
+<span class="fc" id="L418">    }</span>
 
     /* return a string with this nodes name, id, and classes that will accepted by a query */
     public String toSelect() {
@@ -491,7 +491,7 @@ public abstract class Node implements Iterable&lt;Node&gt;{
 
     /**
      * The inner text for an element node is the concatanation of the inner text
-     * for all it's child nodes.
+     * for all it's child element and text nodes.
      *
      * @return
      */
@@ -500,8 +500,8 @@ public abstract class Node implements Iterable&lt;Node&gt;{
 <span class="fc bfc" id="L500" title="All 2 branches covered.">        for (Node n : children) {</span>
 <span class="fc bfc" id="L501" title="All 2 branches covered.">            if (n.isType(TEXT)) {</span>
 <span class="fc" id="L502">                builder.append(((TextNode) n).getText());</span>
-<span class="pc bpc" id="L503" title="1 of 2 branches missed.">            } else if (n.isType(ELEMENT)) {</span>
-<span class="fc" id="L504">                builder.append(((Node) n).innerText());</span>
+<span class="fc bfc" id="L503" title="All 2 branches covered.">            } else if (n.isType(ELEMENT)) {</span>
+<span class="fc" id="L504">                builder.append(n.innerText());</span>
             }
 <span class="fc" id="L506">        }</span>
 <span class="fc" id="L507">        return builder.toString();</span>
@@ -514,10 +514,33 @@ public abstract class Node implements Iterable&lt;Node&gt;{
     @return
     */
     public Query query(String select, IsNodeType ... types){
-<span class="pc bpc" id="L517" title="1 of 2 branches missed.">        if (types.length == 0){</span>
+<span class="fc bfc" id="L517" title="All 2 branches covered.">        if (types.length == 0){</span>
 <span class="fc" id="L518">            types = new IsNodeType[]{NodeType.ELEMENT};</span>
         }
 <span class="fc" id="L520">        return new Query(this.decendentNodes(types), select);</span>
+    }
+
+    /**
+    Convienience function that performs formatf on a query of NoteType.ELEMENT.
+    @param select
+    @param args
+    @return
+    */
+    public Query queryf(String select, Object ... args){
+<span class="fc" id="L530">        return this.query().filterf(select, args);</span>
+    }
+
+    /**
+    Select all nodes that match any type in 'types'.  Defaults to NodeType.ELEMENT if no type is included.
+    @param select
+    @param types
+    @return
+    */
+    public Query query(IsNodeType ... types){
+<span class="fc bfc" id="L540" title="All 2 branches covered.">        if (types.length == 0){</span>
+<span class="fc" id="L541">            types = new IsNodeType[]{NodeType.ELEMENT};</span>
+        }
+<span class="fc" id="L543">        return new Query(this.decendentNodes(types), &quot;*&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

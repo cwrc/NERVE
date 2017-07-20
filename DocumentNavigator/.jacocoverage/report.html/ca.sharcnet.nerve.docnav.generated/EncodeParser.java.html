@@ -241,7 +241,7 @@ public class EncodeParser extends AbstractParser {
 <span class="fc" id="L241">		enterRule(_localctx, 4, RULE_content);</span>
 		try {
 <span class="fc" id="L243">			setState(46);</span>
-<span class="pc bpc" id="L244" title="2 of 5 branches missed.">			switch (_input.LA(1)) {</span>
+<span class="pc bpc" id="L244" title="1 of 5 branches missed.">			switch (_input.LA(1)) {</span>
 			case SEA_WS:
 			case TEXT:
 <span class="fc" id="L247">				enterOuterAlt(_localctx, 1);</span>
@@ -269,13 +269,13 @@ public class EncodeParser extends AbstractParser {
 				}
 <span class="fc" id="L270">				break;</span>
 			case COMMENT:
-<span class="nc" id="L272">				enterOuterAlt(_localctx, 4);</span>
+<span class="fc" id="L272">				enterOuterAlt(_localctx, 4);</span>
 				{
-<span class="nc" id="L274">				setState(44);</span>
-<span class="nc" id="L275">				((ContentContext)_localctx).COMMENT = match(COMMENT);</span>
-<span class="nc bnc" id="L276" title="All 2 branches missed.">				((ContentsContext)getInvokingContext(1)).nodelist.add(new CommentNode((((ContentContext)_localctx).COMMENT!=null?((ContentContext)_localctx).COMMENT.getText():null)));</span>
+<span class="fc" id="L274">				setState(44);</span>
+<span class="fc" id="L275">				((ContentContext)_localctx).COMMENT = match(COMMENT);</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">				((ContentsContext)getInvokingContext(1)).nodelist.add(new CommentNode((((ContentContext)_localctx).COMMENT!=null?((ContentContext)_localctx).COMMENT.getText():null)));</span>
 				}
-<span class="nc" id="L278">				break;</span>
+<span class="fc" id="L278">				break;</span>
 			default:
 <span class="nc" id="L280">				throw new NoViableAltException(this);</span>
 			}

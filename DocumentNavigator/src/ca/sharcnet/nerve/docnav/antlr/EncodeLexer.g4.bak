@@ -13,6 +13,9 @@ lexer grammar EncodeLexer;
 COMMENT     :   '<!--' (COMMENT|.)*? '-->'
             ;
 
+INSTR       :   ('<?') (INSTR|.)*? '>'
+            ;
+
 DOCTYPE     :   ('<!') (DOCTYPE|.)*? '>'
             ;
 
@@ -24,9 +27,6 @@ CharRef     :   '&#' DIGIT+ ';'
             ;
 
 SEA_WS      :   (' '|'\t'|'\r'? '\n')+
-            ;
-
-INSTR_OPEN  :   ('<?') -> pushMode(INSIDE)
             ;
 
 OPEN        :   '<' -> pushMode(INSIDE)
@@ -42,7 +42,6 @@ CATCHALL1   : .
 mode INSIDE;
 
 CLOSE       :   '>'                     -> popMode ;
-INSTR_CLOSE :   '?>'                    -> popMode ;
 SLASH_CLOSE :   '/>'                    -> popMode ;
 SLASH       :   '/' ;
 EQUALS      :   '=' ;

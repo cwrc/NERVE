@@ -6,6 +6,7 @@ import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
+import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,12 @@ public class QueryTest implements HasStreams {
     public void test_empty() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         assertEquals(0, doc.query("").size());
+    }
+
+    @Test
+    public void test_all() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
+        assertEquals("[xml, @TEXT, root, @TEXT, div, @TEXT, a, b, c, @TEXT, @TEXT]", doc.query().toString());
     }
 
     @Test
@@ -446,5 +453,29 @@ public class QueryTest implements HasStreams {
         Query query = doc.query(".top, .center, .bottom");
         query = query.filter("*");
         assertEquals(9, query.size());
+    }
+
+    @Test
+    public void test_format_1() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
+        assertEquals(doc.queryf("*").toString(), doc.queryf("*").toString());
+    }
+
+    @Test
+    public void test_format_2() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
+        assertEquals(doc.queryf("root").toString(), doc.queryf("root").toString());
+    }
+
+    @Test
+    public void node_query_inst() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("types.xml"));
+        assertEquals("[xml, context]", doc.query(NodeType.INSTRUCTION).toString());
+    }
+
+    @Test
+    public void node_query_comment() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("types.xml"));
+        assertEquals("[@COMMENT]", doc.query(NodeType.COMMENT).filter("*").toString());
     }
 }

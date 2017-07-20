@@ -210,14 +210,14 @@ public class QueryOperationsTest implements HasStreams {
     @Test
     public void test_attr_empty_select() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        assertEquals(null, doc.query("").attr("data"));
+        assertEquals("", doc.query("").attr("data"));
     }
 
     /* first element doesn't have attribute */
     @Test
     public void test_attr_null() throws IOException {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        assertEquals(null, doc.query("*").attr("data"));
+        assertEquals("", doc.query("*").attr("data"));
     }
 
     @Test

@@ -21,9 +21,9 @@ class SelectElement extends SelectLink {
         return element;
     }
 
-//    @Override
-//    public String toString(){
-//        return term.toString();
-//    }
+    @Override
+    public String toString(){
+        return term.toString();
+    }
 
 }

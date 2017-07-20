@@ -1,11 +1,18 @@
 package ca.sharcnet.nerve.docnav.schema.relaxng;
+import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
+import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.HashMap;
 
+/**
+* Load a relax NG Schema.
+* http://relaxng.org/
+* @author edward
+*/
 public final class RelaxNGSchema extends Document implements Schema{
     private final Node start;
     private final HashMap<String, Node> defines = new HashMap<>();
@@ -13,7 +20,7 @@ public final class RelaxNGSchema extends Document implements Schema{
     public RelaxNGSchema(Document doc){
         super(doc);
         this.start = query("start").first();
-        query("define").forEach(node->defines.put(node.getAttributeValue("name"), node));
+        this.query("define").forEach(node->defines.put(node.getAttributeValue("name"), node));
     }
 
     /**
@@ -28,8 +35,7 @@ public final class RelaxNGSchema extends Document implements Schema{
         boolean rvalue = true;
 
         for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.getName();
-            if (current != null) current = nextNode(current, nextNodeName);
+            if (current != null) current = nextNode(current, pathNode.getName());
             if (current == null) rvalue = false;
         }
 
@@ -63,14 +69,15 @@ public final class RelaxNGSchema extends Document implements Schema{
     @return
      */
     private NodeList getNodePath(Node eNode) {
-        NodeList list = new NodeList();
+        Query list = new Query();
         list.add(eNode);
 
         Node current = eNode.getParent();
-        while (current != null && !current.getName().equals("@DOCUMENT")) {
+        while (current != null && !current.isType(NodeType.DOCUMENT)) {
             list.add(0, current);
             current = current.getParent();
         }
+
         return list;
     }
 
@@ -82,23 +89,18 @@ public final class RelaxNGSchema extends Document implements Schema{
     @return a node if valid, null if not.
     */
     private Node nextNode(Node current, String name) {
-        NodeList elements = current.query(String.format("element[name='%s']", name));
 
-        if (!elements.isEmpty()){
-            return elements.get(0);
-        }
+        /* case: the element is found as a child of 'current' so not a reference */
+        String q = String.format("element[name='%s']", name);
+        Node ele = current.queryf(q).first();
+        if (ele != null) return ele;
 
-        NodeList refs = current.query("ref");
+        /* no element of name is found, look for ref with name */
+        Node ref = current.queryf("ref[name='%s']", name).first();
+        if (ref != null) return defines.get(name);
 
-        for (Node ref : refs){
-            String refname = ref.getAttributeValue("name");
-            if (!defines.containsKey(refname)) throw new RuntimeException("define name = '" + refname + "' not found");
-            Node next = nextNode(defines.get(refname), name);
-            if (next != null) return next;
-        }
-
+        /* if 'name' is not an element or a ref then go through grouping options */
         NodeList others = current.query("zeroOrMore, oneOrMore, optional, group, choice, interleave");
-
         for (Node other : others){
             Node next = nextNode(other, name);
             if (next != null) return next;

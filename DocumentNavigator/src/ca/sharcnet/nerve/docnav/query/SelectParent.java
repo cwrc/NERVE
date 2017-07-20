@@ -21,8 +21,8 @@ class SelectParent extends SelectLink {
         return parent;
     }
 
-//    @Override
-//    public String toString(){
-//        return term.toString();
-//    }
+    @Override
+    public String toString(){
+        return term.toString();
+    }
 }

@@ -159,6 +159,18 @@ public class EncodeParserBaseListener implements EncodeParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMisc(EncodeParser.MiscContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstr(EncodeParser.InstrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstr(EncodeParser.InstrContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

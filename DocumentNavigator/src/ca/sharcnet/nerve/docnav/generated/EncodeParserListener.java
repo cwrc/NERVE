@@ -131,4 +131,14 @@ public interface EncodeParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMisc(EncodeParser.MiscContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EncodeParser#instr}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstr(EncodeParser.InstrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EncodeParser#instr}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstr(EncodeParser.InstrContext ctx);
 }

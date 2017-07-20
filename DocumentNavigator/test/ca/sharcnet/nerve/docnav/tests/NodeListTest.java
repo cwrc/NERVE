@@ -65,12 +65,6 @@ public class NodeListTest {
     @Test
     public void query1(){
         NodeList nodeList = new NodeList();
-        nodeList.query("*");
-    }
-
-    @Test
-    public void query2(){
-        NodeList nodeList = new NodeList();
-        nodeList.query("*", NodeType.ELEMENT);
+        nodeList.filter("*");
     }
 }

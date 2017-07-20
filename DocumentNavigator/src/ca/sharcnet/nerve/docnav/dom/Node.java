@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.docnav.dom;
-import ca.sharcnet.nerve.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
@@ -24,6 +23,19 @@ public abstract class Node implements Iterable<Node>{
         this.name = name;
         this.attributes = new AttributeList(attributes);
         for (Node node : children) this.addChild(node.copy());
+    }
+
+    /**
+     * Create a new Node, copy all attributes (as copies) copy all children (as copies).
+     * @param type
+     * @param name
+     * @param attributes
+     * @param children
+     */
+    public Node(IsNodeType type, String name, AttributeList attributes) {
+        this.type = type;
+        this.name = name;
+        this.attributes = new AttributeList(attributes);
     }
 
     /**
@@ -148,10 +160,9 @@ public abstract class Node implements Iterable<Node>{
      * @return the copy of 'newNode' used
      * @throws DocNavException if the this node does not have a parent node
      */
-    public Node replaceWith(Node newNode) {
+    public void replaceWith(Iterable <Node> nodes) {
         if (this.parent == null) throw new DocNavException("Can not replace a node with no parent.");
-        this.parent.replaceChild(this, newNode);
-        return newNode;
+        this.parent.replaceChild(this, nodes);
     }
 
     /**
@@ -407,29 +418,35 @@ public abstract class Node implements Iterable<Node>{
         parent.addChild(i, childNodes);
     }
 
-    public Node replaceChild(Node child, Node with) {
+    public void replaceChild(Node child, Iterable <Node> with) {
         if (child.getParent() != this) throw new DocNavException("Can not replace a child from a different parent.");
         int idx = this.children.indexOf(child);
         children.remove(child);
         child.setParent(null);
-        children.add(idx, with);
-        with.setParent(this);
-        return with;
+
+        for (Node node : with){
+            children.add(idx, node);
+            node.setParent(this);
+        }
     }
 
     /* return a string with this nodes name, id, and classes that will accepted by a query */
-    public String toSelect() {
-        String name = this.getName();
+    public String toSelect(String ... attributes) {
         String id = this.getAttributeValue("id");
         String classes = this.getAttributeValue("class");
 
         StringBuilder builder = new StringBuilder();
-        builder.append(name);
+        builder.append(this.getName());
         if (!id.isEmpty()) builder.append("#").append(id);
         if (!classes.isEmpty()) {
             String[] split = classes.split("[ ]+");
             for (String s : split) builder.append(".").append(s);
         }
+
+        for (String attr : attributes){
+            if (this.hasAttribute(attr)) builder.append("[").append(attr).append("='").append(this.getAttributeValue(attr)).append("']");
+        }
+
         return builder.toString();
     }
 
@@ -491,7 +508,7 @@ public abstract class Node implements Iterable<Node>{
 
     /**
      * The inner text for an element node is the concatanation of the inner text
-     * for all it's child nodes.
+     * for all it's child element and text nodes.
      *
      * @return
      */
@@ -501,22 +518,39 @@ public abstract class Node implements Iterable<Node>{
             if (n.isType(TEXT)) {
                 builder.append(((TextNode) n).getText());
             } else if (n.isType(ELEMENT)) {
-                builder.append(((Node) n).innerText());
+                builder.append(n.innerText());
             }
         }
         return builder.toString();
     }
 
     /**
-    Create a query out of this node, if types is omitted the default is to return only element nodes.
+    Create a query out of this node which queries only element nodes.
     @param select
     @param types
     @return
     */
-    public Query query(String select, IsNodeType ... types){
-        if (types.length == 0){
-            types = new IsNodeType[]{NodeType.ELEMENT};
-        }
-        return new Query(this.decendentNodes(types), select);
+    public Query query(String select){
+        return this.query(NodeType.ELEMENT).filter(select);
+    }
+
+    /**
+    Convienience function that performs formatf on a query of NoteType.ELEMENT.
+    @param select
+    @param args
+    @return
+    */
+    public Query queryf(String select, Object ... args){
+        return this.query(NodeType.ELEMENT).filterf(select, args);
+    }
+
+    /**
+    Select all nodes that match any type in 'types'.
+    @param select
+    @param types
+    @return
+    */
+    public Query query(IsNodeType ... types){
+        return new Query(this.decendentNodes(types), "*");
     }
 }

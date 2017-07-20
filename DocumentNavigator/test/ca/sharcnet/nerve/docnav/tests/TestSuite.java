@@ -10,7 +10,9 @@ import org.junit.runners.Suite;
     ca.sharcnet.nerve.docnav.tests.DocumentTest.class,
     ca.sharcnet.nerve.docnav.tests.QueryTest.class,
     ca.sharcnet.nerve.docnav.tests.QueryOperationsTest.class,
-    ca.sharcnet.nerve.docnav.tests.NodeListTest.class
+    ca.sharcnet.nerve.docnav.tests.NodeListTest.class,
+    ca.sharcnet.nerve.docnav.tests.RelaxNGSchemaTest.class,
+    ca.sharcnet.nerve.docnav.tests.QueryFTest.class
 })
 
 public class TestSuite {}

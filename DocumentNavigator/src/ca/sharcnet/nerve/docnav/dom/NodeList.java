@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.dom;
+import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +43,20 @@ public class NodeList extends ArrayList<Node>{
         return builder.toString();
     }
 
-    public Query query(String select, IsNodeType ... types){
-        if (types.length == 0) types = new IsNodeType[]{NodeType.ELEMENT};
+
+    public Query filter(String select){
         return new Query(this, select);
+    }
+
+    /**
+     * @param select A select string with format information
+     * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than format
+     * specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero. The maximum number
+     * of arguments is limited by the maximum dimension of a Java array as defined by The Java™ Virtual Machine
+     * Specification. The behaviour on a null argument depends on the conversion.
+     * @return
+     */
+    public Query filterf(String select, Object ... args){
+        return new Query(this, String.format(select, args));
     }
 }

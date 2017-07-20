@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.query;
+import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import java.util.ArrayList;
 

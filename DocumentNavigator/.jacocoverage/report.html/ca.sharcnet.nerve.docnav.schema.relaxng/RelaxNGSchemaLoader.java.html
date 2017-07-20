@@ -8,8 +8,8 @@ public class RelaxNGSchemaLoader {
 <span class="nc" id="L8">    private RelaxNGSchemaLoader() {}</span>
 
     public static RelaxNGSchema schemaFromStream(InputStream srcStream) throws IOException {
-<span class="nc" id="L11">        Document doc = DocumentLoader.documentFromStream(srcStream);</span>
-<span class="nc" id="L12">        return new RelaxNGSchema(doc);</span>
+<span class="fc" id="L11">        Document doc = DocumentLoader.documentFromStream(srcStream);</span>
+<span class="fc" id="L12">        return new RelaxNGSchema(doc);</span>
     }
 
     public static RelaxNGSchema schemaFromString(String string) throws IOException {

@@ -33,6 +33,16 @@ public class ElementNode extends Node{
     }
 
     /**
+     * Create an new ElementNode with 'name' as the node name, and 'text' as the contents.
+     *@param name
+     * @param text
+    */
+    public ElementNode(String name, String text) {
+        super(NodeType.ELEMENT, name);
+        this.addChild(new TextNode(text));
+    }
+
+    /**
     Create a copy of this element node with all attributes and decendent nodes also as copies.
     @return
     */

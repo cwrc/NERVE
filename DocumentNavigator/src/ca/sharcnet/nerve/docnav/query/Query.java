@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.query;
+import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.IsNodeType;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -10,15 +11,23 @@ import java.util.List;
 
 public class Query extends NodeList {
     private SelectAny selectAny;
+    private String select;
 
-    public Query() {}
+    public Query() {
+        this.select = "";
+    }
 
     public Query(Iterable<Node> iterable, String select) {
+        this.select = select;
         selectAny = new SelectAny(select);
 
         for (Node element : iterable) {
             if (selectAny.check(element)) this.add(element);
         }
+    }
+
+    public String getSelectString(){
+        return select;
     }
 
     @Override
@@ -37,13 +46,10 @@ public class Query extends NodeList {
     }
 
     /* Query operations */
-    public Query filter(String select) {
-        return new Query(this, select);
-    }
-
     /**
         Change the name of all elements in this query return the value of the first element.
         @param name
+     * @return
      */
     public String name(String name) {
         this.forEach(n -> n.setName(name));
@@ -162,16 +168,16 @@ public class Query extends NodeList {
     }
 
     /**
-    Retrieve the attribute value for the first matched element.  Returns a null if no attribute is found or the set is
+    Retrieve the attribute value for the first matched element.  Returns an empty string if no attribute is found or the set is
     empty.
     @param key
     @param value
     @return
      */
     public String attr(String key) {
-        if (this.isEmpty()) return null;
+        if (this.isEmpty()) return "";
         Node node = this.get(0);
-        if (!node.hasAttribute(key)) return null;
+        if (!node.hasAttribute(key)) return "";
         return node.getAttributeValue(key);
     }
 
@@ -210,7 +216,7 @@ public class Query extends NodeList {
     /**
         Return the child elemants of each matched element as a new query.
      */
-    public Query children(IsNodeType ... types) {
+    public Query children(IsNodeType... types) {
         if (types.length == 0) types = new IsNodeType[]{NodeType.ELEMENT};
         Query query = new Query();
         for (Node node : this) query.add(node.childNodes(types));
@@ -264,8 +270,8 @@ public class Query extends NodeList {
     /**
     Returns the text content of the first element (and all it's decendents).
      * @return The text of the first element, or null if query is empty.
-    */
-    public String text(){
+     */
+    public String text() {
         if (this.isEmpty()) return null;
         return this.get(0).innerText();
     }
@@ -273,9 +279,9 @@ public class Query extends NodeList {
     /**
     Replaces all children of each selected element with a single text node containing the specified string.
      * @param string
-    */
-    public void text(String string){
-        this.forEach(node->{
+     */
+    public void text(String string) {
+        this.forEach(node -> {
             node.clearChildren();
             node.addChild(new TextNode(string));
         });
@@ -285,10 +291,10 @@ public class Query extends NodeList {
     Create a copy of each selected node.  These copies will be detached from a parent, but will
     contain children, copies of which may also be returned.
     @return a query containing all copies.
-    */
-    public Query copy(){
+     */
+    public Query copy() {
         Query query = new Query();
-        this.forEach(n->query.add(n.copy()));
+        this.forEach(n -> query.add(n.copy()));
         return query;
     }
 
@@ -296,10 +302,10 @@ public class Query extends NodeList {
      * Add a copy of 'node' to the beginning of each selected element.  Given the child nodes of a selected element
      * = {c0 ... cN}, child nodes + {n0 ... nN} = {n0 ... nN, c0 ... cN}.
      * @param nodes
-    */
-    public void append(Iterable<Node> nodes){
-        for (Node n : this){
-            for (Node m : nodes){
+     */
+    public void append(Iterable<Node> nodes) {
+        for (Node n : this) {
+            for (Node m : nodes) {
                 n.addChild(m.copy());
             }
         }
@@ -309,11 +315,11 @@ public class Query extends NodeList {
      * Add a copy of 'node' to the beginning of each selected element.  Given the child nodes of a selected element
      * = {c0 ... cN}, child nodes + {n0 ... nN} = {n0 ... nN, c0 ... cN}.
      * @param nodes
-    */
-    public void prepend(Iterable<Node> nodes){
-        for (Node n : this){
+     */
+    public void prepend(Iterable<Node> nodes) {
+        for (Node n : this) {
             int k = 0;
-            for (Node m : nodes){
+            for (Node m : nodes) {
                 n.addChild(k++, m.copy());
             }
         }
@@ -323,10 +329,10 @@ public class Query extends NodeList {
     Attach a new node with 'name' to the end of all selected elements.
     @param name
     @return a query containing all new nodes.
-    */
-    public Query appendNew(String name){
+     */
+    public Query appendNew(String name) {
         Query query = new Query();
-        this.forEach(n->{
+        this.forEach(n -> {
             Node elementNode = new ElementNode(name);
             query.add(elementNode);
             n.addChild(elementNode);
@@ -338,10 +344,10 @@ public class Query extends NodeList {
     Attach a new node with 'name' to the beginning of all selected elements.
     @param name
     @return a query containing all new nodes.
-    */
-    public Query prependNew(String name){
+     */
+    public Query prependNew(String name) {
         Query query = new Query();
-        this.forEach(n->{
+        this.forEach(n -> {
             Node elementNode = new ElementNode(name);
             query.add(0, elementNode);
             n.addChild(0, elementNode);
@@ -355,9 +361,9 @@ public class Query extends NodeList {
      * @param node
      * @return a new Query object containing all new copies created by this method.
      */
-    public Query replaceWith(Node node){
+    public Query replaceWith(Node node) {
         Query query = new Query();
-        for (Node element : this){
+        for (Node element : this) {
             Node copy = node.copy();
             query.add(copy);
             element.replaceWith(copy);
@@ -365,11 +371,19 @@ public class Query extends NodeList {
         return query;
     }
 
+    /**
+    Return the first node, null if empty.
+    @return
+    */
     public Node first() {
         if (this.isEmpty()) return null;
         return this.get(0);
     }
 
+    /**
+    Return the last node, null if empty.
+    @return
+    */
     public Node last() {
         if (this.isEmpty()) return null;
         return this.get(this.size() - 1);

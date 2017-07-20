@@ -33,6 +33,11 @@ class SelectExpression extends Select {
     }
 
     @Override
+    public String toString(){
+        return selectString;
+    }
+
+    @Override
     boolean check(Node element) {
         if (terms.isEmpty()) return false;
         boolean rvalue = true;

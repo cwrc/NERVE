@@ -78,12 +78,8 @@ miscList returns [NodeList nodes = new NodeList();]
     ;
 
 misc
-    : instr     {$miscList::nodes.add($instr.node);}
+    : INSTR     {$miscList::nodes.add(new InstructionNode($INSTR.text));}
     | DOCTYPE   {$miscList::nodes.add(new DoctypeNode($DOCTYPE.text));}
     | SEA_WS    {$miscList::nodes.add(new TextNode($SEA_WS.text));}
     | COMMENT   {$miscList::nodes.add(new CommentNode($COMMENT.text));}
-    ;
-
-instr returns [InstructionNode node]
-    :   INSTR_OPEN Name attributes INSTR_CLOSE {$node = new InstructionNode($Name.text, $attributes.list);}
     ;

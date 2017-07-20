@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?context name="text.context.json" ?>
 <!DOCTYPE ORLANDO [ <!ENTITY % character_entities SYSTEM "http://cwrc.ca/schemas/character_entities.dtd"> %character_entities; ]>
-<!-- comment node -->
+<!-- commend node -->
 <root>
     <div class="first">
         <a id="j" data="alpha"><b id="k" data="beta"><c id="l" data="charlie"><d id="m" data="delta"></d></c></b></a>

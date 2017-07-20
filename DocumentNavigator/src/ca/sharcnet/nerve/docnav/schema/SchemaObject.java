@@ -133,7 +133,7 @@ public class SchemaObject implements Schema{
         if (query.isEmpty()) return null;
         if (query.name().equals("element")) return query.first();
 
-        Query refQuery = references.query(String.format("[name='$1']", name));
+        Query refQuery = references.filter(String.format("[name='$1']", name));
         if (refQuery.isEmpty()) throw new RuntimeException("SCHEMA: Reference not found");
         return refQuery.first();
     }

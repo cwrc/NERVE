@@ -12,15 +12,15 @@ public class Console {
 
 <span class="nc" id="L13">    private Console() {</span>
 <span class="nc" id="L14">    }</span>
-<span class="nc" id="L15">    public static PrintStream out = System.out;</span>
+<span class="fc" id="L15">    public static PrintStream out = System.out;</span>
 
     public static void log(Object object) {
-<span class="nc" id="L18">        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];</span>
-<span class="nc" id="L19">        String s = &quot;null&quot;;</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (object != null) s = object.toString();</span>
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (object.getClass().isArray()) s = Arrays.toString((Object[]) object);</span>
-<span class="nc" id="L22">        out.println(&quot;[&quot; + ele.getFileName() + &quot;:&quot; + ele.getLineNumber() + &quot;] &quot; + s);</span>
-<span class="nc" id="L23">    }</span>
+<span class="fc" id="L18">        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];</span>
+<span class="fc" id="L19">        String s = &quot;null&quot;;</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if (object != null) s = object.toString();</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if (object.getClass().isArray()) s = Arrays.toString((Object[]) object);</span>
+<span class="fc" id="L22">        out.println(&quot;[&quot; + ele.getFileName() + &quot;:&quot; + ele.getLineNumber() + &quot;] &quot; + s);</span>
+<span class="fc" id="L23">    }</span>
 
     public static void logMethod() {
 <span class="nc" id="L26">        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];</span>

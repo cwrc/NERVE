@@ -9,10 +9,6 @@ import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.nerve.docnav.dom.Node;
-import ca.sharcnet.nerve.docnav.dom.NodeList;
-import ca.sharcnet.nerve.docnav.dom.NodeType;
-import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import java.io.IOException;
@@ -24,11 +20,25 @@ import static org.junit.Assert.*;
  *
  * @author edward
  */
-public class Isolated implements HasStreams{
+public class RelaxNGSchemaTest implements HasStreams{
 
     @Override
     public InputStream getResourceStream(String path) {
         return this.getClass().getResourceAsStream("/resources/" + path);
+    }
+
+    /**
+     * The orlando_biography_v2.xml file is a valid schema/xml file.
+     * @throws java.io.IOException
+    */
+    @Test
+    public void load_as_document() throws IOException{
+        DocumentLoader.documentFromStream(getResourceStream("orlando_biography_v2.xml"));
+    }
+
+    @Test
+    public void load_as_schema() throws IOException{
+        RelaxNGSchemaLoader.schemaFromStream(getResourceStream("orlando_biography_v2.xml"));
     }
 
     /* document.xml is vald to orlando_biography_v2 */
@@ -38,7 +48,17 @@ public class Isolated implements HasStreams{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("document.xml"));
 
         doc.query("BIRTHNAME").forEach(node->{
-            Console.log(node.toSelect());
+            assertTrue(schema.isValid(node));
+        });
+    }
+
+    /* document.xml is vald to orlando_biography_v2 */
+    @Test
+    public void load_check_doc_1() throws IOException{
+        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(getResourceStream("orlando_biography_v2.xml"));
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("document.xml"));
+
+        doc.query("*").forEach(node->{
             assertTrue(schema.isValid(node));
         });
     }
