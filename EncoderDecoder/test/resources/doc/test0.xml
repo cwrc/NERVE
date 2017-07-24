@@ -1,0 +1,4 @@
+<!-- load up a document with 'just' a context info node -->
+<?context name="test.context.json"?>
+<root>
+</root>

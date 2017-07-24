@@ -2,33 +2,33 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="22">
         <file>
-            <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
-            <bookmark id="22">
-                <name/>
-                <line>83</line>
-                <key/>
-            </bookmark>
-            <bookmark id="19">
-                <name/>
-                <line>122</line>
-                <key/>
-            </bookmark>
-            <bookmark id="20">
-                <name/>
-                <line>244</line>
-                <key/>
-            </bookmark>
-            <bookmark id="21">
-                <name/>
-                <line>244</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/ca/sharcnet/nerve/encoder/AutoTagger.java</url>
             <bookmark id="16">
                 <name/>
                 <line>237</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
+            <bookmark id="22">
+                <name/>
+                <line>79</line>
+                <key/>
+            </bookmark>
+            <bookmark id="19">
+                <name/>
+                <line>120</line>
+                <key/>
+            </bookmark>
+            <bookmark id="20">
+                <name/>
+                <line>239</line>
+                <key/>
+            </bookmark>
+            <bookmark id="21">
+                <name/>
+                <line>239</line>
                 <key/>
             </bookmark>
         </file>
@@ -47,11 +47,13 @@
         <group name="Nerve - Core"/>
         <group name="NERVE3"/>
         <group name="Nerve 1.3"/>
-        <group>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Main.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
-            <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.4/EncoderDecoder/src/resources/config.txt</file>
+        <group/>
+        <group name="Frontier Web App">
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/Constants.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/test/ca/sharcnet/nerve/BaseTest.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/decode/Decoder.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/context/Context.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/test/resources/contexts/test.context.json</file>
         </group>
-        <group name="Frontier Web App"/>
     </open-files>
 </project-private>

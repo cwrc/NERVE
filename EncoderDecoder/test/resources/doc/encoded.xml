@@ -1,0 +1,46 @@
+<doc>
+    <div class="xmlprolog" xmlattrs="{&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;version&quot;:&quot;1.0&quot;}" xmltagname="xml"></div>
+    <div class="xmlprolog" xmlattrs="{&quot;schematypens&quot;:&quot;http://relaxng.org/ns/structure/1.0&quot;,&quot;href&quot;:&quot;http://cwrc.ca/schemas/orlando_biography_v2.rng&quot;,&quot;type&quot;:&quot;application/xml&quot;}" xmltagname="xml-model" data-context="Orlando"></div>
+    <div class="xmlprolog" xmlattrs="{&quot;href&quot;:&quot;http://cwrc.ca/templates/css/orlando.css&quot;,&quot;type&quot;:&quot;text/css&quot;}" xmltagname="xml-stylesheet"></div>
+    <div class="xmldoctype" xmlinnertext="<!DOCTYPE ORLANDO [ <!ENTITY % character_entities SYSTEM &quot;http://cwrc.ca/schemas/character_entities.dtd&quot;> %character_entities; ]>"></div>
+    <div class="xmltag" xmlattrs="{&quot;PERSON&quot;:&quot;BRWWRITER&quot;,&quot;SEX&quot;:&quot;FEMALE&quot;}" xmltagname="BIOGRAPHY">
+        <div class="xmltag" xmlattrs="{&quot;TYPE&quot;:&quot;text&quot;}" xmltagname="ORLANDOHEADER">
+            <div class="xmltag" xmlattrs="{}" xmltagname="FILEDESC">
+                <div class="xmltag" xmlattrs="{}" xmltagname="TITLESTMT">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DOCTITLE">Sophia Jex-Blake: biography</div>
+                </div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="PUBLICATIONSTMT">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="AUTHORITY">Orlando Project</div>
+                </div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="SOURCEDESC">Created from original research by members of the Orlando Project</div>
+            </div>
+            <div class="xmltag" xmlattrs="{}" xmltagname="REVISIONDESC">
+                <div class="xmltag" xmlattrs="{&quot;WORKVALUE&quot;:&quot;C&quot;,&quot;RESP&quot;:&quot;CRF&quot;,&quot;WORKSTATUS&quot;:&quot;RWT&quot;}" xmltagname="RESPONSIBILITY">
+                    <div class="taggedentity" xmlattrs="{}" xmltagname="DATE">30 June 2016</div>
+                    <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"></div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV0">
+            <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+                <div class="xmltag" xmlattrs="{}" xmltagname="PERSONNAME">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="DATASTRUCT">
+                            <div class="xmltag" xmlattrs="{}" xmltagname="DATAITEM">
+                                <div class="xmltag" xmlattrs="{}" xmltagname="BIRTHNAME">
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="GIVEN">Sophia</div>
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="GIVEN">Louisa</div>
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="SURNAME">Jex-Blake</div>
+                                </div>
+                                <div class="xmltag" xmlattrs="{}" xmltagname="SCHOLARNOTE">
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="P">
+                                        <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Jex-Blake&quot;}" xmltagname="NAME">Jex-Blake</div>'s family name was changed from <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;Blake&quot;}" xmltagname="NAME">Blake</div> by her <div class="taggedentity" xmlattrs="{&quot;STANDARD&quot;:&quot;grandfather&quot;,&quot;REF&quot;:&quot;&quot;}" xmltagname="NAME">grandfather</div>, in honour of his grandmother <div class="taggedentity" xmlattrs="{&quot;REF&quot;:&quot;www.geonames.org/5097598&quot;,&quot;REG&quot;:&quot;Elizabeth, United States&quot;}" xmltagname="PLACE">Elizabeth</div> Jex.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</doc>

@@ -1,0 +1,63 @@
+{
+    "name"               : "Test",
+    "readFromDictionary" : [
+        "custom",
+        "geonames"
+    ],
+    "tags" : [
+        {
+            "name"           : "ORGNAME",
+            "dictionary"     : "ORGANIZATION",
+            "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
+            "nerMap"         : "ORGANIZATION",
+            "dialog"         : "ORGANIZATION",
+            "idAttribute"    : "annotationID",
+            "defaults"       : {"acronym" : "N/A"}
+        },
+        {
+            "name"           : "DATE",
+            "dictionary"     : "",
+            "lemmaAttribute" : "",
+            "linkAttribute"  : "",
+            "nerMap"         : "",
+            "dialog"         : "",
+            "idAttribute"    : "",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "PLACE",
+            "dictionary"     : "PLACE",
+            "lemmaAttribute" : "REG",
+            "linkAttribute"  : "REF",
+            "nerMap"         : "LOCATION",
+            "dialog"         : "PLACE",
+            "idAttribute"    : "annotationID",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "NAME",
+            "dictionary"     : "PERSON",
+            "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
+            "nerMap"         : "PERSON",
+            "dialog"         : "PERSON",
+            "idAttribute"    : "annotationID",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "TITLE",
+            "dictionary"     : "TITLE",
+            "lemmaAttribute" : "REG",
+            "linkAttribute"  : "REF",
+            "nerMap"         : "",
+            "dialog"         : "TITLE",
+            "idAttribute"    : "annotationID",
+            "defaults"       : {}
+        }
+    ],
+    "styles" : [
+        "playwrights.css"
+    ],
+    "schemaName" : "http://cwrc.ca/schemas/cwrc_entry.rng"
+}

@@ -1,6 +1,6 @@
 package ca.sharcnet.nerve.encoder;
-import org.json.JSONObject;
+import ca.fa.utility.SQLRecord;
 
 public interface OnAccept {
-    public void accept(String string, JSONObject row);
+    public void accept(String string, SQLRecord row);
 }

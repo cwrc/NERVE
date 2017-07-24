@@ -1,0 +1,19 @@
+<!-- This document has no pre-existing markup -->
+<?context name="test.context.json"?>
+<!DOCTYPE ORLANDO [ <!ENTITY % character_entities SYSTEM "http://cwrc.ca/schemas/character_entities.dtd"> %character_entities; ]>
+<document>
+    <paragraph>
+        <sentence index="1">
+            Boston (pronounced /ˈbɒstən/ (About this sound listen) BOSS-tən) is the capital and most populous city[8] of the Commonwealth of Massachusetts in the United States. Boston is also the seat of Suffolk County, although the county government was disbanded on July 1, 1999.[9] The city proper covers 48 square miles (124 km2) with an estimated population of 673,184 in 2016,[3] making it the largest city in New England and the 23rd most populous city in the United States.[2] The city is the economic and cultural anchor of a substantially larger metropolitan area known as Greater Boston, a Metropolitan Statistical Area (MSA) home to a census-estimated 4.8 million people in 2016 and ranking as the tenth-largest such area in the country.[10] Alternately, as a Combined Statistical Area (CSA), this wider commuting region is home to some 8.2 million people, making it the sixth-largest as such in the United States.[11]
+        </sentence>
+        <sentence index="2">
+            One of the oldest cities in the United States, Boston was founded on the Shawmut Peninsula in 1630 by Puritan settlers from England.[12][13]
+        </sentence>
+        <sentence index="3">
+            It was the scene of several key events of the American Revolution, such as the Boston Massacre, the Boston Tea Party, the Battle of Bunker Hill, and the Siege of Boston. Upon U.S. independence from Great Britain, it continued to be an important port and manufacturing hub as well as a center for education and culture.[14][15] Through land reclamation and municipal annexation, Boston has expanded beyond the original peninsula. Its rich history attracts many tourists, with Faneuil Hall alone drawing over 20 million visitors per year.[16] Boston's many firsts include the United States' first public school, Boston Latin School (1635),[17] first subway system, the Tremont Street Subway (1897),[18] and first public park, Boston Common (1634).
+        </sentence>
+        <sentence index="4">
+            The area's many colleges and universities make Boston an international center of higher education,[19] including law, medicine, engineering, and business, and the city is considered to be a world leader in innovation and entrepreneurship, with nearly 2,000 startups.[20][21][22] Boston's economic base also includes finance,[23] professional and business services, biotechnology, information technology, and government activities.[24] Households in the city claim the highest average rate of philanthropy in the United States;[25] businesses and institutions rank among the top in the country for environmental sustainability and investment.[26] The city has one of the highest costs of living in the United States[27][28] as it has undergone gentrification,[29] though it remains high on world livability rankings.[30]
+        </sentence>
+    </paragraph>
+</document>

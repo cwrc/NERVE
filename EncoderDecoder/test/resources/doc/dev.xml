@@ -1,0 +1,4 @@
+<doc>
+    <div class="xmlprolog" xmlattrs="{&quot;schematypens&quot;:&quot;http://relaxng.org/ns/structure/1.0&quot;,&quot;href&quot;:&quot;http://cwrc.ca/schemas/orlando_biography_v2.rng&quot;,&quot;type&quot;:&quot;application/xml&quot;}" xmltagname="xml-model" data-context="Orlando"></div>
+    <div class="xmltag" xmlattrs="{&quot;PERSON&quot;:&quot;BRWWRITER&quot;,&quot;SEX&quot;:&quot;FEMALE&quot;}" xmltagname="BIOGRAPHY"></div>
+</doc>

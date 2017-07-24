@@ -1,8 +1,8 @@
 package ca.sharcnet.nerve.context;
-
-import ca.fa.utility.collections.SimpleCollection;
+import static ca.sharcnet.nerve.context.Context.NameSource.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,18 +12,20 @@ import org.json.JSONObject;
 public class Context implements Serializable {
 
     public enum NameSource {
-        TAGINFO, DICTIONARY, DIALOG, NERMAP
+        NAME, DICTIONARY, DIALOG, NERMAP
     };
 
-    public final String name;
-    public final String schemaName;
+    private final String name;
+    private final String schemaName;
     private ArrayList<String> readFromDictionary = new ArrayList<>();
     private ArrayList<String> styles = new ArrayList<>();
     private HashMap<String, TagInfo> tags = new HashMap<>();
 
     public Context(JSONObject json) {
         this.name = json.getString("name");
-        this.schemaName = json.getString("schemaName");
+
+        if (!json.has("schemaName")) this.schemaName = "";
+        else this.schemaName = json.getString("schemaName");
 
         JSONArray jsonRFD = json.getJSONArray("readFromDictionary");
         for (int i = 0; i < jsonRFD.length(); i++) readFromDictionary.add(jsonRFD.getString(i));
@@ -36,6 +38,14 @@ public class Context implements Serializable {
             TagInfo tagInfo = new TagInfo(jsonTags.getJSONObject(i));
             tags.put(tagInfo.name, tagInfo);
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSchemaName() {
+        return schemaName;
     }
 
     public List<String> readFromDictionary() {
@@ -64,7 +74,7 @@ public class Context implements Serializable {
         for (TagInfo tagInfo : tags.values()) {
             for (NameSource t : validSources) {
                 switch(t){
-                    case TAGINFO:
+                    case NAME:
                         if (tagInfo.name.equals(tagname)) return true;
                         break;
                     case DICTIONARY:
@@ -82,11 +92,14 @@ public class Context implements Serializable {
         return false;
     }
 
+    /*
+    Return the tagInfo for the given tagname as it matches to any value in groups.
+    */
     public TagInfo getTagInfo(String tagname, NameSource... groups) {
         for (TagInfo tagInfo : tags.values()) {
             for (NameSource t : groups) {
                 switch(t){
-                    case TAGINFO:
+                    case NAME:
                         if (tagInfo.name.equals(tagname)) return tagInfo;
                         break;
                     case DICTIONARY:
@@ -104,6 +117,26 @@ public class Context implements Serializable {
         return null;
     }
 
+    /**
+    Determine if a given tagname matches a taginfo rule.
+    Omitting groups tests them all.
+    @param tagname
+    @param groups
+    @return
+    */
+    public Boolean isTagName(String tagname, NameSource ... groups) {
+        if (groups.length == 0) groups = NameSource.values();
+        List<NameSource> asList = Arrays.asList(groups);
+
+        for (TagInfo tagInfo : tags.values()) {
+            if (asList.contains(NAME) && tagInfo.name.equals(tagname)) return true;
+            if (asList.contains(DICTIONARY) && tagInfo.dictionary.equals(tagname)) return true;
+            if (asList.contains(DIALOG) && tagInfo.dialog.equals(tagname)) return true;
+            if (asList.contains(NERMAP) && tagInfo.nerMap.equals(tagname)) return true;
+        }
+        return false;
+    }
+
     @Deprecated
     public TagInfo getTagInfo(String tagname) {
         for (TagInfo tagInfo : tags.values()) {
@@ -113,16 +146,6 @@ public class Context implements Serializable {
             if (tagInfo.nerMap.equals(tagname)) return tagInfo;
         }
         return null;
-    }
-
-    public Boolean isTagName(String tagname) {
-        for (TagInfo tagInfo : tags.values()) {
-            if (tagInfo.name.equals(tagname)) return true;
-            if (tagInfo.dictionary.equals(tagname)) return true;
-            if (tagInfo.dialog.equals(tagname)) return true;
-            if (tagInfo.nerMap.equals(tagname)) return true;
-        }
-        return false;
     }
 
     public boolean isNERMap(String tagname) {

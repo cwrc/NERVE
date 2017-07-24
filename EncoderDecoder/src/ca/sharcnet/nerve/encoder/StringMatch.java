@@ -1,10 +1,10 @@
 package ca.sharcnet.nerve.encoder;
-import ca.fa.utility.collections.graph.PathResult;
-import ca.fa.utility.collections.graph.Tree;
-import org.json.JSONObject;
+import ca.fa.utility.SQLRecord;
+import ca.sharcnet.graph.PathResult;
+import ca.sharcnet.graph.Tree;
 
 public class StringMatch {
-    final Tree<String, JSONObject> candidates = new Tree<>();
+    final Tree<String, SQLRecord> candidates = new Tree<>();
     private final String tokenRegex;
 
     public StringMatch() {
@@ -23,7 +23,7 @@ public class StringMatch {
         @param entity
         @param row The candidate string.
      */
-    public void addCandidate(String entity, JSONObject row) {
+    public void addCandidate(String entity, SQLRecord row) {
         String[] tokens = entity.split(tokenRegex);
         this.candidates.addPath(tokens, row);
     }
@@ -40,11 +40,11 @@ public class StringMatch {
         String regex = String.format("(?=(?!^)%1$s)(?<!%1$s)|(?!%1$s)(?<=%1$s)", tokenRegex);
         String[] tokens = source.split(regex);
 
-        Iterable<PathResult<String, JSONObject>> allPaths = candidates.allPaths(tokens, 0, 1);
+        Iterable<PathResult<String, SQLRecord>> allPaths = candidates.allPaths(tokens, 0, 1);
 
         int current = 0;
 
-        for (PathResult<String, JSONObject> path : allPaths){
+        for (PathResult<String, SQLRecord> path : allPaths){
             if (current < path.getStart()){
                 reject.reject(rebuild(current, path.getStart() - 1, tokens));
                 accept.accept(rebuild(path.getStart(), path.getEnd(), tokens), path.getValue());
