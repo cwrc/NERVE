@@ -58,7 +58,7 @@
         if (typeof value === "undefined"){
             let xmlAttr = $(this).attr(opts.attrName);
             if (typeof xmlAttr === "undefined") return xmlAttr;
-            jsonObj = JSON.parse(xmlAttr);
+            let jsonObj = JSON.parse(xmlAttr);
             return jsonObj[key];
         }
 
@@ -66,8 +66,35 @@
             let xmlAttr = $(this).attr(opts.attrName);
             /* all divs that come from encode will have this attribute */
             if (typeof xmlAttr !== "undefined"){
-                jsonObj = JSON.parse(xmlAttr);
+                let jsonObj = JSON.parse(xmlAttr);
                 jsonObj[key] = value;
+                $(this).attr(opts.attrName, JSON.stringify(jsonObj));
+            }
+        });
+    };
+}(jQuery));
+
+/**
+ * Get/Set an xml attribute of this entity.  An xml attribute will be present when the document is decoded.
+ * @param {type} $
+ * @returns {undefined}
+ */
+(function($) {
+    $.fn.moveXmlAttr = function(fromKey, toKey) {
+        var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+
+        console.log(`moveXmlAttr ${fromKey}, ${toKey}`);
+        if (!fromKey) return;
+        if (!toKey) return;
+        if (fromKey === toKey) return;
+
+        return this.each(function() {
+            let xmlAttr = $(this).attr(opts.attrName);
+            /* all divs that come from encode will have this attribute */
+            if (typeof xmlAttr !== "undefined"){
+                let jsonObj = JSON.parse(xmlAttr);
+                jsonObj[toKey] = jsonObj[fromKey];
+                delete jsonObj[fromKey];
                 $(this).attr(opts.attrName, JSON.stringify(jsonObj));
             }
         });
@@ -130,12 +157,17 @@
 (function($) {
     $.fn.entityTag = function(value) {
         var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+        var context = opts.context;
 
         if (typeof value === "undefined"){
             return $(this).attr(opts.xmlTagName);
         }
 
         return this.each(function() {
+            console.log("X");
+            let oldEntityTag = $(this).attr(opts.xmlTagName);
+            $(this).moveXmlAttr(context.getTagInfo(oldEntityTag).linkAttribute, context.getTagInfo(value).linkAttribute);
+            $(this).moveXmlAttr(context.getTagInfo(oldEntityTag).lemmaAttribute, context.getTagInfo(value).lemmaAttribute);
             return $(this).attr(opts.xmlTagName, value);
         });
     };

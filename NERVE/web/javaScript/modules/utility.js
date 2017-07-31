@@ -4,14 +4,14 @@ Utility = {
     globalTraceLevel: "local",
     enableAssertions: true,
     classes: {
-        Events: 2,
-        Controller: 2,
-        View: 2,
+        Events: 0,
+        Controller: 0,
+        View: 0,
         Collection : 0,
         Dictionary : 0,
         Context: 0,
         Response: 0,
-        Model: 2,
+        Model: 0,
         Listeners: 0,
         TagnameManager: 0
     },

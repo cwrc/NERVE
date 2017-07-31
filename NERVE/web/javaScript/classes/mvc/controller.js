@@ -18,12 +18,10 @@ class Translator extends JJJAsyncSocket{
         this.view.setThrobberMessage(phaseName);
         this.phaseName = phaseName;
         this.view.showBaubles(i, max);
-        console.log("phase " + i + " of " + max + " " + phaseName);
     }
 
     step(i, max){
         this.view.showPercent(Math.trunc(i / max * 100));
-        console.log("step " + i + " of " + max);
     }
 }
 
@@ -81,6 +79,8 @@ class Controller {
         Utility.log(Controller, "updateAllSelected");
         Utility.enforceTypes(arguments, Object);
 
+        console.log(dialogValues);
+
         if (dialogValues.tagName) this.collection.$().entityTag(dialogValues.tagName);
         if (dialogValues.entity) this.collection.$().text(dialogValues.entity);
         if (dialogValues.lemma) this.collection.$().lemma(dialogValues.lemma);
@@ -93,6 +93,8 @@ class Controller {
         this.pollDialogs();
         await this.pollDictionary(this.collection.getLast());
         this.model.saveState();
+
+        this.collection.each(n=>console.log(n));
     }
     pasteInfo() {
         Utility.log(Controller, "pasteInfo");
