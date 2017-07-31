@@ -6,8 +6,8 @@ class HostInfo {
         let host = window.location.host;
         if (host === "beta.cwrc.ca") host = "dh.sharcnet.ca";
         if (window.location.protocol === "https:") prequel = "wss://";
-        this.dictionarySocketAddress = `${prequel}${window.location.host}/nerve/Dictionary`;
-        this.translateSocketAddress = `${prequel}${window.location.host}/nerve/Translate`;
+        this.dictionarySocketAddress = `${prequel}${host}/nerve/Dictionary`;
+        this.translateSocketAddress = `${prequel}${host}/nerve/Translate`;
     }
 }
 

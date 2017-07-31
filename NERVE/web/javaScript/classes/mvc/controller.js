@@ -81,10 +81,10 @@ class Controller {
         Utility.log(Controller, "updateAllSelected");
         Utility.enforceTypes(arguments, Object);
 
-        this.collection.$().entityTag(dialogValues.tagName);
-        this.collection.$().text(dialogValues.entity);
-        this.collection.$().lemma(dialogValues.lemma);
-        this.collection.$().link(dialogValues.link);
+        if (dialogValues.tagName) this.collection.$().entityTag(dialogValues.tagName);
+        if (dialogValues.entity) this.collection.$().text(dialogValues.entity);
+        if (dialogValues.lemma) this.collection.$().lemma(dialogValues.lemma);
+        if (dialogValues.link) this.collection.$().link(dialogValues.link);
 
         this.model.setupTaggedEntity(this.collection.$());
 

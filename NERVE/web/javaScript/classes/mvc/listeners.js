@@ -1,17 +1,11 @@
 /* global Utility */
 
-class Listeners {
-    constructor(view, controller) {
-        Utility.log(Listeners, "constructor");
-        Utility.enforceTypes(arguments, View, Controller);
+class EntityDialogWidget{
 
-        this.view = view;
+    constructor(controller){
         this.controller = controller;
+        this.enitityValues = null;
 
-        $(window).resize(() => this.view.tagnameManager.pollDocument());
-
-        /* entity dialog box events -- this section has a state */
-        this.entityValues = null;
         $("#txtEntity").on("input", () => {
             if (this.entityValues === null) this.entityValues = {};
             this.entityValues.entity = $("#txtEntity").val();
@@ -35,7 +29,20 @@ class Listeners {
             if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
             event.stopPropagation();
         });
-        /* end of section with a state */
+    }
+
+}
+
+class Listeners {
+    constructor(view, controller) {
+        Utility.log(Listeners, "constructor");
+        Utility.enforceTypes(arguments, View, Controller);
+
+        this.view = view;
+        this.controller = controller;
+
+        $(window).resize(() => this.view.tagnameManager.pollDocument());
+        new EntityDialogWidget(controller);
 
         $("#selectTagName").on("input", (event) => {
             this.controller.updateAllSelected({tagName: $("#selectTagName").val()});

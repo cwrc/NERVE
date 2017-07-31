@@ -15,10 +15,14 @@
     <property name="remoteTarget" value="root@dh.sharcnet.ca:/www/glassfish/repository"/>
 
     <target name="deploy">
-        <echo>copy to ${remoteTarget}</echo>
-        <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
-            <fileset dir="./dist" includes="*.war"/>
-        </scp>
+        <sequential>
+            <echo>copy to ${remoteTarget}</echo>
+            <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
+                <fileset dir="./dist" includes="*.war"/>
+            </scp>
+            <echo>redeploy .war file</echo>
+            <sshexec host="dh.sharcnet.ca" username="root" keyfile="${keyfile}" trust="yes" command="asadmin redeploy --name nerve /www/glassfish/repository/nerve.war"/>
+        </sequential>
     </target>
 
 </project>
