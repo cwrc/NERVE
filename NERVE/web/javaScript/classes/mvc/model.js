@@ -1,13 +1,14 @@
 /* global trace, Utility, Listeners */
 
 class Model {
-    constructor(view, settings) {
+    constructor(view, settings, context) {
         Model.traceLevel = 0;
         Utility.log(Model, "constructor");
-        Utility.enforceTypes(arguments, View, Storage);
+        Utility.enforceTypes(arguments, View, Storage, Context);
 
         this.view = view;
         this.settings = settings;
+        this.context = context;
         this.variables = {};
 
         /* refers to the index of the last saved state -1 if never saved */
@@ -15,14 +16,17 @@ class Model {
         this.maxStateIndex = 30;
         this.__resetState();
     }
+
     loadStoredDoc() {
         if (this.settings.hasValue("document") && this.settings.hasValue("filename")) {
             this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
             $(".selected").removeClass("selected");
+            this.setupTaggedEntity($(".taggedentity"));
             return true;
         }
         return false;
     }
+
     reset() {
         Utility.log(Model, "reset");
         Utility.enforceTypes(arguments);
@@ -32,11 +36,13 @@ class Model {
         this.settings.deleteValue("document");
         this.settings.deleteValue("filename");
     }
+
     setListener(listener) {
         Utility.log(Model, "setListener");
         Utility.enforceTypes(arguments, Listeners);
         this.listener = listener;
     }
+
     /**
      * Assign a $name = value variable that will serve as find replace when
      * loading the context.
@@ -120,6 +126,7 @@ class Model {
     setDocument(text, filename) {
         Utility.log(Model, "setDocument");
         Utility.enforceTypes(arguments, String, String);
+
         this.view.clear();
         this.view.setDocument(text);
         this.view.setFilename(filename);
@@ -154,11 +161,11 @@ class Model {
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery, String]);
 
         $(selector).each((i, ele) => {
-            if ($(ele).link() === "" || typeof $(ele).link() === "undefined") {
-                $(ele).removeClass("linked");
-            } else {
-                $(ele).addClass("linked");
-            }
+//            if ($(ele).link() === "" || typeof $(ele).link() === "undefined") {
+//                $(ele).removeClass("linked");
+//            } else {
+//                $(ele).addClass("linked");
+//            }
         });
     }
 }

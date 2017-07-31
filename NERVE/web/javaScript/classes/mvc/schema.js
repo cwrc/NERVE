@@ -1,4 +1,4 @@
-/* global Context, Utility, Function */
+/* global Context, Utility, Function, FileOperations */
 
 class Schema {
     constructor() {
@@ -6,32 +6,18 @@ class Schema {
         Utility.enforceTypes(arguments);
     }
 
-    load(url, onSuccess = function() {}, onFailure = function() {}) {
+    async load(url) {
         Utility.log(Schema, "load");
-        Utility.enforceTypes(arguments, String, ["optional", Function], ["optional", Function]);
+        Utility.enforceTypes(arguments, String);
 
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState === 4) {
-                if (xhttp.status === 200) {
-                    var domParser = new DOMParser();
-
-                    let srcXML = domParser.parseFromString(xhttp.responseText, "text/xml");
-                    this.src = srcXML;
-                    this.xml = domParser.parseFromString("<grammar></grammar>", "text/xml");
-                    this.fillGrammar(srcXML.getElementsByTagName("grammar")[0], this.xml.getElementsByTagName("grammar")[0]);
-
-                    onSuccess(this);
-                } else {
-                    onFailure(xhttp.status, xhttp.responseText);
-                }
-            }
-        }.bind(this);
-
-        xhttp.open("POST", url, true);
-        xhttp.send(null);
+        let fileResult = await FileOperations.loadFromRemote(url);
+        let domParser = new DOMParser();
+        let srcXML = domParser.parseFromString(fileResult, "text/xml");
+        this.src = srcXML;
+        this.xml = domParser.parseFromString("<grammar></grammar>", "text/xml");
+        this.fillGrammar(srcXML.getElementsByTagName("grammar")[0], this.xml.getElementsByTagName("grammar")[0]);
     }
+
     fillGrammar(source, destination) {
         Utility.log(Schema, "fillGrammar");
         Utility.enforceTypes(arguments, Element, Element);

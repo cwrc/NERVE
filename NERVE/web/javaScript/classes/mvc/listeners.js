@@ -68,10 +68,35 @@ class Listeners {
             event.stopPropagation();
             this.controller.saveContents();
         });
+
         $("#menuOpen").click((event) => {
             event.stopPropagation();
-            this.controller.loadDocument();
+            $("#fileOpenDialog").click();
         });
+
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            controller.loadDocument(this.filename, event.target.result);
+            $("#fileOpenDialog").detach();
+            var fileSelector = document.createElement("input");
+            fileSelector.type = "file";
+            $(fileSelector).attr("id", "fileOpenDialog");
+            $("body").append(fileSelector);
+
+            $("#fileOpenDialog")[0].onchange = function (event) {
+                event.preventDefault();
+                reader.filename = this.files[0].name;
+                reader.readAsText(this.files[0]);
+            };
+        }.bind(reader);
+
+        /* file dialog event - related to menu open */
+        $("#fileOpenDialog")[0].onchange = function (event) {
+            event.preventDefault();
+            reader.filename = this.files[0].name;
+            reader.readAsText(this.files[0]);
+        };
+
         $("#menuClose").click((event) => {
             event.stopPropagation();
             this.controller.closeDocument();
@@ -89,6 +114,7 @@ class Listeners {
         $("#menuClear").click((event) => {
             event.stopPropagation();
             this.controller.unselectAll();
+            this.view.clearThrobber();
         });
         $("#menuUndo").click((event) => {
             event.stopPropagation();
@@ -128,17 +154,18 @@ class Listeners {
             this.controller.mergeSelectedEntities();
         });
 
-        $("#dictAdd").click((event) => {
+        $("#dictAdd").click(async (event) => {
             event.stopPropagation();
-            this.controller.dictAdd();
+            await this.controller.dictAdd();
         });
-        $("#dictRemove").click((event) => {
+
+        $("#dictRemove").click(async (event) => {
             event.stopPropagation();
-            this.controller.dictRemove();
+            await this.controller.dictRemove();
         });
-        $("#dictUpdate").click((event) => {
+        $("#dictUpdate").click(async (event) => {
             event.stopPropagation();
-            this.controller.dictUpdate();
+            await this.controller.dictUpdate();
         });
 
         /* the ability to switch context is deprecated */
@@ -308,10 +335,6 @@ class Listeners {
             this.controller.selectLikeEntitiesByLemma();
             event.stopPropagation();
         }
-    }
-    /* context switching is deprecated */
-    switchContext(contextName) {
-        window.alert("'Switch Schema' is deprectated; the context/schema is now detected from the file.  In future releases this menu option will be removed.");
     }
     menuShowTags() {
         let rvalue = false;

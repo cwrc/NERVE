@@ -8,7 +8,6 @@ Utility = {
         Controller: 2,
         View: 2,
         Collection : 0,
-        FileOperations : 0,
         Dictionary : 0,
         Context: 0,
         Response: 0,

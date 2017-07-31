@@ -5,40 +5,79 @@ DOCUMENT_POSITION_CONTAINS = 8;
 DOCUMENT_POSITION_CONTAINED_BY = 16;
 DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32;
 
-/* global selected, model, search, TaggedEntity, this.factory, Utility, trace, cD, Range, DOMException, Function, HTMLDivElement */
-/* (^[ ]+)([a-zA-z]+)(\(.*\)[ ]?\{) */
-/* $1$2$3\nUtility.log(Events, "$2"); */
+/* global selected, model, search, TaggedEntity, this.factory, Utility, trace, cD, Range, DOMException, Function, HTMLDivElement, FileOperations, Storage */
+
+class Translator extends JJJAsyncSocket{
+    constructor(view){
+        super();
+        this.view = view;
+        this.phaseName = "";
+    }
+
+    phase(phaseName, i, max){
+        this.view.setThrobberMessage(phaseName);
+        this.phaseName = phaseName;
+        this.view.showBaubles(i, max);
+        console.log("phase " + i + " of " + max + " " + phaseName);
+    }
+
+    step(i, max){
+        this.view.showPercent(Math.trunc(i / max * 100));
+        console.log("step " + i + " of " + max);
+    }
+}
 
 class Controller {
     /**
      * @param {View} view
      * @param {Model} model
-     * @param {FileOperations} fileOps
-     * @param {ContextLoader} loader
+     * @param {Context} context
+     * @param {Storage} storage
      * @returns {Controller}
      */
-    constructor(view, model, fileOps, loader) {
+    constructor(view, model, context, storage) {
         Utility.log(Controller, "constructor");
-        Utility.enforceTypes(arguments, View, Model, FileOperations, ContextLoader);
+        Utility.enforceTypes(arguments, View, Model, Context, Storage);
 
         this.view = view;
         this.model = model;
-        this.fileOps = fileOps;
-        this.contextLoader = loader;
+        this.context = context;
+        this.storage = storage;
+    }
+
+    async start() {
+        Utility.log(Controller, "start");
+        Utility.enforceTypes(arguments);
+
+        if (this.storage.hasValue("context-name")) {
+            let contextName = this.storage.getValue("context-name");
+            this.view.setThrobberMessage("Loading Context...");
+            await this.loadContext(contextName);
+        }
 
         this.dialogs = new Dialogs(this);
         this.collection = new Collection();
-        this.dictionary = new Dictionary();
-        this.settings = new Storage("controller");
         this.searchUtility = new SearchUtility("#entityPanel");
+        this.searchUtility.setContext(this.context);
+
+        let hostInfo = new HostInfo();
+        this.dictionary = new JJJAsyncSocket();
+        this.translator = new Translator(this.view);
+
+        this.view.setThrobberMessage("Connecting Dictionary Socket...");
+        await this.dictionary.connect(hostInfo.dictionarySocketAddress);
+
+        this.view.setThrobberMessage("Connecting Encoder Socket...");
+        await this.translator.connect(hostInfo.translateSocketAddress);
 
         this.dTimeout = null;
         this.copiedInfo = null;
         this.isSaved = false;
-    }
 
+        return this;
+    }
     /* active model changers */
-    updateAllSelected(dialogValues) {
+    async updateAllSelected(dialogValues) {
         Utility.log(Controller, "updateAllSelected");
         Utility.enforceTypes(arguments, Object);
 
@@ -52,11 +91,10 @@ class Controller {
         this.view.setSearchText("");
         this.searchUtility.reset();
         this.pollDialogs();
-        this.pollDictionaryDelayed(this.collection.getLast(), 500);
+        await this.pollDictionary(this.collection.getLast());
         this.model.saveState();
     }
-
-    pasteInfo(){
+    pasteInfo() {
         Utility.log(Controller, "pasteInfo");
         Utility.enforceTypes(arguments);
         if (this.copiedInfo === null || this.collection.isEmpty()) return;
@@ -68,14 +106,13 @@ class Controller {
         this.isSaved = false;
         this.model.saveState();
     }
-
     mergeSelectedEntities() {
         Utility.log(Controller, "mergeSelectedEntities");
         Utility.enforceTypes(arguments);
 
-        try{
+        try {
             var ele = this.collection.$().mergeElements();
-        } catch (error){
+        } catch (error) {
             this.view.showUserMessage(error.message);
             return;
         }
@@ -94,61 +131,62 @@ class Controller {
 
         this.view.tagnameManager.resetTagnames();
     }
-
-    tagSelectedRange() {
+    async tagSelectedRange() {
         Utility.log(Controller, "tagSelectedRange");
         Utility.enforceTypes(arguments);
 
         let selection = window.getSelection();
-        if (selection.rangeCount === 0){
+        if (selection.rangeCount === 0) {
             this.view.showUserMessage("No text selected");
             return;
         }
         let range = selection.getRangeAt(0);
         let tagName = this.view.getDialogs().tagName;
 
-        if (!this.context.schema.isValid(range.commonAncestorContainer, tagName)){
+        if (!this.context.schema.isValid(range.commonAncestorContainer, tagName)) {
             this.view.showUserMessage(`Tagging "${tagName}" is not valid in the Schema at this location.`);
             return;
         }
 
         let taggedEntity = this.__constructEntityFromRange(range, tagName);
+        let values = await this.fillValues(taggedEntity, {tagName: tagName, lemma: $(taggedEntity).text(), link: ""});
 
-        let callback = (values)=>{
-            this.model.setEntityValues(taggedEntity, values);
-            this.model.setupTaggedEntity(taggedEntity);
-            selection.removeAllRanges();
-            document.normalize();
-            this.addSelected(taggedEntity);
-            this.model.saveState();
-            this.isSaved = false;
-            this.view.showUserMessage(`New "${tagName}" entity created.`);
-            this.view.setSearchText("");
-//            this.searchUtility.reset();
-        };
-        this.getValues(taggedEntity, {tagName:tagName, lemma:$(taggedEntity).text(), link:""}, callback);
+        this.model.setEntityValues(taggedEntity, values);
+        this.model.setupTaggedEntity(taggedEntity);
+        selection.removeAllRanges();
+        document.normalize();
+        this.addSelected(taggedEntity);
+        this.model.saveState();
+        this.isSaved = false;
+        this.view.showUserMessage(`New "${tagName}" entity created.`);
+        this.view.setSearchText("");
     }
 
     /**
-     *  Use when a new entity is created, currently only with tagSelectedRange
+     *  Use when a new entity is created, (currently only with tagSelectedRange)
      *  Fills in the entity values with those from the dictionary.
-     *  The default values are given with "values".
-     **/
-    getValues(entity, values, callback){
-        Utility.log(Controller, "getValues");
-        Utility.enforceTypes(arguments, HTMLDivElement, Object, Function);
+     *  The default values are given with "values".  Preference will be givent to
+     *  the 'custom' dictionary, otherwise dictionary preference is undefined.
+     *  Returns the filled values;
+     * @param {type} entity The taggedentity element in question.
+     * @param {type} values Default values;
+     * @returns {unresolved}
+     */
+    async fillValues(entity, values) {
+        Utility.log(Controller, "fillValues");
+        Utility.enforceTypes(arguments, HTMLDivElement, Object);
 
-        this.dictionary.getEntities(entity, (rows) => {
-            for (let row of rows) {
-                console.log(row);
-                values.tagName = this.context.getTagInfo(row.tag).name;
-                values.lemma = row.lemma;
-                values.link = row.link;
-                $(entity).attr("data-dictionary", row.collection);
-                if (row.collection === "custom") break;
-            }
-            callback(values);
-        });
+        let rows = await this.dictionary.getEntities($(entity).text());
+
+        for (let row of rows) {
+            values.tagName = this.context.getTagInfo(row.tag).name;
+            values.lemma = row.lemma;
+            values.link = row.link;
+            $(entity).attr("data-dictionary", row.collection);
+            if (row.collection === "custom") break;
+        }
+
+        return values;
     }
 
     untagAll() {
@@ -158,7 +196,7 @@ class Controller {
         if (this.collection.isEmpty()) return new Response(false, "");
 
         let count = this.collection.size();
-        this.collection.$().each((i, ele)=>this.view.tagnameManager.clearTagnameElement(ele));
+        this.collection.$().each((i, ele) => this.view.tagnameManager.clearTagnameElement(ele));
         this.collection.$().contents().unwrap();
         this.view.clearDialogs();
         this.view.setDialogFade(true);
@@ -170,8 +208,7 @@ class Controller {
         this.view.setSearchText("");
         this.searchUtility.reset();
     }
-
-    revertState(){
+    revertState() {
         Utility.log(Controller, "revertState");
         Utility.enforceTypes(arguments);
 
@@ -179,8 +216,7 @@ class Controller {
         this.model.revertState();
         this.view.tagnameManager.resetTagnames();
     }
-
-    advanceState(){
+    advanceState() {
         Utility.log(Controller, "advanceState");
         Utility.enforceTypes(arguments);
 
@@ -188,7 +224,6 @@ class Controller {
         this.model.advanceState();
         this.view.tagnameManager.resetTagnames();
     }
-
     /* end of active model control */
 
     /* other */
@@ -197,8 +232,7 @@ class Controller {
         Utility.enforceTypes(arguments, Listeners);
         this.listener = listener;
     }
-
-    selectLikeEntitiesByLemma(){
+    selectLikeEntitiesByLemma() {
         Utility.log(Controller, "selectLikeEntitiesByLemma");
         Utility.enforceTypes(arguments);
 
@@ -206,8 +240,8 @@ class Controller {
         let lastEle = this.collection.getLast();
         if (typeof $(lastEle).lemma() === "undefined") return;
 
-        $(".taggedentity").each((i, ele)=>{
-            if ($(ele).lemma() === $(lastEle).lemma()){
+        $(".taggedentity").each((i, ele) => {
+            if ($(ele).lemma() === $(lastEle).lemma()) {
                 this.collection.add(ele);
                 $(ele).addClass("selected");
             }
@@ -217,35 +251,51 @@ class Controller {
         let count = this.collection.size();
         this.view.showUserMessage(count + " entit" + (count === 1 ? "y" : "ies") + " selected");
     }
-
-    dictAdd(){
+    async dictAdd() {
         Utility.log(Controller, "dictAdd");
         Utility.enforceTypes(arguments);
+
         if (this.collection.isEmpty()) return;
-        this.dictionary.addEntity(this.collection.getLast());
+
+        let entity = this.collection.getLast();
+        let text = $(entity).text();
+        let lemma = $(entity).lemma();
+        let link = $(entity).link();
+        let entityTag = $(entity).entityTag();
+        let collection = "custom";
+
+        await this.dictionary.addEntity(text, lemma, link, entityTag, collection);
         this.view.setDictionary("custom");
         this.view.setDictionaryButton("remove");
     }
-
-    dictRemove(){
+    async dictRemove() {
         Utility.log(Controller, "dictRemove");
         Utility.enforceTypes(arguments);
+
         if (this.collection.isEmpty()) return;
-        this.dictionary.removeEntity(this.collection.getLast());
-        this.pollDictionary(this.collection.getLast());
+        let entity = this.collection.getLast();
+        let text = $(entity).text();
+        await this.dictionary.deleteEntity(text, "custom");
+        await this.pollDictionary(this.collection.getLast());
         $(this.collection.getLast()).removeAttr("data-dictionary");
     }
-
-    dictUpdate(){
+    async dictUpdate() {
         Utility.log(Controller, "dictUpdate");
         Utility.enforceTypes(arguments);
+
         if (this.collection.isEmpty()) return;
-        this.dictionary.addEntity(this.collection.getLast());
+        let entity = this.collection.getLast();
+        let text = $(entity).text();
+        let lemma = $(entity).lemma();
+        let link = $(entity).link();
+        let entityTag = $(entity).entityTag();
+        let collection = "custom";
+
+        await this.dictionary.addEntity(text, lemma, link, entityTag, collection);
         this.view.setDictionary("custom");
         this.view.setDictionaryButton("remove");
     }
-
-    copyData(entityFrom, entityTo){
+    copyData(entityFrom, entityTo) {
         Utility.log(Controller, "addSelected");
         Utility.enforceTypes(arguments, HTMLDivElement, HTMLDivElement);
 
@@ -256,7 +306,11 @@ class Controller {
         this.isSaved = false;
         return new Response(true, `Entity data copied`);
     }
-
+    /**
+     * Set the list of selected entities to a single entity.
+     * @param {type} taggedEntity
+     * @returns {undefined}
+     */
     setSelected(taggedEntity) {
         Utility.log(Controller, "setSelected");
         Utility.enforceTypes(arguments, HTMLDivElement);
@@ -268,7 +322,6 @@ class Controller {
         this.view.setDialogFade(false);
         this.setDialogs(taggedEntity, 0);
     }
-
     addSelected(taggedEntity) {
         Utility.log(Controller, "addSelected");
         Utility.enforceTypes(arguments, HTMLDivElement);
@@ -278,24 +331,21 @@ class Controller {
         this.view.setDialogFade(false);
         this.setDialogs(taggedEntity, 0);
     }
-
     toggleSelect(taggedEntity) {
         Utility.log(Controller, "toggleSelect");
         Utility.enforceTypes(arguments, HTMLDivElement);
 
-        if (!this.collection.contains(taggedEntity)){
+        if (!this.collection.contains(taggedEntity)) {
             this.collection.add(taggedEntity);
             $(taggedEntity).addClass("selected");
             this.addSelected(taggedEntity);
             this.view.setDialogFade(false);
-        }
-        else{
+        } else {
             this.collection.remove(taggedEntity);
             $(taggedEntity).removeClass("selected");
             if (this.collection.isEmpty()) this.view.setDialogFade(true);
         }
     }
-
     unselectAll() {
         Utility.log(Controller, "unselectAll");
         Utility.enforceTypes(arguments);
@@ -305,18 +355,16 @@ class Controller {
         this.collection.clear();
         this.view.setDialogFade(true);
     }
-
     fillFind() {
         Utility.log(Controller, "fillFind");
         Utility.enforceTypes(arguments);
 
         let selection = window.getSelection();
-        if (selection.rangeCount !== 0 && window.getSelection().getRangeAt(0).toString().trim() !== ""){
+        if (selection.rangeCount !== 0 && window.getSelection().getRangeAt(0).toString().trim() !== "") {
             let text = window.getSelection().getRangeAt(0).toString().trim();
             this.view.setFindText(text);
             this.search(text, "next");
-        }
-        else if (!this.collection.isEmpty()){
+        } else if (!this.collection.isEmpty()) {
             let last = this.collection.getLast();
             this.view.setFindText($(last).text());
             this.search($(last).text(), "next");
@@ -326,41 +374,37 @@ class Controller {
 
         this.view.focusFind();
     }
-
-    copyInfo(){
+    copyInfo() {
         Utility.log(Controller, "copyInfo");
         Utility.enforceTypes(arguments);
         if (this.collection.isEmpty()) return;
         this.copiedInfo = this.view.getDialogs();
     }
-
-    setDialogs(taggedEntity, delay) {
+    async setDialogs(taggedEntity, delay) {
         Utility.log(Controller, "setDialogs");
         Utility.enforceTypes(arguments, HTMLDivElement, ["optional", Number]);
         if (typeof delay === "undefined") delay = 0;
 
         this.view.setDialogs(taggedEntity);
-        this.pollDictionary(taggedEntity);
+        await this.pollDictionary(taggedEntity);
         this.pollDialogs();
     }
-
     /* Set the BG of the entity dialog componets if not all of the collection */
     /* match on the respective value.                                         */
-    pollDialogs(){
+    pollDialogs() {
         Utility.log(Controller, "pollDialogs");
         Utility.enforceTypes(arguments);
 
         let first = this.collection.getFirst();
         this.view.clearDialogBG();
 
-        this.collection.each((entity)=>{
+        this.collection.each((entity) => {
             if ($(entity).lemma() !== $(first).lemma()) this.view.setDialogBG("lemma");
             if ($(entity).link() !== $(first).link()) this.view.setDialogBG("link");
             if ($(entity).text() !== $(first).text()) this.view.setDialogBG("text");
             if ($(entity).entityTag() !== $(first).entityTag()) this.view.setDialogBG("tag");
         });
     }
-
     __constructEntityFromRange(range, tagName) {
         Utility.log(Controller, "__constructEntityFromRange");
         Utility.enforceTypes(arguments, Range, String);
@@ -386,7 +430,6 @@ class Controller {
         this.isSaved = false;
         return ele;
     }
-
     __validifyTagRange(range) {
         Utility.log(Controller, "__validifyTagRange");
         Utility.verifyArguments(arguments, 1);
@@ -406,7 +449,7 @@ class Controller {
             }
             current = current.parentElement;
             i++;
-            if (i === 100){
+            if (i === 100) {
                 throw "SANITY CHECK FAILED";
                 break;
             }
@@ -446,32 +489,10 @@ class Controller {
 
         return range;
     }
-
     selectSameEntities(taggedEntity) {
         Utility.log(Controller, "selectSameEntities");
         Utility.enforceTypes(arguments, TaggedEntity);
     }
-    /*
-     * Load a context from the sever, set the model and factory contexts
-     * @param {type} contextName
-     * @param {type} success
-     * @param {type} failure
-     * @returns {undefined}
-     */
-    loadContext(contextName, success = function() {}, failure = function(){}) {
-        Utility.log(Controller, "loadContext");
-        Utility.enforceTypes(arguments, String, ["optional", Function], ["optional", Function]);
-        this.contextLoader.loadContext(contextName, success, failure);
-    }
-
-    setContext(context){
-        Utility.log(Controller, "setContext");
-        Utility.enforceTypes(arguments, Context);
-        this.context = context;
-        this.dictionary.setContext(context);
-        this.searchUtility.setContext(context);
-    }
-
     __enableDictionaryUpdate(value) {
         Utility.log(Controller, "__enableDictionaryUpdate");
         Utility.enforceTypes(arguments, Boolean);
@@ -479,53 +500,45 @@ class Controller {
         this.dictionaryUpdate = value;
         this.view.enableDictionaryUpdate(value);
     }
-
-    pollDictionaryDelayed(entity, delay){
-        if (this.dTimeout !== null) clearTimeout(this.dTimeout);
-        this.dTimeout = setTimeout(()=>{
-            this.pollDictionary(entity);
-        }, delay);
-    }
-
-   /* If no results are found set button to add.
-    * If no results match (lemma, link, tag) set button to update.
-    * If any result matches exactly set button to remove.
-    */
-    pollDictionary(entity) {
+    /* If no results are found set button to add.
+     * If no results match (lemma, link, tag) set button to update.
+     * If any result matches exactly set button to remove.
+     */
+    async pollDictionary(entity) {
         Utility.log(Controller, "pollDictionary");
         Utility.enforceTypes(arguments, HTMLDivElement);
+
         this.view.setDictionaryButton("none");
         $(entity).removeAttr("data-dictionary");
         this.view.setDictionary("");
 
-        this.dictionary.getEntities(entity, (rows) => {
-            if (rows.length === 0) {
-                this.view.setDictionaryButton("add");
-            } else {
-                let dictTag = this.context.getTagInfo($(entity).entityTag()).dictionary;
-                for (let row of rows) {
-                    if (row.lemma === $(entity).lemma() && row.link === $(entity).link() && row.tag === dictTag) {
-                        $(entity).attr("data-dictionary", row.collection);
-                        if (row.collection === "custom") break;
-                    }
-                }
-                if (typeof $(entity).attr("data-dictionary") === "undefined") {
-                    this.view.setDictionaryButton("add");
-                    for (let row of rows) {
-                        if (row.collection === "custom"){
-                            this.view.setDictionaryButton("update");
-                            break;
-                        }
-                    }
-                } else {
-                    this.view.setDictionary($(entity).attr("data-dictionary"));
-                    if ($(entity).attr("data-dictionary") !== "custom") this.view.setDictionaryButton("add");
-                    else this.view.setDictionaryButton("remove");
+        let rows = await this.dictionary.getEntities($(entity).text());
+
+        if (rows.length === 0) {
+            this.view.setDictionaryButton("add");
+        } else {
+            let dictTag = this.context.getTagInfo($(entity).entityTag()).dictionary;
+            for (let row of rows) {
+                if (row.lemma === $(entity).lemma() && row.link === $(entity).link() && row.tag === dictTag) {
+                    $(entity).attr("data-dictionary", row.collection);
+                    if (row.collection === "custom") break;
                 }
             }
-        });
+            if (typeof $(entity).attr("data-dictionary") === "undefined") {
+                this.view.setDictionaryButton("add");
+                for (let row of rows) {
+                    if (row.collection === "custom") {
+                        this.view.setDictionaryButton("update");
+                        break;
+                    }
+                }
+            } else {
+                this.view.setDictionary($(entity).attr("data-dictionary"));
+                if ($(entity).attr("data-dictionary") !== "custom") this.view.setDictionaryButton("add");
+                else this.view.setDictionaryButton("remove");
+            }
+        }
     }
-
     showSearchDialog() {
         Utility.log(Controller, "showSearchDialog");
         Utility.enforceTypes(arguments);
@@ -537,7 +550,6 @@ class Controller {
         let tag = this.context.getTagInfo(tagName);
         this.dialogs.showDialog(tag.dialog);
     }
-
     __fillDialogsFromCollection() {
         Utility.log(Controller, "__fillDialogsFromCollection");
         Utility.enforceTypes(arguments);
@@ -571,86 +583,68 @@ class Controller {
             }
         });
     }
-
     /* not in unit tests */
-    loadDocument(){
+    async loadDocument(filename, text) {
         Utility.log(Controller, "loadDocument");
-        Utility.enforceTypes(arguments);
-        let fname = "";
+        Utility.enforceTypes(arguments, String, String);
 
-        let successfullLoad = (text, filename)=>{
-            fname = filename;
-            beforeEncode(filename);
-            this.fileOps.encode(text, successfullEncode, onFailure);
-        };
+        this.view.showThrobber(true);
+        this.view.setThrobberMessage("Loading Document");
 
-        let beforeEncode = (filename)=>{
-            this.view.showThrobber(true);
-            this.view.setThrobberMessage("Encoding file\n" + filename);
-        };
+        let encoded = await this.translator.encode(text);
+        this.model.setDocument(encoded, filename);
+        this.view.tagnameManager.pollDocument();
+        let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
 
-        let onContextCreate = (text)=>{
-            this.model.setupTaggedEntity($(".taggedentity"));
-            this.isSaved = true;
-            this.view.clearThrobber();
-            setTimeout(()=>this.view.tagnameManager.resetTagnames(), 500);
-        };
-
-        let successfullEncode = (text)=>{
-            this.model.setDocument(text, fname);
-            this.view.tagnameManager.pollDocument();
-            let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
-
-            if (typeof schemaPath === "string"){
-                let split = schemaPath.split("/");
-                switch (split[split.length - 1]){
-                    case "orlando_biography_v2.rng":
-                        this.contextLoader.loadContext("orlando", ()=>onContextCreate(text));
+        if (typeof schemaPath === "string") {
+            let split = schemaPath.split("/");
+            switch (split[split.length - 1]) {
+                case "orlando_biography_v2.rng":
+                    await this.loadContext("orlando");
                     break;
-                    case "cwrc_entry.rng":
-                        this.contextLoader.loadContext("cwrc", ()=>onContextCreate(text));
+                case "cwrc_entry.rng":
+                    await this.loadContext("cwrc");
                     break;
-                    case "cwrc_tei_lite.rng":
-                        this.contextLoader.loadContext("tei", ()=>onContextCreate(text));
+                case "cwrc_tei_lite.rng":
+                    await this.loadContext("tei");
                     break;
-                }
             }
-        };
+        }
 
-        let onFailure = (status, text)=>{
-            let msg = "Failed to encode file\n";
-            msg += "return status : " + status;
-            window.alert(msg);
-            console.log(text);
-            this.view.clearThrobber();
-        };
-
-        this.fileOps.loadFromFile(successfullLoad);
+        this.model.setupTaggedEntity($(".taggedentity"));
+        this.isSaved = true;
+        this.view.clearThrobber();
+        setTimeout(() => this.view.tagnameManager.resetTagnames(), 500);
+        this.view.showThrobber(false);
     }
 
+    async loadContext(contextName) {
+        let url = "resources/" + contextName.toLowerCase() + ".context.json";
+        this.storage.setValue("context-name", contextName);
 
-    saveContents() {
+        try {
+            let jsonText = await FileOperations.loadFromServer(url);
+            let json = JSON.parse(jsonText);
+            await this.context.load(json);
+            this.storage.setValue("context-name", this.context.name);
+            this.view.notifyContextChange();
+        } catch (error) {
+            window.alert("Unable to create context object : " + status);
+            console.log(error);
+        }
+    }
+
+    async saveContents() {
         Utility.log(Controller, "saveContents");
         Utility.enforceTypes(arguments, ["optional", Function], ["optional", Function]);
 
         this.view.showThrobber(true);
         this.unselectAll();
         let contents = "<doc>" + this.model.getDocument() + "</doc>";
-
-        let success = (result)=>{
-            this.fileOps.saveToFile(result, this.model.getFilename());
-            this.isSaved = true;
-            this.view.showThrobber(false);
-        };
-
-        let failure = (status, text)=>{
-            this.view.showThrobber(false);
-            window.alert("Content Save Failed : " + status);
-            console.log("Content Save Failed");
-            console.log(text);
-        };
-
-        this.fileOps.decode(contents, this.context, success, failure);
+        let result = await this.translator.decode(contents);
+        FileOperations.saveToFile(result, this.model.getFilename());
+        this.isSaved = true;
+        this.view.showThrobber(false);
     }
 
     search(text, direction) {
@@ -668,23 +662,21 @@ class Controller {
         window.getSelection().addRange(r);
         let parent = r.commonAncestorContainer.parentElement;
         this.view.scrollTo(parent);
-        if ($(parent).hasClass("taggedentity")){
+        if ($(parent).hasClass("taggedentity")) {
             this.addSelected(parent);
         }
     }
-
-    closeDocument(){
+    closeDocument() {
         Utility.log(Controller, "closeDocument");
         Utility.enforceTypes(arguments);
         this.view.clear();
         this.model.reset();
     }
-
-    goLink(){
+    goLink() {
         Utility.log(Controller, "goLink");
         Utility.enforceTypes(arguments);
         let url = $("#txtLink").val();
-        if (!url.startsWith("http") && !url.startsWith("https")){
+        if (!url.startsWith("http") && !url.startsWith("https")) {
             url = "http://" + $("#txtLink").val();
         }
         var win = window.open(url, '_blank');

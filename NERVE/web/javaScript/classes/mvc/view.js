@@ -1,5 +1,11 @@
 /* global TaggedEntity, Utility, trace, Context, enums, Events, HTMLElement, Element */
 
+/**
+ * TagnameManager uses a MutationObserver (https://developer.mozilla.org/en/docs/Web/API/MutationObserver) to respond
+ * to any changes to a tagged entities tag value.  To force a check, typically when a document is first loaded, use the
+ * method "pollDocument".
+ * @type type
+ */
 class TagnameManager {
     constructor() {
         Utility.log(TagnameManager, "constructor");
@@ -89,20 +95,20 @@ class TagnameManager {
 }
 
 class View {
-    constructor(serverIP) {
+    constructor(serverIP, context) {
         View.traceLevel = 0;
         Utility.log(View, "constructor");
-        Utility.enforceTypes(arguments, String);
+        Utility.enforceTypes(arguments, String, Context);
 
         this.tagnameManager = new TagnameManager();
         this.delayThrobber = null;
         this.serverIP = serverIP;
         this.throbberMessageStack = [];
         this.lastFade = true;
+        this.context = context;
 
         this.usrMsgHnd = new UserMessageHandler();
         this.usrMsgHnd.setContainer(document.getElementById("userMessage"));
-        this.context = null;
 
         /* make msg panel resize on mouse over */
         var panel = document.getElementById("messagePanel");
@@ -199,21 +205,25 @@ class View {
         panel.innerHTML = inner + "<br>" + string;
         panel.scrollTop = panel.scrollHeight;
     }
+
     focusFind() {
         Utility.log(View, "focusFind");
         Utility.enforceTypes(arguments);
         document.getElementById("epsTextArea").focus();
     }
+
     setFindText(string) {
         Utility.log(View, "setFindText");
         Utility.enforceTypes(arguments, String);
         document.getElementById("epsTextArea").value = string;
     }
+
     getSearchTerm() {
         Utility.log(View, "getSearchTerm");
         Utility.enforceTypes(arguments);
         return document.getElementById("epsTextArea").value;
     }
+
     clearDialogs() {
         Utility.log(View, "clearDialogs");
         Utility.enforceTypes(arguments);
@@ -292,22 +302,13 @@ class View {
         }
         document.getElementById("epsTextArea").value = string;
     }
-    setContext(context) {
-        Utility.log(View, "setContext");
-        Utility.verifyArguments(arguments, Context);
 
-        /* remove all styles of current context */
-        if (this.context !== null) {
-            for (let stylename of this.context.styles) {
-                this.detachStyle(stylename);
-            }
-        }
+    notifyContextChange(){
+        Utility.log(View, "notifyContextChange");
 
-        let contextName = context.name.toLowerCase();
-        $(`[data-context]`).removeClass("activeText");
-        $(`[data-context='${contextName}']`).addClass("activeText");
-
-        this.context = context;
+        /* clear styles */
+        /* todo support multipel styles on detach */
+        this.detachStyle();
 
         /* clear the drop down tagName selector */
         let selector = document.getElementById("selectTagName");
@@ -315,24 +316,24 @@ class View {
             selector.removeChild(selector.firstChild);
         }
 
+//        let contextName = context.name.toLowerCase();
+//        $(`[data-context]`).removeClass("activeText");
+//        $(`[data-context='${contextName}']`).addClass("activeText");
+
         /* set the available tags in the drop down selector */
-        for (var i = 0; i < context.tags.length; i++) {
+        for (var i = 0; i < this.context.tags.length; i++) {
             var opt = document.createElement('option');
-            opt.value = context.tags[i].name;
-            opt.innerHTML = context.tags[i].name;
+            opt.value = this.context.tags[i].name;
+            opt.innerHTML = this.context.tags[i].name;
             document.getElementById("selectTagName").appendChild(opt);
         }
 
-//        $("selectTagName").value();
-//        document.getElementById("selectTagName").value = document.getElementById("selectTagName").firstChild.value;
-
         /* load new .css files */
-        for (let stylename of context.styles) {
+        for (let stylename of this.context.styles) {
             this.attachStyle(stylename);
         }
-
-//        return document.getElementById("selectTagName").firstChild.value;
     }
+
     /* add a link element to the head of the document as a style sheet.  Adds
      * a link id = filename so it's easily found again.
      * @param {type} filename
@@ -341,7 +342,7 @@ class View {
     attachStyle(filename) {
         Utility.log(View, "attachStyle");
         Utility.enforceTypes(arguments, String);
-        console.log(filename);
+        this.styleFilename = filename;
 
         var fileref = document.createElement("link");
         fileref.setAttribute("rel", "stylesheet");
@@ -355,11 +356,11 @@ class View {
      * @param {type} filename
      * @returns {undefined}
      */
-    detachStyle(filename) {
+    detachStyle() {
         Utility.log(View, "detachStyle");
-        Utility.enforceTypes(arguments, String);
+        Utility.enforceTypes(arguments);
 
-        let style = document.getElementById(filename);
+        let style = document.getElementById(this.styleFilename);
         if (typeof style !== "undefined" && style !== null) {
             let parent = style.parentNode;
             parent.removeChild(style);
@@ -369,8 +370,26 @@ class View {
     clearThrobber() {
         this.showThrobber(false);
         $("message").text("");
+        $("#baubles > img").hide();
+        $("#percent").hide();
         this.throbberMessageStack = [];
     }
+
+    showPercent(amount){
+        $("#percent").show();
+        $("#percent").text(amount + "%");
+    }
+
+    showBaubles(index, max){
+        $("#baubles > img").hide();
+        $("#baubles > img").attr("src", "resources/light-off.png");
+
+        for (let i = 1; i <= max; i++){
+            $(`#baubles > img[data-index="${i}"]`).show();
+            if (i <= index) $(`#baubles > img[data-index="${i}"]`).attr("src", "resources/light-on.png");
+        }
+    }
+
     showThrobber(flag) {
         Utility.log(View, "showThrobber");
         Utility.enforceTypes(arguments, Boolean);

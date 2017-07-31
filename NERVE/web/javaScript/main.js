@@ -1,108 +1,44 @@
-$(window).ready(() => {
-    windowLoad();
-});
+/* global FileOperations */
 
-function windowLoad() {
-    window.main = new Main();
-
-    /* get ip address in case development only optionas are needed */
-    jQuery.getJSON('//freegeoip.net/json/?callback=?', function (data) {
-        main.initialize(data.ip);
-    }.bind(this));
-
-    /* make boostrap dialogs movable */
-    jQuery('.modal-dialog').draggable({
-        handle: ".modal-header"
-    });
-}
-;
-
-class ContextLoader {
+class HostInfo {
     constructor() {
-        this.context = new Context({
-            name: "",
-            tags: [],
-            styles: []
-        });
+        let prequel = "ws://";
+        let host = window.location.host;
+        if (host === "beta.cwrc.ca") host = "dh.sharcnet.ca";
+        if (window.location.protocol === "https:") prequel = "wss://";
+        this.dictionarySocketAddress = `${prequel}${window.location.host}/nerve/Dictionary`;
+        this.translateSocketAddress = `${prequel}${window.location.host}/nerve/Translate`;
     }
-    loadContext(contextName, success = function() {}, failure = function(){}){
-    }
-    lookupContext(fullpath) {}
 }
 
-class Main extends ContextLoader {
+class Main {
     constructor() {
-        super();
-        this.settings = new Storage();
+        this.storage = new Storage();
+        this.context = new Context();
+
         this.model = null;
         this.controller = null;
         this.view = null;
         this.listener = null;
-        this.fileOps = new FileOperations();
+
+        JJJ.devmode = true;
     }
-    initialize(clientIP) {
-        this.view = new View(clientIP);
-        this.view.pushThrobberMessage("Loading JavaScript Objects");
-        this.model = new Model(this.view, this.settings);
+    async initialize(clientIP) {
+        this.view = new View(clientIP, this.context);
+        this.view.setThrobberMessage("Loading...");
+
+        this.model = new Model(this.view, this.storage, this.context);
         this.model.setVariable("host", location.host);
-        this.controller = new Controller(this.view, this.model, this.fileOps, this);
+
+        this.controller = await new Controller(this.view, this.model, this.context, this.storage).start();
+
         this.listener = new Listeners(this.view, this.controller);
-        this.view.popThrobberMessage();
+        $.fn.xmlAttr.defaults.context = this.context;
+
+        this.model.loadStoredDoc();
+
         this.view.showThrobber(false);
-
-        if (this.model.loadStoredDoc() && this.settings.hasValue("context-name")) {
-            let contextName = this.settings.getValue("context-name");
-            this.loadContext(contextName, () => {
-                this.model.setupTaggedEntity($(".taggedentity"));
-                this.view.showThrobber(false);
-
-                setTimeout(() => {
-                    $("#container").show();
-                    this.view.tagnameManager.pollDocument();
-                }, 500);
-            });
-        } else {
-            this.view.showThrobber(false);
-            setTimeout(() => {
-                $("#container").show();
-                this.view.tagnameManager.pollDocument();
-            }, 500);
-        }
-    }
-    loadContext(contextName, success = function() {}, failure = function(){}) {
-        let url = "resources/" + contextName.toLowerCase() + ".context.json";
-
-        let contextCreateSuccess = (context) => {
-            this.model.setContext(context);
-            this.controller.setContext(context);
-            this.view.setContext(context);
-            $.fn.xmlAttr.defaults.context = context;
-            this.settings.setValue("context-name", context.name);
-            setTimeout(() => {
-                console.log("*** FORCING POLL DOCUMENT");
-                this.view.tagnameManager.pollDocument();
-            }, 1000);
-            success();
-        };
-
-        let contextCreateFailure = (status, text) => {
-            window.alert("Unable to create context object : " + status);
-            console.log(text);
-            failure(status, text);
-        };
-
-        let fileLoadSuccess = (contents) => {
-            this.context = new Context(JSON.parse(contents), contextCreateSuccess, contextCreateFailure);
-        };
-
-        let fileLoadFailure = (status, text) => {
-            window.alert("Unable to retrieve context file from server : " + status);
-            console.log(text);
-        };
-
-        this.fileOps.loadFromServer(url, fileLoadSuccess, fileLoadFailure);
-    }
-    lookupContext(fullpath) {
-        console.log(fullpath.split("/"));
+        $("#container").show();
+        this.view.tagnameManager.pollDocument();
     }
 }

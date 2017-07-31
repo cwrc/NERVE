@@ -1,4 +1,4 @@
-package ca.sharcnet.dh.nerve.servlets;
+package ca.sharcnet.dh.nerve;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;

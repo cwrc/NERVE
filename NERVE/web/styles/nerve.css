@@ -202,8 +202,32 @@ body{
     font-family: arial;
     font-weight: bold;
     font-size: 2vw;
-    top: calc(50% - 150px);
+    top: calc(50% - 170px);
     width: 100%;
+}
+
+#percent{
+    display: none;
+    position: absolute;
+    text-align: center;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 3vw;
+    width: 200px;
+    left: calc(50% - 100px);
+    top: calc(50% - 20px);
+}
+
+#baubles{
+    position: absolute;
+    top: calc(50% - 130px);
+    left: calc(50% - 115px);
+    width: 100%;
+}
+
+#baubles > img{
+    display: none;
+    width: 30px;
 }
 
 #entityPanelSearch{

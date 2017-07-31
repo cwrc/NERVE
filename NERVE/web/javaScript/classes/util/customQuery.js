@@ -46,6 +46,11 @@
     };
 }(jQuery));
 
+/**
+ * Get/Set an xml attribute of this entity.  An xml attribute will be present when the document is decoded.
+ * @param {type} $
+ * @returns {undefined}
+ */
 (function($) {
     $.fn.xmlAttr = function(key, value) {
         var opts = $.extend( {}, $.fn.xmlAttr.defaults);
@@ -69,6 +74,11 @@
     };
 }(jQuery));
 
+/**
+ * Get/Set the value of the lemma attribute of this entity.
+ * @param {type} $
+ * @returns {undefined}
+ */
 (function($) {
     $.fn.lemma = function(value) {
         var opts = $.extend( {}, $.fn.xmlAttr.defaults);
@@ -88,9 +98,14 @@
     };
 }(jQuery));
 
+/**
+ * Get/Set the value of the link attribute of this entity.
+ * @param {type} $
+ * @returns {undefined}
+ */
 (function($) {
     $.fn.link = function(value) {
-        var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+        var opts = $.extend({}, $.fn.xmlAttr.defaults);
         var context = opts.context;
 
         if (typeof value === "undefined"){
@@ -107,6 +122,11 @@
     };
 }(jQuery));
 
+/**
+ * Get/Set the value of the tag attribute of this entity.
+ * @param {type} $
+ * @returns {undefined}
+ */
 (function($) {
     $.fn.entityTag = function(value) {
         var opts = $.extend( {}, $.fn.xmlAttr.defaults);

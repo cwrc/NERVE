@@ -59,12 +59,12 @@ class Collection {
 
         this.innerArray = [];
     }
-    each(callback) {
+    each(consumer) {
         Utility.log(Collection, "each");
         Utility.enforceTypes(arguments, Function);
 
         for (var i = 0; i < this.innerArray.length; i++) {
-            callback(this.innerArray[i]);
+            consumer(this.innerArray[i]);
         }
     }
     get(i) {

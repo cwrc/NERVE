@@ -1,16 +1,16 @@
 /* global Utility, Function */
 
 class Context {
-    constructor(jsonObject, onSuccess = function() {}, onFailure = function(){}){
+    constructor(){
         Utility.log(Context, "constructor");
-        Utility.enforceTypes(arguments, Object, ["optional", Function], ["optional", Function]);
+    }
+
+    async load(jsonObject){
+        Utility.log(Context, "load");
 
         for (let x in jsonObject) this[x] = jsonObject[x];
-
-        if (typeof this.schemaName !== "undefined"){
-            this.schema = new Schema();
-            this.schema.load(this.schemaName, ()=>onSuccess(this), onFailure);
-        }
+        this.schema = new Schema();
+        await this.schema.load(this.schemaName);
     }
 
     getTagInfo(tagName) {
@@ -34,6 +34,7 @@ class Context {
         }
         return false;
     }
+
     isNERMapTagName(string) {
         Utility.log(Context, "isNERMapTagName");
         Utility.enforceTypes(arguments, String);
@@ -43,6 +44,7 @@ class Context {
         }
         return false;
     }
+
     isDictionaryTagName(string) {
         Utility.log(Context, "isDictionaryTagName");
         Utility.enforceTypes(arguments, String);
