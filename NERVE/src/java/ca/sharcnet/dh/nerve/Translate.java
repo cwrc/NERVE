@@ -24,6 +24,7 @@ public class Translate extends RMISocket implements HasStreams, IsMonitor{
     @Remote
     public String encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException{
         Document document = DocumentLoader.documentFromString(source);
+//        return document.toString();
         Document encoded = Encoder.encode(document, this, this);
         return encoded.toString();
     }

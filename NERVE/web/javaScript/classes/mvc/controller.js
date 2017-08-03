@@ -594,6 +594,7 @@ class Controller {
         this.view.showThrobber(true);
         this.view.setThrobberMessage("Loading Document");
 
+        console.log(text);
         let encoded = await this.translator.encode(text);
         this.model.setDocument(encoded, filename);
         let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
