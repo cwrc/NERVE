@@ -1,7 +1,7 @@
 package ca.sharcnet.nerve.encoder;
-import ca.fa.utility.SQLRecord;
 import ca.sharcnet.graph.PathResult;
 import ca.sharcnet.graph.Tree;
+import ca.sharcnet.utility.SQLRecord;
 
 public class StringMatch {
     final Tree<String, SQLRecord> candidates = new Tree<>();

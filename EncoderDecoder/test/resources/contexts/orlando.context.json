@@ -58,6 +58,5 @@
     ],
     "styles" : [
         "orlando.css"
-    ],
-    "schemaName" : "http://cwrc.ca/schemas/orlando_biography_v2.rng"
+    ]
 }

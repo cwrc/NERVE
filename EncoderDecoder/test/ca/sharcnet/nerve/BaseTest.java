@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve;
+import ca.sharcnet.utility.Console;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.decode.Decoder;
@@ -46,21 +47,8 @@ public class BaseTest implements HasStreams{
 
     @Test
     public void load_test_document_noNER() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException{
-        Document document = DocumentLoader.documentFromStream(this.getResourceStream("/doc/test2.xml"));
-
-        Context context = ContextLoader.load(getResourceStream("contexts/test.context.json"));
-        InputStream cStream = getResourceStream("english.all.3class.distsim.crf.ser.gz");
-        BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
-        Classifier classifier = new Classifier(bis);
-        cStream.close();
-
-        Encoder encoder = new Encoder(document, context, null, classifier);
-        Document encoded = encoder.encode();
+        Document document = DocumentLoader.documentFromStream(this.getResourceStream("/doc/minimalOrlando.xml"));
+        Document encoded = Encoder.encode(document, this);
         Console.log(encoded);
-
-        Console.log("\n\n");
-
-        Document decoded = Decoder.decode(encoded, this);
-        Console.log(decoded);
     }
 }

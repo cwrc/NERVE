@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.decode;
-import ca.fa.utility.Console;
 import static ca.sharcnet.nerve.Constants.*;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.context.Context;

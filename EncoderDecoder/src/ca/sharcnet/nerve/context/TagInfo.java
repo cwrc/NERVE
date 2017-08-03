@@ -3,6 +3,7 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 public class TagInfo {
+    private final JSONObject jsonSource;
     public final String name;
     public final String dictionary;
     public final String lemmaAttribute;
@@ -13,6 +14,7 @@ public class TagInfo {
     private final HashMap<String, String> defaults = new HashMap<>();
 
     public TagInfo(JSONObject json){
+        this.jsonSource = json;
         this.name = json.getString("name");
         this.dictionary = json.getString("dictionary");
         this.lemmaAttribute = json.getString("lemmaAttribute");
@@ -31,4 +33,9 @@ public class TagInfo {
     public HashMap<String, String> defaults(){ return new HashMap<>(this.defaults); }
     public String getDefault(String key){ return defaults.get(key);}
     public Boolean hasDefault(String key){ return defaults.containsKey(key);}
+
+    @Override
+    public String toString(){
+        return jsonSource.toString(2);
+    }
 }

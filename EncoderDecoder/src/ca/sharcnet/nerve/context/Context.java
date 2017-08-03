@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve.context;
 import static ca.sharcnet.nerve.context.Context.NameSource.*;
+import ca.sharcnet.utility.Console;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,6 +98,7 @@ public class Context implements Serializable {
     */
     public TagInfo getTagInfo(String tagname, NameSource... groups) {
         for (TagInfo tagInfo : tags.values()) {
+            Console.log(tagInfo);
             for (NameSource t : groups) {
                 switch(t){
                     case NAME:

@@ -1,5 +1,5 @@
 package ca.sharcnet.nerve.encoder;
-import ca.fa.utility.SQLRecord;
+import ca.sharcnet.utility.SQLRecord;
 
 public interface OnAccept {
     public void accept(String string, SQLRecord row);
