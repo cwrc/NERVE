@@ -14,6 +14,17 @@ public class NodeList extends ArrayList<Node>{
         super();
     }
 
+    /**
+    Create a new NodeList with copies of all Nodes From a given NodeList.
+    @param that
+    @return
+    */
+    public NodeList deepCopy(Iterable <Node> that){
+        NodeList list = new NodeList();
+        that.forEach(n->list.add(n.copy()));
+        return list;
+    }
+
     public void add(Iterable <Node> that){
         for (Node node : that) this.add(node);
     }

@@ -20,7 +20,7 @@ public final class RelaxNGSchema extends Document implements Schema{
     public RelaxNGSchema(Document doc){
         super(doc);
         this.start = query("start").first();
-        this.query("define").forEach(node->defines.put(node.getAttributeValue("name"), node));
+        this.query("define").forEach(node->defines.put(node.attr("name"), node));
     }
 
     /**
@@ -35,7 +35,7 @@ public final class RelaxNGSchema extends Document implements Schema{
         boolean rvalue = true;
 
         for (Node pathNode : elementPath) {
-            if (current != null) current = nextNode(current, pathNode.getName());
+            if (current != null) current = nextNode(current, pathNode.name());
             if (current == null) rvalue = false;
         }
 
@@ -55,7 +55,7 @@ public final class RelaxNGSchema extends Document implements Schema{
         boolean rvalue = true;
 
         for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.getName();
+            String nextNodeName = pathNode.name();
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
         }

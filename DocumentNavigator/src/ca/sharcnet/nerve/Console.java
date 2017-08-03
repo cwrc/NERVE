@@ -14,24 +14,30 @@ public class Console {
     }
     public static PrintStream out = System.out;
 
-    public static void log(Object object) {
+    public static void log(Object ... objects) {
         StackTraceElement ele = Thread.currentThread().getStackTrace()[2];
-        String s = "null";
-        if (object != null) s = object.toString();
-        if (object.getClass().isArray()) s = Arrays.toString((Object[]) object);
-        out.println("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + s);
+
+        out.print("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] ");
+        for (Object object : objects){
+            String s = "null";
+            if (object != null) s = object.toString();
+            else if (object.getClass().isArray()) s = Arrays.toString((Object[]) object);
+            out.print(s + " ");
+        }
+        out.println();
     }
 
-    public static void logMethod() {
+    public static void logMethod(Object ... objects) {
         StackTraceElement ele = Thread.currentThread().getStackTrace()[2];
-        log("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "()");        
-    }
+        out.print("[" + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "():" + ele.getLineNumber() +"] ");
 
-    public static void logMethod(Object object) {
-        StackTraceElement ele = Thread.currentThread().getStackTrace()[2];
-        out.print("[" + ele.getFileName() + ":" + ele.getLineNumber() + "] " + ele.getClassName().substring(ele.getClassName().lastIndexOf(".") + 1) + "." + ele.getMethodName() + "() : ");
-        if (object.getClass().isArray()) out.println(Arrays.toString((Object[]) object));
-        else out.println(object);
+        for (Object object : objects){
+            String s = "null";
+            if (object != null) s = object.toString();
+            else if (object.getClass().isArray()) s = Arrays.toString((Object[]) object);
+            out.print(s + " ");
+        }
+        out.println();
     }
 
     public static void trace(Object object) {

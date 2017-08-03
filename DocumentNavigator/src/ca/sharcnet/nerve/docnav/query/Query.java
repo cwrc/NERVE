@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.docnav.query;
-import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.IsNodeType;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -30,7 +29,6 @@ public class Query extends NodeList {
         return select;
     }
 
-    @Override
     public String toString() {
         if (this.isEmpty()) return "[]";
 
@@ -45,6 +43,20 @@ public class Query extends NodeList {
         return builder.toString();
     }
 
+    public String toString(String ... attributes) {
+        if (this.isEmpty()) return "[]";
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("[");
+        for (int i = 0; i < this.size() - 1; i++) {
+            builder.append(this.get(i).toSelect(attributes)).append(", ");
+        }
+        builder.append(this.get(this.size() - 1).toSelect(attributes));
+        builder.append("]");
+        return builder.toString();
+    }
+
     /* Query operations */
     /**
         Change the name of all elements in this query return the value of the first element.
@@ -52,8 +64,8 @@ public class Query extends NodeList {
      * @return
      */
     public String name(String name) {
-        this.forEach(n -> n.setName(name));
-        return this.get(0).getName();
+        this.forEach(n -> n.name(name));
+        return this.get(0).name();
     }
 
     /**
@@ -62,7 +74,7 @@ public class Query extends NodeList {
      */
     public String name() {
         if (this.isEmpty()) return null;
-        return this.get(0).getName();
+        return this.get(0).name();
     }
 
     /**
@@ -74,7 +86,7 @@ public class Query extends NodeList {
      */
     public void addClass(String... classNames) {
         this.forEach(node -> {
-            String prevClassAttr = node.getAttributeValue("class");
+            String prevClassAttr = node.attr("class");
             List<String> has = Arrays.asList(prevClassAttr.split("[ ]+"));
 
             for (String s1 : classNames) {
@@ -87,7 +99,7 @@ public class Query extends NodeList {
                 }
             }
 
-            node.addAttribute("class", prevClassAttr);
+            node.attr("class", prevClassAttr);
         });
     }
 
@@ -98,7 +110,7 @@ public class Query extends NodeList {
      */
     public boolean hasClass(String... classNames) {
         for (Node node : this) {
-            String prevClassAttr = node.getAttributeValue("class");
+            String prevClassAttr = node.attr("class");
             List<String> has = Arrays.asList(prevClassAttr.split("[ ]+"));
 
             for (String s1 : classNames) {
@@ -125,7 +137,7 @@ public class Query extends NodeList {
         }
 
         for (Node node : this) {
-            String prevClassAttr = node.getAttributeValue("class");
+            String prevClassAttr = node.attr("class");
 
             for (String s1 : classNames) {
                 String[] split = s1.split("[ ]+");
@@ -136,7 +148,7 @@ public class Query extends NodeList {
 
             prevClassAttr = prevClassAttr.trim();
             if (prevClassAttr.isEmpty()) node.removeAttribute("class");
-            else node.addAttribute("class", prevClassAttr);
+            else node.attr("class", prevClassAttr);
         }
     }
 
@@ -178,7 +190,7 @@ public class Query extends NodeList {
         if (this.isEmpty()) return "";
         Node node = this.get(0);
         if (!node.hasAttribute(key)) return "";
-        return node.getAttributeValue(key);
+        return node.attr(key);
     }
 
     /**
@@ -210,7 +222,7 @@ public class Query extends NodeList {
     @param value
      */
     public void attr(String key, Object value) {
-        this.forEach(node -> node.addAttribute(key, value));
+        this.forEach(node -> node.attr(key, value));
     }
 
     /**
@@ -273,7 +285,7 @@ public class Query extends NodeList {
      */
     public String text() {
         if (this.isEmpty()) return null;
-        return this.get(0).innerText();
+        return this.get(0).text();
     }
 
     /**
@@ -356,22 +368,6 @@ public class Query extends NodeList {
     }
 
     /**
-     * Replace all selected elements with a copy of 'node'.  All of the child nodes of the selected elements will be
-     * discarded.
-     * @param node
-     * @return a new Query object containing all new copies created by this method.
-     */
-    public Query replaceWith(Node node) {
-        Query query = new Query();
-        for (Node element : this) {
-            Node copy = node.copy();
-            query.add(copy);
-            element.replaceWith(copy);
-        }
-        return query;
-    }
-
-    /**
     Return the first node, null if empty.
     @return
     */
@@ -387,5 +383,19 @@ public class Query extends NodeList {
     public Node last() {
         if (this.isEmpty()) return null;
         return this.get(this.size() - 1);
+    }
+
+    /*
+    Replace the first Node in this list with copies of all nodes in 'list'.
+    */
+    public NodeList replaceWith(Iterable <Node> iterable) {
+        NodeList rlist = new NodeList();
+
+        for (Node dstNode : this){
+            rlist.add(dstNode);
+            dstNode.replaceWith(iterable);
+        }
+
+        return rlist;
     }
 }

@@ -57,15 +57,15 @@ class SelectTerm extends Select {
 
     @Override
     boolean check(Node element) {
-        if (!this.name.isEmpty() && !element.getName().equals(this.name)) return false;
-        if (!this.id.isEmpty() && !element.getAttributeValue("id").equals(this.id)) return false;
+        if (!this.name.isEmpty() && !element.name().equals(this.name)) return false;
+        if (!this.id.isEmpty() && !element.attr("id").equals(this.id)) return false;
 
         for (Attribute attr : attributes){
             if (!element.hasAttribute(attr.getKey())) return false;
             if (!attr.getValue().isEmpty() && !element.hasAttribute(attr.getKey(), attr.getValue())) return false;
         }
 
-        List<String> haves = Arrays.asList(element.getAttributeValue("class").split(" "));
+        List<String> haves = Arrays.asList(element.attr("class").split(" "));
         for (String want : wants) if (!haves.contains(want)) return false;
 
         return true;

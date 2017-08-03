@@ -32,7 +32,7 @@ public class QueryOperationsTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query("*");
         query.name("div");
-        for (Node e : query) assertEquals("div", e.getName());
+        for (Node e : query) assertEquals("div", e.name());
         query = doc.query("div");
         assertEquals(21, query.size());
     }
@@ -95,7 +95,7 @@ public class QueryOperationsTest implements HasStreams {
         query.addClass("apple");
         query.addClass("apple");
         query = doc.query(".apple");
-        query.forEach(node -> assertFalse(node.getAttributeValue("class").contains("apple apple")));
+        query.forEach(node -> assertFalse(node.attr("class").contains("apple apple")));
     }
 
     @Test
@@ -443,7 +443,7 @@ public class QueryOperationsTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query(".first");
         ElementNode node = new ElementNode("div");
-        node.addAttribute("class", "new");
+        node.attr("class", "new");
         query.replaceWith(node);
     }
 

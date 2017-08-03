@@ -37,7 +37,7 @@ public class C_NodeTest implements HasStreams{
     public void test_decendents_all() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes();
-        String string = nodes.toString(n->n.getName());
+        String string = nodes.toString(n->n.name());
         Assert.assertEquals("xml@TEXT@DOCTYPE@TEXT@COMMENT@TEXTroot@TEXTdiv@TEXTabcd@TEXTabcd@TEXT@TEXTdiv@TEXTbcd@TEXTbcd@TEXTbcd@TEXT@TEXTdiv@TEXT", string);
     }
 
@@ -45,7 +45,7 @@ public class C_NodeTest implements HasStreams{
     public void test_decendents_element() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes(NodeType.ELEMENT);
-        String string = nodes.toString(n->n.getName());
+        String string = nodes.toString(n->n.name());
         Assert.assertEquals("rootdivabcdabcddivbcdbcdbcddiv", string);
     }
 
@@ -53,7 +53,7 @@ public class C_NodeTest implements HasStreams{
     public void test_decendents_instruction() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes(NodeType.INSTRUCTION);
-        String string = nodes.toString(n->n.getName());
+        String string = nodes.toString(n->n.name());
         Assert.assertEquals("xml", string);
     }
 
@@ -61,7 +61,7 @@ public class C_NodeTest implements HasStreams{
     public void test_decendents_doctype() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes(NodeType.DOCTYPE);
-        String string = nodes.toString(n->n.getName());
+        String string = nodes.toString(n->n.name());
         Assert.assertEquals(NameConstants.doctype, string);
     }
 
@@ -74,7 +74,7 @@ public class C_NodeTest implements HasStreams{
     @Test
     public void test_decendents_hasAttribute_not_removed() throws IOException{
         ElementNode node = new ElementNode("div");
-        node.addAttribute("class", "ima class");
+        node.attr("class", "ima class");
         node.removeAttribute("class");
         Assert.assertFalse(node.hasAttribute("class"));
     }
@@ -88,7 +88,7 @@ public class C_NodeTest implements HasStreams{
     @Test
     public void test_decendents_hasAttribute_by_value_not_2() throws IOException{
         ElementNode node = new ElementNode("div");
-        node.addAttribute("class", "ima class");
+        node.attr("class", "ima class");
         Assert.assertFalse(node.hasAttribute("class", "not-here"));
 
     }
@@ -97,14 +97,14 @@ public class C_NodeTest implements HasStreams{
     @Test
     public void test_decendents_hasAttribute_by_value_not_3() throws IOException{
         ElementNode node = new ElementNode("div");
-        node.addAttribute("class", "ima class");
+        node.attr("class", "ima class");
         Assert.assertFalse(node.hasAttribute("class", ""));
     }
 
     @Test
     public void test_decendents_hasAttribute_by_value_not_removed() throws IOException{
         ElementNode node = new ElementNode("div");
-        node.addAttribute("class", "ima class");
+        node.attr("class", "ima class");
         node.removeAttribute("class");
         Assert.assertFalse(node.hasAttribute("class", "ima class"));
     }
@@ -112,7 +112,7 @@ public class C_NodeTest implements HasStreams{
     @Test
     public void innerText_with_types() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
-        assertEquals("", doc.innerText().trim());
+        assertEquals("", doc.text().trim());
     }
 
     @Test
@@ -120,5 +120,19 @@ public class C_NodeTest implements HasStreams{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("types.xml"));
         Query query = doc.query(NodeType.INSTRUCTION).filter("context[name]");
         assertEquals(1, query.size());
+    }
+
+    @Test
+    public void replace_with_list() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
+
+        NodeList list = new NodeList();
+        list.add(new ElementNode("x1"));
+        list.add(new ElementNode("x2"));
+        list.add(new ElementNode("x3"));
+
+        doc.query(".first").replaceWith(list);
+        Console.log(doc.query("root > *"));
+        assertEquals("[x1, x2, x3, div.second, div.third]", doc.query("root > *").toString());
     }
 }

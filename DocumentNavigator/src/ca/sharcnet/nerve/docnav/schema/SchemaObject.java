@@ -24,10 +24,10 @@ public class SchemaObject implements Schema{
         document.query("text").detach();
 
         document.query("*").forEach(node->{
-            if (node.getName().equals("start")) return;
-            if (node.getName().equals("element")) return;
-            if (node.getName().equals("define")) return;
-            if (node.getName().equals("ref")) return;
+            if (node.name().equals("start")) return;
+            if (node.name().equals("element")) return;
+            if (node.name().equals("define")) return;
+            if (node.name().equals("ref")) return;
             if (node.hasParent()) node.replaceWithChildren();
         });
     }
@@ -43,7 +43,7 @@ public class SchemaObject implements Schema{
         boolean rvalue = true;
 
         for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.getName();
+            String nextNodeName = pathNode.name();
             System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
@@ -63,7 +63,7 @@ public class SchemaObject implements Schema{
         Node current = grammar;
 
         for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.getName();
+            String nextNodeName = pathNode.name();
             current = nextNode(current, nextNodeName);
             if (current == null) return false;
         }
@@ -81,11 +81,11 @@ public class SchemaObject implements Schema{
         boolean rvalue = true;
 
         for (Node pathNode : elementPath) {
-            System.out.print(pathNode.getType() + pathNode.getName() + " ");
+            System.out.print(pathNode.getType() + pathNode.name() + " ");
         }
 
         for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.getName();
+            String nextNodeName = pathNode.name();
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
             System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
@@ -110,7 +110,7 @@ public class SchemaObject implements Schema{
         Node current = grammar;
 
         for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.getName();
+            String nextNodeName = pathNode.name();
             current = nextNode(current, nextNodeName);
             if (current == null) return false;
         }
@@ -148,7 +148,7 @@ public class SchemaObject implements Schema{
         list.add(eNode);
 
         Node current = eNode.getParent();
-        while (current != null && !current.getName().equals("@DOCUMENT")) {
+        while (current != null && !current.name().equals("@DOCUMENT")) {
             list.add(0, current);
             current = current.getParent();
         }

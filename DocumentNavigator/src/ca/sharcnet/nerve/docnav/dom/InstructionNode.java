@@ -10,6 +10,10 @@ public class InstructionNode extends Node{
         super(NodeType.INSTRUCTION, name, attributes);
     }
 
+    public InstructionNode(String name){
+        super(NodeType.INSTRUCTION, name);
+    }
+
     @Override
     public NodeType getType(){
         return (NodeType) super.getType();
@@ -17,9 +21,9 @@ public class InstructionNode extends Node{
 
     @Override
     public InstructionNode copy() {
-        InstructionNode that = new InstructionNode(this.getName(), this.attributes);
+        InstructionNode that = new InstructionNode(this.name(), this.attributes);
         for (Attribute attr : this.attributes){
-            that.addAttribute(attr.key, attr.value);
+            that.attr(attr.key, attr.value);
         }
         return that;
     }
@@ -31,7 +35,7 @@ public class InstructionNode extends Node{
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("<").append("?").append(this.getName());
+        builder.append("<").append("?").append(this.name());
         for (Attribute a : attributes) {
             builder.append(" ").append(a.toString());
         }

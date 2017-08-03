@@ -17,7 +17,7 @@ public final class HTMLElement extends ElementNode{
     }
 
     public HTMLElement(Node node){
-        super(node.getName(), node.getAttributes(), node.childNodes());
+        super(node.name(), node.getAttributes(), node.childNodes());
     }
 
     @Override
@@ -29,28 +29,28 @@ public final class HTMLElement extends ElementNode{
     }
 
     public void setID(Object id){
-        super.addAttribute("id", id);
+        super.attr("id", id);
     }
 
     public String getID(){
-        return super.getAttributeValue("id");
+        return super.attr("id");
     }
 
     public void addClassName(String classname){
-        this.addAttribute("class", this.getAttributeValue("class") + " " + classname);
+        this.attr("class", this.attr("class") + " " + classname);
     }
 
     public void setClassName(String classname){
-        this.addAttribute("class", classname);
+        this.attr("class", classname);
     }
 
     public String getClassNames(){
-        return this.getAttributeValue("class");
+        return this.attr("class");
     }
 
     public boolean hasClassName(String ... names){
         if (!this.hasAttribute("class")) return false;
-        String[] split = this.getAttributeValue("class").split(" ");
+        String[] split = this.attr("class").split(" ");
         for (String s1 : names){
             for (String s2 : split){
                 if (s1.equals(s2)) return true;

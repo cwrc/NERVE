@@ -22,8 +22,8 @@ public class Dummy {
     @Test
     public void copy_with_attributes_1(){
         ElementNode source = new ElementNode("div");
-        source.addAttribute("class", "ima-class");
-        source.addAttribute("id", "ima-id");
+        source.attr("class", "ima-class");
+        source.attr("id", "ima-id");
         ElementNode copy = source.copy();
         Assert.assertEquals(source.toString(), copy.toString());
     }
@@ -31,10 +31,10 @@ public class Dummy {
     @Test
     public void copy_with_attributes_2(){
         ElementNode source = new ElementNode("div");
-        source.addAttribute("class", "ima-class");
-        source.addAttribute("id", "ima-id");
+        source.attr("class", "ima-class");
+        source.attr("id", "ima-id");
         ElementNode copy = source.copy();
-        source.addAttribute("id", "ima-id-copy");
+        source.attr("id", "ima-id-copy");
         Assert.assertNotEquals(source.toString(), copy.toString());
     }
 

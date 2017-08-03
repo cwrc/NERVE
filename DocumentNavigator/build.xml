@@ -5,6 +5,8 @@
     <import file="nbproject/build-impl.xml"/>
 
     <property name="root" location="."/>
+    <property name="store.jar.name" value="DocNav"/>
+    <property name="store.dir" value="D:/Dropbox/projects.new/lib/custom"/>
 
     <target name="echo-root">
         <echo message="Root: ${root}"/>
@@ -32,6 +34,23 @@
         </java>
     </target>
 
+    <target name="package-for-store" depends="jar">
+        <mkdir dir="${store.dir}"/>
 
+        <jar destfile="${store.dir}/temp_final.jar" filesetmanifest="skip">
+            <zipgroupfileset dir="dist" includes="*.jar"/>
+            <zipgroupfileset dir="dist/lib" includes="*.jar"/>
+            <!--<zipgroupfileset dir="lib" includes="*.jar"/>-->
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+
+        <zip destfile="${store.dir}/${store.jar.name}.jar">
+            <zipfileset src="${store.dir}/temp_final.jar" excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
+        </zip>
+
+        <delete file="${store.dir}/temp_final.jar"/>
+    </target>
 
 </project>

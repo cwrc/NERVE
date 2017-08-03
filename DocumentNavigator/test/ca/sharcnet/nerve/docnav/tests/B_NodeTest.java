@@ -27,7 +27,7 @@ public class B_NodeTest {
 
     @Test
     public void getName() {
-        Assert.assertTrue(nodeImpl.getName().equals("Node"));
+        Assert.assertTrue(nodeImpl.name().equals("Node"));
     }
 
     @Test
@@ -57,9 +57,9 @@ public class B_NodeTest {
 
     @Test
     public void setName() {
-        nodeImpl.setName("newName");
-        Assert.assertFalse(nodeImpl.getName().equals("Node"));
-        Assert.assertTrue(nodeImpl.getName().equals("newName"));
+        nodeImpl.name("newName");
+        Assert.assertFalse(nodeImpl.name().equals("Node"));
+        Assert.assertTrue(nodeImpl.name().equals("newName"));
     }
 
     @Test
@@ -159,7 +159,7 @@ public class B_NodeTest {
     @Test
     public void addAttributes_one(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
+        node.attr("class", "ima-class");
         assertEquals(1, node.getAttributes().size());
         assertEquals(false, node.getAttributes().isEmpty());
     }
@@ -167,9 +167,9 @@ public class B_NodeTest {
     @Test
     public void addAttributes_many(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
-        node.addAttribute("id", "ima-id");
-        node.addAttribute("data", "ima-data");
+        node.attr("class", "ima-class");
+        node.attr("id", "ima-id");
+        node.attr("data", "ima-data");
         assertEquals(3, node.getAttributes().size());
         assertEquals(false, node.getAttributes().isEmpty());
     }
@@ -184,7 +184,7 @@ public class B_NodeTest {
     @Test
     public void clearAttributes_one(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
+        node.attr("class", "ima-class");
         node.clearAttributes();
         assertEquals(0, node.getAttributes().size());
         assertEquals(true, node.getAttributes().isEmpty());
@@ -193,9 +193,9 @@ public class B_NodeTest {
     @Test
     public void clearAttributes_many(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
-        node.addAttribute("id", "ima-id");
-        node.addAttribute("data", "ima-data");
+        node.attr("class", "ima-class");
+        node.attr("id", "ima-id");
+        node.attr("data", "ima-data");
         node.clearAttributes();
         assertEquals(0, node.getAttributes().size());
         assertEquals(true, node.getAttributes().isEmpty());
@@ -210,16 +210,16 @@ public class B_NodeTest {
     @Test
     public void getAttribute_one_byAttr(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
+        node.attr("class", "ima-class");
         assertEquals("ima-class", node.getAttribute("class").getValue());
     }
 
     @Test
     public void getAttribute_many_byAttr(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
-        node.addAttribute("id", "ima-id");
-        node.addAttribute("data", "ima-data");
+        node.attr("class", "ima-class");
+        node.attr("id", "ima-id");
+        node.attr("data", "ima-data");
         assertEquals("ima-class", node.getAttribute("class").getValue());
         assertEquals("ima-id", node.getAttribute("id").getValue());
         assertEquals("ima-data", node.getAttribute("data").getValue());
@@ -228,19 +228,19 @@ public class B_NodeTest {
     @Test
     public void getAttribute_one_byValue(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
-        assertEquals("ima-class", node.getAttributeValue("class"));
+        node.attr("class", "ima-class");
+        assertEquals("ima-class", node.attr("class"));
     }
 
     @Test
     public void getAttribute_many_byValue(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute("class", "ima-class");
-        node.addAttribute("id", "ima-id");
-        node.addAttribute("data", "ima-data");
-        assertEquals("ima-class", node.getAttributeValue("class"));
-        assertEquals("ima-id", node.getAttributeValue("id"));
-        assertEquals("ima-data", node.getAttributeValue("data"));
+        node.attr("class", "ima-class");
+        node.attr("id", "ima-id");
+        node.attr("data", "ima-data");
+        assertEquals("ima-class", node.attr("class"));
+        assertEquals("ima-id", node.attr("id"));
+        assertEquals("ima-data", node.attr("data"));
     }
 
     @Test
@@ -253,7 +253,7 @@ public class B_NodeTest {
     @Test
     public void addAttribute_object_one(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute(new Attribute("class", "ima-class"));
+        node.attr(new Attribute("class", "ima-class"));
         assertEquals(1, node.getAttributes().size());
         assertEquals(false, node.getAttributes().isEmpty());
     }
@@ -261,9 +261,9 @@ public class B_NodeTest {
     @Test
     public void addAttribute_object_many(){
         ElementNode node = new ElementNode("node");
-        node.addAttribute(new Attribute("class", "ima-class"));
-        node.addAttribute(new Attribute("id", "ima-id"));
-        node.addAttribute(new Attribute("data", "ima-data"));
+        node.attr(new Attribute("class", "ima-class"));
+        node.attr(new Attribute("id", "ima-id"));
+        node.attr(new Attribute("data", "ima-data"));
         assertEquals(3, node.getAttributes().size());
         assertEquals(false, node.getAttributes().isEmpty());
     }

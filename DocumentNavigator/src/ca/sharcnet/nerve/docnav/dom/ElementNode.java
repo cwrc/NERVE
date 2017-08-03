@@ -48,6 +48,6 @@ public class ElementNode extends Node{
     */
     @Override
     public ElementNode copy(){
-        return new ElementNode(this.getName(), this.attributes, this.childNodes());
+        return new ElementNode(this.name(), this.attributes, this.childNodes());
     }
 }

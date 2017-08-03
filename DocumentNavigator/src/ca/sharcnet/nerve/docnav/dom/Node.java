@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.dom;
+import ca.sharcnet.nerve.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
@@ -86,12 +87,12 @@ public abstract class Node implements Iterable<Node>{
     /**
      * Set the node name, may mean different things to different nodes.
      */
-    final public Node setName(String name) {
+    final public Node name(String name) {
         this.name = name;
         return this;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
@@ -156,6 +157,7 @@ public abstract class Node implements Iterable<Node>{
     /**
      * In this nodes parent, replace this node with 'newNode'.
      *
+     * @param nodes
      * @param newNode
      * @return the copy of 'newNode' used
      * @throws DocNavException if the this node does not have a parent node
@@ -200,7 +202,7 @@ public abstract class Node implements Iterable<Node>{
     }
 
     /**
-     * Retrieve and attribute from this node.
+     * Retrieve an attribute from this node.
      *
      * @param key the attribute name to retreive
      * @return the attribute to which the specified key is mapped
@@ -220,7 +222,7 @@ public abstract class Node implements Iterable<Node>{
      * @return the value to which the specified key is mapped, if not mapped =>
      * "".
      */
-    public final String getAttributeValue(String key) {
+    public final String attr(String key) {
         if (!attributes.contains(key)) return "";
         return attributes.get(key).getValue();
     }
@@ -231,7 +233,7 @@ public abstract class Node implements Iterable<Node>{
      *
      * @param attribute the attribute to add
      */
-    public final Node addAttribute(Attribute attribute) {
+    public final Node attr(Attribute attribute) {
         attributes.add(new Attribute(attribute));
         return this;
     }
@@ -242,7 +244,7 @@ public abstract class Node implements Iterable<Node>{
      * @param key
      * @param value
      */
-    public final Node addAttribute(String key, Object value) {
+    public final Node attr(String key, Object value) {
         attributes.add(new Attribute(key, value.toString()));
         return this;
     }
@@ -425,18 +427,18 @@ public abstract class Node implements Iterable<Node>{
         child.setParent(null);
 
         for (Node node : with){
-            children.add(idx, node);
+            children.add(idx++, node);
             node.setParent(this);
         }
     }
 
     /* return a string with this nodes name, id, and classes that will accepted by a query */
     public String toSelect(String ... attributes) {
-        String id = this.getAttributeValue("id");
-        String classes = this.getAttributeValue("class");
+        String id = this.attr("id");
+        String classes = this.attr("class");
 
         StringBuilder builder = new StringBuilder();
-        builder.append(this.getName());
+        builder.append(this.name());
         if (!id.isEmpty()) builder.append("#").append(id);
         if (!classes.isEmpty()) {
             String[] split = classes.split("[ ]+");
@@ -444,7 +446,7 @@ public abstract class Node implements Iterable<Node>{
         }
 
         for (String attr : attributes){
-            if (this.hasAttribute(attr)) builder.append("[").append(attr).append("='").append(this.getAttributeValue(attr)).append("']");
+            if (this.hasAttribute(attr)) builder.append("[").append(attr).append("='").append(this.attr(attr)).append("']");
         }
 
         return builder.toString();
@@ -457,13 +459,13 @@ public abstract class Node implements Iterable<Node>{
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("<").append(this.getName());
+        builder.append("<").append(this.name());
         for (Attribute a : attributes) {
             builder.append(" ").append(a.toRawString());
         }
         builder.append(">");
         for (Node n : children) builder.append(n.toString());
-        builder.append("</").append(this.getName()).append(">");
+        builder.append("</").append(this.name()).append(">");
 
         return builder.toString();
     }
@@ -475,7 +477,7 @@ public abstract class Node implements Iterable<Node>{
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < indent * this.depth(); i++) builder.append(" ");
-        builder.append("<").append(this.getName());
+        builder.append("<").append(this.name());
         for (Attribute a : attributes) {
             builder.append(" ").append(a.toRawString());
         }
@@ -484,7 +486,7 @@ public abstract class Node implements Iterable<Node>{
         for (Node n : children) builder.append(n.toString(indent));
 
         for (int i = 0; i < indent * this.depth(); i++) builder.append(" ");
-        builder.append("</").append(this.getName()).append(">\n");
+        builder.append("</").append(this.name()).append(">\n");
 
         return builder.toString();
     }
@@ -495,13 +497,13 @@ public abstract class Node implements Iterable<Node>{
     public String toString(boolean innerText) {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("<").append(this.getName());
+        builder.append("<").append(this.name());
         for (Attribute a : attributes) {
             builder.append(" ").append(a.toRawString());
         }
         builder.append(">");
         if (innerText) for (Node n : children) builder.append(n.toString(innerText));
-        builder.append("</").append(this.getName()).append(">");
+        builder.append("</").append(this.name()).append(">");
 
         return builder.toString();
     }
@@ -512,20 +514,20 @@ public abstract class Node implements Iterable<Node>{
      *
      * @return
      */
-    public String innerText() {
+    public String text() {
         StringBuilder builder = new StringBuilder();
         for (Node n : children) {
             if (n.isType(TEXT)) {
                 builder.append(((TextNode) n).getText());
             } else if (n.isType(ELEMENT)) {
-                builder.append(n.innerText());
+                builder.append(n.text());
             }
         }
         return builder.toString();
     }
 
     /**
-    Create a query out of this node which queries only element nodes.
+    Using the provided selection string, select all <b>element</b> nodes that are a child of this node.
     @param select
     @param types
     @return
@@ -535,7 +537,7 @@ public abstract class Node implements Iterable<Node>{
     }
 
     /**
-    Convienience function that performs formatf on a query of NoteType.ELEMENT.
+    Select all element nodes using the specified format string and arguments.
     @param select
     @param args
     @return
@@ -545,7 +547,8 @@ public abstract class Node implements Iterable<Node>{
     }
 
     /**
-    Select all nodes that match any type in 'types'.
+    Select all decendent nodes that match any type in 'types'.  Calling this method with no arguments will return an
+    empty set.  To get a set of all nodes, of all types, use query(NodeType.values()).
     @param select
     @param types
     @return

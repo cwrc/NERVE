@@ -41,7 +41,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("root.xml"));
         Query query = doc.query("*");
         assertEquals(1, query.size());
-        assertEquals("root", query.get(0).getName());
+        assertEquals("root", query.get(0).name());
     }
 
     @Test
@@ -49,8 +49,8 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("shallow.xml"));
         Query query = doc.query("*");
         assertEquals(2, query.size());
-        assertEquals("root", query.get(0).getName());
-        assertEquals("div", query.get(1).getName());
+        assertEquals("root", query.get(0).name());
+        assertEquals("div", query.get(1).name());
     }
 
     @Test
@@ -58,10 +58,10 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("short.xml"));
         Query query = doc.query("*");
         assertEquals(4, query.size());
-        assertEquals("root", query.get(0).getName());
-        assertEquals("div", query.get(1).getName());
-        assertEquals("a", query.get(2).getName());
-        assertEquals("b", query.get(3).getName());
+        assertEquals("root", query.get(0).name());
+        assertEquals("div", query.get(1).name());
+        assertEquals("a", query.get(2).name());
+        assertEquals("b", query.get(3).name());
     }
 
     @Test
@@ -69,11 +69,11 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("*");
         assertEquals(5, query.size());
-        assertEquals("root", query.get(0).getName());
-        assertEquals("div", query.get(1).getName());
-        assertEquals("a", query.get(2).getName());
-        assertEquals("b", query.get(3).getName());
-        assertEquals("c", query.get(4).getName());
+        assertEquals("root", query.get(0).name());
+        assertEquals("div", query.get(1).name());
+        assertEquals("a", query.get(2).name());
+        assertEquals("b", query.get(3).name());
+        assertEquals("c", query.get(4).name());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("root.xml"));
         Query query = doc.query("root");
         assertEquals(1, query.size());
-        assertEquals("root", query.get(0).getName());
+        assertEquals("root", query.get(0).name());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("shallow.xml"));
         Query query = doc.query("root");
         assertEquals(1, query.size());
-        assertEquals("root", query.get(0).getName());
+        assertEquals("root", query.get(0).name());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("shallow.xml"));
         Query query = doc.query("div");
         assertEquals(1, query.size());
-        assertEquals("div", query.get(0).getName());
+        assertEquals("div", query.get(0).name());
     }
 
     @Test
@@ -112,8 +112,8 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         Query query = doc.query("root > *");
         assertEquals(3, query.size());
-        assertEquals("div", query.get(0).getName());
-        assertEquals("div", query.get(1).getName());
+        assertEquals("div", query.get(0).name());
+        assertEquals("div", query.get(1).name());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("shallow.xml"));
         Query query = doc.query("root > div");
         assertEquals(1, query.size());
-        assertEquals("div", query.get(0).getName());
+        assertEquals("div", query.get(0).name());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("shallow.xml"));
         Query query = doc.query("root > div");
         assertEquals(1, query.size());
-        assertEquals("div", query.get(0).getName());
+        assertEquals("div", query.get(0).name());
     }
 
     @Test
@@ -137,7 +137,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("a > b > c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -173,7 +173,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("a b c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     /* skip 1 */
@@ -182,7 +182,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("a c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     /* skip 2 */
@@ -191,7 +191,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("root div c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class QueryTest implements HasStreams {
         Query query = doc.query("root  div  "
             + " c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -222,7 +222,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("a * c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -237,7 +237,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("a > * > c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -245,7 +245,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("div > * > * > c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -261,7 +261,7 @@ public class QueryTest implements HasStreams {
         Query query = doc.query("a>*"
             + ">c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -269,7 +269,7 @@ public class QueryTest implements HasStreams {
         Document doc = DocumentLoader.documentFromStream(getResourceStream("deep.xml"));
         Query query = doc.query("div>     *     >*>c");
         assertEquals(1, query.size());
-        assertEquals("c", query.get(0).getName());
+        assertEquals("c", query.get(0).name());
     }
 
     @Test
@@ -477,5 +477,38 @@ public class QueryTest implements HasStreams {
     public void node_query_comment() throws IOException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("types.xml"));
         assertEquals("[@COMMENT]", doc.query(NodeType.COMMENT).filter("*").toString());
+    }
+
+
+    @Test
+    public void instruction_node() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        Query query = doc.query(NodeType.INSTRUCTION);
+        assertEquals("[xml[version='1.0']]", query.toString("version"));
+    }
+
+    @Test
+    public void instruction_name() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        Query query = doc.query(NodeType.INSTRUCTION).filter("xml");
+        assertEquals("[xml[version='1.0']]", query.toString("version"));
+    }
+
+    @Test
+    public void instruction_attributes() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        Query query = doc.query(NodeType.INSTRUCTION).filter("xml[version]");
+        assertEquals("[xml[version='1.0']]", query.toString("version"));
+    }
+
+    @Test
+    public void instruction_attributes_format() throws IOException{
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+        Query query1 = doc.query(NodeType.INSTRUCTION);
+        Query query2 = query1.filter("[version]");
+        Query query3 = query2.filterf("[%s]", "version");
+        assertEquals("[xml[version='1.0']]", query1.toString("version"));
+        assertEquals("[xml[version='1.0']]", query2.toString("version"));
+        assertEquals("[xml[version='1.0']]", query3.toString("version"));
     }
 }

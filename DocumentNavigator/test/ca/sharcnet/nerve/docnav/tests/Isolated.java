@@ -24,23 +24,34 @@ import static org.junit.Assert.*;
  *
  * @author edward
  */
-public class Isolated implements HasStreams{
+public class Isolated implements HasStreams {
 
     @Override
     public InputStream getResourceStream(String path) {
         return this.getClass().getResourceAsStream("/resources/" + path);
     }
 
-    /* document.xml is vald to orlando_biography_v2 */
     @Test
-    public void load_check_doc_0() throws IOException{
-        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(getResourceStream("orlando_biography_v2.xml"));
-        Document doc = DocumentLoader.documentFromStream(getResourceStream("document.xml"));
+    public void instruction_node() throws IOException {
+        Document doc = DocumentLoader.documentFromStream(getResourceStream("fromEncoder.xml"));
+        Console.log("\n", doc, "\n");
 
-        doc.query("BIRTHNAME").forEach(node->{
-            Console.log(node.toSelect());
-            assertTrue(schema.isValid(node));
-        });
+        {
+            Query rContext = doc.query(NodeType.INSTRUCTION).filter("context");
+            Console.log(rContext.getSelectString(), rContext.toString("name"));
+
+            Query sContext = doc.query(NodeType.INSTRUCTION).filter("context[name]");
+            Console.log(sContext.getSelectString(), sContext.toString("name"));
+        }
+
+        {
+            Query rContext = doc.query(NodeType.INSTRUCTION).filter("context");
+            Console.log(rContext.getSelectString(), rContext.toString("name"));
+
+            Query sContext = doc.query(NodeType.INSTRUCTION).filter("context[name]");
+            Console.log(sContext.getSelectString(), sContext.toString("name"));
+        }
+
     }
 
 }
