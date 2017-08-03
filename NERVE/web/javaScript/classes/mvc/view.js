@@ -3,7 +3,14 @@
 /**
  * TagnameManager uses a MutationObserver (https://developer.mozilla.org/en/docs/Web/API/MutationObserver) to respond
  * to any changes to a tagged entities tag value.  To force a check, typically when a document is first loaded, use the
- * method "pollDocument".
+ * method "pollDocument".  Tag name elements are div elements that are child elements of their own panel.
+ *
+ * Source elements (#entityPanel > .taggedentity) will are targetted.
+ * Target elements of ".tagname" will be added to the element "#tagnamePanel".
+ * Source elements will have the data "target" pointing to the respective target element.
+ * Target elements will have the data "source" pointing to the respective source element.
+ * Both source and target will have either the "linked" class, or the "unlinked" class.
+ * On mutation the target elements will be moved so they are centered and below the source.
  * @type type
  */
 class TagnameManager {
@@ -17,6 +24,10 @@ class TagnameManager {
         this.observer.observe(target, config);
     }
 
+    /**
+     * Remove all tagname elements, then add a tagname element to all taggedentity elements.
+     * @returns {undefined}
+     */
     resetTagnames(){
         Utility.log(TagnameManager, "resetTagnames");
         Utility.enforceTypes(arguments);
@@ -28,6 +39,10 @@ class TagnameManager {
         });
     }
 
+    /** Trigger a mutation event on all "taggedentity" elements, in turn this triggers the onMutation method placing
+     *  all tagname elements.
+     * @returns {undefined}
+     */
     pollDocument(){
         Utility.log(TagnameManager, "pollDocument");
         Utility.enforceTypes(arguments);
@@ -42,53 +57,81 @@ class TagnameManager {
         });
     }
 
-    onMutation(target){
-//        Utility.log(TagnameManager, "onMutation");
+    /**
+     * If 'target' does not have a related tagname element, create one.  Trigger the format method for the given element
+     * ; by extensin the tagname element.
+     * @param {type} source
+     * @returns {undefined}
+     */
+    onMutation(source){
+        Utility.log(TagnameManager, "onMutation");
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
 
-        let tnEle = $(target).data("tagnameElement");
-        if (typeof tnEle === "undefined") this.addTagnameElement(target);
-        this.formatTagnameElement(target);
+        let element = $(source).data("target");
+        if (typeof element === "undefined") this.addTagnameElement(source);
+        this.formatTagnameElement(source);
     }
 
-    addTagnameElement(target){
-//        Utility.log(TagnameManager, "addTagnameElement");
+    /**
+     * A a new tag name element for the given element.
+     * @param {type} source
+     * @returns {undefined}
+     */
+    addTagnameElement(source){
+        Utility.log(TagnameManager, "addTagnameElement");
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
 
-        let tagname = $(target).entityTag();
+        let tagname = $(source).entityTag();
         let div = document.createElement("div");
         $(div).text(tagname);
         $(div).addClass("tagname");
         $("#tagnamePanel").append(div);
-        $(div).data("source", target);
-        $(target).data("tagnameElement", div);
+        $(div).data("source", source);
+        $(source).data("target", div);
     }
 
-    formatTagnameElement(target){
-//        Utility.log(TagnameManager, "formatTagnameElement");
+    /**
+     * This method updates the display elements of a tag name element.  The element is retrieved from the
+     * 'target' data of 'target'.
+     * @param {type} source
+     * @returns {undefined}
+     */
+    formatTagnameElement(source){
+        Utility.log(TagnameManager, "formatTagnameElement");
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
 
-        let tagname = $(target).entityTag();
-        let div = $(target).data("tagnameElement");
+        let tagname = $(source).entityTag();
+        let div = $(source).data("target");
         $(div).text(tagname);
 
-        if ($(target).hasClass("linked")){
+        if ($(source).link()){
+            $(div).removeClass("unlinked");
             $(div).addClass("linked");
+            $(source).removeClass("unlinked");
+            $(source).addClass("linked");
         } else {
             $(div).removeClass("linked");
+            $(div).addClass("unlinked");
+            $(source).removeClass("linked");
+            $(source).addClass("unlinked");
         }
 
-        let diff = $(target).width() - $(div).width();
-        let left = $(target).position().left + (diff / 2);
-        let top = $(target).position().top + 12;
+        let diff = $(source).width() - $(div).width();
+        let left = $(source).position().left + (diff / 2);
+        let top = $(source).position().top + 12;
         $(div).css({top: top, left: left});
     }
 
-    clearTagnameElement(target){
-//        Utility.log(TagnameManager, "clearTagnameElement");
+    /**
+     * Remove a tagname element that is associated with the target element.
+     * @param {type} source
+     * @returns {undefined}
+     */
+    clearTagnameElement(source){
+        Utility.log(TagnameManager, "clearTagnameElement");
         Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
 
-        let tnEle = $(target).data("tagnameElement");
+        let tnEle = $(source).data("target");
         if (typeof tnEle === "undefined") return;
         $(tnEle).remove();
     }

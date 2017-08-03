@@ -16,6 +16,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class Translate extends RMISocket implements HasStreams, IsMonitor{
 
+    public Translate(){
+        super();
+        Console.log(ca.sharcnet.encoderdecoder.Info.version);
+    }
+
     @Remote
     public String encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException{
         Document document = DocumentLoader.documentFromString(source);

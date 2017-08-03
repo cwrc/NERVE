@@ -49,6 +49,7 @@ class Controller {
 
         if (this.storage.hasValue("context-name")) {
             let contextName = this.storage.getValue("context-name");
+            console.log(contextName);
             this.view.setThrobberMessage("Loading Context...");
             await this.loadContext(contextName);
         }
@@ -263,7 +264,7 @@ class Controller {
         let text = $(entity).text();
         let lemma = $(entity).lemma();
         let link = $(entity).link();
-        let entityTag = $(entity).entityTag();
+        let entityTag = this.context.getTagInfo($(entity).entityTag().dictionary);
         let collection = "custom";
 
         await this.dictionary.addEntity(text, lemma, link, entityTag, collection);
@@ -595,9 +596,9 @@ class Controller {
 
         let encoded = await this.translator.encode(text);
         this.model.setDocument(encoded, filename);
-        this.view.tagnameManager.pollDocument();
         let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
 
+        console.log(schemaPath);
         if (typeof schemaPath === "string") {
             let split = schemaPath.split("/");
             switch (split[split.length - 1]) {
@@ -614,6 +615,7 @@ class Controller {
         }
 
         this.model.setupTaggedEntity($(".taggedentity"));
+        this.view.tagnameManager.pollDocument();
         this.isSaved = true;
         this.view.clearThrobber();
         setTimeout(() => this.view.tagnameManager.resetTagnames(), 500);
@@ -621,8 +623,12 @@ class Controller {
     }
 
     async loadContext(contextName) {
+        Utility.log(Controller, "loadContext");
+        Utility.enforceTypes(arguments, String);
+
         let url = "resources/" + contextName.toLowerCase() + ".context.json";
         this.storage.setValue("context-name", contextName);
+        console.log(url);
 
         try {
             let jsonText = await FileOperations.loadFromServer(url);

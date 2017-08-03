@@ -83,7 +83,6 @@
     $.fn.moveXmlAttr = function(fromKey, toKey) {
         var opts = $.extend( {}, $.fn.xmlAttr.defaults);
 
-        console.log(`moveXmlAttr ${fromKey}, ${toKey}`);
         if (!fromKey) return;
         if (!toKey) return;
         if (fromKey === toKey) return;
@@ -164,7 +163,6 @@
         }
 
         return this.each(function() {
-            console.log("X");
             let oldEntityTag = $(this).attr(opts.xmlTagName);
             $(this).moveXmlAttr(context.getTagInfo(oldEntityTag).linkAttribute, context.getTagInfo(value).linkAttribute);
             $(this).moveXmlAttr(context.getTagInfo(oldEntityTag).lemmaAttribute, context.getTagInfo(value).lemmaAttribute);

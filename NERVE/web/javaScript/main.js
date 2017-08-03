@@ -8,6 +8,8 @@ class HostInfo {
         if (window.location.protocol === "https:") prequel = "wss://";
         this.dictionarySocketAddress = `${prequel}${host}/nerve/Dictionary`;
         this.translateSocketAddress = `${prequel}${host}/nerve/Translate`;
+        console.log(this.dictionarySocketAddress);
+        console.log(this.translateSocketAddress);
     }
 }
 
