@@ -7,9 +7,11 @@ import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.encoder.ClassifierException;
 import ca.sharcnet.nerve.encoder.Encoder;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +35,18 @@ public class Main  implements HasStreams, IsMonitor{
     }
 
     public void run() throws IllegalArgumentException, IOException, ClassifierException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
-        Document document = DocumentLoader.documentFromStream(this.getResourceStream("/doc/minimalOrlando.xml"));
-        assert(document != null);
-        Document encoded = Encoder.encode(document, this, this);
-        assert(encoded != null);
-        Console.log(encoded);
+        InputStream resourceStream = this.getResourceStream("/doc/minimalOrlando.xml");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(resourceStream));
+
+        StringBuilder builder = new StringBuilder();
+        String readLine = bufferedReader.readLine();
+        while(readLine != null){
+            builder.append(readLine).append("\n");
+            readLine = bufferedReader.readLine();
+        }
+
+        Document d1 = DocumentLoader.documentFromString(builder.toString());
+//        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/minimalOrlando.xml"));
     }
 
     @Override

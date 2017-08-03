@@ -98,7 +98,6 @@ public class Context implements Serializable {
     */
     public TagInfo getTagInfo(String tagname, NameSource... groups) {
         for (TagInfo tagInfo : tags.values()) {
-            Console.log(tagInfo);
             for (NameSource t : groups) {
                 switch(t){
                     case NAME:

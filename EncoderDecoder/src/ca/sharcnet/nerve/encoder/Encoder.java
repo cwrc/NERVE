@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.encoder;
-
 import ca.sharcnet.nerve.NullMonitor;
 import static ca.sharcnet.nerve.Constants.*;
 import ca.sharcnet.nerve.context.*;
@@ -27,7 +26,6 @@ import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
 
 public class Encoder {
-
     private final Context context;
     private final SQL sql;
     private final Classifier classifier;
@@ -63,7 +61,8 @@ public class Encoder {
         String schema = model.attr(SCHEMA_NODE_ATTR);
         int index = schema.lastIndexOf('/');
         schema = schema.substring(index);
-        switch (model.attr(SCHEMA_NODE_ATTR).substring(5)) {
+
+        switch (schema) {
             case "/orlando_biography_v2.rng":
                 context = ContextLoader.load(hasStreams.getResourceStream("contexts/orlando.context.json"));
                 break;
@@ -175,7 +174,6 @@ public class Encoder {
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
             TagInfo tagInfo = context.getTagInfo(row.get("tag"), DICTIONARY);
-            Console.log(context);
 
             /* verify the schema */
             assert(child != null);
