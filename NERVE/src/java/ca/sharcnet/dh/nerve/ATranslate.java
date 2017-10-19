@@ -1,35 +1,45 @@
 package ca.sharcnet.dh.nerve;
-import ca.fa.jjj.web.rmi.RMISocket;
-import ca.fa.jjj.web.rmi.annotations.Remote;
-import ca.fa.utility.Console;
+import ca.fa.jjjrmi.annotations.ClientSide;
+import ca.fa.jjjrmi.annotations.NativeJS;
+import ca.fa.jjjrmi.annotations.RMI;
+import ca.fa.jjjrmi.annotations.ServerSide;
+import ca.fa.jjjrmi.annotations.SkipJS;
+import ca.fa.jjjrmi.socket.RMISocket;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.IsMonitor;
 import ca.sharcnet.nerve.decode.Decoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.nerve.encoder.ClassifierException;
 import ca.sharcnet.nerve.encoder.Encoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Translate extends RMISocket implements HasStreams, IsMonitor{
+@NativeJS
+@RMI("Translate")
+abstract public class ATranslate extends RMISocket implements HasStreams, IsMonitor{
 
-    public Translate(){
+    @SkipJS
+    public ATranslate(){
         super();
-        Console.log(ca.sharcnet.encoderdecoder.Info.version);
     }
 
-    @Remote
-    public String encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException{
+    private void setView(Object view){
+        /*JS{
+            this.view = view;
+            this.phaseName = "";
+        }*/
+    }
+
+    @ServerSide
+    public String encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
         Document document = DocumentLoader.documentFromString(source);
-//        return document.toString();
         Document encoded = Encoder.encode(document, this, this);
         return encoded.toString();
     }
 
-    @Remote
+    @ServerSide
     public String decode(String source) throws IOException, IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
         Document document = DocumentLoader.documentFromString(source);
         Document decoded = Decoder.decode(document, this);
@@ -37,18 +47,35 @@ public class Translate extends RMISocket implements HasStreams, IsMonitor{
         return decoded.toString();
     }
 
+    @SkipJS
     @Override
     public InputStream getResourceStream(String path) {
         return Encoder.class.getResourceAsStream("/res/" + path);
     }
 
-    @Override
+    @SkipJS
     public void phase(String phase, int i, int phaseMax) {
-        super.invokeRemoteMethod("phase", phase, i, phaseMax);
+        this.onPhase(phase, i, phaseMax);
     }
 
-    @Override
+    @SkipJS
     public void step(int i, int stepMax) {
-        super.invokeRemoteMethod("step", i, stepMax);
+        this.onStep(i, stepMax);
+    }
+
+    @ClientSide
+    public void onPhase(String phase, int i, int max) {
+        /*JS{
+            this.view.setThrobberMessage(phase);
+            this.phaseName = phase;
+            this.view.showBaubles(i, max);
+        }*/
+    }
+
+    @ClientSide
+    public void onStep(int i, int max) {
+        /*JS{
+            this.view.showPercent(Math.trunc(i / max * 100));
+        }*/
     }
 }

@@ -9,3 +9,31 @@
     content: "</" attr(xmltagname) ">";
     font-size: small;
 }
+
+.taggedentity:before{
+    content: "<" attr(xmltagname) ">";
+    font-size: small;
+    font-weight: bold;
+    color: red;
+}
+
+.taggedentity:after{
+    content: "</" attr(xmltagname) ">";
+    font-size: small;
+    font-weight: bold;
+    color: red;
+}
+
+.linked.taggedentity:before{
+    content: "<" attr(xmltagname) ">";
+    font-size: small;
+    font-weight: bold;
+    color: green;
+}
+
+.linked.taggedentity:after{
+    content: "</" attr(xmltagname) ">";
+    font-size: small;
+    font-weight: bold;
+    color: green;
+}

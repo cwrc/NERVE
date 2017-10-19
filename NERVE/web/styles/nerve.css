@@ -61,10 +61,10 @@ body{
 #dialogFade{
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px);
     background-color: rgba(206, 206, 228, 0.5);
     left: 0px;
-    top: 0px;
+    bottom: 0px;
     z-index: 5;
 }
 

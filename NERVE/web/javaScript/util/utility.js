@@ -6,7 +6,7 @@ Utility = {
     classes: {
         Events: 0,
         Controller: 2,
-        View: 0,
+        View: 2,
         Collection : 0,
         Dictionary : 0,
         Context: 0,

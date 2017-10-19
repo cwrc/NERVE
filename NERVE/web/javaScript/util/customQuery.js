@@ -1,5 +1,5 @@
-(function($) {
-    $.fn.mergeElements = function(name = "div") {
+(function ($) {
+    $.fn.mergeElements = function (name = "div") {
         let range = $(this).asRange();
         let element = document.createElement(name);
         range.surroundContents(element);
@@ -8,8 +8,8 @@
     };
 }(jQuery));
 
-(function($) {
-    $.fn.wrap = function(name = "div") {
+(function ($) {
+    $.fn.wrap = function (name = "div") {
         let range = $(this).asRange();
         let element = document.createElement(name);
         range.surroundContents(element);
@@ -17,8 +17,8 @@
     };
 }(jQuery));
 
-(function($) {
-    $.fn.selectAsRange = function() {
+(function ($) {
+    $.fn.selectAsRange = function () {
         let range = $(this).asRange();
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);
@@ -26,12 +26,12 @@
     };
 }(jQuery));
 
-(function($) {
-    $.fn.asRange = function() {
+(function ($) {
+    $.fn.asRange = function () {
         let start = null;
         let end = null;
 
-        this.each(function() {
+        this.each(function () {
             let range = new Range();
             range.setStartBefore($(this).get(0));
             range.setEndAfter($(this).get(0));
@@ -51,25 +51,29 @@
  * @param {type} $
  * @returns {undefined}
  */
-(function($) {
-    $.fn.xmlAttr = function(key, value) {
-        var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+(function ($) {
+    $.fn.xmlAttr = function (key, value) {
+        if (key === "" && value) throw new Error("Empty key value.");
+        var opts = $.extend({}, $.fn.xmlAttr.defaults);
 
-        if (typeof value === "undefined"){
+        if (typeof value === "undefined") {
             let xmlAttr = $(this).attr(opts.attrName);
             if (typeof xmlAttr === "undefined") return xmlAttr;
             let jsonObj = JSON.parse(xmlAttr);
+            if (!jsonObj[key]) return "";
             return jsonObj[key];
         }
 
-        return this.each(function() {
+        return this.each(function () {
             let xmlAttr = $(this).attr(opts.attrName);
-            /* all divs that come from encode will have this attribute */
-            if (typeof xmlAttr !== "undefined"){
-                let jsonObj = JSON.parse(xmlAttr);
-                jsonObj[key] = value;
-                $(this).attr(opts.attrName, JSON.stringify(jsonObj));
+            if (!xmlAttr) {
+                $(this).attr($.fn.xmlAttr.defaults.attrName, "{}");
+                xmlAttr = $(this).attr(opts.attrName);
             }
+
+            let jsonObj = JSON.parse(xmlAttr);
+            jsonObj[key] = value;
+            $(this).attr(opts.attrName, JSON.stringify(jsonObj));
         });
     };
 }(jQuery));
@@ -79,18 +83,18 @@
  * @param {type} $
  * @returns {undefined}
  */
-(function($) {
-    $.fn.moveXmlAttr = function(fromKey, toKey) {
-        var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+(function ($) {
+    $.fn.renameXMLAttr = function (fromKey, toKey) {
+        var opts = $.extend({}, $.fn.xmlAttr.defaults);
 
         if (!fromKey) return;
         if (!toKey) return;
         if (fromKey === toKey) return;
 
-        return this.each(function() {
+        return this.each(function () {
             let xmlAttr = $(this).attr(opts.attrName);
             /* all divs that come from encode will have this attribute */
-            if (typeof xmlAttr !== "undefined"){
+            if (typeof xmlAttr !== "undefined") {
                 let jsonObj = JSON.parse(xmlAttr);
                 jsonObj[toKey] = jsonObj[fromKey];
                 delete jsonObj[fromKey];
@@ -101,22 +105,48 @@
 }(jQuery));
 
 /**
+ * Get/Set the value of the collection attribute of this entity.  This is not
+ * an xml attribute.  Will return an empty string if no collection found.
+ * @param {type} $
+ * @returns {undefined}
+ */
+(function ($) {
+    $.fn.collection = function (value) {
+        var opts = $.extend({}, $.fn.xmlAttr.defaults);
+
+        if (typeof value === "undefined") {
+            let collection = $(this).attr("data-collection");
+            if (!collection) collection = "";
+            return collection;
+        }
+
+        return this.each(function () {
+            if (value === "") {
+                $(this).removeAttr("data-collection");
+            } else {
+                $(this).attr("data-collection", value);
+            }
+        });
+    };
+}(jQuery));
+
+/**
  * Get/Set the value of the lemma attribute of this entity.
  * @param {type} $
  * @returns {undefined}
  */
-(function($) {
-    $.fn.lemma = function(value) {
-        var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+(function ($) {
+    $.fn.lemma = function (value) {
+        var opts = $.extend({}, $.fn.xmlAttr.defaults);
         var context = opts.context;
 
-        if (typeof value === "undefined"){
+        if (typeof value === "undefined") {
             let tagName = $(this).attr(opts.xmlTagName);
             let lemmaAttr = context.getTagInfo(tagName).lemmaAttribute;
             return $(this).xmlAttr(lemmaAttr);
         }
 
-        return this.each(function() {
+        return this.each(function () {
             let tagName = $(this).attr(opts.xmlTagName);
             let lemmaAttr = context.getTagInfo(tagName).lemmaAttribute;
             $(this).xmlAttr(lemmaAttr, value);
@@ -129,18 +159,18 @@
  * @param {type} $
  * @returns {undefined}
  */
-(function($) {
-    $.fn.link = function(value) {
+(function ($) {
+    $.fn.link = function (value) {
         var opts = $.extend({}, $.fn.xmlAttr.defaults);
         var context = opts.context;
 
-        if (typeof value === "undefined"){
+        if (typeof value === "undefined") {
             let tagName = $(this).attr(opts.xmlTagName);
             let linkAttr = context.getTagInfo(tagName).linkAttribute;
             return $(this).xmlAttr(linkAttr);
         }
 
-        return this.each(function() {
+        return this.each(function () {
             let tagName = $(this).attr(opts.xmlTagName);
             let linkAttr = context.getTagInfo(tagName).linkAttribute;
             $(this).xmlAttr(linkAttr, value);
@@ -153,19 +183,22 @@
  * @param {type} $
  * @returns {undefined}
  */
-(function($) {
-    $.fn.entityTag = function(value) {
-        var opts = $.extend( {}, $.fn.xmlAttr.defaults);
+(function ($) {
+    $.fn.entityTag = function (value) {
+        var opts = $.extend({}, $.fn.xmlAttr.defaults);
         var context = opts.context;
 
-        if (typeof value === "undefined"){
+        if (!value) {
             return $(this).attr(opts.xmlTagName);
         }
 
-        return this.each(function() {
+        /* when changing the entity tag, attribute name of the link & lemma attributes may change */
+        return this.each(function () {
             let oldEntityTag = $(this).attr(opts.xmlTagName);
-            $(this).moveXmlAttr(context.getTagInfo(oldEntityTag).linkAttribute, context.getTagInfo(value).linkAttribute);
-            $(this).moveXmlAttr(context.getTagInfo(oldEntityTag).lemmaAttribute, context.getTagInfo(value).lemmaAttribute);
+            if (oldEntityTag) {
+                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag).linkAttribute, context.getTagInfo(value).linkAttribute);
+                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag).lemmaAttribute, context.getTagInfo(value).lemmaAttribute);
+            }
             return $(this).attr(opts.xmlTagName, value);
         });
     };

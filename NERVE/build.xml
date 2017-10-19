@@ -10,11 +10,11 @@
 <project name="NERVE3" default="default" basedir=".">
     <description>Builds, tests, and runs the project NERVE3.</description>
     <import file="nbproject/build-impl.xml"/>
-
     <property name="keyfile" value="C:/cygwin64/home/edward/.ssh/id_rsa"/>
     <property name="remoteTarget" value="root@dh.sharcnet.ca:/www/glassfish/repository"/>
+    <property name="JJJ" value="D:/Dropbox/projects.new/lib/custom/JJJRMI.jar"/>
 
-    <target name="deploy">
+    <target name="nerve.deploy">
         <sequential>
             <echo>copy to ${remoteTarget}</echo>
             <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
@@ -23,6 +23,62 @@
             <echo>redeploy .war file</echo>
             <sshexec host="dh.sharcnet.ca" username="root" keyfile="${keyfile}" trust="yes" command="asadmin redeploy --name nerve /www/glassfish/repository/nerve.war"/>
         </sequential>
+    </target>
+
+    <target name="nerve.automated-code-generation">
+        <mkdir dir="${basedir}/web/gen/"/>
+        <sequential>
+            <antcall target="nerve.automated-code-generation-java"/>
+            <antcall target="nerve.automated-code-generation-js"/>
+        </sequential>
+    </target>
+
+    <target name="nerve.automated-code-generation-java">
+        <echo>AUTOMATED CODE GENERATION - RMI</echo>
+        <mkdir dir="${basedir}/web/gen/"/>
+
+        <java classname="ca.fa.jjj.parser.Main">
+            <arg line="-i ${basedir}/src/java"/>
+            <arg line="-o ${basedir}/src/gen"/>
+            <classpath>
+                <pathelement location="${JJJ}"/>
+                <pathelement location="${basedir}/build/web/WEB-INF/classes"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="nerve.automated-code-generation-js">
+        <echo>AUTOMATED CODE GENERATION - JS</echo>
+        <mkdir dir="${basedir}/web/gen/"/>
+
+        <sequential>
+            <java classname="ca.fa.jjj.jsbuilder.Main">
+                <arg line="-i ${basedir}/src/java"/>
+                <arg line="-o ${basedir}/web/javaScript/gen/nerveServer.js"/>
+                <classpath>
+                    <pathelement location="${JJJ}"/>
+                </classpath>
+            </java>
+
+        </sequential>
+    </target>
+
+    <property name="libdir" value="D:/Dropbox/projects.new/lib"/>
+    <target name="nerve.compile-generated-code">
+        <javac srcdir="${basedir}/src/gen" destdir="${basedir}/build/web/WEB-INF/classes">
+            <classpath>
+                <pathelement location="${JJJ}"/>
+                <pathelement location="${basedir}/build/web/WEB-INF/classes"/>
+                <pathelement location="${basedir}/lib/"/>
+                <pathelement location="${javac.classpath}"/>
+                <pathelement location="${libdir}/custom/EncoderDecoder.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="nerve.copy-jjjweb">
+        <echo>RETRIEVING JS JJJ LIBRARY</echo>
+        <copy file="D:/Dropbox/projects.new/groups/jjj2/JJJRMIWeb/public_html/JJJ.js" todir="${basedir}/web/javaScript/"/>
     </target>
 
 </project>

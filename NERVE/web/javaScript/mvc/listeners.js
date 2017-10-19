@@ -4,33 +4,36 @@ class EntityDialogWidget{
 
     constructor(controller){
         this.controller = controller;
-        this.enitityValues = null;
+        this.entityValues = new EntityValues();
+        this.update = false;
 
         $("#txtEntity").on("input", () => {
-            if (this.entityValues === null) this.entityValues = {};
+            console.log($("#txtEntity").val());
             this.entityValues.entity = $("#txtEntity").val();
+            this.update = true;
         });
         $("#txtLemma").on("input", () => {
-            if (this.entityValues === null) this.entityValues = {};
             this.entityValues.lemma = $("#txtLemma").val();
+            this.update = true;
         });
         $("#txtLink").on("input", () => {
-            if (this.entityValues === null) this.entityValues = {};
             this.entityValues.link = $("#txtLink").val();
+            this.update = true;
         });
 
         $(".entityDialogTB").blur(() => {
-            if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
-            this.entityValues = null;
+            if (this.update) this.controller.updateAllSelected(this.entityValues);
+            this.update = false;
+            this.entityValues = new EntityValues();
         });
 
         $(".entityDialogTB").keyup((event) => {
             if (event.keyCode !== 13) return;
-            if (this.entityValues !== null) this.controller.updateAllSelected(this.entityValues);
+            this.controller.updateAllSelected(this.entityValues);
+            this.entityValues = new EntityValues();
             event.stopPropagation();
         });
     }
-
 }
 
 class Listeners {
@@ -45,7 +48,8 @@ class Listeners {
         new EntityDialogWidget(controller);
 
         $("#selectTagName").on("input", (event) => {
-            this.controller.updateAllSelected({tagName: $("#selectTagName").val()});
+            let values = new EntityValues("", "", "", $("#selectTagName").val() , "");
+            this.controller.updateAllSelected(values);
         });
 
         $("#goLink").click((event) => this.controller.goLink());
@@ -172,7 +176,7 @@ class Listeners {
         });
         $("#dictUpdate").click(async (event) => {
             event.stopPropagation();
-            await this.controller.dictUpdate();
+            await this.controller.dictAdd();
         });
 
         /* the ability to switch context is deprecated */
@@ -344,26 +348,14 @@ class Listeners {
         }
     }
     menuShowTags() {
-        let rvalue = false;
-
-        console.log($("#menuTags").data("value"));
-
         if ($("#menuTags").data("value") === false) {
-            rvalue = true;
-            $("#menuTags").addClass("activeText");
             $("#menuTags").data("value", true);
+            $("#menuTags").text("Overlay Mode");
+            this.view.tagMode();
         } else {
-            rvalue = false;
-            $("#menuTags").removeClass("activeText");
             $("#menuTags").data("value", false);
+            $("#menuTags").text("Tag Mode");
+            this.view.overlayMode();
         }
-
-        if (rvalue === true) {
-            this.view.attachStyle("tags.css");
-        } else {
-            this.view.detachStyle("tags.css");
-        }
-
-        setTimeout(() => this.view.tagnameManager.resetTagnames(), 100);
     }
 }

@@ -8,8 +8,6 @@ class HostInfo {
         if (window.location.protocol === "https:") prequel = "wss://";
         this.dictionarySocketAddress = `${prequel}${host}/nerve/Dictionary`;
         this.translateSocketAddress = `${prequel}${host}/nerve/Translate`;
-        console.log(this.dictionarySocketAddress);
-        console.log(this.translateSocketAddress);
     }
 }
 
@@ -22,11 +20,9 @@ class Main {
         this.controller = null;
         this.view = null;
         this.listener = null;
-
-        JJJ.devmode = true;
     }
-    async initialize(clientIP) {
-        this.view = new View(clientIP, this.context);
+    async initialize() {
+        this.view = new View(this.context);
         this.view.setThrobberMessage("Loading...");
 
         this.model = new Model(this.view, this.storage, this.context);
@@ -38,6 +34,7 @@ class Main {
         $.fn.xmlAttr.defaults.context = this.context;
 
         this.model.loadStoredDoc();
+        this.controller.onLoad();
 
         this.view.showThrobber(false);
         $("#container").show();

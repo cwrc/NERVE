@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NERVE 1.6.0a</title>
+        <title>NERVE 1.6.4a</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="resources/NERVE.png">
@@ -27,45 +27,49 @@
         <script src="dialogs/js/cD.js"></script>
         <script src="dialogs/js/app.js"></script>
 
-        <script src="https://france-armstrong.ca/scripts/JJJ.js" type="text/javascript"></script>
+        <script src="javaScript/util/customQuery.js" type="text/javascript"></script>
+        <script src="javaScript/util/utility.js" type="text/javascript"></script>
+        <script src="javaScript/util/response.js" type="text/javascript"></script>
+        <script src="javaScript/util/storage.js" type="text/javascript"></script>
+        <script src="javaScript/util/keyboardCodeEnum.js" type="text/javascript"></script>
+        <script src="javaScript/util/fileOperations.js" type="text/javascript"></script>
 
-        <script src="javaScript/classes/util/customQuery.js" type="text/javascript"></script>
-        <script src="javaScript/modules/utility.js" type="text/javascript"></script>
-        <script src="javaScript/classes/util/response.js" type="text/javascript"></script>
-        <script src="javaScript/modules/storage.js" type="text/javascript"></script>
-        <script src="javaScript/modules/keyboardCodeEnum.js" type="text/javascript"></script>
-        <script src="javaScript/classes/util/fileOperations.js" type="text/javascript"></script>
+        <script src="javaScript/collection/collection.js" type="text/javascript"></script>
+        <script src="javaScript/util/searchUtility.js" type="text/javascript"></script>
 
-        <script src="javaScript/classes/collection/collection.js" type="text/javascript"></script>
-        <script src="javaScript/classes/util/searchUtility.js" type="text/javascript"></script>
-
-        <script src="javaScript/classes/mvc/dialogs.js" type="text/javascript"></script>
-        <script src="javaScript/classes/mvc/controller.js" type="text/javascript"></script>
-        <script src="javaScript/classes/mvc/schema.js" type="text/javascript"></script>
-        <script src="javaScript/classes/mvc/context.js" type="text/javascript"></script>
-        <script src="javaScript/classes/mvc/model.js" type="text/javascript"></script>
-        <script src="javaScript/classes/mvc/view.js" type="text/javascript"></script>
-        <script src="javaScript/classes/mvc/listeners.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/dialogs.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/controller.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/schema.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/context.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/model.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/view.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/listeners.js" type="text/javascript"></script>
         <script src="javaScript/main.js" type="text/javascript"></script>
+
+        <script src="javaScript/JJJ.js" type="text/javascript"></script>
+        <script src="javaScript/gen/nerveServer.js" type="text/javascript"></script>
+        <script src="javaScript/util/SQL.js" type="text/javascript"></script>
     </head>
 
     <body>
         <script>
-            window.onload = function () {
-                JJJ.devmode = true;
+            $(document).ready(function () {
+                console.log("document.ready");
+            });
 
-                console.log("window.ready");
+            window.onload = async function () {
+                console.log("window.onload : start");
+                JJJRMISocket.devmode = 0;
                 window.main = new Main();
-
-                /* get ip address in case development only options are needed */
-                jQuery.getJSON('//freegeoip.net/json/?callback=?', function (data) {
-                    main.initialize(data.ip);
-                }.bind(this));
+                await main.initialize();
 
                 /* make boostrap dialogs movable */
                 jQuery('.modal-dialog').draggable({
                     handle: ".modal-header"
                 });
+
+                console.log("window.onload : done");
+                setTimeout(() => main.view.tagnameManager.pollDocument(), 500);
             };
         </script>
 
@@ -93,7 +97,7 @@
         <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">
-                    <div id="abbr">NERVE 1.6.0a</div>
+                    <div id="abbr">NERVE 1.6.4a</div>
                     <div id="fullname">Named Entity Recognition Vetting Environment</div>
                     <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>
@@ -110,7 +114,7 @@
                     <div class="menu">
                         <div class="menuTitle">View</div>
                         <div class="itemContainer">
-                            <div class="menuItem" id="menuTags" data-value="false">Show Tags</div>
+                            <div class="menuItem" id="menuTags" data-value="false">Tag Mode</div>
                             <div class="menuItem" id="menuClear">Clear Selection<div class="menuSC">esc</div></div>
                             <div class="menuItem" id="menuReset">Clear All</div>
                         </div>
@@ -149,20 +153,18 @@
 
             <div id="messagePanel" class="messagePanelSmall"></div>
 
-            <div class="inactiveForeground" id="entityDialog">
-                <div id="dialogFade"></div>
+            <div id="entityDialog">
                 <div class="entityDialogMember">Tag Name</div>
                 <div class="entityDialogMember"><select id="selectTagName"></select></div>
-                <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text"/></div>
-                <div class="entityDialogMember"><button id="searchDialog" type="button" class="btn btn-default"><i class="fa fa-search"></i></button></div>
-                <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text"/></div>
-                <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text"/><div id="goLink">GO</div></div>
+                <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text" disabled/></div>
+                <div class="entityDialogMember"><button id="searchDialog" type="button" class="btn btn-default" disabled><i class="fa fa-search"></i></button></div>
+                <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text" disabled/></div>
+                <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text" disabled/><div id="goLink">GO</div></div>
 
                 <div id="dictionary">
                     <button id="dictAdd"    type="button" class="btn-dict">Add to User Dictionary</button>
                     <button id="dictRemove" type="button" class="btn-dict">Remove From User Dictionary</button>
                     <button id="dictUpdate" type="button" class="btn-dict">Update User Dictionary</button>
-                    <div id="sourceDictionary">Source: </div>
                 </div>
             </div>
             <div id="dialogsHolder"></div>

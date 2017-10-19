@@ -2,7 +2,6 @@
 
 class Model {
     constructor(view, settings, context) {
-        Model.traceLevel = 0;
         Utility.log(Model, "constructor");
         Utility.enforceTypes(arguments, View, Storage, Context);
 
@@ -21,7 +20,6 @@ class Model {
         if (this.settings.hasValue("document") && this.settings.hasValue("filename")) {
             this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
             $(".selected").removeClass("selected");
-            this.setupTaggedEntity($(".taggedentity"));
             return true;
         }
         return false;
@@ -147,26 +145,6 @@ class Model {
         Utility.log(Model, "getDocument");
         Utility.enforceTypes(arguments);
         return $("#entityPanel").html();
-    }
-    setEntityValues(selector, values) {
-        Utility.log(Model, "setEntityValues");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery], Object);
-
-        $(selector).entityTag(values.tagName);
-        $(selector).lemma(values.lemma);
-        $(selector).link(values.link);
-    }
-    setupTaggedEntity(selector) {
-        Utility.log(Model, "setupTaggedEntity");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery, String]);
-
-        $(selector).each((i, ele) => {
-//            if ($(ele).link() === "" || typeof $(ele).link() === "undefined") {
-//                $(ele).removeClass("linked");
-//            } else {
-//                $(ele).addClass("linked");
-//            }
-        });
     }
 }
 

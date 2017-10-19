@@ -1,5 +1,5 @@
 /* a singleton wrapper class for cD.js */
-/* global cD, Utility, trace */
+/* global cD, Utility, trace, EntityValues */
 
 class Dialogs {
     constructor(controller) {
@@ -20,11 +20,11 @@ class Dialogs {
 
         this.opts = {
             success: function (result, event) {
-                this.updateAllSelected({
-                    lemma : result.name,
-                    link : result.uri,
-                });
-                this.view.setDialogs(this.collection.getLast());
+                let values = EntityValues.extract(this.collection.getLast());
+                values.lemma = result.name;
+                values.link = result.uri;
+                this.updateAllSelected(values);
+                this.view.setDialogs(values);
             }.bind(controller),
             error: function (errorThrown) {
                 console.log("error");
