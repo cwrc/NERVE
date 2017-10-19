@@ -1,14 +1,20 @@
 package ca.sharcnet.nerve.encoder;
+
 import ca.sharcnet.graph.PathResult;
 import ca.sharcnet.graph.Tree;
-import ca.sharcnet.utility.SQLRecord;
+import ca.fa.SQL.SQLRecord;
 
+/**
+Stores a candidate ({@link #addCandidate}) as a series of space deliminated tokens (a token by default is a word).
+Will attempt to match the maximum number of tokens in a query ({@link #seekLine}).
+@author edward
+ */
 public class StringMatch {
     final Tree<String, SQLRecord> candidates = new Tree<>();
     private final String tokenRegex;
 
     public StringMatch() {
-        this.tokenRegex = "[^a-zA-Z0-9]";
+        this("[^a-zA-Z0-9]");
     }
 
     public StringMatch(String tokenRegex) {
@@ -17,7 +23,7 @@ public class StringMatch {
 
     /**
         Enter a candidtate string.  If 'case sensative' was set to false the
-        candidtate if first converted to lower case.  Tokens within the candidate
+        candidate is first converted to lower case.  Tokens within the candidate
         are ignored.  When the seekLine method is called the original string is
         passed to the consumer callback.
         @param entity
@@ -35,7 +41,7 @@ public class StringMatch {
         @param source
         @param reject
         @param accept
-//     */
+     */
     public void seekLine(String source, OnAccept accept, OnReject reject) {
         String regex = String.format("(?=(?!^)%1$s)(?<!%1$s)|(?!%1$s)(?<=%1$s)", tokenRegex);
         String[] tokens = source.split(regex);
@@ -44,8 +50,8 @@ public class StringMatch {
 
         int current = 0;
 
-        for (PathResult<String, SQLRecord> path : allPaths){
-            if (current < path.getStart()){
+        for (PathResult<String, SQLRecord> path : allPaths) {
+            if (current < path.getStart()) {
                 reject.reject(rebuild(current, path.getStart() - 1, tokens));
                 accept.accept(rebuild(path.getStart(), path.getEnd(), tokens), path.getValue());
                 current = path.getEnd() + 1;
@@ -55,7 +61,7 @@ public class StringMatch {
             }
         }
 
-        if (current < tokens.length){
+        if (current < tokens.length) {
             reject.reject(rebuild(current, tokens.length - 1, tokens));
         }
     }

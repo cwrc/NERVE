@@ -1,6 +1,5 @@
 package ca.sharcnet.nerve.context;
 import static ca.sharcnet.nerve.context.Context.NameSource.*;
-import ca.sharcnet.utility.Console;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Context implements Serializable {
-
     public enum NameSource {
         NAME, DICTIONARY, DIALOG, NERMAP
     };
@@ -134,24 +132,6 @@ public class Context implements Serializable {
             if (asList.contains(DICTIONARY) && tagInfo.dictionary.equals(tagname)) return true;
             if (asList.contains(DIALOG) && tagInfo.dialog.equals(tagname)) return true;
             if (asList.contains(NERMAP) && tagInfo.nerMap.equals(tagname)) return true;
-        }
-        return false;
-    }
-
-    @Deprecated
-    public TagInfo getTagInfo(String tagname) {
-        for (TagInfo tagInfo : tags.values()) {
-            if (tagInfo.name.equals(tagname)) return tagInfo;
-            if (tagInfo.dictionary.equals(tagname)) return tagInfo;
-            if (tagInfo.dialog.equals(tagname)) return tagInfo;
-            if (tagInfo.nerMap.equals(tagname)) return tagInfo;
-        }
-        return null;
-    }
-
-    public boolean isNERMap(String tagname) {
-        for (TagInfo tagInfo : tags.values()) {
-            if (tagInfo.nerMap.equals(tagname)) return true;
         }
         return false;
     }

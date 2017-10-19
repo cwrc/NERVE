@@ -7,16 +7,16 @@
     <ORLANDOHEADER TYPE="text">
         <FILEDESC>
             <TITLESTMT>
-                <DOCTITLE>Sophia Jex-Blake: biography</DOCTITLE>
+                <DOCTITLE></DOCTITLE>
             </TITLESTMT>
             <PUBLICATIONSTMT>
-                <AUTHORITY>Orlando Project</AUTHORITY>
+                <AUTHORITY></AUTHORITY>
             </PUBLICATIONSTMT>
-            <SOURCEDESC>Created from original research by members of the Orlando Project</SOURCEDESC>
+            <SOURCEDESC></SOURCEDESC>
         </FILEDESC>
         <REVISIONDESC>
             <RESPONSIBILITY WORKSTATUS="RWT" RESP="CRF" WORKVALUE="C">
-                <DATE>30 June 2016</DATE>
+                <DATE></DATE>
                 <ITEM></ITEM>
             </RESPONSIBILITY>
         </REVISIONDESC>
@@ -28,16 +28,12 @@
                     <DATASTRUCT>
                         <DATAITEM>
                             <BIRTHNAME>
-                                <GIVEN>Sophia</GIVEN>
-                                <GIVEN>Louisa</GIVEN>
-                                <SURNAME>Jex-Blake</SURNAME>
+                                <GIVEN></GIVEN>
+                                <GIVEN></GIVEN>
+                                <SURNAME></SURNAME>
                             </BIRTHNAME>
                             <SCHOLARNOTE>
-                                <P>Jex-Blake&apos;s family name was changed from Blake by her grandfather, in honour of his grandmother Elizabeth Jex.</P>
-                                <P>♣</P>
-                                <P>which changed the direction of her life</P>
-                                <P>Greek characters: ©↔↔ </P>
-                                <P>Ægyptus</P>
+								<P>Chicago</P>
                             </SCHOLARNOTE>
                         </DATAITEM>
                     </DATASTRUCT>

@@ -2,18 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="24">
         <file>
-            <url>src/ca/sharcnet/nerve/encoder/AutoTagger.java</url>
-            <bookmark id="16">
+            <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
+            <bookmark id="24">
                 <name/>
-                <line>237</line>
+                <line>113</line>
                 <key/>
             </bookmark>
         </file>
         <file>
-            <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
-            <bookmark id="24">
+            <url>src/ca/sharcnet/nerve/encoder/AutoTagger.java</url>
+            <bookmark id="16">
                 <name/>
-                <line>103</line>
+                <line>237</line>
                 <key/>
             </bookmark>
         </file>

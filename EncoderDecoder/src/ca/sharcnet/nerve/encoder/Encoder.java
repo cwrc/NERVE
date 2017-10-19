@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.encoder;
-import ca.sharcnet.nerve.NullMonitor;
 import static ca.sharcnet.nerve.Constants.*;
 import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.*;
@@ -14,10 +13,11 @@ import static ca.sharcnet.nerve.context.Context.NameSource.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import ca.sharcnet.utility.Console;
-import ca.sharcnet.utility.SQL;
-import ca.sharcnet.utility.SQLRecord;
-import ca.sharcnet.utility.SQLResult;
+import ca.fa.utility.Console;
+import ca.fa.SQL.SQL;
+import ca.fa.SQL.SQLRecord;
+import ca.fa.SQL.SQLResult;
+import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -31,29 +31,29 @@ public class Encoder {
     private final Classifier classifier;
     private Schema schema = null;
     private Document document = null;
-    private IsMonitor monitor = new NullMonitor();
+    private IsMonitor monitor = IsMonitor.nullMonitor;
 
-    public static Document encode(Document document, HasStreams hasStreams) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException {
-        return Encoder.encode(document, hasStreams, null);
-    }
+    public static Document encode(Document document, HasStreams hasStreams, IsMonitor monitor) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+        if (document == null) throw new NullPointerException();
+        if (hasStreams == null) throw new NullPointerException();
+        if (monitor == null) monitor = IsMonitor.nullMonitor;
 
-    public static Document encode(Document document, HasStreams hasStreams, IsMonitor monitor) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ClassifierException, ParserConfigurationException {
         /* connect to SQL */
-        if (monitor != null) monitor.phase("loading SQL", 1, 7);
+        monitor.phase("loading SQL", 1, 7);
         Properties config = new Properties();
         InputStream cfgStream = hasStreams.getResourceStream("config.txt");
         config.load(cfgStream);
         SQL sql = new SQL(config);
 
         /* build classifier */
-        if (monitor != null) monitor.phase("building classifier", 2, 7);
+        monitor.phase("building classifier", 2, 7);
         InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
         BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
         Classifier classifier = new Classifier(bis);
         cStream.close();
 
         /* retrieve the schema url to set the context (or use context instruction node) */
-        if (monitor != null) monitor.phase("loading Context", 3, 7);
+        monitor.phase("loading Context", 3, 7);
         Context context = null;
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaURL = model.attr(SCHEMA_NODE_ATTR);
@@ -69,7 +69,7 @@ public class Encoder {
             case "/cwrc_entry.rng":
                 context = ContextLoader.load(hasStreams.getResourceStream("contexts/cwrc.context.json"));
                 break;
-            case "/schemas/cwrc_tei_lite.rng":
+            case "/cwrc_tei_lite.rng":
                 context = ContextLoader.load(hasStreams.getResourceStream("contexts/tei.context.json"));
                 break;
             default:
@@ -84,7 +84,7 @@ public class Encoder {
         Encoder encoder = new Encoder(document, context, sql, classifier, monitor);
 
         /** add the schema, the schema url in the context takes precedence **/
-        if (monitor != null) monitor.phase("loading schema: " + context.getSchemaName(), 4, 7);
+        monitor.phase("loading schema: " + context.getSchemaName(), 4, 7);
         if (!context.getSchemaName().isEmpty()) schemaURL = context.getSchemaName();
 
         InputStream schemaStream = null;
@@ -93,12 +93,13 @@ public class Encoder {
         } else if (schemaURL.startsWith("file:")){
             schemaStream = hasStreams.getResourceStream(schemaURL.substring(5));
         }
-        encoder.setSchema(RelaxNGSchemaLoader.schemaFromStream(schemaStream));
+        Schema schemaFromStream = RelaxNGSchemaLoader.schemaFromStream(schemaStream);
+        encoder.setSchema(schemaFromStream);
 
         return encoder.encode();
     }
 
-    public Encoder(Document document, Context context, SQL sql, Classifier classifier, IsMonitor monitor) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    private Encoder(Document document, Context context, SQL sql, Classifier classifier, IsMonitor monitor) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
         if (monitor != null) this.monitor = monitor;
@@ -109,12 +110,11 @@ public class Encoder {
         this.classifier = classifier;
     }
 
-    public Document encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    private Document encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         monitor.phase("dictionary", 5, 7);
         if (this.sql != null) lookupTag();
         monitor.phase("ner", 6, 7);
         if (this.classifier != null) processNER(document);
-
         monitor.phase("encoding", 7, 7);
         wrapTags(document);
 
@@ -124,7 +124,7 @@ public class Encoder {
         return document;
     }
 
-    public void setSchema(Schema schema) {
+    private void setSchema(Schema schema) {
         this.schema = schema;
     }
 
@@ -147,7 +147,7 @@ public class Encoder {
 
         for (int i = 0; i < sqlResult.size(); i++) {
             SQLRecord row = sqlResult.get(i);
-            knownEntities.addCandidate(row.get("entity"), row);
+            knownEntities.addCandidate(row.getEntry("entity").getValue(), row);
         }
 
         lookupTag(document, knownEntities);
@@ -173,7 +173,7 @@ public class Encoder {
 
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
-            TagInfo tagInfo = context.getTagInfo(row.get("tag"), DICTIONARY);
+            TagInfo tagInfo = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY);
 
             /* verify the schema */
             assert(child != null);
@@ -186,11 +186,11 @@ public class Encoder {
                 newNodes.add(new TextNode(string));
             } else {
                 Node elementNode = new ElementNode(tagInfo.name, string);
-                String lemmaAttribute = context.getTagInfo(row.get("tag"), DICTIONARY).lemmaAttribute;
-                if (!lemmaAttribute.isEmpty()) elementNode.attr(lemmaAttribute, row.get("lemma"));
+                String lemmaAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).lemmaAttribute;
+                if (!lemmaAttribute.isEmpty()) elementNode.attr(lemmaAttribute, row.getEntry("lemma").getValue());
 
-                String linkAttribute = context.getTagInfo(row.get("tag"), DICTIONARY).linkAttribute;
-                if (!linkAttribute.isEmpty()) elementNode.attr(linkAttribute, row.get("link"));
+                String linkAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).linkAttribute;
+                if (!linkAttribute.isEmpty()) elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 newNodes.add(elementNode);
             }
         };
@@ -214,7 +214,6 @@ public class Encoder {
      * @throws SQLException
      */
     private void wrapTags(Node node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
-
         if (node.isType(NodeType.DOCTYPE)) {
             Node eNode = new ElementNode(HTML_TAGNAME);
             eNode.attr("class", HTML_DOCTYPE);
@@ -258,19 +257,25 @@ public class Encoder {
 
         for (Node node : textNodes) {
             this.monitor.step(n++, N);
+            if (node.text().trim().isEmpty()) continue;
+
+            /* skip nodes that are already tagged */
+            NodeList ancestorNodes = node.ancestorNodes(NodeType.ELEMENT);
+            if (ancestorNodes.testAny(nd->!context.isTagName(nd.name()))) continue;
+
             NodeList nerList = applyNamedEntityRecognizer(node.text());
 
             /* for each element node in the list ensure the path is valid, otherwise convert it to a text node */
             for (int i = 0; i < nerList.size(); i++) {
                 Node nerNode = nerList.get(i);
                 if (!nerNode.isType(NodeType.ELEMENT)) continue;
-                if (schema != null && !schema.isValid(node, nerNode.name())) {
+                if (schema != null && !schema.isValid(node.getParent(), nerNode.name())) {
                     TextNode textNode = new TextNode(nerNode.text());
                     nerList.set(i, textNode);
                 }
             }
 
-            /* Go through the nodes in the node list and change the names from dictionary to context taginfo name. */
+            /* Go through the nodes in the node list and change the names from ner to context taginfo name. */
             for (Node nerNode : nerList) {
                 String nodeName = nerNode.name();
                 if (nerNode.getType() == NodeType.ELEMENT && context.hasTagInfo(nodeName, NERMAP)) {
@@ -286,47 +291,6 @@ public class Encoder {
         this.monitor.step(1, 1);
     }
 
-//    private void processNER(Node node) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-//        /* if the node is specifically excluded or it's already considered tagged exit */
-//        if (context.isTagName(node.name())) return;
-//
-//        /* for all child element nodes recurse   */
-//        /* for all child text nodes, perform NER */
-//        NodeList children = node.childNodes();
-//        for (Node current : children) {
-//            if (current.getType() == NodeType.ELEMENT) {
-//                processNER(current);
-//            } else if (current.isType(NodeType.TEXT)) {
-//                /* get a nodelist, zero or more of which will be element nodes, which in turn represent found entities */
-//                TextNode tNode = (TextNode) current;
-//                NodeList nerList = applyNamedEntityRecognizer(tNode.getText());
-//
-//                /* for each element node in the list ensure the path is valid, otherwise convert it to a text node */
-//                for (int i = 0; i < nerList.size(); i++) {
-//                    Node nerNode = nerList.get(i);
-//                    if (!nerNode.isType(NodeType.ELEMENT)) continue;
-//                    if (schema != null && !schema.isValid(node, nerNode.name())) {
-//                        TextNode textNode = new TextNode(nerNode.innerText());
-//                        nerList.set(i, textNode);
-//                    }
-//                }
-//
-//                /* Go through the nodes in the node list and change the names */
-//                /* from dictionary to context taginfo name.                   */
-//                for (Node nerNode : nerList) {
-//                    String nodeName = nerNode.name();
-//                    if (nerNode.getType() == NodeType.ELEMENT && context.hasTagInfo(nodeName, NERMAP)) {
-//                        Node nerElementNode = (Node) nerNode;
-//                        TagInfo tagInfo = context.getTagInfo(nodeName, NERMAP);
-//                        nerElementNode.name(tagInfo.name);
-//                    }
-//                }
-//
-//                /* replace the current node with the node list */
-//                if (nerList.size() > 0) current.replaceWith(nerList);
-//            }
-//        }
-//    }
     private NodeList applyNamedEntityRecognizer(String text) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         /* at least one alphabet character upper or lower case */
         String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
@@ -343,12 +307,12 @@ public class Encoder {
         NodeList nodes = localDoc.query("*");
 
         /* for each node in the document (from above) if it's an NER node     */
- /* change it's tagname to a valid tag name occording to the context   */
- /* and set it's lemma if it doens't already have one.                 */
- /* ensure that the node has the default attributes                    */
+        /* change it's tagname to a valid tag name occording to the context   */
+        /* and set it's lemma if it doesn't already have one.                 */
+        /* ensure that the node has the default attributes                    */
         for (Node node : nodes) {
             /* if node name is an NER tag name */
-            if (context.isNERMap(node.name())) {
+            if (context.isTagName(node.name(), NERMAP)) {
                 TagInfo tagInfo = context.getTagInfo(node.name(), NERMAP);
                 node.name(tagInfo.name);
                 if (!tagInfo.lemmaAttribute.isEmpty()) {

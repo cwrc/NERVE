@@ -12,16 +12,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 import ca.sharcnet.nerve.docnav.dom.DoctypeNode;
-import ca.sharcnet.nerve.docnav.dom.ElementNode;
-import ca.sharcnet.nerve.docnav.dom.NodeType;
-import static ca.sharcnet.nerve.docnav.dom.NodeType.ELEMENT;
-import ca.sharcnet.nerve.docnav.dom.extended.HTMLElement;
 import ca.sharcnet.nerve.docnav.query.Query;
 import org.json.JSONObject;
 
 public class Decoder {
-    private Context context = null;
-
     /**
     Decode a document using a 'HasStreams' object to load the context.
     @param document
@@ -46,7 +40,7 @@ public class Decoder {
 
     /**
     Decode a document using a 'HasStreams' with a provided context.
-    @param srcDoc
+    @param document
     @param context
     @return
     @throws IOException
@@ -57,7 +51,6 @@ public class Decoder {
     @throws ParserConfigurationException
     */
     public Document decode(Document document, Context context) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        this.context = context;
         Query xmltag = document.queryf(".%s, .%s", HTML_NONENTITY, HTML_ENTITY);
 
         xmltag.forEach((Node node)->{

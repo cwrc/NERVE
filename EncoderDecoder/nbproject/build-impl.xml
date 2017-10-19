@@ -301,7 +301,7 @@ is divided into following sections:
               <include name="*"/> 
             </dirset> 
           </src>  
-          <withKotlin/>
+          
           <classpath> 
             <path path="@{classpath}"/> 
           </classpath>  

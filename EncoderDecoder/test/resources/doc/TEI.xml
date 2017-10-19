@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="../../../../CWRC/CWRCdocs/schemas/tei.css"?>
+<?xml-model href="http://cwrc.ca/schemas/cwrc_tei_lite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title></title>
+                <author></author>
+            </titleStmt>
+            <editionStmt>
+                <p></p>
+            </editionStmt>
+            <extent></extent>
+            <publicationStmt>
+                <publisher></publisher>
+                <address><index><term></term></index><name></name><index><term></term></index></address>
+            </publicationStmt>
+            <seriesStmt>
+                <p></p>
+            </seriesStmt>
+            <notesStmt>
+                <note></note>
+            </notesStmt>
+            <sourceDesc>
+                <p></p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <projectDesc>
+                <p></p>
+            </projectDesc>
+        </encodingDesc>
+        <revisionDesc>
+            <list>
+                <byline></byline>
+                <item></item>
+                <index>
+                    <term></term>
+                </index>
+                <byline></byline>
+                <index>
+                    <term></term>
+                </index>
+            </list>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <body>
+          <div type="chapter" xml:lang="en-CA">
+              <head> Gothic Romance in Quebec</head>
+                    <byline>Engaging English and French in Nineteenth-Century English-Canadian
+                        Fiction by Women</byline>
+              <docAuthor> Lindsey McMaster </docAuthor>
+                    <p xml:id="p212"> <ref target="#genre_fiction"><ref target="#history"><ref target="#nationality_issue">Readers of <ref target="#theme_or_topic">nineteenth-century English-Canadian fiction</ref> have noted that French Canada often figures largely in these works, especially in <ref target="#genre">historical fiction</ref>, which looked to the <q>fall</q> of New France and its aftermath to depict Canada in its formative moments and to assert narratives that metaphorically presaged its future development.</ref> If we look back to the eighteenth century, Frances Brooke may be said to have originated the genre in The History of Emily Montague (1769), set contemporaneously for Brooke, in Quebec shortly after the <ref target="#theme_or_topic">British Conquest</ref>. But it is in the nineteenth century that the interest of English-Canadian writers came to be focused intently and insistently upon this point in Canadian history, a time which, in these writers' works, provided the country with its own romantic and Gothic past.</ref></ref> </p>
+              <p xml:id="p213"> <ref target="#nationality_issue"><ref target="#response_gendered"><ref target="#genre_novel"><ref target="#history">Although the <ref target="#theme_or_topic">historical Quebec</ref> setting seems to have appealed equally to male and female writers, both of whom drew upon Gothic modes, there is an observable difference: the novels by men that rose to prominence—like William Kirby's The Golden Dog (1877), Gilbert Parker's The Seats of the Mighty (1896), and John Lespérance's The Bastonnais (1876)—invested heavily in documented events and historical figures, providing a fictional behind-the-scenes look at the personal intrigue and military engagements in the fall of New France. These authors were praised by reviewers for the pedagogical value of their works, and Parker's became a standard high school text (Rothenburger 91). <ref target="#women_writing">Women writers also recreated pre- and post-Conquest Quebec, but their narratives tended to place more emphasis on courtship and <ref target="#theme_or_topic">family drama</ref> than on battlefield incident.</ref> Although Rosanna Leprohon's novel The Manor House of de Villerai (1860), set in final years of New France, traces both the romantic choices of the heroine and the battlefield efforts of her suitor, the emphasis falls on the former, and Leprohon followed this novel with her better-known work, Antoinette De Mirecourt (1864), set immediately post-Conquest, in which the battlefield has moved decidedly into the drawing room.</ref> <ref target="#politics">These works of <ref target="#genre">domestic romance</ref> nonetheless represent, with equal emphasis to the works by male authors, the politics of English–French conflict that lie at the heart of Canada's national self-formation</ref>. Without the glorified textbook incident so prominent in the fiction of their male counterparts, however, the works by women have not garnered equivalent recognition. But a renewed scholarly interest in these works, especially in the light of Gothic analysis, reveals their importance in articulating some of literary Canada's most pressing concerns of the nineteenth century: the country's relationship with its European mother countries, the vexed relationship between English and French Canada, and the importance of the country's shared understanding of (and imaginative involvement in) how its history informs its present. Manifest in these works is a Gothic exploration of the <ref target="#theme_or_topic">divided self</ref>, which unfolds, in uniquely Canadian fashion, amidst the complexities of the country's French and English <ref target="#theme_or_topic">colonial legacies</ref>.</ref></ref></ref> </p>
+              <p xml:id="p214"><ref target="#women_writing"><ref target="#genre_issue">While the fall of New France afforded a setting primed for the dramatic intrigue typical of <ref target="#genre">Gothic romance</ref>, the <q>othering</q> one would expect from English writers depicting French society is consistently muted or doubled—at least in women's writing—with a strong sense of sympathy and identification that belies any simple project of romantic exoticism.</ref> One discovers in this fiction that English-Canadian women writers felt a deep sense of identification with French Canada, despite the apparent contradiction of this English–French positioning.</ref><ref target="#historical_oppression">Indeed, by placing their fictions in the context of New France under British attack, these writers could explore subjectivities vulnerable to complex forms of political as well as personal victimization. And in narratives that cast English Canada and its British forbears as the oppressive force, there is a discernible strain of criticism whereby these works implicitly question and critique the historical foundations and perhaps by extension the present-day establishment of the dominant English culture.</ref></p>
+              <p xml:id="p215"> <ref target="#nationality_issue">This analysis centres on four texts: Frances Brooke's The History of Emily Montague (1769), commonly referred to as Canada's first novel; Julia Catherine Beckwith's St. Ursula's Convent, Or the Nun of Canada. Containing Scenes From Real Life (1824), considered to be the first novel by a Canadian-born writer; Rosanna Leprohon's Antoinette De Mirecourt (1864), written just prior to <listEvent>
+                    <event>
+                        <label>Confederation</label>
+                    </event>
+                    </listEvent>; and May Agnes Fleming's Kate Danton or Captain Danton's Daughters (1876), a lesser known popular romance set on the banks of the St. Lawrence. <ref target="#canon_formation">Together, these writers represent some of the early and important efforts in creating a Canadian literature that would explore specifically Canadian themes.</ref> <ref target="#economics">They were also writers who were aware of a literary marketplace in which they sought material success, and from the late eighteenth century on, Gothic romance had proven itself in this area, particularly for women writers.</ref> Apart from being marketable, though, Gothic modes lend themselves to the expression of otherwise suppressed feelings of alienation, ambivalence, and trauma. These writers adapted the Gothic to the complexities of their literary nationalism, and it is this version of Canadian Gothic that I wish to explore. </ref></p>
+              <p xml:id="p216"> <ref target="#genre_issue"><ref target="#nationality_issue">Explanations of English Canada's interest in Quebec as a literary setting underscore the nineteenth-century desire to foster an English-language literature that would contribute to Canada's cultural self-definition. Konrad Gross explains that <q>English-Canadians, searching for an all-Canadian identity, <ref target="#history">eagerly turned to Old Quebec whose history they now viewed not only with the curiosity of outsiders, but also probed for materials with which they could identify</ref></q> (73). Carole Gerson also highlights English Canada's desire to manage its own identity in close relation to French Canada: <q>Over the course of the nineteenth century, fascination with the otherness of French Canada muted into a sense of identification with Quebecois and Acadian culture, folklore, and history which helped enrich English Canada's own relatively barren national image</q> (110). Grounded in the context of pre-<listEvent>
+                    <event>
+                        <label>Confederation</label>
+                    </event>
+                    </listEvent> anxieties about Canada's dubious cultural distinctiveness, these explanations make sense of English Canada's desire to celebrate, even to construct, a rich cultural heritage that could provide the foundation for a unique national literature. Nonetheless, by classifying these romances of Old Quebec as symptoms of national self-doubt, these explanations perhaps overlook some of the creative possibilities in the writing and reading of this body of literature. <ref target="#response_informal">Misao Dean confirms that critical opinion has not favoured these works, noting that <q>although romances like Antoinette [De Mirecourt] and The Golden Dog dominated the literary scene in Canada in the nineteenth and early twentieth centuries, they are generally dismissed by contemporary Canadian critics as examples of an inferior literary form not worthy of sustained critical attention</q> (44). </ref>She further explains that this is especially evident in the case of Antoinette De Mirecourt. <ref target="#response_formal">Speaking of Leprohon's series of Quebec novels, John Stockdale in the Dictionary of Canadian Biography says of Antoinette, <q>This is a romantic, stilted novel, the worst of the later group,</q> and of Leprohon's body of work, he writes, it is <q>obviously the outpouring of a romantic fancy fed on the novels of her time</q> (n. pag.)</ref> Stockdale's assessment reflects the dismissive attitude toward <ref target="#genre">romance</ref> that has worked to the detriment of Canada's nineteenth-century fiction of national romance in general, and women's offerings within that tradition in particular. </ref></ref></p>
+              <p xml:id="p217"> <ref target="#women_writing"><ref target="#genre_issue">The place of women's writing in the development of <ref target="#theme_or_topic">Canada's Gothic literature</ref> is also a matter of some debate. Studies of nineteenth-century Canadian Gothic have tended to agree with Coral Ann Howells that <q>the first Canadian Gothic was wilderness Gothic</q> (106) and that <q>the English-Canadian Gothic tradition begins in the mid-nineteenth century with Canadian-born John Richardson's nightmarish historical romance, Wacousta; or, The Prophesy: A Tale of the Canadas (1832) and Susanna Moodie's non-fictional immigrant memoir Roughing It in the Bush; or Life in Canada (1852)</q> (105). Justin D. Edwards also posits Wacousta as <q>arguably Canada's first Gothic novel</q> (2), and Margot Northey's treatment of the novel in her book The Haunted Wilderness underscores the centrality of wilderness in these explanations of Canadian Gothic. Wacousta, then, perhaps more than any other text, has influenced the emergence and articulation of a Canadian Gothic tradition, as well as the direction and definition of this debated body of literature. But has the emphasis on Wacousta and wilderness Gothic obscured other dimensions of Canadian Gothic? Works that share the wilderness Gothic theme, such as Roughing It in the Bush, are easily incorporated into the tradition presided over by Wacousta, but other texts to receive sustained critical attention are relatively few. Northey treats Kirby's The Golden Dog at length as <q>decorative Gothic,</q> and Kirby's work is often paired with Parker's The Seats of the Mighty. Gerry Turcotte joins Edwards in devoting in-depth attention to James De Mille's A Strange Manuscript Found in a Copper Cylinder. Apart from Moodie, though, few women writers have received extended critical attention in the context of nineteenth-century Canadian Gothic. And <ref target="#genre_issue">this is perhaps explained in part by the differences between the <ref target="#genre">wilderness Gothic</ref> of Wacousta that has defined the genre and the conventions of domestic romance that shape the Gothicism of English Canada's women writers. </ref>Turning their attention not to the wilderness but instead to a French Canada both civilized and sophisticated in its social arrangements, <ref target="#textual_strategies">these novels turn to Gothic modes—evident in narrative moments of ambivalence, anxiety, excess, and the uncanny—to explore and imagine a Canada felt to be both familiar and foreign, intensely sympathetic, yet habitually estranged.</ref> <ref target="#methodology">I would like to bring the insights of Gothic analysis to bear on some of English Canada's nineteenth-century women writers, and I would like in turn to place their works within the critical development of Canadian Gothic itself, a body of literature perhaps more various than has yet been observed.</ref> </ref></ref></p>
+
+
+                    <div type="section">
+                        <head>Works Cited</head>
+                        <listBibl>
+                            <bibl>Bailey, Alfred Goldsworthy. Beckwith, Julia
+                                    Catherine (Hart).
+                                Dictionary of Canadian Biography Online.
+                                Vol. 9. Web. 16 December 2010.</bibl>
+                            <bibl>Beckwith, Julia Catherine. St. Ursula's Convent,
+                                Or the Nun of Canada. Containing Scenes from Real Life.
+                                1824. Ed. Douglas G. Lochhead. Ottawa: Carleton UP, 1991.
+                                Print.</bibl>
+
+                        </listBibl>
+                    </div>
+                </div>
+        </body>
+
+    </text>
+</TEI>
