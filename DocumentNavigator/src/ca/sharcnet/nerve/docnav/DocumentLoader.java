@@ -1,6 +1,6 @@
 package ca.sharcnet.nerve.docnav;
 
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 import ca.sharcnet.nerve.docnav.antlr.ErrorStrategy;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.generated.EncodeLexer;
@@ -17,7 +17,6 @@ public class DocumentLoader {
     }
 
     public static Document documentFromString(String string) throws IOException {
-        Console.log(string.getBytes().length);
         return parseDocument(new ANTLRInputStream(string));
     }
 
@@ -33,7 +32,6 @@ public class DocumentLoader {
 
         Document root = new Document();
         root.addChild(parser.getNodes());
-        Console.log(root);
         return root;
     }
 }

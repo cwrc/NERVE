@@ -1,6 +1,6 @@
 package ca.sharcnet.nerve.docnav.dom;
 
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 import ca.sharcnet.nerve.docnav.query.Query;
 
 /**

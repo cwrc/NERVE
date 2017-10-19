@@ -37,27 +37,6 @@ public class SchemaObject implements Schema{
     @param element
     @return
     */
-    public boolean verboseValid(Node element){
-        NodeList elementPath = getNodePath(element);
-        Node current = grammar;
-        boolean rvalue = true;
-
-        for (Node pathNode : elementPath) {
-            String nextNodeName = pathNode.name();
-            System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
-            if (current != null) current = nextNode(current, nextNodeName);
-            if (current == null) rvalue = false;
-        }
-
-        System.out.println();
-        return rvalue;
-    }
-
-    /**
-    Return true if this element does not violate the schema.
-    @param element
-    @return
-    */
     public boolean isValid(Node element){
         NodeList elementPath = getNodePath(element);
         Node current = grammar;
@@ -81,22 +60,15 @@ public class SchemaObject implements Schema{
         boolean rvalue = true;
 
         for (Node pathNode : elementPath) {
-            System.out.print(pathNode.getType() + pathNode.name() + " ");
-        }
-
-        for (Node pathNode : elementPath) {
             String nextNodeName = pathNode.name();
             if (current != null) current = nextNode(current, nextNodeName);
             if (current == null) rvalue = false;
-            System.out.print("[" + nextNodeName + "(" + (rvalue ? "" : "X") + ")]");
         }
 
         if (rvalue && nextNode(current, childNodeName) == null){
             rvalue = false;
-            System.out.print("[" + childNodeName + "(" + (rvalue ? "" : "X") + ")]");
         }
 
-        System.out.println();
         return rvalue;
     }
 
@@ -155,27 +127,8 @@ public class SchemaObject implements Schema{
         return list;
     }
 
-//    @Override
-//    public String toString() {
-//        StringBuilder builder = new StringBuilder();
-//
-//        this.grammar.recurse((element) -> {
-//            int d = element.depth();
-//            while (d-- > 0)
-//                builder.append("  ");
-//            builder.append(element.getName()).append(":").append(element.getAttributeValue("name")).append("\n");
-//        });
-//
-//        for (Node node : references) {
-//            Node ele = (Node) node;
-//            ele.recurse((element) -> {
-//                int d = element.depth();
-//                while (d-- > 0)
-//                    builder.append("  ");
-//                builder.append(element.getName()).append(":\"").append(element.getAttributeValue("name")).append("\"\n");
-//            });
-//        }
-//
-//        return builder.toString();
-//    }
+    @Override
+    public String toString() {
+        return this.grammar.toString(2);
+    }
 }

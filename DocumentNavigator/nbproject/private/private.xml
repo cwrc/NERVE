@@ -41,18 +41,18 @@
             </bookmark>
         </file>
         <file>
-            <url>src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</url>
-            <bookmark id="5">
-                <name/>
-                <line>100</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/ca/sharcnet/nerve/docnav/query/Query.java</url>
             <bookmark id="9">
                 <name/>
                 <line>368</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</url>
+            <bookmark id="5">
+                <name/>
+                <line>100</line>
                 <key/>
             </bookmark>
         </file>
@@ -70,25 +70,7 @@
         <group name="NERVE Core"/>
         <group name="Nerve - Core"/>
         <group name="NERVE3"/>
-        <group name="Frontier Web App">
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/query/Query.java</file>
-        </group>
-        <group>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/Isolated.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/AttributeList.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/InstructionNode.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/Node.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchemaLoader.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/query/Query.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/query/SelectExpression.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/NodeList.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/QueryOperationsTest.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/QueryTest.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/selector/Select.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/extended/HTMLElement.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/dom/ElementNode.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/schema/SchemaObject.java</file>
-        </group>
+        <group/>
+        <group name="Frontier Web App"/>
     </open-files>
 </project-private>

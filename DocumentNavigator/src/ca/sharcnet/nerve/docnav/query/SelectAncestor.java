@@ -1,5 +1,5 @@
 package ca.sharcnet.nerve.docnav.query;
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 import ca.sharcnet.nerve.docnav.dom.Node;
 
 class SelectAncestor extends SelectLink {
@@ -25,9 +25,4 @@ class SelectAncestor extends SelectLink {
     Node getLast() {
         return current;
     }
-
-//    @Override
-//    public String toString(){
-//        return term.toString();
-//    }
 }

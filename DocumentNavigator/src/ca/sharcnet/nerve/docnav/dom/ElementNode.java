@@ -5,7 +5,7 @@
  */
 package ca.sharcnet.nerve.docnav.dom;
 
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 
 /**
  *

@@ -1,11 +1,13 @@
 package ca.sharcnet.nerve.docnav.dom;
-import ca.sharcnet.nerve.Console;
+
+import ca.fa.utility.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Node implements Iterable<Node>{
+public abstract class Node implements Iterable<Node> {
+
     private NodeList children = new NodeList();
     final AttributeList attributes;
     private final IsNodeType type;
@@ -53,12 +55,12 @@ public abstract class Node implements Iterable<Node>{
     }
 
     /**
-    * Returns an itertor that iterates only it's self.
-    * @return
-    */
+     * Returns an itertor that iterates only it's self.
+     * @return
+     */
     @Override
-    public Iterator<Node> iterator(){
-        return new Iterator<Node>(){
+    public Iterator<Node> iterator() {
+        return new Iterator<Node>() {
             Node next = Node.this;
 
             @Override
@@ -141,7 +143,7 @@ public abstract class Node implements Iterable<Node>{
      * @throws DocNavException if the this node does not have a parent node
      */
     public final Node getParent() {
-        if (this.parent == null){
+        if (this.parent == null) {
             throw new DocNavException("Node does not have a parent node.");
         }
         return parent;
@@ -162,7 +164,7 @@ public abstract class Node implements Iterable<Node>{
      * @return the copy of 'newNode' used
      * @throws DocNavException if the this node does not have a parent node
      */
-    public void replaceWith(Iterable <Node> nodes) {
+    public void replaceWith(Iterable<Node> nodes) {
         if (this.parent == null) throw new DocNavException("Can not replace a node with no parent.");
         this.parent.replaceChild(this, nodes);
     }
@@ -268,21 +270,62 @@ public abstract class Node implements Iterable<Node>{
     abstract public Node copy();
 
     /**
+    Retrieve a list of ancestor nodes that this node is decended from, and also match 'types'.  If types is not included
+    retrieve all ancestor nodes.
+    @param types
+    @return
+     */
+    public NodeList ancestorNodes(IsNodeType... types) {
+        NodeList nodeList = new NodeList();
+        Node current = this;
+
+        while (current.hasParent()) {
+            if (types.length == 0 || current.getParent().isType(types)) {
+                nodeList.add(current.getParent());
+            }
+            current = current.getParent();
+        }
+        return nodeList;
+    }
+
+    /**
+    Retrieve a list of ancestor nodes that this node is decended from inclusive with this node.
+    @param types
+    @return
+     */
+    public NodeList branch(IsNodeType... types) {
+        NodeList nodeList = new NodeList();
+        Node current = this;
+
+        if (types.length == 0 || current.isType(types)) {
+            nodeList.add(current);
+        }
+
+        while (current.hasParent()) {
+            if (types.length == 0 || current.getParent().isType(types)) {
+                nodeList.add(current.getParent());
+            }
+            current = current.getParent();
+        }
+        return nodeList;
+    }
+
+    /**
     Retrieve a list of child nodes that decend from this element, and also match 'types'.  If types is not included
     retrieve all decendent nodes.
     @param types
     @return
-    */
-    public NodeList decendentNodes(IsNodeType ... types) {
+     */
+    public NodeList decendentNodes(IsNodeType... types) {
         NodeList nodeList = new NodeList();
 
-        if (types.length == 0){
-            for (Node node : this.children){
+        if (types.length == 0) {
+            for (Node node : this.children) {
                 nodeList.add(node);
                 node.decendentNodes(nodeList, types);
             }
         } else {
-            for (Node node : this.children){
+            for (Node node : this.children) {
                 if (node.isType(types)) nodeList.add(node);
                 node.decendentNodes(nodeList, types);
             }
@@ -296,15 +339,15 @@ public abstract class Node implements Iterable<Node>{
     retrieve all decendent nodes.  The matched nodes are added to 'nodeList'.
     @param types
     @return
-    */
-    private NodeList decendentNodes(NodeList nodeList, IsNodeType ... types) {
-        if (types.length == 0){
-            for (Node node : this.children){
+     */
+    private NodeList decendentNodes(NodeList nodeList, IsNodeType... types) {
+        if (types.length == 0) {
+            for (Node node : this.children) {
                 nodeList.add(node);
                 node.decendentNodes(nodeList, types);
             }
         } else {
-            for (Node node : this.children){
+            for (Node node : this.children) {
                 if (node.isType(types)) nodeList.add(node);
                 node.decendentNodes(nodeList, types);
             }
@@ -313,16 +356,15 @@ public abstract class Node implements Iterable<Node>{
         return nodeList;
     }
 
-
     /**
     Retrieve a list of immediate child nodes that match 'types'.  If types is not included retrieve all child nodes.
     @param types
     @return
-    */
-    public NodeList childNodes(IsNodeType ... types) {
+     */
+    public NodeList childNodes(IsNodeType... types) {
         NodeList nodeList = new NodeList();
 
-        if (types.length == 0){
+        if (types.length == 0) {
             for (Node node : this.children) nodeList.add(node);
         } else {
             for (Node node : this.children) if (node.isType(types)) nodeList.add(node);
@@ -420,20 +462,20 @@ public abstract class Node implements Iterable<Node>{
         parent.addChild(i, childNodes);
     }
 
-    public void replaceChild(Node child, Iterable <Node> with) {
+    public void replaceChild(Node child, Iterable<Node> with) {
         if (child.getParent() != this) throw new DocNavException("Can not replace a child from a different parent.");
         int idx = this.children.indexOf(child);
         children.remove(child);
         child.setParent(null);
 
-        for (Node node : with){
+        for (Node node : with) {
             children.add(idx++, node);
             node.setParent(this);
         }
     }
 
     /* return a string with this nodes name, id, and classes that will accepted by a query */
-    public String toSelect(String ... attributes) {
+    public String toSelect(String... attributes) {
         String id = this.attr("id");
         String classes = this.attr("class");
 
@@ -445,7 +487,7 @@ public abstract class Node implements Iterable<Node>{
             for (String s : split) builder.append(".").append(s);
         }
 
-        for (String attr : attributes){
+        for (String attr : attributes) {
             if (this.hasAttribute(attr)) builder.append("[").append(attr).append("='").append(this.attr(attr)).append("']");
         }
 
@@ -510,11 +552,13 @@ public abstract class Node implements Iterable<Node>{
 
     /**
      * The inner text for an element node is the concatanation of the inner text
-     * for all it's child element and text nodes.
+     * for all it's child elements and it's text nodes.
      *
      * @return
      */
     public String text() {
+        if (this.isType(TEXT)) return ((TextNode) this).getText();
+
         StringBuilder builder = new StringBuilder();
         for (Node n : children) {
             if (n.isType(TEXT)) {
@@ -527,12 +571,12 @@ public abstract class Node implements Iterable<Node>{
     }
 
     /**
-    Using the provided selection string, select all <b>element</b> nodes that are a child of this node.
+    Using the provided selection string, select all <b>element</b> nodes that are a decended from this node.
     @param select
     @param types
     @return
-    */
-    public Query query(String select){
+     */
+    public Query query(String select) {
         return this.query(NodeType.ELEMENT).filter(select);
     }
 
@@ -541,8 +585,8 @@ public abstract class Node implements Iterable<Node>{
     @param select
     @param args
     @return
-    */
-    public Query queryf(String select, Object ... args){
+     */
+    public Query queryf(String select, Object... args) {
         return this.query(NodeType.ELEMENT).filterf(select, args);
     }
 
@@ -552,8 +596,8 @@ public abstract class Node implements Iterable<Node>{
     @param select
     @param types
     @return
-    */
-    public Query query(IsNodeType ... types){
+     */
+    public Query query(IsNodeType... types) {
         return new Query(this.decendentNodes(types), "*");
     }
 }

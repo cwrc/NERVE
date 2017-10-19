@@ -1,56 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="DocumentNavigator" default="default" basedir=".">
+<project name="DocNav" default="default" basedir=".">
     <description>Builds, tests, and runs the project DocumentNavigator.</description>
     <import file="nbproject/build-impl.xml"/>
-
-    <property name="root" location="."/>
-    <property name="store.jar.name" value="DocNav"/>
-    <property name="store.dir" value="D:/Dropbox/projects.new/lib/custom"/>
-
-    <target name="echo-root">
-        <echo message="Root: ${root}"/>
-    </target>
+    <import file="D:/Dropbox/projects.new/res/shared-build.xml"/>
 
     <target name="antlr-clean">
         <delete>
-          <fileset dir="${root}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
+          <fileset dir="${basedir}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
         </delete>
     </target>
 
     <target name="antlr">
         <echo message="Building ANTLR"/>
-        <echo message="Root: ${root}"/>
+        <echo message="Root: ${basedir}"/>
 
         <java jar="D:/Dropbox/Projects/lib/jars/antlr-4.5.3-complete.jar" fork="false">
              <arg value="-o"/>
-             <arg value="${root}/src/ca/sharcnet/nerve/docnav/generated/"/>
-             <arg value="${root}/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4"/>
+             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
+             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4"/>
         </java>
         <java jar="D:/Dropbox/Projects/lib/jars/antlr-4.5.3-complete.jar" fork="false">
              <arg value="-o"/>
-             <arg value="${root}/src/ca/sharcnet/nerve/docnav/generated/"/>
-             <arg value="${root}/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4"/>
+             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
+             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4"/>
         </java>
     </target>
 
-    <target name="package-for-store" depends="jar">
-        <mkdir dir="${store.dir}"/>
-
-        <jar destfile="${store.dir}/temp_final.jar" filesetmanifest="skip">
-            <zipgroupfileset dir="dist" includes="*.jar"/>
-            <zipgroupfileset dir="dist/lib" includes="*.jar"/>
-            <!--<zipgroupfileset dir="lib" includes="*.jar"/>-->
-            <manifest>
-                <attribute name="Main-Class" value="${main.class}"/>
-            </manifest>
-        </jar>
-
-        <zip destfile="${store.dir}/${store.jar.name}.jar">
-            <zipfileset src="${store.dir}/temp_final.jar" excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
-        </zip>
-
-        <delete file="${store.dir}/temp_final.jar"/>
+    <target name="-post-jar">
+        <antcall target="shared.package-to-store"/>
     </target>
-
 </project>

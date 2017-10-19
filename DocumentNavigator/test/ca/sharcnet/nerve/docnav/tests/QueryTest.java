@@ -1,6 +1,6 @@
 package ca.sharcnet.nerve.docnav.tests;
 
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;

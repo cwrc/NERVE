@@ -1,5 +1,5 @@
 package ca.sharcnet.nerve.docnav.query;
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 import ca.sharcnet.nerve.docnav.dom.Node;
 
 class SelectParent extends SelectLink {

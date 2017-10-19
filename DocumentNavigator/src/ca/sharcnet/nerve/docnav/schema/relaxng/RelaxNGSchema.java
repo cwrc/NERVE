@@ -1,5 +1,5 @@
 package ca.sharcnet.nerve.docnav.schema.relaxng;
-import ca.sharcnet.nerve.Console;
+import ca.fa.utility.Console;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -26,6 +26,7 @@ public final class RelaxNGSchema extends Document implements Schema{
     /**
     Return true if this element, with the child node, does not violate the schema.
     @param element
+    @param childNodeName
     @return
     */
     @Override
@@ -34,7 +35,11 @@ public final class RelaxNGSchema extends Document implements Schema{
         Node current = start;
         boolean rvalue = true;
 
+        Console.logMethod(elementPath.toString(nd->nd.name(), ", ") + " : " + childNodeName);
+
         for (Node pathNode : elementPath) {
+            if (current != null) Console.log(current.name() + ", " + current.attr("name"));
+            if (current == null) Console.log("null");
             if (current != null) current = nextNode(current, pathNode.name());
             if (current == null) rvalue = false;
         }
@@ -89,10 +94,8 @@ public final class RelaxNGSchema extends Document implements Schema{
     @return a node if valid, null if not.
     */
     private Node nextNode(Node current, String name) {
-
         /* case: the element is found as a child of 'current' so not a reference */
-        String q = String.format("element[name='%s']", name);
-        Node ele = current.queryf(q).first();
+        Node ele = current.queryf("element[name='%s']", name).first();
         if (ele != null) return ele;
 
         /* no element of name is found, look for ref with name */

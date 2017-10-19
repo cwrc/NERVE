@@ -1,12 +1,8 @@
 package ca.sharcnet.nerve.docnav.dom;
-import ca.sharcnet.nerve.Console;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class NodeList extends ArrayList<Node>{
 
@@ -57,6 +53,18 @@ public class NodeList extends ArrayList<Node>{
 
     public Query filter(String select){
         return new Query(this, select);
+    }
+
+    /**
+    Return true if the test passes on any node.
+    @param predicate
+    @return 
+    */
+    public boolean testAny(Predicate<Node> predicate){
+        for (Node node : this){
+            if (predicate.test(node)) return true;
+        }
+        return false;
     }
 
     /**
