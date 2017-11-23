@@ -1,4 +1,5 @@
-/* include this css file to show the tag-name around tags */
+/* include this css file to show the tag-name around tags                       */
+/* this file is attached and detached in view when overlay/tag mode is selected */
 
 .xmltag:before{
     content: "<" attr(xmltagname) ">";

@@ -7,7 +7,7 @@
 }
 
 body{
-    -webkit-user-select: none;
+    /*-webkit-user-select: none;*/
 }
 
 .pinkBG{
@@ -42,7 +42,7 @@ body{
     border: 1px solid black;
     overflow-y: scroll;
     background-color: whitesmoke;
-    -webkit-user-select: auto;
+    /*-webkit-user-select: auto;*/
 }
 
 #entityDialog{
@@ -67,7 +67,7 @@ body{
     word-wrap: normal;
     line-height: 175%;
     padding: 15px;
-    -webkit-user-select: auto;
+    /*-webkit-user-select: auto;*/
 }
 
 #dialogFade{
@@ -91,7 +91,7 @@ body{
     overflow-y: scroll;
     line-height: 100%;
     z-index: 2;
-    -webkit-user-select: auto;
+    /*-webkit-user-select: auto;*/
     width: 60%;
     min-width: 300px;
 }
@@ -298,7 +298,7 @@ body{
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
-    -webkit-user-select: auto;
+    /*-webkit-user-select: auto;*/
 }
 
 .inactiveForeground{
@@ -314,7 +314,7 @@ body{
     top: 40px;
     font-family: arial;
     cursor: pointer;
-    -webkit-user-select: none;
+    /*-webkit-user-select: none;*/
 }
 
 .menu{
