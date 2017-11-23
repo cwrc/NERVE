@@ -1,42 +1,49 @@
 package ca.sharcnet.nerve.context;
-import static ca.sharcnet.nerve.context.Context.NameSource.*;
+import ca.fa.jjjrmi.annotations.NativeJS;
+import ca.fa.jjjrmi.annotations.SkipJS;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@NativeJS(trans=true)
 public class Context implements Serializable {
-    public enum NameSource {
-        NAME, DICTIONARY, DIALOG, NERMAP
-    };
-
     private final String name;
     private final String schemaName;
-    private ArrayList<String> readFromDictionary = new ArrayList<>();
-    private ArrayList<String> styles = new ArrayList<>();
-    private HashMap<String, TagInfo> tags = new HashMap<>();
+    private final String scriptFilename;
+    private final ArrayList<String> dictionaries = new ArrayList<>();
+    private final ArrayList<String> styleList = new ArrayList<>();
+    private final ArrayList<TagInfo> tagList = new ArrayList<>();
 
+    @SkipJS
     public Context(JSONObject json) {
         this.name = json.getString("name");
 
         if (!json.has("schemaName")) this.schemaName = "";
         else this.schemaName = json.getString("schemaName");
 
+        if (!json.has("scriptFile")) this.scriptFilename = "";
+        else this.scriptFilename = json.getString("scriptFile");
+
         JSONArray jsonRFD = json.getJSONArray("readFromDictionary");
-        for (int i = 0; i < jsonRFD.length(); i++) readFromDictionary.add(jsonRFD.getString(i));
+        for (int i = 0; i < jsonRFD.length(); i++) dictionaries.add(jsonRFD.getString(i));
 
         JSONArray jsonStyles = json.getJSONArray("styles");
-        for (int i = 0; i < jsonStyles.length(); i++) styles.add(jsonStyles.getString(i));
+        for (int i = 0; i < jsonStyles.length(); i++) styleList.add(jsonStyles.getString(i));
 
         JSONArray jsonTags = json.getJSONArray("tags");
         for (int i = 0; i < jsonTags.length(); i++) {
-            TagInfo tagInfo = new TagInfo(jsonTags.getJSONObject(i));
-            tags.put(tagInfo.name, tagInfo);
+            tagList.add(new TagInfo(jsonTags.getJSONObject(i)));
         }
+    }
+
+    public boolean hasScriptFilename(){
+        return (!scriptFilename.isEmpty());
+    }
+
+    public String getScriptFilename(){
+        return scriptFilename;
     }
 
     public String getName() {
@@ -48,72 +55,25 @@ public class Context implements Serializable {
     }
 
     public List<String> readFromDictionary() {
-        return new ArrayList<>(readFromDictionary);
+        return dictionaries;
     }
 
     public List<String> styles() {
-        return new ArrayList<>(styles);
+        return styleList;
     }
 
-    public Map<String, TagInfo> tags() {
-        return new HashMap<>(tags);
-    }
-
-    /**
-    Return true if this context has a taginfo element with the name 'tagname'.
-     */
-    public boolean hasTagInfo(String tagname) {
-        for (TagInfo tagInfo : tags.values()) {
-            if (tagInfo.name.equals(tagname)) return true;
-        }
-        return false;
-    }
-
-    public boolean hasTagInfo(String tagname, NameSource... validSources) {
-        for (TagInfo tagInfo : tags.values()) {
-            for (NameSource t : validSources) {
-                switch(t){
-                    case NAME:
-                        if (tagInfo.name.equals(tagname)) return true;
-                        break;
-                    case DICTIONARY:
-                        if (tagInfo.dictionary.equals(tagname)) return true;
-                        break;
-                    case DIALOG:
-                        if (tagInfo.dialog.equals(tagname)) return true;
-                        break;
-                    case NERMAP:
-                        if (tagInfo.nerMap.equals(tagname)) return true;
-                        break;
-                }
-            }
-        }
-        return false;
+    public List<TagInfo> tags() {
+        return tagList;
     }
 
     /*
     Return the tagInfo for the given tagname as it matches to any value in groups.
-    */
-    public TagInfo getTagInfo(String tagname, NameSource... groups) {
-        for (TagInfo tagInfo : tags.values()) {
-            for (NameSource t : groups) {
-                switch(t){
-                    case NAME:
-                        if (tagInfo.name.equals(tagname)) return tagInfo;
-                        break;
-                    case DICTIONARY:
-                        if (tagInfo.dictionary.equals(tagname)) return tagInfo;
-                        break;
-                    case DIALOG:
-                        if (tagInfo.dialog.equals(tagname)) return tagInfo;
-                        break;
-                    case NERMAP:
-                        if (tagInfo.nerMap.equals(tagname)) return tagInfo;
-                        break;
-                }
-            }
+     */
+    public TagInfo getTagInfo(String tagname, NameSource source) {
+        for (TagInfo tagInfo : tagList) {
+            if (tagInfo.getName(source).equals(tagname)) return tagInfo;
         }
-        return null;
+        throw new NullPointerException();
     }
 
     /**
@@ -122,16 +82,10 @@ public class Context implements Serializable {
     @param tagname
     @param groups
     @return
-    */
-    public Boolean isTagName(String tagname, NameSource ... groups) {
-        if (groups.length == 0) groups = NameSource.values();
-        List<NameSource> asList = Arrays.asList(groups);
-
-        for (TagInfo tagInfo : tags.values()) {
-            if (asList.contains(NAME) && tagInfo.name.equals(tagname)) return true;
-            if (asList.contains(DICTIONARY) && tagInfo.dictionary.equals(tagname)) return true;
-            if (asList.contains(DIALOG) && tagInfo.dialog.equals(tagname)) return true;
-            if (asList.contains(NERMAP) && tagInfo.nerMap.equals(tagname)) return true;
+     */
+    public Boolean isTagName(String tagname, NameSource source) {
+        for (TagInfo tagInfo : tagList) {
+            if (tagInfo.getName(source).equals(tagname)) return true;
         }
         return false;
     }

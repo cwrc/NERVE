@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve;
 import ca.fa.utility.Console;
+import ca.sharcnet.nerve.decode.Decoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.encoder.Encoder;
@@ -9,6 +10,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class Main implements HasStreams, IsMonitor{
@@ -28,11 +30,13 @@ public class Main implements HasStreams, IsMonitor{
         return resourceAsStream;
     }
 
-    public void run() throws IllegalArgumentException, IOException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
-        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/TEI.xml"));
-//        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/minimalOrlando.xml"));
+    public void run() throws IllegalArgumentException, IOException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
+//        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/TEI.xml"));
+        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/minimalOrlando.xml"));
         Document encoded = Encoder.encode(d2, this, null);
-        Console.log(encoded.toString());
+        Document decoded = Decoder.decode(encoded, this);
+
+        Console.log(decoded);
     }
 
     @Override

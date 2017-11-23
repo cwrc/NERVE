@@ -6,5 +6,12 @@
 
     <target name="-post-jar">
         <antcall target="shared.package-to-store"/>
+        <antcall target="nerscriber.js-code-generation"/>
+    </target>
+
+    <target name="nerscriber.js-code-generation">
+        <antcall target="shared.js-code-generation">
+            <param name="output.filename" value="context.js"/>
+        </antcall>
     </target>
 </project>

@@ -9,7 +9,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.IsMonitor;
-import static ca.sharcnet.nerve.context.Context.NameSource.*;
+import static ca.sharcnet.nerve.context.NameSource.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
@@ -30,10 +30,10 @@ public class Encoder {
     private final SQL sql;
     private final Classifier classifier;
     private Schema schema = null;
-    private Document document = null;
+    private EncodedDocument document = null;
     private IsMonitor monitor = IsMonitor.nullMonitor;
 
-    public static Document encode(Document document, HasStreams hasStreams, IsMonitor monitor) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    public static EncodedDocument encode(Document document, HasStreams hasStreams, IsMonitor monitor) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (document == null) throw new NullPointerException();
         if (hasStreams == null) throw new NullPointerException();
         if (monitor == null) monitor = IsMonitor.nullMonitor;
@@ -106,11 +106,11 @@ public class Encoder {
 
         this.sql = sql;
         this.context = context;
-        this.document = document;
+        this.document = new EncodedDocument(document, context);
         this.classifier = classifier;
     }
 
-    private Document encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    private EncodedDocument encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         monitor.phase("dictionary", 5, 7);
         if (this.sql != null) lookupTag();
         monitor.phase("ner", 6, 7);
@@ -161,7 +161,7 @@ public class Encoder {
 
         for (Node node : textNodes) {
             this.monitor.step(n++, N);
-            if (context.tags().containsKey(node.getParent().name())) continue; /* skip already tagged nodes */
+            if (context.isTagName(node.getParent().name(), NAME)) continue; /* skip already tagged nodes */
             lookupTag((TextNode)node, knownEntities);
         }
         this.monitor.step(1, 1);
@@ -175,21 +175,14 @@ public class Encoder {
         OnAccept onAccept = (string, row) -> {
             TagInfo tagInfo = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY);
 
-            /* verify the schema */
-            assert(child != null);
-            assert(schema != null);
-            assert(child.getParent() != null);
-            assert(tagInfo != null);
-            assert(tagInfo.name != null);
-
-            if (schema != null && !schema.isValid(child.getParent(), tagInfo.name)) {
+            if (schema != null && !schema.isValid(child.getParent(), tagInfo.getName(NAME))) {
                 newNodes.add(new TextNode(string));
             } else {
-                Node elementNode = new ElementNode(tagInfo.name, string);
-                String lemmaAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).lemmaAttribute;
+                Node elementNode = new ElementNode(tagInfo.getName(NAME), string);
+                String lemmaAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).getLemmaAttribute();
                 if (!lemmaAttribute.isEmpty()) elementNode.attr(lemmaAttribute, row.getEntry("lemma").getValue());
 
-                String linkAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).linkAttribute;
+                String linkAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).getLinkAttribute();
                 if (!linkAttribute.isEmpty()) elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 newNodes.add(elementNode);
             }
@@ -235,7 +228,7 @@ public class Encoder {
             eNode = new ElementNode(HTML_TAGNAME);
             node.replaceWith(eNode);
             eNode.attr("class", HTML_PROLOG);
-        } else if (context.hasTagInfo(node.name(), NAME)) {
+        } else if (context.isTagName(node.name(), NAME)) {
             node.attr("class", HTML_ENTITY);
         } else {
             node.attr("class", HTML_NONENTITY);
@@ -261,7 +254,7 @@ public class Encoder {
 
             /* skip nodes that are already tagged */
             NodeList ancestorNodes = node.ancestorNodes(NodeType.ELEMENT);
-            if (ancestorNodes.testAny(nd->!context.isTagName(nd.name()))) continue;
+            if (ancestorNodes.testAny(nd->!context.isTagName(nd.name(), NAME))) continue;
 
             NodeList nerList = applyNamedEntityRecognizer(node.text());
 
@@ -278,10 +271,10 @@ public class Encoder {
             /* Go through the nodes in the node list and change the names from ner to context taginfo name. */
             for (Node nerNode : nerList) {
                 String nodeName = nerNode.name();
-                if (nerNode.getType() == NodeType.ELEMENT && context.hasTagInfo(nodeName, NERMAP)) {
+                if (nerNode.getType() == NodeType.ELEMENT && context.isTagName(nodeName, NERMAP)) {
                     Node nerElementNode = nerNode;
                     TagInfo tagInfo = context.getTagInfo(nodeName, NERMAP);
-                    nerElementNode.name(tagInfo.name);
+                    nerElementNode.name(tagInfo.getName(NAME));
                 }
             }
 
@@ -314,10 +307,10 @@ public class Encoder {
             /* if node name is an NER tag name */
             if (context.isTagName(node.name(), NERMAP)) {
                 TagInfo tagInfo = context.getTagInfo(node.name(), NERMAP);
-                node.name(tagInfo.name);
-                if (!tagInfo.lemmaAttribute.isEmpty()) {
+                node.name(tagInfo.getName(NAME));
+                if (!tagInfo.getLemmaAttribute().isEmpty()) {
                     Node eNode = (Node) node;
-                    eNode.attr(new Attribute(tagInfo.lemmaAttribute, eNode.text()));
+                    eNode.attr(new Attribute(tagInfo.getLemmaAttribute(), eNode.text()));
                 }
             }
         }

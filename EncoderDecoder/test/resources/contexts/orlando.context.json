@@ -1,5 +1,6 @@
 {
     "name"               : "Orlando",
+    "scriptFile"         : "cwrc.js",
     "readFromDictionary" : [
         "custom",
         "geonames"
@@ -23,7 +24,8 @@
             "nerMap"         : "",
             "dialog"         : "",
             "idAttribute"    : "",
-            "defaults"       : {}
+            "defaults"       : {},
+            "decode"        : "date"
         },
         {
             "name"           : "PLACE",
