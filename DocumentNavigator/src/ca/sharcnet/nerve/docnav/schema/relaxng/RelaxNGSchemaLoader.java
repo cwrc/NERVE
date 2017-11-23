@@ -7,13 +7,13 @@ import java.io.InputStream;
 public class RelaxNGSchemaLoader {
     private RelaxNGSchemaLoader() {}
 
-    public static RelaxNGSchema1 schemaFromStream(InputStream srcStream) throws IOException {
+    public static RelaxNGSchema schemaFromStream(InputStream srcStream) throws IOException {
         Document doc = DocumentLoader.documentFromStream(srcStream);
-        return new RelaxNGSchema1(doc);
+        return new RelaxNGSchema(doc);
     }
 
-    public static RelaxNGSchema1 schemaFromString(String string) throws IOException {
+    public static RelaxNGSchema schemaFromString(String string) throws IOException {
         Document doc = DocumentLoader.documentFromString(string);
-        return new RelaxNGSchema1(doc);
+        return new RelaxNGSchema(doc);
     }
 }

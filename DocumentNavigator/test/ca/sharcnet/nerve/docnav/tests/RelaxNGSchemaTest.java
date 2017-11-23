@@ -10,7 +10,7 @@ import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.schema.Schema;
-import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema1;
+import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import java.io.IOException;
 import java.io.InputStream;

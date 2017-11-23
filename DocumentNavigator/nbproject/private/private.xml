@@ -18,17 +18,17 @@
             <url>src/ca/sharcnet/nerve/docnav/dom/Node.java</url>
             <bookmark id="7">
                 <name/>
-                <line>25</line>
+                <line>24</line>
                 <key/>
             </bookmark>
             <bookmark id="6">
                 <name/>
-                <line>275</line>
+                <line>315</line>
                 <key/>
             </bookmark>
             <bookmark id="11">
                 <name/>
-                <line>428</line>
+                <line>467</line>
                 <key/>
             </bookmark>
         </file>
@@ -52,7 +52,7 @@
             <url>src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</url>
             <bookmark id="5">
                 <name/>
-                <line>100</line>
+                <line>96</line>
                 <key/>
             </bookmark>
         </file>
@@ -72,5 +72,6 @@
         <group name="NERVE3"/>
         <group/>
         <group name="Frontier Web App"/>
+        <group name="NERVE"/>
     </open-files>
 </project-private>

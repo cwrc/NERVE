@@ -1,13 +1,10 @@
 package ca.sharcnet.nerve.docnav.dom;
-
-import ca.fa.utility.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class Node implements Iterable<Node> {
-
     private NodeList children = new NodeList();
     final AttributeList attributes;
     private final IsNodeType type;

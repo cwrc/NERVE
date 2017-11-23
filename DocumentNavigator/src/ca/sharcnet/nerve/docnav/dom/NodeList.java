@@ -58,7 +58,7 @@ public class NodeList extends ArrayList<Node>{
     /**
     Return true if the test passes on any node.
     @param predicate
-    @return 
+    @return
     */
     public boolean testAny(Predicate<Node> predicate){
         for (Node node : this){
