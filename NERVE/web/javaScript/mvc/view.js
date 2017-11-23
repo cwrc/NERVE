@@ -191,10 +191,12 @@ class View {
 
     scrollTo(element){
         Utility.log(View, "scrollTo");
-//        Utility.enforceTypes(arguments, [Element]);
+        Utility.enforceTypes(arguments, [Element]);
 
-        $("#entityPanel").scrollTop(
-            $(element).offset().top - $("#entityPanel").offset().top + $("#entityPanel").scrollTop() - ($("#entityPanel").height() / 2)
+        console.log(element);
+
+        $("#panelContainer").scrollTop(
+            $(element).offset().top - $("#panelContainer").offset().top + $("#panelContainer").scrollTop() - ($("#panelContainer").height() / 2)
         );
     }
 

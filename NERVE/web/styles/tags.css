@@ -4,11 +4,23 @@
 .xmltag:before{
     content: "<" attr(xmltagname) ">";
     font-size: small;
+    color: darkgray;
+    font-weight: normal;
 }
 
 .xmltag:after{
     content: "</" attr(xmltagname) ">";
     font-size: small;
+    color: darkgray;
+    font-weight: normal;
+}
+
+.xmltag:hover:before, .xmltag:hover:after{
+    color: blue;
+}
+
+.taggedentity{
+    color: red;
 }
 
 .taggedentity:before{
@@ -23,6 +35,10 @@
     font-size: small;
     font-weight: bold;
     color: red;
+}
+
+.linked.taggedentity{
+    color: green;
 }
 
 .linked.taggedentity:before{

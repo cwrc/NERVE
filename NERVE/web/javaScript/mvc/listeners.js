@@ -284,7 +284,7 @@ class Listeners {
         $("#entityPanel").dblclick((event) => this.documentDblClick(event));
         $("#tagnamePanel").click((event) => {
             if (event.altKey) {
-                window.debug = event.target;
+                window.lastTarget = event.target;
                 return;
             }
             let srcElement = event.originalEvent.srcElement;
@@ -304,7 +304,7 @@ class Listeners {
         /* strictly for debugging */
         if (event.altKey) {
             console.log(event.target);
-            window.debug = event.target;
+            window.lastTarget = event.target;
             return;
         }
 

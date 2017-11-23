@@ -112,12 +112,13 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         if (this.collection.size() < 2) return;
-        for (let ele of this.collection) this.view.tagnameManager.clearTagnameElement(ele);
+        for (let ele of this.collection) this.view.tagnameManager.clearTagnameElement(ele); /* ? */
         var ele = this.collection.$().mergeElements();
-        let values = this.view.getDialogValues();
-        this.applyValuesToEntity(ele, values);
+        let entityValues = this.view.getDialogValues();
+        this.applyValuesToEntity(ele, entityValues);
         this.collection.set(ele);
         this.model.saveState();
+        document.normalize();
     }
     async tagSelectedRange() {
         Utility.log(Controller, "tagSelectedRange");
@@ -321,7 +322,7 @@ class Controller {
         Utility.enforceTypes(arguments, [Element, jQuery], EntityValues);
 
         $(ele).addClass("taggedentity");
-        if (entityValues.entity !== "") $(ele).text(entityValues.entity);
+//        if (entityValues.entity !== "") $(ele).text(entityValues.entity); /* do not update entity text */
         $(ele).entityTag(entityValues.tagName);
         $(ele).link(entityValues.link);
         if (entityValues.lemma === "") $(ele).lemma($(ele).text());
