@@ -13,11 +13,9 @@ import static ca.sharcnet.nerve.context.NameSource.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import ca.fa.utility.Console;
 import ca.fa.SQL.SQL;
 import ca.fa.SQL.SQLRecord;
 import ca.fa.SQL.SQLResult;
-import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -96,7 +94,9 @@ public class Encoder {
         Schema schemaFromStream = RelaxNGSchemaLoader.schemaFromStream(schemaStream);
         encoder.setSchema(schemaFromStream);
 
-        return encoder.encode();
+        EncodedDocument encoded = encoder.encode();
+        encoded.setSchema(schemaURL);
+        return encoded;
     }
 
     private Encoder(Document document, Context context, SQL sql, Classifier classifier, IsMonitor monitor) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
