@@ -472,7 +472,7 @@ class Controller {
         let encodeResponse = await this.scriber.encode(text);
         encodeResponse.setFilename(filename);
 
-        this.onLoad(encodeResponse.text, encodeResponse.context, encodeResponse.filename);
+        this.onLoad(encodeResponse.text, encodeResponse.context, encodeResponse.filename, encodeResponse.schemaURL);
 
         this.isSaved = true;
         this.view.clearThrobber();
@@ -481,18 +481,23 @@ class Controller {
     }
 
     /* call when the program starts and when a document is loaded */
-    async onLoad(text, context, filename) {
+    async onLoad(text, context, filename, schemaURL) {
         Utility.log(Controller, "onLoad");
 
         if (typeof text !== "undefined"){
             this.storage.setValue("document", text);
             this.storage.setValue("context", context);
             this.storage.setValue("filename", filename);
+            this.storage.setValue("schemaURL", schemaURL);
         } else {
             text = this.storage.getValue("document");
             context = this.storage.getValue("context");
             filename = this.storage.getValue("filename");
+            schemaURL = this.storage.getValue("schemaURL");
         }
+
+        this.schema = new Schema();
+        await this.schema.load(schemaURL);
 
         this.view.notifyContextChange(context);
         $.fn.xmlAttr.defaults.context = context;

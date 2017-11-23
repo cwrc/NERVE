@@ -14,6 +14,11 @@ Constants.EnumParam = "enum";/* global Constants, JJJRMISocket */
 
 class Decoder {
     constructor(json, objectMap, jjjWebsocket, deferred) {
+        if (typeof json === "undefined"){
+            console.log(json);
+            throw new Error("undefined json object");
+        }
+
         if (typeof json === "string") this.json = JSON.parse(json);
         else this.json = json;
         this.objectMap = objectMap;

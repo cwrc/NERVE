@@ -7,11 +7,13 @@ import ca.sharcnet.nerve.context.Context;
 public class EncodeResponse {
     private final String text;
     private final Context context;
+    private final String schemaURL;
     private String filename = "";
 
-    public EncodeResponse(String text, Context context){
+    public EncodeResponse(String text, Context context, String schemaURL){
         this.text = text;
         this.context = context;
+        this.schemaURL = schemaURL;
     }
 
     @NativeJS

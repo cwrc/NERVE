@@ -43,7 +43,7 @@ abstract public class AScriber extends RMISocket implements HasStreams, IsMonito
     public EncodeResponse encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
         Document document = DocumentLoader.documentFromString(source);
         EncodedDocument encoded = Encoder.encode(document, this, this);
-        return new EncodeResponse(encoded.toString(), encoded.getContext());
+        return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
     }
 
     @ServerSide
