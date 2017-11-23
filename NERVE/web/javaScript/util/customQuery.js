@@ -142,13 +142,13 @@
 
         if (typeof value === "undefined") {
             let tagName = $(this).attr(opts.xmlTagName);
-            let lemmaAttr = context.getTagInfo(tagName).lemmaAttribute;
+            let lemmaAttr = context.getTagInfo(tagName, NameSource.NAME).getLemmaAttribute();
             return $(this).xmlAttr(lemmaAttr);
         }
 
         return this.each(function () {
             let tagName = $(this).attr(opts.xmlTagName);
-            let lemmaAttr = context.getTagInfo(tagName).lemmaAttribute;
+            let lemmaAttr = context.getTagInfo(tagName, NameSource.NAME).getLemmaAttribute();
             $(this).xmlAttr(lemmaAttr, value);
         });
     };
@@ -166,13 +166,13 @@
 
         if (typeof value === "undefined") {
             let tagName = $(this).attr(opts.xmlTagName);
-            let linkAttr = context.getTagInfo(tagName).linkAttribute;
+            let linkAttr = context.getTagInfo(tagName, NameSource.NAME).getLinkAttribute();
             return $(this).xmlAttr(linkAttr);
         }
 
         return this.each(function () {
             let tagName = $(this).attr(opts.xmlTagName);
-            let linkAttr = context.getTagInfo(tagName).linkAttribute;
+            let linkAttr = context.getTagInfo(tagName, NameSource.NAME).getLinkAttribute();
             $(this).xmlAttr(linkAttr, value);
         });
     };
@@ -196,8 +196,8 @@
         return this.each(function () {
             let oldEntityTag = $(this).attr(opts.xmlTagName);
             if (oldEntityTag) {
-                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag).linkAttribute, context.getTagInfo(value).linkAttribute);
-                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag).lemmaAttribute, context.getTagInfo(value).lemmaAttribute);
+                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag, NameSource.NAME).getLinkAttribute(), context.getTagInfo(value, NameSource.NAME).getLinkAttribute());
+                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag, NameSource.NAME).getLemmaAttribute(), context.getTagInfo(value, NameSource.NAME).getLemmaAttribute());
             }
             return $(this).attr(opts.xmlTagName, value);
         });

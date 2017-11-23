@@ -22,7 +22,7 @@
             "lemmaAttribute" : "when",
             "dictionary"     : "",
             "nerMap"         : "",
-            "dialog"         : "",
+            "dialog"         : "DATE",
             "defaults"       : {}
         },
         {

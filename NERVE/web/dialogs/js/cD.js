@@ -26,10 +26,8 @@
 //   <ref name="occupation-element"/>
 // </element ..>
 
-// Tree traversal
-$(function () {
-    cD = {};
-    (function () {
+cD = {};
+window.setupCwrcDialogs = function () {
         // Cwrc Api
         var cwrcApi = null;
         cD.setCwrcApi = function (url) {
@@ -3488,5 +3486,5 @@ $(function () {
 
         initialize();
 
-    })();
-});
+    };
+//});

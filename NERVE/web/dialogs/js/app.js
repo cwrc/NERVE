@@ -2,7 +2,7 @@
 // see cwrcDialogBridge.js for a cleaner example :
 // https://github.com/cwrc/CWRC-Writer/blob/5618be7b83ccd643d26709cf549edd0682fbfc81/src/js/dialogs/cwrcDialogBridge.js
 //
-$(function () {
+window.cwrcSetup = function(){
     // set the BASE URL to the Entity API for loading/saving/creating/searching
     cD.setCwrcApi('http://cwrc-dev-06.srv.ualberta.ca/islandora/cwrc_entities/v1/');
     // set the BASE URL of the source object link in the search information boxes
@@ -317,5 +317,4 @@ $(function () {
         $("#entityXMLContainer").text("");
         $("#resultHeader").text("Entity ");
     });
-
-});
+};

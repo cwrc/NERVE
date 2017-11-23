@@ -35,7 +35,7 @@ body{
 #panelContainer{
     position: absolute;
     top: 115px;
-    height: calc(100% - 210px);
+    height: calc(100% - 150px);
     width: calc(60% - 30px);
     min-width: 300px;
     left: 15%;
@@ -43,6 +43,18 @@ body{
     overflow-y: scroll;
     background-color: whitesmoke;
     -webkit-user-select: auto;
+}
+
+#entityDialog{
+    position: absolute;
+    top: 115px;
+    width: calc(25% - 50px);
+    height: calc(100% - 170px);
+    min-width: 200px;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    left: calc(75% + 20px);
+    padding: 10px;
 }
 
 #entityPanel, #tagnamePanel{
@@ -66,18 +78,6 @@ body{
     left: 0px;
     bottom: 0px;
     z-index: 5;
-}
-
-#entityDialog{
-    position: absolute;
-    top: 115px;
-    width: calc(25% - 50px);
-    height: calc(100% - 150px);
-    min-width: 200px;
-    border: 1px solid black;
-    background-color: whitesmoke;
-    left: calc(75% + 20px);
-    padding: 10px;
 }
 
 #messagePanel{

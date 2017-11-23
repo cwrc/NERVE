@@ -24,8 +24,9 @@ class Storage {
         Storage.putObject({}, this.sName);
     }
     getValue(key) {
-        var settings = Storage.getObject(this.sName);
-        return settings[key];
+        let translator = new Translator(null);
+        var encoded = Storage.getObject(this.sName);
+        return translator.decode(encoded[key]);
     }
     hasValue(key) {
         var settings = Storage.getObject(this.sName);
@@ -38,8 +39,10 @@ class Storage {
         Storage.putObject(settings, this.sName);
     }
     setValue(key, value) {
+        let translator = new Translator(null);
+        let encoded = translator.encode(value);
         var settings = Storage.getObject(this.sName);
-        settings[key] = value;
+        settings[key] = encoded;
         Storage.putObject(settings, this.sName);
     }
 

@@ -5,135 +5,93 @@ class Schema {
         Utility.log(Schema, "constructor");
         Utility.enforceTypes(arguments);
     }
-
     async load(url) {
         Utility.log(Schema, "load");
         Utility.enforceTypes(arguments, String);
 
         let fileResult = await FileOperations.loadFromRemote(url);
-        let domParser = new DOMParser();
-        let srcXML = domParser.parseFromString(fileResult, "text/xml");
-        this.src = srcXML;
-        this.xml = domParser.parseFromString("<grammar></grammar>", "text/xml");
-        this.fillGrammar(srcXML.getElementsByTagName("grammar")[0], this.xml.getElementsByTagName("grammar")[0]);
+        let xml = $.parseXML(fileResult);
+        window.$xml = $(xml);
+        this.$xml = $(xml);
+        this.$start = $xml.find("start");
     }
-
-    fillGrammar(source, destination) {
-        Utility.log(Schema, "fillGrammar");
-        Utility.enforceTypes(arguments, Element, Element);
-
-        let children = Schema.getChildElements(source);
-        for (let i in children) {
-            if (children[i].tagName === "start" || children[i].tagName === "define" || children[i].tagName === "element" || children[i].tagName === "ref") {
-                let newChild = destination.appendChild(children[i].cloneNode());
-                this.fillGrammar(children[i], newChild);
-            } else {
-                this.fillGrammar(children[i], destination);
-            }
-        }
-    }
-    isValidPath(queryPath) {
-        Utility.log(Schema, "isValidPath");
-        Utility.enforceTypes(arguments, Array);
-
-        let current = this.xml.getElementsByTagName("start")[0];
-        for (let pathName of queryPath) {
-            current = this.nextNode(current, pathName);
-            if (current === null) return false;
-        }
-        return true;
-    }
-    getPath(element, tagName) {
-        Utility.log(Schema, "getPath");
-        Utility.enforceTypes(arguments, Node, String);
-
-//        console.log(" - " + element);
-//        while (element.nodeType !== 3){
-//            console.log(" - " + element);
-//            element = element.parentNode;
-//            if (element === null) return null;
-//        }
-
-        /* build path */
-        let path = [];
-        let current = element.parentElement;
-        while (current.id !== "entityPanel") {
-            path.push($(current).entityTag());
-            current = current.parentElement;
+    static branch(element) {
+        while ($(element).attr("xmltagname") === undefined) {
+            let parent = $(element).parent();
+            if (parent.length === 0) throw new Error("Could not locate attribute 'xmltagname' on elements ancestors.");
+            element = parent;
         }
 
-        path.unshift(tagName);
-        return path.reverse();
+        let branch = [];
+        let parents = $(element).parents();
+
+        branch.push($(element).attr("xmltagname"));
+
+        for (let x of parents) {
+            if ($(x).attr("xmltagname") === undefined) break;
+            branch.unshift($(x).attr("xmltagname"));
+        }
+
+        return branch;
     }
-    isValid(element, tagName) {
+    isValid(element, childNodeName) {
         Utility.log(Schema, "isValid");
-        Utility.enforceTypes(arguments, Node, String);
+        Utility.enforceTypes(arguments, Object, String);
 
-        let path = this.getPath(element, tagName);
-        return this.isValidPath(path);
+        let path = Schema.branch(element);
+        if (childNodeName) path.push(childNodeName);
+        console.log(path);
+        return this.checkValidity(path, this.$start);
     }
-    nextNode(schemaNode, name) {
-        Utility.log(Schema, "nextNode");
-        Utility.enforceTypes(arguments, Element, String);
+    checkValidity(path, schemaNode) {
+        Utility.log(Schema, "checkValidity");
 
-        let childElements = Schema.getChildElements(schemaNode);
-
-        for (let ele of childElements) {
-            let check = this.check(ele, name);
-            if (check !== null) return check;
+        switch ($(schemaNode).prop("tagName")) {
+            case "element":
+                return this.checkElement(path, schemaNode);
+            case "ref":
+                return this.checkRef(path, schemaNode);
+            case "define":
+            case "start":
+            case "zeroOrMore":
+            case "group":
+            case "interleave":
+            case "choice":
+            case "optional":
+            case "oneOrMore":
+            case "List":
+            case "mixed":
+                return this.checkGroup(path, schemaNode);
+            default:
+                return false;
         }
-        return null;
     }
-    check(eleNode, name) {
-        Utility.log(Schema, "check");
-        Utility.enforceTypes(arguments, Element, String);
-        let rvalue = null;
+    checkElement(path, schemaNode) {
+        Utility.log(Schema, "checkElement");
+        if ($(schemaNode).attr("name") !== path[0]) return false;
 
-        if (eleNode.nodeName === "element" && eleNode.getAttribute("name") !== null && eleNode.getAttribute("name") === name) {
-            rvalue = eleNode;
-        }
+        let head = path.shift();
+        if (path.length === 0) return true;
 
-        if (eleNode.nodeName === "ref") {
-            let selector = "define[name='" + eleNode.getAttribute("name") + "']";
-            let refList = this.xml.querySelectorAll(selector);
-            if (refList.length !== 0) {
-                let reference = refList[0];
-
-                let childElements = Schema.getChildElements(reference);
-                for (let ele of childElements) {
-                    let check = this.check(ele, name);
-                    if (check !== null) {
-                        rvalue = check;
-                        break;
-                    }
-                }
-            }
+        for (let child of $(schemaNode).children()) {
+            if (this.checkValidity(path, child)) return true;
         }
 
-        return rvalue;
+        path.unshift(head);
+        return false;
     }
-}
-
-Schema.getChildElements = function (node) {
-    let rvalue = [];
-    for (let child of node.childNodes) {
-        if (child.nodeType === 1) rvalue.push(child);
+    checkRef(path, schemaNode) {
+        Utility.log(Schema, "checkRef");
+        let name = $(schemaNode).attr("name");
+        let defines = $xml.find(`define[name='${name}']`);
+        if (defines.length === 0) throw new Error(`Undefined lookup : ${name}`);
+        return this.checkValidity(path, defines[0]);
     }
-    return rvalue;
-};
-
-class EmptySchema extends Schema {
-    constructor(context) {
-        super(context);
-        EmptySchema.traceLevel = 0;
-        Utility.log(EmptySchema, "constructor");
-
-        Utility.verifyArguments(arguments, 1);
-        Utility.enforceTypes(arguments, Context);
-    }
-    isValid(element, tagName) {
-        Utility.log(EmptySchema, "isValid");
-        Utility.enforceTypes(arguments, HTMLElement, String);
-        return true;
+    checkGroup(path, schemaNode) {
+        Utility.log(Schema, "checkGroup");
+        for (let child of $(schemaNode).children()) {
+            if (this.checkValidity(path, child)) return true;
+        }
+        return false;
     }
 }

@@ -12,12 +12,6 @@ class SearchUtility{
         this.lastTerm = "";
     }
 
-    setContext(context){
-        Utility.log(SearchUtility, "setContext");
-        Utility.enforceTypes(arguments, Context);
-        this.context = context;
-    }
-
     reset(){
         this.current = -1;
         this.instances = [];
@@ -45,7 +39,6 @@ class SearchUtility{
         Utility.enforceTypes(arguments);
         this.current++;
         if (this.current >= this.instances.length) this.current = 0;
-        console.log(this.current + " / " + this.instances.length);
         return this.instances[this.current];
     }
 

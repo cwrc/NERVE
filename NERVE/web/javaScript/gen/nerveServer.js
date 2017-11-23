@@ -1,5 +1,10 @@
 EntityValues = class EntityValues {
 	constructor(entity, lemma, link, tag, collection) {
+		this.entity = "";
+		this.lemma = "";
+		this.link = "";
+		this.tagName = "";
+		this.collection = "";
 		this.entity = entity;
 		this.lemma = lemma;
 		this.link = link;
@@ -16,6 +21,7 @@ EntityValues = class EntityValues {
 		return false;
 	}
 	static extract(entity) {
+		
 		let text = $(entity).text();
 		let lemma = $(entity).lemma();
 		let link = $(entity).link();
@@ -26,6 +32,23 @@ EntityValues = class EntityValues {
 	}
 };
 JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.EntityValues", EntityValues);
+EncodeResponse = class EncodeResponse {
+	constructor() {
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.sharcnet.dh.nerve.EncodeResponse";
+	}
+	__isEnum() {
+		return false;
+	}
+	setFilename(filename) {
+		this.filename = filename;
+	}
+};
+JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.EncodeResponse", EncodeResponse);
 Dictionary = class Dictionary {
 	constructor() {
 		this.__jjjWebsocket = new JJJRMISocket("Dictionary", this);
@@ -59,15 +82,15 @@ Dictionary = class Dictionary {
 	}
 };
 JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.Dictionary", Dictionary);
-Translate = class Translate {
+Scriber = class Scriber {
 	constructor() {
-		this.__jjjWebsocket = new JJJRMISocket("Translate", this);
+		this.__jjjWebsocket = new JJJRMISocket("Scriber", this);
 	}
 	__isTransient() {
 		return false;
 	}
 	__getClass() {
-		return "ca.sharcnet.dh.nerve.Translate";
+		return "ca.sharcnet.dh.nerve.Scriber";
 	}
 	__isEnum() {
 		return false;
@@ -75,26 +98,33 @@ Translate = class Translate {
 	async connect(url) {
 		await this.__jjjWebsocket.connect(url);
 	}
-	decode(source) {
-		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
+	onPhase(phase, i, max) {
+		
+		this.view.setThrobberMessage(phase);
+		this.phaseName = phase;
+		this.view.showBaubles(i, max);
+		
+		return null;
+	}
+	onStep(i, max) {
+		
+		this.view.showPercent(Math.trunc(i / max * 100));
+		
+		return null;
 	}
 	encode(source) {
 		return this.__jjjWebsocket.methodRequest(this, "encode", arguments);
 	}
-	onPhase(phase, i, max) {
-
-		this.view.setThrobberMessage(phase);
-		this.phaseName = phase;
-		this.view.showBaubles(i, max);
+	getContext(contextFileName) {
+		return this.__jjjWebsocket.methodRequest(this, "getContext", arguments);
 	}
-	onStep(i, max) {
-
-		this.view.showPercent(Math.trunc(i / max * 100));
+	decode(source) {
+		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
 	}
 	setView(view) {
-
+		
 		this.view = view;
 		this.phaseName = "";
 	}
 };
-JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.Translate", Translate);
+JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.Scriber", Scriber);

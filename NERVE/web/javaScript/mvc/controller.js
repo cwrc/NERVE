@@ -15,42 +15,37 @@ class Controller {
      * @param {Storage} storage
      * @returns {Controller}
      */
-    constructor(view, model, context, storage) {
+    constructor(view, model) {
         Utility.log(Controller, "constructor");
-        Utility.enforceTypes(arguments, View, Model, Context, Storage);
+        Utility.enforceTypes(arguments, View, Model);
 
         this.view = view;
         this.model = model;
-        this.context = context;
-        this.storage = storage;
+        this.storage = new Storage("NERVE_CONTROLLER");
     }
     async start() {
         Utility.log(Controller, "start");
         Utility.enforceTypes(arguments);
 
-        if (this.storage.hasValue("context-name")) {
-            let contextName = this.storage.getValue("context-name");
-            this.view.setThrobberMessage("Loading Context...");
-            await this.loadContext(contextName);
-        }
-
         this.dialogs = new Dialogs(this);
         this.collection = new Collection();
         this.collection.addListener(this);
         this.searchUtility = new SearchUtility("#entityPanel");
-        this.searchUtility.setContext(this.context);
-
-        this.dictionary = new Dictionary();
-        this.translator = new Translate();
 
         let hostInfo = new HostInfo();
 
         this.view.setThrobberMessage("Connecting Dictionary Socket...");
+        this.dictionary = new Dictionary();
         await this.dictionary.connect(hostInfo.dictionarySocketAddress);
 
-        this.view.setThrobberMessage("Connecting Encoder Socket...");
-        await this.translator.connect(hostInfo.translateSocketAddress);
-        this.translator.setView(this.view);
+        this.view.setThrobberMessage("Connecting Scriber Socket...");
+        this.scriber = new Scriber();
+        await this.scriber.connect(hostInfo.scriberSocketAddress);
+        this.scriber.setView(this.view);
+
+        if (this.storage.hasValue("document")){
+            this.onLoad();
+        }
 
         this.dTimeout = null;
         this.copiedInfo = null;
@@ -138,7 +133,7 @@ class Controller {
         range = this.__trimRange(range);
         let tagName = this.view.getDialogValues().tagName;
 
-        if (!this.context.schema.isValid(range.commonAncestorContainer, tagName)) {
+        if (!this.schema.isValid(range.commonAncestorContainer, tagName)) {
             this.view.showUserMessage(`Tagging "${tagName}" is not valid in the Schema at this location.`);
             return;
         }
@@ -161,7 +156,7 @@ class Controller {
         Utility.log(Controller, "untagAll");
         Utility.enforceTypes(arguments);
 
-        if (this.collection.isEmpty()) return new Response(false, "");
+        if (this.collection.isEmpty()) return;
 
         let count = this.collection.size();
         for (let ele of this.collection) this.view.tagnameManager.clearTagnameElement(ele);
@@ -336,7 +331,6 @@ class Controller {
     }
     __validifyTagRange(range) {
         Utility.log(Controller, "__validifyTagRange");
-        Utility.verifyArguments(arguments, 1);
 
         if (range.collapsed) return false;
 //        if (this.__checkForChildTags(range)) return false; /* TODO */
@@ -434,7 +428,7 @@ class Controller {
 
         this.dialogs.setQueryTerm(text);
         let tag = this.context.getTagInfo(tagName);
-        this.dialogs.showDialog(tag.dialog);
+        this.dialogs.showDialog(tag.getName(NameSource.DIALOG));
     }
     __fillDialogsFromCollection() {
         Utility.log(Controller, "__fillDialogsFromCollection");
@@ -466,6 +460,7 @@ class Controller {
             }
         });
     }
+
     /* not in unit tests */
     async loadDocument(filename, text) {
         Utility.log(Controller, "loadDocument");
@@ -474,39 +469,40 @@ class Controller {
         this.view.showThrobber(true);
         this.view.setThrobberMessage("Loading Document");
 
-        let encoded = await this.translator.encode(text);
-        this.model.setDocument(encoded, filename);
-        let schemaPath = $(`[xmltagname="xml-model"]`).xmlAttr("href");
+        let encodeResponse = await this.scriber.encode(text);
+        encodeResponse.setFilename(filename);
 
-        console.log(schemaPath);
-        if (typeof schemaPath === "string") {
-            let split = schemaPath.split("/");
-            switch (split[split.length - 1]) {
-                case "orlando_biography_v2.rng":
-                    await this.loadContext("orlando");
-                    break;
-                case "cwrc_entry.rng":
-                    await this.loadContext("cwrc");
-                    break;
-                case "cwrc_tei_lite.rng":
-                    await this.loadContext("tei");
-                    break;
-            }
-        }
+        this.onLoad(encodeResponse.text, encodeResponse.context, encodeResponse.filename);
 
         this.isSaved = true;
-        this.onLoad();
         this.view.clearThrobber();
         setTimeout(() => this.view.tagnameManager.pollDocument(), 500);
         this.view.showThrobber(false);
     }
+
     /* call when the program starts and when a document is loaded */
-    async onLoad() {
+    async onLoad(text, context, filename) {
         Utility.log(Controller, "onLoad");
-        Utility.enforceTypes(arguments);
+
+        if (typeof text !== "undefined"){
+            this.storage.setValue("document", text);
+            this.storage.setValue("context", context);
+            this.storage.setValue("filename", filename);
+        } else {
+            text = this.storage.getValue("document");
+            context = this.storage.getValue("context");
+            filename = this.storage.getValue("filename");
+        }
+
+        this.view.notifyContextChange(context);
+        $.fn.xmlAttr.defaults.context = context;
+        this.context = context;
+        this.model.setDocument(text, filename);
+
         this.onChange(this.collection);
         await this.__addDictionaryAttribute();
     }
+
     async __addDictionaryAttribute() {
         Utility.log(Controller, "__addDictionaryAttribute");
         Utility.enforceTypes(arguments);
@@ -517,25 +513,6 @@ class Controller {
             $(ele).attr("data-collection", collection);
         });
     }
-    async loadContext(contextName) {
-        Utility.log(Controller, "loadContext");
-        Utility.enforceTypes(arguments, String);
-
-        let url = "resources/" + contextName.toLowerCase() + ".context.json";
-        this.storage.setValue("context-name", contextName);
-        console.log(url);
-
-        try {
-            let jsonText = await FileOperations.loadFromServer(url);
-            let json = JSON.parse(jsonText);
-            await this.context.load(json);
-            this.storage.setValue("context-name", this.context.name);
-            this.view.notifyContextChange();
-        } catch (error) {
-            window.alert("Unable to create context object : " + status);
-            console.log(error);
-        }
-    }
     async saveContents() {
         Utility.log(Controller, "saveContents");
         Utility.enforceTypes(arguments, ["optional", Function], ["optional", Function]);
@@ -543,7 +520,7 @@ class Controller {
         this.view.showThrobber(true);
         this.unselectAll();
         let contents = "<doc>" + this.model.getDocument() + "</doc>";
-        let result = await this.translator.decode(contents);
+        let result = await this.scriber.decode(contents);
         FileOperations.saveToFile(result, this.model.getFilename());
         this.isSaved = true;
         this.view.showThrobber(false);
@@ -572,11 +549,15 @@ class Controller {
         Utility.enforceTypes(arguments);
         this.view.clear();
         this.model.reset();
+        this.storage.deleteValue("document");
+        this.storage.deleteValue("context");
+        this.storage.deleteValue("filename");
     }
     goLink() {
         Utility.log(Controller, "goLink");
         Utility.enforceTypes(arguments);
         let url = $("#txtLink").val();
+        if (url.length === 0) return;
         if (!url.startsWith("http") && !url.startsWith("https")) {
             url = "http://" + $("#txtLink").val();
         }

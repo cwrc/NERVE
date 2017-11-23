@@ -5,21 +5,21 @@ Utility = {
     enableAssertions: true,
     classes: {
         Events: 0,
-        Controller: 2,
-        View: 2,
-        Collection : 0,
-        Dictionary : 0,
+        Controller: 0,
+        View: 0,
+        Collection: 0,
+        Dictionary: 0,
         Context: 0,
         Response: 0,
         Model: 0,
         Listeners: 0,
-        TagnameManager: 0
+        TagnameManager: 0,
+        Schema: 0
     },
     logger: {
         logRecord: {}
     }
 };
-
 class EnforcedTypeError extends Error {
     constructor(message, object, aClass) {
         super(message);
@@ -45,7 +45,6 @@ class PermittedTypes {
             this.permittedList.push(typeList);
         }
     }
-
     isChecked() {
         for (let i = 0; i < this.permittedList.length; i++) {
             let item = this.permittedList[i];
@@ -53,7 +52,6 @@ class PermittedTypes {
         }
         return true;
     }
-
     isNullPermitted() {
         for (let i = 0; i < this.permittedList.length; i++) {
             let item = this.permittedList[i];
@@ -61,7 +59,6 @@ class PermittedTypes {
         }
         return false;
     }
-
     isUndefinedPermitted() {
         for (let i = 0; i < this.permittedList.length; i++) {
             let item = this.permittedList[i];
@@ -69,7 +66,6 @@ class PermittedTypes {
         }
         return false;
     }
-
     isOptional() {
         for (let i = 0; i < this.permittedList.length; i++) {
             let item = this.permittedList[i];
@@ -77,7 +73,6 @@ class PermittedTypes {
         }
         return false;
     }
-
     contains(object) {
         for (let i = 0; i < this.permittedList.length; i++) {
             if (this.permittedList[i] instanceof Function) {
@@ -92,7 +87,6 @@ class PermittedTypes {
         }
         return false;
     }
-
     toString() {
         let rvalue = [];
         for (let i = 0; i < this.permittedList.length; i++) {
@@ -101,7 +95,6 @@ class PermittedTypes {
         }
         return "{" + rvalue.toString() + "}";
     }
-
     check(object) {
         if (!this.isChecked()) return;
         if (typeof object === "undefined") {
@@ -117,27 +110,6 @@ class PermittedTypes {
         }
     }
 }
-
-Utility.assert = function (value, string) {
-    if (Utility.enableAssertions && !value) {
-        throw "assertion failed : " + string;
-    }
-};
-
-Utility.exists = function (object) {
-    return (typeof object !== "undefined" && object !== null);
-};
-
-Utility.assertType = function (object, aClass) {
-    if (!Utility.enableAssertions) return;
-
-    if (!Utility.__testType(object, aClass)) {
-        if (typeof object === "undefined") throw new EnforcedTypeError("type assertion failed, found 'undefined' expected " + aClass.prototype.constructor.name);
-        throw new EnforcedTypeError("type assertion failed, found '" + object.constructor.name + "' expected " + aClass.prototype.constructor.name);
-    }
-
-    return object;
-};
 
 Utility.enforceTypes = function (args) {
     if (!Utility.enableAssertions) return;
@@ -242,28 +214,6 @@ Utility.__minArgCount = function (arguments) {
     return count;
 };
 
-Utility.verifyArguments = function (args, minLength, maxLength) {
-    if (maxLength !== undefined && maxLength !== null) {
-        if (minLength !== undefined && minLength !== null) {
-            maxLength = minLength;
-        }
-
-        if (args.length < minLength || args.length > maxLength) {
-            throw "Parameter list length mismatch : is " + args.length + " expected " + minLength + " -> " + maxLength;
-        }
-    }
-
-    if (typeof arguments === "undefined" || arguments === null) {
-        throw "NULL Parameter Exception : paramters index " + i;
-    }
-
-    for (var i = 0; i < args.length; i++) {
-        if (typeof args[i] === "undefined" || args[i] === null) {
-            throw "NULL Parameter Exception : paramters index " + i;
-        }
-    }
-};
-
 Utility.getParameterNames = function (func) {
     var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
     var ARGUMENT_NAMES = /([^\s,]+)/g;
@@ -272,30 +222,6 @@ Utility.getParameterNames = function (func) {
     if (result === null)
         result = [];
     return result;
-};
-
-Utility.getElementsByAttribute = function (element, attribute, value) {
-    var matches = [];
-
-    for (var node of element.getElementsByTagName("*")) {
-        if (node.getAttribute(attribute) !== null && node.getAttribute(attribute) === value) {
-            matches.push(node);
-        }
-    }
-
-    return matches;
-};
-
-Utility.trace = function (aClass, level, string) {
-    let className = aClass.name;
-
-    if (Utility.globalTraceLevel === "verbose") {
-        let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + string);
-    } else if (Utility.classes[className] >= level) {
-        let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + string);
-    }
 };
 
 Utility.log = function (aClass, methodName) {
@@ -336,6 +262,7 @@ Utility.setupLogger = function (aClass) {
 };
 
 Utility.logger.reportUnvisited = function (aClass = null) {
+    let count = 0;
     if (aClass === null) {
         var classNames = Object.getOwnPropertyNames(Utility.logger.logRecord);
         for (let className of classNames) {
@@ -343,6 +270,7 @@ Utility.logger.reportUnvisited = function (aClass = null) {
             for (let methodName of methodNames) {
                 if (Utility.logger.logRecord[className][methodName].callCount === 0) {
                     console.log(className + "." + methodName);
+                    count++;
                 }
             }
         }
@@ -353,9 +281,11 @@ Utility.logger.reportUnvisited = function (aClass = null) {
         for (let methodName of methodNames) {
             if (Utility.logger.logRecord[className][methodName].callCount === 0) {
                 console.log(className + "." + methodName);
+                count++;
             }
         }
-}
+    }
+    console.log(count + " unvisited");
 };
 
 Utility.logger.reportVisits = function () {
@@ -399,12 +329,10 @@ Utility.isDescendent = function (parent, child) {
 };
 
 class EventAutomation {
-
     constructor() {
         Utility.log(EventAutomation, "constructor");
         Utility.enforceTypes(arguments);
     }
-
     selectRange(nodeID, startOffset, endOffset) {
         let range = new Range();
         let node = document.getElementById(nodeID);

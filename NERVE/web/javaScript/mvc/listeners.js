@@ -8,7 +8,6 @@ class EntityDialogWidget{
         this.update = false;
 
         $("#txtEntity").on("input", () => {
-            console.log($("#txtEntity").val());
             this.entityValues.entity = $("#txtEntity").val();
             this.update = true;
         });
@@ -179,20 +178,6 @@ class Listeners {
             await this.controller.dictAdd();
         });
 
-        /* the ability to switch context is deprecated */
-        $("#menuORLANDO").click((event) => {
-            event.stopPropagation();
-            this.switchContext("ORLANDO");
-        });
-        $("#menuCWRC").click((event) => {
-            event.stopPropagation();
-            this.switchContext("CWRC");
-        });
-        $("#menuTEI").click((event) => {
-            event.stopPropagation();
-            this.switchContext("TEI");
-        });
-
         $("#menuWiki").click((event) => {
             var win = window.open("https://github.com/cwrc/NERVE/wiki", '_blank');
             win.focus();
@@ -234,7 +219,6 @@ class Listeners {
                     (d.tagName.toUpperCase() === 'TEXTAREA') ||
                     (d.hasAttribute("contenteditable") && d.getAttribute("contenteditable") === "true")
                     ) {
-                console.log(d.tagName);
                 event.stopPropagation();
                 return;
             }
@@ -300,7 +284,6 @@ class Listeners {
         $("#entityPanel").dblclick((event) => this.documentDblClick(event));
         $("#tagnamePanel").click((event) => {
             if (event.altKey) {
-                console.log(event.target);
                 window.debug = event.target;
                 return;
             }

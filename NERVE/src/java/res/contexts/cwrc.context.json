@@ -21,7 +21,7 @@
             "lemmaAttribute" : "",
             "linkAttribute"  : "",
             "nerMap"         : "",
-            "dialog"         : "",
+            "dialog"         : "DATE",
             "idAttribute"    : "",
             "defaults"       : {}
         },

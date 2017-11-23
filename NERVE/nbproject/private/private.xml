@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="157">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="162">
         <file>
             <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
             <bookmark id="78">
@@ -41,27 +41,27 @@
             <url>web/dialogs/js/cD.js</url>
             <bookmark id="51">
                 <name/>
-                <line>1417</line>
+                <line>1415</line>
                 <key/>
             </bookmark>
             <bookmark id="2">
                 <name/>
-                <line>2934</line>
+                <line>2932</line>
                 <key/>
             </bookmark>
             <bookmark id="50">
                 <name/>
-                <line>3287</line>
+                <line>3285</line>
                 <key/>
             </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>3352</line>
+                <line>3350</line>
                 <key/>
             </bookmark>
             <bookmark id="53">
                 <name/>
-                <line>3408</line>
+                <line>3406</line>
                 <key/>
             </bookmark>
         </file>
@@ -109,14 +109,14 @@
         </file>
         <file>
             <url>web/javaScript/mvc/controller.js</url>
-            <bookmark id="157">
+            <bookmark id="161">
                 <name/>
-                <line>105</line>
+                <line>458</line>
                 <key/>
             </bookmark>
-            <bookmark id="156">
+            <bookmark id="162">
                 <name/>
-                <line>225</line>
+                <line>477</line>
                 <key/>
             </bookmark>
         </file>
@@ -192,6 +192,20 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
         </group>
-        <group name="Frontier Web App"/>
+        <group name="Frontier Web App">
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/gen/context.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/res/contexts/tei.context.json</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/res/contexts/cwrc.context.json</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/dialogs.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/res/contexts/orlando.context.json</file>
+        </group>
+        <group name="NERVE">
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/main.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/ca/sharcnet/dh/nerve/Dictionary.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
+        </group>
     </open-files>
 </project-private>

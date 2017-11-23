@@ -1,13 +1,12 @@
 /* global trace, Utility, Listeners */
 
 class Model {
-    constructor(view, settings, context) {
+    constructor(view) {
         Utility.log(Model, "constructor");
-        Utility.enforceTypes(arguments, View, Storage, Context);
+        Utility.enforceTypes(arguments, View);
 
+        this.storage = new Storage("NERVE_CONTROLLER");
         this.view = view;
-        this.settings = settings;
-        this.context = context;
         this.variables = {};
 
         /* refers to the index of the last saved state -1 if never saved */
@@ -16,23 +15,12 @@ class Model {
         this.__resetState();
     }
 
-    loadStoredDoc() {
-        if (this.settings.hasValue("document") && this.settings.hasValue("filename")) {
-            this.setDocument(this.settings.getValue("document"), this.settings.getValue("filename"));
-            $(".selected").removeClass("selected");
-            return true;
-        }
-        return false;
-    }
-
     reset() {
         Utility.log(Model, "reset");
         Utility.enforceTypes(arguments);
         this.__resetState();
         this.view.setDocument("");
         this.view.setFilename("");
-        this.settings.deleteValue("document");
-        this.settings.deleteValue("filename");
     }
 
     setListener(listener) {
@@ -41,23 +29,6 @@ class Model {
         this.listener = listener;
     }
 
-    /**
-     * Assign a $name = value variable that will serve as find replace when
-     * loading the context.
-     * @param {type} name
-     * @param {type} value
-     * @returns {undefined}
-     */
-    setVariable(name, value) {
-        Utility.log(Model, "setVariable");
-        Utility.enforceTypes(arguments, String, String);
-        this.variables[name] = value;
-    }
-    setContext(context) {
-        Utility.log(Model, "setContext");
-        Utility.enforceTypes(arguments, Context);
-        this.context = context;
-    }
     /**
      * Call 'saveState()' after any change that you want to be able to recover
      * to.  This is typically any change in the model that can be seen by the
@@ -77,7 +48,7 @@ class Model {
             }
         }
 
-        this.settings.setValue("document", this.getDocument());
+        this.storage.setValue("document", this.getDocument());
         this.stateList[this.stateIndex] = this.getDocument();
     }
     revertState() {
@@ -89,7 +60,7 @@ class Model {
         this.stateIndex = this.stateIndex - 1;
         let document = this.stateList[this.stateIndex];
 
-        this.settings.setValue("document", this.getDocument());
+        this.storage.setValue("document", this.getDocument());
         this.view.setDocument(document);
 
         $(".taggedentity").removeClass("selected");
@@ -103,7 +74,7 @@ class Model {
         this.stateIndex = this.stateIndex + 1;
         let document = this.stateList[this.stateIndex];
 
-        this.settings.setValue("current", "document", document);
+        this.storage.setValue("current", "document", document);
         this.view.setDocument(document);
 
         $(".taggedentity").removeClass("selected");
@@ -128,14 +99,14 @@ class Model {
         this.view.clear();
         this.view.setDocument(text);
         this.view.setFilename(filename);
-        this.settings.setValue("document", text);
-        this.settings.setValue("filename", filename);
+        this.storage.setValue("document", text);
+        this.storage.setValue("filename", filename);
         this.__resetState();
     }
     getFilename() {
         Utility.log(Model, "getFilename");
         Utility.enforceTypes(arguments);
-        return this.settings.getValue("filename");
+        return this.storage.getValue("filename");
     }
     /**
      * Return a string representing the current document.
@@ -147,19 +118,3 @@ class Model {
         return $("#entityPanel").html();
     }
 }
-
-//Model.xmlAttr = function(element, attr, value){
-//    let rvalue = {};
-//    if ($(element).attr("xmlattrs") === undefined){
-//        $(element).attr("xmlattrs", "");
-//        return rvalue;
-//    }
-//    let xmlAttr = $(element).attr("xmlattrs").split(";");
-//
-//    for (let s of xmlAttr){
-//        console.log(s);
-//    }
-//
-//    if (typeof value === "undefined") return xmlAttr[0];
-//};
-

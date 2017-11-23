@@ -1,4 +1,4 @@
-/* global TaggedEntity, Utility, trace, Context, enums, Events, HTMLElement, Element */
+/* global TaggedEntity, Utility, trace, Context, enums, Events, HTMLElement, Element, NameSource */
 
 /**
  * TagnameManager uses a MutationObserver (https://developer.mozilla.org/en/docs/Web/API/MutationObserver) to respond
@@ -143,36 +143,24 @@ class TagnameManager {
 }
 
 class View {
-    constructor(context) {
+    constructor() {
         View.traceLevel = 0;
         Utility.log(View, "constructor");
-        Utility.enforceTypes(arguments, Context);
+        Utility.enforceTypes(arguments);
 
         this.tagnameManager = new TagnameManager();
         this.delayThrobber = null;
         this.throbberMessageStack = [];
         this.lastFade = true;
-        this.context = context;
 
         this.usrMsgHnd = new UserMessageHandler();
         this.usrMsgHnd.setContainer(document.getElementById("userMessage"));
-
-        /* make msg panel resize on mouse over */
-        var panel = document.getElementById("messagePanel");
-        panel.addEventListener("mouseover", (event) => {
-            panel.className = "messagePanelBig";
-        }, false);
-
-        panel.addEventListener("mouseout", (event) => {
-            panel.className = "messagePanelSmall";
-        }, false);
     }
 
     setDictionary(source){
         Utility.log(View, "setDictionary");
         Utility.enforceTypes(arguments, String);
         console.warn("setDictionary deprecated");
-//        $("#sourceDictionary").text("Source: " + source);
     }
 
     setDictionaryButton(button){
@@ -248,16 +236,6 @@ class View {
         }
     }
 
-    appendMessage(string) {
-        Utility.log(View, "appendMessage");
-        Utility.enforceTypes(arguments, String);
-
-        var panel = document.getElementById("messagePanel");
-        var inner = panel.innerHTML;
-        panel.innerHTML = inner + "<br>" + string;
-        panel.scrollTop = panel.scrollHeight;
-    }
-
     focusFind() {
         Utility.log(View, "focusFind");
         Utility.enforceTypes(arguments);
@@ -308,7 +286,6 @@ class View {
     setDialogs(value) {
         Utility.log(View, "setDialogs");
         Utility.enforceTypes(arguments, EntityValues);
-        console.log(value);
 
         $("#txtEntity").val(value.entity);
         $("#txtLemma").val(value.lemma);
@@ -342,7 +319,7 @@ class View {
     }
     setSearchText(string) {
         Utility.log(View, "setSearchText");
-        Utility.verifyArguments(arguments, String);
+        Utility.enforceTypes(arguments, String);
 
         if (typeof string === undefined || string === null) {
             string = "";
@@ -350,8 +327,10 @@ class View {
         document.getElementById("epsTextArea").value = string;
     }
 
-    notifyContextChange(){
+    notifyContextChange(context){
         Utility.log(View, "notifyContextChange");
+        Utility.enforceTypes(arguments, Context);
+        this.context = context;
 
         /* clear the drop down tagName selector */
         let selector = document.getElementById("selectTagName");
@@ -360,15 +339,15 @@ class View {
         }
 
         /* set the available tags in the drop down selector */
-        for (var i = 0; i < this.context.tags.length; i++) {
+        for (let tagInfo of this.context.tags()){
             var opt = document.createElement('option');
-            opt.value = this.context.tags[i].name;
-            opt.innerHTML = this.context.tags[i].name;
+            opt.value = tagInfo.getName(NameSource.NAME);
+            opt.innerHTML = tagInfo.getName(NameSource.NAME);
             document.getElementById("selectTagName").appendChild(opt);
         }
 
         /* load new .css files */
-        for (let stylename of this.context.styles) {
+        for (let stylename of this.context.styles()) {
             this.attachStyle(stylename);
         }
     }
@@ -471,7 +450,6 @@ class View {
         this.pushThrobberMessage(string);
     }
     showUserMessage(string, duration = 3000) {
-        this.appendMessage(string);
         this.usrMsgHnd.showUserMessage(string, duration);
     }
 
@@ -505,7 +483,6 @@ class UserMessageHandler {
     showUserMessage(string, duration = 3000) {
         Utility.log(UserMessageHandler, "showUserMessage");
         Utility.enforceTypes(arguments, String, ["optional", Number]);
-        Utility.assert(this.container, HTMLElement);
 
         this.container = document.getElementById("userMessage");
         let msgElement = document.createElement("div");

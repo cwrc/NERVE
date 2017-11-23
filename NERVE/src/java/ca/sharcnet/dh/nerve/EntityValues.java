@@ -1,8 +1,9 @@
 package ca.sharcnet.dh.nerve;
 import ca.fa.SQL.SQLRecord;
 import ca.fa.jjjrmi.annotations.NativeJS;
+import ca.fa.jjjrmi.annotations.ProcessLevel;
 
-@NativeJS(trans = true, processAll=false)
+@NativeJS(trans = true, processLevel=ProcessLevel.NONE)
 public class EntityValues {
     private String entity = "";
     private String lemma = "";
@@ -11,7 +12,7 @@ public class EntityValues {
     private String collection = "";
 
     private EntityValues(){}
-    
+
     @NativeJS
     public EntityValues(String entity, String lemma, String link, String tag, String collection){
         this.entity = entity;
@@ -28,7 +29,7 @@ public class EntityValues {
         this.tagName = record.getEntry("tag").getValue();
         this.collection = record.getEntry("collection").getValue();
     }
-    
+
     @NativeJS
     public static void extract(Object entity){
         /*JS{
@@ -41,7 +42,7 @@ public class EntityValues {
             return new EntityValues(text, lemma, link, tag, collection);
         }*/
     }
-    
+
     /**
      * @return the entity
      */
@@ -75,5 +76,5 @@ public class EntityValues {
      */
     public String getCollection() {
         return collection;
-    }    
+    }
 }

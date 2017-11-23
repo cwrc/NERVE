@@ -4,7 +4,6 @@ import ca.fa.jjjrmi.annotations.ServerSide;
 import ca.fa.jjjrmi.annotations.SkipJS;
 import ca.fa.jjjrmi.annotations.Transient;
 import ca.fa.jjjrmi.socket.RMISocket;
-import ca.fa.jjjrmi.socket.RMISocketMonitor.StreamRMISocketMonitor;
 import ca.fa.SQL.SQL;
 import ca.fa.SQL.SQLRecord;
 import ca.fa.SQL.SQLResult;
@@ -24,6 +23,8 @@ public class Dictionary extends RMISocket{
         Properties config = new Properties();
         config.load(Dictionary.class.getResourceAsStream("/res/config.txt"));
         sql = new SQL(config);
+
+        Console.log("new dictionary");
     }
 
     @ServerSide
