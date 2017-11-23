@@ -1,0 +1,85 @@
+/* menu bar styles */
+#menuBar{
+    position: absolute;
+    left: 15%;
+    width: calc(85% - 20px);
+    height: 33px;
+    top: 40px;
+    font-family: arial;
+    cursor: pointer;
+    /*-webkit-user-select: none;*/
+}
+
+.menu{
+    position: relative;
+    width: 200px;
+    height: 100%;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.menu:hover{
+    background-color: lightskyblue;
+    -webkit-transition: box-shadow 0.25s;
+    box-shadow: 0px 0px 5px #c0c0df;
+    height: 100%;
+}
+
+.menuTitle{
+    position: relative;
+    left: 4px;
+    top: 4px;
+}
+
+.menuItem{
+    position: relative;
+    font-weight: normal;
+    width: 200px;
+    z-index: 5;
+    padding-left: 4px;
+}
+
+.activeText{
+    color: white;
+}
+
+.itemContainer{
+    position: relative;
+    display: none;
+    top: 7px;
+    background-color: lightskyblue;
+    z-index: 5;
+}
+
+.subItemContainer{
+    position: absolute;
+    display: none;
+    background-color: lightskyblue;
+    left: 200px;
+    top: 0px;
+    z-index: 5;
+}
+
+.menu:hover .itemContainer{
+    display: block;
+}
+
+.menuItem:hover{
+    background-color:#0099ff;
+    -webkit-transition: box-shadow 0.25s;
+    box-shadow: 0px 0px 5px #c0c0df;
+    width: 195px;
+}
+
+.menuItem:hover .subItemContainer{
+    display: block;
+}
+
+.menuSC{
+    position: absolute;
+    display: inline-block;
+    right: 4px;
+    font-size: 14px;
+}

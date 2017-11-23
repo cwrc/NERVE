@@ -8,10 +8,11 @@
 
         <link rel="stylesheet" type="text/css" href="styles/nerve.css" />
         <link rel="stylesheet" type="text/css" href="styles/tag.css"/>
-        <link rel="stylesheet" type="text/css" href="dialogs/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="dialogs/css/datepicker.css">
-        <link rel="stylesheet" type="text/css" href="dialogs/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="dialogs/css/cD.css">
+        <link rel="stylesheet" type="text/css" href="dialogs/css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="dialogs/css/datepicker.css"/>
+        <link rel="stylesheet" type="text/css" href="dialogs/font-awesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="dialogs/css/cD.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/menu.css"/>
 
         <!-- External Libraries -->
         <script src="dialogs/js/lib/jquery-3.1.1.js"></script>
@@ -64,6 +65,9 @@
 
                 console.log("window.onload : done");
                 setTimeout(() => main.view.tagnameManager.pollDocument(), 500);
+
+//                $("#container").show()
+//                $("#throbberBG").hide();
             });
         </script>
 
@@ -139,26 +143,31 @@
             <button id="epsPrev">Previous</button>
             <button id="epsNext">Next</button>
 
-            <div id="panelContainer">
-                <div id="tagnamePanel"></div>
-                <div id="entityPanel"></div>
-            </div>
+            <div id="middlePanel">
+                <div id="futurePanel"></div>
 
-            <div id="entityDialog">
-                <div class="entityDialogMember">Tag Name</div>
-                <div class="entityDialogMember"><select id="selectTagName"></select></div>
-                <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text" disabled/></div>
-                <div class="entityDialogMember"><button id="searchDialog" type="button" class="btn btn-default" disabled><i class="fa fa-search"></i></button></div>
-                <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text" disabled/></div>
-                <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text" disabled/><div id="goLink">GO</div></div>
+                <div id="panelContainer" >
+                    <div id="tagnamePanel"></div>
+                    <div id="entityPanel"></div>
+                </div>
 
-                <div id="dictionary">
-                    <button id="dictAdd"    type="button" class="btn-dict">Add to User Dictionary</button>
-                    <button id="dictRemove" type="button" class="btn-dict">Remove From User Dictionary</button>
-                    <button id="dictUpdate" type="button" class="btn-dict">Update User Dictionary</button>
+                <div id="entityDialog">
+                    <div class="entityDialogMember">Tag Name</div>
+                    <div class="entityDialogMember"><select id="selectTagName"></select></div>
+                    <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text" disabled/></div>
+                    <div class="entityDialogMember"><button id="searchDialog" type="button" class="btn btn-default" disabled><i class="fa fa-search"></i></button></div>
+                    <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text" disabled/></div>
+                    <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text" disabled/><div id="goLink">GO</div></div>
+
+                    <div id="dictionary">
+                        <button id="dictAdd"    type="button" class="btn-dict">Add to User Dictionary</button>
+                        <button id="dictRemove" type="button" class="btn-dict">Remove From User Dictionary</button>
+                        <button id="dictUpdate" type="button" class="btn-dict">Update User Dictionary</button>
+                    </div>
                 </div>
             </div>
-            <div id="dialogsHolder"></div>
+
+            <!--<div id="dialogsHolder"></div>-->
         </div>
     </body>
 </html>

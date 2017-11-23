@@ -148,6 +148,14 @@ class View {
         Utility.log(View, "constructor");
         Utility.enforceTypes(arguments);
 
+        this.storage = new Storage("NERVE_VIEW");
+        if (!this.storage.hasValue("mode")){
+            this.storage.setValue("mode", "overlay");
+        }
+        else if (this.storage.getValue("mode") === "tag"){
+            this.tagMode();
+        }
+
         this.tagnameManager = new TagnameManager();
         this.delayThrobber = null;
         this.throbberMessageStack = [];
@@ -456,6 +464,7 @@ class View {
     tagMode(){
         Utility.log(View, "tagMode");
         Utility.enforceTypes(arguments);
+        this.storage.setValue("mode", "tag");
         $("#tagnamePanel").hide();
         this.attachStyle("tags.css");
     }
@@ -463,6 +472,7 @@ class View {
     overlayMode(){
         Utility.log(View, "overlayMode");
         Utility.enforceTypes(arguments);
+        this.storage.setValue("mode", "overlay");
         $("#tagnamePanel").show();
         this.detachStyle("tags.css");
         setTimeout(() => this.tagnameManager.resetTagnames(), 100);
