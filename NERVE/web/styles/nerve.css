@@ -7,7 +7,7 @@
 }
 
 body{
-    /*-webkit-user-select: none;*/
+    -webkit-user-select: none;
 }
 
 .pinkBG{
@@ -56,7 +56,7 @@ body{
     width: calc(100% - 540px);
     left: 270px;
     overflow-y: scroll;
-    /*-webkit-user-select: auto;*/
+    -webkit-user-select: text;
 }
 
 #entityDialog{
@@ -74,7 +74,6 @@ body{
     word-wrap: normal;
     line-height: 175%;
     padding: 15px;
-    /*-webkit-user-select: auto;*/
 }
 
 #dialogFade{

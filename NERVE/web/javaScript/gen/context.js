@@ -108,7 +108,7 @@ Context = class Context {
 			if (tagInfo.getName(source) === tagname)return tagInfo;
 			
 		}
-		throw new Error("java.lang.NullPointerException");
+		throw new Error("ca.sharcnet.nerve.context.ContextException");
 	}
 	isTagName(tagname, source) {
 		for(let tagInfo of this.tagList){

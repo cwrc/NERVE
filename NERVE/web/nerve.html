@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NERVE 1.7.0a</title>
+        <title>NERVE 1.7.1a</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="resources/NERVE.png">
@@ -57,6 +57,7 @@
                 JJJRMISocket.devmode = 0;
                 window.main = new Main();
                 await main.initialize();
+                console.log("main init complete");
 
                 /* make boostrap dialogs movable */
                 jQuery('.modal-dialog').draggable({
@@ -64,7 +65,7 @@
                 });
 
                 console.log("window.onload : done");
-                setTimeout(() => main.view.tagnameManager.pollDocument(), 500);
+//                setTimeout(() => main.view.tagnameManager.pollDocument(), 500);
 
 //                $("#container").show()
 //                $("#throbberBG").hide();
@@ -94,7 +95,7 @@
         <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">
-                    <div id="abbr">NERVE 1.7.0a</div>
+                    <div id="abbr">NERVE 1.7.1a</div>
                     <div id="fullname">Named Entity Recognition Vetting Environment</div>
                     <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>

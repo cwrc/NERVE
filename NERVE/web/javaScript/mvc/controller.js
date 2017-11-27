@@ -38,9 +38,12 @@ class Controller {
         this.dictionary = new Dictionary();
         await this.dictionary.connect(hostInfo.dictionarySocketAddress);
 
+
+
         this.view.setThrobberMessage("Connecting Scriber Socket...");
         this.scriber = new Scriber();
         await this.scriber.connect(hostInfo.scriberSocketAddress);
+
         this.scriber.setView(this.view);
 
         if (this.storage.hasValue("document")){
@@ -408,6 +411,8 @@ class Controller {
         Utility.log(Controller, "pollDictionary");
         Utility.enforceTypes(arguments, [jQuery, HTMLDivElement]);
 
+        return;
+
         switch ($(entity).collection()) {
             case "":
                 this.view.setDictionaryButton("add");
@@ -503,10 +508,12 @@ class Controller {
         this.view.notifyContextChange(context);
         $.fn.xmlAttr.defaults.context = context;
         this.context = context;
+        
         this.model.setDocument(text, filename);
 
-        this.onChange(this.collection);
         await this.__addDictionaryAttribute();
+
+        this.view.tagnameManager.formatTagNames();
     }
 
     async __addDictionaryAttribute() {

@@ -39,6 +39,21 @@ class TagnameManager {
         });
     }
 
+    /**
+     * Cause all tag name elements to be formatted.
+     * @returns {undefined}
+     */
+    formatTagNames(){
+        Utility.log(TagnameManager, "formatTagNames");
+        Utility.enforceTypes(arguments);
+
+        console.log("FORMAT TAG NAMES");
+
+        $(".taggedentity").each((i, target)=>{
+            this.formatTagnameElement(target);
+        });
+    }
+
     /** Trigger a mutation event on all "taggedentity" elements, in turn this triggers the onMutation method placing
      *  all tagname elements.
      * @returns {undefined}
@@ -57,8 +72,12 @@ class TagnameManager {
     onMutationEvent(selection) {
         Utility.log(TagnameManager, "onMutationEvent");
         Utility.enforceTypes(arguments, Array);
-        selection.forEach((mutation)=>{
-            this.onMutation(mutation.target);
+
+        window.requestAnimationFrame(()=>{
+            console.log("**** MUTATION EVENT ****");
+            selection.forEach((mutation) => {
+                this.onMutation(mutation.target);
+            });
         });
     }
 
@@ -151,6 +170,7 @@ class View {
         this.storage = new Storage("NERVE_VIEW");
         if (!this.storage.hasValue("mode")){
             this.storage.setValue("mode", "overlay");
+            this.overlayMode();
         }
         else if (this.storage.getValue("mode") === "tag"){
             this.tagMode();
@@ -284,7 +304,6 @@ class View {
     setDocument(text) {
         Utility.log(View, "setDocument");
         Utility.enforceTypes(arguments, String);
-
         document.getElementById("entityPanel").innerHTML = text;
     }
     setFilename(text) {
@@ -342,13 +361,12 @@ class View {
         Utility.enforceTypes(arguments, Context);
         this.context = context;
 
-        /* clear the drop down tagName selector */
+        /* clear then repopulate the drop down tagName selector */
         let selector = document.getElementById("selectTagName");
         while (selector.hasChildNodes()) {
             selector.removeChild(selector.firstChild);
         }
 
-        /* set the available tags in the drop down selector */
         for (let tagInfo of this.context.tags()){
             var opt = document.createElement('option');
             opt.value = tagInfo.getName(NameSource.NAME);
@@ -368,7 +386,7 @@ class View {
      * @returns {undefined}
      */
     attachStyle(filename) {
-        Utility.log(View, "attachStyle");
+        Utility.log(View, "attachStyle", filename);
         Utility.enforceTypes(arguments, String);
 
         var fileref = document.createElement("link");
@@ -377,6 +395,10 @@ class View {
         fileref.setAttribute("href", "styles/" + filename);
         fileref.setAttribute("id", filename);
         document.head.appendChild(fileref);
+
+        window.requestAnimationFrame(()=>{
+            $(window).trigger('resize');
+        });
     }
     /* Removes a stylesheet that was attached using the 'attachstyle' method.
      *
@@ -384,7 +406,7 @@ class View {
      * @returns {undefined}
      */
     detachStyle(filename) {
-        Utility.log(View, "detachStyle");
+        Utility.log(View, "detachStyle", filename);
         Utility.enforceTypes(arguments, String);
 
         let style = document.getElementById(filename);
@@ -418,7 +440,7 @@ class View {
     }
 
     showThrobber(flag) {
-        Utility.log(View, "showThrobber");
+        Utility.log(View, "showThrobber", flag);
         Utility.enforceTypes(arguments, Boolean);
 
         if (flag === true && this.delayThrobber === null) {
@@ -453,11 +475,11 @@ class View {
         document.getElementById("message").innerText = string;
     }
     setThrobberMessage(string) {
-        Utility.log(View, "setThrobberMessage");
+        Utility.log(View, "setThrobberMessage", string);
         Utility.enforceTypes(arguments, String);
 
-        this.throbberMessageStack = [];
-        this.pushThrobberMessage(string);
+        this.throbberMessageStack = [string];
+        document.getElementById("message").innerText = string;
     }
     showUserMessage(string, duration = 3000) {
         this.usrMsgHnd.showUserMessage(string, duration);

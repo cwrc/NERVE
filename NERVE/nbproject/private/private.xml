@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="162">
-        <file>
-            <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
-            <bookmark id="78">
-                <name/>
-                <line>44</line>
-                <key/>
-            </bookmark>
-            <bookmark id="77">
-                <name/>
-                <line>187</line>
-                <key/>
-            </bookmark>
-            <bookmark id="114">
-                <name/>
-                <line>378</line>
-                <key/>
-            </bookmark>
-        </file>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="163">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="146">
@@ -66,14 +48,6 @@
             </bookmark>
         </file>
         <file>
-            <url>web/cwrcDialogs.js</url>
-            <bookmark id="52">
-                <name/>
-                <line>1807</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>web/javaScript/classes/util/customQuery.js</url>
             <bookmark id="134">
                 <name/>
@@ -95,28 +69,10 @@
             </bookmark>
         </file>
         <file>
-            <url>web/javaScript/classes/menu/menu.js</url>
-            <bookmark id="30">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-            <bookmark id="29">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>web/javaScript/mvc/controller.js</url>
-            <bookmark id="161">
+            <bookmark id="163">
                 <name/>
-                <line>458</line>
-                <key/>
-            </bookmark>
-            <bookmark id="162">
-                <name/>
-                <line>477</line>
+                <line>109</line>
                 <key/>
             </bookmark>
         </file>
@@ -169,6 +125,45 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
+            <bookmark id="78">
+                <name/>
+                <line>44</line>
+                <key/>
+            </bookmark>
+            <bookmark id="77">
+                <name/>
+                <line>187</line>
+                <key/>
+            </bookmark>
+            <bookmark id="114">
+                <name/>
+                <line>378</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/cwrcDialogs.js</url>
+            <bookmark id="52">
+                <name/>
+                <line>1807</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/classes/menu/menu.js</url>
+            <bookmark id="30">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+            <bookmark id="29">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="NERVE3">
@@ -201,11 +196,6 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/res/contexts/orlando.context.json</file>
         </group>
-        <group name="NERVE">
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/main.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/ca/sharcnet/dh/nerve/Dictionary.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
-        </group>
+        <group name="NERVE"/>
     </open-files>
 </project-private>

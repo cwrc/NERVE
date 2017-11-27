@@ -1,12 +1,17 @@
 /* global Function */
 
+/*
+ *  1 : unused
+ *  2 : print all methods not starting with "__"
+ *  3 : print all methods
+ */
+
 Utility = {
-    globalTraceLevel: "local",
     enableAssertions: true,
     classes: {
         Events: 0,
         Controller: 2,
-        View: 0,
+        View: 2,
         Collection: 0,
         Dictionary: 0,
         Context: 0,
@@ -224,25 +229,24 @@ Utility.getParameterNames = function (func) {
     return result;
 };
 
-Utility.log = function (aClass, methodName) {
+Utility.log = function (aClass, methodName, text = "") {
     let className = aClass.name;
 
-    if (Utility.globalTraceLevel === "verbose") {
+    if (Utility.classes[className] >= 2 && !methodName.startsWith("__")) {
         let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + className + "." + methodName + "()");
-    } else if (Utility.classes[className] >= 2 && !methodName.startsWith("__")) {
-        let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + className + "." + methodName + "()");
+        console.log(seconds + " : " + className + "." + methodName + `(${text})`);
     } else if (Utility.classes[className] >= 3) {
         let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + className + "." + methodName + "()");
+        console.log(seconds + " : " + className + "." + methodName + `(${text})`);
     }
 
+    /* setup the log record the first time a class is called */
     if (typeof Utility.logger.logRecord[className] === "undefined") {
         Utility.setupLogger(aClass);
     }
 
     try {
+        /* add to the log record when a class is called */
         Utility.logger.logRecord[className][methodName].callCount++;
     } catch (e) {
         console.log(className + "." + methodName + " record not found");
