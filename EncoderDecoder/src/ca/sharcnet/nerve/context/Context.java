@@ -73,7 +73,7 @@ public class Context implements Serializable {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getName(source).equals(tagname)) return tagInfo;
         }
-        throw new NullPointerException();
+        throw new ContextException("in context '" + this.getName() + "' tag name '" + tagname + "' of source '" + source.name() + "' not found.");
     }
 
     /**

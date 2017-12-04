@@ -43,6 +43,10 @@ public class StringMatch {
         @param accept
      */
     public void seekLine(String source, OnAccept accept, OnReject reject) {
+        if (source == null) throw new NullPointerException();
+        if (accept == null) throw new NullPointerException();
+        if (reject == null) throw new NullPointerException();
+
         String regex = String.format("(?=(?!^)%1$s)(?<!%1$s)|(?!%1$s)(?<=%1$s)", tokenRegex);
         String[] tokens = source.split(regex);
 

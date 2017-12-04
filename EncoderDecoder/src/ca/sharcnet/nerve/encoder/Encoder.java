@@ -16,6 +16,7 @@ import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import ca.fa.SQL.SQL;
 import ca.fa.SQL.SQLRecord;
 import ca.fa.SQL.SQLResult;
+import ca.fa.utility.Console;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -30,11 +31,13 @@ public class Encoder {
     private Schema schema = null;
     private EncodedDocument document = null;
     private IsMonitor monitor = IsMonitor.nullMonitor;
+    private EncodeOptions options;
 
-    public static EncodedDocument encode(Document document, HasStreams hasStreams, IsMonitor monitor) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+        IsMonitor monitor = IsMonitor.nullMonitor;
         if (document == null) throw new NullPointerException();
         if (hasStreams == null) throw new NullPointerException();
-        if (monitor == null) monitor = IsMonitor.nullMonitor;
+        if (options.hasMonitor()) monitor = options.getMonitor();
 
         /* connect to SQL */
         monitor.phase("loading SQL", 1, 7);
@@ -79,7 +82,7 @@ public class Encoder {
                 break;
         }
 
-        Encoder encoder = new Encoder(document, context, sql, classifier, monitor);
+        Encoder encoder = new Encoder(document, context, sql, classifier, options);
 
         /** add the schema, the schema url in the context takes precedence **/
         monitor.phase("loading schema: " + context.getSchemaName(), 4, 7);
@@ -99,11 +102,12 @@ public class Encoder {
         return encoded;
     }
 
-    private Encoder(Document document, Context context, SQL sql, Classifier classifier, IsMonitor monitor) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    private Encoder(Document document, Context context, SQL sql, Classifier classifier, EncodeOptions options) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
-        if (monitor != null) this.monitor = monitor;
+        if (options.hasMonitor()) this.monitor = options.getMonitor();
 
+        this.options = options;
         this.sql = sql;
         this.context = context;
         this.document = new EncodedDocument(document, context);
@@ -111,10 +115,19 @@ public class Encoder {
     }
 
     private EncodedDocument encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        monitor.phase("dictionary", 5, 7);
-        if (this.sql != null) lookupTag();
-        monitor.phase("ner", 6, 7);
-        if (this.classifier != null) processNER(document);
+        for (EncodeProcess process : options.getProcesses()){
+            switch(process){
+                case NER:
+                    monitor.phase("ner", 5, 7);
+                    if (this.classifier != null) processNER(document);
+                break;
+                case DICTIONARY:
+                    monitor.phase("dictionary", 6, 7);
+                    if (this.sql != null) lookupTag();
+                break;
+            }
+        }
+
         monitor.phase("encoding", 7, 7);
         wrapTags(document);
 
@@ -237,6 +250,14 @@ public class Encoder {
             }
         }
 
+        if (context.isTagName(eNode.name(), NAME)){
+            TagInfo tagInfo = context.getTagInfo(eNode.name(), NAME);
+            String lemmaAttribute = tagInfo.getLemmaAttribute();
+            if (!lemmaAttribute.isEmpty() && eNode.attr(lemmaAttribute).isEmpty()){
+                eNode.attr(lemmaAttribute, eNode.text());
+            }
+        }
+
         eNode.attr(XML_ATTR_LIST, jsonObj.toString());
         eNode.attr(ORG_TAGNAME, node.name());
         eNode.name(HTML_TAGNAME);
@@ -251,10 +272,11 @@ public class Encoder {
         for (Node node : textNodes) {
             this.monitor.step(n++, N);
             if (node.text().trim().isEmpty()) continue;
+            Console.log(node);
 
             /* skip nodes that are already tagged */
             NodeList ancestorNodes = node.ancestorNodes(NodeType.ELEMENT);
-            if (ancestorNodes.testAny(nd->!context.isTagName(nd.name(), NAME))) continue;
+            if (ancestorNodes.testAny(nd->context.isTagName(nd.name(), NAME))) continue;
 
             NodeList nerList = applyNamedEntityRecognizer(node.text());
 

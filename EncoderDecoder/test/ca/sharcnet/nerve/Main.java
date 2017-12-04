@@ -3,6 +3,8 @@ import ca.fa.utility.Console;
 import ca.sharcnet.nerve.decode.Decoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.encoder.EncodeOptions;
+import ca.sharcnet.nerve.encoder.EncodeProcess;
 import ca.sharcnet.nerve.encoder.Encoder;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,11 +34,15 @@ public class Main implements HasStreams, IsMonitor{
 
     public void run() throws IllegalArgumentException, IOException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
 //        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/TEI.xml"));
-        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/minimalOrlando.xml"));
-        Document encoded = Encoder.encode(d2, this, null);
-        Document decoded = Decoder.decode(encoded, this);
+        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/cwrc_short_empty.xml"));
 
-        Console.log(decoded);
+        EncodeOptions options = new EncodeOptions();
+        options.addProcess(EncodeProcess.NER);
+
+        Document encoded = Encoder.encode(d2, this, options);
+//        Document decoded = Decoder.decode(encoded, this);
+
+//        Console.log(encoded);
     }
 
     @Override
