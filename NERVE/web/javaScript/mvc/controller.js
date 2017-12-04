@@ -38,7 +38,8 @@ class Controller {
         this.dictionary = new Dictionary();
         await this.dictionary.connect(hostInfo.dictionarySocketAddress);
 
-
+//        let thisKey = this.dictionary.__jjjWebsocket.translator.getKey(this.dictionary);
+//        console.log(thisKey);
 
         this.view.setThrobberMessage("Connecting Scriber Socket...");
         this.scriber = new Scriber();
@@ -47,7 +48,7 @@ class Controller {
         this.scriber.setView(this.view);
 
         if (this.storage.hasValue("document")){
-            this.onLoad();
+            await this.onLoad();
         }
 
         this.dTimeout = null;
@@ -110,9 +111,16 @@ class Controller {
         this.onChange(this.collection);
         this.model.saveState();
     }
-    mergeSelectedEntities() {
+    async mergeSelectedEntities() {
         Utility.log(Controller, "mergeSelectedEntities");
         Utility.enforceTypes(arguments);
+
+        let selection = window.getSelection();
+        if (selection.rangeCount !== 0) {
+            await this.__tagSelectedRange();
+        }
+
+        console.log(this.collection.size());
 
         if (this.collection.size() < 2) return;
         for (let ele of this.collection) this.view.tagnameManager.clearTagnameElement(ele); /* ? */
@@ -127,6 +135,16 @@ class Controller {
         Utility.log(Controller, "tagSelectedRange");
         Utility.enforceTypes(arguments);
 
+        await this.__tagSelectedRange();
+
+        this.collection.set(taggedElement);
+        this.model.saveState();
+        this.isSaved = false;
+        this.view.showUserMessage(`New "${tagName}" entity created.`);
+        this.view.setSearchText("");
+    }
+    /* seperate so that the model isn't saved twice on merge */
+    async __tagSelectedRange(){
         let selection = window.getSelection();
         if (selection.rangeCount === 0) {
             this.view.showUserMessage("No text selected");
@@ -150,11 +168,8 @@ class Controller {
 
         selection.removeAllRanges();
         document.normalize();
-        this.collection.set(taggedElement);
-        this.model.saveState();
-        this.isSaved = false;
-        this.view.showUserMessage(`New "${tagName}" entity created.`);
-        this.view.setSearchText("");
+
+        this.collection.add(taggedElement);
     }
     untagAll() {
         Utility.log(Controller, "untagAll");
@@ -411,8 +426,6 @@ class Controller {
         Utility.log(Controller, "pollDictionary");
         Utility.enforceTypes(arguments, [jQuery, HTMLDivElement]);
 
-        return;
-
         switch ($(entity).collection()) {
             case "":
                 this.view.setDictionaryButton("add");
@@ -478,7 +491,7 @@ class Controller {
         let encodeResponse = await this.scriber.encode(text);
         encodeResponse.setFilename(filename);
 
-        this.onLoad(encodeResponse.text, encodeResponse.context, encodeResponse.filename, encodeResponse.schemaURL);
+        await this.onLoad(encodeResponse.text, encodeResponse.context, encodeResponse.filename, encodeResponse.schemaURL);
 
         this.isSaved = true;
         this.view.clearThrobber();
@@ -508,12 +521,10 @@ class Controller {
         this.view.notifyContextChange(context);
         $.fn.xmlAttr.defaults.context = context;
         this.context = context;
-        
+
         this.model.setDocument(text, filename);
 
         await this.__addDictionaryAttribute();
-
-        this.view.tagnameManager.formatTagNames();
     }
 
     async __addDictionaryAttribute() {

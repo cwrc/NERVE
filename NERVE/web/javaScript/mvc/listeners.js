@@ -159,9 +159,9 @@ class Listeners {
             event.stopPropagation();
             this.controller.fillFind();
         });
-        $("#menuMerge").click((event) => {
+        $("#menuMerge").click(async (event) => {
             event.stopPropagation();
-            this.controller.mergeSelectedEntities();
+            await this.controller.mergeSelectedEntities();
         });
 
         $("#dictAdd").click(async (event) => {

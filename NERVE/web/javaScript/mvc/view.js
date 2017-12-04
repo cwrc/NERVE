@@ -47,8 +47,6 @@ class TagnameManager {
         Utility.log(TagnameManager, "formatTagNames");
         Utility.enforceTypes(arguments);
 
-        console.log("FORMAT TAG NAMES");
-
         $(".taggedentity").each((i, target)=>{
             this.formatTagnameElement(target);
         });
@@ -73,11 +71,8 @@ class TagnameManager {
         Utility.log(TagnameManager, "onMutationEvent");
         Utility.enforceTypes(arguments, Array);
 
-        window.requestAnimationFrame(()=>{
-            console.log("**** MUTATION EVENT ****");
-            selection.forEach((mutation) => {
-                this.onMutation(mutation.target);
-            });
+        selection.forEach((mutation) => {
+            this.onMutation(mutation.target);
         });
     }
 

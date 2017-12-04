@@ -14,7 +14,7 @@ Constants.EnumParam = "enum";/* global Constants, JJJRMISocket */
 
 class Decoder {
     constructor(json, objectMap, jjjWebsocket, deferred) {
-        if (typeof json === "undefined"){
+        if (typeof json === "undefined") {
             console.log(json);
             throw new Error("undefined json object");
         }
@@ -38,7 +38,7 @@ class Decoder {
             let fieldName = this.json[Constants.ValueParam];
             let aClass = JJJRMISocket.classes.get(className);
 
-            if (typeof aClass === "undefined"){
+            if (typeof aClass === "undefined") {
                 throw new Error("classname '" + className + "' not found");
             }
 
@@ -58,10 +58,12 @@ class Decoder {
         }
 
         if (typeof result !== "undefined") callback(result);
-        else this.deferred.push({
-            decoder : this,
-            callback : callback
-        });
+        else {
+            this.deferred.push({
+                decoder: this,
+                callback: callback
+            });
+        }
     }
 }
 
@@ -72,44 +74,31 @@ class RestoredArray {
         this.webSocket = webSocket;
         this.elements = this.json[Constants.ElementsParam];
         this.deferred = deferred;
+
+        this.restoreCount = 0;
+        this.retArray = [];
+
         if (typeof deferred === "undefined") throw new Error("undefined deferred");
     }
     toObject() {
-        let retArray = [];
-        if (typeof this.json[Constants.KeyParam] !== "undefined") {
-            this.objectMap.set(this.json[Constants.KeyParam], elements);
-        }
-        this.decodeArray(retArray);
-        return retArray;
+        this.decodeArray();
+        if (this.restoreCount === this.elements.length) return this.retArray;
+        return undefined;
     }
-    decodeArray(retArray) {
+    decodeArray() {
         for (let i = 0; i < this.elements.length; i++) {
             let decoder = new Decoder(this.elements[i], this.objectMap, this.webSocket, this.deferred);
-            decoder.decode((result)=>retArray[i] = result);
+            decoder.decode(function (result){
+                this.retArray[i] = result;
+                this.restoreCount++;
+            }.bind(this));
         }
     }
-
-    length(){
+    length() {
         return this.elements.length;
     }
-
-    decodeObjectElement(i){
-        let decoder = new Decoder(elements[i], this.objectMap, this.webSocket, this.deferred);
-        return decoder.decode();
-    }
-
-    getObjectElement(i){
-        return new RestoredObject(this.elements[i], this.objectMap, this.webSocket, this.deferred);
-    }
-
-    getArrayElement(i){
-        return new RestoredArray(this.elements[i], this.objectMap, this.webSocket, this.deferred);
-    }
-
-    deferAssignment(){
-        console.log("Assignment deferred");
-    }
 }
+
 class RestoredObject {
     constructor(json, objectMap, jjjWebsocket, deferred) {
         this.json = json;
@@ -118,12 +107,10 @@ class RestoredObject {
         this.deferred = deferred;
         if (typeof deferred === "undefined") throw new Error("undefined deferred");
     }
-
-    decodeField(field, callback){
+    decodeField(field, callback) {
         let decoder = new Decoder(this.json[Constants.FieldsParam][field], this.objectMap, this.jjjWebsocket, this.deferred);
         decoder.decode(callback);
     }
-
     toObject(object = null) {
         let className = this.json[Constants.TypeParam];
         let aClass = JJJRMISocket.classes.get(className);
@@ -147,29 +134,11 @@ class RestoredObject {
             object.__decode(this, this.objectMap, this.jjjWebsocket);
         } else {
             for (let field in this.json[Constants.FieldsParam]) {
-                let decoder = new Decoder(this.json[Constants.FieldsParam][field], this.objectMap, this.jjjWebsocket, this.deferred);
-                decoder.decode((result)=>object[field] = result);
+                this.decodeField(field, (result) => object[field] = result);
             }
         }
 
         return object;
-    }
-
-    decodeObjectField(field){
-        let decoder = new Decoder(this.json[Constants.FieldsParam][field], this.objectMap, this.jjjWebsocket, this.deferred);
-        return decoder;
-    }
-
-    getObjectField(field){
-        return new RestoredObject(this.json[Constants.FieldsParam][field], this.objectMap, this.jjjWebsocket, this.deferred);
-    }
-
-    getArrayField(field){
-        return new RestoredArray(this.json[Constants.FieldsParam][field], this.objectMap, this.jjjWebsocket, this.deferred);
-    }
-
-    deferAssignment(){
-        console.log("Assignment deferred");
     }
 }/* global Constants */
 
@@ -310,7 +279,7 @@ Console = console;
 JJJLogFlags = {
     SILENT: false,
     CONNECT : false,
-    ONMESSAGE: false, /* show that a server object has been received and and action may be taken */
+    ONMESSAGE: false, /* show that a server object has been received and an action may be taken */
     SENT: false,
     RECEIVED: false, /* show the received server object, verbose shows the text as well */
     VERBOSE: false
@@ -552,8 +521,9 @@ class Translator{
         let result = undefined;
         new Decoder(jsonObject, this.objectMap, this.jjjWebsocket, this.deferred).decode((r)=>result = r);
 
-        for (let def of this.deferred){
-            def.decoder.decode(def.callback);
+        while (this.deferred.length > 0){
+            let defItem = this.deferred.shift();
+            defItem.decoder.decode(defItem.callback);
         }
 
         return result;

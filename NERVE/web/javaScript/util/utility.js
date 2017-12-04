@@ -10,8 +10,8 @@ Utility = {
     enableAssertions: true,
     classes: {
         Events: 0,
-        Controller: 2,
-        View: 2,
+        Controller: 0,
+        View: 0,
         Collection: 0,
         Dictionary: 0,
         Context: 0,
