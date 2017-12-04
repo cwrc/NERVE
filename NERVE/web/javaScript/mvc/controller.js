@@ -135,12 +135,11 @@ class Controller {
         Utility.log(Controller, "tagSelectedRange");
         Utility.enforceTypes(arguments);
 
-        await this.__tagSelectedRange();
+        let taggedElement = await this.__tagSelectedRange();
 
-        this.collection.set(taggedElement);
         this.model.saveState();
         this.isSaved = false;
-        this.view.showUserMessage(`New "${tagName}" entity created.`);
+        this.view.showUserMessage(`New "${$(taggedElement).entityTag()}" entity created.`);
         this.view.setSearchText("");
     }
     /* seperate so that the model isn't saved twice on merge */
@@ -170,6 +169,7 @@ class Controller {
         document.normalize();
 
         this.collection.add(taggedElement);
+        return taggedElement;
     }
     untagAll() {
         Utility.log(Controller, "untagAll");
