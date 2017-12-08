@@ -57,13 +57,13 @@ class Model {
 
         if (this.stateIndex <= 0) return false;
 
+        console.log(this.stateIndex + " " + (this.stateIndex - 1));
+
         this.stateIndex = this.stateIndex - 1;
         let document = this.stateList[this.stateIndex];
 
         this.storage.setValue("document", this.getDocument());
         this.view.setDocument(document);
-
-        $(".taggedentity").removeClass("selected");
     }
     advanceState() {
         Utility.log(Model, "advanceState");
@@ -95,9 +95,6 @@ class Model {
     setDocument(text, filename) {
         Utility.log(Model, "setDocument");
         Utility.enforceTypes(arguments, String, String);
-
-        this.view.setDocument(text);
-        this.view.setFilename(filename);
         this.storage.setValue("document", text);
         this.storage.setValue("filename", filename);
         this.__resetState();

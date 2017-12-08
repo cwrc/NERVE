@@ -23,15 +23,12 @@ class Controller {
         this.model = new Model(this.view);
         this.storage = new Storage("NERVE_CONTROLLER");
     }
-
-    getView(){
+    getView() {
         return this.view;
     }
-
-    getContext(){
+    getContext() {
         return this.context;
     }
-
     async start() {
         Utility.log(Controller, "start");
         Utility.enforceTypes(arguments);
@@ -56,7 +53,7 @@ class Controller {
 
         this.scriber.setView(this.view);
 
-        if (this.storage.hasValue("document")){
+        if (this.storage.hasValue("document")) {
             await this.onLoad();
         }
 
@@ -153,7 +150,7 @@ class Controller {
         this.view.setSearchText("");
     }
     /* seperate so that the model isn't saved twice on merge */
-    async __tagSelectedRange(){
+    async __tagSelectedRange() {
         let selection = window.getSelection();
         if (selection.rangeCount === 0) {
             this.view.showUserMessage("No text selected");
@@ -484,30 +481,39 @@ class Controller {
             }
         });
     }
-
     /* not in unit tests */
-    async loadDocument(filename, text) {
+    async loadDocument(filename, text, action) {
         Utility.log(Controller, "loadDocument");
-        Utility.enforceTypes(arguments, String, String);
+        Utility.enforceTypes(arguments, String, String, String);
 
         this.view.showThrobber(true);
         this.view.setThrobberMessage("Loading Document");
 
-        let encodeResponse = await this.scriber.encode(text);
-        encodeResponse.setFilename(filename);
+        let encodeResponse = null;
+        switch (action) {
+            case "OPEN":
+                encodeResponse = await this.scriber.encode(text);
+                break;
+            case "EDIT":
+                encodeResponse = await this.scriber.edit(text);
+                break;
+            case "TAG":
+                encodeResponse = await this.scriber.tag(text);
+                break;
+        }
 
+        encodeResponse.setFilename(filename);
         await this.onLoad(encodeResponse.text, encodeResponse.context, encodeResponse.filename, encodeResponse.schemaURL);
 
         this.isSaved = true;
         this.view.clearThrobber();
         this.view.showThrobber(false);
     }
-
     /* call when the program starts and when a document is loaded */
     async onLoad(text, context, filename, schemaURL) {
         Utility.log(Controller, "onLoad");
 
-        if (typeof text !== "undefined"){
+        if (typeof text !== "undefined") {
             this.storage.setValue("document", text);
             this.storage.setValue("context", context);
             this.storage.setValue("filename", filename);
@@ -526,12 +532,13 @@ class Controller {
         $.fn.xmlAttr.defaults.context = context;
         this.context = context;
 
-        this.model.setDocument(text, filename);
+        this.view.setDocument(text);
+        this.view.setFilename(filename);
         this.view.markupTaggedEntities();
+        this.model.setDocument(text, filename);
 
         await this.__addDictionaryAttribute();
     }
-
     async __addDictionaryAttribute() {
         Utility.log(Controller, "__addDictionaryAttribute");
         Utility.enforceTypes(arguments);

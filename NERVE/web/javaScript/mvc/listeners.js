@@ -79,19 +79,7 @@ class Listeners {
 
         let reader = new FileReader();
         reader.onload = function (event) {
-            controller.loadDocument(this.filename, event.target.result);
-
-//            $("#fileOpenDialog").detach();
-//            var fileSelector = document.createElement("input");
-//            fileSelector.type = "file";
-//            $(fileSelector).attr("id", "fileOpenDialog");
-//            $("body").append(fileSelector);
-//
-//            $("#fileOpenDialog")[0].onchange = function (event) {
-//                event.preventDefault();
-//                reader.filename = this.files[0].name;
-//                reader.readAsText(this.files[0]);
-//            };
+            controller.loadDocument(this.filename, event.target.result, this.action);
         }.bind(reader);
 
         /* file dialog event - related to menu open */
@@ -104,15 +92,18 @@ class Listeners {
 
         $("#menuOpen").click((event) => {
             event.stopPropagation();
+            reader.action = "OPEN";
             $("#fileOpenDialog").click();
         });
 
-        $("#menuTag").click((event) => {
+        $("#menuNER").click((event) => {
+            reader.action = "TAG";
             event.stopPropagation();
             $("#fileOpenDialog").click();
         });
 
         $("#menuEdit").click((event) => {
+            reader.action = "EDIT";
             event.stopPropagation();
             $("#fileOpenDialog").click();
         });
