@@ -1,8 +1,7 @@
 /* global Utility */
 
-class EntityDialogWidget{
-
-    constructor(controller){
+class EntityDialogWidget {
+    constructor(controller) {
         this.controller = controller;
         this.entityValues = new EntityValues();
         this.update = false;
@@ -46,7 +45,7 @@ class Listeners {
         new EntityDialogWidget(controller);
 
         $("#selectTagName").on("input", (event) => {
-            let values = new EntityValues("", "", "", $("#selectTagName").val() , "");
+            let values = new EntityValues("", "", "", $("#selectTagName").val(), "");
             this.controller.updateAllSelected(values);
         });
 
@@ -78,33 +77,45 @@ class Listeners {
             this.controller.saveContents();
         });
 
+        let reader = new FileReader();
+        reader.onload = function (event) {
+            controller.loadDocument(this.filename, event.target.result);
+
+//            $("#fileOpenDialog").detach();
+//            var fileSelector = document.createElement("input");
+//            fileSelector.type = "file";
+//            $(fileSelector).attr("id", "fileOpenDialog");
+//            $("body").append(fileSelector);
+//
+//            $("#fileOpenDialog")[0].onchange = function (event) {
+//                event.preventDefault();
+//                reader.filename = this.files[0].name;
+//                reader.readAsText(this.files[0]);
+//            };
+        }.bind(reader);
+
+        /* file dialog event - related to menu open */
+        $("#fileOpenDialog")[0].onchange = function (event) {
+            console.log(this);
+            event.preventDefault();
+            reader.filename = this.files[0].name;
+            reader.readAsText(this.files[0]);
+        };
+
         $("#menuOpen").click((event) => {
             event.stopPropagation();
             $("#fileOpenDialog").click();
         });
 
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            controller.loadDocument(this.filename, event.target.result);
-            $("#fileOpenDialog").detach();
-            var fileSelector = document.createElement("input");
-            fileSelector.type = "file";
-            $(fileSelector).attr("id", "fileOpenDialog");
-            $("body").append(fileSelector);
+        $("#menuTag").click((event) => {
+            event.stopPropagation();
+            $("#fileOpenDialog").click();
+        });
 
-            $("#fileOpenDialog")[0].onchange = function (event) {
-                event.preventDefault();
-                reader.filename = this.files[0].name;
-                reader.readAsText(this.files[0]);
-            };
-        }.bind(reader);
-
-        /* file dialog event - related to menu open */
-        $("#fileOpenDialog")[0].onchange = function (event) {
-            event.preventDefault();
-            reader.filename = this.files[0].name;
-            reader.readAsText(this.files[0]);
-        };
+        $("#menuEdit").click((event) => {
+            event.stopPropagation();
+            $("#fileOpenDialog").click();
+        });
 
         $("#menuClose").click((event) => {
             event.stopPropagation();
@@ -311,16 +322,16 @@ class Listeners {
         }
     }
     menuShowTags() {
-        switch($("#menuTags").text()){
+        switch ($("#menuTags").text()) {
             case "Highlight Mode":
                 this.view.overlayMode();
-            break;
+                break;
             case "Overlay Mode":
                 this.view.tagMode();
-            break;
+                break;
             case "Tag Mode":
                 this.view.highlightMode();
-            break;
+                break;
         }
     }
 }

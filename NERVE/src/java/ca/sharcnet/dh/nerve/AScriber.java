@@ -54,6 +54,26 @@ abstract public class AScriber extends RMISocket implements HasStreams, IsMonito
     }
 
     @ServerSide
+    public EncodeResponse tag(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        EncodeOptions options = new EncodeOptions();
+        options.setMonitor(this);
+        options.addProcess(EncodeProcess.NER);
+
+        Document document = DocumentLoader.documentFromString(source);
+        EncodedDocument encoded = Encoder.encode(document, this, options);
+        return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
+    }
+
+    @ServerSide
+    public EncodeResponse edit(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        EncodeOptions options = new EncodeOptions();
+        options.setMonitor(this);
+        Document document = DocumentLoader.documentFromString(source);
+        EncodedDocument encoded = Encoder.encode(document, this, options);
+        return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
+    }
+
+    @ServerSide
     public String decode(String source) throws IOException, IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
         Document document = DocumentLoader.documentFromString(source);
         Document decoded = Decoder.decode(document, this);

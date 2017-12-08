@@ -112,8 +112,14 @@ Scriber = class Scriber {
 		
 		return null;
 	}
+	edit(source) {
+		return this.__jjjWebsocket.methodRequest(this, "edit", arguments);
+	}
 	encode(source) {
 		return this.__jjjWebsocket.methodRequest(this, "encode", arguments);
+	}
+	tag(source) {
+		return this.__jjjWebsocket.methodRequest(this, "tag", arguments);
 	}
 	getContext(contextFileName) {
 		return this.__jjjWebsocket.methodRequest(this, "getContext", arguments);
