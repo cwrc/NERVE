@@ -1,179 +1,179 @@
 /* Generic Markups */
-.xmltag[xmltagname="EVENTS"] {
+.orlando .xmltag[xmltagname="EVENTS"] {
     font-family : Georgia, serif;
     line-height : 1.5;
     color : #333;
     margin : 10px 25px;
 }
-.xmltag[xmltagname="ORLANDOHEADER"] {
+.orlando .xmltag[xmltagname="ORLANDOHEADER"] {
     font-size : 16px;
     display : block;
     background : #EEE;
     margin-bottom: 1.5em;
     padding: .5em;
 }
-.xmltag[xmltagname="FILEDESC"] {
-    /*    content : url(img/orlando/CWRC_logo.png);*/
+.orlando .xmltag[xmltagname="FILEDESC"] {
+        content : url(img/orlando/CWRC_logo.png);
     background-color : #FFF;
     color : gray;
 }
-.xmltag[xmltagname="DOCTITLE"] {
+.orlando .xmltag[xmltagname="DOCTITLE"] {
     font-weight : normal;
     color : black;
     color:gray;
     font-weight:bold;
 }
-.xmltag[xmltagname="DOCAUTHOR"],
-.xmltag[xmltagname="DOCEDITOR"],
-.xmltag[xmltagname="DOCEXTENT"],
-.xmltag[xmltagname="PUBLICATIONSTMT"],
-.xmltag[xmltagname="TITLESTMT"],
-.xmltag[xmltagname="PUBPLACE"] {
+.orlando .xmltag[xmltagname="DOCAUTHOR"],
+.orlando .xmltag[xmltagname="DOCEDITOR"],
+.orlando .xmltag[xmltagname="DOCEXTENT"],
+.orlando .xmltag[xmltagname="PUBLICATIONSTMT"],
+.orlando .xmltag[xmltagname="TITLESTMT"],
+.orlando .xmltag[xmltagname="PUBPLACE"] {
     display : block;
 }
-.xmltag[xmltagname="RESPONSIBILITY"] {
+.orlando .xmltag[xmltagname="RESPONSIBILITY"] {
     font-family : Verdana, Geneva, sans-serif;
     font-size : small;
     background-color : #F0EDFC;
     display : list-item;
 }
-.xmltag[xmltagname="EMPH"] {
+.orlando .xmltag[xmltagname="EMPH"] {
     font-style : italic;
 }
-.xmltag[xmltagname="FOREIGN"] {
+.orlando .xmltag[xmltagname="FOREIGN"] {
     font-style : italic;
 }
-.xmltag[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
-.xmltag[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
     font-style : italic;
     color : #336699;
 }
-.xmltag[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
     font-style : normal;
     color : #336699;
 }
-.xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
-.xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
     font-style : normal;
     color : #336699;
 }
-.xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
-.xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
     content : open-quote;
 }
-.xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
-.xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
     content : close-quote;
 }
-.xmltag[xmltagname="ADDRLINE"] {
+.orlando .xmltag[xmltagname="ADDRLINE"] {
     display : list-item;
 }
-.xmltag[xmltagname="IDNO"] {
+.orlando .xmltag[xmltagname="IDNO"] {
     display : list-item;
 }
-.xmltag[xmltagname="AVAILABILITY"] {
+.orlando .xmltag[xmltagname="AVAILABILITY"] {
     display : inline;
 }
-.xmltag[xmltagname="P"] {
+.orlando .xmltag[xmltagname="P"] {
     display : block;
 }
-.xmltag[xmltagname="RESEARCHNOTE"] {
+.orlando .xmltag[xmltagname="RESEARCHNOTE"] {
     background-color : #FBEFEF;
     color : #663366;
     font-family : Arial, Helvetica, sans-serif;
     font-size : smaller;
     display : list-item;
 }
-.xmltag[xmltagname="DIV0"] .xmltag[xmltagname="HEADING"] {
+.orlando .xmltag[xmltagname="DIV0"] .orlando .xmltag[xmltagname="HEADING"] {
     display : list-item;
     font-weight : bold;
     font-size : x-large;
     color : #039;
     margin : 25px 0 0 0;
 }
-.xmltag[xmltagname="DIV1"] {
+.orlando .xmltag[xmltagname="DIV1"] {
     margin : 20px 0 0 0;
 }
-.xmltag[xmltagname="DIV1"] .xmltag[xmltagname="HEADING"] {
+.orlando .xmltag[xmltagname="DIV1"] .orlando .xmltag[xmltagname="HEADING"] {
     display : block;
     font-weight : bold;
     font-size : large;
     color : #039;
 }
-.xmltag[xmltagname="CHRONEVENT"] {
+.orlando .xmltag[xmltagname="CHRONEVENT"] {
     display : block;
     margin : 15px 0;
 }
-.xmltag[xmltagname="CHRONSTRUCT"] {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"] {
     display : block;
     padding : 0 0 0 30px;
 }
-.xmltag[xmltagname="CHRONSTRUCT"] .xmltag[xmltagname="DATE"] {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"] .orlando .xmltag[xmltagname="DATE"] {
     font-weight : bold;
     display : inline;
 }
-.xmltag[xmltagname="CHRONSTRUCT"] .xmltag[xmltagname="DATE"]:after {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"] .orlando .xmltag[xmltagname="DATE"]:after {
     content : ": ";
 }
-.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WOMENWRITERS"] {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WOMENWRITERS"] {
     background-repeat : no-repeat;
 }
 
-.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
     background-repeat : no-repeat;
 }
 
-.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "SOCIALCLIMATE"] {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "SOCIALCLIMATE"] {
     background-repeat : no-repeat;
 }
 
-.xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WRITINGCLIMATE"] {
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WRITINGCLIMATE"] {
     background-repeat : no-repeat;
 }
 
-.xmltag[xmltagname="SHORTPROSE"] .xmltag[xmltagname="P"] {
+.orlando .xmltag[xmltagname="SHORTPROSE"] .orlando .xmltag[xmltagname="P"] {
     padding-left : 4em;
     margin : 10px 0 0 0;
 }
 
-.xmltag[xmltagname="BIBCIT"]:before {
+.orlando .xmltag[xmltagname="BIBCIT"]:before {
     content : "(";
 }
-.xmltag[xmltagname="BIBCIT"]:after {
+.orlando .xmltag[xmltagname="BIBCIT"]:after {
     content : ")";
 }
-.xmltag[xmltagname="SCHOLARNOTE"] .xmltag[xmltagname="P"] {
+.orlando .xmltag[xmltagname="SCHOLARNOTE"] .orlando .xmltag[xmltagname="P"] {
     background-color : #E0E0F8;
 }
-.xmltag[xmltagname="NAME"] {
+.orlando .xmltag[xmltagname="NAME"] {
     color : #336699;
 }
-.xmltag[xmltagname="ORGNAME"] {
+.orlando .xmltag[xmltagname="ORGNAME"] {
     color : #336699;
 }
-.xmltag[xmltagname="AREA"] {
+.orlando .xmltag[xmltagname="AREA"] {
     font-weight : bold;
     color : #336699;
 }
-.xmltag[xmltagname="TOPIC"] {
+.orlando .xmltag[xmltagname="TOPIC"] {
     font-weight : bold;
     color : #336699;
 }
-.xmltag[xmltagname="QUOTE"]:before {
+.orlando .xmltag[xmltagname="QUOTE"]:before {
     content : open-quote;
 }
-.xmltag[xmltagname="QUOTE"]:after {
+.orlando .xmltag[xmltagname="QUOTE"]:after {
     content : close-quote;
 }
-.xmltag[xmltagname="QUOTE"][DIRECT = "N"]:before {
+.orlando .xmltag[xmltagname="QUOTE"][DIRECT = "N"]:before {
     content : "'";
 }
-.xmltag[xmltagname="QUOTE"][DIRECT = "N"]:after {
+.orlando .xmltag[xmltagname="QUOTE"][DIRECT = "N"]:after {
     content : "'";
 }
-.xmltag[xmltagname="SOCALLED"]:before {
+.orlando .xmltag[xmltagname="SOCALLED"]:before {
     content : "'";
 }
-.xmltag[xmltagname="SOCALLED"]:after {
+.orlando .xmltag[xmltagname="SOCALLED"]:after {
     content : "'";
 }

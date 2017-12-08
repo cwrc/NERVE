@@ -14,6 +14,8 @@ import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.decode.Decoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.encoder.EncodeOptions;
+import ca.sharcnet.nerve.encoder.EncodeProcess;
 import ca.sharcnet.nerve.encoder.EncodedDocument;
 import ca.sharcnet.nerve.encoder.Encoder;
 import java.io.IOException;
@@ -41,8 +43,13 @@ abstract public class AScriber extends RMISocket implements HasStreams, IsMonito
 
     @ServerSide
     public EncodeResponse encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        EncodeOptions options = new EncodeOptions();
+        options.setMonitor(this);
+        options.addProcess(EncodeProcess.NER);
+        options.addProcess(EncodeProcess.DICTIONARY);
+
         Document document = DocumentLoader.documentFromString(source);
-        EncodedDocument encoded = Encoder.encode(document, this, this);
+        EncodedDocument encoded = Encoder.encode(document, this, options);
         return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
     }
 

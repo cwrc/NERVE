@@ -96,7 +96,6 @@ class Model {
         Utility.log(Model, "setDocument");
         Utility.enforceTypes(arguments, String, String);
 
-//        this.view.clear();
         this.view.setDocument(text);
         this.view.setFilename(filename);
         this.storage.setValue("document", text);

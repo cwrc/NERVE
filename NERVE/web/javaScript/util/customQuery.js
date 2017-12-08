@@ -143,13 +143,14 @@
         if (typeof value === "undefined") {
             let tagName = $(this).attr(opts.xmlTagName);
             let lemmaAttr = context.getTagInfo(tagName, NameSource.NAME).getLemmaAttribute();
+            if (lemmaAttr === "") return "";
             return $(this).xmlAttr(lemmaAttr);
         }
 
         return this.each(function () {
             let tagName = $(this).attr(opts.xmlTagName);
             let lemmaAttr = context.getTagInfo(tagName, NameSource.NAME).getLemmaAttribute();
-            $(this).xmlAttr(lemmaAttr, value);
+            if (lemmaAttr !== "") $(this).xmlAttr(lemmaAttr, value);
         });
     };
 }(jQuery));
@@ -184,7 +185,7 @@
  * @returns {undefined}
  */
 (function ($) {
-    $.fn.entityTag = function (value) {
+    $.fn.tagName = function (value) {
         var opts = $.extend({}, $.fn.xmlAttr.defaults);
         var context = opts.context;
 

@@ -43,7 +43,6 @@ class Listeners {
         this.view = view;
         this.controller = controller;
 
-        $(window).resize(() => this.view.tagnameManager.pollDocument());
         new EntityDialogWidget(controller);
 
         $("#selectTagName").on("input", (event) => {
@@ -114,7 +113,7 @@ class Listeners {
 
         $("#menuTags").click((event) => {
             event.stopPropagation();
-            this.menuShowTags();
+            this.view.tagMode();
         });
         $("#menuReset").click((event) => {
             event.stopPropagation();
@@ -299,28 +298,9 @@ class Listeners {
         });
     }
     documentClick(event) {
-        let srcElement = event.originalEvent.srcElement;
-
-        /* strictly for debugging */
-        if (event.altKey) {
-            console.log(event.target);
-            window.lastTarget = event.target;
-            return;
-        }
-
-        if (!window.getSelection().isCollapsed) return;
-
-        if ($(srcElement).hasClass("taggedentity")) {
-            if (!event.ctrlKey && !event.metaKey) {
-                this.controller.setSelected(srcElement);
-            } else {
-                this.controller.toggleSelect(srcElement);
-            }
-            event.stopPropagation();
-        } else if (!event.ctrlKey) {
-            this.controller.unselectAll();
-            event.stopPropagation();
-        }
+        Utility.log(Listeners, "documentClick");
+        Utility.enforceTypes(arguments, Object);
+        if (!event.ctrlKey && !event.altKey && !event.shiftKey) this.controller.unselectAll();
     }
     documentDblClick(event) {
         let srcElement = event.originalEvent.srcElement;
@@ -331,14 +311,16 @@ class Listeners {
         }
     }
     menuShowTags() {
-        if ($("#menuTags").data("value") === false) {
-            $("#menuTags").data("value", true);
-            $("#menuTags").text("Overlay Mode");
-            this.view.tagMode();
-        } else {
-            $("#menuTags").data("value", false);
-            $("#menuTags").text("Tag Mode");
-            this.view.overlayMode();
+        switch($("#menuTags").text()){
+            case "Highlight Mode":
+                this.view.overlayMode();
+            break;
+            case "Overlay Mode":
+                this.view.tagMode();
+            break;
+            case "Tag Mode":
+                this.view.highlightMode();
+            break;
         }
     }
 }

@@ -10,16 +10,16 @@ Utility = {
     enableAssertions: true,
     classes: {
         Events: 0,
-        Controller: 0,
+        Controller: 2,
         View: 0,
         Collection: 0,
         Dictionary: 0,
         Context: 0,
         Response: 0,
         Model: 0,
-        Listeners: 0,
-        TagnameManager: 0,
-        Schema: 0
+        Listeners: 2,
+        Schema: 0,
+        TaggedEntity: 0
     },
     logger: {
         logRecord: {}

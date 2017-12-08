@@ -83,3 +83,18 @@
     right: 4px;
     font-size: 14px;
 }
+
+#menuContainer{
+    position: absolute;
+    width: 100%;
+    height: 75px;
+    border-bottom: 2px solid black;
+}
+
+#menuInfo{
+    position: absolute;
+    width: 15%;
+    text-align: center;
+    border-right: 2px solid black;
+    height: 100%;
+}

@@ -19,20 +19,16 @@ class Main {
         this.listener = null;
     }
     async initialize() {
-        this.view = new View();
-        this.view.setThrobberMessage("Loading...");
-
-        this.model = new Model(this.view);
         window.setupCwrcDialogs();
         window.cwrcSetup();
 
-        this.controller = new Controller(this.view, this.model);
+        this.controller = new Controller();
+        this.controller.getView().setThrobberMessage("Loading...");
         await this.controller.start();
 
-        this.listener = new Listeners(this.view, this.controller);
+        this.listener = new Listeners(this.controller.getView(), this.controller);
 
-        this.view.showThrobber(false);
+        this.controller.getView().showThrobber(false);
         $("#container").show();
-        this.view.tagnameManager.pollDocument();
     }
 }

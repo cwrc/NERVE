@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="168">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="171">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="146">
@@ -57,9 +57,19 @@
         </file>
         <file>
             <url>web/javaScript/mvc/view.js</url>
+            <bookmark id="170">
+                <name/>
+                <line>146</line>
+                <key/>
+            </bookmark>
             <bookmark id="167">
                 <name/>
-                <line>298</line>
+                <line>258</line>
+                <key/>
+            </bookmark>
+            <bookmark id="169">
+                <name/>
+                <line>310</line>
                 <key/>
             </bookmark>
         </file>
@@ -78,9 +88,14 @@
         </file>
         <file>
             <url>web/javaScript/mvc/controller.js</url>
+            <bookmark id="171">
+                <name/>
+                <line>103</line>
+                <key/>
+            </bookmark>
             <bookmark id="168">
                 <name/>
-                <line>122</line>
+                <line>133</line>
                 <key/>
             </bookmark>
         </file>
@@ -126,6 +141,22 @@
             </bookmark>
         </file>
         <file>
+            <url>web/dialogs/js/app.js</url>
+            <bookmark id="41">
+                <name/>
+                <line>217</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/util/utility.js</url>
+            <bookmark id="165">
+                <name/>
+                <line>232</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
             <bookmark id="78">
                 <name/>
@@ -164,22 +195,6 @@
                 <key/>
             </bookmark>
         </file>
-        <file>
-            <url>web/dialogs/js/app.js</url>
-            <bookmark id="41">
-                <name/>
-                <line>217</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/util/utility.js</url>
-            <bookmark id="165">
-                <name/>
-                <line>231</line>
-                <key/>
-            </bookmark>
-        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="NERVE3">
@@ -213,13 +228,14 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/res/contexts/orlando.context.json</file>
         </group>
         <group name="NERVE">
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/utility.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/tagname-markup.css</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/customQuery.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/collection/collection.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/main.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/nerve.html</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/gen/nerveServer.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/utility.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
         </group>
     </open-files>
 </project-private>

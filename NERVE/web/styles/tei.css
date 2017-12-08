@@ -1,37 +1,37 @@
-.xmltag[xmltagname="TEI"] {
+.tei .xmltag[xmltagname="TEI"] {
     margin : 10px 25px;
     font-family : Georgia, serif;
     line-height : 1.5;
 }
 
-.xmltag[xmltagname="abbr"] {
+.tei .xmltag[xmltagname="abbr"] {
     display : inline;
 }
 
-.xmltag[xmltagname="add"] {
+.tei .xmltag[xmltagname="add"] {
     display : inline;
     text-decoration : underline;
 }
 
-.xmltag[xmltagname="anchor"] {
+.tei .xmltag[xmltagname="anchor"] {
     display : none;
 }
 
-.xmltag[xmltagname="argument"] {
+.tei .xmltag[xmltagname="argument"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="att"] {
+.tei .xmltag[xmltagname="att"] {
     display : inline;
     font-family : sans-serif;
 }
 
-.xmltag[xmltagname="author"] {
+.tei .xmltag[xmltagname="author"] {
     display : inline;
 }
 
-.xmltag[xmltagname="back"] {
+.tei .xmltag[xmltagname="back"] {
     display : block;
     border : thin black solid;
     margin-top : 1em;
@@ -41,361 +41,361 @@
     padding-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="bibl"] {
+.tei .xmltag[xmltagname="bibl"] {
     display : inline;
 }
 
-.xmltag[xmltagname="div"] {
+.tei .xmltag[xmltagname="div"] {
     margin:0 0 0 2em;
 }
 
-.xmltag[xmltagname="bibl"]>
-.xmltag[xmltagname="note"] {
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="note"] {
     display : inline;
 }
 
-.xmltag[xmltagname="bibl"]>
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="title"] {
     content: "Alternate Title: " !important;
 }
 
-.xmltag[xmltagname="bibl"]>
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="title"] {
     content: "";
 }
 
-.xmltag[xmltagname="argument"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="body"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="cit"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div0"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div1"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div2"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div3"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div4"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div5"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div6"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="div7"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="epigraph"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="list"]
-.xmltag[xmltagname="ibl"]>
-.xmltag[xmltagname="bibl"]>
-.xmltag[xmltagname="bibl"],
-.xmltag[xmltagname="taxonomy"]>
-.xmltag[xmltagname="bibl"] {
+.tei .xmltag[xmltagname="argument"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="body"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="cit"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div0"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div1"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div2"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div3"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div4"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div5"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div6"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div7"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="epigraph"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="list"]
+.tei .xmltag[xmltagname="ibl"]>
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="taxonomy"]>
+.tei .xmltag[xmltagname="bibl"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="biblFull"] {
+.tei .xmltag[xmltagname="biblFull"] {
     display : inline;
 }
 
-.xmltag[xmltagname="argument"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="body"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="cit"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div0"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div1"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div2"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div3"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div4"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div5"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div6"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="div7"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="epigraph"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="listBibl"]>
-.xmltag[xmltagname="biblFull"]>
-.xmltag[xmltagname="biblFull"],
-.xmltag[xmltagname="taxonomy"]>
-.xmltag[xmltagname="biblFull"] {
+.tei .xmltag[xmltagname="argument"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="body"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="cit"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div0"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div1"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div2"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div3"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div4"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div5"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div6"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div7"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="epigraph"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="listBibl"]>
+.tei .xmltag[xmltagname="biblFull"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="taxonomy"]>
+.tei .xmltag[xmltagname="biblFull"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="biblScope"] {
+.tei .xmltag[xmltagname="biblScope"] {
     display : inline;
 }
 
-.xmltag[xmltagname="imprint"]>
-.xmltag[xmltagname="biblScope"] {
+.tei .xmltag[xmltagname="imprint"]>
+.tei .xmltag[xmltagname="biblScope"] {
     display : block;
 }
 
-.xmltag[xmltagname="body"] {
+.tei .xmltag[xmltagname="body"] {
     margin-top : 5px;
     padding : 0 2em 0 0;
     display : block;
     counter-reset : div1;
 }
 
-.xmltag[xmltagname="byline"] {
+.tei .xmltag[xmltagname="byline"] {
     display : block;
     font-style : italic;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="category"] {
+.tei .xmltag[xmltagname="category"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="catRef"] {
+.tei .xmltag[xmltagname="catRef"] {
     display : none;
 }
 
-.xmltag[xmltagname="cell"] {
+.tei .xmltag[xmltagname="cell"] {
     display : table-cell;
     border : 1px solid #EEEFEE;
     padding : 3px;
 }
 
-.xmltag[xmltagname="change"] {
+.tei .xmltag[xmltagname="change"] {
     display : block;
     margin-bottom : 1em;
     margin-left : 2em;
 }
 
-.xmltag[xmltagname="cit"] {
+.tei .xmltag[xmltagname="cit"] {
     display : inline;
 }
 
-.xmltag[xmltagname="argument"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div0"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div1"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div2"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div3"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div4"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div5"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div6"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="div7"] >
-.xmltag[xmltagname="cit"] ,
-.xmltag[xmltagname="epigraph"] >
-.xmltag[xmltagname="cit"] {
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="cit"] {
     display : block;
     margin-bottom : 0.5em;
     margin-top : 0.5em;
 }
 
-.xmltag[xmltagname="classCode"] {
+.tei .xmltag[xmltagname="classCode"] {
     display : block;
 }
 
-.xmltag[xmltagname="elementSpec"],
-.xmltag[xmltagname="macroSpec"],
-.xmltag[xmltagname="classSpec"] {
+.tei .xmltag[xmltagname="elementSpec"],
+.tei .xmltag[xmltagname="macroSpec"],
+.tei .xmltag[xmltagname="classSpec"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="closer"] {
+.tei .xmltag[xmltagname="closer"] {
     display : block;
     margin-bottom : 1em;
     width : 95%;
 }
 
-.xmltag[xmltagname="code"] {
+.tei .xmltag[xmltagname="code"] {
     display : inline;
     font-family : monospace;
 }
 
-.xmltag[xmltagname="corr"] {
+.tei .xmltag[xmltagname="corr"] {
     display : inline;
 }
 
-.xmltag[xmltagname="creation"] {
+.tei .xmltag[xmltagname="creation"] {
     display : block;
 }
 
-.xmltag[xmltagname="date"] {
+.tei .xmltag[xmltagname="date"] {
     display : inline;
 }
 
-.xmltag[xmltagname="change"]>
-.xmltag[xmltagname="date"],
-.xmltag[xmltagname="publicationStmt"]>
-.xmltag[xmltagname="date"] {
+.tei .xmltag[xmltagname="change"]>
+.tei .xmltag[xmltagname="date"],
+.tei .xmltag[xmltagname="publicationStmt"]>
+.tei .xmltag[xmltagname="date"] {
     display : block;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="dateline"] {
+.tei .xmltag[xmltagname="dateline"] {
     display : inline;
 }
 
-.xmltag[xmltagname="del"] {
+.tei .xmltag[xmltagname="del"] {
     display : inline;
     color : red;
     background-color : inherit;
     text-decoration : line-through;
 }
 
-.xmltag[xmltagname="distributor"] {
+.tei .xmltag[xmltagname="distributor"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="body"]>
-.xmltag[xmltagname="div"] {
+.tei .xmltag[xmltagname="body"]>
+.tei .xmltag[xmltagname="div"] {
     display : block;
     counter-increment : div1;
     counter-reset : div2;
     margin : 0 0 1.5em 0;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="div"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div2;
     counter-reset : div3;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="div"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div3;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] {
     margin-bottom : 2em !important;
 }
 
-.xmltag[xmltagname="div"] {
+.tei .xmltag[xmltagname="div"] {
     counter-reset:line;
 }
 
-.xmltag[xmltagname="div1"] {
+.tei .xmltag[xmltagname="div1"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div1;
     counter-reset : div2;
 }
 
-.xmltag[xmltagname="div2"] {
+.tei .xmltag[xmltagname="div2"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div2;
     counter-reset : div3;
 }
 
-.xmltag[xmltagname="div3"] {
+.tei .xmltag[xmltagname="div3"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div3;
     counter-reset : div4;
 }
 
-.xmltag[xmltagname="div4"] {
+.tei .xmltag[xmltagname="div4"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div4;
     counter-reset : div5;
 }
 
-.xmltag[xmltagname="div5"] {
+.tei .xmltag[xmltagname="div5"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div5;
     counter-reset : div6;
 }
 
-.xmltag[xmltagname="div6"] {
+.tei .xmltag[xmltagname="div6"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div6;
     counter-reset : div7;
 }
 
-.xmltag[xmltagname="div7"] {
+.tei .xmltag[xmltagname="div7"] {
     display : block;
     margin-bottom : 1em;
     counter-increment : div7;
 }
 
-.xmltag[xmltagname="divGen"] {
+.tei .xmltag[xmltagname="divGen"] {
     display : none;
 }
 
-.xmltag[xmltagname="docAuthor"] {
+.tei .xmltag[xmltagname="docAuthor"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="byline"]
-.xmltag[xmltagname="docAuthor"] {
+.tei .xmltag[xmltagname="byline"]
+.tei .xmltag[xmltagname="docAuthor"] {
     display : inline;
 }
 
 
-.xmltag[xmltagname="edition"] {
+.tei .xmltag[xmltagname="edition"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="bibl"]
-.xmltag[xmltagname="edition"] {
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="edition"] {
     display : inline;
 }
 
-.xmltag[xmltagname="editionStmt"] {
+.tei .xmltag[xmltagname="editionStmt"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="editor"] {
+.tei .xmltag[xmltagname="editor"] {
     display : block;
 }
 
-.xmltag[xmltagname="bibl"]
-.xmltag[xmltagname="editor"] {
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="editor"] {
     display : inline;
 }
 
-.xmltag[xmltagname="eg"] {
+.tei .xmltag[xmltagname="eg"] {
     font-family : monospace;
     padding-top : 3mm;
     padding-left : 4pt;
@@ -408,77 +408,77 @@
     background-color : #FFCC99;
 }
 
-.xmltag[xmltagname="argument"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div0"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div1"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div2"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div3"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div4"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div5"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div6"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="div7"] >
-.xmltag[xmltagname="eg"],
-.xmltag[xmltagname="epigraph"] >
-.xmltag[xmltagname="eg"] {
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="eg"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="emph"] {
+.tei .xmltag[xmltagname="emph"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="epigraph"] {
+.tei .xmltag[xmltagname="epigraph"] {
     display : block;
     margin-bottom : 1em;
     text-align : center;
 }
 
-.xmltag[xmltagname="extent"] {
+.tei .xmltag[xmltagname="extent"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="bibl"]
-.xmltag[xmltagname="extent"] {
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="extent"] {
     display : inline;
 }
 
-.xmltag[xmltagname="graphic"] {
+.tei .xmltag[xmltagname="graphic"] {
     color : gray;
     background-color : inherit;
     content : "{" attr(url) "}";
 }
 
-.xmltag[xmltagname="figure"] {
+.tei .xmltag[xmltagname="figure"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="foreign"] {
+.tei .xmltag[xmltagname="foreign"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="formula"] {
+.tei .xmltag[xmltagname="formula"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="front"] {
+.tei .xmltag[xmltagname="front"] {
     display : block;
     margin-bottom : 1em;
     padding-top : 0.5em;
@@ -487,35 +487,35 @@
     padding-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="funder"] {
+.tei .xmltag[xmltagname="funder"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="gap"] {
+.tei .xmltag[xmltagname="gap"] {
     display : none;
 }
 
-.xmltag[xmltagname="gi"],
-.xmltag[xmltagname="tag"] {
+.tei .xmltag[xmltagname="gi"],
+.tei .xmltag[xmltagname="tag"] {
     display : inline;
     font-family : sans-serif;
     color : black;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="gloss"] {
+.tei .xmltag[xmltagname="gloss"] {
     display : inline;
 }
 
-.xmltag[xmltagname="group"] {
+.tei .xmltag[xmltagname="group"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="head"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="head"] {
     display : block;
     padding-top : 7px;
     padding-bottom : 10px;
@@ -526,16 +526,16 @@
     font-size : 18px;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] >
-head .xmltag[xmltagname="author"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+head .tei .xmltag[xmltagname="author"] {
     font-weight:normal;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="head"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="head"] {
     display : block;
     padding-top : 14px;
     padding-bottom : 10px;
@@ -547,11 +547,11 @@ head .xmltag[xmltagname="author"] {
     margin-top : 11px;
 }
 
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="head"] {
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="head"] {
     display : block;
     padding-top : 14px;
     padding-bottom : 10px;
@@ -563,193 +563,193 @@ head .xmltag[xmltagname="author"] {
     margin-top : 1em;
 }
 
-.xmltag[xmltagname="div"]
-.xmltag[xmltagname="opener"]
-.xmltag[xmltagname="dateline"] {
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="opener"]
+.tei .xmltag[xmltagname="dateline"] {
     display : block;
     text-align : right;
     width : 95%;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     background-color : yellow;
     color : black;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     background-color : inherit;
     color : inherit;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     text-decoration : underline;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     font-variant : small-caps;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     vertical-align : super;
     font-size : smaller;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     vertical-align : sub;
     font-size : smaller;
 }
 
-.xmltag[xmltagname="hi"] {
+.tei .xmltag[xmltagname="hi"] {
     display : inline;
     text-decoration : underline;
 }
 
-.xmltag[xmltagname="ident"] {
+.tei .xmltag[xmltagname="ident"] {
     display : inline;
     font-family : monospace;
 }
 
-.xmltag[xmltagname="idno"] {
+.tei .xmltag[xmltagname="idno"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="bibl"]
-.xmltag[xmltagname="idno"] {
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="idno"] {
     display : inline;
 }
 
-.xmltag[xmltagname="imprint"] {
+.tei .xmltag[xmltagname="imprint"] {
     display : inline;
 }
 
-.xmltag[xmltagname="index"] {
+.tei .xmltag[xmltagname="index"] {
     display : none;
 }
 
-.xmltag[xmltagname="interp"] {
+.tei .xmltag[xmltagname="interp"] {
     display : none;
 }
 
-.xmltag[xmltagname="interpGrp"] {
+.tei .xmltag[xmltagname="interpGrp"] {
     display : none;
 }
 
-.xmltag[xmltagname="list"]
-.xmltag[xmltagname="item"] {
+.tei .xmltag[xmltagname="list"]
+.tei .xmltag[xmltagname="item"] {
     display : block;
     margin-left : 1em;
 }
 
-.xmltag[xmltagname="list"]
-.xmltag[xmltagname="item"] {
+.tei .xmltag[xmltagname="list"]
+.tei .xmltag[xmltagname="item"] {
     display : list-item;
     margin-left : 12pt;
 }
 
-.xmltag[xmltagname="item"] {
+.tei .xmltag[xmltagname="item"] {
     display : list-item;
     margin-left : 12pt;
 }
 
-.xmltag[xmltagname="change"]
-.xmltag[xmltagname="item"] {
+.tei .xmltag[xmltagname="change"]
+.tei .xmltag[xmltagname="item"] {
     display : block;
     margin-bottom : 0.5em;
     margin-left : 1em;
     margin-top : 0.5em;
 }
 
-.xmltag[xmltagname="keywords"] {
+.tei .xmltag[xmltagname="keywords"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="kw"] {
+.tei .xmltag[xmltagname="kw"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="l"] {
+.tei .xmltag[xmltagname="l"] {
     display : block;
     white-space : nowrap;
 }
 
-.xmltag[xmltagname="label"] {
+.tei .xmltag[xmltagname="label"] {
     display : inline;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="Label"] {
+.tei .xmltag[xmltagname="Label"] {
     display : inline;
     font-weight : bold;
     color : #2F4F4F;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="argument"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div0"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div1"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div2"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div3"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div4"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div5"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div6"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="div7"] >
-.xmltag[xmltagname="label"] ,
-.xmltag[xmltagname="epigraph"] >
-.xmltag[xmltagname="label"] {
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="label"] {
     display : block;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="langUsage"] {
+.tei .xmltag[xmltagname="langUsage"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="lb"] {
+.tei .xmltag[xmltagname="lb"] {
     display : block;
 }
 
-.xmltag[xmltagname="lg"] {
+.tei .xmltag[xmltagname="lg"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     display : block;
     list-style-type : disc;
     list-style-position : outside;
@@ -758,166 +758,166 @@ head .xmltag[xmltagname="author"] {
     margin-top : 1em;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     display : inline;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     list-style-type : disc;
     list-style-position : outside;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     list-style-type : disc;
     list-style-position : outside;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     list-style-type : decimal;
     list-style-position : outside;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     list-style-type : decimal;
     list-style-position : outside;
 }
 
-.xmltag[xmltagname="list"] {
+.tei .xmltag[xmltagname="list"] {
     list-style-type : none;
 }
 
-.xmltag[xmltagname="listBibl"] {
+.tei .xmltag[xmltagname="listBibl"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="mentioned"] {
+.tei .xmltag[xmltagname="mentioned"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="milestone"] {
+.tei .xmltag[xmltagname="milestone"] {
     display : none;
 }
 
-.xmltag[xmltagname="name"] {
+.tei .xmltag[xmltagname="name"] {
     display : inline;
 }
 
-.xmltag[xmltagname="note"] {
+.tei .xmltag[xmltagname="note"] {
     display : block;
     color:#999;
 }
 
-.xmltag[xmltagname="opener"]
-.xmltag[xmltagname="note"] {
+.tei .xmltag[xmltagname="opener"]
+.tei .xmltag[xmltagname="note"] {
     display : block;
     color:#999;
 }
 
-.xmltag[xmltagname="div"]
-.xmltag[xmltagname="note"]
-.xmltag[xmltagname="persName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="note"] .xmltag[xmltagname="orgName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="note"] .xmltag[xmltagname="title"], .xmltag[xmltagname="div"] .xmltag[xmltagname="note"] .xmltag[xmltagname="placeName"] {
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="note"]
+.tei .xmltag[xmltagname="persName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="orgName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="title"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="placeName"] {
     color:#6DB0CC !important;
 }
 
-.xmltag[xmltagname="note"] {
+.tei .xmltag[xmltagname="note"] {
     float : left;
 }
 
-.xmltag[xmltagname="note"] {
+.tei .xmltag[xmltagname="note"] {
     float : right;
 }
 
-.xmltag[xmltagname="note"],
-.xmltag[xmltagname="note"] {
+.tei .xmltag[xmltagname="note"],
+.tei .xmltag[xmltagname="note"] {
     display : inline;
 }
 
-.xmltag[xmltagname="notesStmt"] {
+.tei .xmltag[xmltagname="notesStmt"] {
     display : block;
 }
 
-.xmltag[xmltagname="num"] {
+.tei .xmltag[xmltagname="num"] {
     display : inline;
 }
 
-.xmltag[xmltagname="opener"] {
+.tei .xmltag[xmltagname="opener"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="opener"]
-.xmltag[xmltagname="p"] {
+.tei .xmltag[xmltagname="opener"]
+.tei .xmltag[xmltagname="p"] {
     text-align : justify !important;
     text-indent : 0 !important;
 }
 
-.xmltag[xmltagname="orig"] {
+.tei .xmltag[xmltagname="orig"] {
     display : inline;
 }
 
-.xmltag[xmltagname="p"] {
+.tei .xmltag[xmltagname="p"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="pb"] {
+.tei .xmltag[xmltagname="pb"] {
     display : none;
 }
 
-.xmltag[xmltagname="div"]
-.xmltag[xmltagname="persName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="placeName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="orgName"], .xmltag[xmltagname="div"] .xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="persName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="placeName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="orgName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="title"] {
     color: #336699;
 }
 
-.xmltag[xmltagname="principal"] {
+.tei .xmltag[xmltagname="principal"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="ptr"] {
+.tei .xmltag[xmltagname="ptr"] {
     color : navy;
     text-decoration : underline;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="publicationStmt"] {
+.tei .xmltag[xmltagname="publicationStmt"] {
         display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="publicationStmt"]
-.xmltag[xmltagname="p"] {
+.tei .xmltag[xmltagname="publicationStmt"]
+.tei .xmltag[xmltagname="p"] {
     display : block;
     margin-bottom : 0;
 }
 
-.xmltag[xmltagname="publisher"] {
+.tei .xmltag[xmltagname="publisher"] {
     display : inline;
 }
 
-.xmltag[xmltagname="imprint"] >
-.xmltag[xmltagname="publisher"],
-.xmltag[xmltagname="publicationStmt"] >
-.xmltag[xmltagname="publisher"] {
+.tei .xmltag[xmltagname="imprint"] >
+.tei .xmltag[xmltagname="publisher"],
+.tei .xmltag[xmltagname="publicationStmt"] >
+.tei .xmltag[xmltagname="publisher"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="pubPlace"] {
+.tei .xmltag[xmltagname="pubPlace"] {
     display : inline;
 }
 
-.xmltag[xmltagname="imprint"] >
-.xmltag[xmltagname="pubPlace"],
-.xmltag[xmltagname="publicationStmt"] >
-.xmltag[xmltagname="pubPlace"] {
+.tei .xmltag[xmltagname="imprint"] >
+.tei .xmltag[xmltagname="pubPlace"],
+.tei .xmltag[xmltagname="publicationStmt"] >
+.tei .xmltag[xmltagname="pubPlace"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="q"] {
+.tei .xmltag[xmltagname="q"] {
     display : inline;
     quotes : '"' '"' "'" "'";
     margin-top : 0em;
@@ -926,33 +926,33 @@ head .xmltag[xmltagname="author"] {
     margin-bottom : 0em;
 }
 
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="argument"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="body"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="cit"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div0"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div1"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div2"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div3"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div4"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div5"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div6"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="div7"] >
-.xmltag[xmltagname="q"],
-.xmltag[xmltagname="epigraph"] >
-.xmltag[xmltagname="q"] {
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="cit"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="q"] {
     display : block;
     margin-bottom : 0.5em;
     margin-left : 3em;
@@ -960,188 +960,188 @@ head .xmltag[xmltagname="author"] {
     quotes : none;
 }
 
-.xmltag[xmltagname="ref"] {
+.tei .xmltag[xmltagname="ref"] {
     display : inline;
     color : black;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="reg"] {
+.tei .xmltag[xmltagname="reg"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="rendition"] {
+.tei .xmltag[xmltagname="rendition"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="resp"] {
+.tei .xmltag[xmltagname="resp"] {
     display : block;
 }
 
-.xmltag[xmltagname="respStmt"] {
+.tei .xmltag[xmltagname="respStmt"] {
     display : block;
     margin-left:1em;
 }
 
-.xmltag[xmltagname="bibl"]
-.xmltag[xmltagname="respStmt"] {
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="respStmt"] {
     display : inline;
 }
 
-.xmltag[xmltagname="row"] {
+.tei .xmltag[xmltagname="row"] {
     display : table-row;
 }
 
-.xmltag[xmltagname="row"] {
+.tei .xmltag[xmltagname="row"] {
     color : inherit;
     background-color : #BBBBBB;
 }
 
-.xmltag[xmltagname="rs"] {
+.tei .xmltag[xmltagname="rs"] {
     display : inline;
 }
 
-.xmltag[xmltagname="s"] {
+.tei .xmltag[xmltagname="s"] {
     display : inline;
 }
 
-.xmltag[xmltagname="salute"] {
+.tei .xmltag[xmltagname="salute"] {
     display : block;
     margin-bottom : 0.5em;
     margin-top : 1em;
 }
 
-.xmltag[xmltagname="samplingDecl"] {
+.tei .xmltag[xmltagname="samplingDecl"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="seg"] {
+.tei .xmltag[xmltagname="seg"] {
     display : inline;
 }
 
-.xmltag[xmltagname="seriesStmt"] {
+.tei .xmltag[xmltagname="seriesStmt"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="sic"] {
+.tei .xmltag[xmltagname="sic"] {
     display : inline;
     color : red;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="signed"] {
+.tei .xmltag[xmltagname="signed"] {
     display : block;
     text-align : right;
 }
 
-.xmltag[xmltagname="soCalled"] {
+.tei .xmltag[xmltagname="soCalled"] {
     display : inline;
     font-style : italic;
     quotes : "'" "'";
 }
 
-.xmltag[xmltagname="sp"] {
+.tei .xmltag[xmltagname="sp"] {
     display : block;
     margin-bottom : 0.5em;
     margin-left : 2em;
 }
 
-.xmltag[xmltagname="div"]
-.xmltag[xmltagname="p"] {
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="p"] {
     text-align : justify;
     text-indent : 30px;
 }
 
-.xmltag[xmltagname="speaker"] {
+.tei .xmltag[xmltagname="speaker"] {
     display : inline;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="sponsor"] {
+.tei .xmltag[xmltagname="sponsor"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="stage"] {
+.tei .xmltag[xmltagname="stage"] {
     display : inline;
     font-style : italic;
 }
 
-.xmltag[xmltagname="table"] {
+.tei .xmltag[xmltagname="table"] {
     text-align : center;
     display : table;
     margin : 1em
 }
 
-.xmltag[xmltagname="table"] >
-.xmltag[xmltagname="head"] {
+.tei .xmltag[xmltagname="table"] >
+.tei .xmltag[xmltagname="head"] {
     display : table-caption;
     font-style : italic;
     margin-bottom : 6pt;
 }
 
-.xmltag[xmltagname="tagUsage"] {
+.tei .xmltag[xmltagname="tagUsage"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="taxonomy"] {
+.tei .xmltag[xmltagname="taxonomy"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="term"] {
+.tei .xmltag[xmltagname="term"] {
     font-family : sans-serif;
     color : black;
     background-color : inherit;
     display : inline;
 }
 
-.xmltag[xmltagname="textClass"] {
+.tei .xmltag[xmltagname="textClass"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="time"] {
+.tei .xmltag[xmltagname="time"] {
     display : inline;
 }
 
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="title"] {
     display : inline;
 }
 
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="title"] {
     display : block;
     font-weight:normal;
 }
 
-.xmltag[xmltagname="title"],
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="title"],
+.tei .xmltag[xmltagname="title"] {
     font-style : italic;
 }
 
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="title"] {
     font-style : normal;
 }
 
-.xmltag[xmltagname="title"],
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="title"],
+.tei .xmltag[xmltagname="title"] {
     font-style : normal;
 }
 
-.xmltag[xmltagname="seriesStmt"] >
-.xmltag[xmltagname="title"],
-.xmltag[xmltagname="titleStmt"] >
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="seriesStmt"] >
+.tei .xmltag[xmltagname="title"],
+.tei .xmltag[xmltagname="titleStmt"] >
+.tei .xmltag[xmltagname="title"] {
     color:gray;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="titlePage"] {
+.tei .xmltag[xmltagname="titlePage"] {
     display : block;
     border : thin black solid;
     margin-bottom : 2em;
@@ -1152,195 +1152,195 @@ head .xmltag[xmltagname="author"] {
     padding-bottom : 1em;
 }
 
-.xmltag[xmltagname="titlePart"] {
+.tei .xmltag[xmltagname="titlePart"] {
     display : block;
 }
 
-.xmltag[xmltagname="titleStmt"] {
+.tei .xmltag[xmltagname="titleStmt"] {
     margin-bottom : 1em;
     color : #333;
 }
 
-.xmltag[xmltagname="trailer"] {
+.tei .xmltag[xmltagname="trailer"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="unclear"] {
+.tei .xmltag[xmltagname="unclear"] {
     display : inline;
     color : gray;
     background-color : inherit;
     font-style : italic;
 }
 
- .xmltag[xmltagname="header-related"] .xmltag[xmltagname="material"]
-.xmltag[xmltagname="teiHeader"] {
+ .tei .xmltag[xmltagname="header-related"] .tei .xmltag[xmltagname="material"]
+.tei .xmltag[xmltagname="teiHeader"] {
     display : block;
     color : gray;
     background-color : rgb(251, 242, 234);
     padding : .5em;
 }
 
-.xmltag[xmltagname="teiHeader"]
-.xmltag[xmltagname="title"] {
+.tei .xmltag[xmltagname="teiHeader"]
+.tei .xmltag[xmltagname="title"] {
     color:gray;
 }
 
-.xmltag[xmltagname="titleStmt"] >
-.xmltag[xmltagname="author"] {
+.tei .xmltag[xmltagname="titleStmt"] >
+.tei .xmltag[xmltagname="author"] {
     display : block;
     margin-left : 1em;
 }
 
-.xmltag[xmltagname="authority"] {
+.tei .xmltag[xmltagname="authority"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="availability"] {
+.tei .xmltag[xmltagname="availability"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="fileDesc"] {
+.tei .xmltag[xmltagname="fileDesc"] {
         display : block;
     margin-bottom : .5em;
 }
 
-.xmltag[xmltagname="sourceDesc"] {
+.tei .xmltag[xmltagname="sourceDesc"] {
         display : block;
     border : thin silver solid;
     padding : .5em .5em 0 .5em;
 }
 
-.xmltag[xmltagname="sourceDesc"]
-.xmltag[xmltagname="p"] {
+.tei .xmltag[xmltagname="sourceDesc"]
+.tei .xmltag[xmltagname="p"] {
     margin : 0;
 }
 
-.xmltag[xmltagname="revisionDesc"] {
+.tei .xmltag[xmltagname="revisionDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="catDesc"] {
+.tei .xmltag[xmltagname="catDesc"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="encodingDesc"] {
+.tei .xmltag[xmltagname="encodingDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="profileDesc"] {
+.tei .xmltag[xmltagname="profileDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="projectDesc"] {
+.tei .xmltag[xmltagname="projectDesc"] {
     display : block;
     margin-bottom : 1em;
 }
 
-.xmltag[xmltagname="docDate"] {
+.tei .xmltag[xmltagname="docDate"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="docImprint"]
-.xmltag[xmltagname="docDate"] {
+.tei .xmltag[xmltagname="docImprint"]
+.tei .xmltag[xmltagname="docDate"] {
     display : inline;
 }
 
-.xmltag[xmltagname="docEdition"] {
+.tei .xmltag[xmltagname="docEdition"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="docImprint"] {
+.tei .xmltag[xmltagname="docImprint"] {
     display : block;
     margin-bottom : 0.5em;
 }
 
-.xmltag[xmltagname="docTitle"] {
+.tei .xmltag[xmltagname="docTitle"] {
     display : block;
     font-weight : bold;
     margin-bottom : 0.5em;
     font-weight:bold;
 }
 
-.xmltag[xmltagname="OUCS"] .xmltag[xmltagname="additions"]
-.xmltag[xmltagname="Button"] {
+.tei .xmltag[xmltagname="OUCS"] .tei .xmltag[xmltagname="additions"]
+.tei .xmltag[xmltagname="Button"] {
     font-family : monospace;
     color : red;
     font-weight : bold;
     background-color : rgb(75%, 75%, 75%)
 }
 
-.xmltag[xmltagname="Value"] {
+.tei .xmltag[xmltagname="Value"] {
     font-family : monospace;
     color : rgb(255, 102, 0);
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Code"] {
+.tei .xmltag[xmltagname="Code"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Field"] {
+.tei .xmltag[xmltagname="Field"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Filespec"] {
+.tei .xmltag[xmltagname="Filespec"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Input"] {
+.tei .xmltag[xmltagname="Input"] {
     font-family : monospace;
     color : green;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Key"] {
+.tei .xmltag[xmltagname="Key"] {
     font-family : monospace;
     text-decoration : underline;
     color : green;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Link"] {
+.tei .xmltag[xmltagname="Link"] {
     font-family : monospace;
     color : green;
     background-color : inherit;
     text-decoration : underline;
 }
 
-.xmltag[xmltagname="Menu"] {
+.tei .xmltag[xmltagname="Menu"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Output"] {
+.tei .xmltag[xmltagname="Output"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.xmltag[xmltagname="Icon"] {
+.tei .xmltag[xmltagname="Icon"] {
     color : inherit;
     background-color : #B0E0E6;
     font-weight : bold;
 }
 
-.xmltag[xmltagname="Screen"] {
+.tei .xmltag[xmltagname="Screen"] {
     font-family : monospace;
     padding-top : 3mm;
     padding-left : 4pt;

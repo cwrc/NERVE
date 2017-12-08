@@ -1,177 +1,154 @@
-/* global TaggedEntity, Utility, trace, Context, enums, Events, HTMLElement, Element, NameSource */
-
 /**
- * TagnameManager uses a MutationObserver (https://developer.mozilla.org/en/docs/Web/API/MutationObserver) to respond
- * to any changes to a tagged entities tag value.  To force a check, typically when a document is first loaded, use the
- * method "pollDocument".  Tag name elements are div elements that are child elements of their own panel.
- *
- * Source elements (#entityPanel > .taggedentity) will are targetted.
- * Target elements of ".tagname" will be added to the element "#tagnamePanel".
- * Source elements will have the data "target" pointing to the respective target element.
- * Target elements will have the data "source" pointing to the respective source element.
- * Both source and target will have either the "linked" class, or the "unlinked" class.
- * On mutation the target elements will be moved so they are centered and below the source.
+ * All tagged entity elements get passed to a TaggedEntity constructor to provide functionality.
  * @type type
  */
-class TagnameManager {
-    constructor() {
-        Utility.log(TagnameManager, "constructor");
-        Utility.enforceTypes(arguments);
+class TaggedEntity {
+    constructor(controller, element) {
+        Utility.log(TaggedEntity, "constructor");
+        Utility.enforceTypes(arguments, Controller, HTMLDivElement);
 
-        this.observer = new MutationObserver((mutations) => this.onMutationEvent(mutations));
-        let config = {attributes: true, subtree: true, attributeFilter: ["xmlattrs", "xmltagname", "class"]};
-        let target = document.getElementById("entityPanel");
-        this.observer.observe(target, config);
-    }
+        this.controller = controller;
+        this.element = element;
+        element.entity = this;
 
-    /**
-     * Remove all tagname elements, then add a tagname element to all taggedentity elements.
-     * @returns {undefined}
-     */
-    resetTagnames(){
-        Utility.log(TagnameManager, "resetTagnames");
-        Utility.enforceTypes(arguments);
-        $("#tagnamePanel").empty();
-        $(".taggedentity").each((i, target)=>{
-            this.clearTagnameElement(target);
-            this.addTagnameElement(target);
-            this.formatTagnameElement(target);
-        });
-    }
+        $(element).addClass("taggedentity");
 
-    /**
-     * Cause all tag name elements to be formatted.
-     * @returns {undefined}
-     */
-    formatTagNames(){
-        Utility.log(TagnameManager, "formatTagNames");
-        Utility.enforceTypes(arguments);
-
-        $(".taggedentity").each((i, target)=>{
-            this.formatTagnameElement(target);
-        });
-    }
-
-    /** Trigger a mutation event on all "taggedentity" elements, in turn this triggers the onMutation method placing
-     *  all tagname elements.
-     * @returns {undefined}
-     */
-    pollDocument(){
-        Utility.log(TagnameManager, "pollDocument");
-        Utility.enforceTypes(arguments);
-        $(".taggedentity").each((i, ele)=> this.onMutation(ele));
-    }
-
-    /**
-     * Calls 'onMuation' for all elements in 'selection'.
-     * @param {type} selection
-     * @returns {undefined}
-     */
-    onMutationEvent(selection) {
-        Utility.log(TagnameManager, "onMutationEvent");
-        Utility.enforceTypes(arguments, Array);
-
-        selection.forEach((mutation) => {
-            this.onMutation(mutation.target);
-        });
-    }
-
-    /**
-     * If 'target' does not have a related tagname element, create one.  Trigger the format method for the given element
-     * ; by extensin the tagname element.
-     * @param {type} source
-     * @returns {undefined}
-     */
-    onMutation(source){
-        Utility.log(TagnameManager, "onMutation");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
-
-        let element = $(source).data("target");
-        if (typeof element === "undefined") this.addTagnameElement(source);
-        this.formatTagnameElement(source);
-    }
-
-    /**
-     * A a new tag name element for the given element.
-     * @param {type} source
-     * @returns {undefined}
-     */
-    addTagnameElement(source){
-        Utility.log(TagnameManager, "addTagnameElement");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
-
-        let tagname = $(source).entityTag();
-        let div = document.createElement("div");
-        $(div).text(tagname);
-        $(div).addClass("tagname");
-        $("#tagnamePanel").append(div);
-        $(div).data("source", source);
-        $(source).data("target", div);
-    }
-
-    /**
-     * This method updates the display elements of a tag name element.  The element is retrieved from the
-     * 'target' data of 'target'.
-     * @param {type} source
-     * @returns {undefined}
-     */
-    formatTagnameElement(source){
-        Utility.log(TagnameManager, "formatTagnameElement");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
-
-        let tagname = $(source).entityTag();
-        let div = $(source).data("target");
-        $(div).text(tagname);
-
-        if ($(source).link()){
-            $(div).removeClass("unlinked");
-            $(div).addClass("linked");
-            $(source).removeClass("unlinked");
-            $(source).addClass("linked");
+        if ($(element).contents().length === 0) {
+            this.contents = document.createElement("div");
+            $(this.contents).addClass("contents");
+            $(element).prepend(this.contents);
+        } else if ($(element).children().filter(".contents").length === 0) {
+            this.contents = $(element).contents().wrap();
+            this.contents.addClass("contents");
         } else {
-            $(div).removeClass("linked");
-            $(div).addClass("unlinked");
-            $(source).removeClass("linked");
-            $(source).addClass("unlinked");
+            this.contents = $(this.element).children(".contents");
         }
 
-        let diff = $(source).width() - $(div).width();
-        let left = $(source).position().left + (diff / 2);
-        let top = $(source).position().top + 12;
-        $(div).css({top: top, left: left});
+        if ($(element).children().filter(".tagname-markup").length === 0) {
+            this.markup = document.createElement("div");
+            $(element).prepend(this.markup);
+            $(this.markup).addClass("tagname-markup");
+            this.tagName($(element).tagName());
+        } else {
+            this.markup = $(this.element).children(".tagname-markup");
+        }
+
+        $(this.element).click((event) => this.click(event));
+        $(this.contents).click((event) => this.click(event));
     }
+    createDOMElement() {
+    }
+    click(event) {
+        Utility.log(TaggedEntity, "click");
+        event.stopPropagation();
 
-    /**
-     * Remove a tagname element that is associated with the target element.
-     * @param {type} source
-     * @returns {undefined}
-     */
-    clearTagnameElement(source){
-        Utility.log(TagnameManager, "clearTagnameElement");
-        Utility.enforceTypes(arguments, [HTMLDivElement, jQuery]);
+        if (event.altKey) {
+            console.log(this.element);
+            window.lastTarget = this;
+            return;
+        }
 
-        let tnEle = $(source).data("target");
-        if (typeof tnEle === "undefined") return;
-        $(tnEle).remove();
+        if (!event.ctrlKey) {
+            this.controller.unselectAll();
+            event.stopPropagation();
+        }
+
+        if (!event.ctrlKey && !event.metaKey) {
+            this.controller.setSelected(this);
+        } else {
+            this.controller.toggleSelect(this);
+        }
+    }
+    tagName(value = undefined) {
+        Utility.log(TaggedEntity, "tagName", value);
+        if (value === undefined) return $(this.element).tagName();
+
+        if (!this.controller.getContext().isTagName(value, NameSource.NAME)) {
+            throw new Error(`Tagname ${name} doesn't match any known name in context ${this.controller.getContext().getName()}`);
+        }
+
+        let tagInfo = this.controller.getContext().getTagInfo(value, NameSource.NAME);
+
+        $(this.markup).text(value);
+        $(this.markup).attr("data-norm", tagInfo.getName(NameSource.DICTIONARY));
+        $(this.element).tagName(value);
+
+        return $(this.element).tagName();
+    }
+    lemma(value = undefined) {
+        Utility.log(TaggedEntity, "lemma", value);
+        if (value === undefined) return $(this.element).lemma();
+        $(this.element).lemma(value);
+        return $(this.element).lemma();
+    }
+    link(value = undefined) {
+        Utility.log(TaggedEntity, "link", value);
+        if (value === undefined) return $(this.element).link();
+        $(this.element).link(value);
+        return $(this.element).link();
+    }
+    text(value = undefined) {
+        Utility.log(TaggedEntity, "text", value);
+        if (value === undefined) return $(this.contents).text();
+        $(this.contents).text(value);
+        return $(this.contents).text();
+    }
+    collection(value = undefined) {
+        Utility.log(TaggedEntity, "collection", value);
+        if (value === undefined) return $(this.element).attr("data-collection");
+        $(this.element).attr("data-collection", value);
+        return $(this.element).attr("data-collection");
+    }
+    entityValues(value = undefined) {
+        Utility.log(TaggedEntity, "entityValues", value);
+        if (value === undefined) return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
+        else {
+            if (value.text !== "") this.text(value.text);
+            if (value.lemma !== "") this.lemma(value.lemma);
+            if (value.link !== "") this.link(value.link);
+            if (value.tagName !== "") this.tagName(value.tagName);
+            if (value.collection !== "") this.collection(value.collection);
+        }
+        return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
+    }
+    untag() {
+        let children = $(this.contents).contents();
+        $(this.element).replaceWith(children);
+        document.normalize();
+    }
+    addClass(classname) {
+        $(this.element).addClass(classname);
+    }
+    removeClass(classname) {
+        $(this.element).removeClass(classname);
+    }
+    removeMarkup() {
+        Utility.log(TaggedEntity, "removeMarkup");
+        $(this.markup).detach();
+        let children = $(this.contents).contents();
+        $(this.contents).detach();
+        $(this.element).append(children);
+        delete this.element.entity;
+        return this.element;
     }
 }
 
 class View {
-    constructor() {
+    constructor(controller) {
         View.traceLevel = 0;
         Utility.log(View, "constructor");
-        Utility.enforceTypes(arguments);
+        Utility.enforceTypes(arguments, Controller);
+
+        this.controller = controller;
+        this.context = null;
 
         this.storage = new Storage("NERVE_VIEW");
-        if (!this.storage.hasValue("mode")){
-            this.storage.setValue("mode", "overlay");
-            this.overlayMode();
-        }
-        else if (this.storage.getValue("mode") === "tag"){
-            this.tagMode();
+        if (this.storage.hasValue("mode") && this.storage.getValue("mode") === "tag") {
+            this.tagMode(true);
+        } else {
+            this.tagMode(false);
         }
 
-        this.tagnameManager = new TagnameManager();
         this.delayThrobber = null;
         this.throbberMessageStack = [];
         this.lastFade = true;
@@ -179,47 +156,53 @@ class View {
         this.usrMsgHnd = new UserMessageHandler();
         this.usrMsgHnd.setContainer(document.getElementById("userMessage"));
     }
+    markupTaggedEntities() {
+        Utility.log(View, "markupTaggedEntities");
+        Utility.enforceTypes(arguments);
 
-    setDictionary(source){
+        console.log($(".taggedentity"));
+        let controller = this.controller;
+
+        $(".taggedentity").each((i, element) => {
+            new TaggedEntity(controller, element);
+        });
+    }
+    clearTaggedEntityMarkup() {
+    }
+    setDictionary(source) {
         Utility.log(View, "setDictionary");
         Utility.enforceTypes(arguments, String);
         console.warn("setDictionary deprecated");
     }
-
-    setDictionaryButton(button){
+    setDictionaryButton(button) {
         Utility.log(View, "setDictionaryButton");
         Utility.enforceTypes(arguments, String);
 
         $("#dictionary > button").hide();
-        switch(button){
+        switch (button) {
             case "add":
                 $("#dictAdd").show();
-            break;
+                break;
             case "remove":
                 $("#dictRemove").show();
-            break;
+                break;
             case "update":
                 $("#dictUpdate").show();
-            break;
+                break;
         }
     }
-
-    scrollTo(element){
+    scrollTo(element) {
         Utility.log(View, "scrollTo");
         Utility.enforceTypes(arguments, [Element]);
 
-        console.log(element);
-
         $("#panelContainer").scrollTop(
-            $(element).offset().top - $("#panelContainer").offset().top + $("#panelContainer").scrollTop() - ($("#panelContainer").height() / 2)
-        );
+                $(element).offset().top - $("#panelContainer").offset().top + $("#panelContainer").scrollTop() - ($("#panelContainer").height() / 2)
+                );
     }
-
-    clearDialogBG(){
+    clearDialogBG() {
         Utility.log(View, "clearDialogBG");
         $(".entityDialogMember > input, .entityDialogMember > select").removeClass("pinkBG");
     }
-
     setDialogBG(item) {
         Utility.log(View, "setDialogBG");
 
@@ -238,12 +221,11 @@ class View {
                 break;
         }
     }
-
-    setDialogFade(value = true){
+    setDialogFade(value = true) {
         Utility.log(View, "setDialogFade");
         Utility.enforceTypes(arguments, Boolean);
 
-        if (value){
+        if (value) {
             $("#txtEntity").attr("disabled", true);
             $("#searchDialog").attr("disabled", true);
             $("#txtLemma").attr("disabled", true);
@@ -252,33 +234,28 @@ class View {
             this.clearDialogs();
             this.clearDialogBG();
             this.setDictionaryButton("none");
-        }
-        else{
+        } else {
             $("#txtEntity").attr("disabled", false);
             $("#searchDialog").attr("disabled", false);
             $("#txtLemma").attr("disabled", false);
             $("#txtLink").attr("disabled", false);
-        }
     }
-
+    }
     focusFind() {
         Utility.log(View, "focusFind");
         Utility.enforceTypes(arguments);
         document.getElementById("epsTextArea").focus();
     }
-
     setFindText(string) {
         Utility.log(View, "setFindText");
         Utility.enforceTypes(arguments, String);
         document.getElementById("epsTextArea").value = string;
     }
-
     getSearchTerm() {
         Utility.log(View, "getSearchTerm");
         Utility.enforceTypes(arguments);
         return document.getElementById("epsTextArea").value;
     }
-
     clearDialogs() {
         Utility.log(View, "clearDialogs");
         Utility.enforceTypes(arguments);
@@ -287,15 +264,13 @@ class View {
         document.getElementById("txtLemma").value = "";
         document.getElementById("txtLink").value = "";
     }
-
-    clear(){
+    clear() {
         Utility.log(View, "clear");
         Utility.enforceTypes(arguments);
 
         $("#entityPanel").empty();
         $("#tagnamePanel").empty();
     }
-
     setDocument(text) {
         Utility.log(View, "setDocument");
         Utility.enforceTypes(arguments, String);
@@ -316,10 +291,10 @@ class View {
         $("#txtLink").val(value.link);
         $("#selectTagName").val(value.tagName);
     }
-    getDialogValues(){
+    getDialogValues() {
         Utility.log(View, "getDialogValues");
         Utility.enforceTypes(arguments);
-        return new EntityValues($("#txtEntity").val(), $("#txtLemma").val(), $("#txtLink").val(),  $("#selectTagName").val());
+        return new EntityValues($("#txtEntity").val(), $("#txtLemma").val(), $("#txtLink").val(), $("#selectTagName").val());
     }
     setTagName(string) {
         Utility.log(View, "setTagName");
@@ -350,10 +325,17 @@ class View {
         }
         document.getElementById("epsTextArea").value = string;
     }
-
-    notifyContextChange(context){
+    notifyContextChange(context) {
         Utility.log(View, "notifyContextChange");
         Utility.enforceTypes(arguments, Context);
+
+        /* remove old .css class */
+        if (this.context != null) {
+            for (let stylename of this.context.styles()) {
+                $("#entityPanel").removeClass(stylename);
+            }
+        }
+
         this.context = context;
 
         /* clear then repopulate the drop down tagName selector */
@@ -362,19 +344,18 @@ class View {
             selector.removeChild(selector.firstChild);
         }
 
-        for (let tagInfo of this.context.tags()){
+        for (let tagInfo of this.context.tags()) {
             var opt = document.createElement('option');
             opt.value = tagInfo.getName(NameSource.NAME);
             opt.innerHTML = tagInfo.getName(NameSource.NAME);
             document.getElementById("selectTagName").appendChild(opt);
         }
 
-        /* load new .css files */
+        /* add new .css class */
         for (let stylename of this.context.styles()) {
-            this.attachStyle(stylename);
+            $("#entityPanel").addClass(stylename);
         }
     }
-
     /* add a link element to the head of the document as a style sheet.  Adds
      * a link id = filename so it's easily found again.
      * @param {type} filename
@@ -391,7 +372,7 @@ class View {
         fileref.setAttribute("id", filename);
         document.head.appendChild(fileref);
 
-        window.requestAnimationFrame(()=>{
+        window.requestAnimationFrame(() => {
             $(window).trigger('resize');
         });
     }
@@ -410,7 +391,6 @@ class View {
             parent.removeChild(style);
         }
     }
-
     clearThrobber() {
         this.showThrobber(false);
         $("message").text("");
@@ -418,22 +398,19 @@ class View {
         $("#percent").hide();
         this.throbberMessageStack = [];
     }
-
-    showPercent(amount){
+    showPercent(amount) {
         $("#percent").show();
         $("#percent").text(amount + "%");
     }
-
-    showBaubles(index, max){
+    showBaubles(index, max) {
         $("#baubles > img").hide();
         $("#baubles > img").attr("src", "resources/light-off.png");
 
-        for (let i = 1; i <= max; i++){
+        for (let i = 1; i <= max; i++) {
             $(`#baubles > img[data-index="${i}"]`).show();
             if (i <= index) $(`#baubles > img[data-index="${i}"]`).attr("src", "resources/light-on.png");
         }
     }
-
     showThrobber(flag) {
         Utility.log(View, "showThrobber", flag);
         Utility.enforceTypes(arguments, Boolean);
@@ -479,22 +456,28 @@ class View {
     showUserMessage(string, duration = 3000) {
         this.usrMsgHnd.showUserMessage(string, duration);
     }
-
-    tagMode(){
+    tagMode(enabled) {
         Utility.log(View, "tagMode");
-        Utility.enforceTypes(arguments);
-        this.storage.setValue("mode", "tag");
-        $("#tagnamePanel").hide();
-        this.attachStyle("tags.css");
-    }
+        Utility.enforceTypes(arguments, ["optional", Boolean]);
 
-    overlayMode(){
-        Utility.log(View, "overlayMode");
-        Utility.enforceTypes(arguments);
-        this.storage.setValue("mode", "overlay");
-        $("#tagnamePanel").show();
-        this.detachStyle("tags.css");
-        setTimeout(() => this.tagnameManager.resetTagnames(), 100);
+        if (enabled === undefined){
+            if (this.storage.hasValue("mode") && this.storage.getValue("mode") === "tag") {
+                this.tagMode(false);
+            } else {
+                this.tagMode(true);
+            }
+            return;
+        }
+
+        if (enabled) {
+            $("#menuTags").text("Tag Mode On");
+            $("#entityPanel").addClass("show-tags");
+            this.storage.setValue("mode", "tag");
+        } else {
+            $("#menuTags").text("Tag Mode Off");
+            $("#entityPanel").removeClass("show-tags");
+            this.storage.deleteValue("mode");
+        }
     }
 }
 

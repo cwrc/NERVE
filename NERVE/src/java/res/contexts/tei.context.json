@@ -57,7 +57,7 @@
         }
     ],
     "styles" : [
-        "tei.css"
+        "tei"
     ],
     "schemaName" : "http://cwrc.ca/schemas/cwrc_tei_lite.rng"
 }

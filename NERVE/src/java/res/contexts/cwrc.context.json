@@ -17,7 +17,7 @@
         },
         {
             "name"           : "DATE",
-            "dictionary"     : "",
+            "dictionary"     : "DATE",
             "lemmaAttribute" : "",
             "linkAttribute"  : "",
             "nerMap"         : "",
@@ -57,7 +57,7 @@
         }
     ],
     "styles" : [
-        "playwrights.css"
+        "playwrights"
     ],
     "schemaName" : "http://cwrc.ca/schemas/cwrc_entry.rng"
 }

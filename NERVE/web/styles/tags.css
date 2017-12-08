@@ -1,54 +1,53 @@
-/* include this css file to show the tag-name around tags                       */
-/* this file is attached and detached in view when overlay/tag mode is selected */
 
-.xmltag:before{
+.show-tags .xmltag:before{
     content: "<" attr(xmltagname) ">";
     font-size: small;
     color: darkgray;
     font-weight: normal;
 }
 
-.xmltag:after{
+.show-tags .xmltag:after{
     content: "</" attr(xmltagname) ">";
     font-size: small;
     color: darkgray;
     font-weight: normal;
 }
 
-.xmltag:hover:before, .xmltag:hover:after{
+.show-tags .xmltag:hover:before,
+.show-tags .xmltag:hover:after{
     color: blue;
 }
 
-.taggedentity{
+.show-tags .taggedentity{
     color: red;
 }
 
-.taggedentity:before{
+.show-tags .taggedentity:before{
     content: "<" attr(xmltagname) ">";
     font-size: small;
     font-weight: bold;
     color: red;
 }
 
-.taggedentity:after{
+.show-tags .taggedentity:after{
     content: "</" attr(xmltagname) ">";
     font-size: small;
     font-weight: bold;
     color: red;
 }
 
-.linked.taggedentity{
+.show-tags .linked.taggedentity{
     color: green;
 }
 
-.linked.taggedentity:before{
+.show-tags .linked.taggedentity:before{
     content: "<" attr(xmltagname) ">";
     font-size: small;
     font-weight: bold;
     color: green;
 }
 
-.linked.taggedentity:after{
+.show-tags .linked.taggedentity:after{
     content: "</" attr(xmltagname) ">";
     font-size: small;
     font-weight: bold;

@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NERVE 1.7.3a</title>
+        <title>NERVE 1.7.6a</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="resources/NERVE.png">
 
-        <link rel="stylesheet" type="text/css" href="styles/nerve.css" />
-        <link rel="stylesheet" type="text/css" href="styles/tag.css"/>
         <link rel="stylesheet" type="text/css" href="dialogs/css/bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="dialogs/css/datepicker.css"/>
         <link rel="stylesheet" type="text/css" href="dialogs/font-awesome/css/font-awesome.min.css"/>
         <link rel="stylesheet" type="text/css" href="dialogs/css/cD.css"/>
+
+        <!-------------------------------- NERVE CSS FILES -------------------------------->
+        <link rel="stylesheet" type="text/css" href="styles/nerve.css" />
         <link rel="stylesheet" type="text/css" href="styles/menu.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/entitypanel.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/orlando.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/playwrights.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/tei.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/tagname-markup.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/tags.css"/>
+        <!--------------------------------------------------------------------------------->
 
         <!-- External Libraries -->
         <script src="dialogs/js/lib/jquery-3.1.1.js"></script>
@@ -64,7 +72,6 @@
                 });
 
                 console.log("window.onload : done");
-                setTimeout(() => main.view.tagnameManager.formatTagNames(), 500);
             });
         </script>
 
@@ -91,7 +98,7 @@
         <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">
-                    <div id="abbr">NERVE 1.7.3a</div>
+                    <div id="abbr">NERVE 1.7.6a</div>
                     <div id="fullname">Named Entity Recognition Vetting Environment</div>
                     <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>
@@ -144,8 +151,7 @@
                 <div id="futurePanel"></div>
 
                 <div id="panelContainer" >
-                    <div id="tagnamePanel"></div>
-                    <div id="entityPanel"></div>
+                    <div id="entityPanel" class="format-default"></div>
                 </div>
 
                 <div id="entityDialog">

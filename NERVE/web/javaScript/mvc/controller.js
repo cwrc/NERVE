@@ -17,12 +17,21 @@ class Controller {
      */
     constructor(view, model) {
         Utility.log(Controller, "constructor");
-        Utility.enforceTypes(arguments, View, Model);
+        Utility.enforceTypes(arguments);
 
-        this.view = view;
-        this.model = model;
+        this.view = new View(this);
+        this.model = new Model(this.view);
         this.storage = new Storage("NERVE_CONTROLLER");
     }
+
+    getView(){
+        return this.view;
+    }
+
+    getContext(){
+        return this.context;
+    }
+
     async start() {
         Utility.log(Controller, "start");
         Utility.enforceTypes(arguments);
@@ -73,13 +82,13 @@ class Controller {
             this.view.setDialogFade(true);
         } else {
             this.view.setDialogFade(false);
-            let values = EntityValues.extract(collection.getLast());
+            let values = collection.getLast().entityValues();
             this.view.setDialogs(values);
             this.pollDialogs();
             this.pollDictionary(collection.getLast());
         }
 
-        collection.$().addClass("selected");
+        for (let entity of collection) entity.addClass("selected");
     }
     /* active model changers */
 
@@ -91,8 +100,10 @@ class Controller {
         Utility.log(Controller, "updateAllSelected");
         Utility.enforceTypes(arguments, EntityValues);
 
+        console.log("updateAllSelected");
+
         for (let e of this.collection) {
-            this.applyValuesToEntity(e, dialogValues);
+            e.entityValues(dialogValues);
         }
 
         this.view.setSearchText("");
@@ -105,7 +116,7 @@ class Controller {
         if (this.copiedInfo === null || this.collection.isEmpty()) return;
 
         for (let e of this.collection) {
-            this.applyValuesToEntity(e, this.copiedInfo);
+            e.entityValues(this.copiedInfo);
         }
 
         this.onChange(this.collection);
@@ -123,7 +134,6 @@ class Controller {
         console.log(this.collection.size());
 
         if (this.collection.size() < 2) return;
-        for (let ele of this.collection) this.view.tagnameManager.clearTagnameElement(ele); /* ? */
         var ele = this.collection.$().mergeElements();
         let entityValues = this.view.getDialogValues();
         this.applyValuesToEntity(ele, entityValues);
@@ -135,11 +145,11 @@ class Controller {
         Utility.log(Controller, "tagSelectedRange");
         Utility.enforceTypes(arguments);
 
-        let taggedElement = await this.__tagSelectedRange();
+        let entity = await this.__tagSelectedRange();
 
         this.model.saveState();
         this.isSaved = false;
-        this.view.showUserMessage(`New "${$(taggedElement).entityTag()}" entity created.`);
+        this.view.showUserMessage(`New "${entity.tagName()}" entity created.`);
         this.view.setSearchText("");
     }
     /* seperate so that the model isn't saved twice on merge */
@@ -162,14 +172,15 @@ class Controller {
         let values = await this.dictionary.pollEntity(range.toString());
         if (values === null) values = this.view.getDialogValues();
 
-        let taggedElement = this.constructDivFromRange(range);
-        this.applyValuesToEntity(taggedElement, values);
+        let element = this.constructDivFromRange(range);
+        let entity = new TaggedEntity(this, element);
+        entity.entityValues(values);
 
         selection.removeAllRanges();
         document.normalize();
 
-        this.collection.add(taggedElement);
-        return taggedElement;
+        this.collection.add(entity);
+        return entity;
     }
     untagAll() {
         Utility.log(Controller, "untagAll");
@@ -178,8 +189,7 @@ class Controller {
         if (this.collection.isEmpty()) return;
 
         let count = this.collection.size();
-        for (let ele of this.collection) this.view.tagnameManager.clearTagnameElement(ele);
-        this.collection.$().contents().unwrap();
+        for (let entity of this.collection) entity.untag();
         this.view.clearDialogs();
         this.view.setDialogFade(true);
         document.normalize();
@@ -196,7 +206,6 @@ class Controller {
 
         this.unselectAll();
         this.model.revertState();
-        this.view.tagnameManager.resetTagnames();
     }
     advanceState() {
         Utility.log(Controller, "advanceState");
@@ -204,7 +213,6 @@ class Controller {
 
         this.unselectAll();
         this.model.advanceState();
-        this.view.tagnameManager.resetTagnames();
     }
     /* end of active model control */
 
@@ -260,17 +268,17 @@ class Controller {
     /* iterface with listeners */
     setSelected(taggedEntity) {
         Utility.log(Controller, "setSelected");
-        Utility.enforceTypes(arguments, HTMLDivElement);
+        Utility.enforceTypes(arguments, TaggedEntity);
         this.collection.set(taggedEntity);
     }
     addSelected(taggedEntity) {
         Utility.log(Controller, "addSelected");
-        Utility.enforceTypes(arguments, HTMLDivElement);
+        Utility.enforceTypes(arguments, TaggedEntity);
         this.collection.add(taggedEntity);
     }
     toggleSelect(taggedEntity) {
         Utility.log(Controller, "toggleSelect");
-        Utility.enforceTypes(arguments, HTMLDivElement);
+        Utility.enforceTypes(arguments, TaggedEntity);
 
         if (!this.collection.contains(taggedEntity)) {
             this.collection.add(taggedEntity);
@@ -281,7 +289,7 @@ class Controller {
     unselectAll() {
         Utility.log(Controller, "unselectAll");
         Utility.enforceTypes(arguments);
-        window.getSelection().removeAllRanges();
+//        window.getSelection().removeAllRanges();
         this.collection.clear();
     }
     fillFind() {
@@ -318,12 +326,11 @@ class Controller {
         let first = this.collection.getFirst();
         this.view.clearDialogBG();
         for (let entity of this.collection) {
-            if ($(entity).lemma() !== $(first).lemma()) this.view.setDialogBG("lemma");
-            if ($(entity).link() !== $(first).link()) this.view.setDialogBG("link");
-            if ($(entity).text() !== $(first).text()) this.view.setDialogBG("text");
-            if ($(entity).entityTag() !== $(first).entityTag()) this.view.setDialogBG("tag");
+            if (entity.lemma() !== first.lemma()) this.view.setDialogBG("lemma");
+            if (entity.link() !== first.link()) this.view.setDialogBG("link");
+            if (entity.text() !== first.text()) this.view.setDialogBG("text");
+            if (entity.tagName() !== first.tagName()) this.view.setDialogBG("tag");
         }
-        ;
     }
     constructDivFromRange(range) {
         Utility.log(Controller, "constructDivFromRange");
@@ -335,19 +342,17 @@ class Controller {
         range.insertNode(ele);
         return ele;
     }
-    applyValuesToEntity(ele, entityValues) {
-        Utility.log(Controller, "applyValuesToEntity");
-        Utility.enforceTypes(arguments, [Element, jQuery], EntityValues);
-
-        $(ele).addClass("taggedentity");
-//        if (entityValues.entity !== "") $(ele).text(entityValues.entity); /* do not update entity text */
-        $(ele).entityTag(entityValues.tagName);
-        $(ele).link(entityValues.link);
-        if (entityValues.lemma === "") $(ele).lemma($(ele).text());
-        else $(ele).lemma(entityValues.lemma);
-        if (entityValues.collection !== "") $(ele).collection(entityValues.collection);
-        this.onChange(this.collection);
-    }
+//    applyValuesToEntity(entity, entityValues) {
+//        Utility.log(Controller, "applyValuesToEntity");
+//        Utility.enforceTypes(arguments, TaggedEntity, EntityValues);
+//
+//        entity.tagName(entityValues.tagName);
+//        entity.link(entityValues.link);
+//        if (entityValues.lemma === "") entity.lemma(entity.text());
+//        else entity.lemma(entityValues.lemma);
+//        if (entityValues.collection !== "") entity.collection(entityValues.collection);
+//        this.onChange(this.collection);
+//    }
     __validifyTagRange(range) {
         Utility.log(Controller, "__validifyTagRange");
 
@@ -424,7 +429,7 @@ class Controller {
      */
     pollDictionary(entity) {
         Utility.log(Controller, "pollDictionary");
-        Utility.enforceTypes(arguments, [jQuery, HTMLDivElement]);
+        Utility.enforceTypes(arguments, [jQuery, TaggedEntity]);
 
         switch ($(entity).collection()) {
             case "":
@@ -495,7 +500,6 @@ class Controller {
 
         this.isSaved = true;
         this.view.clearThrobber();
-        setTimeout(() => this.view.tagnameManager.pollDocument(), 500);
         this.view.showThrobber(false);
     }
 
@@ -523,6 +527,7 @@ class Controller {
         this.context = context;
 
         this.model.setDocument(text, filename);
+        this.view.markupTaggedEntities();
 
         await this.__addDictionaryAttribute();
     }
@@ -532,7 +537,7 @@ class Controller {
         Utility.enforceTypes(arguments);
         /* lookup tags in dictionary */
         $(".taggedentity").each(async (i, ele) => {
-            let values = EntityValues.extract(ele);
+            let values = ele.entity.entityValues();
             let collection = await this.dictionary.lookupCollection(values);
             $(ele).attr("data-collection", collection);
         });
