@@ -299,6 +299,7 @@ class JJJRMISocket {
         let cb = function (resolve, reject) {
             this.socket = new WebSocket(url);
             this.onready = resolve;
+            this.onreject = reject;
             this.socket.onerror = (err) => {
                 console.error("websocket error");
                 console.error(err);
@@ -383,8 +384,7 @@ class JJJRMISocket {
                 break;
             }
             case RMIMessageType.READY:{
-                if (JJJLogFlags.CONNECT) console.log(this.jjjSocketName + " READY");
-                if (JJJLogFlags.ONMESSAGE) console.log(this.jjjSocketName + " READY");
+                if (JJJLogFlags.CONNECT || JJJLogFlags.ONMESSAGE) console.log(this.jjjSocketName + " READY");
                 this.onready();
                 break;
             }
@@ -400,7 +400,7 @@ class JJJRMISocket {
             case RMIMessageType.REMOTE:{
                 let target = this.translator.getObject(rmiMessage.ptr);
                 let r = this.remoteMethodCallback(target, rmiMessage.methodName, rmiMessage.args);
-                let response = new InvocationResponse(rmiMessage.uid, r, InvocationResponseCode.SUCCESS);
+                let response = new InvocationResponse(rmiMessage.uid, InvocationResponseCode.SUCCESS);
                 let encodedResponse = this.translator.encode(response);
                 let encodedString = JSON.stringify(encodedResponse, null, 4);
 
@@ -414,6 +414,11 @@ class JJJRMISocket {
                 let callback = this.callback[rmiMessage.uid];
                 delete(this.callback[rmiMessage.uid]);
                 callback.reject(rmiMessage);
+                break;
+            }
+            case RMIMessageType.REJECTED_CONNECTION:{
+                if (JJJLogFlags.CONNECT || JJJLogFlags.ONMESSAGE) console.log(this.jjjSocketName + " REJECTED_CONNECTION");
+                this.onreject();
                 break;
             }
         }
@@ -437,7 +442,7 @@ class JJJRMISocket {
      */
     remoteMethodCallback(target, methodName, args) {
         if (typeof target[methodName] !== "function") {
-            if (JJJRMISocket.devmode >= 0) console.warn(this.socket.url + ":" + target.constructor.name + " does not have remotely invokable method '" + methodName + "'.");
+            if (!JJJRMISocket.silent) console.warn(this.socket.url + ":" + target.constructor.name + " does not have remotely invokable method '" + methodName + "'.");
         } else {
             return target[methodName].apply(target, args);
         }
@@ -550,34 +555,62 @@ class Translator{
     swap(source, target){
         this.objectMap.swap(source, target);
     }
-}ServerSideException = class ServerSideException {
+}ServerSideExceptionMessage = class ServerSideExceptionMessage {
 	constructor() {
 	}
 	__isTransient() {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.ServerSideException";
+		return "ca.fa.jjjrmi.socket.message.ServerSideExceptionMessage";
 	}
 	__isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.ServerSideException", ServerSideException);
-RMIServerResponse = class RMIServerResponse {
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ServerSideExceptionMessage", ServerSideExceptionMessage);
+ServerResponseMessage = class ServerResponseMessage {
 	constructor() {
 	}
 	__isTransient() {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.RMIServerResponse";
+		return "ca.fa.jjjrmi.socket.message.ServerResponseMessage";
 	}
 	__isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.RMIServerResponse", RMIServerResponse);
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ServerResponseMessage", ServerResponseMessage);
+RejectedConnectionMessage = class RejectedConnectionMessage {
+	constructor() {
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.fa.jjjrmi.socket.message.RejectedConnectionMessage";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.RejectedConnectionMessage", RejectedConnectionMessage);
+ReadyMessage = class ReadyMessage {
+	constructor() {
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.fa.jjjrmi.socket.message.ReadyMessage";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ReadyMessage", ReadyMessage);
 RMIMessageType = class RMIMessageType {
 	constructor(value) {
 		this.__value = value;
@@ -589,19 +622,22 @@ RMIMessageType = class RMIMessageType {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.RMIMessageType";
+		return "ca.fa.jjjrmi.socket.message.RMIMessageType";
 	}
 	__isEnum() {
 		return true;
 	}
 };
-RMIMessageType.LOCAL = new RMIMessageType("LOCAL");
-RMIMessageType.REMOTE = new RMIMessageType("REMOTE");
-RMIMessageType.READY = new RMIMessageType("READY");
-RMIMessageType.LOAD = new RMIMessageType("LOAD");
-RMIMessageType.EXCEPTION = new RMIMessageType("EXCEPTION");
-RMIMessageType.FORGET = new RMIMessageType("FORGET");
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.RMIMessageType", RMIMessageType);
+RMIMessageType.valueArray = [];
+RMIMessageType.valueArray.push(RMIMessageType.LOCAL = new RMIMessageType("LOCAL"));
+RMIMessageType.valueArray.push(RMIMessageType.REMOTE = new RMIMessageType("REMOTE"));
+RMIMessageType.valueArray.push(RMIMessageType.READY = new RMIMessageType("READY"));
+RMIMessageType.valueArray.push(RMIMessageType.LOAD = new RMIMessageType("LOAD"));
+RMIMessageType.valueArray.push(RMIMessageType.EXCEPTION = new RMIMessageType("EXCEPTION"));
+RMIMessageType.valueArray.push(RMIMessageType.FORGET = new RMIMessageType("FORGET"));
+RMIMessageType.valueArray.push(RMIMessageType.REJECTED_CONNECTION = new RMIMessageType("REJECTED_CONNECTION"));
+RMIMessageType.values = function(){return RMIMessageType.valueArray;};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.RMIMessageType", RMIMessageType);
 RMIMessage = class RMIMessage {
 	constructor() {
 	}
@@ -609,43 +645,13 @@ RMIMessage = class RMIMessage {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.RMIMessage";
+		return "ca.fa.jjjrmi.socket.message.RMIMessage";
 	}
 	__isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.RMIMessage", RMIMessage);
-RMILoadMessage = class RMILoadMessage {
-	constructor() {
-		
-	}
-	__isTransient() {
-		return true;
-	}
-	__getClass() {
-		return "ca.fa.jjjrmi.socket.RMILoadMessage";
-	}
-	__isEnum() {
-		return false;
-	}
-};
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.RMILoadMessage", RMILoadMessage);
-RMIForgetMessage = class RMIForgetMessage {
-	constructor() {
-		
-	}
-	__isTransient() {
-		return true;
-	}
-	__getClass() {
-		return "ca.fa.jjjrmi.socket.RMIForgetMessage";
-	}
-	__isEnum() {
-		return false;
-	}
-};
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.RMIForgetMessage", RMIForgetMessage);
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.RMIMessage", RMIMessage);
 MethodResponse = class MethodResponse {
 	constructor(uid, objectPTR, methodName, rvalue) {
 		this.uid = uid;
@@ -657,13 +663,13 @@ MethodResponse = class MethodResponse {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.MethodResponse";
+		return "ca.fa.jjjrmi.socket.message.MethodResponse";
 	}
 	__isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.MethodResponse", MethodResponse);
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.MethodResponse", MethodResponse);
 MethodRequest = class MethodRequest {
 	constructor(uid, ptr, methodName, args) {
 		this.uid = uid;
@@ -675,7 +681,7 @@ MethodRequest = class MethodRequest {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.MethodRequest";
+		return "ca.fa.jjjrmi.socket.message.MethodRequest";
 	}
 	__isEnum() {
 		return false;
@@ -736,7 +742,22 @@ MethodRequest = class MethodRequest {
 		}
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.MethodRequest", MethodRequest);
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.MethodRequest", MethodRequest);
+LoadMessage = class LoadMessage {
+	constructor() {
+		
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.fa.jjjrmi.socket.message.LoadMessage";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.LoadMessage", LoadMessage);
 InvocationResponseCode = class InvocationResponseCode {
 	constructor(value) {
 		this.__value = value;
@@ -748,32 +769,62 @@ InvocationResponseCode = class InvocationResponseCode {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.InvocationResponseCode";
+		return "ca.fa.jjjrmi.socket.message.InvocationResponseCode";
 	}
 	__isEnum() {
 		return true;
 	}
 };
-InvocationResponseCode.FAILED = new InvocationResponseCode("FAILED");
-InvocationResponseCode.SUCCESS = new InvocationResponseCode("SUCCESS");
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.InvocationResponseCode", InvocationResponseCode);
+InvocationResponseCode.valueArray = [];
+InvocationResponseCode.valueArray.push(InvocationResponseCode.FAILED = new InvocationResponseCode("FAILED"));
+InvocationResponseCode.valueArray.push(InvocationResponseCode.SUCCESS = new InvocationResponseCode("SUCCESS"));
+InvocationResponseCode.values = function(){return InvocationResponseCode.valueArray;};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.InvocationResponseCode", InvocationResponseCode);
 InvocationResponse = class InvocationResponse {
-	constructor(uid, rvalue, code) {
+	constructor(uid, code) {
 		this.uid = uid;
-		this.returnValue = rvalue;
 		this.code = code;
 	}
 	__isTransient() {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.InvocationResponse";
+		return "ca.fa.jjjrmi.socket.message.InvocationResponse";
 	}
 	__isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.InvocationResponse", InvocationResponse);
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.InvocationResponse", InvocationResponse);
+ForgetMessage = class ForgetMessage {
+	constructor() {
+		
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.fa.jjjrmi.socket.message.ForgetMessage";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ForgetMessage", ForgetMessage);
+ClientRequestMessage = class ClientRequestMessage {
+	constructor() {
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.fa.jjjrmi.socket.message.ClientRequestMessage";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ClientRequestMessage", ClientRequestMessage);
 ClientMessageType = class ClientMessageType {
 	constructor(value) {
 		this.__value = value;
@@ -785,15 +836,17 @@ ClientMessageType = class ClientMessageType {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.ClientMessageType";
+		return "ca.fa.jjjrmi.socket.message.ClientMessageType";
 	}
 	__isEnum() {
 		return true;
 	}
 };
-ClientMessageType.METHOD_REQUEST = new ClientMessageType("METHOD_REQUEST");
-ClientMessageType.INVOCATION_RESPONSE = new ClientMessageType("INVOCATION_RESPONSE");
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.ClientMessageType", ClientMessageType);
+ClientMessageType.valueArray = [];
+ClientMessageType.valueArray.push(ClientMessageType.METHOD_REQUEST = new ClientMessageType("METHOD_REQUEST"));
+ClientMessageType.valueArray.push(ClientMessageType.INVOCATION_RESPONSE = new ClientMessageType("INVOCATION_RESPONSE"));
+ClientMessageType.values = function(){return ClientMessageType.valueArray;};
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ClientMessageType", ClientMessageType);
 ClientMessage = class ClientMessage {
 	constructor(type) {
 		this.type = type;
@@ -802,7 +855,7 @@ ClientMessage = class ClientMessage {
 		return true;
 	}
 	__getClass() {
-		return "ca.fa.jjjrmi.socket.ClientMessage";
+		return "ca.fa.jjjrmi.socket.message.ClientMessage";
 	}
 	__isEnum() {
 		return false;
@@ -811,25 +864,7 @@ ClientMessage = class ClientMessage {
 		return this.type;
 	}
 };
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.ClientMessage", ClientMessage);
-AsyncInvocation = class AsyncInvocation {
-	constructor() {
-		this.cancelled = false;
-		this.done = false;
-		this.consumer = null;
-		this.cancelled = true;
-	}
-	__isTransient() {
-		return true;
-	}
-	__getClass() {
-		return "ca.fa.jjjrmi.socket.AsyncInvocation";
-	}
-	__isEnum() {
-		return false;
-	}
-};
-JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.AsyncInvocation", AsyncInvocation);
+JJJRMISocket.classes.set("ca.fa.jjjrmi.socket.message.ClientMessage", ClientMessage);
 /* global Symbol */
 
 ArrayList = class ArrayList {

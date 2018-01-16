@@ -40,24 +40,10 @@
     </target>
 
     <target name="-pre-init">
-        <antcall target="nerve.copy-files"/>
+        <copy
+            file="D:\Dropbox\projects.new\groups\jjj2\JJJRMIWeb\public_html\JJJ.js"
+            todir="${basedir}/web/javaScript"
+        />
         <antcall target="nerve.generate-code"/>
     </target>
-
-    <property name="libdir" value="D:/Dropbox/projects.new/lib"/>
-    <target name="nerve.compile-generated-code">
-        <javac srcdir="${basedir}/src/gen" destdir="${basedir}/build/web/WEB-INF/classes">
-            <classpath>
-                <pathelement location="${JJJ}"/>
-                <pathelement location="${basedir}/build/web/WEB-INF/classes"/>
-                <pathelement location="${basedir}/lib/"/>
-                <pathelement location="${javac.classpath}"/>
-                <pathelement location="${libdir}/custom/EncoderDecoder.jar"/>
-            </classpath>
-        </javac>
-    </target>
-
-
-
-
 </project>

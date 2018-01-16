@@ -98,20 +98,6 @@ Scriber = class Scriber {
 	async connect(url) {
 		await this.__jjjWebsocket.connect(url);
 	}
-	onPhase(phase, i, max) {
-		
-		this.view.setThrobberMessage(phase);
-		this.phaseName = phase;
-		this.view.showBaubles(i, max);
-		
-		return null;
-	}
-	onStep(i, max) {
-		
-		this.view.showPercent(Math.trunc(i / max * 100));
-		
-		return null;
-	}
 	edit(source) {
 		return this.__jjjWebsocket.methodRequest(this, "edit", arguments);
 	}
@@ -126,6 +112,16 @@ Scriber = class Scriber {
 	}
 	decode(source) {
 		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
+	}
+	onPhase(phase, i, max) {
+		
+		this.view.setThrobberMessage(phase);
+		this.phaseName = phase;
+		this.view.showBaubles(i, max);
+	}
+	onStep(i, max) {
+		
+		this.view.showPercent(Math.trunc(i / max * 100));
 	}
 	setView(view) {
 		

@@ -1,4 +1,4 @@
-/* generated 2017/12/08 14:08:48 */
+/* generated 2018/01/16 08:47:55 */
 package ca.sharcnet.dh.nerve;
 @ca.fa.jjjrmi.annotations.NativeJS(value = "Scriber")
 @ca.fa.jjjrmi.annotations.Generated
@@ -8,11 +8,15 @@ public class Scriber extends ca.sharcnet.dh.nerve.AScriber {
         super();
     }
 
-    public ca.fa.jjjrmi.socket.AsyncInvocation<java.lang.Void> onPhase(java.lang.String phase, int i, int max) {
-        	return getWebsocket().<java.lang.Void>invokeClientMethod(this, "onPhase",phase,i,max);
+    public void onPhase(java.lang.String phase, int i, int max) {
+        		for (ca.fa.jjjrmi.socket.InvokesMethods invokes : this.getWebsockets()){
+			invokes.invokeClientMethod(this, "onPhase",phase,i,max);
+};
     }
 
-    public ca.fa.jjjrmi.socket.AsyncInvocation<java.lang.Void> onStep(int i, int max) {
-        	return getWebsocket().<java.lang.Void>invokeClientMethod(this, "onStep",i,max);
+    public void onStep(int i, int max) {
+        		for (ca.fa.jjjrmi.socket.InvokesMethods invokes : this.getWebsockets()){
+			invokes.invokeClientMethod(this, "onStep",i,max);
+};
     }
 }

@@ -4,7 +4,6 @@ import ca.fa.jjjrmi.annotations.NativeJS;
 import ca.fa.jjjrmi.annotations.RMI;
 import ca.fa.jjjrmi.annotations.ServerSide;
 import ca.fa.jjjrmi.annotations.SkipJS;
-import ca.fa.jjjrmi.socket.AsyncInvocation;
 import ca.fa.jjjrmi.socket.RMISocket;
 import ca.fa.utility.Console;
 import ca.sharcnet.nerve.HasStreams;
@@ -98,21 +97,19 @@ abstract public class AScriber extends RMISocket implements HasStreams, IsMonito
     }
 
     @ClientSide
-    public AsyncInvocation<Void> onPhase(String phase, int i, int max) {
+    public void onPhase(String phase, int i, int max) {
         /*JS{
             this.view.setThrobberMessage(phase);
             this.phaseName = phase;
             this.view.showBaubles(i, max);
         }*/
-        return null;
     }
 
     @ClientSide
-    public AsyncInvocation<Void> onStep(int i, int max) {
+    public void onStep(int i, int max) {
         /*JS{
             this.view.showPercent(Math.trunc(i / max * 100));
         }*/
-        return null;
     }
 
     @ServerSide
