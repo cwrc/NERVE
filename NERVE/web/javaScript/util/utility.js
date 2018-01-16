@@ -1,3 +1,5 @@
+console.log("utility");
+
 /* global Function */
 
 /*

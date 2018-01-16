@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NERVE 1.7.7a</title>
+        <title>NERVE 1.8.0a</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="resources/NERVE.png">
 
-        <link rel="stylesheet" type="text/css" href="dialogs/css/bootstrap.css"/>
-        <link rel="stylesheet" type="text/css" href="dialogs/css/datepicker.css"/>
-        <link rel="stylesheet" type="text/css" href="dialogs/font-awesome/css/font-awesome.min.css"/>
-        <link rel="stylesheet" type="text/css" href="dialogs/css/cD.css"/>
-
-        <!-------------------------------- NERVE CSS FILES -------------------------------->
+        <!------------------------------------- NERVE CSS FILES ------------------------------------->
         <link rel="stylesheet" type="text/css" href="styles/nerve.css" />
         <link rel="stylesheet" type="text/css" href="styles/menu.css"/>
         <link rel="stylesheet" type="text/css" href="styles/entitypanel.css"/>
@@ -20,21 +15,28 @@
         <link rel="stylesheet" type="text/css" href="styles/tei.css"/>
         <link rel="stylesheet" type="text/css" href="styles/tagname-markup.css"/>
         <link rel="stylesheet" type="text/css" href="styles/tags.css"/>
-        <!--------------------------------------------------------------------------------->
+        <!------------------------------------------------------------------------------------------->
 
-        <!-- External Libraries -->
-        <script src="dialogs/js/lib/jquery-3.1.1.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" accesskey="" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
-        <script src="dialogs/js/lib/knockout-2.3.0.js"></script>
-        <script src="dialogs/js/lib/bootstrap-datepicker.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-------------------------------------- JQUERY FILES --------------------------------------->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+            accesskey=""
+            integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.css" />
+        <script src="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.js"></script>
+        <!------------------------------------------------------------------------------------------->
 
-        <script src="dialogs/js/cwrc-api.js"></script>
-        <script src="dialogs/js/cD.js"></script>
-        <script src="dialogs/js/app.js"></script>
-
+        <!------------------------------------- PROJECT SCRIPTS ------------------------------------->
         <script src="javaScript/util/customQuery.js" type="text/javascript"></script>
         <script src="javaScript/util/utility.js" type="text/javascript"></script>
+
         <script src="javaScript/util/storage.js" type="text/javascript"></script>
         <script src="javaScript/util/keyboardCodeEnum.js" type="text/javascript"></script>
         <script src="javaScript/util/fileOperations.js" type="text/javascript"></script>
@@ -44,37 +46,21 @@
 
         <script src="javaScript/JJJ.js" type="text/javascript"></script>
 
-        <script src="javaScript/mvc/dialogs.js" type="text/javascript"></script>
         <script src="javaScript/mvc/controller.js" type="text/javascript"></script>
         <script src="javaScript/mvc/schema.js" type="text/javascript"></script>
         <script src="javaScript/gen/context.js" type="text/javascript"></script>
         <script src="javaScript/mvc/model.js" type="text/javascript"></script>
         <script src="javaScript/mvc/view.js" type="text/javascript"></script>
         <script src="javaScript/mvc/listeners.js" type="text/javascript"></script>
+        <script src="javaScript/mvc/entityPanelWidget.js" type="text/javascript"></script>
         <script src="javaScript/main.js" type="text/javascript"></script>
 
         <script src="javaScript/gen/nerveServer.js" type="text/javascript"></script>
         <script src="javaScript/util/SQL.js" type="text/javascript"></script>
+        <!------------------------------------------------------------------------------------------->
     </head>
 
     <body>
-
-        <script>
-            $(window).on('load', async function () {
-                console.log("window.onload : start");
-                JJJRMISocket.devmode = 0;
-                window.main = new Main();
-                await main.initialize();
-
-                /* make boostrap dialogs movable */
-                jQuery('.modal-dialog').draggable({
-                    handle: ".modal-header"
-                });
-
-                console.log("window.onload : done");
-            });
-        </script>
-
         <!-- typically hidden stuff -->
         <div id="userMessage"></div>
         <div id="throbberBG">
@@ -98,7 +84,7 @@
         <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">
-                    <div id="abbr">NERVE 1.7.7a</div>
+                    <div id="abbr">NERVE 1.8.0a</div>
                     <div id="fullname">Named Entity Recognition Vetting Environment</div>
                     <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>

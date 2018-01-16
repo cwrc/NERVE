@@ -1,5 +1,10 @@
 /* global FileOperations */
 
+$(window).on('load', async function () {
+    window.main = new Main();
+    await main.initialize();
+});
+
 class HostInfo {
     constructor() {
         let prequel = "ws://";
@@ -17,11 +22,10 @@ class Main {
         this.controller = null;
         this.view = null;
         this.listener = null;
+
+        window.entityPanel = new EntityPanelWidget($("#futurePanel"));
     }
     async initialize() {
-        window.setupCwrcDialogs();
-        window.cwrcSetup();
-
         this.controller = new Controller();
         this.controller.getView().setThrobberMessage("Loading...");
         await this.controller.start();

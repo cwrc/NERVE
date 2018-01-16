@@ -1,3 +1,5 @@
+console.log("custom query");
+
 (function ($) {
     $.fn.mergeElements = function (name = "div") {
         let range = $(this).asRange();

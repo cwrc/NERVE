@@ -33,7 +33,7 @@ class Controller {
         Utility.log(Controller, "start");
         Utility.enforceTypes(arguments);
 
-        this.dialogs = new Dialogs(this);
+//        this.dialogs = new Dialogs(this);
         this.collection = new Collection();
         this.collection.addListener(this);
         this.searchUtility = new SearchUtility("#entityPanel");
