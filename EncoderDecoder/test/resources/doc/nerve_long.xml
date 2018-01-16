@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="http://cwrc.ca/templates/css/ceww.css"?>
+<?xml-model href="http://cwrc.ca/schemas/cwrc_entry.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<CWRC>
+    <CWRCHEADER>
+        <FILEDESC>
+            <TITLESTMT>
+                <DOCTITLE>NERVE CWRC Entry Test File - short with pre-existing entity tags</DOCTITLE>
+                <DOCAUTHOR>Adapted from file by Canada's Early Women Writers</DOCAUTHOR>
+                <DOCAUTHOR>Adapted from Karyn Huenemann and Linnea McNally by Susan Brown</DOCAUTHOR>
+            </TITLESTMT>
+            <PUBLICATIONSTMT>
+                <AUTHORITY>Canada's Early Women Writers</AUTHORITY>
+                <AUTHORITY>Canadian Writing Research Collaboratory</AUTHORITY>
+            </PUBLICATIONSTMT>
+            <SOURCEDESC>Born Digital object.</SOURCEDESC>
+        </FILEDESC>
+        <PROFILEDESC>
+            <LANGUSAGE>
+                <LANG IDENT="eng">English</LANG>
+            </LANGUSAGE>
+            <TEXTCLASS>
+                <KEYWORDS>
+                    <TERM>Born digital</TERM>
+                    <TERM>Life writing</TERM>
+                    <TERM>Biography</TERM>
+                    <TERM>Bibliography</TERM>
+                </KEYWORDS>
+            </TEXTCLASS>
+        </PROFILEDESC>
+        <REVISIONDESC>
+            <WORKFLOW RESP="MRB" WORKCATEGORY="created" WORKSTATUS="C">
+                <DATE/>
+                <ITEM/>
+            </WORKFLOW>
+        </REVISIONDESC>
+    </CWRCHEADER>
+    <ENTRY> <HEADING SUBTYPE="1">NERVE CWRC Entry Test File - short, with pre-existing entity tags <NAME STANDARD="">Duncan, Sara Jeanette</NAME>(1861-1922)</HEADING> <RESEARCHNOTE><XREF URL="http://www2.ville.montreal.qc.ca/archives/portraits/en/cards/P0621.shtm" RESP="KME">Sara Jeannette Duncan in 1909</XREF>. Image from <TITLE LEVEL="ANALYTIC">The Lounger,</TITLE> <TITLE LEVEL="JOURNAL">Putnam's and the Reader</TITLE> 5 (October 1908-March 1909): 502-3.</RESEARCHNOTE> <AUTHORSUMMARY>
+        <P>Ontario-born Sara Jeanette Duncan achieved considerable recognition for her many ironic novels and other writings that draw on her experiences in Canada, the US, England, and India.</P>
+        </AUTHORSUMMARY> <BIRTH> <CHRONSTRUCT><DATE VALUE="1861-12-22">22 December 1861, </DATE><CHRONPROSE><PLACE>Brantford, ON</PLACE> </CHRONPROSE> </CHRONSTRUCT> </BIRTH> <DEATH> <CHRONSTRUCT><DATE VALUE="1922-06-22">22 June 1922, </DATE><CHRONPROSE><PLACE>Ashtead, Surrey, England</PLACE> </CHRONPROSE> </CHRONSTRUCT> </DEATH> <PERSONNAME> <HEADING SUBTYPE="5">Name at birth: </HEADING> <DATASTRUCT>
+        <DATAITEM><BIRTHNAME><GIVEN>Sarah Janet</GIVEN> <SURNAME>Duncan</SURNAME> </BIRTHNAME> </DATAITEM>
+        </DATASTRUCT> </PERSONNAME> <PERSONNAME> <HEADING SUBTYPE="5">Variant names: </HEADING> <DATASTRUCT>
+        <DATAITEM><NAME STANDARD="SARA JEANNETTE DUNCAN">Mrs. Everard Cotes</NAME></DATAITEM>
+        <DATAITEM>Jeannette Duncan</DATAITEM>
+        <DATAITEM>S.D.</DATAITEM>
+        <DATAITEM>"Civilis"</DATAITEM>
+        <DATAITEM>"Garth Grafton"</DATAITEM>
+        <DATAITEM>"Jane Wintergreen"</DATAITEM>
+        <DATAITEM>"V. Cecil Cotes" </DATAITEM>
+        </DATASTRUCT> </PERSONNAME> <FRONT>
+        <P></P>
+        <P>Entry revised by Karyn Huenemann and Linnea McNally</P>
+        </FRONT> <AUTHORSUMMARY>
+        <HEADING SUBTYPE="2"><NAME STANDARD="">Sara Jeannette Duncan</NAME> (1861-1922)</HEADING>
+        <P>Sarah Janet Duncan was born on 22 December 1861, the eldest of nine surviving children of Charles Duncan (1834-1907) and Jane ("Jeannie") Bell (1837-1931). She enjoyed a prosperous upbringing due to her father's success as a merchant. She first attended Central School and Brantford Ladies College, and then trained as a teacher at the Brant County Model school, earning her third-class teaching certificate in 1879. She taught school in the Brantford area from 1880 to 1882.</P>
+        <P>Her first published prose piece, "Diogenes on Bric-a-Brac," appeared in The Canadian
+                Monthly and National Review in June 1880.<BIBCITS>
+                    <BIBCIT
+                        REF="http://commons.cwrc.ca/islandora:8b2de07f-7b41-4cf3-b458-292a4a06f0bc"
+                    />
+                </BIBCITS> With an early desire to distinguish herself in literature, she chose to
+                pursue a journalistic career, establishing herself with articles about the New
+                Orleans Cotton Centennial of 1884 in the London Advertiser (Ontario), the Toronto
+                Globe, and the Memphis Appeal. She left New Orleans in May 1885 in order to work in
+                a variety of journalistic roles, including some occasional writing for the Globe and
+                full-time work on the Washington Post from October 1885 until the spring of 1886.
+                She became one of Canada's first regular woman journalists with a daily column in
+                the Globe, entitled "Woman's World," and later wrote a similar column,
+                "Bric-a-Brac," for the Montreal Star. Working at the Star from the fall of 1887, she
+                was made the Star's parliamentary correspondent in Ottawa in March 1888. She
+                continued to contribute to periodicals such as The Week, where she used the pen name
+                "Garth Grafton."</P>
+        <P>Having altered her name to what she considered the more sophisticated "Sara Jeannette,"
+                she published her first novel, A Social Departure, in 1890. The novel originated as
+                a series of travel sketches written for the Montreal Star in 1888-89, as she
+                travelled around the world with fellow journalist, Lily Lewis. In India, Sara met
+                Everard Cotes, a Calcutta museum official who later became a newspaper editor and
+                Reuters correspondent. Sara completed her journey, staying with Everard's relatives
+                in England before returning to Brantford. In the autumn of 1890, Sara travelled back
+                to Calcutta, where she married Everard, in St. Thomas's (Free School) Church, on 6
+                December 1890.</P>
+        <P>Duncan subsequently published serious and comic fiction set mainly in England and India, much of it concerned with Anglo-Indian social and political situations. Many of her novels, especially her earlier works, were first serialized in British and American journals (notably The Lady's Pictorial and the American edition of the Illustrated London News). </P>
+        <P>In keeping with the custom of the British in India, the Cotes shared their time between
+                Calcutta and Simla, a small Himalayan town that became the headquarters of British
+                administration each year during the hot season. During her time in India, Sara
+                frequently visited England for extended periods, spending almost as much time in
+                London as in India. She also travelled home to Canada a number of times. Living in
+                Canada, India, and England gave her a unique perspective on issues of empire, both
+                social and political. In the late 1890s, Sara contracted tuberculosis and spent
+                months in her Simla garden, exiled from the house, writing a reflective novel on the
+                experience: The Crow's Nest (1901; published in England as On the Other Side of the
+                Latch).</P>
+        <P>Only two of her twenty-two novels deal with Canada: <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:035daa99-d6c3-44a8-9dd2-d2804adf1975">The Imperialist</TITLE> (1904) presents a serious analysis of Canadian identity, while <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:e1afd0a7-c90a-406d-8f69-e5f208f37552">Cousin Cinderella</TITLE> (1908; originally intended to be titled <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:e1afd0a7-c90a-406d-8f69-e5f208f37552">A Canadian Girl in London</TITLE>) takes a lighter look at international social relations. In her later years, Sara wrote plays, many of which were performed, but all of which remain unpublished. She retired with her husband to Chelsea, in London, then to Ashtead, Surrey, where she died of pneumonia on 22 July 1922. She was buried in St. Giles churchyard, in Ashtead, on 26 July 1922.</P>
+        <P>For a more detailed biography, see her entry in the <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:a6b310c3-a6f5-4615-9497-46776737b8b0"><XREF URL="http://www.biographi.ca/en/bio/duncan_sara_jeannette_15E.html" RESP="DJW">Dictionary of Canadian Biography</XREF></TITLE>.</P>
+        </AUTHORSUMMARY> <HEADING SUBTYPE="2">Published Texts</HEADING> <HEADING SUBTYPE="3">Fiction</HEADING> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:167cc4e9-f7f8-4119-95b8-f738b6e64302"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/socialdepartureh00duncrich" RESP="DJW">A Social Departure</XREF></TITLE> (New York: Appleton, 1890; London: Chatto &amp; Windus, 1890)&#8212;first serialized in <TITLE LEVEL="JOURNAL">The Lady's Pictorial</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:00ed23ad-314a-4bf6-a545-d85d73bdcaff"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/americangirlinlo00duncuoft" RESP="DJW">An American Girl in London</XREF></TITLE> (New York: Appleton, 1891; London: Chatto &amp; Windus, 1891)&#8212;first serialized in <TITLE LEVEL="JOURNAL">The Lady's Pictorial</TITLE> (London) and the American edition of the <TITLE LEVEL="JOURNAL">Illustrated London News</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:a829be73-e3a1-4b9c-8930-3b6355564db6"><TITLE LEVEL="MONOGRAPHIC">Two Girls on a Barge</TITLE> (New York: Appleton, 1891)—as "V. Cecil Cotes"; first serialized in <TITLE LEVEL="JOURNAL">The Lady's Pictorial</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:bb747f39-3f91-43e9-9cab-126fcab36aa2"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/simpleadventure00duncgoog" RESP="DJW">The Simple Adventures of a Memsahib</XREF></TITLE> (New York: Appleton, 1893; London: Chatto &amp; Windus, 1893)&#8212;first serialized in <TITLE LEVEL="JOURNAL">The Lady's Pictorial</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:0562fcde-a130-4a3f-861f-5d17110485e4"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/daughteroftodayn00duncrich" RESP="DJW">A Daughter of Today</XREF></TITLE> (New York: Appleton, 1894; London: Chatto &amp; Windus, 1894; Toronto: Toronto News, 1894)—as Mrs. Everard Cotes (Sara Jeannette Duncan)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:56b2b8ea-a322-473b-ab85-17c98aeb5d05"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/cihm_05297" RESP="DJW">The Story of Sonny Sahib</XREF></TITLE> (London: Macmillan, 1894; New York: Appleton, 1894)—as Mrs. Everard Cotes (Sara Jeannette Duncan); first serialized in <TITLE LEVEL="JOURNAL">Youth's Companion</TITLE> (Boston, MA)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:2c37db05-78e1-4810-a593-9459c7c49b9c"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/vernonsauntbeing00duncuoft" RESP="DJW">Vernon's Aunt</XREF></TITLE> (London: Chatto &amp; Windus, 1894; New York: Appleton, 1895)—as Sara Jeannette Duncan (Mrs. Everard Cotes); first serialized in <TITLE LEVEL="JOURNAL">The Idler</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:1807c08e-8e6f-4530-a673-171c8d243144"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/hishonourandlady00dunciala" RESP="DJW">His Honour, and a Lady</XREF></TITLE> (New York: Appleton, 1895; London: Macmillan, 1896; Toronto: Rose, 1896)&#8212;as Mrs. Everard Cotes (Sara Jeannette Duncan); first serialized in the <TITLE LEVEL="JOURNAL">Pall Mall Magazine</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:c34b1a36-21a7-40e4-8c0b-5fde1ebb5c02"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/cihm_05292" RESP="DJW">Hilda: A Story of Calcutta</XREF></TITLE> (New York: Stokes, 1898)—published in Canada and the UK as <TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/cihm_05294" RESP="DJW">The Path of a Star</XREF></TITLE> (London: Methuen, 1899, Toronto: Gage, 1899)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:02da6cba-1069-44c3-aded-2a05b8a359b0"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/cihm_05299" RESP="DJW">A Voyage of Consolation</XREF></TITLE> (New York: Appleton, 1898; London: Methuen, 1898)—first serialized in <TITLE LEVEL="JOURNAL">The Queen</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:46a2eb26-3f91-4124-b7d8-c71bb77983cf"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/crowsnest00dunciala" RESP="DJW">The Crow's Nest</XREF></TITLE> (New York: Dodd, Mead, 1901)—as Mrs. Everard Cotes (Sara Jeannette Duncan); published in the UK as <TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/onothersidelatc00duncgoog" RESP="DJW">On the Other Side of the Latch</XREF></TITLE> (London: Methuen, 1901)—as Sara Jeannette Duncan (Mrs. Everard Cotes)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:95744622-be63-40ca-8638-cb52ee614799"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/thosedelightfula00duncuoft" RESP="DJW">Those Delightful Americans</XREF></TITLE> (New York: Appleton, 1902; London: Methuen, 1902)—as Mrs. Everard Cotes (Sara Jeannette Duncan); first serialized in <TITLE LEVEL="JOURNAL">Ladies Field</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:93bcabdf-c076-4907-ab9b-2612a371d169"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/poolindesert00duncuoft" RESP="DJW">The Pool in the Desert</XREF></TITLE> (New York: Appleton, 1903; London: Methuen, 1903)—as Mrs. Everard Cotes (Sara Jeannette Duncan); the title story first published in <TITLE LEVEL="JOURNAL">Century Illustrated</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:035daa99-d6c3-44a8-9dd2-d2804adf1975"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/imperialist00dunciala" RESP="DJW">The Imperialist</XREF></TITLE> (New York: 1904; Westminster, UK: Constable, 1904; Toronto: Copp Clark, 1904)—as Mrs. Everard Cotes (Sara Jeannette Duncan); first serialized in <TITLE LEVEL="JOURNAL">The Queen</TITLE> (London) and the <TITLE LEVEL="JOURNAL">Toronto News</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:e28d69c1-0fdf-4d09-945e-d0a3c0ad1ef5"><TITLE LEVEL="MONOGRAPHIC">Set in Authority</TITLE> (New York: Doubleday, Page, 1906; London: Constable, 1906)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:e1afd0a7-c90a-406d-8f69-e5f208f37552"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/cousincinderella00duncuoft" RESP="DJW">Cousin Cinderella</XREF></TITLE> (New York: Macmillan, 1908; London: Methuen, 1908; Toronto, Macmillan, 1908)—as Mrs. Everard Cotes (Sara Jeannette Duncan); first serialized in <TITLE LEVEL="JOURNAL">The Queen</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:6e930670-fddc-4ebe-a918-e0174161effe"><TITLE LEVEL="MONOGRAPHIC">Two in a Flat</TITLE> (London: Hodder &amp; Stoughton, 1908)&#8212;as Jane Wintergreen; first serialized in <TITLE LEVEL="JOURNAL">The Queen</TITLE> (London) as <TITLE LEVEL="ANALYTIC">Letters from a London Flat</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:534fb0d7-98f3-4061-b4c8-6720a88a314e"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/burntoffering00dunc" RESP="DJW">The Burnt Offering</XREF></TITLE> (London: Methuen, 1909; New York: John Lane, 1909)—as Mrs. Everard Cotes (Sara Jeannette Duncan)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:fbf84341-42db-429e-b94a-91e07b88e04a"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/cihm_99145" RESP="DJW">The Consort</XREF></TITLE> (London: Stanley Paul, 1912)—as Mrs. Everard Cotes (Sara Jeannette Duncan)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:ab51c4c9-160e-44d3-baf6-5e4cc94d5cb6"><TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/hisroyalhappines00dunciala" RESP="DJW">His Royal Happiness</XREF></TITLE> (New York: Appleton, 1914; Toronto: Hodder &amp; Stoughton, 1914; London: Hodder &amp; Stoughton, 1915)—as Mrs. Everard Cotes; first serialized in <TITLE LEVEL="JOURNAL">Woman at Home</TITLE> (London) and <TITLE LEVEL="JOURNAL">Ladies Home Journal</TITLE> (Philadelphia, PA)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:22465a16-8aaa-479b-8aae-d231e92a6114"><TITLE LEVEL="MONOGRAPHIC">Title Clear</TITLE> (London: Hutchinson, 1922)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:44fabfb0-6877-4285-b1bc-4dba5c0ba54b"><TITLE LEVEL="MONOGRAPHIC">The Gold Cure</TITLE> (London: Hutchinson, 1924)</BIBCIT>
+        </LISTBIBCIT> <HEADING SUBTYPE="3">Plays</HEADING> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:261ffa42-4104-487b-8012-b3fdca6da896"><TITLE LEVEL="MONOGRAPHIC">Beauchamp and Beecham: A Comedy in Khaki. In Three Acts</TITLE>&#8212;performed at the Lyric Theatre, London, 1915</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:e1235356-a490-4575-90fd-1126237495d9"><TITLE LEVEL="MONOGRAPHIC">Billjim from Down Under</TITLE>—performed at the Tivoli Theatre, Adelaide, Australia</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:66213d83-5016-4ca8-8faf-7b8fd6dd1b24"><TITLE LEVEL="MONOGRAPHIC">Browne with an "E"</TITLE>—performed by the Shimla Amateur Dramatic Club, 1905</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:6077a46d-0610-4c3b-bc60-d5956d832d3c"><TITLE LEVEL="MONOGRAPHIC">Good Dog: In One Act</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:269f7c52-035f-4951-988f-e5ae9308ba8e"><TITLE LEVEL="MONOGRAPHIC">His Royal Happiness</TITLE>—revised from the novel; opened 4 January 1915 at the Princess Theatre on King Street West, Toronto</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:0623fe99-33c9-41df-9757-eb589a87e0f1"><TITLE LEVEL="MONOGRAPHIC">Julyann: An Irish Comedy in Three Acts and a Crime</TITLE>—"Acted in Dublin" and evidently played at the Globe in July and August 1917</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:24a48847-3c88-4a37-99ae-c9e7e90d6bf5"><TITLE LEVEL="MONOGRAPHIC">A Knight of Two Hats: A Comedy in Three Acts</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:742b36b7-db43-4235-a4a3-d8faa7abd900"><TITLE LEVEL="MONOGRAPHIC">Molly Mary: A Play in Four Acts</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:11525ede-c836-402e-b572-e68b345fbfa1"><TITLE LEVEL="MONOGRAPHIC">Mrs. Bobby Bigamist: A Comedy in Three Acts</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:02f7cadb-747c-4e0a-beb6-13dd2f844fa0"><TITLE LEVEL="MONOGRAPHIC">Sonny Sahib: An Indian Play for Children and Grown-Ups</TITLE>—revised from the novel, with Forbes Dawson</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:15f80e37-6781-4d2f-862d-5edafe66b5a4"><TITLE LEVEL="MONOGRAPHIC">Teaching English</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:44fabfb0-6877-4285-b1bc-4dba5c0ba54b"><TITLE LEVEL="MONOGRAPHIC">The Gold Cure: A Comedy</TITLE>—revised from the novel</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:5cb2c877-e61c-4134-a1aa-01ba7c482aca"><TITLE LEVEL="MONOGRAPHIC">Title Clear: A Comedy in Three Acts and an Incident</TITLE>—revised from the novel</BIBCIT>
+        </LISTBIBCIT> <HEADING SUBTYPE="2">Periodical contributions</HEADING> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Athen&#230;um</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Atlanta</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Canada Monthly</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Century Illustrated</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Chautauquan</TITLE> (Meadville, PA)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Christian Union</TITLE> (Princeton, NJ)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Civil and Military Gazette</TITLE> (Lahore, India)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Contemporary Review</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Cosmopolitan</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Current Literature</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Harper's Bazaar</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Harper's Monthly Magazine</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">The Idler</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Indian Daily News</TITLE> (Calcutta, India)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Lady's Pictorial</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">London Advertiser</TITLE> (London, On)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Memphis Appeal</TITLE> (Memphis, TN)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Montreal Star</TITLE></BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Outing and the Wheelman</TITLE> (Boston, MA)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Outlook</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Pall Mall Magazine</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Popular Science Monthly</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Rose-Belford's Canadian Monthly and National Review </TITLE>(Toronto)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Scribner's</TITLE> (New York)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Smart Set</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">The Queen</TITLE> (London)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">To-Day</TITLE> (Boston, MA)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Toronto Globe</TITLE> (Toronto)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Washington Post</TITLE> (Washington, DC)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">The Week</TITLE> (Toronto)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF=""><TITLE LEVEL="JOURNAL">Youth's Companion</TITLE> (Boston, MA)</BIBCIT>
+        </LISTBIBCIT> <HEADING SUBTYPE="2">Family and Relationships</HEADING> <FAMILY>
+        <FAMILYMEMBER RELATION="FATHER"> <CHRONSTRUCT>
+            <CHRONPROSE>Father: <NAME>Charles Lees Duncan</NAME></CHRONPROSE>
+            <DATERANGE FROM="1834-07-16" TO="1907-10-07">16 July 1834 - 7 October 1907</DATERANGE>
+            </CHRONSTRUCT> <P>Charles Lees Duncan was born in Cupar, Fifeshire, Scotland, on 16 July 1834. He emigrated to Canada in 1851 and settled initially in St. John, New Brunswick, where he met and married Jane Bell.</P> <P>After their marriage on 10 August 1858, the couple moved to Brantford, ON. Two years after their eldest daughter, Sarah Janet (1861-1922), was born, they purchased a prestigious home at 96 West Street in order to accommodate their growing family, which in the end included nine children. Charles had begun work as a clerk in a dry-goods store, but eventually owned and operated his own dry goods and furniture store, Charles Duncan &amp; Sons, moving to the upscale Colborne Street in 1896.</P> <P>Charles died on 7 October 1907, at the age of 73, of arterial sclerosis.<BIBCITS><BIBCIT REF="http://commons.cwrc.ca/islandora:b5c05073-4af2-45fe-869f-451acdb0b499"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:4e837402-9416-4d89-bf96-6cd0a11f495e"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:9f17a443-1170-4a01-ab12-ece0cdf68d49"></BIBCIT></BIBCITS></P> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="MOTHER"> <CHRONSTRUCT>
+            <CHRONPROSE>Mother: <NAME>Jane Bell</NAME></CHRONPROSE>
+            <DATERANGE FROM="1837-11-07" TO="1931-04-22">7 November 1837 - 22 April 1931</DATERANGE>
+            </CHRONSTRUCT> <P>Jane ("Jeannie") Bell, was born in Shediac, NB, on 7 November 1837 to John Bell and Sarah Gilmour, who emigrated from Ireland in 1812 and 1828 respectively. Jeannie married Charles Duncan (1834-1907) on 10 August 1858 in Sheridac, NB, then moved with him to Brantford, ON. She had eleven children, of whom Sara Jeannette (born Sarah Janet) (1861-1922) was the eldest of the nine who survived childhood. Jeannie died on 22 April 1931, at the age of 94, of arterial sclerosis.<BIBCITS><BIBCIT REF="http://commons.cwrc.ca/islandora:b5c05073-4af2-45fe-869f-451acdb0b499"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:4e837402-9416-4d89-bf96-6cd0a11f495e"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:9f17a443-1170-4a01-ab12-ece0cdf68d49"></BIBCIT></BIBCITS></P> </FAMILYMEMBER>
+        <HEADING SUBTYPE="4">Siblings</HEADING>
+        <FAMILYMEMBER RELATION="SISTER"> <CHRONSTRUCT><CHRONPROSE><NAME>Annie Isabel Duncan</NAME></CHRONPROSE> <DATERANGE FROM="1860" TO="1861" CERTAINTY="ROUGHLYDATED">(22 April 1860 &#8211; 18 January 1861)</DATERANGE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="BROTHER"> <CHRONSTRUCT><CHRONPROSE><NAME>Henry Duncan</NAME></CHRONPROSE> <DATERANGE FROM="1863" TO="1885-03-09">(27 May 1862 &#8211; 9 May 1885)</DATERANGE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="BROTHER"> <CHRONSTRUCT><CHRONPROSE><NAME>Charles Duncan</NAME></CHRONPROSE> <DATERANGE FROM="1866" TO="1893-04-02">(14 June 1866 &#8211; 2 April 1893)</DATERANGE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="SISTER"> <CHRONSTRUCT><CHRONPROSE><NAME>Grace Duncan</NAME> </CHRONPROSE> <DATE VALUE="1868">(b. 1868): m. Arthur Alexander Caspersz (1861-1931)</DATE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="BROTHER"> <CHRONSTRUCT><CHRONPROSE><NAME>Gordon Guthrie Duncan</NAME> </CHRONPROSE> <DATE VALUE="1870">(1870 &#8211; 21 February 1951): m. Edith</DATE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="BROTHER"> <CHRONSTRUCT><CHRONPROSE><NAME>Edward Blake Duncan</NAME> </CHRONPROSE> <DATE VALUE="1873">(7 September 1872 &#8211; 19 November 1946): m. Lena Maude Sibbett (1868-1962)</DATE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="SISTER"> <CHRONSTRUCT><CHRONPROSE><NAME>Leslie Wilson Duncan</NAME></CHRONPROSE> <DATERANGE FROM="1875" TO="1902">(23 June 1874 &#8211; 20 June 1902)</DATERANGE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="SISTER"> <CHRONSTRUCT><CHRONPROSE><NAME>Bessie Beatrice Duncan</NAME> </CHRONPROSE> <DATE VALUE="1877">(30 January 1876 &#8211; 1 March 1880)</DATE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="SISTER"> <CHRONSTRUCT><CHRONPROSE><NAME>Ruby Ross Duncan</NAME> </CHRONPROSE> <DATE VALUE="1878">(7 December 1878 &#8211; 1947): m. Charles Alexander Waterous (1878-1956)</DATE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="BROTHER"> <CHRONSTRUCT><CHRONPROSE><NAME>Alexander ("Archie") Dufferin Duncan</NAME> </CHRONPROSE> <DATE VALUE="1880">(b. 1880)</DATE> </CHRONSTRUCT> </FAMILYMEMBER>
+        <FAMILYMEMBER RELATION="HUSBAND"> <CHRONSTRUCT><CHRONPROSE>Spouse: <NAME>Everard Charles Cotes</NAME></CHRONPROSE> <DATERANGE FROM="1862" TO="1944-10-04">(1862 - 4 October 1944)</DATERANGE> </CHRONSTRUCT> <HEADING SUBTYPE="5">Marriage:</HEADING> <CHRONSTRUCT><DATE VALUE="1890-12-08">8 December 1890, </DATE><CHRONPROSE><PLACE>Calcutta, India</PLACE> </CHRONPROSE> </CHRONSTRUCT> <P>Everard Cotes, eldest son of the Reverend Septimus Cotes (c1810-1893) and Ellen Goddard (1834-1921), was born in Berkshire, England, in the autumn of 1862. He attended Clifton College in Oxford, although he was not a member of the college, and matriculated in 1881. In 1882, he is recorded as being apprenticed to Henry Chauncy Maskerman, a grocer in London. Apprenticeship was a seven-year obligation, which Everard obviously did not fulfill, as he was soon afterwards working as the "First-Assistant to the Superintendent, Indian Museum" in Calcutta, publishing <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:5fecdea1-08a0-4dc2-a052-f6fac65912f4">The Moths of India</TITLE> in 1887.<BIBCITS><BIBCIT REF="http://commons.cwrc.ca/islandora:5fecdea1-08a0-4dc2-a052-f6fac65912f4"></BIBCIT></BIBCITS></P> <P>On 6 December 1890, in Calcutta, Everard married journalist Sara Jeannette Duncan (1861-1923). Everard was still working as a Calcutta museum official at this time, but subsequently became editor for the <TITLE LEVEL="JOURNAL">Indian Daily News</TITLE> and was a Reuters correspondent from 1862 until 1944. In 1919, after a brief visit to Brantford, the Cotes settled in England, first in a rented home in Chelsea and then at Barnett Wood Lodge, Ashtead, Surrey, where they lived until their deaths: Sara Jeannette in 1922, and Everard in 1944. Interestingly, in their 1919 travel documents, while Everard is listed as a "writer" or "journalist," Sara Jeannette, by far the more famous author, is listed as a "H[ouse]-wife."<BIBCITS> <BIBCIT REF="http://commons.cwrc.ca/islandora:3d805f50-f481-4c5e-8c6c-01f3128c3d04"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:5fecdea1-08a0-4dc2-a052-f6fac65912f4"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:4e837402-9416-4d89-bf96-6cd0a11f495e"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:fc8cdc82-37be-4a8e-af51-551725525049"></BIBCIT><BIBCIT REF="http://commons.cwrc.ca/islandora:2110feb8-57d6-409c-8506-3512190a4a7a"></BIBCIT></BIBCITS></P> </FAMILYMEMBER>
+        </FAMILY> <HEADING SUBTYPE="2">Religion</HEADING> <CULTURALFORMATION> <RELIGION> <DENOMINATION>Presbyterian</DENOMINATION> </RELIGION> </CULTURALFORMATION> <HEADING SUBTYPE="2">Residences</HEADING> <RESIDENCEANDMOBILITY RELATIONTO="LIVED">
+        <P><PLACE>Ashtead, Surrey, England</PLACE> <DATERANGE FROM="1920" TO="1922">(1920-1922)</DATERANGE> </P>
+        <P><PLACE>Brantford, ON, Canada</PLACE> <DATERANGE FROM="1861" TO="1884">(1861-1884, </DATERANGE><DATE VALUE="1886">1886) </DATE></P>
+        <P><PLACE>Calcutta, India</PLACE> <DATERANGE FROM="1890" TO="1914"> (1890-1914)</DATERANGE> </P>
+        <P><PLACE>London, England</PLACE> <DATERANGE FROM="1890" TO="1920">(1890-1920)</DATERANGE> </P>
+        <P><PLACE>Montreal, QC</PLACE> <DATERANGE FROM="1887-10" TO="1888-03">(October 1887-March 1888)</DATERANGE> </P>
+        <P><PLACE>New Orleans, MS, USA</PLACE> <DATERANGE FROM="1884-12" TO="1885">(December 1884-Spring 1885)</DATERANGE> </P>
+        <P><PLACE>Ottawa, ON</PLACE> <DATE VALUE="1888">(1888)</DATE> </P>
+        <P><PLACE>Simla, India</PLACE> <DATERANGE FROM="1891" TO="1914">(1891-1914)</DATERANGE> </P>
+        <P><PLACE>Toronto, ON</PLACE> <DATE VALUE="1886">(1886) </DATE></P>
+        <P><PLACE>Washington, DC, USA</PLACE><DATE VALUE="1885"> (1885) </DATE></P>
+        </RESIDENCEANDMOBILITY> <HEADING SUBTYPE="2">Education</HEADING> <EDUCATION MODE="INSTITUTIONAL">
+        <P>Central School, Brantford, Ontario</P>
+        </EDUCATION> <EDUCATION MODE="INSTITUTIONAL">
+        <P>Secondary education at the Brantford Ladies' College, Brantford, ON</P>
+        </EDUCATION> <EDUCATION MODE="INSTITUTIONAL">
+        <P>Teacher training at Brant County Model School, Brantford, ON</P>
+        </EDUCATION> <HEADING SUBTYPE="2">Tangential Information</HEADING> <OTHERLIFEEVENT> <P>Sara's pseudonym "V. Cecil Cotes" was borrowed from Everard's sister, Violet Cecile Cotes, who died in 1915.</P> <P>In 1939, Everard Cotes wrote to A.P. Watt discussing the possibility of a film version of <TITLE LEVEL="MONOGRAPHIC">The Story of Sonny Sahib</TITLE>, noting that it "still sells regularly as a school reading in the USA."<BIBCITS><BIBCIT REF="http://commons.cwrc.ca/islandora:2abdc111-a890-41e6-b79e-b41d6013ef80"></BIBCIT></BIBCITS></P> <P>Sara Jeannette Duncan named a number of fictional male companions to her narrators after an Assyrian King from the 8th century BC: "Tilgath-pileser" appears in "A Montreal Seamstress" (Montreal Star 28 Dec. 1887) and "Women's Medical College" (Montreal Star 28 Jan. 1888) as well as being the husband in <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:46a2eb26-3f91-4124-b7d8-c71bb77983cf">The Crow's Nest</TITLE> (1901; published as <TITLE LEVEL="MONOGRAPHIC" REF="http://commons.cwrc.ca/islandora:46a2eb26-3f91-4124-b7d8-c71bb77983cf">On the Other Side of the Latch</TITLE> in England). Another recurring fictional male associate was "Theophilus," who appears in "University Women" (<TITLE LEVEL="JOURNAL">The Globe</TITLE> 24 Feb. 1887) and "Sunday Afternoon at Queen's Park" (<TITLE LEVEL="JOURNAL">The Globe</TITLE> 13 July 1886).</P> </OTHERLIFEEVENT> <HEADING SUBTYPE="2">Archival Holdings</HEADING> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:2abdc111-a890-41e6-b79e-b41d6013ef80">A.P. Watt &amp; Company Records, Library of University of North Carolina at Chapel Hill, USA</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:914a68e1-9978-477b-9586-3fda2f459649"><XREF URL="http://findingaids.library.dal.ca/archibald-macmechan-fonds" RESP="KME">Archibald MacMechan fonds</XREF>, Dalhousie University Archives, Halifax, NS (letter to Archibald MacMechan)</BIBCIT>
+        </LISTBIBCIT><LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:a86f5613-870b-4388-a04a-67160a52265e">M.O. [Melvin Ormand] Harrmond fonds, Archives of Ontario, North York, ON (letters to M.O. Hammond)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:38fd0970-9404-46af-8fa0-bb1c4371d3d0">Century Company Records, New York Public Library, New York</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:d4bb48d0-50a6-4954-99bf-222ebad91bed">Chatto &amp; Windus Archive, University of Reading, England</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:8d8649d3-37fb-4516-9c8c-5d63e98bf8a6">D.B. Weldon Library, University of Western Ontario, London, ON (typescripts of all plays except <TITLE LEVEL="MONOGRAPHIC">Browne with an "E"</TITLE>)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:91950e95-e938-4e78-8e5d-5e02c7ff925f">Harry Ransom Humanities Research Center, University of Texas at Austin, Austin, TX</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:39b8209e-d288-4fdf-8cd3-444b1ebc13c9">Hathaway Collection, Harriet Irving Library, University of New Brunswick, Fredericton, NB</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:4c844863-44da-43d9-817f-a2a7495b3945">Houghton Library, Harvard University, Boston, MA (letter to W.D. Howells)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:eeb8dfea-7979-4985-9d52-22b06c7d3e1f">John Willison Papers, National Archives of Canada, Ottawa, ON</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:03a20dfd-2187-4e1d-9244-ab9b7bbf4b12">Metro Toronto Library, Toronto, ON (letters to Lord Lansdowne)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:520fdd12-e256-4809-a789-06b2aca55915">Records of Macmillan and Company, Ltd.; Special Collections, University of Reading, England</BIBCIT>
+        </LISTBIBCIT><LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:626f0e27-1cb4-4d4d-bb60-fdca3eca706e">Sara Jeannette Duncan fonds, Library and Archives Canada, Ottawa, ON (letter to Mrs. Hankin)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:67b94bb6-b465-459e-a6be-be92ddef0edd">Stirling Library, Yale University, New Haven, CT</BIBCIT>
+        </LISTBIBCIT> <HEADING SUBTYPE="2">Published Resources</HEADING> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:721ab6f9-d214-4e19-aa72-398ee0136874">1841 England Census.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:59f1331c-9b89-4ff9-b6e6-14accd03877b">1861 England Census.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:b5c05073-4af2-45fe-869f-451acdb0b499">1871 Census of Canada.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:61cc1681-f2e5-4e01-a1c1-c438841437f0">1871 England Census. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:b87ed8a0-3329-4a4f-9ca4-7c519be7e90f">1881 Census of Canada.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:d8259d46-dd57-4654-8081-f79fca45cb16">1881 England Census. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:d2eff4d8-d0bf-464c-bc81-2a9b54fab722">1891 England Census. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:cf2e8c04-220e-44d8-9242-caac1657bc1b">Border Crossings: From Canada to U.S., 1895-1956.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:3d805f50-f481-4c5e-8c6c-01f3128c3d04">Canadian Passenger Lists, 1865-1935. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:b124264b-176e-42cd-96f8-223fafc07e5f"><XREF URL="http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&amp;GRid=134435710&amp;ref=acom" RESP="KME"><TITLE LEVEL="ANALYTIC">Charles Duncan.</TITLE></XREF> <TITLE LEVEL="MONOGRAPHIC">Find A Grave</TITLE>. Web. 19 February 2016.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:b124264b-176e-42cd-96f8-223fafc07e5f"><XREF URL="http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&amp;GRid=134434948&amp;ref=acom" RESP="KME"><TITLE LEVEL="ANALYTIC">Charles Duncan, Jr.</TITLE></XREF> <TITLE LEVEL="MONOGRAPHIC">Find A Grave</TITLE>. Web. 19 February 2016. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:2abdc111-a890-41e6-b79e-b41d6013ef80">Cotes, Everard. Letter to A.P. Watts. 23 August 1939. A.P. Watt &amp; Company Records, Library of University of North Carolina at Chapel Hill, USA.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:5fecdea1-08a0-4dc2-a052-f6fac65912f4">Cotes, Everard Charles, and Col. C. Swinhoe. <TITLE LEVEL="MONOGRAPHIC"><XREF URL="https://archive.org/details/catalogueofmoths17cote" RESP="DJW">The Moths of India</XREF></TITLE> (Calcutta, India: Indian Museum, 1887).</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:96efba82-48ec-4a60-960e-87fbb94c535e"><TITLE LEVEL="MONOGRAPHIC">Creative Canada: A Biographical Dictionary of Twentieth-Century Creative and Performing Artists</TITLE>. Comp. Research Division, McPherson Library, U of Victoria (Toronto: U of Toronto P, 1971.)</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:4e837402-9416-4d89-bf96-6cd0a11f495e">Dean, Misao. <TITLE LEVEL="MONOGRAPHIC">A Different Point of View: Sara Jeannette Duncan</TITLE> (Montreal, QC: McGill-Queen's UP, 1991).</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:adf6d8e5-cc40-4265-8b6e-fd9f75cae97f">Dean, Misao.<XREF URL="http://www.biographi.ca/en/bio/duncan_sara_jeannette_15E.html" RESP="DJW"><TITLE LEVEL="ANALYTIC"> Duncan, Sara Jeannette (Cotes).</TITLE></XREF> <TITLE LEVEL="MONOGRAPHIC">Dictionary of Canadian Biography</TITLE>. Web. 15 October 2011.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:b124264b-176e-42cd-96f8-223fafc07e5f"><TITLE LEVEL="ANALYTIC">Edward Blake Duncan.</TITLE> <TITLE LEVEL="MONOGRAPHIC">Find A Grave</TITLE>. Web. 19 February 2016.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:cfc2c500-6d2e-453d-ac4f-cd0ac1f302b5">England &amp; Wales, FreeBMD Birth Index, 1837-1915. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:0574e21c-eca3-4dbf-88e4-063a0679a14b">England &amp; Wales, Death Index: 1916-2005.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:235fd9c3-6dbb-4c08-a301-8ae50ee59eb1">England &amp; Wales, FreeBMD Marriage Index, 1837-1915. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:304983cd-5b37-408d-85b8-ac80bb4e9204">England &amp; Wales, National Probate Calendar (Index of Wills and Administrations), 1861-1941.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:fc8cdc82-37be-4a8e-af51-551725525049">Foster, Joseph. <TITLE LEVEL="MONOGRAPHIC">Oxford Men, 1880-1892, With a Record of Their Schools, Honours and Degrees</TITLE> (Oxford, England: Parker, 1883): 135.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:9f17a443-1170-4a01-ab12-ece0cdf68d49">Fowler, Marian. <TITLE LEVEL="MONOGRAPHIC">Redney: A Life of Sara Jeannette Duncan</TITLE> (Markham, ON: Penguin, 1985).</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:b124264b-176e-42cd-96f8-223fafc07e5f"><XREF URL="http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&amp;GRid=134435183&amp;ref=acom" RESP="KME"><TITLE LEVEL="ANALYTIC">Henry Bell Duncan.</TITLE></XREF> <TITLE LEVEL="MONOGRAPHIC">Find A Grave</TITLE>. Web. 19 February 2016.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:ba01c1d4-3160-46ae-b14d-f7d049e72b7d">India, Select Marriages, 1792-1948. </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:d4df8f70-f2d7-4001-b0c1-68f2a41dded3">Lang, Marjorie. <TITLE LEVEL="MONOGRAPHIC">Women Who Made the News: Female Journalists in Canada, 1880-1945</TITLE> (Montreal, QC: McGill-Queen's UP, 1999).</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:2110feb8-57d6-409c-8506-3512190a4a7a">London, England, Freedom of the City Admission Papers, 1681-1925.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:47d68417-eb8c-4c0b-ba0b-2e9975e0255f">New York Passenger Lists, 1820-1957.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:18110da0-3b22-4e0a-9b33-d5c0c3f796f7">New, William, ed. <TITLE LEVEL="MONOGRAPHIC">Encyclopedia of Literature in Canada</TITLE> (Toronto: U of Toronto P, 2002).</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:11c5025a-1613-48c6-87b5-48f55ac760a4">Ontario, Canada, Deaths, 1869-1938 and Deaths Overseas, 1939-1947.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:41ff822d-06ab-4f07-9345-3f8cb07e2eea">Oxford University Alumni, 1500-1886.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:d8259d46-dd57-4654-8081-f79fca45cb16"><XREF URL="http://geneofun.on.ca/names/photo/316491" RESP="KME"><TITLE LEVEL="ANALYTIC">Ruby (Duncan) Waterous.</TITLE></XREF> Canada’s Gen Web Cemetery Project. Web. 19 February 2016.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:f4d12dfe-ec86-4ff3-a66a-4e83fe59e37c">Simla Amateur Dramatic Club Records, India Office Library and Records, British Library, London, England.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:6bd71483-f358-494d-a1fc-f0d240dba0d5">Surrey, England, Burials, 1813-1987.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:8b2de07f-7b41-4cf3-b458-292a4a06f0bc">Sutherland, John. <TITLE LEVEL="MONOGRAPHIC">Other Canadians: An Anthology of the New Poetry in Canada, 1940-1946</TITLE> (Toronto: First Statement, 1947). </BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:3687ed7c-772c-486a-9c14-336ee5fa9165">Tausky, Thomas E. "Sara Jeannette Duncan" (22 December 1861-22 July 1922). <TITLE LEVEL="MONOGRAPHIC">Canadian Writers, 1890-1920. Dictionary of Literary Biography. Vol. 92.</TITLE> (Detroit, MA: Gale Research, 1990): 97-104. Web. 10 Sept. 2011.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:4e9bf8df-f04f-4d5c-8ce5-f1abc252fd4a">Tausky, Thomas E. <TITLE LEVEL="MONOGRAPHIC">Sara Jeannette Duncan: Novelist of Empire</TITLE>. (Port Credit, ON: Meany, 1988).</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:2c608a50-f8d7-4501-aa12-0ecb0bbe0876">UK Incoming Passenger Lists, 1878-1960.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:3f886745-1f66-4895-8f41-4ef71464342e"><XREF URL="http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&amp;GRid=121398848&amp;ref=acom" RESP="KME"><TITLE LEVEL="ANALYTIC">Violet Cecil Cotes.</TITLE></XREF> <TITLE LEVEL="MONOGRAPHIC">Find A Grave</TITLE>. Web. 19 February 2016.</BIBCIT>
+        </LISTBIBCIT> <LISTBIBCIT>
+        <BIBCIT REF="http://commons.cwrc.ca/islandora:f2eb563f-6a90-412b-b49c-c5a0eca716fb">Watters, R. E. <TITLE LEVEL="MONOGRAPHIC">A Checklist of Canadian Literature and Background Materials 1628-1960</TITLE>. 1959 (Toronto: U of Toronto P, 1972): 280, 612, 959.</BIBCIT>
+        </LISTBIBCIT> </ENTRY>
+</CWRC>

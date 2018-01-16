@@ -7,8 +7,10 @@ public class EncodeOptions {
     private final ArrayList<EncodeProcess> processes = new ArrayList<>();
     private IsMonitor monitor = null;
 
-    public void addProcess(EncodeProcess encodeProcess){
-        this.processes.add(encodeProcess);
+    public void addProcess(EncodeProcess ... encodeProcesses){
+        for (EncodeProcess encodeProcess : encodeProcesses){
+            this.processes.add(encodeProcess);
+        }
     }
 
     public EncodeProcess[] getProcesses(){

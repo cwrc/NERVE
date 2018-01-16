@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.encoder;
+
 import static ca.sharcnet.nerve.Constants.*;
 import ca.sharcnet.nerve.context.*;
 import ca.sharcnet.nerve.docnav.*;
@@ -25,6 +26,7 @@ import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
 
 public class Encoder {
+
     private final Context context;
     private final SQL sql;
     private final Classifier classifier;
@@ -89,9 +91,9 @@ public class Encoder {
         if (!context.getSchemaName().isEmpty()) schemaURL = context.getSchemaName();
 
         InputStream schemaStream = null;
-        if (schemaURL.startsWith("http:")){
+        if (schemaURL.startsWith("http:")) {
             schemaStream = new URL(schemaURL).openStream();
-        } else if (schemaURL.startsWith("file:")){
+        } else if (schemaURL.startsWith("file:")) {
             schemaStream = hasStreams.getResourceStream(schemaURL.substring(5));
         }
         Schema schemaFromStream = RelaxNGSchemaLoader.schemaFromStream(schemaStream);
@@ -115,16 +117,16 @@ public class Encoder {
     }
 
     private EncodedDocument encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        for (EncodeProcess process : options.getProcesses()){
-            switch(process){
+        for (EncodeProcess process : options.getProcesses()) {
+            switch (process) {
                 case NER:
                     monitor.phase("ner", 5, 7);
                     if (this.classifier != null) processNER(document);
-                break;
+                    break;
                 case DICTIONARY:
                     monitor.phase("dictionary", 6, 7);
                     if (this.sql != null) lookupTag();
-                break;
+                    break;
             }
         }
 
@@ -141,7 +143,7 @@ public class Encoder {
         this.schema = schema;
     }
 
-    private void lookupTag() throws SQLException {
+    private String buildDictionaryQuery() {
         List<String> dictionaries = context.readFromDictionary();
 
         StringBuilder builder = new StringBuilder();
@@ -153,10 +155,13 @@ public class Encoder {
         }
 
         String query = "select * from dictionary";
-        if (builder.length() > 0) query = String.format("select * from dictionary where %s", builder.toString());
+        if (builder.length() > 0) query = String.format("select * from dictionary where (%s) ", builder.toString());
+        return query;
+    }
 
+    private void lookupTag() throws SQLException {
         StringMatch knownEntities = new StringMatch();
-        SQLResult sqlResult = sql.query(query);
+        SQLResult sqlResult = sql.query(buildDictionaryQuery());
 
         for (int i = 0; i < sqlResult.size(); i++) {
             SQLRecord row = sqlResult.get(i);
@@ -166,7 +171,7 @@ public class Encoder {
         lookupTag(document, knownEntities);
     }
 
-    private void lookupTag(Document doc, StringMatch knownEntities) {
+    private void lookupTag(Document doc, StringMatch knownEntities) throws SQLException {
         Query textNodes = doc.query(NodeType.TEXT);
 
         int n = 0;
@@ -174,10 +179,36 @@ public class Encoder {
 
         for (Node node : textNodes) {
             this.monitor.step(n++, N);
-            if (context.isTagName(node.getParent().name(), NAME)) continue; /* skip already tagged nodes */
-            lookupTag((TextNode)node, knownEntities);
+            if (context.isTagName(node.getParent().name(), NAME)) lookupTaggedNode(node.getParent());
+            lookupTag((TextNode) node, knownEntities);
         }
         this.monitor.step(1, 1);
+    }
+
+    private void lookupTaggedNode(Node node) throws SQLException {
+        String linkAttribute = context.getTagInfo(node.name(), NAME).getLinkAttribute();
+        String lemmaAttribute = context.getTagInfo(node.name(), NAME).getLemmaAttribute();
+
+        if (linkAttribute.isEmpty() || node.hasAttribute(linkAttribute)) return;
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(buildDictionaryQuery());
+        builder.append(" AND (entity=\"");
+        builder.append(node.text().replaceAll("\"", "\\\\\""));
+        builder.append("\")");
+        String query = builder.toString();
+
+        try {
+            SQLResult sqlResult = sql.query(query);
+            if (sqlResult.size() == 0) return;
+            SQLRecord row = sqlResult.get(0);
+
+            node.attr(lemmaAttribute, row.getEntry("lemma").getValue());
+            node.attr(linkAttribute, row.getEntry("link").getValue());
+        } catch (SQLException ex) {
+            Console.warn(query);
+            throw ex;
+        }
     }
 
     private void lookupTag(TextNode child, StringMatch knownEntities) {
@@ -250,10 +281,10 @@ public class Encoder {
             }
         }
 
-        if (context.isTagName(eNode.name(), NAME)){
+        if (context.isTagName(eNode.name(), NAME)) {
             TagInfo tagInfo = context.getTagInfo(eNode.name(), NAME);
             String lemmaAttribute = tagInfo.getLemmaAttribute();
-            if (!lemmaAttribute.isEmpty() && eNode.attr(lemmaAttribute).isEmpty()){
+            if (!lemmaAttribute.isEmpty() && eNode.attr(lemmaAttribute).isEmpty()) {
                 eNode.attr(lemmaAttribute, eNode.text());
             }
         }
@@ -272,11 +303,10 @@ public class Encoder {
         for (Node node : textNodes) {
             this.monitor.step(n++, N);
             if (node.text().trim().isEmpty()) continue;
-            Console.log(node);
 
             /* skip nodes that are already tagged */
             NodeList ancestorNodes = node.ancestorNodes(NodeType.ELEMENT);
-            if (ancestorNodes.testAny(nd->context.isTagName(nd.name(), NAME))) continue;
+            if (ancestorNodes.testAny(nd -> context.isTagName(nd.name(), NAME))) continue;
 
             NodeList nerList = applyNamedEntityRecognizer(node.text());
 
@@ -322,9 +352,9 @@ public class Encoder {
         NodeList nodes = localDoc.query("*");
 
         /* for each node in the document (from above) if it's an NER node     */
-        /* change it's tagname to a valid tag name occording to the context   */
-        /* and set it's lemma if it doesn't already have one.                 */
-        /* ensure that the node has the default attributes                    */
+ /* change it's tagname to a valid tag name occording to the context   */
+ /* and set it's lemma if it doesn't already have one.                 */
+ /* ensure that the node has the default attributes                    */
         for (Node node : nodes) {
             /* if node name is an NER tag name */
             if (context.isTagName(node.name(), NERMAP)) {

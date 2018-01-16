@@ -34,15 +34,16 @@ public class Main implements HasStreams, IsMonitor{
 
     public void run() throws IllegalArgumentException, IOException, FileNotFoundException, ClassCastException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
 //        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/TEI.xml"));
-        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/cwrc_short_empty.xml"));
+        Document d2 = DocumentLoader.documentFromStream(this.getResourceStream("/doc/nerve_long.xml"));
 
         EncodeOptions options = new EncodeOptions();
-        options.addProcess(EncodeProcess.NER);
+        options.addProcess(EncodeProcess.NER, EncodeProcess.DICTIONARY);
 
         Document encoded = Encoder.encode(d2, this, options);
-//        Document decoded = Decoder.decode(encoded, this);
+        Document decoded = Decoder.decode(encoded, this);
 
 //        Console.log(encoded);
+        Console.log(decoded);
     }
 
     @Override
