@@ -18,17 +18,17 @@
             <url>src/ca/sharcnet/nerve/docnav/dom/Node.java</url>
             <bookmark id="7">
                 <name/>
-                <line>24</line>
+                <line>25</line>
                 <key/>
             </bookmark>
             <bookmark id="6">
                 <name/>
-                <line>315</line>
+                <line>316</line>
                 <key/>
             </bookmark>
             <bookmark id="11">
                 <name/>
-                <line>467</line>
+                <line>468</line>
                 <key/>
             </bookmark>
         </file>
@@ -41,18 +41,18 @@
             </bookmark>
         </file>
         <file>
-            <url>src/ca/sharcnet/nerve/docnav/query/Query.java</url>
-            <bookmark id="9">
-                <name/>
-                <line>368</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</url>
             <bookmark id="5">
                 <name/>
                 <line>96</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ca/sharcnet/nerve/docnav/query/Query.java</url>
+            <bookmark id="9">
+                <name/>
+                <line>368</line>
                 <key/>
             </bookmark>
         </file>

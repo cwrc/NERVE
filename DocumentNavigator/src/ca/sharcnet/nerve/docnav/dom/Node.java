@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.dom;
+import ca.fa.utility.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
