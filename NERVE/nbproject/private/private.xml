@@ -199,7 +199,7 @@
             <url>web/javaScript/util/utility.js</url>
             <bookmark id="165">
                 <name/>
-                <line>231</line>
+                <line>233</line>
                 <key/>
             </bookmark>
         </file>
@@ -243,9 +243,9 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
         </group>
         <group name="Frontier">
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/build.xml</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/ca/sharcnet/dh/nerve/Scriber.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/ca/sharcnet/dh/nerve/AScriber.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/test.html</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/entityPanelWidget.js</file>
         </group>
     </open-files>
 </project-private>

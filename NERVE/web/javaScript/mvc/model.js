@@ -8,6 +8,7 @@ class Model {
         this.storage = new Storage("NERVE_CONTROLLER");
         this.view = view;
         this.variables = {};
+        this.listeners = [];
 
         /* refers to the index of the last saved state -1 if never saved */
         this.stateIndex = -1;
@@ -23,10 +24,10 @@ class Model {
         this.view.setFilename("");
     }
 
-    setListener(listener) {
-        Utility.log(Model, "setListener");
+    addListener(listener) {
+        Utility.log(Model, "addListener");
         Utility.enforceTypes(arguments, Listeners);
-        this.listener = listener;
+        this.listeners.push(listener);
     }
 
     /**
