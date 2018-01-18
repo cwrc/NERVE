@@ -1,5 +1,10 @@
 /* global Utility, Symbol */
 
+/**
+ * events: notifyCollectionAdd, notifyCollectionClear, notifyCollectionRemove
+ * @type type
+ */
+
 class Collection {
     constructor(array) {
         Collection.traceLevel = 0;
@@ -15,6 +20,15 @@ class Collection {
             while (i--) this.innerArray[i] = array[i];
         }
     }
+
+    async notifyListeners(method){
+        Array.prototype.shift.apply(arguments);
+        for (let view of this.listeners){
+            if (typeof view[method] !== "function") continue;
+            await view[method].apply(view, arguments);
+        }
+    }
+
     $() {
         return $(this.innerArray);
     }
@@ -27,44 +41,28 @@ class Collection {
         this.listeners.push(listener);
         return this;
     }
-    notifyListeners() {
-        Utility.log(Collection, "notifyListeners");
-        Utility.enforceTypes(arguments);
-        for (let listener of this.listeners) listener.onChange(this);
-    }
     add(obj) {
         Utility.log(Collection, "add");
         Utility.enforceTypes(arguments, Object);
 
         if (!this.contains(obj)) {
             this.innerArray.push(obj);
-            this.notifyListeners();
+            this.notifyListeners("notifyCollectionAdd", this, obj);
         }
     }
     set(obj) {
         Utility.log(Collection, "add");
         Utility.enforceTypes(arguments, Object);
-        this.innerArray = [obj];
-        this.notifyListeners();
-    }
-    addAll(collection) {
-        Utility.log(Collection, "addAll");
-        Utility.enforceTypes(arguments, Collection);
-
-        let changed = false;
-        for (let obj of collection) {
-            if (!this.contains(obj)) {
-                this.innerArray.push(obj);
-                changed = true;
-            }
-        }
-        if (changed) this.notifyListners();
+        this.clear();
+        this.add(obj);
     }
     clear() {
         Utility.log(Collection, "clear");
         Utility.enforceTypes(arguments);
+        if (this.isEmpty()) return;
+        let oldArray = this.innerArray;
         this.innerArray = [];
-        this.notifyListeners();
+        this.notifyListeners("notifyCollectionClear", this, oldArray);
     }
     get(i) {
         Utility.log(Collection, "get");
@@ -97,6 +95,7 @@ class Collection {
         if (!this.contains(obj)) return null;
         this.innerArray.splice(this.innerArray.indexOf(obj), 1);
         this.notifyListeners();
+        this.notifyListeners("notifyCollectionRemove", this, obj);
         return obj;
     }
     contains(obj) {

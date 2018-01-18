@@ -1,146 +1,143 @@
-/**
- * All tagged entity elements get passed to a TaggedEntity constructor to provide functionality.
- * @type type
- */
-class TaggedEntity {
-    constructor(controller, element) {
-        Utility.log(TaggedEntity, "constructor");
-        Utility.enforceTypes(arguments, Controller, HTMLDivElement);
 
-        this.controller = controller;
-        this.element = element;
-        element.entity = this;
+/* global Utility, TaggedEntityModel, Collection */
 
-        $(element).addClass("taggedentity");
+class EntityDialogView {
+    constructor(){
+        Utility.log(EntityDialogView, "constructor");
+        Utility.enforceTypes(arguments);
 
-        if ($(element).contents().length === 0) {
-            this.contents = document.createElement("div");
-            $(this.contents).addClass("contents");
-            $(element).prepend(this.contents);
-        } else if ($(element).children().filter(".contents").length === 0) {
-            this.contents = $(element).contents().wrap();
-            this.contents.addClass("contents");
+        $('#txtEntity').textinput();
+        $('#searchDialog').textinput();
+        $('#txtLemma').textinput();
+        $('#txtLemma').textinput();
+    }
+
+    notifyCollectionAdd(collection, taggedEntityModel) {
+        Utility.log(EntityDialogView, "notifyCollectionAdd");
+        Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
+        this.pollDialogs(collection);
+        this.setDialogFade();
+
+        console.log(taggedEntityModel);
+        window.tem = taggedEntityModel;
+
+        this.setEntity(taggedEntityModel.text());
+        this.setLemma(taggedEntityModel.lemma());
+        this.setLink(taggedEntityModel.link());
+        this.setTagName(taggedEntityModel.tagName());
+    }
+    notifyCollectionClear(collection, taggedEntityModels) {
+        Utility.log(EntityDialogView, "notifyCollectionClear");
+        Utility.enforceTypes(arguments, Collection, Array);
+        this.pollDialogs(collection);
+        this.setDialogFade();
+    }
+    notifyCollectionRemove(collection, taggedEntityModel) {
+        Utility.log(EntityDialogView, "notifyCollectionRemove");
+        Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
+        this.pollDialogs(collection);
+        this.setDialogFade();
+    }
+    pollDialogs(collection) {
+        Utility.log(EntityDialogView, "pollDialogs");
+        Utility.enforceTypes(arguments, Collection);
+
+        let first = collection.getFirst();
+        this.clearDialogBG();
+
+        for (let entity of collection) {
+            if (entity.lemma() !== first.lemma()) this.setDialogBG("lemma");
+            if (entity.link() !== first.link()) this.setDialogBG("link");
+            if (entity.text() !== first.text()) this.setDialogBG("text");
+            if (entity.tagName() !== first.tagName()) this.setDialogBG("tag");
+        }
+    }
+    clearDialogBG() {
+        Utility.log(EntityDialogView, "clearDialogBG");
+        $("#selectTagName").parent().css("color", "#000000");
+        $("#txtEntity").parent().css("background-color", "#ffffff");
+        $("#txtLemma").parent().css("background-color", "#ffffff");
+        $("#txtLink").parent().css("background-color", "#ffffff");
+    }
+    setDialogBG(item) {
+        Utility.log(EntityDialogView, "setDialogBG", item);
+
+        switch (item) {
+            case "tag":
+                $("#selectTagName").parent().css("color", "#ff0000");
+                break;
+            case "text":
+                $("#txtEntity").parent().css("background-color", "#ffcccc");
+                break;
+            case "lemma":
+                console.log("HERE");
+                $("#txtLemma").parent().css("background-color", "#ffcccc");
+                break;
+            case "link":
+                $("#txtLink").parent().css("background-color", "#ffcccc");
+                break;
+        }
+    }
+    setDialogFade(value = true) {
+        Utility.log(EntityDialogView, "setDialogFade");
+        Utility.enforceTypes(arguments);
+
+        if (value) {
+            $('#txtEntity').textinput('enable');
+            $('#searchDialog').textinput('enable');
+            $('#txtLemma').textinput('enable');
+            $('#txtLemma').textinput('enable');
+
+            this.clearDialogs();
+//            this.setDictionaryButton("none");
         } else {
-            this.contents = $(this.element).children(".contents");
+            this.clearDialogBG();
+            $('#txtEntity').textinput('disable');
+            $('#searchDialog').textinput('disable');
+            $('#txtLemma').textinput('disable');
+            $('#txtLemma').textinput('disable');
         }
 
-        if ($(element).children().filter(".tagname-markup").length === 0) {
-            this.markup = document.createElement("div");
-            $(element).prepend(this.markup);
-            $(this.markup).addClass("tagname-markup");
-            this.tagName($(element).tagName());
-        } else {
-            this.markup = $(this.element).children(".tagname-markup");
-        }
+        $( "#txtEntity" ).textinput( "refresh" );
+    }
+    setTagName(string) {
+        Utility.log(EntityDialogView, "setTagName", string);
+        Utility.enforceTypes(arguments, String);
+        $("#selectTagName").val(string);
+        $("#selectTagName").selectmenu("refresh", true);
+    }
+    setEntity(string) {
+        Utility.log(EntityDialogView, "setEntity");
+        Utility.enforceTypes(arguments, String);
+        document.getElementById("txtEntity").value = string;
+    }
+    setLemma(string) {
+        Utility.log(EntityDialogView, "setLemma");
+        Utility.enforceTypes(arguments, String);
+        document.getElementById("txtLemma").value = string;
+    }
+    setLink(string) {
+        Utility.log(EntityDialogView, "setLink");
+        Utility.enforceTypes(arguments, String);
+        document.getElementById("txtLink").value = string;
+    }
+    clearDialogs() {
+        Utility.log(EntityDialogView, "clearDialogs");
+        Utility.enforceTypes(arguments);
 
-        $(this.element).click((event) => this.click(event));
-        $(this.contents).click((event) => this.click(event));
-    }
-    createDOMElement() {
-    }
-    click(event) {
-        Utility.log(TaggedEntity, "click");
-        event.stopPropagation();
-
-        if (event.altKey) {
-            console.log(this.element);
-            window.lastTarget = this;
-            return;
-        }
-
-        if (!event.ctrlKey) {
-            this.controller.unselectAll();
-            event.stopPropagation();
-        }
-
-        if (!event.ctrlKey && !event.metaKey) {
-            this.controller.setSelected(this);
-        } else {
-            this.controller.toggleSelect(this);
-        }
-    }
-    tagName(value = undefined) {
-        Utility.log(TaggedEntity, "tagName", value);
-        if (value === undefined) return $(this.element).tagName();
-
-        if (!this.controller.getContext().isTagName(value, NameSource.NAME)) {
-            throw new Error(`Tagname ${name} doesn't match any known name in context ${this.controller.getContext().getName()}`);
-        }
-
-        let tagInfo = this.controller.getContext().getTagInfo(value, NameSource.NAME);
-
-        $(this.markup).text(value);
-        $(this.markup).attr("data-norm", tagInfo.getName(NameSource.DICTIONARY));
-        $(this.element).tagName(value);
-
-        return $(this.element).tagName();
-    }
-    lemma(value = undefined) {
-        Utility.log(TaggedEntity, "lemma", value);
-        if (value === undefined) return $(this.element).lemma();
-        $(this.element).lemma(value);
-        return $(this.element).lemma();
-    }
-    link(value = undefined) {
-        Utility.log(TaggedEntity, "link", value);
-        if (value === undefined) return $(this.element).link();
-        $(this.element).link(value);
-        return $(this.element).link();
-    }
-    text(value = undefined) {
-        Utility.log(TaggedEntity, "text", value);
-        if (value === undefined) return $(this.contents).text();
-        $(this.contents).text(value);
-        return $(this.contents).text();
-    }
-    collection(value = undefined) {
-        Utility.log(TaggedEntity, "collection", value);
-        if (value === undefined) return $(this.element).attr("data-collection");
-        $(this.element).attr("data-collection", value);
-        return $(this.element).attr("data-collection");
-    }
-    entityValues(value = undefined) {
-        Utility.log(TaggedEntity, "entityValues", value);
-        if (value === undefined) return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
-        else {
-            if (value.text !== "") this.text(value.text);
-            if (value.lemma !== "") this.lemma(value.lemma);
-            if (value.link !== "") this.link(value.link);
-            if (value.tagName !== "") this.tagName(value.tagName);
-            if (value.collection !== "") this.collection(value.collection);
-        }
-        return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
-    }
-    untag() {
-        let children = $(this.contents).contents();
-        $(this.element).replaceWith(children);
-        document.normalize();
-    }
-    addClass(classname) {
-        $(this.element).addClass(classname);
-    }
-    removeClass(classname) {
-        $(this.element).removeClass(classname);
-    }
-    removeMarkup() {
-        Utility.log(TaggedEntity, "removeMarkup");
-        $(this.markup).detach();
-        let children = $(this.contents).contents();
-        $(this.contents).detach();
-        $(this.element).append(children);
-        delete this.element.entity;
-        return this.element;
+        document.getElementById("txtEntity").value = "";
+        document.getElementById("txtLemma").value = "";
+        document.getElementById("txtLink").value = "";
     }
 }
 
 class View {
-    constructor(controller) {
-        View.traceLevel = 0;
+    constructor(model) {
         Utility.log(View, "constructor");
-        Utility.enforceTypes(arguments, Controller);
+        Utility.enforceTypes(arguments, Model);
 
-        this.controller = controller;
         this.context = null;
+        model.addListener(this);
 
         this.storage = new Storage("NERVE_VIEW");
         if (this.storage.hasValue("mode") && this.storage.getValue("mode") === "tag") {
@@ -156,23 +153,22 @@ class View {
         this.usrMsgHnd = new UserMessageHandler();
         this.usrMsgHnd.setContainer(document.getElementById("userMessage"));
     }
-    markupTaggedEntities() {
-        Utility.log(View, "markupTaggedEntities");
-        Utility.enforceTypes(arguments);
-
-        console.log($(".taggedentity"));
-        let controller = this.controller;
-
-        $(".taggedentity").each((i, element) => {
-            new TaggedEntity(controller, element);
-        });
+    notifyCollectionAdd(collection, taggedEntityModel) {
+        Utility.log(View, "notifyCollectionAdd");
+        Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
+        $(taggedEntityModel.getElement()).addClass("selected");
     }
-    clearTaggedEntityMarkup() {
+    notifyCollectionClear(collection, taggedEntityModels) {
+        Utility.log(View, "notifyCollectionClear");
+        Utility.enforceTypes(arguments, Collection, Array);
+        for (let taggedEntityModel of taggedEntityModels) {
+            $(taggedEntityModel.getElement()).removeClass("selected");
+        }
     }
-    setDictionary(source) {
-        Utility.log(View, "setDictionary");
-        Utility.enforceTypes(arguments, String);
-        console.warn("setDictionary deprecated");
+    notifyCollectionRemove(collection, taggedEntityModel) {
+        Utility.log(View, "notifyCollectionRemove");
+        Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
+        $(taggedEntityModel.getElement()).removeClass("selected");
     }
     setDictionaryButton(button) {
         Utility.log(View, "setDictionaryButton");
@@ -199,48 +195,6 @@ class View {
                 $(element).offset().top - $("#panelContainer").offset().top + $("#panelContainer").scrollTop() - ($("#panelContainer").height() / 2)
                 );
     }
-    clearDialogBG() {
-        Utility.log(View, "clearDialogBG");
-        $(".entityDialogMember > input, .entityDialogMember > select").removeClass("pinkBG");
-    }
-    setDialogBG(item) {
-        Utility.log(View, "setDialogBG");
-
-        switch (item) {
-            case "tag":
-                $("#selectTagName").addClass("pinkBG");
-                break;
-            case "text":
-                $("#txtEntity").addClass("pinkBG");
-                break;
-            case "lemma":
-                $("#txtLemma").addClass("pinkBG");
-                break;
-            case "link":
-                $("#txtLink").addClass("pinkBG");
-                break;
-        }
-    }
-    setDialogFade(value = true) {
-        Utility.log(View, "setDialogFade");
-        Utility.enforceTypes(arguments, Boolean);
-
-        if (value) {
-            $("#txtEntity").attr("disabled", true);
-            $("#searchDialog").attr("disabled", true);
-            $("#txtLemma").attr("disabled", true);
-            $("#txtLink").attr("disabled", true);
-
-            this.clearDialogs();
-            this.clearDialogBG();
-            this.setDictionaryButton("none");
-        } else {
-            $("#txtEntity").attr("disabled", false);
-            $("#searchDialog").attr("disabled", false);
-            $("#txtLemma").attr("disabled", false);
-            $("#txtLink").attr("disabled", false);
-    }
-    }
     focusFind() {
         Utility.log(View, "focusFind");
         Utility.enforceTypes(arguments);
@@ -256,14 +210,7 @@ class View {
         Utility.enforceTypes(arguments);
         return document.getElementById("epsTextArea").value;
     }
-    clearDialogs() {
-        Utility.log(View, "clearDialogs");
-        Utility.enforceTypes(arguments);
 
-        document.getElementById("txtEntity").value = "";
-        document.getElementById("txtLemma").value = "";
-        document.getElementById("txtLink").value = "";
-    }
     clear() {
         Utility.log(View, "clear");
         Utility.enforceTypes(arguments);
@@ -290,31 +237,6 @@ class View {
         $("#txtLemma").val(value.lemma);
         $("#txtLink").val(value.link);
         $("#selectTagName").val(value.tagName);
-    }
-    getDialogValues() {
-        Utility.log(View, "getDialogValues");
-        Utility.enforceTypes(arguments);
-        return new EntityValues($("#txtEntity").val(), $("#txtLemma").val(), $("#txtLink").val(), $("#selectTagName").val());
-    }
-    setTagName(string) {
-        Utility.log(View, "setTagName");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("selectTagName").value = string;
-    }
-    setEntity(string) {
-        Utility.log(View, "setEntity");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("txtEntity").value = string;
-    }
-    setLemma(string) {
-        Utility.log(View, "setLemma");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("txtLemma").value = string;
-    }
-    setLink(string) {
-        Utility.log(View, "setLink");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("txtLink").value = string;
     }
     setSearchText(string) {
         Utility.log(View, "setSearchText");
@@ -346,7 +268,7 @@ class View {
 
         for (let tagInfo of this.context.tags()) {
             var opt = document.createElement('option');
-            opt.value = tagInfo.getName(NameSource.NAME);
+            $(opt).val(tagInfo.getName(NameSource.NAME));
             opt.innerHTML = tagInfo.getName(NameSource.NAME);
             document.getElementById("selectTagName").appendChild(opt);
         }
@@ -460,7 +382,7 @@ class View {
         Utility.log(View, "tagMode");
         Utility.enforceTypes(arguments, ["optional", Boolean]);
 
-        if (enabled === undefined){
+        if (enabled === undefined) {
             if (this.storage.hasValue("mode") && this.storage.getValue("mode") === "tag") {
                 this.tagMode(false);
             } else {

@@ -1,5 +1,3 @@
-console.log("utility");
-
 /* global Function */
 
 /*
@@ -13,7 +11,7 @@ Utility = {
     classes: {
         Events: 0,
         Controller: 2,
-        View: 0,
+        View: 2,
         Collection: 0,
         Dictionary: 0,
         Context: 0,
@@ -21,7 +19,8 @@ Utility = {
         Model: 2,
         Listeners: 0,
         Schema: 0,
-        TaggedEntity: 0
+        TaggedEntity: 0,
+        EntityDialogView: 2
     },
     logger: {
         logRecord: {}

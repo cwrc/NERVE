@@ -1,4 +1,4 @@
-console.log("custom query");
+/* global Utility, Context */
 
 (function ($) {
     $.fn.mergeElements = function (name = "div") {
@@ -56,10 +56,9 @@ console.log("custom query");
 (function ($) {
     $.fn.xmlAttr = function (key, value) {
         if (key === "" && value) throw new Error("Empty key value.");
-        var opts = $.extend({}, $.fn.xmlAttr.defaults);
 
         if (typeof value === "undefined") {
-            let xmlAttr = $(this).attr(opts.attrName);
+            let xmlAttr = $(this).attr($.fn.xmlAttr.defaults.attrName);
             if (typeof xmlAttr === "undefined") return xmlAttr;
             let jsonObj = JSON.parse(xmlAttr);
             if (!jsonObj[key]) return "";
@@ -67,15 +66,15 @@ console.log("custom query");
         }
 
         return this.each(function () {
-            let xmlAttr = $(this).attr(opts.attrName);
+            let xmlAttr = $(this).attr($.fn.xmlAttr.defaults.attrName);
             if (!xmlAttr) {
                 $(this).attr($.fn.xmlAttr.defaults.attrName, "{}");
-                xmlAttr = $(this).attr(opts.attrName);
+                xmlAttr = $(this).attr($.fn.xmlAttr.defaults.attrName);
             }
 
             let jsonObj = JSON.parse(xmlAttr);
             jsonObj[key] = value;
-            $(this).attr(opts.attrName, JSON.stringify(jsonObj));
+            $(this).attr($.fn.xmlAttr.defaults.attrName, JSON.stringify(jsonObj));
         });
     };
 }(jQuery));
@@ -87,20 +86,18 @@ console.log("custom query");
  */
 (function ($) {
     $.fn.renameXMLAttr = function (fromKey, toKey) {
-        var opts = $.extend({}, $.fn.xmlAttr.defaults);
-
         if (!fromKey) return;
         if (!toKey) return;
         if (fromKey === toKey) return;
 
         return this.each(function () {
-            let xmlAttr = $(this).attr(opts.attrName);
+            let xmlAttr = $(this).attr($.fn.xmlAttr.defaults.attrName);
             /* all divs that come from encode will have this attribute */
             if (typeof xmlAttr !== "undefined") {
                 let jsonObj = JSON.parse(xmlAttr);
                 jsonObj[toKey] = jsonObj[fromKey];
                 delete jsonObj[fromKey];
-                $(this).attr(opts.attrName, JSON.stringify(jsonObj));
+                $(this).attr($.fn.xmlAttr.defaults.attrName, JSON.stringify(jsonObj));
             }
         });
     };
@@ -114,8 +111,6 @@ console.log("custom query");
  */
 (function ($) {
     $.fn.collection = function (value) {
-        var opts = $.extend({}, $.fn.xmlAttr.defaults);
-
         if (typeof value === "undefined") {
             let collection = $(this).attr("data-collection");
             if (!collection) collection = "";
@@ -139,18 +134,17 @@ console.log("custom query");
  */
 (function ($) {
     $.fn.lemma = function (value) {
-        var opts = $.extend({}, $.fn.xmlAttr.defaults);
-        var context = opts.context;
+        var context = $.fn.xmlAttr.context;
 
         if (typeof value === "undefined") {
-            let tagName = $(this).attr(opts.xmlTagName);
+            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
             let lemmaAttr = context.getTagInfo(tagName, NameSource.NAME).getLemmaAttribute();
             if (lemmaAttr === "") return "";
             return $(this).xmlAttr(lemmaAttr);
         }
 
         return this.each(function () {
-            let tagName = $(this).attr(opts.xmlTagName);
+            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
             let lemmaAttr = context.getTagInfo(tagName, NameSource.NAME).getLemmaAttribute();
             if (lemmaAttr !== "") $(this).xmlAttr(lemmaAttr, value);
         });
@@ -164,17 +158,16 @@ console.log("custom query");
  */
 (function ($) {
     $.fn.link = function (value) {
-        var opts = $.extend({}, $.fn.xmlAttr.defaults);
-        var context = opts.context;
+        var context = $.fn.xmlAttr.context;
 
         if (typeof value === "undefined") {
-            let tagName = $(this).attr(opts.xmlTagName);
+            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
             let linkAttr = context.getTagInfo(tagName, NameSource.NAME).getLinkAttribute();
             return $(this).xmlAttr(linkAttr);
         }
 
         return this.each(function () {
-            let tagName = $(this).attr(opts.xmlTagName);
+            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
             let linkAttr = context.getTagInfo(tagName, NameSource.NAME).getLinkAttribute();
             $(this).xmlAttr(linkAttr, value);
         });
@@ -188,28 +181,34 @@ console.log("custom query");
  */
 (function ($) {
     $.fn.tagName = function (value) {
-        var opts = $.extend({}, $.fn.xmlAttr.defaults);
-        var context = opts.context;
+        let context = $.fn.xmlAttr.context;
 
         if (!value) {
-            return $(this).attr(opts.xmlTagName);
+            return $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
         }
 
         /* when changing the entity tag, attribute name of the link & lemma attributes may change */
         return this.each(function () {
-            let oldEntityTag = $(this).attr(opts.xmlTagName);
+            let oldEntityTag = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
             if (oldEntityTag) {
                 $(this).renameXMLAttr(context.getTagInfo(oldEntityTag, NameSource.NAME).getLinkAttribute(), context.getTagInfo(value, NameSource.NAME).getLinkAttribute());
                 $(this).renameXMLAttr(context.getTagInfo(oldEntityTag, NameSource.NAME).getLemmaAttribute(), context.getTagInfo(value, NameSource.NAME).getLemmaAttribute());
             }
-            return $(this).attr(opts.xmlTagName, value);
+            return $(this).attr($.fn.xmlAttr.defaults.xmlTagName, value);
         });
     };
 }(jQuery));
 
+$.fn.xmlAttr.notifyContextChange = function(context){
+    Utility.enforceTypes(arguments, Context);
+    console.log("$.fn.xmlAttr.notifyContextChange");
+    $.fn.xmlAttr.context = context;
+};
+
+$.fn.xmlAttr.context = null;
+
 $.fn.xmlAttr.defaults = {
     attrName: "xmlattrs",
-    xmlTagName: "xmltagname",
-    context: {}
+    xmlTagName: "xmltagname"
 };
 

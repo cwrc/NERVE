@@ -26,13 +26,28 @@ class Main {
         window.entityPanel = new EntityPanelWidget($("#futurePanel"));
     }
     async initialize() {
-        this.controller = new Controller();
-        this.controller.getView().setThrobberMessage("Loading...");
-        await this.controller.start();
+        this.model = new Model();
+        this.view = new View(this.model);
 
-        this.listener = new Listeners(this.controller.getView(), this.controller);
+        this.scriber = new Scriber();
+        this.scriber.setView(this.view);
 
-        this.controller.getView().showThrobber(false);
+        this.controller = new Controller(this.model, this.view, this.scriber);
+
+        let entityDialogView = new EntityDialogView()
+        this.controller.addListener(entityDialogView);
+        this.model.addListener(entityDialogView);
+
+        this.view.setThrobberMessage("Loading...");
+
+        this.model.addListener($.fn.xmlAttr);
+
+        await this.controller.init();
+        await this.model.init();
+
+        this.listener = new Listeners(this.view, this.controller);
+
+        this.view.showThrobber(false);
         $("#container").show();
     }
 }
