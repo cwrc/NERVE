@@ -13,7 +13,6 @@
     padding: .5em;
 }
 .orlando .xmltag[xmltagname="FILEDESC"] {
-        content : url(img/orlando/CWRC_logo.png);
     background-color : #FFF;
     color : gray;
 }

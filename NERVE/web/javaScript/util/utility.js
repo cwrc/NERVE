@@ -11,7 +11,7 @@ Utility = {
     classes: {
         Events: 0,
         Controller: 2,
-        View: 2,
+        View: 0,
         Collection: 0,
         Dictionary: 0,
         Context: 0,
@@ -20,7 +20,7 @@ Utility = {
         Listeners: 0,
         Schema: 0,
         TaggedEntity: 0,
-        EntityDialogView: 2
+        EntityDialogView: 0
     },
     logger: {
         logRecord: {}

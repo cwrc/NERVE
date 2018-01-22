@@ -18,9 +18,6 @@ class EntityDialogView {
         this.pollDialogs(collection);
         this.setDialogFade();
 
-        console.log(taggedEntityModel);
-        window.tem = taggedEntityModel;
-
         this.setEntity(taggedEntityModel.text());
         this.setLemma(taggedEntityModel.lemma());
         this.setLink(taggedEntityModel.link());

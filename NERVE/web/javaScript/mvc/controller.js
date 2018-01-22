@@ -26,8 +26,8 @@ class TaggedEntityController {
         event.stopPropagation();
 
         if (event.altKey) {
-            console.log(this.element);
-            window.lastTarget = this;
+            console.log(this.taggedEntityModel);
+            window.lastTarget = this.taggedEntityModel;
             return;
         }
 
@@ -132,17 +132,16 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         let selection = window.getSelection();
-        if (selection.rangeCount !== 0) {
-            await this.__tagSelectedRange();
+        if (selection.rangeCount !== 0 && !selection.isCollapsed) {
+            let newEntity = await this.tagSelectedRange();
+            this.collection.add(newEntity);
         }
 
-        if (this.collection.size() < 2) return;
-        var ele = this.collection.$().mergeElements();
-        let entityValues = this.view.getDialogValues();
-        this.applyValuesToEntity(ele, entityValues);
-        this.collection.set(ele);
+//        if (this.collection.size() < 2) return;
+
+        let entity = await this.model.mergeEntities(this.collection);
+        this.collection.set(entity);
         this.model.saveState();
-        document.normalize();
     }
 
     async tagSelectedRange() {
@@ -150,6 +149,7 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         let entity = await this.model.tagSelection(window.getSelection());
+        console.log(entity);
         this.collection.add(entity);
         this.model.saveState();
         this.isSaved = false;
@@ -162,18 +162,15 @@ class Controller {
         Utility.enforceTypes(arguments);
 
         if (this.collection.isEmpty()) return;
-
         let count = this.collection.size();
-        for (let entity of this.collection) entity.untag();
-        this.view.clearDialogs();
-        this.view.setDialogFade(true);
-        document.normalize();
+        for (let entityModel of this.collection) entityModel.untag();
+        this.collection.clear();
 
         this.isSaved = false;
         this.model.saveState();
         this.notifyListeners("userMessage", count + " entit" + (count === 1 ? "y" : "ies") + " untagged");
-        this.view.setSearchText("");
-        this.searchUtility.reset();
+//        this.view.setSearchText("");
+//        this.searchUtility.reset();
     }
     revertState() {
         Utility.log(Controller, "revertState");

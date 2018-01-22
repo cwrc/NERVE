@@ -150,6 +150,7 @@ class Listeners {
 
         $("#menuTag").click((event) => {
             event.stopPropagation();
+            event.preventDefault();
             this.controller.tagSelectedRange();
         });
         $("#menuUntag").click((event) => {

@@ -201,7 +201,6 @@
 
 $.fn.xmlAttr.notifyContextChange = function(context){
     Utility.enforceTypes(arguments, Context);
-    console.log("$.fn.xmlAttr.notifyContextChange");
     $.fn.xmlAttr.context = context;
 };
 

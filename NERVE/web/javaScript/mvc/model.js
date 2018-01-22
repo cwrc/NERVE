@@ -87,6 +87,30 @@ class Model {
 //        await this.__addDictionaryAttribute();
     }
 
+    async mergeEntities(collection){
+        let contents = $();
+        for (let entity of collection){
+            let contentElement = entity.getContentElement();
+            $(entity.getElement()).replaceWith(contentElement);
+            contents = contents.add(contentElement);
+        }
+
+        contents = contents.mergeElements();
+        contents[0].normalize();
+        return this.createTaggedEntity(contents[0]);
+    }
+
+    async createTaggedEntity(element){
+        let values = await this.dictionary.pollEntity($(element).text());
+        if (values === null) values = this.getEntityDialog().getValues();
+        let tagName = this.getEntityDialog().getValues().tagName;
+
+        let taggedEntity = new TaggedEntityModel(this, element, tagName);
+        taggedEntity.entityValues(values);
+        this.notifyListeners("notifyNewTaggedEntity", taggedEntity);
+        return taggedEntity;
+    }
+
     /* seperate so that the model isn't saved twice on merge */
     async tagSelection(selection) {
         Utility.log(Model, "tagSelection");
@@ -101,17 +125,11 @@ class Model {
             return;
         }
 
-        let values = await this.dictionary.pollEntity(range.toString());
-        if (values === null) values = this.getEntityDialog().getValues();
-
         var element = document.createElement("div");
         $(element).append(range.extractContents());
         range.deleteContents();
         range.insertNode(element);
-
-        let taggedEntity = new TaggedEntityModel(this, element, tagName);
-        taggedEntity.entityValues(values);
-        this.notifyListeners("notifyNewTaggedEntity", taggedEntity);
+        let taggedEntity = this.createTaggedEntity(element);
 
         selection.removeAllRanges();
         document.normalize();
@@ -151,7 +169,7 @@ class Model {
             }
         }
 
-        this.storage.setValue("document", this.getDocument());
+//        this.storage.setValue("document", this.getDocument());
         this.stateList[this.stateIndex] = this.getDocument();
     }
     revertState() {
@@ -165,7 +183,7 @@ class Model {
         this.stateIndex = this.stateIndex - 1;
         let document = this.stateList[this.stateIndex];
 
-        this.storage.setValue("document", this.getDocument());
+//        this.storage.setValue("document", this.getDocument());
         this.view.setDocument(document);
     }
     advanceState() {
@@ -273,7 +291,7 @@ class TaggedEntityModel {
     getContentElement() {
         Utility.log(TaggedEntityModel, "getElement");
         Utility.enforceTypes(arguments);
-        return this.contents;
+        return this.contents[0];
     }
     tagName(value = undefined) {
         Utility.log(TaggedEntityModel, "tagName", value);
