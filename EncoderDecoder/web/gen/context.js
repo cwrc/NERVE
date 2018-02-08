@@ -1,3 +1,31 @@
+ProgressPacket = class ProgressPacket {
+	constructor() {
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.sharcnet.nerve.ProgressPacket";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.sharcnet.nerve.ProgressPacket", ProgressPacket);
+ProgressCompletePacket = class ProgressCompletePacket {
+	constructor() {
+	}
+	__isTransient() {
+		return true;
+	}
+	__getClass() {
+		return "ca.sharcnet.nerve.ProgressCompletePacket";
+	}
+	__isEnum() {
+		return false;
+	}
+};
+JJJRMISocket.classes.set("ca.sharcnet.nerve.ProgressCompletePacket", ProgressCompletePacket);
 TagInfo = class TagInfo {
 	constructor() {
 	}

@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import ca.sharcnet.nerve.HasStreams;
-import ca.sharcnet.nerve.IsMonitor;
 import static ca.sharcnet.nerve.context.NameSource.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
@@ -18,6 +17,8 @@ import ca.fa.SQL.SQL;
 import ca.fa.SQL.SQLRecord;
 import ca.fa.SQL.SQLResult;
 import ca.fa.utility.Console;
+import ca.sharcnet.nerve.ProgressCompletePacket;
+import ca.sharcnet.nerve.ProgressPacket;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -25,38 +26,32 @@ import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
 
-public class Encoder {
+public class Encoder extends ProgressListenerList {
 
     private final Context context;
     private final SQL sql;
     private final Classifier classifier;
     private Schema schema = null;
     private EncodedDocument document = null;
-    private IsMonitor monitor = IsMonitor.nullMonitor;
     private EncodeOptions options;
 
     public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        IsMonitor monitor = IsMonitor.nullMonitor;
         if (document == null) throw new NullPointerException();
         if (hasStreams == null) throw new NullPointerException();
-        if (options.hasMonitor()) monitor = options.getMonitor();
 
         /* connect to SQL */
-        monitor.phase("loading SQL", 1, 7);
         Properties config = new Properties();
         InputStream cfgStream = hasStreams.getResourceStream("config.txt");
         config.load(cfgStream);
         SQL sql = new SQL(config);
 
         /* build classifier */
-        monitor.phase("building classifier", 2, 7);
         InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
         BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
         Classifier classifier = new Classifier(bis);
         cStream.close();
 
         /* retrieve the schema url to set the context (or use context instruction node) */
-        monitor.phase("loading Context", 3, 7);
         Context context = null;
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaURL = model.attr(SCHEMA_NODE_ATTR);
@@ -87,7 +82,7 @@ public class Encoder {
         Encoder encoder = new Encoder(document, context, sql, classifier, options);
 
         /** add the schema, the schema url in the context takes precedence **/
-        monitor.phase("loading schema: " + context.getSchemaName(), 4, 7);
+        encoder.forEach(lst -> lst.onEvent(new ProgressPacket("Loading Schema", 0, 4)));
         if (!context.getSchemaName().isEmpty()) schemaURL = context.getSchemaName();
 
         InputStream schemaStream = null;
@@ -107,7 +102,6 @@ public class Encoder {
     private Encoder(Document document, Context context, SQL sql, Classifier classifier, EncodeOptions options) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
-        if (options.hasMonitor()) this.monitor = options.getMonitor();
 
         this.options = options;
         this.sql = sql;
@@ -120,22 +114,23 @@ public class Encoder {
         for (EncodeProcess process : options.getProcesses()) {
             switch (process) {
                 case NER:
-                    monitor.phase("ner", 5, 7);
+                    this.forEach(lst -> lst.onEvent(new ProgressPacket("Processing NER", 1, 4)));
                     if (this.classifier != null) processNER(document);
                     break;
                 case DICTIONARY:
-                    monitor.phase("dictionary", 6, 7);
+                    this.forEach(lst -> lst.onEvent(new ProgressPacket("Linking Entities", 2, 4)));
                     if (this.sql != null) lookupTag();
                     break;
             }
         }
 
-        monitor.phase("encoding", 7, 7);
+        this.forEach(lst -> lst.onEvent(new ProgressPacket("Encoding Document", 3, 4)));
         wrapTags(document);
 
         /* put the context name into the schema(xml-model) node, or the context node */
         Query query = document.queryf("[%1$s='%2$s'], [%1$s='%3$s']", ORG_TAGNAME, SCHEMA_NODE_NAME, CONTEXT_NODE_NAME);
         query.first().attr(CONTEXT_ATTRIBUTE, context.getName());
+        this.forEach(lst -> lst.onEvent(new ProgressCompletePacket()));
         return document;
     }
 
@@ -178,11 +173,9 @@ public class Encoder {
         int N = textNodes.size();
 
         for (Node node : textNodes) {
-            this.monitor.step(n++, N);
             if (context.isTagName(node.getParent().name(), NAME)) lookupTaggedNode(node.getParent());
             lookupTag((TextNode) node, knownEntities);
         }
-        this.monitor.step(1, 1);
     }
 
     private void lookupTaggedNode(Node node) throws SQLException {
@@ -297,11 +290,7 @@ public class Encoder {
     private void processNER(Document doc) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         Query textNodes = doc.query(NodeType.TEXT);
 
-        int n = 0;
-        int N = textNodes.size();
-
         for (Node node : textNodes) {
-            this.monitor.step(n++, N);
             if (node.text().trim().isEmpty()) continue;
 
             /* skip nodes that are already tagged */
@@ -333,7 +322,6 @@ public class Encoder {
             /* replace the current node with the node list */
             if (nerList.size() > 0) node.replaceWith(nerList);
         };
-        this.monitor.step(1, 1);
     }
 
     private NodeList applyNamedEntityRecognizer(String text) throws ParserConfigurationException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
@@ -351,10 +339,10 @@ public class Encoder {
         Document localDoc = DocumentLoader.documentFromString(text);
         NodeList nodes = localDoc.query("*");
 
-        /* for each node in the document (from above) if it's an NER node     */
- /* change it's tagname to a valid tag name occording to the context   */
- /* and set it's lemma if it doesn't already have one.                 */
- /* ensure that the node has the default attributes                    */
+        /* for each node in the document (from above) if it's an NER node     *
+         * change it's tagname to a valid tag name occording to the context   *
+         * and set it's lemma if it doesn't already have one.                 *
+        /* ensure that the node has the default attributes                    */
         for (Node node : nodes) {
             /* if node name is an NER tag name */
             if (context.isTagName(node.name(), NERMAP)) {

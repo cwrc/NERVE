@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Main implements HasStreams, IsMonitor{
+public class Main implements HasStreams{
 
     public static void main(String[] args){
         try {
@@ -44,15 +44,5 @@ public class Main implements HasStreams, IsMonitor{
 
 //        Console.log(encoded);
         Console.log(decoded);
-    }
-
-    @Override
-    public void phase(String phase, int i, int phaseMax) {
-        Console.log("phase " + phase + " " + i + "/" + phaseMax);
-    }
-
-    @Override
-    public void step(int step, int stepMax) {
-        Console.log("step " + step + "/" + stepMax);
     }
 }
