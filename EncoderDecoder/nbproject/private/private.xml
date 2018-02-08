@@ -5,12 +5,12 @@
             <url>src/ca/sharcnet/nerve/encoder/Encoder.java</url>
             <bookmark id="27">
                 <name/>
-                <line>316</line>
+                <line>309</line>
                 <key/>
             </bookmark>
             <bookmark id="26">
                 <name/>
-                <line>359</line>
+                <line>351</line>
                 <key/>
             </bookmark>
         </file>
@@ -40,8 +40,12 @@
         <group name="Frontier Web App"/>
         <group name="NERVE"/>
         <group>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/encoder/ProgressListenerList.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/ProgressPacket.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/test/ca/sharcnet/nerve/Main.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/ProgressCompletePacket.java</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/web/gen/context.js</file>
         </group>
     </open-files>
 </project-private>

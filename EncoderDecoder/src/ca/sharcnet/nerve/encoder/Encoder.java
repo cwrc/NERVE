@@ -13,12 +13,9 @@ import static ca.sharcnet.nerve.context.NameSource.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import ca.fa.SQL.SQL;
-import ca.fa.SQL.SQLRecord;
-import ca.fa.SQL.SQLResult;
+import ca.fa.SQL.*;
 import ca.fa.utility.Console;
-import ca.sharcnet.nerve.ProgressCompletePacket;
-import ca.sharcnet.nerve.ProgressPacket;
+import ca.sharcnet.nerve.*;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -35,7 +32,7 @@ public class Encoder extends ProgressListenerList {
     private EncodedDocument document = null;
     private EncodeOptions options;
 
-    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options, ProgressListener listener) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (document == null) throw new NullPointerException();
         if (hasStreams == null) throw new NullPointerException();
 
@@ -80,9 +77,10 @@ public class Encoder extends ProgressListenerList {
         }
 
         Encoder encoder = new Encoder(document, context, sql, classifier, options);
+        if (listener != null) encoder.add(listener);
 
         /** add the schema, the schema url in the context takes precedence **/
-        encoder.forEach(lst -> lst.onEvent(new ProgressPacket("Loading Schema", 0, 4)));
+        encoder.forEach(lst -> lst.notifyProgress(new ProgressPacket("Loading Schema", 0, 4)));
         if (!context.getSchemaName().isEmpty()) schemaURL = context.getSchemaName();
 
         InputStream schemaStream = null;
@@ -114,23 +112,23 @@ public class Encoder extends ProgressListenerList {
         for (EncodeProcess process : options.getProcesses()) {
             switch (process) {
                 case NER:
-                    this.forEach(lst -> lst.onEvent(new ProgressPacket("Processing NER", 1, 4)));
+                    this.forEach(lst -> lst.notifyProgress(new ProgressPacket("Processing NER", 1, 4)));
                     if (this.classifier != null) processNER(document);
                     break;
                 case DICTIONARY:
-                    this.forEach(lst -> lst.onEvent(new ProgressPacket("Linking Entities", 2, 4)));
+                    this.forEach(lst -> lst.notifyProgress(new ProgressPacket("Linking Entities", 2, 4)));
                     if (this.sql != null) lookupTag();
                     break;
             }
         }
 
-        this.forEach(lst -> lst.onEvent(new ProgressPacket("Encoding Document", 3, 4)));
+        this.forEach(lst -> lst.notifyProgress(new ProgressPacket("Encoding Document", 3, 4)));
         wrapTags(document);
 
         /* put the context name into the schema(xml-model) node, or the context node */
         Query query = document.queryf("[%1$s='%2$s'], [%1$s='%3$s']", ORG_TAGNAME, SCHEMA_NODE_NAME, CONTEXT_NODE_NAME);
         query.first().attr(CONTEXT_ATTRIBUTE, context.getName());
-        this.forEach(lst -> lst.onEvent(new ProgressCompletePacket()));
+        this.forEach(lst -> lst.notifyProgress(new ProgressCompletePacket()));
         return document;
     }
 

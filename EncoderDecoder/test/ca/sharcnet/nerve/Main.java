@@ -39,7 +39,7 @@ public class Main implements HasStreams{
         EncodeOptions options = new EncodeOptions();
         options.addProcess(EncodeProcess.NER, EncodeProcess.DICTIONARY);
 
-        Document encoded = Encoder.encode(d2, this, options);
+        Document encoded = Encoder.encode(d2, this, options, null);
         Document decoded = Decoder.decode(encoded, this);
 
 //        Console.log(encoded);
