@@ -1,7 +1,7 @@
-/* global trace, Utility, Listeners, Context */
+/* global trace, Utility, Listeners, Context, Collection */
 
 /**
- * events: notifyContextChange, setDocument, setText, notifyNewTaggedEntity, userMessage
+ * events: notifyContextChange, setDocument, setText,  , userMessage
  * @type type
  */
 
@@ -15,11 +15,18 @@ class Model {
         this.listeners = [];
 
         this.entityDialog = new EntityDialogModel();
+        this.collection = new Collection();
+        this.searchModel = new SearchModel("#entityPanel");
 
-        /* refers to the index of the last saved state -1 if never saved */
-        this.stateIndex = -1;
+        this.currentStateIndex = 0;
         this.maxStateIndex = 30;
         this.__resetState();
+    }
+
+    getSearchModel(){
+        Utility.log(Model, "getSearchModel");
+        Utility.enforceTypes(arguments);
+        return this.searchModel;
     }
 
     getEntityDialog(){
@@ -29,8 +36,10 @@ class Model {
     }
 
     addListener(listener) {
-        Utility.log(Model, "addListener");
+        Utility.log(Model, "addListener", listener.constructor.name);
         Utility.enforceTypes(arguments, Object);
+        this.collection.addListener(listener);
+        this.searchModel.addListener(listener);
         this.listeners.push(listener);
     }
 
@@ -38,9 +47,9 @@ class Model {
         Utility.log(Model, "notifyListeners", method);
 
         Array.prototype.shift.apply(arguments);
-        for (let view of this.listeners){
-            if (typeof view[method] !== "function") continue;
-            await view[method].apply(view, arguments);
+        for (let listener of this.listeners){
+            if (typeof listener[method] !== "function") continue;
+            await listener[method].apply(listener, arguments);
         }
     }
 
@@ -69,8 +78,10 @@ class Model {
         this.schema = new Schema();
         await this.schema.load(schemaURL);
 
+        $("#entityPanel").html(text);
+
         await this.notifyListeners("notifyContextChange", context);
-        await this.notifyListeners("setDocument", text);
+        await this.notifyListeners("setDocument", $("#entityPanel").get(0));
         await this.notifyListeners("setFilename", filename);
 
         $(".taggedentity").each((i, element) => {
@@ -87,9 +98,54 @@ class Model {
 //        await this.__addDictionaryAttribute();
     }
 
-    async mergeEntities(collection){
+    async close(){
+        Utility.log(Model, "close");
+        Utility.enforceTypes(arguments);
+        this.storage.setValue("document", null);
+        this.storage.setValue("filename", null);
+        this.storage.setValue("context", null);
+        this.notifyListeners("notifyDocumentClosed");
+    }
+
+    untagAllSelected(){
+        Utility.log(Model, "untagAllSelected");
+        Utility.enforceTypes(arguments);
+        let count = this.collection.size();
+        if (this.collection.isEmpty()) return 0;
+        for (let entityModel of this.collection) entityModel.untag();
+        this.collection.clear();
+        return count;
+    }
+
+    /**
+     * Set the values of all selected tagged entities to 'dialogValues'.
+     * This is triggered by the dialog box and cwrc dialogs.
+     */
+    async updateAllSelected(dialogValues = null) {
+        Utility.log(Model, "updateAllSelected");
+        Utility.enforceTypes(arguments);
+        if (this.collection.isEmpty()) return 0;
+        if (dialogValues === null) dialogValues = this.entityDialog.getValues();
+        for (let e of this.collection) e.entityValues(dialogValues);
+        return this.collection.size();
+    }
+
+    getCollection(){
+        Utility.log(Model, "getCollection");
+        Utility.enforceTypes(arguments);
+        return this.collection;
+    }
+
+    async mergeEntities(){
+        Utility.log(Model, "mergeEntities");
+        let selection = window.getSelection();
+        if (selection.rangeCount !== 0 && !selection.isCollapsed) {
+            let newEntity = await this.tagSelectedRange();
+            this.collection.add(newEntity);
+        }
+
         let contents = $();
-        for (let entity of collection){
+        for (let entity of this.collection){
             let contentElement = entity.getContentElement();
             $(entity.getElement()).replaceWith(contentElement);
             contents = contents.add(contentElement);
@@ -101,9 +157,11 @@ class Model {
     }
 
     async createTaggedEntity(element){
+        Utility.log(Model, "createTaggedEntity");
         let values = await this.dictionary.pollEntity($(element).text());
         if (values === null) values = this.getEntityDialog().getValues();
         let tagName = this.getEntityDialog().getValues().tagName;
+        values.entity = "";
 
         let taggedEntity = new TaggedEntityModel(this, element, tagName);
         taggedEntity.entityValues(values);
@@ -114,7 +172,7 @@ class Model {
     /* seperate so that the model isn't saved twice on merge */
     async tagSelection(selection) {
         Utility.log(Model, "tagSelection");
-        if (selection.rangeCount === 0) return;
+        if (selection.rangeCount === 0) return null;
 
         let range = selection.getRangeAt(0);
         range = this.__trimRange(range);
@@ -122,14 +180,15 @@ class Model {
         let tagName = this.getEntityDialog().getValues().tagName;
         if (!this.schema.isValid(range.commonAncestorContainer, tagName)) {
             this.notifyListeners("userMessage", `Tagging "${tagName}" is not valid in the Schema at this location.`);
-            return;
+            return null;
         }
 
         var element = document.createElement("div");
         $(element).append(range.extractContents());
+        let taggedEntity = this.createTaggedEntity(element);
+
         range.deleteContents();
         range.insertNode(element);
-        let taggedEntity = this.createTaggedEntity(element);
 
         selection.removeAllRanges();
         document.normalize();
@@ -160,58 +219,62 @@ class Model {
         Utility.log(Model, "saveState");
         Utility.enforceTypes(arguments);
 
-        if (this.stateIndex === this.maxStateIndex) {
-            this.stateList = this.stateList.slice(1, this.stateIndex);
+        this.currentStateIndex = this.currentStateIndex + 1;
+        this.stateList[this.currentStateIndex] = $("#entityPanel").html();
+        this.storage.setValue("document",  $("#entityPanel").html());
+
+        if (this.currentStateIndex === this.maxStateIndex) {
+            this.stateList = this.stateList.slice(1, this.currentStateIndex);
         } else {
-            this.stateIndex = this.stateIndex + 1;
-            for (let i = this.stateIndex; i < this.maxStateIndex; i++) {
+            for (let i = this.currentStateIndex + 1; i < this.maxStateIndex; i++) {
                 this.stateList[i] = null;
             }
         }
-
-//        this.storage.setValue("document", this.getDocument());
-        this.stateList[this.stateIndex] = this.getDocument();
     }
-    revertState() {
+
+    async revertState() {
         Utility.log(Model, "revertState");
         Utility.enforceTypes(arguments);
 
-        if (this.stateIndex <= 0) return false;
+        if (this.currentStateIndex <= 0) return false;
+        this.currentStateIndex = this.currentStateIndex - 1;
+        let docHTML = this.stateList[this.currentStateIndex];
 
-        console.log(this.stateIndex + " " + (this.stateIndex - 1));
+        $("#entityPanel").html(docHTML);
 
-        this.stateIndex = this.stateIndex - 1;
-        let document = this.stateList[this.stateIndex];
+        $(".taggedentity").each((i, element) => {
+            let taggedEntity = new TaggedEntityModel(this, element);
+            this.notifyListeners("notifyNewTaggedEntity", taggedEntity);
+        });
 
-//        this.storage.setValue("document", this.getDocument());
-        this.view.setDocument(document);
+        this.storage.setValue("current", "document", docHTML);
+        await this.notifyListeners("setDocument", document);
     }
-    advanceState() {
+    async advanceState() {
         Utility.log(Model, "advanceState");
         Utility.enforceTypes(arguments);
 
-        if (typeof this.stateList[this.stateIndex + 1] === "undefined" || this.stateList[this.stateIndex + 1] === null) return;
+        if (typeof this.stateList[this.currentStateIndex + 1] === "undefined" || this.stateList[this.currentStateIndex + 1] === null) return;
 
-        this.stateIndex = this.stateIndex + 1;
-        let document = this.stateList[this.stateIndex];
+        this.currentStateIndex = this.currentStateIndex + 1;
+        let docHTML = this.stateList[this.currentStateIndex];
+        $("#entityPanel").html(docHTML);
 
-        this.storage.setValue("current", "document", document);
-        this.view.setDocument(document);
+        $(".taggedentity").each((i, element) => {
+            let taggedEntity = new TaggedEntityModel(this, element);
+            this.notifyListeners("notifyNewTaggedEntity", taggedEntity);
+        });
 
-        $(".taggedentity").removeClass("selected");
+        this.storage.setValue("current", "document", docHTML);
+        await this.notifyListeners("setDocument", document);
     }
     __resetState() {
         Utility.log(Model, "__resetState");
         Utility.enforceTypes(arguments);
 
         this.stateList = [];
-        this.stateIndex = 0;
-
-        for (let i = 0; i < this.maxStateIndex; i++) {
-            this.stateList[i] = null;
-        }
-
-        this.stateList[0] = this.getDocument();
+        this.currentStateIndex = 0;
+        this.stateList[0] = $("#entityPanel").html();
     }
     getFilename() {
         Utility.log(Model, "getFilename");
@@ -225,7 +288,7 @@ class Model {
     getDocument() {
         Utility.log(Model, "getDocument");
         Utility.enforceTypes(arguments);
-        return $("#entityPanel").html();
+        return $("#entityPanel")[0];
     }
 
     getContext(){
@@ -283,6 +346,10 @@ class TaggedEntityModel {
         this.collection("");
     }
 
+    selectLikeEntitiesByLemma(){
+        window.alert("TODO: select like entities by lemma");
+    }
+
     getElement() {
         Utility.log(TaggedEntityModel, "getElement");
         Utility.enforceTypes(arguments);
@@ -328,6 +395,7 @@ class TaggedEntityModel {
     }
     text(value = undefined) {
         Utility.log(TaggedEntityModel, "text", value);
+
         if (value === undefined) return $(this.contents).text();
         $(this.contents).text(value);
 
@@ -344,10 +412,10 @@ class TaggedEntityModel {
         return $(this.element).attr("data-collection");
     }
     entityValues(value = undefined) {
-        Utility.log(TaggedEntityModel, "entityValues", value);
+        Utility.log(TaggedEntityModel, "entityValues");
         if (value === undefined) return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
         else {
-            if (value.text !== "") this.text(value.text);
+            if (value.entity !== "") this.text(value.entity);
             if (value.lemma !== "") this.lemma(value.lemma);
             if (value.link !== "") this.link(value.link);
             if (value.tagName !== "") this.tagName(value.tagName);
@@ -377,3 +445,35 @@ class EntityDialogModel{
         return new EntityValues($("#txtEntity").val(), $("#txtLemma").val(), $("#txtLink").val(), $("#selectTagName").val());
     }
 }
+
+
+//    async dictAdd() {
+//        Utility.log(Controller, "dictAdd");
+//        Utility.enforceTypes(arguments);
+//
+//        if (this.collection.isEmpty()) return;
+//        this.view.pushThrobberMessage("Adding entity to dictionary");
+//        this.view.showThrobber(true);
+//        let entity = this.collection.getLast();
+//        let values = EntityValues.extract(entity);
+//        values.collection = "custom";
+//        let collection = await this.dictionary.addEntity(values);
+//        $(entity).collection(collection);
+//        this.onChange(this.collection);
+//        this.view.clearThrobber();
+//    }
+//    async dictRemove() {
+//        Utility.log(Controller, "dictRemove");
+//        Utility.enforceTypes(arguments);
+//
+//        if (this.collection.isEmpty()) return;
+//        if (this.collection.isEmpty()) return;
+//        this.view.pushThrobberMessage("Removing entity from dictionary");
+//        let entity = this.collection.getLast();
+//        let values = EntityValues.extract(entity);
+//        await this.dictionary.deleteEntity(values);
+//        let collection = await this.dictionary.lookupCollection(values);
+//        $(entity).collection(collection);
+//        this.onChange(this.collection);
+//        this.view.clearThrobber();
+//    }

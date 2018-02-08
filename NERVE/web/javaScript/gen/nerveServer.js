@@ -84,6 +84,7 @@ Dictionary = class Dictionary {
 JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.Dictionary", Dictionary);
 Scriber = class Scriber {
 	constructor() {
+		this.listeners = new ArrayList();
 		this.__jjjWebsocket = new JJJRMISocket("Scriber", this);
 	}
 	__isTransient() {
@@ -113,20 +114,14 @@ Scriber = class Scriber {
 	decode(source) {
 		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
 	}
-	onPhase(phase, i, max) {
-		
-		this.view.setThrobberMessage(phase);
-		this.phaseName = phase;
-		this.view.showBaubles(i, max);
+	addListener(listener) {
+		this.listeners.add(listener);
 	}
-	onStep(i, max) {
-		
-		this.view.showPercent(Math.trunc(i / max * 100));
-	}
-	setView(view) {
-		
-		this.view = view;
-		this.phaseName = "";
+	notifyProgress(packet) {
+		Console.log("notifyProgress");
+		for(let listener of this.listeners){
+			listener.notifyProgress(packet);
+		}
 	}
 };
 JJJRMISocket.classes.set("ca.sharcnet.dh.nerve.Scriber", Scriber);

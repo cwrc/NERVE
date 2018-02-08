@@ -36,13 +36,6 @@ body{
     height: calc(100% - 150px);
 }
 
-#middlePanel > div{
-    position: absolute;
-    height: 100%;
-    border: 1px solid black;
-    background-color: whitesmoke;
-}
-
 #futurePanel{
     width: 250px;
     left: 0px;
@@ -70,27 +63,6 @@ body{
 
 .messagePanelBig {
     height: 300px;
-}
-
-#epsTextArea{
-    position: absolute;
-    top: 85px;
-    left: 15%;
-    width: 200px;
-}
-
-#epsNext{
-    position: absolute;
-    top: 85px;
-    left: calc(15% + 300px);
-    width: 80px;
-}
-
-#epsPrev{
-    position: absolute;
-    top: 85px;
-    left: calc(15% + 210px);
-    width: 80px;
 }
 
 #userMessage{
@@ -188,13 +160,6 @@ body{
     top: 10px;
 }
 
-.entityDialogMember{
-    padding: 0px 0px 8px 0px;
-    position: relative;
-    width: 90%;
-    left: 5%;
-}
-
 #goLink{
     position: relative;
     display: inline-block;
@@ -205,8 +170,6 @@ body{
     color: white;
     cursor: pointer;
 }
-
-.entityDialogTB{}
 
 #dictionary{
     position: relative;

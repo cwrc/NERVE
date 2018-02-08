@@ -40,7 +40,6 @@ class Schema {
 
         let path = Schema.branch(element);
         if (childNodeName) path.push(childNodeName);
-        console.log(path);
         return this.checkValidity(path, this.$start);
     }
     checkValidity(path, schemaNode) {

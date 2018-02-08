@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="184">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="188">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="146">
@@ -51,20 +51,25 @@
             <url>web/javaScript/mvc/listeners.js</url>
             <bookmark id="177">
                 <name/>
-                <line>79</line>
+                <line>68</line>
                 <key/>
             </bookmark>
             <bookmark id="172">
                 <name/>
-                <line>305</line>
+                <line>265</line>
                 <key/>
             </bookmark>
         </file>
         <file>
             <url>web/javaScript/mvc/view.js</url>
+            <bookmark id="187">
+                <name/>
+                <line>218</line>
+                <key/>
+            </bookmark>
             <bookmark id="176">
                 <name/>
-                <line>377</line>
+                <line>351</line>
                 <key/>
             </bookmark>
         </file>
@@ -93,7 +98,12 @@
             <url>web/javaScript/mvc/controller.js</url>
             <bookmark id="183">
                 <name/>
-                <line>129</line>
+                <line>91</line>
+                <key/>
+            </bookmark>
+            <bookmark id="186">
+                <name/>
+                <line>115</line>
                 <key/>
             </bookmark>
         </file>
@@ -140,19 +150,9 @@
         </file>
         <file>
             <url>web/javaScript/mvc/model.js</url>
-            <bookmark id="184">
+            <bookmark id="188">
                 <name/>
-                <line>95</line>
-                <key/>
-            </bookmark>
-            <bookmark id="181">
-                <name/>
-                <line>114</line>
-                <key/>
-            </bookmark>
-            <bookmark id="179">
-                <name/>
-                <line>127</line>
+                <line>410</line>
                 <key/>
             </bookmark>
         </file>
@@ -207,7 +207,7 @@
             <url>web/javaScript/util/utility.js</url>
             <bookmark id="165">
                 <name/>
-                <line>232</line>
+                <line>234</line>
                 <key/>
             </bookmark>
         </file>
@@ -229,11 +229,6 @@
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.3.2a/NERVE/web/javaScript/classes/mvc/listeners.js</file>
             <file>file:/D:/Dropbox/Projects/groups/autoTagger/NERVE.1.3.2a/NERVE/build.xml</file>
         </group>
-        <group>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/customQuery.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
-        </group>
         <group name="Frontier Web App">
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/gen/context.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/src/java/res/contexts/tei.context.json</file>
@@ -252,13 +247,16 @@
         </group>
         <group name="Frontier">
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/main.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/orlando.css</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/customQuery.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/utility.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/controller.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/customQuery.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/collection/collection.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/util/utility.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/schema.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/orlando.css</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
+        <group/>
     </open-files>
 </project-private>

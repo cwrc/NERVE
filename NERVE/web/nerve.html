@@ -42,7 +42,7 @@
         <script src="javaScript/util/fileOperations.js" type="text/javascript"></script>
 
         <script src="javaScript/collection/collection.js" type="text/javascript"></script>
-        <script src="javaScript/util/searchUtility.js" type="text/javascript"></script>
+        <script src="javaScript/util/searchWidget.js" type="text/javascript"></script>
 
         <script src="javaScript/JJJ.js" type="text/javascript"></script>
 
@@ -131,30 +131,21 @@
                 </div>
             </div>
 
-            <input id="epsTextArea">
-            <button id="epsPrev">Previous</button>
-            <button id="epsNext">Next</button>
-
             <div id="middlePanel">
-                <div id="futurePanel"></div>
 
-                <div id="panelContainer" >
+                <div id="futurePanel" class="innerPanel"></div>
+
+                <div id="panelContainer" class="innerPanel">
                     <div id="entityPanel" class="format-default"></div>
                 </div>
 
-                <div id="entityDialog">
-                    <div class="entityDialogMember">Tag Name</div>
-                    <div class="entityDialogMember"><select name="selectTagName" id="selectTagName"></select></div>
-                    <div class="entityDialogMember"><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text"/></div>
-                    <div class="entityDialogMember"><button id="searchDialog" type="button" class="btn btn-default"><i class="fa fa-search"></i></button></div>
-                    <div class="entityDialogMember"><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text"/></div>
-                    <div class="entityDialogMember"><div>Link</div><input class="entityDialogTB" id="txtLink" type="text"/><div id="goLink">GO</div></div>
-
-                    <div id="dictionary">
-                        <button id="dictAdd"    type="button" class="btn-dict">Add to User Dictionary</button>
-                        <button id="dictRemove" type="button" class="btn-dict">Remove From User Dictionary</button>
-                        <button id="dictUpdate" type="button" class="btn-dict">Update User Dictionary</button>
-                    </div>
+                <div id="entityDialog" class="innerPanel">
+                    <input type="search" name="search" value="" id="searchTextArea">
+                    <div>Tag Name</div>
+                    <div><select name="selectTagName" id="selectTagName"></select></div>
+                    <div><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text"/></div>
+                    <div><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text"/></div>
+                    <div><div>Link</div><input class="entityDialogTB" id="txtLink" type="text"/><div id="goLink">GO</div></div>
                 </div>
             </div>
 

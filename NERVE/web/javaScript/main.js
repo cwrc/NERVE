@@ -26,27 +26,29 @@ class Main {
         window.entityPanel = new EntityPanelWidget($("#futurePanel"));
     }
     async initialize() {
+
         this.model = new Model();
-        this.view = new View(this.model);
+        this.view = new View();
 
+        this.model.addListener(this.view);
+        this.model.addListener(new UserMessageHandler($("#userMessage")));
+
+        let hostInfo = new HostInfo();
         this.scriber = new Scriber();
-        this.scriber.setView(this.view);
+        await this.scriber.connect(hostInfo.scriberSocketAddress);
+        this.scriber.addListener(this.view);
 
-        this.controller = new Controller(this.model, this.view, this.scriber);
+        this.controller = new Controller(this.model, this.scriber);
 
-        let entityDialogView = new EntityDialogView()
-        this.controller.addListener(entityDialogView);
-        this.model.addListener(entityDialogView);
-
-        this.view.setThrobberMessage("Loading...");
+        this.model.addListener(new SearchView());
+        this.model.addListener(new EntityDialogView());
 
         this.model.addListener($.fn.xmlAttr);
 
-        await this.controller.init();
+        this.view.setThrobberMessage("Loading...");
         await this.model.init();
 
-        this.listener = new Listeners(this.view, this.controller);
-
+        this.listeners = new Listeners(this.model, this.view, this.controller);
         this.view.showThrobber(false);
         $("#container").show();
     }

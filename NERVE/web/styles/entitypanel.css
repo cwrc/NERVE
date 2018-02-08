@@ -1,3 +1,11 @@
+
+#middlePanel > .innerPanel{
+    position: absolute;
+    height: 90%;
+    border: 1px solid black;
+    background-color: whitesmoke;
+}
+
 #panelContainer{
     width: calc(100% - 540px);
     left: 270px;
@@ -10,6 +18,10 @@
     right: 0px;
 }
 
+#entityDialog > *{
+    margin: 10px;
+}
+
 #entityPanel, #tagnamePanel{
     position: absolute;
     top: 0px;
@@ -20,6 +32,10 @@
     word-wrap: normal;
     line-height: 175%;
     padding: 15px;
+}
+
+#entityPanel *{
+    display: inline;
 }
 
 #dialogFade{

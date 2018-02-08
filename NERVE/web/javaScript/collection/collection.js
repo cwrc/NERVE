@@ -7,7 +7,6 @@
 
 class Collection {
     constructor(array) {
-        Collection.traceLevel = 0;
         Utility.log(Collection, "constructor");
         Utility.enforceTypes(arguments, ["optional", Array, HTMLCollection]);
 
@@ -22,6 +21,7 @@ class Collection {
     }
 
     async notifyListeners(method){
+        Utility.log(Collection, "notifyListeners", method);
         Array.prototype.shift.apply(arguments);
         for (let view of this.listeners){
             if (typeof view[method] !== "function") continue;
@@ -85,7 +85,7 @@ class Collection {
         return this.innerArray.length;
     }
     isEmpty() {
-        Utility.log(Collection, "isEmpty");
+        Utility.log(Collection, "isEmpty", "", this.innerArray.length === 0);
         Utility.enforceTypes(arguments);
         return this.innerArray.length === 0;
     }

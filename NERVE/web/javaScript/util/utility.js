@@ -10,8 +10,8 @@ Utility = {
     enableAssertions: true,
     classes: {
         Events: 0,
-        Controller: 2,
-        View: 0,
+        Controller: 0,
+        View: 2,
         Collection: 0,
         Dictionary: 0,
         Context: 0,
@@ -20,7 +20,9 @@ Utility = {
         Listeners: 0,
         Schema: 0,
         TaggedEntity: 0,
-        EntityDialogView: 0
+        EntityDialogView: 0,
+        TaggedEntityController: 0,
+        TaggedEntityModel: 0,
     },
     logger: {
         logRecord: {}
@@ -230,15 +232,17 @@ Utility.getParameterNames = function (func) {
     return result;
 };
 
-Utility.log = function (aClass, methodName, text = "") {
+Utility.log = function (aClass, methodName, ptext = "", rtext = null) {
     let className = aClass.name;
+    if (ptext === null) ptext = "";
 
     if (Utility.classes[className] >= 2 && !methodName.startsWith("__")) {
         let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + className + "." + methodName + `(${text})`);
-    } else if (Utility.classes[className] >= 3) {
-        let seconds = Math.round(Date.now() / 100 % 1000) / 10;
-        console.log(seconds + " : " + className + "." + methodName + `(${text})`);
+        let text = seconds + " : " + className + "." + methodName + `(${ptext})`;
+        if (typeof rtext === "string") text = text + " : " + rtext;
+        else if (typeof rtext === "function") text = text + " : " + rtext();
+        else if (rtext !== null) text = text + " : " + rtext.toString();
+        console.log(text);
     }
 
     /* setup the log record the first time a class is called */

@@ -7,7 +7,8 @@ import ca.fa.jjjrmi.annotations.SkipJS;
 import ca.fa.jjjrmi.socket.RMISocket;
 import ca.fa.utility.Console;
 import ca.sharcnet.nerve.HasStreams;
-import ca.sharcnet.nerve.IsMonitor;
+import ca.sharcnet.nerve.ProgressListener;
+import ca.sharcnet.nerve.ProgressPacket;
 import ca.sharcnet.nerve.context.Context;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.decode.Decoder;
@@ -20,55 +21,58 @@ import ca.sharcnet.nerve.encoder.Encoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
 @NativeJS("Scriber")
 @RMI("Scriber")
-abstract public class AScriber extends RMISocket implements HasStreams, IsMonitor{
+abstract public class AScriber extends RMISocket implements HasStreams, ProgressListener{
+    private final ArrayList<ProgressListener> listeners = new ArrayList<>();
 
-    @SkipJS
     public AScriber(){
         super();
     }
 
-    @NativeJS
-    private void setView(Object view){
-        /*JS{
-            this.view = view;
-            this.phaseName = "";
-        }*/
+    public void addListener(ProgressListener listener){
+        this.listeners.add(listener);
+    }
+
+    @Override
+    @ClientSide(true)
+    public void notifyProgress(ProgressPacket packet){
+        for (ProgressListener listener : listeners) listener.notifyProgress(packet);
     }
 
     @ServerSide
     public EncodeResponse encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        this.notifyProgress(new ProgressPacket("Loading Document ", 0,  5));
         EncodeOptions options = new EncodeOptions();
-        options.setMonitor(this);
         options.addProcess(EncodeProcess.NER);
         options.addProcess(EncodeProcess.DICTIONARY);
 
         Document document = DocumentLoader.documentFromString(source);
-        EncodedDocument encoded = Encoder.encode(document, this, options);
+        EncodedDocument encoded = Encoder.encode(document, this, options, this);
         return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
     }
 
     @ServerSide
     public EncodeResponse tag(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        this.notifyProgress(new ProgressPacket("Loading Document ", 0,  5));
         EncodeOptions options = new EncodeOptions();
-        options.setMonitor(this);
         options.addProcess(EncodeProcess.NER);
 
         Document document = DocumentLoader.documentFromString(source);
-        EncodedDocument encoded = Encoder.encode(document, this, options);
+        EncodedDocument encoded = Encoder.encode(document, this, options, this);
         return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
     }
 
     @ServerSide
     public EncodeResponse edit(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        this.notifyProgress(new ProgressPacket("Loading Document ", 0,  5));
         EncodeOptions options = new EncodeOptions();
-        options.setMonitor(this);
         Document document = DocumentLoader.documentFromString(source);
-        EncodedDocument encoded = Encoder.encode(document, this, options);
+        EncodedDocument encoded = Encoder.encode(document, this, options, this);
         return new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
     }
 
@@ -84,32 +88,6 @@ abstract public class AScriber extends RMISocket implements HasStreams, IsMonito
     @Override
     public InputStream getResourceStream(String path) {
         return Encoder.class.getResourceAsStream("/res/" + path);
-    }
-
-    @SkipJS
-    public void phase(String phase, int i, int phaseMax) {
-        this.onPhase(phase, i, phaseMax);
-    }
-
-    @SkipJS
-    public void step(int i, int stepMax) {
-        this.onStep(i, stepMax);
-    }
-
-    @ClientSide
-    public void onPhase(String phase, int i, int max) {
-        /*JS{
-            this.view.setThrobberMessage(phase);
-            this.phaseName = phase;
-            this.view.showBaubles(i, max);
-        }*/
-    }
-
-    @ClientSide
-    public void onStep(int i, int max) {
-        /*JS{
-            this.view.showPercent(Math.trunc(i / max * 100));
-        }*/
     }
 
     @ServerSide

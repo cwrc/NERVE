@@ -1,5 +1,4 @@
-
-/* global Utility, TaggedEntityModel, Collection */
+/* global Utility, TaggedEntityModel, Collection, ProgressPacket */
 
 class EntityDialogView {
     constructor(){
@@ -9,44 +8,67 @@ class EntityDialogView {
         $('#txtEntity').textinput();
         $('#searchDialog').textinput();
         $('#txtLemma').textinput();
-        $('#txtLemma').textinput();
+        $('#txtLink').textinput();
+    }
+
+    notifyContextChange(context) {
+        Utility.log(EntityDialogView, "notifyContextChange");
+        Utility.enforceTypes(arguments, Context);
+
+        this.context = context;
+
+        /* clear then repopulate the drop down tagName selector */
+        let selector = document.getElementById("selectTagName");
+        while (selector.hasChildNodes()) {
+            selector.removeChild(selector.firstChild);
+        }
+
+        for (let tagInfo of this.context.tags()) {
+            var opt = document.createElement('option');
+            $(opt).val(tagInfo.getName(NameSource.NAME));
+            opt.innerHTML = tagInfo.getName(NameSource.NAME);
+            selector.appendChild(opt);
+        }
+
+        this.setTagName(this.context.tags().get(0).getName());
     }
 
     notifyCollectionAdd(collection, taggedEntityModel) {
         Utility.log(EntityDialogView, "notifyCollectionAdd");
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
-        this.pollDialogs(collection);
-        this.setDialogFade();
-
-        this.setEntity(taggedEntityModel.text());
-        this.setLemma(taggedEntityModel.lemma());
-        this.setLink(taggedEntityModel.link());
-        this.setTagName(taggedEntityModel.tagName());
+        this.setDialogs(collection);
     }
     notifyCollectionClear(collection, taggedEntityModels) {
         Utility.log(EntityDialogView, "notifyCollectionClear");
         Utility.enforceTypes(arguments, Collection, Array);
-        this.pollDialogs(collection);
-        this.setDialogFade();
+        this.setDialogs(collection);
     }
     notifyCollectionRemove(collection, taggedEntityModel) {
         Utility.log(EntityDialogView, "notifyCollectionRemove");
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
-        this.pollDialogs(collection);
-        this.setDialogFade();
+        this.setDialogs(collection);
     }
-    pollDialogs(collection) {
-        Utility.log(EntityDialogView, "pollDialogs");
+
+    setDialogs(collection) {
+        Utility.log(EntityDialogView, "setDialogs");
         Utility.enforceTypes(arguments, Collection);
 
-        let first = collection.getFirst();
+        this.clearDialogs();
         this.clearDialogBG();
 
-        for (let entity of collection) {
-            if (entity.lemma() !== first.lemma()) this.setDialogBG("lemma");
-            if (entity.link() !== first.link()) this.setDialogBG("link");
-            if (entity.text() !== first.text()) this.setDialogBG("text");
-            if (entity.tagName() !== first.tagName()) this.setDialogBG("tag");
+        if (!collection.isEmpty()) {
+            let last = collection.getLast();
+            this.setEntity(last.text());
+            this.setLemma(last.lemma());
+            this.setLink(last.link());
+            this.setTagName(last.tagName());
+
+            for (let entity of collection) {
+                if (entity.lemma() !== last.lemma()) this.setDialogBG("lemma");
+                if (entity.link() !== last.link()) this.setDialogBG("link");
+                if (entity.text() !== last.text()) this.setDialogBG("text");
+                if (entity.tagName() !== last.tagName()) this.setDialogBG("tag");
+            }
         }
     }
     clearDialogBG() {
@@ -67,35 +89,12 @@ class EntityDialogView {
                 $("#txtEntity").parent().css("background-color", "#ffcccc");
                 break;
             case "lemma":
-                console.log("HERE");
                 $("#txtLemma").parent().css("background-color", "#ffcccc");
                 break;
             case "link":
                 $("#txtLink").parent().css("background-color", "#ffcccc");
                 break;
         }
-    }
-    setDialogFade(value = true) {
-        Utility.log(EntityDialogView, "setDialogFade");
-        Utility.enforceTypes(arguments);
-
-        if (value) {
-            $('#txtEntity').textinput('enable');
-            $('#searchDialog').textinput('enable');
-            $('#txtLemma').textinput('enable');
-            $('#txtLemma').textinput('enable');
-
-            this.clearDialogs();
-//            this.setDictionaryButton("none");
-        } else {
-            this.clearDialogBG();
-            $('#txtEntity').textinput('disable');
-            $('#searchDialog').textinput('disable');
-            $('#txtLemma').textinput('disable');
-            $('#txtLemma').textinput('disable');
-        }
-
-        $( "#txtEntity" ).textinput( "refresh" );
     }
     setTagName(string) {
         Utility.log(EntityDialogView, "setTagName", string);
@@ -129,14 +128,13 @@ class EntityDialogView {
 }
 
 class View {
-    constructor(model) {
+    constructor() {
         Utility.log(View, "constructor");
-        Utility.enforceTypes(arguments, Model);
+        Utility.enforceTypes(arguments);
 
         this.context = null;
-        model.addListener(this);
-
         this.storage = new Storage("NERVE_VIEW");
+
         if (this.storage.hasValue("mode") && this.storage.getValue("mode") === "tag") {
             this.tagMode(true);
         } else {
@@ -146,9 +144,6 @@ class View {
         this.delayThrobber = null;
         this.throbberMessageStack = [];
         this.lastFade = true;
-
-        this.usrMsgHnd = new UserMessageHandler();
-        this.usrMsgHnd.setContainer(document.getElementById("userMessage"));
     }
     notifyCollectionAdd(collection, taggedEntityModel) {
         Utility.log(View, "notifyCollectionAdd");
@@ -166,6 +161,16 @@ class View {
         Utility.log(View, "notifyCollectionRemove");
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
         $(taggedEntityModel.getElement()).removeClass("selected");
+    }
+    notifyProgress(progressPacket){
+        Utility.log(View, "notifyProgress");
+        Utility.enforceTypes(arguments, ProgressPacket);
+        console.log(progressPacket);
+
+        if (progressPacket instanceof ProgressCompletePacket) this.showThrobber(false);
+        else{ this.showThrobber(true);
+            this.setThrobberMessage(progressPacket.message);
+        }
     }
     setDictionaryButton(button) {
         Utility.log(View, "setDictionaryButton");
@@ -215,11 +220,6 @@ class View {
         $("#entityPanel").empty();
         $("#tagnamePanel").empty();
     }
-    setDocument(text) {
-        Utility.log(View, "setDocument");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("entityPanel").innerHTML = text;
-    }
     setFilename(text) {
         Utility.log(View, "setFilename");
         Utility.enforceTypes(arguments, String);
@@ -249,26 +249,13 @@ class View {
         Utility.enforceTypes(arguments, Context);
 
         /* remove old .css class */
-        if (this.context != null) {
+        if (this.context !== null) {
             for (let stylename of this.context.styles()) {
                 $("#entityPanel").removeClass(stylename);
             }
         }
 
         this.context = context;
-
-        /* clear then repopulate the drop down tagName selector */
-        let selector = document.getElementById("selectTagName");
-        while (selector.hasChildNodes()) {
-            selector.removeChild(selector.firstChild);
-        }
-
-        for (let tagInfo of this.context.tags()) {
-            var opt = document.createElement('option');
-            $(opt).val(tagInfo.getName(NameSource.NAME));
-            opt.innerHTML = tagInfo.getName(NameSource.NAME);
-            document.getElementById("selectTagName").appendChild(opt);
-        }
 
         /* add new .css class */
         for (let stylename of this.context.styles()) {
@@ -330,22 +317,12 @@ class View {
             if (i <= index) $(`#baubles > img[data-index="${i}"]`).attr("src", "resources/light-on.png");
         }
     }
-    showThrobber(flag) {
+    showThrobber(flag = true) {
         Utility.log(View, "showThrobber", flag);
-        Utility.enforceTypes(arguments, Boolean);
+        Utility.enforceTypes(arguments, ["optional", Boolean]);
 
-        if (flag === true && this.delayThrobber === null) {
-            this.delayThrobber = setTimeout(() => {
-                this.delayThrobber = null;
-                $("#throbberBG").show();
-            }, 300);
-        } else {
-            if (this.delayThrobber !== null) {
-                clearTimeout(this.delayThrobber);
-                this.delayThrobber = null;
-            }
-            $("#throbberBG").hide();
-        }
+        if (flag) $("#throbberBG").show();
+        else $("#throbberBG").hide();
     }
     pushThrobberMessage(string) {
         Utility.log(View, "pushThrobberMessage");
@@ -371,9 +348,6 @@ class View {
 
         this.throbberMessageStack = [string];
         document.getElementById("message").innerText = string;
-    }
-    showUserMessage(string, duration = 3000) {
-        this.usrMsgHnd.showUserMessage(string, duration);
     }
     tagMode(enabled) {
         Utility.log(View, "tagMode");
@@ -401,24 +375,24 @@ class View {
 }
 
 class UserMessageHandler {
-    constructor() {
+    constructor(element) {
         Utility.log(UserMessageHandler, "constructor");
-        Utility.enforceTypes(arguments);
+        Utility.enforceTypes(arguments, [HTMLElement, jQuery]);
         this.container = null;
+        this.setContainer(element);
     }
     setContainer(element) {
         Utility.log(UserMessageHandler, "setContainer");
-        Utility.enforceTypes(arguments, HTMLElement);
+        Utility.enforceTypes(arguments, [HTMLElement, jQuery]);
         this.container = element;
     }
-    showUserMessage(string, duration = 3000) {
-        Utility.log(UserMessageHandler, "showUserMessage");
+    userMessage(string, duration = 3000) {
+        Utility.log(UserMessageHandler, "userMessage");
         Utility.enforceTypes(arguments, String, ["optional", Number]);
 
-        this.container = document.getElementById("userMessage");
         let msgElement = document.createElement("div");
         msgElement.className = "userMessageElement";
-        this.container.appendChild(msgElement);
+        $(this.container).append(msgElement);
 
         msgElement.style.display = 'block';
         msgElement.innerText = string;
@@ -441,7 +415,8 @@ class UserMessageHandler {
             time -= timeDelta;
             if (time <= 0.0) {
                 clearInterval(showMessageTimer);
-                this.container.removeChild(msgElement);
+
+                $(msgElement).remove();
                 showMessageTimer = null;
             }
         }.bind(this), timeDelta);

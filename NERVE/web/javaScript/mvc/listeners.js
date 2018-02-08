@@ -35,10 +35,11 @@ class EntityDialogWidget {
 }
 
 class Listeners {
-    constructor(view, controller) {
+    constructor(model, view, controller) {
         Utility.log(Listeners, "constructor");
-        Utility.enforceTypes(arguments, View, Controller);
+        Utility.enforceTypes(arguments, Model, View, Controller);
 
+        this.model = model;
         this.view = view;
         this.controller = controller;
 
@@ -52,23 +53,11 @@ class Listeners {
         $("#goLink").click((event) => this.controller.goLink());
 
         /* search events */
-        $("#searchDialog").click((event) => {
-            event.stopPropagation();
-            this.controller.showSearchDialog();
-        });
-        $("#epsNext").click((event) => {
-            event.stopPropagation();
-            this.controller.search($("#epsTextArea").val(), "next");
-        });
-        $("#epsPrev").click((event) => {
-            event.stopPropagation();
-            this.controller.search($("#epsTextArea").val(), "prev");
-        });
-
-        $("#epsTextArea").keyup((event) => {
+        $("#searchTextArea").keyup((event) => {
             if (event.keyCode !== 13) return;
             event.stopPropagation();
-            this.controller.search($("#epsTextArea").val(), "next");
+            this.model.getSearchModel().search($("#searchTextArea").val());
+            this.model.getSearchModel().next();
         });
 
         /* menu events key events fire these events */
@@ -84,7 +73,6 @@ class Listeners {
 
         /* file dialog event - related to menu open */
         $("#fileOpenDialog")[0].onchange = function (event) {
-            console.log(this);
             event.preventDefault();
             reader.filename = this.files[0].name;
             reader.readAsText(this.files[0]);
@@ -110,7 +98,7 @@ class Listeners {
 
         $("#menuClose").click((event) => {
             event.stopPropagation();
-            this.controller.closeDocument();
+            this.model.close();
         });
 
         $("#menuTags").click((event) => {
@@ -124,16 +112,16 @@ class Listeners {
         });
         $("#menuClear").click((event) => {
             event.stopPropagation();
-            this.controller.unselectAll();
+            this.model.getCollection().clear();
             this.view.clearThrobber();
         });
         $("#menuUndo").click((event) => {
             event.stopPropagation();
-            this.controller.revertState();
+            this.model.revertState();
         });
         $("#menuRedo").click((event) => {
             event.stopPropagation();
-            this.controller.advanceState();
+            this.model.advanceState();
         });
         $("#menuCopy").click((event) => {
             event.stopPropagation();
@@ -164,20 +152,6 @@ class Listeners {
         $("#menuMerge").click(async (event) => {
             event.stopPropagation();
             await this.controller.mergeSelectedEntities();
-        });
-
-        $("#dictAdd").click(async (event) => {
-            event.stopPropagation();
-            await this.controller.dictAdd();
-        });
-
-        $("#dictRemove").click(async (event) => {
-            event.stopPropagation();
-            await this.controller.dictRemove();
-        });
-        $("#dictUpdate").click(async (event) => {
-            event.stopPropagation();
-            await this.controller.dictAdd();
         });
 
         $("#menuWiki").click((event) => {
@@ -283,35 +257,12 @@ class Listeners {
 
         /* Default Document Click Event */
         $("#entityPanel").click((event) => this.documentClick(event));
-        $("#entityPanel").dblclick((event) => this.documentDblClick(event));
-        $("#tagnamePanel").click((event) => {
-            if (event.altKey) {
-                window.lastTarget = event.target;
-                return;
-            }
-            let srcElement = event.originalEvent.srcElement;
-            if ($(srcElement).hasClass("tagname")) {
-                let sourceEntity = $(srcElement).data("source");
-                if (!event.ctrlKey && !event.metaKey) {
-                    this.controller.setSelected(sourceEntity);
-                } else {
-                    this.controller.toggleSelect(sourceEntity);
-                }
-            }
-        });
+
     }
     documentClick(event) {
         Utility.log(Listeners, "documentClick");
         Utility.enforceTypes(arguments, Object);
-        if (!event.ctrlKey && !event.altKey && !event.shiftKey) this.controller.unselectAll();
-    }
-    documentDblClick(event) {
-        let srcElement = event.originalEvent.srcElement;
-        if ($(srcElement).hasClass("taggedentity")) {
-            window.getSelection().removeAllRanges();
-            this.controller.selectLikeEntitiesByLemma();
-            event.stopPropagation();
-        }
+        if (!event.ctrlKey && !event.altKey && !event.shiftKey) this.model.getCollection().clear();
     }
     menuShowTags() {
         switch ($("#menuTags").text()) {
