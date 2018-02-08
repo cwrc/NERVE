@@ -118,7 +118,6 @@ Scriber = class Scriber {
 		this.listeners.add(listener);
 	}
 	notifyProgress(packet) {
-		Console.log("notifyProgress");
 		for(let listener of this.listeners){
 			listener.notifyProgress(packet);
 		}

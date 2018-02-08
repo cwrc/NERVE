@@ -165,7 +165,6 @@ class View {
     notifyProgress(progressPacket){
         Utility.log(View, "notifyProgress");
         Utility.enforceTypes(arguments, ProgressPacket);
-        console.log(progressPacket);
 
         if (progressPacket instanceof ProgressCompletePacket) this.showThrobber(false);
         else{ this.showThrobber(true);

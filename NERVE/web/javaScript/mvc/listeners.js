@@ -1,6 +1,6 @@
 /* global Utility */
 
-class EntityDialogWidget {
+class EntityDialogController {
     constructor(controller) {
         this.controller = controller;
         this.entityValues = new EntityValues();
@@ -43,7 +43,20 @@ class Listeners {
         this.view = view;
         this.controller = controller;
 
-        new EntityDialogWidget(controller);
+        new EntityDialogController(controller);
+
+        let reader = new FileReader();
+        reader.onload = async function (event) {
+            console.log("Reader.onload");
+            await controller.loadDocument(this.filename, event.target.result, this.action);
+        }.bind(reader);
+
+        /* file dialog event - related to menu open */
+        $("#fileOpenDialog").change(async (event)=>{
+            reader.filename = event.currentTarget.files[0].name;
+            await reader.readAsText(event.currentTarget.files[0]);
+            $("#fileOpenDialog").val("");
+        });
 
         $("#selectTagName").on("input", (event) => {
             let values = new EntityValues("", "", "", $("#selectTagName").val(), "");
@@ -65,18 +78,6 @@ class Listeners {
             event.stopPropagation();
             this.controller.saveContents();
         });
-
-        let reader = new FileReader();
-        reader.onload = function (event) {
-            controller.loadDocument(this.filename, event.target.result, this.action);
-        }.bind(reader);
-
-        /* file dialog event - related to menu open */
-        $("#fileOpenDialog")[0].onchange = function (event) {
-            event.preventDefault();
-            reader.filename = this.files[0].name;
-            reader.readAsText(this.files[0]);
-        };
 
         $("#menuOpen").click((event) => {
             event.stopPropagation();
