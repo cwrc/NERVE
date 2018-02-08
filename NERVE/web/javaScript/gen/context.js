@@ -83,10 +83,12 @@ NameSource = class NameSource {
 		return true;
 	}
 };
-NameSource.NAME = new NameSource("NAME");
-NameSource.DICTIONARY = new NameSource("DICTIONARY");
-NameSource.DIALOG = new NameSource("DIALOG");
-NameSource.NERMAP = new NameSource("NERMAP");
+NameSource.valueArray = [];
+NameSource.valueArray.push(NameSource.NAME = new NameSource("NAME"));
+NameSource.valueArray.push(NameSource.DICTIONARY = new NameSource("DICTIONARY"));
+NameSource.valueArray.push(NameSource.DIALOG = new NameSource("DIALOG"));
+NameSource.valueArray.push(NameSource.NERMAP = new NameSource("NERMAP"));
+NameSource.values = function(){return NameSource.valueArray;};
 JJJRMISocket.classes.set("ca.sharcnet.nerve.context.NameSource", NameSource);
 Context = class Context {
 	constructor() {
