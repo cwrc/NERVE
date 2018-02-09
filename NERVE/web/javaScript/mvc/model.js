@@ -82,8 +82,8 @@ class Model {
         $("#entityPanel").html(text);
 
         await this.notifyListeners("notifyContextChange", context);
-        await this.notifyListeners("setDocument", $("#entityPanel").get(0));
-        await this.notifyListeners("setFilename", filename);
+        await this.notifyListeners("notifySetDocument", $("#entityPanel").get(0));
+        await this.notifyListeners("notifySetFilename", filename);
 
         $(".taggedentity").each((i, element) => {
             let taggedEntity = new TaggedEntityModel(this, element);
@@ -252,7 +252,9 @@ class Model {
         });
 
         this.storage.setValue("current", "document", docHTML);
-        await this.notifyListeners("setDocument", document);
+
+        this.getCollection().clear();
+        await this.notifyListeners("notifySetDocument", $("#entityPanel").get(0));
     }
     async advanceState() {
         Utility.log(Model, "advanceState");
@@ -270,7 +272,8 @@ class Model {
         });
 
         this.storage.setValue("current", "document", docHTML);
-        await this.notifyListeners("setDocument", document);
+        this.getCollection().clear();
+        await this.notifyListeners("notifySetDocument", $("#entityPanel").get(0));
     }
     __resetState() {
         Utility.log(Model, "__resetState");
@@ -358,10 +361,10 @@ class TaggedEntityModel {
         /* default values - will throw an exception is the tagged text does not have a tagname attribute and
          * the tagName is not provided.
          */
-        if (tagName !== null) this.tagName(tagName);
-        this.lemma(this.text());
-        this.link("");
-        this.collection("");
+        if (tagName !== null) this.tagName(tagName, true);
+        this.lemma(this.text(), true);
+        this.link("", true);
+        this.collection("", true);
     }
 
     selectLikeEntitiesByLemma(){
@@ -378,7 +381,7 @@ class TaggedEntityModel {
         Utility.enforceTypes(arguments);
         return this.contents[0];
     }
-    tagName(value = undefined) {
+    tagName(value = undefined, silent = false) {
         Utility.log(TaggedEntityModel, "tagName", value);
         if (value === undefined) return $(this.element).tagName();
 
@@ -392,57 +395,52 @@ class TaggedEntityModel {
         $(this.markup).attr("data-norm", tagInfo.getName(NameSource.DICTIONARY));
         $(this.element).tagName(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", this);
+        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).tagName();
     }
-    lemma(value = undefined) {
+    lemma(value = undefined, silent = false) {
         Utility.log(TaggedEntityModel, "lemma", value);
         if (value === undefined) return $(this.element).lemma();
         $(this.element).lemma(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", this);
+        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).lemma();
     }
-    link(value = undefined) {
+    link(value = undefined, silent = false) {
         Utility.log(TaggedEntityModel, "link", value);
         if (value === undefined) return $(this.element).link();
         $(this.element).link(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", this);
+        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).link();
     }
-    text(value = undefined) {
+    text(value = undefined, silent = false) {
         Utility.log(TaggedEntityModel, "text", value);
 
         if (value === undefined) return $(this.contents).text();
         $(this.contents).text(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", this);
+        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).link();
         return $(this.contents).text();
     }
-    collection(value = undefined) {
+    collection(value = undefined, silent = false) {
         Utility.log(TaggedEntityModel, "collection", value);
         if (value === undefined) return $(this.element).attr("data-collection");
         $(this.element).attr("data-collection", value);
 
-        this.model.notifyListeners("notifyEntityUpdate", this);
+        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).attr("data-collection");
     }
     entityValues(value = undefined) {
         Utility.log(TaggedEntityModel, "entityValues");
         if (value === undefined) return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
         else {
-            if (value.entity !== "") $(this.contents).text(value.entity);
-            if (value.lemma !== "") $(this.element).lemma(value.lemma);
-            if (value.link !== "")  $(this.element).link(value.link);
-            if (value.collection !== "") $(this.element).attr("data-collection", value.collection);
-
-            let tagInfo = this.context.getTagInfo(value.tagName, NameSource.NAME);
-            $(this.markup).text(value.tagName);
-            $(this.markup).attr("data-norm", tagInfo.getName(NameSource.DICTIONARY));
-            $(this.element).tagName(value.tagName);
-
+            if (value.entity !== "") this.text(value.entity, true);
+            if (value.lemma !== "") this.lemma(value.lemma, true);
+            if (value.link !== "") this.link(value.link, true);
+            if (value.tagName !== "") this.tagName(value.tagName, true);
+            if (value.collection !== "") this.collection(value.collection, true);
             this.model.notifyListeners("notifyEntityUpdate", this);
         }
 

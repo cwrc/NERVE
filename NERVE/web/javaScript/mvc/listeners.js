@@ -125,6 +125,7 @@ class Listeners {
         $("#menuPaste").click((event) => {
             event.stopPropagation();
             this.model.paste();
+            this.model.saveState();
         });
         $("#menuTag").click((event) => {
             event.stopPropagation();

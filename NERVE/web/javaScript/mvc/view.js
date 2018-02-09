@@ -187,6 +187,12 @@ class View {
             this.setThrobberMessage(progressPacket.message);
         }
     }
+    notifySetDocument(docElement){
+        Utility.log(View, "notifySetDocument");
+        Utility.enforceTypes(arguments, HTMLDivElement );
+        console.log(window.x = $(docElement));
+        $(docElement).find("*").removeClass("selected");
+    }
     setDictionaryButton(button) {
         Utility.log(View, "setDictionaryButton");
         Utility.enforceTypes(arguments, String);
