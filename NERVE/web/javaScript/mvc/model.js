@@ -17,6 +17,7 @@ class Model {
         this.entityDialog = new EntityDialogModel();
         this.collection = new Collection();
         this.searchModel = new SearchModel("#entityPanel");
+        this.clipboard = null;
 
         this.currentStateIndex = 0;
         this.maxStateIndex = 30;
@@ -104,6 +105,9 @@ class Model {
         this.storage.setValue("document", null);
         this.storage.setValue("filename", null);
         this.storage.setValue("context", null);
+        localStorage.clear();
+        this.collection.clear();
+        $("#entityPanel").html("");
         this.notifyListeners("notifyDocumentClosed");
     }
 
@@ -296,6 +300,20 @@ class Model {
         Utility.enforceTypes(arguments);
         return this.context;
     }
+
+    copy(){
+        this.clipboard = this.entityDialog.getValues();
+        this.clipboard.entity = "";
+        console.log(this.clipboard);
+    }
+
+    paste(){
+        if (this.clipboard === null) return;
+        console.log(this.clipboard);
+        for (let entity of this.collection){
+            entity.entityValues(this.clipboard);
+        }
+    }
 }
 
 /**
@@ -374,7 +392,7 @@ class TaggedEntityModel {
         $(this.markup).attr("data-norm", tagInfo.getName(NameSource.DICTIONARY));
         $(this.element).tagName(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", "tagName", this);
+        this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).tagName();
     }
     lemma(value = undefined) {
@@ -382,7 +400,7 @@ class TaggedEntityModel {
         if (value === undefined) return $(this.element).lemma();
         $(this.element).lemma(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", "lemma", this);
+        this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).lemma();
     }
     link(value = undefined) {
@@ -390,7 +408,7 @@ class TaggedEntityModel {
         if (value === undefined) return $(this.element).link();
         $(this.element).link(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", "link", this);
+        this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).link();
     }
     text(value = undefined) {
@@ -399,7 +417,7 @@ class TaggedEntityModel {
         if (value === undefined) return $(this.contents).text();
         $(this.contents).text(value);
 
-        this.model.notifyListeners("notifyEntityUpdate", "text", this);
+        this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).link();
         return $(this.contents).text();
     }
@@ -408,18 +426,24 @@ class TaggedEntityModel {
         if (value === undefined) return $(this.element).attr("data-collection");
         $(this.element).attr("data-collection", value);
 
-        this.model.notifyListeners("notifyEntityUpdate", "collection", this);
+        this.model.notifyListeners("notifyEntityUpdate", this);
         return $(this.element).attr("data-collection");
     }
     entityValues(value = undefined) {
         Utility.log(TaggedEntityModel, "entityValues");
         if (value === undefined) return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
         else {
-            if (value.entity !== "") this.text(value.entity);
-            if (value.lemma !== "") this.lemma(value.lemma);
-            if (value.link !== "") this.link(value.link);
-            if (value.tagName !== "") this.tagName(value.tagName);
-            if (value.collection !== "") this.collection(value.collection);
+            if (value.entity !== "") $(this.contents).text(value.entity);
+            if (value.lemma !== "") $(this.element).lemma(value.lemma);
+            if (value.link !== "")  $(this.element).link(value.link);
+            if (value.collection !== "") $(this.element).attr("data-collection", value.collection);
+
+            let tagInfo = this.context.getTagInfo(value.tagName, NameSource.NAME);
+            $(this.markup).text(value.tagName);
+            $(this.markup).attr("data-norm", tagInfo.getName(NameSource.DICTIONARY));
+            $(this.element).tagName(value.tagName);
+
+            this.model.notifyListeners("notifyEntityUpdate", this);
         }
 
         return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());

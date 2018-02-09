@@ -47,7 +47,6 @@ class Listeners {
 
         let reader = new FileReader();
         reader.onload = async function (event) {
-            console.log("Reader.onload");
             await controller.loadDocument(this.filename, event.target.result, this.action);
         }.bind(reader);
 
@@ -106,11 +105,6 @@ class Listeners {
             event.stopPropagation();
             this.view.tagMode();
         });
-        $("#menuReset").click((event) => {
-            event.stopPropagation();
-            localStorage.clear();
-            location.reload(true);
-        });
         $("#menuClear").click((event) => {
             event.stopPropagation();
             this.model.getCollection().clear();
@@ -126,17 +120,12 @@ class Listeners {
         });
         $("#menuCopy").click((event) => {
             event.stopPropagation();
-            this.controller.copyInfo();
+            this.model.copy();
         });
         $("#menuPaste").click((event) => {
             event.stopPropagation();
-            this.controller.pasteInfo();
+            this.model.paste();
         });
-        $("#menuSelectLemma").click((event) => {
-            event.stopPropagation();
-            this.controller.selectLikeEntitiesByLemma();
-        });
-
         $("#menuTag").click((event) => {
             event.stopPropagation();
             event.preventDefault();
@@ -145,10 +134,6 @@ class Listeners {
         $("#menuUntag").click((event) => {
             event.stopPropagation();
             this.controller.untagAll();
-        });
-        $("#menuFind").click((event) => {
-            event.stopPropagation();
-            this.controller.fillFind();
         });
         $("#menuMerge").click(async (event) => {
             event.stopPropagation();

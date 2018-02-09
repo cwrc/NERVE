@@ -1,7 +1,7 @@
 /* global Utility, TaggedEntityModel, Collection, ProgressPacket */
 
 class EntityDialogView {
-    constructor(){
+    constructor() {
         Utility.log(EntityDialogView, "constructor");
         Utility.enforceTypes(arguments);
 
@@ -9,8 +9,9 @@ class EntityDialogView {
         $('#searchDialog').textinput();
         $('#txtLemma').textinput();
         $('#txtLink').textinput();
-    }
 
+        this.representedEntity = null;
+    }
     notifyContextChange(context) {
         Utility.log(EntityDialogView, "notifyContextChange");
         Utility.enforceTypes(arguments, Context);
@@ -32,7 +33,13 @@ class EntityDialogView {
 
         this.setTagName(this.context.tags().get(0).getName());
     }
-
+    notifyEntityUpdate(taggedEntityModel) {
+        Utility.log(EntityDialogView, "notifyEntityUpdate");
+        Utility.enforceTypes(arguments, TaggedEntityModel);
+        if (this.representedEntity === taggedEntityModel) {
+            this.setDialogs(taggedEntityModel);
+        }
+    }
     notifyCollectionAdd(collection, taggedEntityModel) {
         Utility.log(EntityDialogView, "notifyCollectionAdd");
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
@@ -48,27 +55,35 @@ class EntityDialogView {
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
         this.setDialogs(collection);
     }
-
-    setDialogs(collection) {
+    setDialogs(inputData) {
         Utility.log(EntityDialogView, "setDialogs");
-        Utility.enforceTypes(arguments, Collection);
+        Utility.enforceTypes(arguments, [Collection, TaggedEntityModel]);
 
         this.clearDialogs();
         this.clearDialogBG();
 
-        if (!collection.isEmpty()) {
-            let last = collection.getLast();
-            this.setEntity(last.text());
-            this.setLemma(last.lemma());
-            this.setLink(last.link());
-            this.setTagName(last.tagName());
+        let entity = null;
+        let collection = null;
+        if (inputData instanceof Collection) {
+            collection = inputData;
+            if (collection.isEmpty()) return;
+            entity = collection.getLast();
+        } else {
+            entity = inputData;
+        }
 
-            for (let entity of collection) {
-                if (entity.lemma() !== last.lemma()) this.setDialogBG("lemma");
-                if (entity.link() !== last.link()) this.setDialogBG("link");
-                if (entity.text() !== last.text()) this.setDialogBG("text");
-                if (entity.tagName() !== last.tagName()) this.setDialogBG("tag");
-            }
+        this.representedEntity = entity;
+        this.setEntity(entity.text());
+        this.setLemma(entity.lemma());
+        this.setLink(entity.link());
+        this.setTagName(entity.tagName());
+
+        if (collection === null) return;
+        for (let entity of collection) {
+            if (entity.lemma() !== entity.lemma()) this.setDialogBG("lemma");
+            if (entity.link() !== entity.link()) this.setDialogBG("link");
+            if (entity.text() !== entity.text()) this.setDialogBG("text");
+            if (entity.tagName() !== entity.tagName()) this.setDialogBG("tag");
         }
     }
     clearDialogBG() {
@@ -162,12 +177,13 @@ class View {
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
         $(taggedEntityModel.getElement()).removeClass("selected");
     }
-    notifyProgress(progressPacket){
+    notifyProgress(progressPacket) {
         Utility.log(View, "notifyProgress");
         Utility.enforceTypes(arguments, ProgressPacket);
 
         if (progressPacket instanceof ProgressCompletePacket) this.showThrobber(false);
-        else{ this.showThrobber(true);
+        else {
+            this.showThrobber(true);
             this.setThrobberMessage(progressPacket.message);
         }
     }
@@ -211,7 +227,6 @@ class View {
         Utility.enforceTypes(arguments);
         return document.getElementById("epsTextArea").value;
     }
-
     clear() {
         Utility.log(View, "clear");
         Utility.enforceTypes(arguments);
