@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="188">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="189">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="146">
@@ -56,7 +56,7 @@
             </bookmark>
             <bookmark id="172">
                 <name/>
-                <line>265</line>
+                <line>252</line>
                 <key/>
             </bookmark>
         </file>
@@ -64,12 +64,12 @@
             <url>web/javaScript/mvc/view.js</url>
             <bookmark id="187">
                 <name/>
-                <line>218</line>
+                <line>239</line>
                 <key/>
             </bookmark>
             <bookmark id="176">
                 <name/>
-                <line>351</line>
+                <line>372</line>
                 <key/>
             </bookmark>
         </file>
@@ -145,14 +145,6 @@
             <bookmark id="95">
                 <name/>
                 <line>183</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/mvc/model.js</url>
-            <bookmark id="188">
-                <name/>
-                <line>410</line>
                 <key/>
             </bookmark>
         </file>
@@ -257,6 +249,11 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/orlando.css</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/nerve.html</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
+            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
+        </group>
     </open-files>
 </project-private>
