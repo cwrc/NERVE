@@ -12,8 +12,9 @@ ProgressPacket = class ProgressPacket {
 	}
 };
 JJJRMISocket.classes.set("ca.sharcnet.nerve.ProgressPacket", ProgressPacket);
-ProgressCompletePacket = class ProgressCompletePacket {
+ProgressCompletePacket = class ProgressCompletePacket extends ProgressPacket {
 	constructor() {
+		super("", -1, -1);
 	}
 	__isTransient() {
 		return true;

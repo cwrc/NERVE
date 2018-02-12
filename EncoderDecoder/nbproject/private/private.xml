@@ -40,12 +40,7 @@
         <group name="Frontier Web App"/>
         <group name="NERVE"/>
         <group>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/encoder/ProgressListenerList.java</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/ProgressPacket.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/test/ca/sharcnet/nerve/Main.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/ProgressCompletePacket.java</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/web/gen/context.js</file>
         </group>
     </open-files>
 </project-private>
