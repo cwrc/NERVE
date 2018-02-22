@@ -11,7 +11,7 @@
             "lemmaAttribute" : "STANDARD",
             "linkAttribute"  : "REF",
             "nerMap"         : "ORGANIZATION",
-            "dialog"         : "ORGANIZATION",
+            "dialog-method"  : "popSearchOrganization",
             "idAttribute"    : "annotationID",
             "defaults"       : {}
         },
@@ -31,7 +31,7 @@
             "lemmaAttribute" : "REG",
             "linkAttribute"  : "REF",
             "nerMap"         : "LOCATION",
-            "dialog"         : "PLACE",
+            "dialog-method"  : "popSearchPlace",
             "idAttribute"    : "annotationID",
             "defaults"       : {}
         },
@@ -41,7 +41,7 @@
             "lemmaAttribute" : "STANDARD",
             "linkAttribute"  : "REF",
             "nerMap"         : "PERSON",
-            "dialog"         : "PERSON",
+            "dialog-method"  : "popSearchPerson",
             "idAttribute"    : "annotationID",
             "defaults"       : {}
         },
@@ -51,7 +51,7 @@
             "lemmaAttribute" : "REG",
             "linkAttribute"  : "REF",
             "nerMap"         : "",
-            "dialog"         : "TITLE",
+            "dialog-method"  : "popSearchTitle",
             "idAttribute"    : "annotationID",
             "defaults"       : {"LEVEL": "MONOGRAPHIC"}
         }

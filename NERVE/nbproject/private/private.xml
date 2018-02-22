@@ -48,19 +48,6 @@
             </bookmark>
         </file>
         <file>
-            <url>web/javaScript/mvc/listeners.js</url>
-            <bookmark id="177">
-                <name/>
-                <line>68</line>
-                <key/>
-            </bookmark>
-            <bookmark id="172">
-                <name/>
-                <line>252</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>web/javaScript/mvc/view.js</url>
             <bookmark id="187">
                 <name/>
@@ -149,6 +136,35 @@
             </bookmark>
         </file>
         <file>
+            <url>web/dialogs/js/app.js</url>
+            <bookmark id="41">
+                <name/>
+                <line>217</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/util/utility.js</url>
+            <bookmark id="165">
+                <name/>
+                <line>236</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/mvc/listeners.js</url>
+            <bookmark id="177">
+                <name/>
+                <line>68</line>
+                <key/>
+            </bookmark>
+            <bookmark id="172">
+                <name/>
+                <line>252</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/classes/taggedentity/taggedEntity.js</url>
             <bookmark id="78">
                 <name/>
@@ -184,22 +200,6 @@
             <bookmark id="29">
                 <name/>
                 <line>0</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/dialogs/js/app.js</url>
-            <bookmark id="41">
-                <name/>
-                <line>217</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/util/utility.js</url>
-            <bookmark id="165">
-                <name/>
-                <line>234</line>
                 <key/>
             </bookmark>
         </file>
@@ -249,11 +249,6 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/orlando.css</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
-        <group>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/nerve.html</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/view.js</file>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/model.js</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

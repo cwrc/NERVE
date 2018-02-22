@@ -1,39 +1,16 @@
-/* global Utility */
+AbstractModel = require("./AbstractModel");
 
-class SearchView{
-    notifySearchChange(range){
-        console.log(range);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-    }
-}
-
-class SearchModel{
+class SearchModel extends AbstractModel{
     constructor(srcSelector){
         Utility.log(SearchModel, "constructor");
         Utility.enforceTypes(arguments, String);
+
+        super();
 
         this.rootElement = $(srcSelector)[0];
         this.current = -1;
         this.instances = [];
         this.lastTerm = "";
-        this.listeners = [];
-    }
-
-    addListener(listener) {
-        Utility.log(SearchModel, "addListener", listener.constructor.name);
-        Utility.enforceTypes(arguments, Object);
-        this.listeners.push(listener);
-    }
-
-    async notifyListeners(method){
-        Utility.log(SearchModel, "notifyListeners", method);
-
-        Array.prototype.shift.apply(arguments);
-        for (let listener of this.listeners){
-            if (typeof listener[method] !== "function") continue;
-            await listener[method].apply(listener, arguments);
-        }
     }
 
     reset(){
@@ -105,3 +82,5 @@ class SearchModel{
         return foundObjects;
     }
 }
+
+module.exports = SearchModel;

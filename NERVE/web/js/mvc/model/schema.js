@@ -1,5 +1,7 @@
 /* global Context, Utility, Function, FileOperations */
 
+let FileOperations = require("../../util/fileOperations");
+
 class Schema {
     constructor() {
         Utility.log(Schema, "constructor");
@@ -94,3 +96,5 @@ class Schema {
         return false;
     }
 }
+
+module.exports = Schema;

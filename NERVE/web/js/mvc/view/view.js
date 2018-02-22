@@ -1,148 +1,6 @@
 /* global Utility, TaggedEntityModel, Collection, ProgressPacket */
 
-class EntityDialogView {
-    constructor() {
-        Utility.log(EntityDialogView, "constructor");
-        Utility.enforceTypes(arguments);
-
-        $('#txtEntity').textinput();
-        $('#searchDialog').textinput();
-        $('#txtLemma').textinput();
-        $('#txtLink').textinput();
-
-        this.representedEntity = null;
-    }
-    notifyContextChange(context) {
-        Utility.log(EntityDialogView, "notifyContextChange");
-        Utility.enforceTypes(arguments, Context);
-
-        this.context = context;
-
-        /* clear then repopulate the drop down tagName selector */
-        let selector = document.getElementById("selectTagName");
-        while (selector.hasChildNodes()) {
-            selector.removeChild(selector.firstChild);
-        }
-
-        for (let tagInfo of this.context.tags()) {
-            var opt = document.createElement('option');
-            $(opt).val(tagInfo.getName(NameSource.NAME));
-            opt.innerHTML = tagInfo.getName(NameSource.NAME);
-            selector.appendChild(opt);
-        }
-
-        this.setTagName(this.context.tags().get(0).getName());
-    }
-    notifyEntityUpdate(taggedEntityModel) {
-        Utility.log(EntityDialogView, "notifyEntityUpdate");
-        Utility.enforceTypes(arguments, TaggedEntityModel);
-        if (this.representedEntity === taggedEntityModel) {
-            this.setDialogs(taggedEntityModel);
-        }
-    }
-    notifyCollectionAdd(collection, taggedEntityModel) {
-        Utility.log(EntityDialogView, "notifyCollectionAdd");
-        Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
-        this.setDialogs(collection);
-    }
-    notifyCollectionClear(collection, taggedEntityModels) {
-        Utility.log(EntityDialogView, "notifyCollectionClear");
-        Utility.enforceTypes(arguments, Collection, Array);
-        this.setDialogs(collection);
-    }
-    notifyCollectionRemove(collection, taggedEntityModel) {
-        Utility.log(EntityDialogView, "notifyCollectionRemove");
-        Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
-        this.setDialogs(collection);
-    }
-    setDialogs(inputData) {
-        Utility.log(EntityDialogView, "setDialogs");
-        Utility.enforceTypes(arguments, [Collection, TaggedEntityModel]);
-
-        this.clearDialogs();
-        this.clearDialogBG();
-
-        let entity = null;
-        let collection = null;
-        if (inputData instanceof Collection) {
-            collection = inputData;
-            if (collection.isEmpty()) return;
-            entity = collection.getLast();
-        } else {
-            entity = inputData;
-        }
-
-        this.representedEntity = entity;
-        this.setEntity(entity.text());
-        this.setLemma(entity.lemma());
-        this.setLink(entity.link());
-        this.setTagName(entity.tagName());
-
-        if (collection === null) return;
-        for (let entity of collection) {
-            if (entity.lemma() !== entity.lemma()) this.setDialogBG("lemma");
-            if (entity.link() !== entity.link()) this.setDialogBG("link");
-            if (entity.text() !== entity.text()) this.setDialogBG("text");
-            if (entity.tagName() !== entity.tagName()) this.setDialogBG("tag");
-        }
-    }
-    clearDialogBG() {
-        Utility.log(EntityDialogView, "clearDialogBG");
-        $("#selectTagName").parent().css("color", "#000000");
-        $("#txtEntity").parent().css("background-color", "#ffffff");
-        $("#txtLemma").parent().css("background-color", "#ffffff");
-        $("#txtLink").parent().css("background-color", "#ffffff");
-    }
-    setDialogBG(item) {
-        Utility.log(EntityDialogView, "setDialogBG", item);
-
-        switch (item) {
-            case "tag":
-                $("#selectTagName").parent().css("color", "#ff0000");
-                break;
-            case "text":
-                $("#txtEntity").parent().css("background-color", "#ffcccc");
-                break;
-            case "lemma":
-                $("#txtLemma").parent().css("background-color", "#ffcccc");
-                break;
-            case "link":
-                $("#txtLink").parent().css("background-color", "#ffcccc");
-                break;
-        }
-    }
-    setTagName(string) {
-        Utility.log(EntityDialogView, "setTagName", string);
-        Utility.enforceTypes(arguments, String);
-        $("#selectTagName").val(string);
-        $("#selectTagName").selectmenu("refresh", true);
-    }
-    setEntity(string) {
-        Utility.log(EntityDialogView, "setEntity");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("txtEntity").value = string;
-    }
-    setLemma(string) {
-        Utility.log(EntityDialogView, "setLemma");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("txtLemma").value = string;
-    }
-    setLink(string) {
-        Utility.log(EntityDialogView, "setLink");
-        Utility.enforceTypes(arguments, String);
-        document.getElementById("txtLink").value = string;
-    }
-    clearDialogs() {
-        Utility.log(EntityDialogView, "clearDialogs");
-        Utility.enforceTypes(arguments);
-
-        document.getElementById("txtEntity").value = "";
-        document.getElementById("txtLemma").value = "";
-        document.getElementById("txtLink").value = "";
-    }
-}
-
-class View {
+module.exports = class View {
     constructor() {
         Utility.log(View, "constructor");
         Utility.enforceTypes(arguments);
@@ -160,6 +18,7 @@ class View {
         this.throbberMessageStack = [];
         this.lastFade = true;
     }
+
     notifyCollectionAdd(collection, taggedEntityModel) {
         Utility.log(View, "notifyCollectionAdd");
         Utility.enforceTypes(arguments, Collection, TaggedEntityModel);
@@ -190,7 +49,6 @@ class View {
     notifySetDocument(docElement){
         Utility.log(View, "notifySetDocument");
         Utility.enforceTypes(arguments, HTMLDivElement );
-        console.log(window.x = $(docElement));
         $(docElement).find("*").removeClass("selected");
     }
     setDictionaryButton(button) {
@@ -392,53 +250,4 @@ class View {
             this.storage.deleteValue("mode");
         }
     }
-}
-
-class UserMessageHandler {
-    constructor(element) {
-        Utility.log(UserMessageHandler, "constructor");
-        Utility.enforceTypes(arguments, [HTMLElement, jQuery]);
-        this.container = null;
-        this.setContainer(element);
-    }
-    setContainer(element) {
-        Utility.log(UserMessageHandler, "setContainer");
-        Utility.enforceTypes(arguments, [HTMLElement, jQuery]);
-        this.container = element;
-    }
-    userMessage(string, duration = 3000) {
-        Utility.log(UserMessageHandler, "userMessage");
-        Utility.enforceTypes(arguments, String, ["optional", Number]);
-
-        let msgElement = document.createElement("div");
-        msgElement.className = "userMessageElement";
-        $(this.container).append(msgElement);
-
-        msgElement.style.display = 'block';
-        msgElement.innerText = string;
-
-        let timeDelta = 50;
-        let opacity = 1;
-        let opacityDelta = timeDelta / 1000;
-        let time = duration;
-
-        msgElement.style.opacity = opacity;
-        msgElement.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-
-        let showMessageTimer = setInterval(function () {
-            if (time <= 1000) {
-                opacity -= opacityDelta;
-                msgElement.style.opacity = opacity;
-                msgElement.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-            }
-
-            time -= timeDelta;
-            if (time <= 0.0) {
-                clearInterval(showMessageTimer);
-
-                $(msgElement).remove();
-                showMessageTimer = null;
-            }
-        }.bind(this), timeDelta);
-    }
-}
+};

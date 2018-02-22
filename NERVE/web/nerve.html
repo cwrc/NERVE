@@ -15,6 +15,8 @@
         <link rel="stylesheet" type="text/css" href="styles/tei.css"/>
         <link rel="stylesheet" type="text/css" href="styles/tagname-markup.css"/>
         <link rel="stylesheet" type="text/css" href="styles/tags.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/bootstrap-theme.min.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"/>
         <!------------------------------------------------------------------------------------------->
 
         <!-------------------------------------- JQUERY FILES --------------------------------------->
@@ -23,40 +25,43 @@
             integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
             crossorigin="anonymous"
         ></script>
+
         <script
             src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
             accesskey=""
             integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
             crossorigin="anonymous"
         ></script>
+
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.css" />
         <script src="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.js"></script>
         <!------------------------------------------------------------------------------------------->
 
         <!------------------------------------- PROJECT SCRIPTS ------------------------------------->
-        <script src="javaScript/util/customQuery.js" type="text/javascript"></script>
-        <script src="javaScript/util/utility.js" type="text/javascript"></script>
+        <script src="js/build/nerveapp.js" type="text/javascript"></script>
+        <!--        <script src="javaScript/util/customQuery.js" type="text/javascript"></script>
+                <script src="javaScript/util/utility.js" type="text/javascript"></script>
 
-        <script src="javaScript/util/storage.js" type="text/javascript"></script>
-        <script src="javaScript/util/keyboardCodeEnum.js" type="text/javascript"></script>
-        <script src="javaScript/util/fileOperations.js" type="text/javascript"></script>
+                <script src="javaScript/util/storage.js" type="text/javascript"></script>
+                <script src="javaScript/util/keyboardCodeEnum.js" type="text/javascript"></script>
+                <script src="javaScript/util/fileOperations.js" type="text/javascript"></script>
 
-        <script src="javaScript/collection/collection.js" type="text/javascript"></script>
-        <script src="javaScript/util/searchWidget.js" type="text/javascript"></script>
+                <script src="javaScript/collection/collection.js" type="text/javascript"></script>
+                <script src="javaScript/util/searchWidget.js" type="text/javascript"></script>
 
-        <script src="javaScript/JJJ.js" type="text/javascript"></script>
+                <script src="javaScript/JJJ.js" type="text/javascript"></script>
 
-        <script src="javaScript/mvc/controller.js" type="text/javascript"></script>
-        <script src="javaScript/mvc/schema.js" type="text/javascript"></script>
-        <script src="javaScript/gen/context.js" type="text/javascript"></script>
-        <script src="javaScript/mvc/model.js" type="text/javascript"></script>
-        <script src="javaScript/mvc/view.js" type="text/javascript"></script>
-        <script src="javaScript/mvc/listeners.js" type="text/javascript"></script>
-        <script src="javaScript/mvc/entityPanelWidget.js" type="text/javascript"></script>
-        <script src="javaScript/main.js" type="text/javascript"></script>
+                <script src="javaScript/mvc/controller.js" type="text/javascript"></script>
+                <script src="javaScript/mvc/schema.js" type="text/javascript"></script>
+                <script src="javaScript/gen/context.js" type="text/javascript"></script>
+                <script src="javaScript/mvc/model.js" type="text/javascript"></script>
+                <script src="javaScript/mvc/view.js" type="text/javascript"></script>
+                <script src="javaScript/mvc/listeners.js" type="text/javascript"></script>
+                <script src="javaScript/mvc/entityPanelWidget.js" type="text/javascript"></script>
+                <script src="javaScript/main.js" type="text/javascript"></script>
 
-        <script src="javaScript/gen/nerveServer.js" type="text/javascript"></script>
-        <script src="javaScript/util/SQL.js" type="text/javascript"></script>
+                <script src="javaScript/gen/nerveServer.js" type="text/javascript"></script>
+                <script src="javaScript/util/SQL.js" type="text/javascript"></script>-->
         <!------------------------------------------------------------------------------------------->
     </head>
 
@@ -140,9 +145,42 @@
                     <input type="search" name="search" value="" id="searchTextArea">
                     <div>Tag Name</div>
                     <div><select name="selectTagName" id="selectTagName"></select></div>
-                    <div><div>Entity Text</div><input class="entityDialogTB" id="txtEntity" type="text"/></div>
-                    <div><div>Standard Label</div><input class="entityDialogTB" id="txtLemma" type="text"/></div>
-                    <div><div>Link</div><input class="entityDialogTB" id="txtLink" type="text"/><div id="goLink">GO</div></div>
+
+                    <div>
+                        <div class="dialogSubtitle">Entity Text
+                            <button id="entityLookupButton" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Lookup entity text">
+                                <span class="ui-icon  ui-icon-search"></span>
+                            </button>
+                        </div>
+                        <input title="Text, as it appears in the document" class="entityDialogTB" id="txtEntity" type="text"/>
+                    </div>
+
+                    <div>
+                        <span class="dialogSubtitle">Standard Label
+                            <button id="lemmaLookupButton" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Lookup standard label">
+                                <span class="ui-icon  ui-icon-search"></span>
+                            </button>
+                        </span>
+                        <input class="entityDialogTB" id="txtLemma" type="text"/>
+                    </div>
+
+                    <div>
+                        <span class="dialogSubtitle">Link
+                            <button id="goLink" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Go to link">
+                                <span class="ui-icon ui-icon-play"></span>
+                            </button>
+                        </span>
+                        <input class="entityDialogTB" id="txtLink" type="text"/>
+                    </div>
+
+<!--                    <div>
+                        <span class="dialogSubtitle">LInk
+                            <button id="goLink" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Go to link">
+                                <span class="ui-icon  ui-icon-search"></span>
+                            </button>
+                        </span>
+                        <input class="entityDialogTB" id="txtLink" type="text"/>
+                    </div>-->
                 </div>
             </div>
 

@@ -37,7 +37,7 @@ class EntityDialogController {
 class Listeners {
     constructor(model, view, controller) {
         Utility.log(Listeners, "constructor");
-        Utility.enforceTypes(arguments, Model, View, Controller);
+//        Utility.enforceTypes(arguments, Model, View, Controller);
 
         this.model = model;
         this.view = view;
@@ -265,3 +265,5 @@ class Listeners {
         }
     }
 }
+
+module.exports = Listeners;

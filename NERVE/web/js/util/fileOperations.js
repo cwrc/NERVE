@@ -113,3 +113,5 @@ class FileOperations {
         anchor.click();
     }
 }
+
+module.exports = FileOperations;

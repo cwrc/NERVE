@@ -1,5 +1,6 @@
+let jjjrmi = require("jjjrmi");
 
-class Storage {
+module.exports = class Storage {
     constructor(settingsName = location.pathname.split("/")[1]) {
         this.sName = settingsName;
 
@@ -24,7 +25,7 @@ class Storage {
         Storage.putObject({}, this.sName);
     }
     getValue(key) {
-        let translator = new Translator(null);
+        let translator = new jjjrmi.Translator(null, jjjrmi.JJJRMISocket.classes);
         var encoded = Storage.getObject(this.sName);
         return translator.decode(encoded[key]);
     }
@@ -39,7 +40,7 @@ class Storage {
         Storage.putObject(settings, this.sName);
     }
     setValue(key, value) {
-        let translator = new Translator(null);
+        let translator = new jjjrmi.Translator(null, jjjrmi.JJJRMISocket.classes);
         let encoded = translator.encode(value);
         var settings = Storage.getObject(this.sName);
         settings[key] = encoded;

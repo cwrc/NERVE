@@ -12,7 +12,7 @@
             "lemmaAttribute" : "key",
             "dictionary"     : "ORGANIZATION",
             "nerMap"         : "ORGANIZATION",
-            "dialog"         : "ORGANIZATION",
+            "dialog-method"  : "popSearchOrganization",
             "defaults"       : {}
         },
         {
@@ -32,7 +32,7 @@
             "lemmaAttribute" : "key",
             "dictionary"     : "PLACE",
             "nerMap"         : "LOCATION",
-            "dialog"         : "PLACE",
+            "dialog-method"  : "popSearchPlace",
             "defaults"       : {}
         },
         {
@@ -42,7 +42,7 @@
             "lemmaAttribute" : "key",
             "dictionary"     : "PERSON",
             "nerMap"         : "PERSON",
-            "dialog"         : "PERSON",
+            "dialog-method"  : "popSearchPerson",
             "defaults"       : {}
         },
         {
@@ -51,7 +51,7 @@
             "idAttribute"    : "annotationID",
             "lemmaAttribute" : "key",
             "dictionary"     : "TITLE",
-            "dialog"         : "TITLE",
+            "dialog-method"  : "popSearchTitle",
             "nerMap"         : "",
             "defaults"       : {"level": "m"}
         }

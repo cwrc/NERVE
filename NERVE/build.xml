@@ -12,8 +12,8 @@
     <import file="nbproject/build-impl.xml"/>
     <property name="keyfile" value="C:/cygwin64/home/edward/.ssh/id_rsa"/>
     <property name="remoteTarget" value="root@dh.sharcnet.ca:/www/glassfish/repository"/>
-
     <import file="D:/Dropbox/projects.new/res/shared-build.xml"/>
+    <property name="JJJ" value="D:/Dropbox/projects.new/lib/custom/JJJRMI.jar"/>
 
     <target name="nerve.deploy">
         <sequential>
@@ -32,18 +32,23 @@
     </target>
 
     <target name="nerve.generate-code">
-        <antcall target="shared.rmi-java-code-generation"/>
+        <java classname="ca.fa.jjjrmi.jsbuilder.Main">
+            <arg line="-i ${basedir}/src"/>
+            <arg line="-o ${basedir}/web/js/gen/nerve.js"/>
+            <arg line="-p nerve"/>
+            <classpath>
+                <pathelement location="${JJJ}"/>
+            </classpath>
+        </java>
+
+<!--        <antcall target="shared.rmi-java-code-generation"/>
         <antcall target="shared.js-code-generation">
             <param name="output.dir" value="/web/javaScript/gen"/>
             <param name="output.filename" value="nerveServer.js"/>
-        </antcall>
+        </antcall>-->
     </target>
 
     <target name="-pre-init">
-        <copy
-            file="D:\Dropbox\projects.new\groups\jjj2\JJJRMIWeb\public_html\JJJ.js"
-            todir="${basedir}/web/javaScript"
-        />
         <antcall target="nerve.generate-code"/>
     </target>
 </project>

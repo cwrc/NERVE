@@ -5,27 +5,22 @@
  * @type type
  */
 
-class Collection {
+Utility = require("../../util/utility");
+AbstractModel = require("./AbstractModel");
+
+module.exports = class Collection extends AbstractModel{
     constructor(array) {
         Utility.log(Collection, "constructor");
         Utility.enforceTypes(arguments, ["optional", Array, HTMLCollection]);
 
+        super();
+
         this.innerArray = [];
-        this.listeners = [];
 
         if (typeof array !== "undefined" & array !== null) {
             this.innerArray = Array(array.length);
             let i = array.length;
             while (i--) this.innerArray[i] = array[i];
-        }
-    }
-
-    async notifyListeners(method){
-        Utility.log(Collection, "notifyListeners", method);
-        Array.prototype.shift.apply(arguments);
-        for (let view of this.listeners){
-            if (typeof view[method] !== "function") continue;
-            await view[method].apply(view, arguments);
         }
     }
 
@@ -35,15 +30,11 @@ class Collection {
     [Symbol.iterator] () {
         return this.innerArray[Symbol.iterator]();
     }
-    addListener(listener) {
-        Utility.log(Collection, "addListener");
-        Utility.enforceTypes(arguments, Object);
-        this.listeners.push(listener);
-        return this;
-    }
     add(obj) {
         Utility.log(Collection, "add");
         Utility.enforceTypes(arguments, Object);
+
+        console.log(obj);
 
         if (!this.contains(obj)) {
             this.innerArray.push(obj);

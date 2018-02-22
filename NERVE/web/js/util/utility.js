@@ -6,12 +6,14 @@
  *  3 : print all methods
  */
 
-Utility = {
+require("./customQuery");
+
+module.exports = Utility = {
     enableAssertions: true,
     classes: {
         Controller: 2,
         View: 2,
-        Collection: 0,
+        Collection: 2,
         Dictionary: 0,
         Context: 0,
         Response: 0,
@@ -21,7 +23,7 @@ Utility = {
         TaggedEntity: 0,
         EntityDialogView: 0,
         TaggedEntityController: 0,
-        TaggedEntityModel: 0,
+        TaggedEntityModel: 0
     },
     logger: {
         logRecord: {}
@@ -87,8 +89,11 @@ class PermittedTypes {
                     if (this.permittedList[i] === Boolean && typeof object === "boolean") return true;
                     if (this.permittedList[i] === Number && typeof object === "number") return true;
                     if (this.permittedList[i] === String && typeof object === "string") return true;
-                } else if (object instanceof this.permittedList[i]) {
+                } else if (object.constructor instanceof this.permittedList[i].constructor){
                     return true;
+                } else {
+                    window.obj = object;
+                    window.per = this.permittedList[i];
                 }
             }
         }

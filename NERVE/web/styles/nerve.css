@@ -160,17 +160,6 @@ body{
     top: 10px;
 }
 
-#goLink{
-    position: relative;
-    display: inline-block;
-    left: 5px;
-    border-radius: 3px;
-    border: 1px solid black;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-}
-
 #dictionary{
     position: relative;
     width: 100%;
@@ -219,4 +208,10 @@ body{
 
 .inactiveForeground{
     color: #b0b0d0;
+}
+
+.dialogSubtitle > button{
+    display: inline-block;
+    top: 10px;
+    left: 5px;
 }
