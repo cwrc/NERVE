@@ -1,9 +1,9 @@
 /* global Utility */
 
 class EntityDialogController {
-    constructor(controller) {
-        this.controller = controller;
-        this.entityValues = new EntityValues();
+    constructor(model) {
+        this.model = model;
+        this.entityValues = new EntityValues(null, null, null, null, null);
         this.update = false;
 
         $("#txtEntity").on("input", () => {
@@ -20,15 +20,15 @@ class EntityDialogController {
         });
 
         $(".entityDialogTB").blur(() => {
-            if (this.update) this.controller.updateAllSelected(this.entityValues);
+            if (this.update) this.model.updateAllSelected(this.entityValues);
             this.update = false;
-            this.entityValues = new EntityValues();
+            this.entityValues = new EntityValues(null, null, null, null, null);
         });
 
         $(".entityDialogTB").keyup((event) => {
             if (event.keyCode !== 13) return;
-            this.controller.updateAllSelected(this.entityValues);
-            this.entityValues = new EntityValues();
+            this.model.updateAllSelected(this.entityValues);
+            this.entityValues = new EntityValues(null, null, null, null, null);
             event.stopPropagation();
         });
     }
@@ -43,7 +43,7 @@ class Listeners {
         this.view = view;
         this.controller = controller;
 
-        new EntityDialogController(controller);
+        new EntityDialogController(model);
 
         let reader = new FileReader();
         reader.onload = async function (event) {

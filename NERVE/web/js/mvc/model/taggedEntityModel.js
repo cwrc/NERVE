@@ -117,11 +117,11 @@ module.exports = class TaggedEntityModel {
         Utility.log(TaggedEntityModel, "entityValues");
         if (value === undefined) return new EntityValues(this.text(), this.lemma(), this.link(), this.tagName(), this.collection());
         else {
-            if (value.entity !== "") this.text(value.entity, true);
-            if (value.lemma !== "") this.lemma(value.lemma, true);
-            if (value.link !== "") this.link(value.link, true);
-            if (value.tagName !== "") this.tagName(value.tagName, true);
-            if (value.collection !== "") this.collection(value.collection, true);
+            if (value.entity !== null) this.text(value.entity, true);
+            if (value.lemma !== null) this.lemma(value.lemma, true);
+            if (value.link !== null) this.link(value.link, true);
+            if (value.tagName !== null) this.tagName(value.tagName, true);
+            if (value.collection !== null) this.collection(value.collection, true);
             this.model.notifyListeners("notifyEntityUpdate", this);
         }
 

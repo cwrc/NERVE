@@ -4,8 +4,8 @@ module.exports = class HostInfo {
         let host = window.location.host;
         if (host === "beta.cwrc.ca") host = "dh.sharcnet.ca";
         if (window.location.protocol === "https:") prequel = "wss://";
-        this.dictionarySocketAddress = `${prequel}${host}/nerve/Dictionary`;
-        this.scriberSocketAddress = `${prequel}${host}/nerve/Scriber`;
+        this.dictionarySocketAddress = `${prequel}${host}/NERVE/Dictionary`;
+        this.scriberSocketAddress = `${prequel}${host}/NERVE/Scriber`;
     }
 
     static getType(){ return HostInfo;}

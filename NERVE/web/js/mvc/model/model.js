@@ -125,6 +125,7 @@ class Model extends AbstractModel{
         Utility.log(Model, "updateAllSelected");
         if (this.collection.isEmpty()) return 0;
         if (dialogValues === null) dialogValues = this.entityDialog.getValues();
+        console.log(dialogValues);
         for (let e of this.collection) e.entityValues(dialogValues);
         return this.collection.size();
     }
@@ -160,9 +161,10 @@ class Model extends AbstractModel{
         let values = await this.dictionary.pollEntity($(element).text());
         if (values === null) values = this.getEntityDialog().getValues();
         let tagName = this.getEntityDialog().getValues().tagName;
-        values.entity = "";
+        values.entity = null;
 
         let taggedEntity = new TaggedEntityModel(this, element, tagName);
+        console.log(values);
         taggedEntity.entityValues(values);
         this.notifyListeners("notifyNewTaggedEntity", taggedEntity);
         return taggedEntity;
