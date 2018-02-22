@@ -3,6 +3,7 @@
     <description>Builds, tests, and runs the project EncoderDecoder3.</description>
     <import file="nbproject/build-impl.xml"/>
     <import file="D:/Dropbox/projects.new/res/shared-build.xml"/>
+    <property name="JJJ" value="D:/Dropbox/projects.new/lib/custom/JJJRMI.jar"/>
 
     <target name="-post-jar">
         <antcall target="shared.package-to-store"/>
@@ -10,8 +11,13 @@
     </target>
 
     <target name="nerscriber.js-code-generation">
-        <antcall target="shared.js-code-generation">
-            <param name="output.filename" value="context.js"/>
-        </antcall>
+        <java classname="ca.fa.jjjrmi.jsbuilder.Main">
+            <arg line="-i ${basedir}/src"/>
+            <arg line="-o ${basedir}/web/gen/context.js"/>
+            <arg line="-p nerscriber"/>
+            <classpath>
+                <pathelement location="${JJJ}"/>
+            </classpath>
+        </java>
     </target>
 </project>

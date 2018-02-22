@@ -39,8 +39,6 @@
         <group name="Nerve 1.3"/>
         <group name="Frontier Web App"/>
         <group name="NERVE"/>
-        <group>
-            <file>file:/D:/Dropbox/projects.new/groups/nerve/EncoderDecoder/src/ca/sharcnet/nerve/encoder/Encoder.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

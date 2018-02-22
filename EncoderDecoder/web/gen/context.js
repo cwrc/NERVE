@@ -1,42 +1,43 @@
+let nerscriber = {};
 ProgressPacket = class ProgressPacket {
 	constructor() {
 	}
-	__isTransient() {
+	static __isTransient() {
 		return true;
 	}
-	__getClass() {
+	static __getClass() {
 		return "ca.sharcnet.nerve.ProgressPacket";
 	}
-	__isEnum() {
+	static __isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.sharcnet.nerve.ProgressPacket", ProgressPacket);
+nerscriber.ProgressPacket = ProgressPacket;
 ProgressCompletePacket = class ProgressCompletePacket extends ProgressPacket {
 	constructor() {
 		super("", -1, -1);
 	}
-	__isTransient() {
+	static __isTransient() {
 		return true;
 	}
-	__getClass() {
+	static __getClass() {
 		return "ca.sharcnet.nerve.ProgressCompletePacket";
 	}
-	__isEnum() {
+	static __isEnum() {
 		return false;
 	}
 };
-JJJRMISocket.classes.set("ca.sharcnet.nerve.ProgressCompletePacket", ProgressCompletePacket);
+nerscriber.ProgressCompletePacket = ProgressCompletePacket;
 TagInfo = class TagInfo {
 	constructor() {
 	}
-	__isTransient() {
+	static __isTransient() {
 		return true;
 	}
-	__getClass() {
+	static __getClass() {
 		return "ca.sharcnet.nerve.context.TagInfo";
 	}
-	__isEnum() {
+	static __isEnum() {
 		return false;
 	}
 	hasDecodeScript() {
@@ -64,6 +65,9 @@ TagInfo = class TagInfo {
 	}
 	getDefault(key) {
 		return this.defaults.get(key);
+	}
+	getDialogMethod() {
+		return this.dialogMethod;
 	}
 	getEncodeScript() {
 		return this.encodeScript;
@@ -94,7 +98,7 @@ TagInfo = class TagInfo {
 		return new HashMap(this.defaults);
 	}
 };
-JJJRMISocket.classes.set("ca.sharcnet.nerve.context.TagInfo", TagInfo);
+nerscriber.TagInfo = TagInfo;
 NameSource = class NameSource {
 	constructor(value) {
 		this.__value = value;
@@ -102,13 +106,13 @@ NameSource = class NameSource {
 	toString() {
 		return this.__value;
 	}
-	__isTransient() {
+	static __isTransient() {
 		return true;
 	}
-	__getClass() {
+	static __getClass() {
 		return "ca.sharcnet.nerve.context.NameSource";
 	}
-	__isEnum() {
+	static __isEnum() {
 		return true;
 	}
 };
@@ -118,17 +122,17 @@ NameSource.valueArray.push(NameSource.DICTIONARY = new NameSource("DICTIONARY"))
 NameSource.valueArray.push(NameSource.DIALOG = new NameSource("DIALOG"));
 NameSource.valueArray.push(NameSource.NERMAP = new NameSource("NERMAP"));
 NameSource.values = function(){return NameSource.valueArray;};
-JJJRMISocket.classes.set("ca.sharcnet.nerve.context.NameSource", NameSource);
+nerscriber.NameSource = NameSource;
 Context = class Context {
 	constructor() {
 	}
-	__isTransient() {
+	static __isTransient() {
 		return true;
 	}
-	__getClass() {
+	static __getClass() {
 		return "ca.sharcnet.nerve.context.Context";
 	}
-	__isEnum() {
+	static __isEnum() {
 		return false;
 	}
 	hasScriptFilename() {
@@ -167,4 +171,6 @@ Context = class Context {
 		return this.tagList;
 	}
 };
-JJJRMISocket.classes.set("ca.sharcnet.nerve.context.Context", Context);
+nerscriber.Context = Context;
+
+if (typeof module !== "undefined") module.exports = nerscriber;

@@ -10,13 +10,14 @@ public class TagInfo {
     private final String name;
     private final String dictionary;
     private final String nerMap;
-    private final String dialog;
+    private final String dialog = "";
     private final String lemmaAttribute;
     private final String linkAttribute;
     private final String idAttribute;
     private final String decodeScript;
     private final String encodeScript;
     private final HashMap<String, String> defaults = new HashMap<>();
+    private final String dialogMethod;
 
     @SkipJS
     public TagInfo(JSONObject json) {
@@ -25,8 +26,8 @@ public class TagInfo {
         this.lemmaAttribute = json.getString("lemmaAttribute");
         this.linkAttribute = json.getString("linkAttribute");
         this.nerMap = json.getString("nerMap");
-        this.dialog = json.getString("dialog");
         this.idAttribute = json.getString("idAttribute");
+        this.dialogMethod = json.getString("dialog-method");
 
         if (json.has("decode")) this.decodeScript = json.getString("decode");
         else this.decodeScript = "";
@@ -78,6 +79,10 @@ public class TagInfo {
 
     public String getIdAttribute() {
         return idAttribute;
+    }
+
+    public String getDialogMethod(){
+        return dialogMethod;
     }
 
     public boolean hasName(String name){
