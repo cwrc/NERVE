@@ -11,6 +11,11 @@ import org.antlr.v4.runtime.ANTLRErrorStrategy;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+/**
+ * Utility class for loading and parsing documents from sources.
+ * @author edward
+ */
+
 public class DocumentLoader {
     public static Document documentFromStream(InputStream srcStream) throws IOException {
         return parseDocument(new ANTLRInputStream(srcStream));
@@ -34,4 +39,6 @@ public class DocumentLoader {
         root.addChild(parser.getNodes());
         return root;
     }
+
+    private DocumentLoader() {}
 }

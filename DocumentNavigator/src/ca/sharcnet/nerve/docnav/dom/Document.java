@@ -1,8 +1,5 @@
 package ca.sharcnet.nerve.docnav.dom;
 
-import ca.fa.utility.Console;
-import ca.sharcnet.nerve.docnav.query.Query;
-
 /**
 * Root object for all structured documents.  Is of type NodeType.DOCUMENT, and
 * has node name "@DOCUMENT".  Otherwise it is identical to an

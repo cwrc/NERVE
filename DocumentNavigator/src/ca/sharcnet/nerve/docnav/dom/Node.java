@@ -1,10 +1,13 @@
 package ca.sharcnet.nerve.docnav.dom;
-import ca.fa.utility.Console;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+A node is a DOM object which may have a parent node, child nodes and/or attributes.
+@author edward
+*/
 public abstract class Node implements Iterable<Node> {
     private NodeList children = new NodeList();
     final AttributeList attributes;

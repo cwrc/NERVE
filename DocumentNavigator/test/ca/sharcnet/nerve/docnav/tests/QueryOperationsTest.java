@@ -426,12 +426,12 @@ public class QueryOperationsTest implements HasStreams {
     Replace ALL selected elements with a copy of 'node'.
     @throws IOException
      */
-    @Test
-    public void test_replace_with_many() throws IOException {
-        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
-        doc.query(".first, .second, .third").replaceWith(new ElementNode("new"));
-        assertEquals("[new, new, new]", doc.query("root > *").toString());
-    }
+//    @Test
+//    public void test_replace_with_many() throws IOException {
+//        Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
+//        doc.query(".first, .second, .third").replaceWith(new ElementNode("new"));
+//        assertEquals("[new, new, new]", doc.query("root > *").toString());
+//    }
 
 
     /**

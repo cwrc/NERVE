@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.sharcnet.nerve.docnav.dom;
 
-import ca.fa.utility.Console;
 
 /**
- *
+ * A node that may have a parent, attributes, and/or children.
  * @author Ed Armstrong
  */
 public class ElementNode extends Node{

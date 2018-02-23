@@ -1,5 +1,9 @@
 package ca.sharcnet.nerve.docnav.dom;
 
+/**
+A node with no children.
+@author edward
+*/
 public class TextNode extends Node{
     private String innerText;
 
