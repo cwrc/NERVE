@@ -27,9 +27,9 @@ public final class Attribute {
     @throws NullPointerException if the key or value is null, or the key is empty.
     */
     public Attribute(String key, String value){
-        if (key == null)   throw new NullPointerException("attribute key is null");
-        if (key.isEmpty()) throw new NullPointerException("key is empty");
-        if (value == null) throw new NullPointerException("value for key " + key + " is null");
+        if (key == null)   throw new DocNavException("attribute key is null");
+        if (key.isEmpty()) throw new DocNavException("key is empty");
+        if (value == null) throw new DocNavException("value for key " + key + " is null");
 
         this.setKey(key);
         this.setValue(value);

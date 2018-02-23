@@ -7,6 +7,7 @@ import ca.sharcnet.nerve.context.Context;
 import static ca.sharcnet.nerve.context.NameSource.NAME;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.context.TagInfo;
+import ca.sharcnet.nerve.docnav.dom.DocNavException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.InstructionNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -85,7 +86,12 @@ public class Decoder {
             /* restore xml attribtes from JSON object stored in XML_ATTR_LIST */
             JSONObject json = new JSONObject(node.attr(XML_ATTR_LIST));
             node.clearAttributes();
-            for (String key : json.keySet()) node.attr(key, json.getString(key));
+
+            try{
+                for (String key : json.keySet()) node.attr(key, json.getString(key));
+            } catch (DocNavException ex) {
+                ex.setSource(json.toString());
+            }
 
             /* set default values */
             if (context.isTagName(node.name(), NAME)) {

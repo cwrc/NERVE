@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
 A node is a DOM object which may have a parent node, child nodes and/or attributes.
+The Node class is the parent class to all document nodes, and has no default specified type.
 @author edward
 */
 public abstract class Node implements Iterable<Node> {
@@ -437,7 +438,7 @@ public abstract class Node implements Iterable<Node> {
      *
      * @param nodes a {@link NodeList} of nodes to add
      */
-    public void addChild(List<? extends Node> nodes) {
+    public void addChild(Iterable<? extends Node> nodes) {
         for (Node node : nodes) this.addChild(node);
     }
 
@@ -447,7 +448,7 @@ public abstract class Node implements Iterable<Node> {
      * @param idx
      * @param nodes a {@link NodeList} of nodes to add
      */
-    public void addChild(int idx, List<? extends Node> nodes) {
+    public void addChild(int idx, Iterable<? extends Node> nodes) {
         for (Node node : nodes) this.addChild(idx++, node);
     }
 
@@ -463,7 +464,12 @@ public abstract class Node implements Iterable<Node> {
         parent.addChild(i, childNodes);
     }
 
-    public void replaceChild(Node child, Iterable<Node> with) {
+    /**
+    Replace the specfied child node with the provided new node or nodes.
+    @param child
+    @param with
+    */
+    public void replaceChild(Node child, Iterable<? extends Node> with) {
         if (child.getParent() != this) throw new DocNavException("Can not replace a child from a different parent.");
         int idx = this.children.indexOf(child);
         children.remove(child);

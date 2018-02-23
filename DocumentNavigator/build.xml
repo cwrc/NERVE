@@ -5,13 +5,15 @@
     <import file="nbproject/build-impl.xml"/>
     <import file="D:/Dropbox/projects.new/res/shared-build.xml"/>
 
-    <target name="antlr-clean">
+    <!-- remove files genereted by antlr -->
+    <target name="docnac.antlr.clean">
         <delete>
           <fileset dir="${basedir}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
         </delete>
     </target>
 
-    <target name="antlr">
+    <!-- generate files with antlr -->
+    <target name="docname.antlr.gen">
         <echo message="Building ANTLR"/>
         <echo message="Root: ${basedir}"/>
 

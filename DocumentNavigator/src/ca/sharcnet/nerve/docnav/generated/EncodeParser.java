@@ -1,4 +1,4 @@
-// Generated from D:\Dropbox\projects.new\groups\nerve\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.5.3
+// Generated from D:\Dropbox\projects.new\groups\nerve\0.8.1\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.5.3
 
     package ca.sharcnet.nerve.docnav.generated;
     import ca.sharcnet.nerve.docnav.dom.*;
@@ -210,11 +210,15 @@ public class EncodeParser extends AbstractParser {
 	public static class ContentContext extends ParserRuleContext {
 		public NodeList nodelist =  new NodeList();;
 		public ChardataContext chardata;
+		public InstrContext instr;
 		public ElementContext element;
 		public ReferenceContext reference;
 		public Token COMMENT;
 		public ChardataContext chardata() {
 			return getRuleContext(ChardataContext.class,0);
+		}
+		public InstrContext instr() {
+			return getRuleContext(InstrContext.class,0);
 		}
 		public ElementContext element() {
 			return getRuleContext(ElementContext.class,0);
@@ -241,7 +245,7 @@ public class EncodeParser extends AbstractParser {
 		ContentContext _localctx = new ContentContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_content);
 		try {
-			setState(48);
+			setState(51);
 			switch (_input.LA(1)) {
 			case SEA_WS:
 			case TEXT:
@@ -252,27 +256,35 @@ public class EncodeParser extends AbstractParser {
 				((ContentsContext)getInvokingContext(1)).nodelist.add(((ContentContext)_localctx).chardata.node);
 				}
 				break;
-			case OPEN:
+			case INSTR_OPEN:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(40);
+				((ContentContext)_localctx).instr = instr();
+				((ContentsContext)getInvokingContext(1)).nodelist.add(((ContentContext)_localctx).instr.node);
+				}
+				break;
+			case OPEN:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(43);
 				((ContentContext)_localctx).element = element();
 				((ContentsContext)getInvokingContext(1)).nodelist.add(((ContentContext)_localctx).element.node);
 				}
 				break;
 			case EntityRef:
 			case CharRef:
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(43);
+				setState(46);
 				((ContentContext)_localctx).reference = reference();
 				((ContentsContext)getInvokingContext(1)).nodelist.add(((ContentContext)_localctx).reference.node);
 				}
 				break;
 			case COMMENT:
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 5);
 				{
-				setState(46);
+				setState(49);
 				((ContentContext)_localctx).COMMENT = match(COMMENT);
 				((ContentsContext)getInvokingContext(1)).nodelist.add(new CommentNode((((ContentContext)_localctx).COMMENT!=null?((ContentContext)_localctx).COMMENT.getText():null)));
 				}
@@ -329,17 +341,17 @@ public class EncodeParser extends AbstractParser {
 		ElementContext _localctx = new ElementContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_element);
 		try {
-			setState(61);
+			setState(64);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(50);
+				setState(53);
 				((ElementContext)_localctx).startTag = startTag();
-				setState(51);
+				setState(54);
 				((ElementContext)_localctx).contents = contents();
-				setState(52);
+				setState(55);
 				endTag();
 				((ElementContext)_localctx).node =  new ElementNode(((ElementContext)_localctx).startTag.name, ((ElementContext)_localctx).startTag.list, ((ElementContext)_localctx).contents.nodelist);
 				}
@@ -347,13 +359,13 @@ public class EncodeParser extends AbstractParser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(55);
-				match(OPEN);
-				setState(56);
-				((ElementContext)_localctx).Name = match(Name);
-				setState(57);
-				((ElementContext)_localctx).attributes = attributes();
 				setState(58);
+				match(OPEN);
+				setState(59);
+				((ElementContext)_localctx).Name = match(Name);
+				setState(60);
+				((ElementContext)_localctx).attributes = attributes();
+				setState(61);
 				match(SLASH_CLOSE);
 				((ElementContext)_localctx).node =  new ElementNode((((ElementContext)_localctx).Name!=null?((ElementContext)_localctx).Name.getText():null), ((ElementContext)_localctx).attributes.list, new NodeList());
 				}
@@ -400,13 +412,13 @@ public class EncodeParser extends AbstractParser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(63);
-			match(OPEN);
-			setState(64);
-			((StartTagContext)_localctx).Name = match(Name);
-			setState(65);
-			((StartTagContext)_localctx).attributes = attributes();
 			setState(66);
+			match(OPEN);
+			setState(67);
+			((StartTagContext)_localctx).Name = match(Name);
+			setState(68);
+			((StartTagContext)_localctx).attributes = attributes();
+			setState(69);
 			match(CLOSE);
 
 			        pushTag((((StartTagContext)_localctx).Name!=null?((StartTagContext)_localctx).Name.getText():null), ((StartTagContext)_localctx).Name);
@@ -450,13 +462,13 @@ public class EncodeParser extends AbstractParser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(69);
-			match(OPEN);
-			setState(70);
-			match(SLASH);
-			setState(71);
-			((EndTagContext)_localctx).Name = match(Name);
 			setState(72);
+			match(OPEN);
+			setState(73);
+			match(SLASH);
+			setState(74);
+			((EndTagContext)_localctx).Name = match(Name);
+			setState(75);
 			match(CLOSE);
 
 			        popTag((((EndTagContext)_localctx).Name!=null?((EndTagContext)_localctx).Name.getText():null), ((EndTagContext)_localctx).Name);
@@ -499,12 +511,12 @@ public class EncodeParser extends AbstractParser {
 		ReferenceContext _localctx = new ReferenceContext(_ctx, getState());
 		enterRule(_localctx, 12, RULE_reference);
 		try {
-			setState(79);
+			setState(82);
 			switch (_input.LA(1)) {
 			case EntityRef:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(75);
+				setState(78);
 				((ReferenceContext)_localctx).EntityRef = match(EntityRef);
 				((ReferenceContext)_localctx).node =  new TextNode((((ReferenceContext)_localctx).EntityRef!=null?((ReferenceContext)_localctx).EntityRef.getText():null));
 				}
@@ -512,7 +524,7 @@ public class EncodeParser extends AbstractParser {
 			case CharRef:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
+				setState(80);
 				((ReferenceContext)_localctx).CharRef = match(CharRef);
 				((ReferenceContext)_localctx).node =  new TextNode((((ReferenceContext)_localctx).CharRef!=null?((ReferenceContext)_localctx).CharRef.getText():null));
 				}
@@ -561,17 +573,17 @@ public class EncodeParser extends AbstractParser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
+			setState(87);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Name) {
 				{
 				{
-				setState(81);
+				setState(84);
 				attribute();
 				}
 				}
-				setState(86);
+				setState(89);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -614,11 +626,11 @@ public class EncodeParser extends AbstractParser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(90);
 			((AttributeContext)_localctx).Name = match(Name);
-			setState(88);
+			setState(91);
 			match(EQUALS);
-			setState(89);
+			setState(92);
 			((AttributeContext)_localctx).STRING = match(STRING);
 
 			        String value = (((AttributeContext)_localctx).STRING!=null?((AttributeContext)_localctx).STRING.getText():null);
@@ -670,7 +682,7 @@ public class EncodeParser extends AbstractParser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(93); 
+			setState(96); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -678,7 +690,7 @@ public class EncodeParser extends AbstractParser {
 				case 1:
 					{
 					{
-					setState(92);
+					setState(95);
 					_la = _input.LA(1);
 					if ( !(_la==SEA_WS || _la==TEXT) ) {
 					_errHandler.recoverInline(this);
@@ -691,7 +703,7 @@ public class EncodeParser extends AbstractParser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(95); 
+				setState(98); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -741,17 +753,17 @@ public class EncodeParser extends AbstractParser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100);
+			setState(103);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT) | (1L << DOCTYPE) | (1L << SEA_WS) | (1L << INSTR_OPEN))) != 0)) {
 				{
 				{
-				setState(97);
+				setState(100);
 				misc();
 				}
 				}
-				setState(102);
+				setState(105);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -797,12 +809,12 @@ public class EncodeParser extends AbstractParser {
 		MiscContext _localctx = new MiscContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_misc);
 		try {
-			setState(112);
+			setState(115);
 			switch (_input.LA(1)) {
 			case INSTR_OPEN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(103);
+				setState(106);
 				((MiscContext)_localctx).instr = instr();
 				((MiscListContext)getInvokingContext(10)).nodes.add(((MiscContext)_localctx).instr.node);
 				}
@@ -810,7 +822,7 @@ public class EncodeParser extends AbstractParser {
 			case DOCTYPE:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(106);
+				setState(109);
 				((MiscContext)_localctx).DOCTYPE = match(DOCTYPE);
 				((MiscListContext)getInvokingContext(10)).nodes.add(new DoctypeNode((((MiscContext)_localctx).DOCTYPE!=null?((MiscContext)_localctx).DOCTYPE.getText():null)));
 				}
@@ -818,7 +830,7 @@ public class EncodeParser extends AbstractParser {
 			case SEA_WS:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(108);
+				setState(111);
 				((MiscContext)_localctx).SEA_WS = match(SEA_WS);
 				((MiscListContext)getInvokingContext(10)).nodes.add(new TextNode((((MiscContext)_localctx).SEA_WS!=null?((MiscContext)_localctx).SEA_WS.getText():null)));
 				}
@@ -826,7 +838,7 @@ public class EncodeParser extends AbstractParser {
 			case COMMENT:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(110);
+				setState(113);
 				((MiscContext)_localctx).COMMENT = match(COMMENT);
 				((MiscListContext)getInvokingContext(10)).nodes.add(new CommentNode((((MiscContext)_localctx).COMMENT!=null?((MiscContext)_localctx).COMMENT.getText():null)));
 				}
@@ -876,13 +888,13 @@ public class EncodeParser extends AbstractParser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
-			match(INSTR_OPEN);
-			setState(115);
-			((InstrContext)_localctx).Name = match(Name);
-			setState(116);
-			((InstrContext)_localctx).attributes = attributes();
 			setState(117);
+			match(INSTR_OPEN);
+			setState(118);
+			((InstrContext)_localctx).Name = match(Name);
+			setState(119);
+			((InstrContext)_localctx).attributes = attributes();
+			setState(120);
 			match(INSTR_CLOSE);
 			((InstrContext)_localctx).node =  new InstructionNode((((InstrContext)_localctx).Name!=null?((InstrContext)_localctx).Name.getText():null), ((InstrContext)_localctx).attributes.list);
 			}
@@ -899,35 +911,36 @@ public class EncodeParser extends AbstractParser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\24{\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\24~\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\2\3\2\3\3\7\3#\n\3\f\3\16\3&\13"+
-		"\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\63\n\4\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5@\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\5\bR\n\b\3\t\7\tU\n\t\f\t\16\tX\13"+
-		"\t\3\n\3\n\3\n\3\n\3\n\3\13\6\13`\n\13\r\13\16\13a\3\f\7\fe\n\f\f\f\16"+
-		"\fh\13\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\rs\n\r\3\16\3\16\3\16\3"+
-		"\16\3\16\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\4\2\7\7"+
-		"\n\ny\2\34\3\2\2\2\4$\3\2\2\2\6\62\3\2\2\2\b?\3\2\2\2\nA\3\2\2\2\fG\3"+
-		"\2\2\2\16Q\3\2\2\2\20V\3\2\2\2\22Y\3\2\2\2\24_\3\2\2\2\26f\3\2\2\2\30"+
-		"r\3\2\2\2\32t\3\2\2\2\34\35\5\26\f\2\35\36\5\b\5\2\36\37\5\26\f\2\37 "+
-		"\b\2\1\2 \3\3\2\2\2!#\5\6\4\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2"+
-		"\2%\5\3\2\2\2&$\3\2\2\2\'(\5\24\13\2()\b\4\1\2)\63\3\2\2\2*+\5\b\5\2+"+
-		",\b\4\1\2,\63\3\2\2\2-.\5\16\b\2./\b\4\1\2/\63\3\2\2\2\60\61\7\3\2\2\61"+
-		"\63\b\4\1\2\62\'\3\2\2\2\62*\3\2\2\2\62-\3\2\2\2\62\60\3\2\2\2\63\7\3"+
-		"\2\2\2\64\65\5\n\6\2\65\66\5\4\3\2\66\67\5\f\7\2\678\b\5\1\28@\3\2\2\2"+
-		"9:\7\t\2\2:;\7\22\2\2;<\5\20\t\2<=\7\16\2\2=>\b\5\1\2>@\3\2\2\2?\64\3"+
-		"\2\2\2?9\3\2\2\2@\t\3\2\2\2AB\7\t\2\2BC\7\22\2\2CD\5\20\t\2DE\7\f\2\2"+
-		"EF\b\6\1\2F\13\3\2\2\2GH\7\t\2\2HI\7\17\2\2IJ\7\22\2\2JK\7\f\2\2KL\b\7"+
-		"\1\2L\r\3\2\2\2MN\7\5\2\2NR\b\b\1\2OP\7\6\2\2PR\b\b\1\2QM\3\2\2\2QO\3"+
-		"\2\2\2R\17\3\2\2\2SU\5\22\n\2TS\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2\2"+
-		"W\21\3\2\2\2XV\3\2\2\2YZ\7\22\2\2Z[\7\20\2\2[\\\7\21\2\2\\]\b\n\1\2]\23"+
-		"\3\2\2\2^`\t\2\2\2_^\3\2\2\2`a\3\2\2\2a_\3\2\2\2ab\3\2\2\2b\25\3\2\2\2"+
-		"ce\5\30\r\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2g\27\3\2\2\2hf\3\2"+
-		"\2\2ij\5\32\16\2jk\b\r\1\2ks\3\2\2\2lm\7\4\2\2ms\b\r\1\2no\7\7\2\2os\b"+
-		"\r\1\2pq\7\3\2\2qs\b\r\1\2ri\3\2\2\2rl\3\2\2\2rn\3\2\2\2rp\3\2\2\2s\31"+
-		"\3\2\2\2tu\7\b\2\2uv\7\22\2\2vw\5\20\t\2wx\7\r\2\2xy\b\16\1\2y\33\3\2"+
-		"\2\2\n$\62?QVafr";
+		"\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\66\n\4"+
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5C\n\5\3\6\3\6\3\6\3\6"+
+		"\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\5\bU\n\b\3\t\7\tX\n\t"+
+		"\f\t\16\t[\13\t\3\n\3\n\3\n\3\n\3\n\3\13\6\13c\n\13\r\13\16\13d\3\f\7"+
+		"\fh\n\f\f\f\16\fk\13\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\rv\n\r\3"+
+		"\16\3\16\3\16\3\16\3\16\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30"+
+		"\32\2\3\4\2\7\7\n\n}\2\34\3\2\2\2\4$\3\2\2\2\6\65\3\2\2\2\bB\3\2\2\2\n"+
+		"D\3\2\2\2\fJ\3\2\2\2\16T\3\2\2\2\20Y\3\2\2\2\22\\\3\2\2\2\24b\3\2\2\2"+
+		"\26i\3\2\2\2\30u\3\2\2\2\32w\3\2\2\2\34\35\5\26\f\2\35\36\5\b\5\2\36\37"+
+		"\5\26\f\2\37 \b\2\1\2 \3\3\2\2\2!#\5\6\4\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2"+
+		"\2\2$%\3\2\2\2%\5\3\2\2\2&$\3\2\2\2\'(\5\24\13\2()\b\4\1\2)\66\3\2\2\2"+
+		"*+\5\32\16\2+,\b\4\1\2,\66\3\2\2\2-.\5\b\5\2./\b\4\1\2/\66\3\2\2\2\60"+
+		"\61\5\16\b\2\61\62\b\4\1\2\62\66\3\2\2\2\63\64\7\3\2\2\64\66\b\4\1\2\65"+
+		"\'\3\2\2\2\65*\3\2\2\2\65-\3\2\2\2\65\60\3\2\2\2\65\63\3\2\2\2\66\7\3"+
+		"\2\2\2\678\5\n\6\289\5\4\3\29:\5\f\7\2:;\b\5\1\2;C\3\2\2\2<=\7\t\2\2="+
+		">\7\22\2\2>?\5\20\t\2?@\7\16\2\2@A\b\5\1\2AC\3\2\2\2B\67\3\2\2\2B<\3\2"+
+		"\2\2C\t\3\2\2\2DE\7\t\2\2EF\7\22\2\2FG\5\20\t\2GH\7\f\2\2HI\b\6\1\2I\13"+
+		"\3\2\2\2JK\7\t\2\2KL\7\17\2\2LM\7\22\2\2MN\7\f\2\2NO\b\7\1\2O\r\3\2\2"+
+		"\2PQ\7\5\2\2QU\b\b\1\2RS\7\6\2\2SU\b\b\1\2TP\3\2\2\2TR\3\2\2\2U\17\3\2"+
+		"\2\2VX\5\22\n\2WV\3\2\2\2X[\3\2\2\2YW\3\2\2\2YZ\3\2\2\2Z\21\3\2\2\2[Y"+
+		"\3\2\2\2\\]\7\22\2\2]^\7\20\2\2^_\7\21\2\2_`\b\n\1\2`\23\3\2\2\2ac\t\2"+
+		"\2\2ba\3\2\2\2cd\3\2\2\2db\3\2\2\2de\3\2\2\2e\25\3\2\2\2fh\5\30\r\2gf"+
+		"\3\2\2\2hk\3\2\2\2ig\3\2\2\2ij\3\2\2\2j\27\3\2\2\2ki\3\2\2\2lm\5\32\16"+
+		"\2mn\b\r\1\2nv\3\2\2\2op\7\4\2\2pv\b\r\1\2qr\7\7\2\2rv\b\r\1\2st\7\3\2"+
+		"\2tv\b\r\1\2ul\3\2\2\2uo\3\2\2\2uq\3\2\2\2us\3\2\2\2v\31\3\2\2\2wx\7\b"+
+		"\2\2xy\7\22\2\2yz\5\20\t\2z{\7\r\2\2{|\b\16\1\2|\33\3\2\2\2\n$\65BTYd"+
+		"iu";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

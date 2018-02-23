@@ -24,6 +24,7 @@ contents returns [NodeList nodelist = new NodeList();]
 
 content returns [NodeList nodelist = new NodeList();]
     : chardata   {$contents::nodelist.add($chardata.node);}
+    | instr      {$contents::nodelist.add($instr.node);}
     | element    {$contents::nodelist.add($element.node);}
     | reference  {$contents::nodelist.add($reference.node);}
     | COMMENT    {$contents::nodelist.add(new CommentNode($COMMENT.text));}

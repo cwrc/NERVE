@@ -8,6 +8,7 @@
 let Model = require("../model/Model");
 let TaggedEntityController = require("./TaggedEntityController");
 let Utility = require("../../util/Utility");
+let FileOperations = require("../../util/fileOperations");
 
 class Controller {
     constructor(model, scriber) {
@@ -88,13 +89,10 @@ class Controller {
         Utility.log(Controller, "saveContents");
         Utility.enforceTypes(arguments, ["optional", Function], ["optional", Function]);
 
-        this.view.showThrobber(true);
-        this.unselectAll();
-        let contents = "<doc>" + this.model.getDocument().html() + "</doc>";
+        let contents = "<doc>" + $(this.model.getDocument()).html() + "</doc>";
         let result = await this.scriber.decode(contents);
         FileOperations.saveToFile(result, this.model.getFilename());
         this.isSaved = true;
-        this.view.showThrobber(false);
     }
     goLink() {
         Utility.log(Controller, "goLink");
