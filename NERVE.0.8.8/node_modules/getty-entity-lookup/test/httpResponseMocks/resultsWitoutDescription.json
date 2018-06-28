@@ -1,0 +1,45 @@
+{
+  "head": {
+    "vars": [
+      "Subject",
+      "Term",
+      "Parents",
+      "Descr",
+      "ScopeNote",
+      "Type",
+      "ExtraType"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "Subject": {
+          "type": "uri",
+          "value": "http://vocab.getty.edu/ulan/500206621"
+        },
+        "Term": {
+          "type": "literal",
+          "value": "Jones & Jones"
+        },
+        "Parents": {
+          "type": "literal",
+          "value": "Corporate Bodies"
+        },
+        "ScopeNote": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "American architectural and landscape architecture firm, Seattle, WA."
+        },
+        "Type": {
+          "type": "literal",
+          "value": "GroupConcept"
+        },
+        "ExtraType": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "architectural firms"
+        }
+      }
+    ]
+  }
+}

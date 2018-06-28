@@ -1,0 +1,177 @@
+.orlando .xmltag[xmltagname="EVENTS"] {
+    font-family : Georgia, serif;
+    line-height : 1.5;
+    color : #333;
+    margin : 10px 25px;
+}
+.orlando .xmltag[xmltagname="ORLANDOHEADER"] {
+    font-size : 16px;
+    display : block;
+    background : #EEE;
+    margin-bottom: 1.5em;
+    padding: .5em;
+}
+.orlando .xmltag[xmltagname="FILEDESC"] {
+    background-color : #FFF;
+    color : gray;
+}
+.orlando .xmltag[xmltagname="DOCTITLE"] {
+    font-weight : normal;
+    color : black;
+    color:gray;
+    font-weight:bold;
+}
+.orlando .xmltag[xmltagname="DOCAUTHOR"],
+.orlando .xmltag[xmltagname="DOCEDITOR"],
+.orlando .xmltag[xmltagname="DOCEXTENT"],
+.orlando .xmltag[xmltagname="PUBLICATIONSTMT"],
+.orlando .xmltag[xmltagname="TITLESTMT"],
+.orlando .xmltag[xmltagname="PUBPLACE"] {
+    display : block;
+}
+.orlando .xmltag[xmltagname="RESPONSIBILITY"] {
+    font-family : Verdana, Geneva, sans-serif;
+    font-size : small;
+    background-color : #F0EDFC;
+    display : list-item;
+}
+.orlando .xmltag[xmltagname="EMPH"] {
+    font-style : italic;
+}
+.orlando .xmltag[xmltagname="FOREIGN"] {
+    font-style : italic;
+}
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
+    font-style : italic;
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
+    font-style : normal;
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
+    font-style : normal;
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
+    content : open-quote;
+}
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
+.orlando .xmltag[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
+    content : close-quote;
+}
+.orlando .xmltag[xmltagname="ADDRLINE"] {
+    display : list-item;
+}
+.orlando .xmltag[xmltagname="IDNO"] {
+    display : list-item;
+}
+.orlando .xmltag[xmltagname="AVAILABILITY"] {
+    display : inline;
+}
+.orlando .xmltag[xmltagname="P"] {
+    display : block;
+}
+.orlando .xmltag[xmltagname="RESEARCHNOTE"] {
+    background-color : #FBEFEF;
+    color : #663366;
+    font-family : Arial, Helvetica, sans-serif;
+    font-size : smaller;
+    display : list-item;
+}
+.orlando .xmltag[xmltagname="DIV0"] .orlando .xmltag[xmltagname="HEADING"] {
+    display : list-item;
+    font-weight : bold;
+    font-size : x-large;
+    color : #039;
+    margin : 25px 0 0 0;
+}
+.orlando .xmltag[xmltagname="DIV1"] {
+    margin : 20px 0 0 0;
+}
+.orlando .xmltag[xmltagname="DIV1"] .orlando .xmltag[xmltagname="HEADING"] {
+    display : block;
+    font-weight : bold;
+    font-size : large;
+    color : #039;
+}
+.orlando .xmltag[xmltagname="CHRONEVENT"] {
+    display : block;
+    margin : 15px 0;
+}
+.orlando .xmltag[xmltagname="CHRONSTRUCT"] {
+    display : block;
+    padding : 0 0 0 30px;
+}
+.orlando .xmltag[xmltagname="CHRONSTRUCT"] .orlando .xmltag[xmltagname="DATE"] {
+    font-weight : bold;
+    display : inline;
+}
+.orlando .xmltag[xmltagname="CHRONSTRUCT"] .orlando .xmltag[xmltagname="DATE"]:after {
+    content : ": ";
+}
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WOMENWRITERS"] {
+    background-repeat : no-repeat;
+}
+
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
+    background-repeat : no-repeat;
+}
+
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "SOCIALCLIMATE"] {
+    background-repeat : no-repeat;
+}
+
+.orlando .xmltag[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "WRITINGCLIMATE"] {
+    background-repeat : no-repeat;
+}
+
+.orlando .xmltag[xmltagname="SHORTPROSE"] .orlando .xmltag[xmltagname="P"] {
+    padding-left : 4em;
+    margin : 10px 0 0 0;
+}
+
+.orlando .xmltag[xmltagname="BIBCIT"]:before {
+    content : "(";
+}
+.orlando .xmltag[xmltagname="BIBCIT"]:after {
+    content : ")";
+}
+.orlando .xmltag[xmltagname="SCHOLARNOTE"] .orlando .xmltag[xmltagname="P"] {
+    background-color : #E0E0F8;
+}
+.orlando .xmltag[xmltagname="NAME"] {
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="ORGNAME"] {
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="AREA"] {
+    font-weight : bold;
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="TOPIC"] {
+    font-weight : bold;
+    color : #336699;
+}
+.orlando .xmltag[xmltagname="QUOTE"]:before {
+    content : open-quote;
+}
+.orlando .xmltag[xmltagname="QUOTE"]:after {
+    content : close-quote;
+}
+.orlando .xmltag[xmltagname="QUOTE"][DIRECT = "N"]:before {
+    content : "'";
+}
+.orlando .xmltag[xmltagname="QUOTE"][DIRECT = "N"]:after {
+    content : "'";
+}
+.orlando .xmltag[xmltagname="SOCALLED"]:before {
+    content : "'";
+}
+.orlando .xmltag[xmltagname="SOCALLED"]:after {
+    content : "'";
+}

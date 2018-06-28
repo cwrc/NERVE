@@ -1,0 +1,38 @@
+
+#lemmaDialog > #buttonArea > button {
+    color: #eeeeee;
+    margin: 1px;
+}
+
+#lemmaDialog > #buttonArea > button.active {
+    color: yellow;
+}
+
+#lemmaDialog > #buttonArea > button#selectAllCategories {
+    color: greenyellow;
+}
+
+#lemmaDialog > #buttonArea > button#selectNoCategories {
+    color: red;
+}
+
+#lemmaDialog > #displayArea{
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    top: 20px;
+}
+
+#lemmaDialog > #displayArea > button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
+
+#lemmaDialog > #displayArea > button.highlight {
+    color: yellow;
+}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NERVE 0.8.7</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="resources/NERVE.png">
+
+        <!------------------------------------- NERVE CSS FILES ------------------------------------->
+        <link rel="stylesheet" type="text/css" href="styles/nerve.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/entitypanel.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/context-styles/orlando.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/context-styles/playwrights.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/context-styles/tei.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/tagname-markup.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/tags.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/bootstrap-theme.min.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/lemmaDialog.css"/>
+        <!------------------------------------------------------------------------------------------->
+
+        <!-------------------------------------- JQUERY FILES --------------------------------------->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+            accesskey=""
+            integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+            crossorigin="anonymous"
+        ></script>
+
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.css" />
+        <script src="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.js"></script>
+        <!------------------------------------------------------------------------------------------->
+
+        <!-- Latest compiled and minified BootStrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>        
+
+        <!------------------------------------- PROJECT SCRIPTS ------------------------------------->
+        <script src="js/build/nerveapp.js" type="text/javascript"></script>
+        <!------------------------------------------------------------------------------------------->
+    </head>
+
+    <body>
+        <!-- typically hidden stuff -->
+        <div id="userMessage"></div>
+        <div id="throbberBG">
+            <img id="throbber" src="resources/loader400.gif"/>
+            <div id="baubles">
+                <img data-index="1" src="resources/light-off.png"/>
+                <img data-index="2" src="resources/light-off.png"/>
+                <img data-index="3" src="resources/light-off.png"/>
+                <img data-index="4" src="resources/light-off.png"/>
+                <img data-index="5" src="resources/light-off.png"/>
+                <img data-index="6" src="resources/light-off.png"/>
+                <img data-index="7" src="resources/light-off.png"/>
+            </div>
+            <div id="message"></div>
+            <div id="percent">0%</div>
+        </div>
+
+        <input type="file" id="fileOpenDialog"/>
+        <!-- ---------------------- -->
+
+        <!--- Tagged Entity Examine Widget --->
+        <div class="modal fade" id="taggedEntityExamineWidget" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body" data-widget-id="html-contents"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>        
+        <!------------------------------------>
+
+        <div id="container" oncontextmenu="return false;">
+            <div id="menuContainer">
+                <div id="menuInfo">
+                    <div id="abbr">NERVE 0.8.7</div>
+                    <div id="fullname">Named Entity Recognition Vetting Environment</div>
+                    <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
+                </div>
+                <div id="documentTitle">Document Title</div>
+                <div id="menuBar">
+                    <div class="menu">
+                        <div class="menuTitle">File</div>
+                        <div class="itemContainer">
+                            <div class="menuItem" id="menuOpen">Open - NER & Link<div class="menuSC">Ctrl-O</div></div>
+                            <div class="menuItem" id="menuNER">Open - NER</div>
+                            <div class="menuItem" id="menuEdit">Open - Edit</div>
+                            <div class="menuItem" id="menuSave">Save<div class="menuSC">Ctrl-S</div></div>
+                            <div class="menuItem" id="menuClose">Close</div>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="menuTitle">View</div>
+                        <div class="itemContainer">
+                            <div class="menuItem" id="menuTags" data-value="false">Tag Mode</div>
+                            <div class="menuItem" id="menuClear">Clear Selection<div class="menuSC">esc</div></div>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="menuTitle">Action</div>
+                        <div class="itemContainer">
+                            <div class="menuItem" id="menuTag">Tag<div class="menuSC">Ctrl-E</div></div>
+                            <div class="menuItem" id="menuUntag">Remove Tag<div class="menuSC">Ctrl-R</div></div>
+                            <div class="menuItem" id="menuMerge">Merge Entities<div class="menuSC">Ctrl-M</div></div>
+                            <div class="menuItem" id="menuCopy">Copy<div class="menuSC">Ctrl-C</div></div>
+                            <div class="menuItem" id="menuPaste">Paste<div class="menuSC">Ctrl-V</div></div>
+                            <div class="menuItem" id="menuUndo">Undo<div class="menuSC">Ctrl-Z</div></div>
+                            <div class="menuItem" id="menuRedo">Redo<div class="menuSC">Ctrl-Y</div></div>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <div class="menuTitle">Help</div>
+                        <div class="itemContainer">
+                            <div class="menuItem" id="menuWiki">Wiki</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="middlePanel">
+                <div id="lemmaDialog" class="innerPanel">
+                    <div id="buttonArea">
+                        <button class="btn btn-primary" id="selectAllCategories">*</button>
+                        <button class="btn btn-primary" id="selectNoCategories">X</button>
+                    </div>
+                    <div id="displayArea">
+                    </div>
+                </div>
+
+                <div id="panelContainer" class="innerPanel">
+                    <div id="entityPanel" class="format-default"></div>
+                </div>
+
+                <div id="entityDialog" class="innerPanel">
+                    <input type="search" name="search" value="" id="searchTextArea">
+                    <div>Tag Name</div>
+                    <div><select name="selectTagName" id="selectTagName"></select></div>
+
+                    <div>
+                        <div class="dialogSubtitle">Entity Text
+                            <button id="entityLookupButton" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Lookup entity text">
+                                <span class="ui-icon  ui-icon-search"></span>
+                            </button>
+                        </div>
+                        <input title="Text, as it appears in the document" class="entityDialogTB" id="txtEntity" type="text"/>
+                    </div>
+
+                    <div>
+                        <span class="dialogSubtitle">Standard Label
+                            <button id="lemmaLookupButton" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Lookup standard label">
+                                <span class="ui-icon  ui-icon-search"></span>
+                            </button>
+                        </span>
+                        <input class="entityDialogTB" id="txtLemma" type="text"/>
+                    </div>
+
+                    <div>
+                        <span class="dialogSubtitle">Link
+                            <button id="goLink" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Go to link">
+                                <span class="ui-icon ui-icon-play"></span>
+                            </button>
+                        </span>
+                        <input class="entityDialogTB" id="txtLink" type="text"/>
+                    </div>
+
+                    <!--                    <div>
+                                            <span class="dialogSubtitle">LInk
+                                                <button id="goLink" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Go to link">
+                                                    <span class="ui-icon  ui-icon-search"></span>
+                                                </button>
+                                            </span>
+                                            <input class="entityDialogTB" id="txtLink" type="text"/>
+                                        </div>-->
+                </div>
+            </div>
+
+            <!--<div id="dialogsHolder"></div>-->
+        </div>
+    </body>
+</html>

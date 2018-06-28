@@ -1,0 +1,26 @@
+
+#entityPanel, #tagnamePanel{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: calc(100% - 30px);
+    font-size: 18px;
+    word-wrap: normal;
+    line-height: 175%;
+    padding: 15px;
+}
+
+#entityPanel *{
+    display: inline;
+}
+
+#dialogFade{
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 50px);
+    background-color: rgba(206, 206, 228, 0.5);
+    left: 0px;
+    bottom: 0px;
+    z-index: 5;
+}

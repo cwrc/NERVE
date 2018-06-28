@@ -1,0 +1,851 @@
+{
+  "searchRetrieveResponse": {
+    "version": "1.1",
+    "numberOfRecords": "1123",
+    "resultSetIdleTime": "1",
+    "records": [
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "9447148209321300460003",
+            "Document": {
+              "@about": "http://viaf.org/viaf/9447148209321300460003/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/9447148209321300460003"
+              }
+            },
+            "nameType": "Corporate",
+            "sources": {
+              "source": {
+                "@nsid": "no2016162044",
+                "#text": "LC|no2016162044"
+              }
+            },
+            "length": "13",
+            "mainHeadings": {
+              "data": {
+                "text": "Fay Jones School of Architecture and Design",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2016162044"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "110",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Fay Jones School of Architecture and Design"
+                  }
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2016162044"
+                },
+                "id": "LC|no2016162044"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "x400s": {
+              "x400": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "410",
+                  "@dtype": "MARC21",
+                  "subfield": [
+                    {
+                      "@code": "a",
+                      "#text": "University of Arkansas, Fayetteville."
+                    },
+                    {
+                      "@code": "b",
+                      "#text": "Fay Jones School of Architecture and Design"
+                    }
+                  ],
+                  "normalized": "university of arkansas fayetteville fay jones school of architecture and design"
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2016162044"
+                }
+              }
+            },
+            "x500s": {
+              "x500": {
+                "@viafLink": "150511701",
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "510",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Fay Jones School of Architecture"
+                  },
+                  "normalized": "fay jones school of architecture"
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2016162044"
+                }
+              }
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "dates": {
+              "@min": "201",
+              "@max": "201",
+              "date": {
+                "@count": "1",
+                "@scaled": "0.00",
+                "#text": "201"
+              }
+            },
+            "nationalityOfEntity": {
+              "data": {
+                "text": "US",
+                "sources": {
+                  "s": "LC"
+                }
+              }
+            },
+            "titles": {
+              "work": {
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2016162044"
+                },
+                "title": "George Dombek : barns and portrait paintings, 2016:"
+              }
+            },
+            "history": {
+              "ht": {
+                "@recid": "LC|no2016162044",
+                "@time": "2016-12-18T10:33:33.285507+00:00"
+              }
+            },
+            "creationtime": "2017-10-01T11:11:02.430437+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "8146147907516879210004",
+            "Document": {
+              "@about": "http://viaf.org/viaf/8146147907516879210004/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/8146147907516879210004"
+              }
+            },
+            "nameType": "Corporate",
+            "sources": {
+              "source": [
+                {
+                  "@nsid": "no2016144925",
+                  "#text": "LC|no2016144925"
+                },
+                {
+                  "@nsid": "002340280",
+                  "#text": "NLI|002340280"
+                }
+              ]
+            },
+            "length": "20",
+            "mainHeadings": {
+              "data": {
+                "text": "University of Otago. Bioethics Research Centre",
+                "sources": {
+                  "s": [
+                    "LC",
+                    "NLI"
+                  ],
+                  "sid": [
+                    "LC|no2016144925",
+                    "NLI|002340280"
+                  ]
+                }
+              },
+              "mainHeadingEl": [
+                {
+                  "datafield": {
+                    "@ind1": "2",
+                    "@ind2": " ",
+                    "@tag": "110",
+                    "@dtype": "MARC21",
+                    "subfield": [
+                      {
+                        "@code": "a",
+                        "#text": "University of Otago."
+                      },
+                      {
+                        "@code": "b",
+                        "#text": "Bioethics Research Centre"
+                      },
+                      {
+                        "@code": "9",
+                        "#text": "lat"
+                      }
+                    ]
+                  },
+                  "sources": {
+                    "s": "NLI",
+                    "sid": "NLI|002340280"
+                  },
+                  "id": "NLI|002340280",
+                  "links": {
+                    "link": {
+                      "match": null,
+                      "#text": "LC|no2016144925"
+                    }
+                  }
+                },
+                {
+                  "datafield": {
+                    "@ind1": "2",
+                    "@ind2": " ",
+                    "@tag": "110",
+                    "@dtype": "MARC21",
+                    "subfield": [
+                      {
+                        "@code": "a",
+                        "#text": "University of Otago."
+                      },
+                      {
+                        "@code": "b",
+                        "#text": "Bioethics Research Centre"
+                      }
+                    ]
+                  },
+                  "sources": {
+                    "s": "LC",
+                    "sid": "LC|no2016144925"
+                  },
+                  "id": "LC|no2016144925",
+                  "links": {
+                    "link": {
+                      "match": null,
+                      "#text": "NLI|002340280"
+                    }
+                  }
+                }
+              ]
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "x400s": {
+              "x400": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "410",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Bioethics Research Centre (University of Otago)"
+                  },
+                  "normalized": "bioethics research centre university of otago"
+                },
+                "sources": {
+                  "s": [
+                    "LC",
+                    "NLI"
+                  ],
+                  "sid": [
+                    "LC|no2016144925",
+                    "NLI|002340280"
+                  ]
+                }
+              }
+            },
+            "x500s": {
+              "x500": [
+                {
+                  "datafield": {
+                    "@ind1": "1",
+                    "@ind2": " ",
+                    "@tag": "500",
+                    "@dtype": "MARC21",
+                    "subfield": [
+                      {
+                        "@code": "a",
+                        "#text": "Jones, D. Gareth"
+                      },
+                      {
+                        "@code": "q",
+                        "#text": "(David Gareth),"
+                      },
+                      {
+                        "@code": "d",
+                        "#text": "1940-"
+                      }
+                    ],
+                    "normalized": "jones d gareth david gareth 1940"
+                  },
+                  "sources": {
+                    "s": "LC",
+                    "sid": "LC|no2016144925"
+                  }
+                },
+                {
+                  "@viafLink": "126864386",
+                  "datafield": {
+                    "@ind1": "2",
+                    "@ind2": " ",
+                    "@tag": "510",
+                    "@dtype": "MARC21",
+                    "subfield": [
+                      {
+                        "@code": "a",
+                        "#text": "University of Otago."
+                      },
+                      {
+                        "@code": "b",
+                        "#text": "Bioethics Centre"
+                      }
+                    ],
+                    "normalized": "university of otago bioethics centre"
+                  },
+                  "sources": {
+                    "s": "LC",
+                    "sid": "LC|no2016144925"
+                  }
+                },
+                {
+                  "@viafLink": "142243096",
+                  "datafield": {
+                    "@ind1": "2",
+                    "@ind2": " ",
+                    "@tag": "510",
+                    "@dtype": "MARC21",
+                    "subfield": [
+                      {
+                        "@code": "a",
+                        "#text": "University of Otago."
+                      },
+                      {
+                        "@code": "b",
+                        "#text": "Division of Health Sciences"
+                      }
+                    ],
+                    "normalized": "university of otago division of health sciences"
+                  },
+                  "sources": {
+                    "s": "LC",
+                    "sid": "LC|no2016144925"
+                  }
+                }
+              ]
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "dates": {
+              "@min": "199",
+              "@max": "199",
+              "date": {
+                "@count": "1",
+                "@scaled": "0.00",
+                "#text": "199"
+              }
+            },
+            "languageOfEntity": {
+              "data": {
+                "text": "eng",
+                "sources": {
+                  "s": "LC"
+                }
+              }
+            },
+            "titles": {
+              "work": {
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2016144925"
+                },
+                "title": "Newsletter, 1990:"
+              }
+            },
+            "history": {
+              "ht": [
+                {
+                  "@recid": "LC|no2016144925",
+                  "@time": "2016-11-13T12:12:48.062437+00:00"
+                },
+                {
+                  "@recid": "NLI|002340280",
+                  "@time": "2017-02-05T10:40:29.999369+00:00"
+                }
+              ]
+            },
+            "creationtime": "2017-10-01T11:00:35.978586+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "5890149662189307020005",
+            "Document": {
+              "@about": "http://viaf.org/viaf/5890149662189307020005/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/5890149662189307020005"
+              }
+            },
+            "nameType": "Corporate",
+            "sources": {
+              "source": {
+                "@nsid": "no2017070703",
+                "#text": "LC|no2017070703"
+              }
+            },
+            "length": "14",
+            "mainHeadings": {
+              "data": {
+                "text": "Jones Hole National Fish Hatchery",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017070703"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "110",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Jones Hole National Fish Hatchery"
+                  }
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017070703"
+                },
+                "id": "LC|no2017070703"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "x400s": {
+              "x400": [
+                {
+                  "datafield": {
+                    "@ind1": "2",
+                    "@ind2": " ",
+                    "@tag": "410",
+                    "@dtype": "MARC21",
+                    "subfield": {
+                      "@code": "a",
+                      "#text": "Jones Hole NFH"
+                    },
+                    "normalized": "jones hole nfh"
+                  },
+                  "sources": {
+                    "s": "LC",
+                    "sid": "LC|no2017070703"
+                  }
+                },
+                {
+                  "datafield": {
+                    "@ind1": "2",
+                    "@ind2": " ",
+                    "@tag": "410",
+                    "@dtype": "MARC21",
+                    "subfield": [
+                      {
+                        "@code": "a",
+                        "#text": "U.S. Fish and Wildlife Service."
+                      },
+                      {
+                        "@code": "b",
+                        "#text": "Jones Hole National Fish Hatchery"
+                      }
+                    ],
+                    "normalized": "u s fish and wildlife service jones hole national fish hatchery"
+                  },
+                  "sources": {
+                    "s": "LC",
+                    "sid": "LC|no2017070703"
+                  }
+                }
+              ]
+            },
+            "x500s": {
+              "x500": {
+                "@viafLink": "133611990",
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "510",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "U.S. Fish and Wildlife Service"
+                  },
+                  "normalized": "u s fish and wildlife service"
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017070703"
+                }
+              }
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "dates": {
+              "@min": "201",
+              "@max": "201",
+              "date": {
+                "@count": "1",
+                "@scaled": "0.00",
+                "#text": "201"
+              }
+            },
+            "nationalityOfEntity": {
+              "data": {
+                "text": "US",
+                "sources": {
+                  "s": "LC"
+                }
+              }
+            },
+            "titles": {
+              "work": {
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017070703"
+                },
+                "title": "Jones Hole National Fish Hatchery, 2016"
+              }
+            },
+            "history": {
+              "ht": {
+                "@recid": "LC|no2017070703",
+                "@time": "2017-06-04T15:18:13.463836+00:00"
+              }
+            },
+            "creationtime": "2017-10-01T10:58:30.969611+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "5697148876464249740005",
+            "Document": {
+              "@about": "http://viaf.org/viaf/5697148876464249740005/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/5697148876464249740005"
+              }
+            },
+            "nameType": "Corporate",
+            "sources": {
+              "source": {
+                "@nsid": "no2017023373",
+                "#text": "LC|no2017023373"
+              }
+            },
+            "length": "11",
+            "mainHeadings": {
+              "data": {
+                "text": "Hornby, Baker Jones and Wood (Firm)",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017023373"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "110",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Hornby, Baker Jones and Wood (Firm)"
+                  }
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017023373"
+                },
+                "id": "LC|no2017023373"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "x500s": {
+              "x500": {
+                "@viafLink": "3105148876453149740001",
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": " ",
+                  "@tag": "510",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Collingbourne Hennah Law (Firm)"
+                  },
+                  "normalized": "collingbourne hennah law firm"
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|no2017023373"
+                }
+              }
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "languageOfEntity": {
+              "data": {
+                "text": "eng",
+                "sources": {
+                  "s": "LC"
+                }
+              }
+            },
+            "nationalityOfEntity": {
+              "data": {
+                "text": "GB",
+                "sources": {
+                  "s": "LC"
+                }
+              }
+            },
+            "titles": null,
+            "history": {
+              "ht": {
+                "@recid": "LC|no2017023373",
+                "@time": "2017-03-05T15:44:02.430289+00:00"
+              }
+            },
+            "creationtime": "2017-10-01T10:54:15.880820+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "5077150325537210090007",
+            "Document": {
+              "@about": "http://viaf.org/viaf/5077150325537210090007/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/5077150325537210090007"
+              }
+            },
+            "nameType": "Corporate",
+            "sources": {
+              "source": {
+                "@nsid": "n93017661",
+                "#text": "LC|n  93017661"
+              }
+            },
+            "length": "14",
+            "mainHeadings": {
+              "data": {
+                "text": "Torchy Jones Brass Quintet",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": "0",
+                  "@tag": "110",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Torchy Jones Brass Quintet"
+                  }
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                },
+                "id": "LC|n  93017661"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "x400s": {
+              "x400": {
+                "datafield": {
+                  "@ind1": "2",
+                  "@ind2": "0",
+                  "@tag": "410",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Jones Brass Quintet"
+                  },
+                  "normalized": "jones brass quintet"
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              }
+            },
+            "x500s": {
+              "x500": {
+                "@viafLink": "43508398",
+                "datafield": {
+                  "@ind1": "1",
+                  "@ind2": "0",
+                  "@tag": "500",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Jones, Torchy"
+                  },
+                  "normalized": "jones torchy"
+                },
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              }
+            },
+            "coauthors": {
+              "data": {
+                "@count": "1",
+                "@tag": "950",
+                "text": "Jones, Torchy.",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              }
+            },
+            "publishers": {
+              "data": {
+                "@count": "1",
+                "text": "Columbia",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              }
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "dates": {
+              "@min": "196",
+              "@max": "196",
+              "date": {
+                "@count": "2",
+                "@scaled": "1.00",
+                "#text": "196"
+              }
+            },
+            "RecFormats": {
+              "data": {
+                "@count": "1",
+                "text": "jm",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              }
+            },
+            "countries": {
+              "data": {
+                "@count": "1",
+                "@scaled": "1",
+                "text": "US",
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                }
+              }
+            },
+            "titles": {
+              "work": {
+                "sources": {
+                  "s": "LC",
+                  "sid": "LC|n  93017661"
+                },
+                "title": "Catch the brass ring [SR] 1960?:"
+              }
+            },
+            "history": {
+              "ht": {
+                "@recid": "LC|n  93017661",
+                "@time": "2017-08-20T09:56:12.125664+00:00"
+              }
+            },
+            "creationtime": "2017-10-01T11:14:23.967243+00:00"
+          }
+        }
+      }
+    ]
+  }
+}

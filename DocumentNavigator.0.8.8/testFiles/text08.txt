@@ -1,0 +1,5 @@
+<xml>
+<div>a line of text</div>
+<div>two lines
+of text</div>
+</xml>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NERVE3" default="default" basedir=".">
+    <description>Builds, tests, and runs the project NERVE3.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <property file="nbproject/project.properties"/>
+    <property name="keyfile" value="D:/cygwin/home/edwar/.ssh/id_rsa"/>
+    <!--<property name="keyfile" value="C:/cygwin64/home/edward/.ssh/id_rsa"/>-->
+    <property name="remoteTarget" value="root@dh.sharcnet.ca:/www/glassfish/repository"/>
+    <property name="version.num" value="0.8.7" />
+    <property name="lib.name" value="NERVE-${version.num}"/>
+    <property name="lib.war.name" value="${lib.name}.war"/>
+    <taskdef resource="jjjrmiant.xml"/>
+        
+    <target name="nerve.build-js">
+        <exec executable="cmd.exe">
+            <arg line="/c npm run build-js"/>
+        </exec>
+    </target>
+    
+    <target name="nerve.versionify">
+        <fail unless="lib.war.name" message="lib.war.name is not set"/>        
+        <copy file="${dist.dir}/${war.name}" tofile="${dist.dir}/${lib.war.name}" overwrite="yes"/> 
+    </target>
+    
+    <target name="nerve.deploy">
+        <sequential>
+            <antcall target="nerve.versionify"/>
+            <antcall target="nerve.remote.copy"/>
+            <antcall target="nerve.remote.deploy"/>
+        </sequential>
+    </target>
+    
+    <target name="nerve.redeploy">
+        <sequential>
+            <antcall target="nerve.versionify"/>
+            <antcall target="nerve.remote.copy"/>
+            <antcall target="nerve.remote.redeploy"/>
+        </sequential>
+    </target>
+
+    <target name="nerve.remote.copy">
+        <echo>copy ${dist.dir}/${lib.war.name} to ${remoteTarget}</echo>
+        <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
+            <fileset dir="${dist.dir}">
+                <include name="${lib.war.name}"/>
+            </fileset>
+        </scp>
+    </target>
+
+    <target name="nerve.remote.redeploy">
+        <echo>redeploy .war file</echo>
+        <sshexec host="dh.sharcnet.ca" username="root" keyfile="${keyfile}" trust="yes" command="asadmin redeploy --name ${lib.name} /www/glassfish/repository/${lib.war.name}"/>       
+    </target>
+
+    <target name="nerve.remote.deploy">
+        <echo>deploy .war file</echo>
+        <sshexec host="dh.sharcnet.ca" username="root" keyfile="${keyfile}" trust="yes" command="asadmin deploy --name ${lib.name} /www/glassfish/repository/${lib.war.name}"/>       
+    </target>
+
+    <!--Generate the JJJ files-->
+    <target name="-pre-compile" depends="nerve.jjj"/>
+    
+    <target name="nerve.jjj">
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/web/js/gen" package="nerve"/>
+        <jjj-java srcDir="${basedir}/src/java"/>
+    </target>    
+    
+</project>

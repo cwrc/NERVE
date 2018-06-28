@@ -1,0 +1,1358 @@
+.tei .tagname-markup {
+    top: 16px;
+}
+
+.tei .xmltag[xmltagname="TEI"] {
+    margin : 10px 25px;
+    font-family : Georgia, serif;
+    line-height : 1.5;
+}
+
+.tei .xmltag[xmltagname="abbr"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="add"] {
+    display : inline;
+    text-decoration : underline;
+}
+
+.tei .xmltag[xmltagname="anchor"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="argument"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="att"] {
+    display : inline;
+    font-family : sans-serif;
+}
+
+.tei .xmltag[xmltagname="author"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="back"] {
+    display : block;
+    border : thin black solid;
+    margin-top : 1em;
+    padding-top : 0.5em;
+    padding-left : 0.5em;
+    padding-right : 0.5em;
+    padding-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="bibl"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="div"] {
+    margin:0 0 0 2em;
+}
+
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="note"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="title"] {
+    content: "Alternate Title: " !important;
+}
+
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="title"] {
+    content: "";
+}
+
+.tei .xmltag[xmltagname="argument"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="body"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="cit"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div0"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div1"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div2"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div3"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div4"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div5"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div6"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="div7"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="epigraph"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="list"]
+.tei .xmltag[xmltagname="ibl"]>
+.tei .xmltag[xmltagname="bibl"]>
+.tei .xmltag[xmltagname="bibl"],
+.tei .xmltag[xmltagname="taxonomy"]>
+.tei .xmltag[xmltagname="bibl"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="biblFull"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="argument"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="body"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="cit"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div0"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div1"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div2"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div3"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div4"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div5"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div6"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="div7"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="epigraph"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="listBibl"]>
+.tei .xmltag[xmltagname="biblFull"]>
+.tei .xmltag[xmltagname="biblFull"],
+.tei .xmltag[xmltagname="taxonomy"]>
+.tei .xmltag[xmltagname="biblFull"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="biblScope"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="imprint"]>
+.tei .xmltag[xmltagname="biblScope"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="body"] {
+    margin-top : 5px;
+    padding : 0 2em 0 0;
+    display : block;
+    counter-reset : div1;
+}
+
+.tei .xmltag[xmltagname="byline"] {
+    display : block;
+    font-style : italic;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="category"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="catRef"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="cell"] {
+    display : table-cell;
+    border : 1px solid #EEEFEE;
+    padding : 3px;
+}
+
+.tei .xmltag[xmltagname="change"] {
+    display : block;
+    margin-bottom : 1em;
+    margin-left : 2em;
+}
+
+.tei .xmltag[xmltagname="cit"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="cit"] ,
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="cit"] {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-top : 0.5em;
+}
+
+.tei .xmltag[xmltagname="classCode"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="elementSpec"],
+.tei .xmltag[xmltagname="macroSpec"],
+.tei .xmltag[xmltagname="classSpec"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="closer"] {
+    display : block;
+    margin-bottom : 1em;
+    width : 95%;
+}
+
+.tei .xmltag[xmltagname="code"] {
+    display : inline;
+    font-family : monospace;
+}
+
+.tei .xmltag[xmltagname="corr"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="creation"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="date"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="change"]>
+.tei .xmltag[xmltagname="date"],
+.tei .xmltag[xmltagname="publicationStmt"]>
+.tei .xmltag[xmltagname="date"] {
+    display : block;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="dateline"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="del"] {
+    display : inline;
+    color : red;
+    background-color : inherit;
+    text-decoration : line-through;
+}
+
+.tei .xmltag[xmltagname="distributor"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="body"]>
+.tei .xmltag[xmltagname="div"] {
+    display : block;
+    counter-increment : div1;
+    counter-reset : div2;
+    margin : 0 0 1.5em 0;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div2;
+    counter-reset : div3;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div3;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] {
+    margin-bottom : 2em !important;
+}
+
+.tei .xmltag[xmltagname="div"] {
+    counter-reset:line;
+}
+
+.tei .xmltag[xmltagname="div1"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div1;
+    counter-reset : div2;
+}
+
+.tei .xmltag[xmltagname="div2"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div2;
+    counter-reset : div3;
+}
+
+.tei .xmltag[xmltagname="div3"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div3;
+    counter-reset : div4;
+}
+
+.tei .xmltag[xmltagname="div4"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div4;
+    counter-reset : div5;
+}
+
+.tei .xmltag[xmltagname="div5"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div5;
+    counter-reset : div6;
+}
+
+.tei .xmltag[xmltagname="div6"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div6;
+    counter-reset : div7;
+}
+
+.tei .xmltag[xmltagname="div7"] {
+    display : block;
+    margin-bottom : 1em;
+    counter-increment : div7;
+}
+
+.tei .xmltag[xmltagname="divGen"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="docAuthor"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="byline"]
+.tei .xmltag[xmltagname="docAuthor"] {
+    display : inline;
+}
+
+
+.tei .xmltag[xmltagname="edition"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="edition"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="editionStmt"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="editor"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="editor"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="eg"] {
+    font-family : monospace;
+    padding-top : 3mm;
+    padding-left : 4pt;
+    padding-bottom : 2pt;
+    display : block;
+    margin-top : 12pt;
+    margin-bottom : 12pt;
+    white-space : pre;
+    color : inherit;
+    background-color : #FFCC99;
+}
+
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="eg"],
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="eg"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="emph"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="epigraph"] {
+    display : block;
+    margin-bottom : 1em;
+    text-align : center;
+}
+
+.tei .xmltag[xmltagname="extent"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="extent"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="graphic"] {
+    color : gray;
+    background-color : inherit;
+    content : "{" attr(url) "}";
+}
+
+.tei .xmltag[xmltagname="figure"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="foreign"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="formula"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="front"] {
+    display : block;
+    margin-bottom : 1em;
+    padding-top : 0.5em;
+    padding-left : 0.5em;
+    padding-right : 0.5em;
+    padding-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="funder"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="gap"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="gi"],
+.tei .xmltag[xmltagname="tag"] {
+    display : inline;
+    font-family : sans-serif;
+    color : black;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="gloss"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="group"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="head"] {
+    display : block;
+    padding-top : 7px;
+    padding-bottom : 10px;
+    color : inherit;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    margin-top : 1em;
+    font-size : 18px;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+head .tei .xmltag[xmltagname="author"] {
+    font-weight:normal;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="head"] {
+    display : block;
+    padding-top : 14px;
+    padding-bottom : 10px;
+    padding-left : 10px;
+    color : inherit;
+    background-color : #BBBBBB;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    margin-top : 11px;
+}
+
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="head"] {
+    display : block;
+    padding-top : 14px;
+    padding-bottom : 10px;
+    padding-left : 10px;
+    color : inherit;
+    background-color : #BBBBBB;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    margin-top : 1em;
+}
+
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="opener"]
+.tei .xmltag[xmltagname="dateline"] {
+    display : block;
+    text-align : right;
+    width : 95%;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    background-color : yellow;
+    color : black;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    background-color : inherit;
+    color : inherit;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    text-decoration : underline;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    font-variant : small-caps;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    vertical-align : super;
+    font-size : smaller;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    vertical-align : sub;
+    font-size : smaller;
+}
+
+.tei .xmltag[xmltagname="hi"] {
+    display : inline;
+    text-decoration : underline;
+}
+
+.tei .xmltag[xmltagname="ident"] {
+    display : inline;
+    font-family : monospace;
+}
+
+.tei .xmltag[xmltagname="idno"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="idno"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="imprint"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="index"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="interp"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="interpGrp"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="list"]
+.tei .xmltag[xmltagname="item"] {
+    display : block;
+    margin-left : 1em;
+}
+
+.tei .xmltag[xmltagname="list"]
+.tei .xmltag[xmltagname="item"] {
+    display : list-item;
+    margin-left : 12pt;
+}
+
+.tei .xmltag[xmltagname="item"] {
+    display : list-item;
+    margin-left : 12pt;
+}
+
+.tei .xmltag[xmltagname="change"]
+.tei .xmltag[xmltagname="item"] {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-left : 1em;
+    margin-top : 0.5em;
+}
+
+.tei .xmltag[xmltagname="keywords"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="kw"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="l"] {
+    display : block;
+    white-space : nowrap;
+}
+
+.tei .xmltag[xmltagname="label"] {
+    display : inline;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="Label"] {
+    display : inline;
+    font-weight : bold;
+    color : #2F4F4F;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="label"] ,
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="label"] {
+    display : block;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="langUsage"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="lb"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="lg"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    display : block;
+    list-style-type : disc;
+    list-style-position : outside;
+    margin-bottom : 1em;
+    margin-left : 2em;
+    margin-top : 1em;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    list-style-type : decimal;
+    list-style-position : outside;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    list-style-type : decimal;
+    list-style-position : outside;
+}
+
+.tei .xmltag[xmltagname="list"] {
+    list-style-type : none;
+}
+
+.tei .xmltag[xmltagname="listBibl"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="mentioned"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="milestone"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="name"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="note"] {
+    display : block;
+    color:#999;
+}
+
+.tei .xmltag[xmltagname="opener"]
+.tei .xmltag[xmltagname="note"] {
+    display : block;
+    color:#999;
+}
+
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="note"]
+.tei .xmltag[xmltagname="persName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="orgName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="title"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="placeName"] {
+    color:#6DB0CC !important;
+}
+
+.tei .xmltag[xmltagname="note"] {
+    float : left;
+}
+
+.tei .xmltag[xmltagname="note"] {
+    float : right;
+}
+
+.tei .xmltag[xmltagname="note"],
+.tei .xmltag[xmltagname="note"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="notesStmt"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="num"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="opener"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="opener"]
+.tei .xmltag[xmltagname="p"] {
+    text-align : justify !important;
+    text-indent : 0 !important;
+}
+
+.tei .xmltag[xmltagname="orig"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="p"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="pb"] {
+    display : none;
+}
+
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="persName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="placeName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="orgName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="title"] {
+    color: #336699;
+}
+
+.tei .xmltag[xmltagname="principal"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="ptr"] {
+    color : navy;
+    text-decoration : underline;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="publicationStmt"] {
+        display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="publicationStmt"]
+.tei .xmltag[xmltagname="p"] {
+    display : block;
+    margin-bottom : 0;
+}
+
+.tei .xmltag[xmltagname="publisher"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="imprint"] >
+.tei .xmltag[xmltagname="publisher"],
+.tei .xmltag[xmltagname="publicationStmt"] >
+.tei .xmltag[xmltagname="publisher"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="pubPlace"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="imprint"] >
+.tei .xmltag[xmltagname="pubPlace"],
+.tei .xmltag[xmltagname="publicationStmt"] >
+.tei .xmltag[xmltagname="pubPlace"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="q"] {
+    display : inline;
+    quotes : '"' '"' "'" "'";
+    margin-top : 0em;
+    margin-left : 0em;
+    margin-right : 0em;
+    margin-bottom : 0em;
+}
+
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="argument"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="body"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="cit"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div0"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div1"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div2"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div3"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div4"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div5"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div6"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="div7"] >
+.tei .xmltag[xmltagname="q"],
+.tei .xmltag[xmltagname="epigraph"] >
+.tei .xmltag[xmltagname="q"] {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-left : 3em;
+    margin-right : 3em;
+    quotes : none;
+}
+
+.tei .xmltag[xmltagname="ref"] {
+    display : inline;
+    color : black;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="reg"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="rendition"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="resp"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="respStmt"] {
+    display : block;
+    margin-left:1em;
+}
+
+.tei .xmltag[xmltagname="bibl"]
+.tei .xmltag[xmltagname="respStmt"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="row"] {
+    display : table-row;
+}
+
+.tei .xmltag[xmltagname="row"] {
+    color : inherit;
+    background-color : #BBBBBB;
+}
+
+.tei .xmltag[xmltagname="rs"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="s"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="salute"] {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-top : 1em;
+}
+
+.tei .xmltag[xmltagname="samplingDecl"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="seg"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="seriesStmt"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="sic"] {
+    display : inline;
+    color : red;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="signed"] {
+    display : block;
+    text-align : right;
+}
+
+.tei .xmltag[xmltagname="soCalled"] {
+    display : inline;
+    font-style : italic;
+    quotes : "'" "'";
+}
+
+.tei .xmltag[xmltagname="sp"] {
+    display : block;
+    margin-bottom : 0.5em;
+    margin-left : 2em;
+}
+
+.tei .xmltag[xmltagname="div"]
+.tei .xmltag[xmltagname="p"] {
+    text-align : justify;
+    text-indent : 30px;
+}
+
+.tei .xmltag[xmltagname="speaker"] {
+    display : inline;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="sponsor"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="stage"] {
+    display : inline;
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="table"] {
+    text-align : center;
+    display : table;
+    margin : 1em
+}
+
+.tei .xmltag[xmltagname="table"] >
+.tei .xmltag[xmltagname="head"] {
+    display : table-caption;
+    font-style : italic;
+    margin-bottom : 6pt;
+}
+
+.tei .xmltag[xmltagname="tagUsage"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="taxonomy"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="term"] {
+    font-family : sans-serif;
+    color : black;
+    background-color : inherit;
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="textClass"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="time"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="title"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="title"] {
+    display : block;
+    font-weight:normal;
+}
+
+.tei .xmltag[xmltagname="title"],
+.tei .xmltag[xmltagname="title"] {
+    font-style : italic;
+}
+
+.tei .xmltag[xmltagname="title"] {
+    font-style : normal;
+}
+
+.tei .xmltag[xmltagname="title"],
+.tei .xmltag[xmltagname="title"] {
+    font-style : normal;
+}
+
+.tei .xmltag[xmltagname="seriesStmt"] >
+.tei .xmltag[xmltagname="title"],
+.tei .xmltag[xmltagname="titleStmt"] >
+.tei .xmltag[xmltagname="title"] {
+    color:gray;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="titlePage"] {
+    display : block;
+    border : thin black solid;
+    margin-bottom : 2em;
+    text-align : center;
+    padding-top : 1em;
+    padding-left : 1em;
+    padding-right : 1em;
+    padding-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="titlePart"] {
+    display : block;
+}
+
+.tei .xmltag[xmltagname="titleStmt"] {
+    margin-bottom : 1em;
+    color : #333;
+}
+
+.tei .xmltag[xmltagname="trailer"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="unclear"] {
+    display : inline;
+    color : gray;
+    background-color : inherit;
+    font-style : italic;
+}
+
+ .tei .xmltag[xmltagname="header-related"] .tei .xmltag[xmltagname="material"]
+.tei .xmltag[xmltagname="teiHeader"] {
+    display : block;
+    color : gray;
+    background-color : rgb(251, 242, 234);
+    padding : .5em;
+}
+
+.tei .xmltag[xmltagname="teiHeader"]
+.tei .xmltag[xmltagname="title"] {
+    color:gray;
+}
+
+.tei .xmltag[xmltagname="titleStmt"] >
+.tei .xmltag[xmltagname="author"] {
+    display : block;
+    margin-left : 1em;
+}
+
+.tei .xmltag[xmltagname="authority"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="availability"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="fileDesc"] {
+        display : block;
+    margin-bottom : .5em;
+}
+
+.tei .xmltag[xmltagname="sourceDesc"] {
+        display : block;
+    border : thin silver solid;
+    padding : .5em .5em 0 .5em;
+}
+
+.tei .xmltag[xmltagname="sourceDesc"]
+.tei .xmltag[xmltagname="p"] {
+    margin : 0;
+}
+
+.tei .xmltag[xmltagname="revisionDesc"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="catDesc"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="encodingDesc"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="profileDesc"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="projectDesc"] {
+    display : block;
+    margin-bottom : 1em;
+}
+
+.tei .xmltag[xmltagname="docDate"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="docImprint"]
+.tei .xmltag[xmltagname="docDate"] {
+    display : inline;
+}
+
+.tei .xmltag[xmltagname="docEdition"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="docImprint"] {
+    display : block;
+    margin-bottom : 0.5em;
+}
+
+.tei .xmltag[xmltagname="docTitle"] {
+    display : block;
+    font-weight : bold;
+    margin-bottom : 0.5em;
+    font-weight:bold;
+}
+
+.tei .xmltag[xmltagname="OUCS"] .tei .xmltag[xmltagname="additions"]
+.tei .xmltag[xmltagname="Button"] {
+    font-family : monospace;
+    color : red;
+    font-weight : bold;
+    background-color : rgb(75%, 75%, 75%)
+}
+
+.tei .xmltag[xmltagname="Value"] {
+    font-family : monospace;
+    color : rgb(255, 102, 0);
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Code"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Field"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Filespec"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Input"] {
+    font-family : monospace;
+    color : green;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Key"] {
+    font-family : monospace;
+    text-decoration : underline;
+    color : green;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Link"] {
+    font-family : monospace;
+    color : green;
+    background-color : inherit;
+    text-decoration : underline;
+}
+
+.tei .xmltag[xmltagname="Menu"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Output"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei .xmltag[xmltagname="Icon"] {
+    color : inherit;
+    background-color : #B0E0E6;
+    font-weight : bold;
+}
+
+.tei .xmltag[xmltagname="Screen"] {
+    font-family : monospace;
+    padding-top : 3mm;
+    padding-left : 4pt;
+    padding-bottom : 2pt;
+    display : block;
+    margin-top : 12pt;
+    margin-bottom : 12pt;
+    white-space : pre;
+    color : inherit;
+    background-color : #FFCC99;
+}

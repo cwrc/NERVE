@@ -1,0 +1,27 @@
+const ProgressMonitor = require("./ProgressMonitor");
+const Dictionary = require("./Dictionary");
+const Scriber = require("./Scriber");
+class NerveRoot {
+	constructor() {
+	}
+	static __isTransient() {
+		return false;
+	}
+	static __getClass() {
+		return "ca.sharcnet.dh.nerve.NerveRoot";
+	}
+	static __isEnum() {
+		return false;
+	}
+	getScriber() {
+		return this.scriber;
+	}
+	getDictionary() {
+		return this.dictionary;
+	}
+	getProgressMonitor() {
+		return this.progressMonitor;
+	}
+};
+
+if (typeof module !== "undefined") module.exports = NerveRoot;

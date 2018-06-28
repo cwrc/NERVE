@@ -1,0 +1,64 @@
+{
+    "name"               : "TEI",
+    "readFromDictionary" : [
+        "custom",
+        "geonames"
+    ],
+    "tags" : [
+        {
+            "name"           : "orgName",
+            "linkAttribute"  : "ref",
+            "idAttribute"    : "annotationID",
+            "lemmaAttribute" : "key",
+            "dictionary"     : "ORGANIZATION",
+            "nerMap"         : "ORGANIZATION",
+            "dialog-method"  : "popSearchOrganization",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "date",
+            "linkAttribute"  : "",
+            "idAttribute"    : "",
+            "lemmaAttribute" : "when",
+            "dictionary"     : "",
+            "nerMap"         : "",
+            "dialog-method"  : "",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "placeName",
+            "linkAttribute"  : "ref",
+            "idAttribute"    : "annotationID",
+            "lemmaAttribute" : "key",
+            "dictionary"     : "PLACE",
+            "nerMap"         : "LOCATION",
+            "dialog-method"  : "popSearchPlace",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "persName",
+            "linkAttribute"  : "ref",
+            "idAttribute"    : "annotationID",
+            "lemmaAttribute" : "key",
+            "dictionary"     : "PERSON",
+            "nerMap"         : "PERSON",
+            "dialog-method"  : "popSearchPerson",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "title",
+            "linkAttribute"  : "ref",
+            "idAttribute"    : "annotationID",
+            "lemmaAttribute" : "key",
+            "dictionary"     : "TITLE",
+            "dialog-method"  : "popSearchTitle",
+            "nerMap"         : "",
+            "defaults"       : {"level": "m"}
+        }
+    ],
+    "styles" : [
+        "tei"
+    ],
+    "schemaName" : "http://cwrc.ca/schemas/cwrc_tei_lite.rng",
+    "tagSourceAttribute" : "whoTagged"
+}

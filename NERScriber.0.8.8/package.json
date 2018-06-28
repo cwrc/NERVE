@@ -1,0 +1,7 @@
+{
+  "name": "nerscriber",
+  "version": "0.8.6",
+  "description": "",
+  "main": "web-gen/nerscriber.js",
+  "files": ["web-gen/**"]
+}

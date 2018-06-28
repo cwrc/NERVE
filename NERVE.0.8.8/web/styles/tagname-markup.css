@@ -1,0 +1,99 @@
+/* Tagged Entity specific markups */
+
+.taggedentity,
+.xmltag{
+    position: relative;
+    display: inline;
+    z-index: 1;
+}
+
+.taggedentity > *{
+    display: inline;
+    z-index: 1;
+}
+
+.linked > .tagname-markup{
+    color: green;
+}
+
+.unlinked > .tagname-markup{
+    color: orangered;
+}
+
+.taggedentity.selected .tagname-markup, .taggedentity:hover .tagname-markup{
+    display: inline-block;
+}
+
+.taggedentity.selected, .taggedentity:hover{
+    text-decoration: underline;
+}
+
+.tagname-markup{
+    position: absolute;
+    display: none;
+    color: red;
+    top: 8px;
+    left: 1px;
+    font-size: 10px;
+    font-variant: small-caps;
+}
+
+.format-default .taggedentity.selected:hover{
+    background-color: #d8ff00;
+    cursor: pointer;
+}
+
+.format-default .taggedentity:hover{
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+.tagname-markup[data-norm="PERSON"] + .contents[data-hasbg="true"]{
+    background: linear-gradient(#aaffaa, #ddffdd);
+}
+
+#entityPanel .taggedentity.selected > .tagname-markup[data-norm="PERSON"] + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="PERSON"]:hover + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="PERSON"] + .contents[data-hasbg="true"]:hover{
+    background: linear-gradient(#aaffaa, #ffff00);
+}
+
+.tagname-markup[data-norm="PLACE"] + .contents[data-hasbg="true"]{
+    background: linear-gradient(#aaaaff, #ddddff);
+}
+
+#entityPanel .taggedentity.selected > .tagname-markup[data-norm="PLACE"] + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="PLACE"]:hover + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="PLACE"] + .contents[data-hasbg="true"]:hover{
+    background: linear-gradient(#aaaaff, #ffff00);
+}
+
+.tagname-markup[data-norm="ORGANIZATION"] + .contents[data-hasbg="true"]{
+    background: linear-gradient(#77ffff, #bbffff);
+}
+
+#entityPanel .taggedentity.selected > .tagname-markup[data-norm="ORGANIZATION"] + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="ORGANIZATION"]:hover + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="ORGANIZATION"] + .contents[data-hasbg="true"]:hover{
+    background: linear-gradient(#77ffff, #ffff00);
+}
+
+.tagname-markup[data-norm="DATE"] + .contents[data-hasbg="true"]{
+    background: linear-gradient(#c0c0c0, #ffffff);
+}
+
+#entityPanel .taggedentity.selected > .tagname-markup[data-norm="DATE"] + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="DATE"]:hover + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="DATE"] + .contents[data-hasbg="true"]:hover{
+    background: linear-gradient(#c0c0c0, #ffff00);
+}
+
+.tagname-markup[data-norm="TITLE"] + .contents[data-hasbg="true"]{
+    background: linear-gradient(#ff8888, #ffbbbb);
+}
+
+#entityPanel .taggedentity.selected > .tagname-markup[data-norm="TITLE"] + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="TITLE"]:hover + .contents[data-hasbg="true"],
+#entityPanel .tagname-markup[data-norm="TITLE"] + .contents[data-hasbg="true"]:hover{
+    background: linear-gradient(#ff8888, #ffff00);
+}
