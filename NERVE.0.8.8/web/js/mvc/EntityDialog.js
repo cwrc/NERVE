@@ -30,6 +30,8 @@ class EntityTextBox {
 class EntityListSelector{
     constructor(delegate, selector, dialogStringID) {
         this.delegate = delegate;
+        this.dialogStringID = dialogStringID;
+        this.selector = selector;
         this.update = false;
         
         $(selector).on("input", (event) => {
@@ -40,6 +42,10 @@ class EntityListSelector{
     setValue(value){
         this.value = value;
     }
+    
+    ready(){
+        this.delegate.notifyListeners("notifyDialogChange", this.dialogStringID, $(this.selector).val());
+    }
 }
 
 class EntityDialog extends AbstractModel {
@@ -49,7 +55,7 @@ class EntityDialog extends AbstractModel {
         new EntityTextBox(this, "#txtEntity", "entityText");
         new EntityTextBox(this, "#txtLemma", "lemma");
         new EntityTextBox(this, "#txtLink", "link");
-        new EntityListSelector(this, "#selectTagName", "tagName");
+        this.entitySelctorList = new EntityListSelector(this, "#selectTagName", "tagName");
 
         $('#txtEntity').textinput();
         $('#searchDialog').textinput();
@@ -59,6 +65,10 @@ class EntityDialog extends AbstractModel {
         $("#goLink").click((event) => {
             this.goLink();
         });        
+    }
+    
+    notifyReady(){
+        this.entitySelctorList.ready();
     }
     
     goLink() {

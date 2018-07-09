@@ -2,21 +2,21 @@ const View = require("./mvc/view/View");
 const SearchView = require("./mvc/view/SearchView");
 const EntityDialog = require("./mvc/EntityDialog");
 const EnityPanelWidget = require("./mvc/EnityPanelWidget");
-
-const Controller = require("./mvc/controller/controller");
-const Listeners = require("./mvc/menu/listeners");
 const CWRCDialogController = require("./mvc/controller/CWRCDialogController");
 const Menu = require("./mvc/menu/Menu");
 
 const DragDropHandler = require("./mvc/model/DragDropHandler");
 const MessageHandler = require("./mvc/messageHandler");
 const CWRCDialogModel = require("./mvc/model/cwrcDialogModel");
-const Model = require("./mvc/model/model");
+const Model = require("./mvc/model/Model");
 const HostInfo = require("./util/hostinfo");
 const ModelListener = require("./mvc/model/modelListeners/modelListener");
 
+const TaggedEntityContextMenu = require("./mvc/model/TaggedEntityWidget").ContextMenu;
+
 const lemmaDialog = require("./mvc/lemmaDialog");
 const nerve = require("./gen/nerve");
+const AbstractModel = require("./mvc/model/AbstractModel");
 
 window.jjjrmi = require("jjjrmi");
 
@@ -38,12 +38,11 @@ $(window).on('load', async function () {
     console.log("... main init complete");
 });
 
-class Main {
+class Main extends AbstractModel {
     constructor() {
+        super();
         this.model = null;
-        this.controller = null;
         this.view = null;
-        this.listener = null;
     }
     async initialize() {
         this.dragDropHandler = new DragDropHandler();
@@ -97,16 +96,18 @@ class Main {
         this.menu = new Menu();
         this.menu.addListener(this.view);
         this.menu.addListener(this.model);
+        this.menu.addListener(this.entityPanelWidget);
 
         this.rootObject.getProgressMonitor().addListener(this.view);
-        this.controller = new Controller(this.model, this.scriber);
 
         new ModelListener(this.model, this.cwrc);
         new CWRCDialogController(this.cwrc, this.entityDialog);
 
-        this.listeners = new Listeners(this.model, this.view, this.controller);
-
         await this.model.init(this.rootObject.dictionary);
         this.view.showThrobber(false);
+        
+        this.addListener(TaggedEntityContextMenu);
+        this.addListener(this.entityDialog);
+        this.notifyListeners("notifyReady");
     }
 }

@@ -18,6 +18,7 @@
         <link rel="stylesheet" type="text/css" href="styles/bootstrap-theme.min.css"/>
         <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="styles/lemmaDialog.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/contextDialog.css" />
         <!------------------------------------------------------------------------------------------->
 
         <!-------------------------------------- JQUERY FILES --------------------------------------->
@@ -67,6 +68,23 @@
         <input type="file" id="fileOpenDialog"/>
         <!-- ---------------------- -->
 
+        <!------ Tagged Entity Context Dialog ------->
+        <div id="taggedEntityContextMenu" class="context-dialog active">
+            <div id="show-html" class="context-item active">
+                Show HTML
+            </div>
+            <div id="show-html" class="context-item active">
+                Add to selection
+            </div>
+            <div id="show-html" class="context-item inactive">
+                Remove from selection
+            </div>
+            <div id="show-html" class="context-item active">
+                Remove Tag
+            </div>            
+        </div>
+        <!------------------------------------------->        
+        
         <!--- Tagged Entity Examine Widget --->
         <div class="modal fade" id="taggedEntityExamineWidget" role="dialog">
             <div class="modal-dialog">
@@ -86,8 +104,8 @@
             </div>
         </div>        
         <!------------------------------------>
-
-        <div id="container" oncontextmenu="return false;">
+        
+        <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">
                     <div id="abbr">NERVE 0.8.8</div>

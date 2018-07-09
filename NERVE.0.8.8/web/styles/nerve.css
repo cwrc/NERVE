@@ -90,7 +90,7 @@ body{
     left: 50%;
     transform: translateX(-50%) translateY(0%);
     color: #ccccff;
-    z-index: 5000;
+    z-index: 1000;
     pointer-events:none;
 
    -webkit-text-stroke-width: 2px;
@@ -104,7 +104,7 @@ body{
     font-weight: 900;
     font-size: 3.0vw;
     color: #ccccff;
-    z-index: 5000;
+    z-index: 1000;
     pointer-events:none;
 
    -webkit-text-stroke-width: 2px;

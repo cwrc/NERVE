@@ -4,12 +4,12 @@ class EntityValues {
 		this.lemmaValue = null;
 		this.linkValue = null;
 		this.tagValue = null;
-		this.collectionValue = null;
+		this.datasourceValue = null;
 		this.entityValue = entity;
 		this.lemmaValue = lemma;
 		this.linkValue = link;
 		this.tagValue = tag;
-		this.collectionValue = collection;
+		this.datasourceValue = collection;
 	}
 	static __isTransient() {
 		return true;
@@ -41,7 +41,7 @@ class EntityValues {
 		return this;
 	}
 	copy() {
-		return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.collection());
+		return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
 	}
 	text(value) {
 		
@@ -71,12 +71,12 @@ class EntityValues {
 		this.tagValue = value;
 		return this.tagValue;
 	}
-	collection(value) {
+	datasource(value) {
 		
-		if (typeof value === "undefined") return this.collectionValue;
+		if (typeof value === "undefined") return this.datasourceValue;
 		
-		this.collectionValue = value;
-		return this.collectionValue;
+		this.datasourceValue = value;
+		return this.datasourceValue;
 	}
 };
 

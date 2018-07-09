@@ -17,7 +17,7 @@ public class EntityValues extends JJJObject{
     private String lemmaValue = null;
     private String linkValue = null;
     private String tagValue = null;
-    private String collectionValue = null;
+    private String datasourceValue = null;
 
     private EntityValues() {}
 
@@ -27,7 +27,7 @@ public class EntityValues extends JJJObject{
         this.lemmaValue = lemma;
         this.linkValue = link;
         this.tagValue = tag;
-        this.collectionValue = collection;
+        this.datasourceValue = collection;
     }
 
     public EntityValues(SQLRecord record) {
@@ -35,7 +35,7 @@ public class EntityValues extends JJJObject{
         this.lemmaValue = record.getEntry("lemma").getValue();
         this.linkValue = record.getEntry("link").getValue();
         this.tagValue = record.getEntry("tag").getValue();
-        this.collectionValue = record.getEntry("collection").getValue();
+        this.datasourceValue = record.getEntry("collection").getValue();
     }
 
     @NativeJS
@@ -65,7 +65,7 @@ public class EntityValues extends JJJObject{
 
     @NativeJS
     public EntityValues copy(){
-        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.collection());
+        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
     }
 
     public String text() {
@@ -120,16 +120,16 @@ public class EntityValues extends JJJObject{
         return this.tagValue;
     }
 
-    public String collection() {
-        return this.collectionValue;
+    public String datasource() {
+        return this.datasourceValue;
     }
 
     @NativeJS
-    public String collection(String value) {
+    public String datasource(String value) {
         /*JS{
-            if (typeof value === "undefined") return this.collectionValue;
+            if (typeof value === "undefined") return this.datasourceValue;
         }*/
-        this.collectionValue = value;
-        return this.collectionValue;
+        this.datasourceValue = value;
+        return this.datasourceValue;
     }
 }

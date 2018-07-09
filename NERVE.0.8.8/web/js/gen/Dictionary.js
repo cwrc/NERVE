@@ -17,13 +17,13 @@ class Dictionary {
 	deleteEntity(value) {
 		return this.__jjjWebsocket.methodRequest(this, "deleteEntity", arguments);
 	}
-	getEntities(entity) {
+	getEntities(context, entity) {
 		return this.__jjjWebsocket.methodRequest(this, "getEntities", arguments);
 	}
 	lookupCollection(values) {
 		return this.__jjjWebsocket.methodRequest(this, "lookupCollection", arguments);
 	}
-	pollEntity(entity) {
+	pollEntity(context, entity) {
 		return this.__jjjWebsocket.methodRequest(this, "pollEntity", arguments);
 	}
 };

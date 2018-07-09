@@ -386,85 +386,85 @@ Utility.isDescendent = function (parent, child) {
     return false;
 };
 
-class EventAutomation {
-    constructor() {
-        Utility.log(EventAutomation, "constructor");
-        // Utility.enforceTypes(arguments);
-    }
-    selectRange(nodeID, startOffset, endOffset) {
-        let range = new Range();
-        let node = document.getElementById(nodeID);
-        range.setStart(node.childNodes[0], startOffset);
-        range.setEnd(node.childNodes[0], endOffset);
-        console.log(node.childNodes[0]);
-        window.getSelection().addRange(range);
-    }
-}
-
-EventAutomation.clickElement = function (nodeID) {
-    let event = new Event("click", {
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
-    });
-
-    let element = document.getElementById(nodeID);
-    element.dispatchEvent(event);
-};
-
-EventAutomation.keyDown = function (nodeID) {
-    let event = new Event("keydown", {
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
-    });
-
-    document.dispatchEvent(event);
-};
-
-EventAutomation.selectRange = function (nodeID, startOffset, endOffset) {
-    let range = new Range();
-    let node = document.getElementById(nodeID);
-    Utility.assertType(node, HTMLElement);
-    let start = EventAutomation.getTextNodeAtOffset(node, startOffset);
-    let end = EventAutomation.getTextNodeAtOffset(node, endOffset);
-
-    range.setStart(start.node, start.offset);
-    range.setEnd(end.node, end.offset);
-
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-};
-
-EventAutomation.getTextNodeAtOffset = function (node, offset) {
-    let childNodes = node.childNodes;
-    let sum = 0;
-    let rOffset = offset;
-
-    for (let i = 0; i < childNodes.length; i++) {
-        let nodeType = childNodes[i].nodeType;
-
-        switch (nodeType) {
-            case 1:
-                sum = sum + childNodes[i].innerText.length;
-                if (sum <= offset) {
-                    rOffset = rOffset - childNodes[i].innerText.length;
-                } else {
-                    return EventAutomation.getTextNodeAtOffset(childNodes[i], rOffset);
-                }
-                break;
-            case 3:
-                sum = sum + childNodes[i].length;
-                if (sum <= offset) {
-                    rOffset = rOffset - childNodes[i].length;
-                } else {
-                    return {
-                        node: childNodes[i],
-                        offset: rOffset
-                    };
-                }
-                break;
-        }
-    }
-};
+//class EventAutomation {
+//    constructor() {
+//        Utility.log(EventAutomation, "constructor");
+//        // Utility.enforceTypes(arguments);
+//    }
+//    selectRange(nodeID, startOffset, endOffset) {
+//        let range = new Range();
+//        let node = document.getElementById(nodeID);
+//        range.setStart(node.childNodes[0], startOffset);
+//        range.setEnd(node.childNodes[0], endOffset);
+//        console.log(node.childNodes[0]);
+//        window.getSelection().addRange(range);
+//    }
+//}
+//
+//EventAutomation.clickElement = function (nodeID) {
+//    let event = new Event("click", {
+//        'view': window,
+//        'bubbles': true,
+//        'cancelable': true
+//    });
+//
+//    let element = document.getElementById(nodeID);
+//    element.dispatchEvent(event);
+//};
+//
+//EventAutomation.keyDown = function (nodeID) {
+//    let event = new Event("keydown", {
+//        'view': window,
+//        'bubbles': true,
+//        'cancelable': true
+//    });
+//
+//    document.dispatchEvent(event);
+//};
+//
+//EventAutomation.selectRange = function (nodeID, startOffset, endOffset) {
+//    let range = new Range();
+//    let node = document.getElementById(nodeID);
+//    Utility.assertType(node, HTMLElement);
+//    let start = EventAutomation.getTextNodeAtOffset(node, startOffset);
+//    let end = EventAutomation.getTextNodeAtOffset(node, endOffset);
+//
+//    range.setStart(start.node, start.offset);
+//    range.setEnd(end.node, end.offset);
+//
+//    window.getSelection().removeAllRanges();
+//    window.getSelection().addRange(range);
+//};
+//
+//EventAutomation.getTextNodeAtOffset = function (node, offset) {
+//    let childNodes = node.childNodes;
+//    let sum = 0;
+//    let rOffset = offset;
+//
+//    for (let i = 0; i < childNodes.length; i++) {
+//        let nodeType = childNodes[i].nodeType;
+//
+//        switch (nodeType) {
+//            case 1:
+//                sum = sum + childNodes[i].innerText.length;
+//                if (sum <= offset) {
+//                    rOffset = rOffset - childNodes[i].innerText.length;
+//                } else {
+//                    return EventAutomation.getTextNodeAtOffset(childNodes[i], rOffset);
+//                }
+//                break;
+//            case 3:
+//                sum = sum + childNodes[i].length;
+//                if (sum <= offset) {
+//                    rOffset = rOffset - childNodes[i].length;
+//                } else {
+//                    return {
+//                        node: childNodes[i],
+//                        offset: rOffset
+//                    };
+//                }
+//                break;
+//        }
+//    }
+//};
 

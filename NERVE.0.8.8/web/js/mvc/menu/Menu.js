@@ -11,8 +11,12 @@ class Menu extends AbstractModel {
         });
 
         /* search events */
-        $("#searchTextArea").keyup((event) => {
-        });
+//        $("#searchTextArea").keyup((event) => {
+//            if (event.keyCode !== 13) return;
+//            event.stopPropagation();
+//            this.model.getSearchModel().search($("#searchTextArea").val());
+//            this.model.getSearchModel().next();
+//        });
 
         /* menu events key events fire these events */
         $("#menuSave").click(async (event) => {
@@ -24,22 +28,22 @@ class Menu extends AbstractModel {
             event.stopPropagation();
             this.notifyListeners("onMenuOpen", "OPEN"); /* NER & dict */
         });
-        
+
         $("#menuLink").click((event) => {
             event.stopPropagation();
-            this.notifyListeners("onMenuOpen", "LINK"); /* Link (dictionary) only */            
-        });        
-        
+            this.notifyListeners("onMenuOpen", "LINK"); /* Link (dictionary) only */
+        });
+
         $("#menuNER").click((event) => {
             event.stopPropagation();
-            this.notifyListeners("onMenuOpen", "TAG"); /* NER only */            
+            this.notifyListeners("onMenuOpen", "TAG"); /* NER only */
         });
-        
+
         $("#menuEdit").click((event) => {
             event.stopPropagation();
-            this.notifyListeners("onMenuOpen", "EDIT"); /* open no dict, no NER */        
+            this.notifyListeners("onMenuOpen", "EDIT"); /* open no dict, no NER */
         });
-        
+
         $("#menuClose").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuClose");
@@ -53,44 +57,46 @@ class Menu extends AbstractModel {
             event.stopPropagation();
             this.notifyListeners("onMenuClear");
         });
-        
+
         $("#menuUndo").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuUndo");
         });
-        
+
         $("#menuRedo").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuRedo");
         });
-        
+
         $("#menuCopy").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuCopy");
         });
-        
+
         $("#menuPaste").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuPaste");
         });
-        
+
         $("#menuTag").click((event) => {
             event.stopPropagation();
             event.preventDefault();
             this.notifyListeners("onMenuTag");
         });
-        
+
         $("#menuUntag").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuUntag");
         });
-        
+
         $("#menuMerge").click(async (event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuMerge");
         });
-        
+
         $("#menuWiki").click((event) => {
+            var win = window.open("https://github.com/cwrc/NERVE/wiki", '_blank');
+            win.focus();
         });
 
         /* control delete and backspace this.events */
@@ -190,7 +196,11 @@ class Menu extends AbstractModel {
         });
 
         /* Default Document Click Event */
-//        $("#entityPanel").click((event) => this.documentClick(event));
+        $("#entityPanel").click((event) => {
+            if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
+                this.notifyListeners("notifyDocumentClick");
+            }
+        });
     }
 }
 

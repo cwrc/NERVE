@@ -14,10 +14,9 @@ import java.util.List;
 import java.util.Properties;
 
 @JJJ
-public class Dictionary extends JJJObject implements EncodeListener{
+public class Dictionary extends JJJObject {
     @Transient private final String DEFAULT_DICTIONARY = "custom";
     @Transient private final SQL sql;
-    @Transient private Context context;
 
     public Dictionary() throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException{
         Properties config = new Properties();
@@ -27,7 +26,7 @@ public class Dictionary extends JJJObject implements EncodeListener{
 
     @ServerSide
     public String addEntity(EntityValues value) throws SQLException{
-        String collection = value.collection().isEmpty() ? "custom" : value.collection();
+        String collection = value.datasource().isEmpty() ? "custom" : value.datasource();
 
         sql.update("insert into %s values (%s, %s, %s, %s) "
             + "ON DUPLICATE KEY UPDATE lemma=%s, link=%s, tag=%s"
@@ -49,7 +48,7 @@ public class Dictionary extends JJJObject implements EncodeListener{
         sql.update("delete from %s where entity=%s", DEFAULT_DICTIONARY, value.text());
     }
 
-    private String buildDictionaryQuery() {
+    private String buildDictionaryQuery(Context context, String entityText) {
         List<String> dictionaries = context.readFromDictionary();
 
         StringBuilder builder = new StringBuilder();
@@ -58,18 +57,18 @@ public class Dictionary extends JJJObject implements EncodeListener{
             if (!dictionary.equals(dictionaries.get(0))) builder.append(" union ");            
             builder.append("select * from ");
             builder.append(dictionary);
+            builder.append(" where entity = '");
+            builder.append(entityText);
+            builder.append("'");
         }
 
         String query = builder.toString();
-        Console.log(query);
         return query;
-    }
-    
+    }    
     
     @ServerSide
-    public SQLResult getEntities(String entity) throws SQLException{
-        SQLResult query = sql.query("select * from dictionary where entity=%s", entity);
-        return query;
+    public SQLResult getEntities(Context context, String entity) throws SQLException{
+        return sql.query(buildDictionaryQuery(context, entity));
     }
 
     /**
@@ -97,8 +96,8 @@ public class Dictionary extends JJJObject implements EncodeListener{
     @throws SQLException
     */
     @ServerSide
-    public EntityValues pollEntity(String entity) throws SQLException{
-        SQLResult entities = getEntities(entity);
+    public EntityValues pollEntity(Context context, String entity) throws SQLException{
+        SQLResult entities = getEntities(context, entity);
         if (entities.size() == 0) return null;
         for (SQLRecord record : entities){
             if (record.getEntry("collection").getValue().equals(DEFAULT_DICTIONARY)){
@@ -106,10 +105,5 @@ public class Dictionary extends JJJObject implements EncodeListener{
             }
         }
         return new EntityValues(entities.get(0));
-    }
-
-    @Override
-    public void onEncode(EncodeResponse encodeResponse) {
-        this.context = encodeResponse.getContext();
     }
 }

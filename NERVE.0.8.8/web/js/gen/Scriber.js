@@ -11,6 +11,9 @@ class Scriber {
 	static __isEnum() {
 		return false;
 	}
+	link(source) {
+		return this.__jjjWebsocket.methodRequest(this, "link", arguments);
+	}
 	encode(source) {
 		return this.__jjjWebsocket.methodRequest(this, "encode", arguments);
 	}

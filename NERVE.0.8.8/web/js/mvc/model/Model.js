@@ -179,10 +179,6 @@ class Model extends AbstractModel {
         return docText;
     }
 
-    notifyValueTag(tag) {
-        this.lastTag = tag;
-    }
-
     notifyDialogChange(fieldID, value) {
         switch(fieldID){
             case "entityText":
@@ -334,14 +330,15 @@ class Model extends AbstractModel {
 
     async createTaggedEntity(element) {
         Utility.log(Model, "createTaggedEntity");
-        let values = await this.dictionary.pollEntity($(element).text());
-        if (values === null) values = this.latestValues;
+//        let values = await this.dictionary.pollEntity(this.context, $(element).text());
+//        if (values === null) values = this.latestValues;
+
+        let values = this.latestValues;
 
         values.text(null);
         values.lemma(null);
-        values.tag(this.lastTag);
 
-        let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element, this.lastTag);
+        let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element, values.tag());
         this.taggedEntityList.add(taggedEntity);
         taggedEntity.values(values, true);
 
@@ -374,7 +371,11 @@ class Model extends AbstractModel {
 
         var element = document.createElement("div");
         $(element).append(range.extractContents());
-        let taggedEntity = this.createTaggedEntity(element);
+        
+        console.log(element);
+        let taggedEntity = await this.createTaggedEntity(element);
+        console.log(taggedEntity);
+        console.log("here");
 
         range.deleteContents();
         range.insertNode(element);
