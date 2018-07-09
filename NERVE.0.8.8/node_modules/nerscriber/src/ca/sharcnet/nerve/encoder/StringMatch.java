@@ -1,6 +1,7 @@
 package ca.sharcnet.nerve.encoder;
 
 import ca.frar.utility.SQL.SQLRecord;
+import ca.frar.utility.console.Console;
 import ca.sharcnet.graph.PathResult;
 import ca.sharcnet.graph.Tree;
 
@@ -31,6 +32,7 @@ public class StringMatch {
      */
     public void addCandidate(String entity, SQLRecord row) {
         String[] tokens = entity.split(tokenRegex);
+        if (tokens.length == 0) return;
         this.candidates.addPath(tokens, row);
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "NERVE",
-  "version": "0.8.6",
+  "version": "0.8.8",
   "description": "",
   "main": "./web/js/main.js",
   "dependencies": {
@@ -15,8 +15,8 @@
     "fs": "0.0.1-security",
     "geonames-entity-lookup": "^1.1.2",
     "getty-entity-lookup": "^1.4.2",
-    "jjjrmi": "file:..\\..\\..\\jjj\\0.4\\JJJWeb",
-    "nerscriber": "file:..\\NERScriber.0.8.6",
+    "jjjrmi": "^0.4.10",
+    "nerscriber": "file:..\\NERScriber.0.8.8",
     "rootpath": "^0.1.2",
     "viaf-entity-lookup": "^1.2.2",
     "wikidata-entity-lookup": "^1.2.2"

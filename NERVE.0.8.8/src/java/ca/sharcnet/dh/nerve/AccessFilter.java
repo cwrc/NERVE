@@ -22,9 +22,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 @WebFilter(filterName = "AccessFilter", urlPatterns = {"/resources/*"})
 public class AccessFilter implements Filter {
-
     private static final boolean debug = false;
-
     private FilterConfig filterConfig = null;
 
     public AccessFilter() {

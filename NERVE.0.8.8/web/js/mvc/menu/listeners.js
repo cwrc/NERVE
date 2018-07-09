@@ -21,46 +21,46 @@ class Listeners {
         });
 
         /* menu events key events fire these events */
-        $("#menuClose").click((event) => {
-            event.stopPropagation();
-            this.model.close();
-        });
-
-        $("#menuClear").click((event) => {
-            event.stopPropagation();
-            this.model.getCollection().clear();
-            this.view.clearThrobber();
-        });
-        $("#menuUndo").click((event) => {
-            event.stopPropagation();
-            this.model.revertState();
-        });
-        $("#menuRedo").click((event) => {
-            event.stopPropagation();
-            this.model.advanceState();
-        });
-        $("#menuCopy").click((event) => {
-            event.stopPropagation();
-            this.model.copy();
-        });
-        $("#menuPaste").click((event) => {
-            event.stopPropagation();
-            this.model.paste();
-            this.model.saveState();
-        });
-        $("#menuTag").click((event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            this.controller.tagSelectedRange();
-        });
-        $("#menuUntag").click((event) => {
-            event.stopPropagation();
-            this.controller.untagAll();
-        });
-        $("#menuMerge").click(async (event) => {
-            event.stopPropagation();
-            await this.controller.mergeSelectedEntities();
-        });
+//        $("#menuClose").click((event) => {
+//            event.stopPropagation();
+//            this.model.close();
+//        });
+//
+//        $("#menuClear").click((event) => {
+//            event.stopPropagation();
+//            this.model.getCollection().clear();
+//            this.view.clearThrobber();
+//        });
+//        $("#menuUndo").click((event) => {
+//            event.stopPropagation();
+//            this.model.revertState();
+//        });
+//        $("#menuRedo").click((event) => {
+//            event.stopPropagation();
+//            this.model.advanceState();
+//        });
+//        $("#menuCopy").click((event) => {
+//            event.stopPropagation();
+//            this.model.copy();
+//        });
+//        $("#menuPaste").click((event) => {
+//            event.stopPropagation();
+//            this.model.paste();
+//            this.model.saveState();
+//        });
+//        $("#menuTag").click((event) => {
+//            event.stopPropagation();
+//            event.preventDefault();
+//            this.controller.tagSelectedRange();
+//        });
+//        $("#menuUntag").click((event) => {
+//            event.stopPropagation();
+//            this.controller.untagAll();
+//        });
+//        $("#menuMerge").click(async (event) => {
+//            event.stopPropagation();
+//            await this.controller.mergeSelectedEntities();
+//        });
 
         $("#menuWiki").click((event) => {
             var win = window.open("https://github.com/cwrc/NERVE/wiki", '_blank');
@@ -172,19 +172,6 @@ class Listeners {
         // Utility.enforceTypes(arguments, Object);
         if (!event.ctrlKey && !event.altKey && !event.shiftKey){
             this.model.notifyListeners("notifyDocumentClick");
-        }
-    }
-    menuShowTags() {
-        switch ($("#menuTags").text()) {
-            case "Highlight Mode":
-                this.view.overlayMode();
-                break;
-            case "Overlay Mode":
-                this.view.tagMode();
-                break;
-            case "Tag Mode":
-                this.view.highlightMode();
-                break;
         }
     }
 }

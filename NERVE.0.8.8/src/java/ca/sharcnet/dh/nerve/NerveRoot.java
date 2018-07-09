@@ -16,6 +16,7 @@ public class NerveRoot extends JJJObject{
         this.dictionary = new Dictionary();
         progressMonitor = new ProgressMonitor();
         this.scriber.setProgressListener(progressMonitor);
+        this.scriber.addEncodeListener(dictionary);
     }
     
     /**

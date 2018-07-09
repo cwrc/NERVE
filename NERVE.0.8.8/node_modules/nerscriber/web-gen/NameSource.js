@@ -2,9 +2,6 @@ class NameSource {
 	constructor(value) {
 		this.__value = value;
 	}
-	toString() {
-		return this.__value;
-	}
 	static __isTransient() {
 		return true;
 	}
@@ -13,6 +10,15 @@ class NameSource {
 	}
 	static __isEnum() {
 		return true;
+	}
+	toString() {
+		return this.__value;
+	}
+	name() {
+		return this.__value;
+	}
+	toString() {
+		return this.__value;
 	}
 };
 NameSource.valueArray = [];

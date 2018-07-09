@@ -13,7 +13,6 @@ Values set to NULL are explicitly unset, those set to "" are blank.  During copi
 @JJJ()
 @JJJOptions(retain = false)
 public class EntityValues extends JJJObject{
-
     private String entityValue = null;
     private String lemmaValue = null;
     private String linkValue = null;
@@ -132,45 +131,5 @@ public class EntityValues extends JJJObject{
         }*/
         this.collectionValue = value;
         return this.collectionValue;
-    }
-
-    /**
-     * @return the entity
-     */
-    @Deprecated()
-    public String getEntity() {
-        return entityValue;
-    }
-
-    /**
-     * @return the lemma
-     */
-    @Deprecated()
-    public String getLemma() {
-        return lemmaValue;
-    }
-
-    /**
-     * @return the link
-     */
-    @Deprecated()
-    public String getLink() {
-        return linkValue;
-    }
-
-    /**
-     * @return the tagName
-     */
-    @Deprecated()
-    public String getTagName() {
-        return tagValue;
-    }
-
-    /**
-     * @return the collection
-     */
-    @Deprecated()
-    public String getCollection() {
-        return collectionValue;
     }
 }

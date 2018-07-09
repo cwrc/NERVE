@@ -6,7 +6,7 @@ const EnityPanelWidget = require("./mvc/EnityPanelWidget");
 const Controller = require("./mvc/controller/controller");
 const Listeners = require("./mvc/menu/listeners");
 const CWRCDialogController = require("./mvc/controller/CWRCDialogController");
-const Menu = require("./mvc/menu/MenuController");
+const Menu = require("./mvc/menu/Menu");
 
 const DragDropHandler = require("./mvc/model/DragDropHandler");
 const MessageHandler = require("./mvc/messageHandler");

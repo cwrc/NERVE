@@ -32,7 +32,7 @@
             </test-roots>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
-            <definitions>../../lib/nb-shared/nblibraries.properties</definitions>
+            <definitions>D:\Dropbox\projects-new\lib\nb-shared\nblibraries.properties</definitions>
         </libraries>
         <libraries xmlns="http://www.netbeans.org/ns/cdnjs-libraries/1"/>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1"/>

@@ -68,6 +68,48 @@ class Model extends AbstractModel {
         this.addListener(this);
     }
 
+    async onMenuUndo(){
+        this.revertState();
+    }
+    
+    async onMenuRedo(){
+        this.advanceState();
+    }
+
+    async onMenuClose(){
+        await this.close();
+    }
+
+    async onMenuClear(){
+        this.getCollection().clear();
+    }
+    
+    async onMenuCopy(){
+        this.copy();
+    }
+    
+    async onMenuPaste(){
+        this.paste();
+        this.saveState();        
+    }
+
+    async onMenuMerge() {
+        let entity = await this.mergeEntities(this.collection);
+        this.getCollection().set(entity);
+        this.saveState();
+    }
+    
+    async onMenuTag(){
+        await this.tagSelection(window.getSelection());
+        this.saveState();        
+    }
+
+    async onMenuUntag(){
+        this.notifyListeners("requestUntagAll");
+        this.isSaved = false;
+        this.saveState();        
+    }
+
     async loadDocument(filename, text, action) {
         Utility.log(Model, "loadDocument");
 
@@ -82,6 +124,9 @@ class Model extends AbstractModel {
             case "TAG": /* NER only */
                 encodeResponse = await this.scriber.tag(text);
                 break;
+            case "LINK": /* NER only */
+                encodeResponse = await this.scriber.link(text);
+                break;                
         }
 
         encodeResponse.setFilename(filename);

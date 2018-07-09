@@ -21,4 +21,32 @@ public class EncodeResponse extends JJJObject{
     public void setFilename(String filename){
         this.filename = filename;
     }
+    
+    /**
+     * @return the text
+     */
+    public String getText() {
+        return text;
+    }
+
+    /**
+     * @return the context
+     */
+    public Context getContext() {
+        return context;
+    }
+
+    /**
+     * @return the schemaURL
+     */
+    public String getSchemaURL() {
+        return schemaURL;
+    }
+
+    /**
+     * @return the filename
+     */
+    public String getFilename() {
+        return filename;
+    }    
 }

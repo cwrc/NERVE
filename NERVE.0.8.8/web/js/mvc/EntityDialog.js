@@ -55,7 +55,22 @@ class EntityDialog extends AbstractModel {
         $('#searchDialog').textinput();
         $('#txtLemma').textinput();
         $('#txtLink').textinput();
+        
+        $("#goLink").click((event) => {
+            this.goLink();
+        });        
     }
+    
+    goLink() {
+        let url = $("#txtLink").val();
+        if (url.length === 0) return;
+        if (!url.startsWith("http") && !url.startsWith("https")) {
+            url = "http://" + $("#txtLink").val();
+        }
+        var win = window.open(url, '_blank');
+        win.focus();
+    }    
+    
     getValues() {
         return new EntityValues($("#txtEntity").val(), $("#txtLemma").val(), $("#txtLink").val(), $("#selectTagName").val());
     }

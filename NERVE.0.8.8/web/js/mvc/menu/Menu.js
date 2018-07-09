@@ -10,9 +10,6 @@ class Menu extends AbstractModel {
         $("#fileOpenDialog").change(async (event) => {
         });
 
-        $("#goLink").click((event) => {
-        });
-
         /* search events */
         $("#searchTextArea").keyup((event) => {
         });
@@ -28,6 +25,11 @@ class Menu extends AbstractModel {
             this.notifyListeners("onMenuOpen", "OPEN"); /* NER & dict */
         });
         
+        $("#menuLink").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuOpen", "LINK"); /* Link (dictionary) only */            
+        });        
+        
         $("#menuNER").click((event) => {
             event.stopPropagation();
             this.notifyListeners("onMenuOpen", "TAG"); /* NER only */            
@@ -39,6 +41,8 @@ class Menu extends AbstractModel {
         });
         
         $("#menuClose").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuClose");
         });
 
         $("#menuTags").click((event) => {
@@ -46,21 +50,46 @@ class Menu extends AbstractModel {
         });
 
         $("#menuClear").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuClear");
         });
+        
         $("#menuUndo").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuUndo");
         });
+        
         $("#menuRedo").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuRedo");
         });
+        
         $("#menuCopy").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuCopy");
         });
+        
         $("#menuPaste").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuPaste");
         });
+        
         $("#menuTag").click((event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            this.notifyListeners("onMenuTag");
         });
+        
         $("#menuUntag").click((event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuUntag");
         });
+        
         $("#menuMerge").click(async (event) => {
+            event.stopPropagation();
+            this.notifyListeners("onMenuMerge");
         });
+        
         $("#menuWiki").click((event) => {
         });
 
