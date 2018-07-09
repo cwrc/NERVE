@@ -12,7 +12,7 @@ const Model = require("./mvc/model/Model");
 const HostInfo = require("./util/hostinfo");
 const ModelListener = require("./mvc/model/modelListeners/modelListener");
 
-const TaggedEntityContextMenu = require("./mvc/model/TaggedEntityWidget").ContextMenu;
+const TaggedEntityWidget = require("./mvc/model/TaggedEntityWidget");
 
 const lemmaDialog = require("./mvc/lemmaDialog");
 const nerve = require("./gen/nerve");
@@ -106,7 +106,7 @@ class Main extends AbstractModel {
         await this.model.init(this.rootObject.dictionary);
         this.view.showThrobber(false);
         
-        this.addListener(TaggedEntityContextMenu);
+        this.addListener(TaggedEntityWidget.contextMenu);
         this.addListener(this.entityDialog);
         this.notifyListeners("notifyReady");
     }

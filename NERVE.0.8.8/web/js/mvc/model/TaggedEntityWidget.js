@@ -4,16 +4,18 @@ const TaggedEntityExamineWidget = require("../TaggedEntityExamineWidget");
 const Constants = require("../../util/Constants");
 
 class ContextMenu {
-    constructor(taggedEntityWidget) {
-        this.state = false;
-        this.element = $(ContextMenu.SELECTOR).get(0);
-        this.taggedEntityWidget = taggedEntityWidget;
+    constructor() {
+        this.state = false;    
+        this.element = null;
     }
 
-    static notifyReady(){
+    notifyReady(){
+        this.element = $(ContextMenu.SELECTOR).get(0);
+        console.log(this.element);
+        
         $(ContextMenu.SELECTOR).mouseleave(()=>{
             $(ContextMenu.SELECTOR).hide();
-        });        
+        });
     }
 
     position(event){
@@ -62,12 +64,10 @@ class TaggedEntityWidget extends AbstractModel {
         $(element).on("dragover", (event) => this.dragover(event));
         $(element).on("drop", (event) => this.drop(event));
 
-        this.contextMenu = new ContextMenu(this);
-        
         $(element).on("contextmenu", (event) => {
             console.log(event);
             event.preventDefault();
-            this.contextMenu.show(event, this);
+            TaggedEntityWidget.contextMenu.show(event, this);
         });
 
         $(element).click((event) => {
@@ -295,5 +295,5 @@ class TaggedEntityWidget extends AbstractModel {
     }
 };
 
-TaggedEntityWidget.ContextMenu = ContextMenu;
+TaggedEntityWidget.contextMenu = new ContextMenu();
 module.exports = TaggedEntityWidget;
