@@ -2,18 +2,25 @@
 .context-dialog, .context-dialog > *{
     box-sizing: border-box;
     font-family: arial;
-    font-size: small;    
+    font-size: small;
 }
 
-.context-dialog .context-item{
-    padding: 5px 0px 5px 0px;
+.context-dialog hr{
+    border-color: #b1b1b1;
+    height: 0px;
+}
+
+.context-item{
+    position: relative;
+    padding: 5px 10px 5px 10px;
+    width: 100%;    
 }
 
 .context-dialog .context-item.inactive{
     color: #a0a0a0;
 }
 
-.context-dialog .context-item.active:hover{
+.context-dialog .context-item:not(.inactive):hover{
     background-color: #e1e1e1;
 }
 
@@ -25,13 +32,29 @@
     border: 1px solid #a0a0a0;
     left: 500px;
     top: 500px;
-    padding: 10px;
+    box-shadow: 5px 5px 20px #a0a0a0;
 }
 
-.context-dialog .inactive{
-    /*display: none;*/
+.context-subdialog{
+    position: absolute;
+    z-index: 7500;  
+    width: 275px;
+    background-color: whitesmoke;
+    border: 1px solid #a0a0a0;
+    left: 273px;
+    top: -1px;
+    box-shadow: 5px 5px 20px #a0a0a0;
 }
 
-.context-menu .active {
-    /*display: block;*/
+.context-item > * {
+    display: inline-block;
+}
+
+.context-item > .context-right-image {
+    position: absolute;
+    right: 5px;
+    height: 60%;
+}
+
+.context-item > .context-label{
 }

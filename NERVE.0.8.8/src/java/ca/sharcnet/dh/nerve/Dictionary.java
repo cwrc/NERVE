@@ -25,36 +25,37 @@ public class Dictionary extends JJJObject {
     }
 
     @ServerSide
-    public String addEntity(EntityValues value) throws SQLException{
-        String collection = value.datasource().isEmpty() ? "custom" : value.datasource();
-
-        sql.update("insert into %s values (%s, %s, %s, %s) "
-            + "ON DUPLICATE KEY UPDATE lemma=%s, link=%s, tag=%s"
-            , DEFAULT_DICTIONARY
-            , value.text()
-            , value.lemma()
-            , value.link()
-            , value.tag()
-            , value.lemma()
-            , value.link()
-            , value.tag()
+    public int addEntity(EntityValues value) throws SQLException{
+        String format = String.format("insert into %s values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\") "
+                + "ON DUPLICATE KEY UPDATE lemma=\"%s\", link=\"%s\", tag=\"%s\", source=\"%s\""
+                , DEFAULT_DICTIONARY
+                , value.text()
+                , value.lemma()
+                , value.link()
+                , value.tag()
+                , DEFAULT_DICTIONARY
+                , value.lemma()
+                , value.link()
+                , value.tag()
+                , DEFAULT_DICTIONARY
         );
-
-        return collection;
+        
+        return sql.update(format);
     }
 
     @ServerSide
     public void deleteEntity(EntityValues value) throws SQLException{
-        sql.update("delete from %s where entity=%s", DEFAULT_DICTIONARY, value.text());
+        sql.update("delete from custom where entity=%s", DEFAULT_DICTIONARY, value.text());
     }
 
-    private String buildDictionaryQuery(Context context, String entityText) {
-        List<String> dictionaries = context.readFromDictionary();
-
+    private String buildDictionaryQuery(String entityText) throws SQLException {
         StringBuilder builder = new StringBuilder();
         
-        for (String dictionary : dictionaries){
-            if (!dictionary.equals(dictionaries.get(0))) builder.append(" union ");            
+        SQLResult dictionaries = sql.query("select * from dictionaries");
+        
+        for (SQLRecord record : dictionaries){
+            String dictionary = record.getEntry("name").getValue();
+            if (!dictionary.equals(dictionaries.get(0).getEntry("name").getValue())) builder.append(" union ");            
             builder.append("select * from ");
             builder.append(dictionary);
             builder.append(" where entity = '");
@@ -67,8 +68,44 @@ public class Dictionary extends JJJObject {
     }    
     
     @ServerSide
-    public SQLResult getEntities(Context context, String entity) throws SQLException{
-        return sql.query(buildDictionaryQuery(context, entity));
+    public SQLResult lookup(String text, String lemma, String tag) throws SQLException{
+        StringBuilder builder = new StringBuilder();
+        
+        SQLResult dictionaries = sql.query("select * from dictionaries");
+        
+        for (SQLRecord record : dictionaries){
+            String dictionary = record.getEntry("name").getValue();
+            if (!dictionary.equals(dictionaries.get(0).getEntry("name").getValue())) builder.append(" union ");            
+            builder.append("select * from ");
+            builder.append(dictionary);
+            builder.append(" where entity = '").append(text).append("'");
+            builder.append(" and lemma = '").append(lemma).append("'");
+            builder.append(" and tag = '").append(tag).append("'");
+        }
+
+        return sql.query(builder.toString());        
+    }    
+    
+    @ServerSide
+    public SQLResult lookupEntity(String text) throws SQLException{
+        StringBuilder builder = new StringBuilder();
+        
+        SQLResult dictionaries = sql.query("select * from dictionaries");
+        
+        for (SQLRecord record : dictionaries){
+            String dictionary = record.getEntry("name").getValue();
+            if (!dictionary.equals(dictionaries.get(0).getEntry("name").getValue())) builder.append(" union ");            
+            builder.append("select * from ");
+            builder.append(dictionary);
+            builder.append(" where entity = '").append(text).append("'");
+        }
+
+        return sql.query(builder.toString());        
+    }        
+    
+    @ServerSide
+    public SQLResult getEntities(String entity) throws SQLException{
+        return sql.query(buildDictionaryQuery(entity));
     }
 
     /**
@@ -96,8 +133,8 @@ public class Dictionary extends JJJObject {
     @throws SQLException
     */
     @ServerSide
-    public EntityValues pollEntity(Context context, String entity) throws SQLException{
-        SQLResult entities = getEntities(context, entity);
+    public EntityValues pollEntity(String entity) throws SQLException{
+        SQLResult entities = getEntities(entity);
         if (entities.size() == 0) return null;
         for (SQLRecord record : entities){
             if (record.getEntry("collection").getValue().equals(DEFAULT_DICTIONARY)){

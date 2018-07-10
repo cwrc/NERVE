@@ -2,33 +2,145 @@ const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("../../gen/nerve").EntityValues;
 const TaggedEntityExamineWidget = require("../TaggedEntityExamineWidget");
 const Constants = require("../../util/Constants");
+const AbstractModel = require("./AbstractModel");
 
 class ContextMenu {
     constructor() {
-        this.state = false;    
-        this.element = null;
+        this.state = false;
+        this.flags = {};
+        this.lastSubMenu = null;
     }
 
-    notifyReady(){
-        this.element = $(ContextMenu.SELECTOR).get(0);
-        console.log(this.element);
+    setDictionary(dictionary) {
+        this.dictionary = dictionary;
+    }
+
+    notifyDocumentClick(){
+        $(ContextMenu.SELECTOR).hide();
+    }
+
+    notifyReady() {
+        $(ContextMenu.SELECTOR).hide();
+        $(ContextMenu.SELECTOR).find(".context-subdialog").hide();
+
+        /* open submenu (if active) */
+        $(ContextMenu.SELECTOR).find(".context-subdialog").each((i, e) => {
+            $(e).parent().mouseenter(() => {
+                let p = $(e).parent();                
+                if ($(p).hasClass("inactive") === false){
+                    $(e).show();
+                }
+            });
+        });
         
-        $(ContextMenu.SELECTOR).mouseleave(()=>{
+        /* close submenu */
+        $(ContextMenu.SELECTOR).find(".context-subdialog").each((i, e) => {
+            $(e).parent().mouseleave(() => {
+                $(e).hide();
+            });
+        });
+
+        $(ContextMenu.SELECTOR).find(".context-item").click((event) => {
+            let flags = $(event.delegateTarget).data("contextflags");
+            if (flags && flags.hide) $(ContextMenu.SELECTOR).hide();
+            let eventname = $(event.delegateTarget).attr("data-eventname");
+            this.taggedEntityWidget.notifyListeners(eventname, this.taggedEntityWidget);
+        });
+    }
+
+    clearOptions() {
+        $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").empty();
+    }
+
+    loadOptions(text) {
+        this.clearOptions();
+        $(ContextMenu.SELECTOR).find("#dictOptions").addClass("inactive");
+        $(ContextMenu.SELECTOR).find("#dictOptions > img").attr("src", "assets/loader400.gif");
+        let result = this.dictionary.lookupEntity(text);
+
+        result.then((sqlResult) => {
+            if (sqlResult.size() !== 0) {
+                $(ContextMenu.SELECTOR).find("#dictOptions").removeClass("inactive");
+                for (let sqlRecord of sqlResult) {
+                    this.addOption(sqlRecord);
+                }
+                $(ContextMenu.SELECTOR).find("#dictOptions > img").show();
+                $(ContextMenu.SELECTOR).find("#dictOptions > img").attr("src", "assets/context-arrow.png");
+            } else {
+                $(ContextMenu.SELECTOR).find("#dictOptions > img").hide();
+            }
+        });
+    }
+    
+    setSelected(contextOptionDiv){
+        let img = document.createElement("img");
+        $(img).attr("src", "assets/context-selected.png");
+        $(img).addClass("context-right-image");
+        $(contextOptionDiv).append(img);
+    }
+    
+    addClickEvent(contextOptionDiv, sqlRecord){
+        $(contextOptionDiv).click(()=>{
+            this.taggedEntityWidget.lemma(sqlRecord.getEntry("entity").getValue());
+            this.taggedEntityWidget.datasource(sqlRecord.getEntry("source").getValue());
+            this.taggedEntityWidget.tag(sqlRecord.getEntry("tag").getValue());
+            this.taggedEntityWidget.link(sqlRecord.getEntry("link").getValue());
             $(ContextMenu.SELECTOR).hide();
         });
     }
 
-    position(event){
+    addOption(sqlRecord) {
+        let div = document.createElement("div");
+        let label = document.createElement("div");
+        $(div).addClass("context-item");
+        $(label).addClass("context-label");
+        $(label).text(sqlRecord.getEntry("lemma").getValue() + " : " + sqlRecord.getEntry("tag").getValue());
+        $(div).append(label);
+        $(div).attr("title", "source " + sqlRecord.getEntry("source").getValue());
+        $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").append(div);
+        
+        if (sqlRecord.getEntry("lemma").getValue() === this.taggedEntityWidget.lemma()
+        &&  sqlRecord.getEntry("tag").getValue() === this.taggedEntityWidget.tag()
+        &&  sqlRecord.getEntry("source").getValue() === this.taggedEntityWidget.datasource())
+        {
+            this.setSelected(div);
+        }
+        this.addClickEvent(div, sqlRecord);
+        return div;
+    }
+
+    isFlag(flagname) {
+        if (this.flags[flagname] === undefined) return false;
+        else return this.flags[flagname];
+    }
+
+    position(event) {
+        let element = $(ContextMenu.SELECTOR).get(0);
         let posX = event.clientX - 5;
         let posY = event.clientY - 5;
-        this.element.style.left = posX + "px";
-        this.element.style.top = posY + "px";
+        element.style.left = posX + "px";
+        element.style.top = posY + "px";
     }
 
     show(event, taggedEntityWidget) {
-        $(this.element).show();
+        $(ContextMenu.SELECTOR).show();
+        this.loadOptions(taggedEntityWidget.text());
         this.position(event);
         this.taggedEntityWidget = taggedEntityWidget;
+
+        let source = taggedEntityWidget.datasource();
+        if (!source) {
+            $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");
+            $(ContextMenu.SELECTOR).find("#addDict").removeClass("inactive");
+        } else if (source === "custom") {
+            $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");
+            $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
+        } else {
+            $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");
+            $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
+        }
+
+        console.log(source);
     }
 }
 
@@ -55,7 +167,10 @@ class TaggedEntityWidget extends AbstractModel {
         this.dragDropHandler = dragDropHandler;
         this.model = model;
         this.context = model.getContext();
-        element.entity = this;                
+        element.entity = this;
+
+        this.addListener(this);
+        this.addListener(model);
 
         $(element).addClass("taggedentity");
         $(element).attr("draggable", "true");
@@ -72,14 +187,8 @@ class TaggedEntityWidget extends AbstractModel {
 
         $(element).click((event) => {
             if (event.button !== 0) return; /* left click only */
-            if (!event.altKey) {
-                this.model.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
-                event.stopPropagation();
-            } else {
-                window.last = this;
-                new TaggedEntityExamineWidget(this).show();
-                event.stopPropagation();
-            }
+            this.model.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
+            event.stopPropagation();
         });
         $(element).dblclick((event) => {
             if (event.button !== 0) return; /* left click only */
@@ -94,6 +203,15 @@ class TaggedEntityWidget extends AbstractModel {
          */
         if (tagName !== null) this.tag(tagName, true);
         this.lemma(this.text(), true);
+    }
+
+    contextShowHTML() {
+        window.last = this;
+        new TaggedEntityExamineWidget(this).show();
+    }
+
+    contextUntag() {
+        this.untag();
     }
 
     /**
@@ -293,7 +411,8 @@ class TaggedEntityWidget extends AbstractModel {
         else if (value) $(this.element).addClass("selected");
         else $(this.element).removeClass("selected");
     }
-};
+}
+;
 
 TaggedEntityWidget.contextMenu = new ContextMenu();
 module.exports = TaggedEntityWidget;

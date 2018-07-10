@@ -30,6 +30,7 @@ $(window).on('load', async function () {
 //    console.log(jjjrmi.JJJRMISocket.flags);
 
     jjjrmi.JJJRMISocket.registerPackage(require("nerscriber"));
+    jjjrmi.JJJRMISocket.registerPackage(require("jjjsql"));
     jjjrmi.JJJRMISocket.registerPackage(nerve);
 
     window.main = new Main();
@@ -106,6 +107,9 @@ class Main extends AbstractModel {
         await this.model.init(this.rootObject.dictionary);
         this.view.showThrobber(false);
         
+        TaggedEntityWidget.contextMenu.setDictionary(this.rootObject.dictionary);     
+        
+        this.menu.addListener(TaggedEntityWidget.contextMenu);
         this.addListener(TaggedEntityWidget.contextMenu);
         this.addListener(this.entityDialog);
         this.notifyListeners("notifyReady");

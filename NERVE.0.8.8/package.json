@@ -16,6 +16,7 @@
     "geonames-entity-lookup": "^1.1.2",
     "getty-entity-lookup": "^1.4.2",
     "jjjrmi": "^0.4.10",
+    "jjjsql": "file:..\\..\\custom-lib\\JJJSQL",
     "nerscriber": "file:..\\NERScriber.0.8.8",
     "rootpath": "^0.1.2",
     "viaf-entity-lookup": "^1.2.2",

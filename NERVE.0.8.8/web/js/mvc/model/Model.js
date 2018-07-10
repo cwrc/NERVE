@@ -27,13 +27,12 @@ const EntityValues = require("../../gen/nerve").EntityValues;
 const FileOperations = require("../../util/fileOperations");
 
 class Model extends AbstractModel {
-    constructor(dragDropHandler, scriber) {
+    constructor(dragDropHandler) {
         Utility.log(Model, "constructor");
         super();
 
         this.hostInfo = new HostInfo();
         this.dragDropHandler = dragDropHandler;
-        this.scriber = null;
 
         this.storage = new Storage("NERVE_MODEL");
         this.storage.registerPackage(require("nerscriber"));
@@ -58,8 +57,8 @@ class Model extends AbstractModel {
         }.bind(this.reader);
 
         /* file dialog event - related to menu open */
-        $("#fileOpenDialog").change(async (event)=>{
-            if (this.hasOpenDocument) this.close(); 
+        $("#fileOpenDialog").change(async (event) => {
+            if (this.hasOpenDocument) this.close();
             this.reader.filename = event.currentTarget.files[0].name;
             await this.reader.readAsText(event.currentTarget.files[0]);
             $("#fileOpenDialog").val("");
@@ -68,29 +67,66 @@ class Model extends AbstractModel {
         this.addListener(this);
     }
 
-    async onMenuUndo(){
+    async init(dictionary) {
+        this.dictionary = dictionary;
+
+        if (this.storage.hasValue("document")) {
+            await this.setDocument(
+                this.storage.getValue("document"),
+                this.storage.getValue("context"),
+                this.storage.getValue("filename"),
+                this.storage.getValue("schemaURL")
+            );
+        }
+    }
+
+    async contextAddDict(taggedEntityWidget) {
+        this.notifyListeners("showThrobber");
+        let r = await this.dictionary.addEntity(taggedEntityWidget.values());
+        if (r === 1) {
+            this.notifyListeners("notifyMessage", "entity added to dictionary");
+            taggedEntityWidget.datasource("custom");
+        } else {
+            this.notifyListeners("notifyMessage", "entity not added to dictionary: " + r);
+        }
+        this.notifyListeners("clearThrobber");
+    }
+
+    async contextRemoveDict(taggedEntityWidget){
+        this.notifyListeners("showThrobber");
+        let r = await this.dictionary.deleteEntity(taggedEntityWidget.values());
+        if (r === 1) {
+            this.notifyListeners("notifyMessage", "entity removed from dictionary");
+            taggedEntityWidget.datasource("custom");
+        } else {
+            this.notifyListeners("notifyMessage", "entity not removed from dictionary: " + r);
+        }
+        this.notifyListeners("clearThrobber");        
+    }
+
+    async onMenuUndo() {
         this.revertState();
     }
-    
-    async onMenuRedo(){
+
+    async onMenuRedo() {
         this.advanceState();
     }
 
-    async onMenuClose(){
+    async onMenuClose() {
         await this.close();
     }
 
-    async onMenuClear(){
+    async onMenuClear() {
         this.getCollection().clear();
     }
-    
-    async onMenuCopy(){
+
+    async onMenuCopy() {
         this.copy();
     }
-    
-    async onMenuPaste(){
+
+    async onMenuPaste() {
         this.paste();
-        this.saveState();        
+        this.saveState();
     }
 
     async onMenuMerge() {
@@ -98,16 +134,16 @@ class Model extends AbstractModel {
         this.getCollection().set(entity);
         this.saveState();
     }
-    
-    async onMenuTag(){
+
+    async onMenuTag() {
         await this.tagSelection(window.getSelection());
-        this.saveState();        
+        this.saveState();
     }
 
-    async onMenuUntag(){
+    async onMenuUntag() {
         this.notifyListeners("requestUntagAll");
         this.isSaved = false;
-        this.saveState();        
+        this.saveState();
     }
 
     async loadDocument(filename, text, action) {
@@ -126,7 +162,7 @@ class Model extends AbstractModel {
                 break;
             case "LINK": /* NER only */
                 encodeResponse = await this.scriber.link(text);
-                break;                
+                break;
         }
 
         encodeResponse.setFilename(filename);
@@ -145,12 +181,12 @@ class Model extends AbstractModel {
         this.isSaved = true;
     }
 
-    hasOpenDocument(){
+    hasOpenDocument() {
         let filename = this.storage.getValue("filename");
         return (filename !== undefined && filename !== null);
     }
 
-    async onMenuOpen(action){               
+    async onMenuOpen(action) {
         this.reader.action = action;
         $("#fileOpenDialog").click();
     }
@@ -180,19 +216,19 @@ class Model extends AbstractModel {
     }
 
     notifyDialogChange(fieldID, value) {
-        switch(fieldID){
+        switch (fieldID) {
             case "entityText":
                 this.latestValues.text(value);
-            break;
+                break;
             case "lemma":
                 this.latestValues.lemma(value);
-            break;
+                break;
             case "link":
                 this.latestValues.link(value);
-            break;
+                break;
             case "tagName":
                 this.latestValues.tag(value);
-            break;   
+                break;
         }
     }
 
@@ -205,22 +241,6 @@ class Model extends AbstractModel {
         Utility.log(Model, "getSearchModel");
         // Utility.enforceTypes(arguments);
         return this.searchModel;
-    }
-
-    async init(dictionary) {
-        Utility.log(Model, "init");
-//        // Utility.enforceTypes(arguments);
-
-        this.dictionary = dictionary;
-
-        if (this.storage.hasValue("document")) {
-            await this.setDocument(
-                    this.storage.getValue("document"),
-                    this.storage.getValue("context"),
-                    this.storage.getValue("filename"),
-                    this.storage.getValue("schemaURL")
-                    );
-        }
     }
 
     async setDocument(text, context, filename, schemaURL) {
@@ -240,10 +260,16 @@ class Model extends AbstractModel {
         await this.notifyListeners("notifySetFilename", filename);
 
         let taggedEntityArray = [];
-        $(".taggedentity").each((i, element) => {
+        $(".taggedentity").each(async (i, element) => {
             let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element);
             taggedEntityArray.push(taggedEntity);
-            this.taggedEntityList.add(taggedEntity);
+            this.taggedEntityList.add(taggedEntity);            
+            let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag());
+            if (result.size() > 0){
+                let first = result.get(0);
+                let value = first.getEntry("source").getValue();
+                taggedEntity.datasource(value, false);
+            }
         });
         this.notifyListeners("notifyNewTaggedEntities", taggedEntityArray);
 
@@ -313,16 +339,16 @@ class Model extends AbstractModel {
         }
 
         let contents = $();
-        
+
         let taggedEntityArray = [];
         for (let entity of this.collection) {
             let contentElement = entity.getContentElement();
             $(entity.getElement()).replaceWith(contentElement);
-            contents = contents.add(contentElement);    
+            contents = contents.add(contentElement);
             taggedEntityArray.push(entity);
         }
         this.notifyListeners("notifyUntaggedEntities", taggedEntityArray);
-        
+
         contents = contents.mergeElements();
         contents[0].normalize();
         return this.createTaggedEntity(contents[0]);
@@ -339,15 +365,23 @@ class Model extends AbstractModel {
         values.lemma(null);
 
         let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element, values.tag());
+        taggedEntity.values(values, false);
         this.taggedEntityList.add(taggedEntity);
-        taggedEntity.values(values, true);
+        
+        let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag());
+        if (result.size() > 0){            
+            let first = result.get(0);
+            console.log(first);            
+            taggedEntity.datasource(first.getEntry("source").getValue(), false);
+            taggedEntity.link(first.getEntry("link").getValue(), false);
+        }        
 
         this.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
         return taggedEntity;
     }
 
     notifyUntaggedEntities(taggedEntityWidgetArray) {
-        for (let taggedEntityWidget of taggedEntityWidgetArray){
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
             if (this.taggedEntityList.contains(taggedEntityWidget)) {
                 this.taggedEntityList.remove(taggedEntityWidget);
             }
@@ -371,11 +405,8 @@ class Model extends AbstractModel {
 
         var element = document.createElement("div");
         $(element).append(range.extractContents());
-        
-        console.log(element);
+
         let taggedEntity = await this.createTaggedEntity(element);
-        console.log(taggedEntity);
-        console.log("here");
 
         range.deleteContents();
         range.insertNode(element);

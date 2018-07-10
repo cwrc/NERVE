@@ -54,7 +54,7 @@ public class Scriber extends JJJObject implements HasStreams {
     @ServerSide
     public EncodeResponse encode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         EncodeOptions options = new EncodeOptions();
-        options.addProcess(EncodeProcess.NER, EncodeProcess.DICTIONARY);
+        options.addProcess(EncodeProcess.DICTIONARY, EncodeProcess.NER);
         return doEncode(source, options);
     }
 

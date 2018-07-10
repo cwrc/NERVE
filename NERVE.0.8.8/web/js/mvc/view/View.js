@@ -128,6 +128,13 @@ module.exports = class View {
         }
         document.getElementById("epsTextArea").value = string;
     }
+    
+    notifyMessage(message){
+        let modal = $("#globalMessage");
+        $(modal).find("[data-widget-id='message']").text(message);
+        $(modal).modal("show");
+    }    
+    
     notifyContextChange(context) {
         Utility.log(View, "notifyContextChange");
         // // Utility.enforceTypes(arguments, Context);
