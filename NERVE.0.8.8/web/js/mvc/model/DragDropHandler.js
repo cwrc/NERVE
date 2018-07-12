@@ -1,4 +1,3 @@
-
 const AbstractModel = require("./AbstractModel");
 
 class DragDropHandler extends AbstractModel{

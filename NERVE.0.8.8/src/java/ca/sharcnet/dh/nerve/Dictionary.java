@@ -73,18 +73,31 @@ public class Dictionary extends JJJObject {
         
         SQLResult dictionaries = sql.query("select * from dictionaries");
         
+        String fixedText = text.replaceAll("'", "\\\\'");
+        String fixedLemma = lemma == null ? null : lemma.replaceAll("'", "\\\\'");
+        String fixedTag = tag == null ? null : tag.replaceAll("'", "\\\\'");
+        String fixedSource = source == null ? null : source.replaceAll("'", "\\\\'");
+        
         for (SQLRecord record : dictionaries){
             String dictionary = record.getEntry("name").getValue();
             if (!dictionary.equals(dictionaries.get(0).getEntry("name").getValue())) builder.append(" union ");            
             builder.append("select * from ");
             builder.append(dictionary);
-            builder.append(" where entity = '").append(text).append("'");
-            if (lemma != null) builder.append(" and lemma = '").append(lemma).append("'");
-            if (tag != null) builder.append(" and tag = '").append(tag).append("'");
-            if (source != null) builder.append(" and source = '").append(source).append("'");
+            builder.append(" where entity = '").append(fixedText).append("'");
+            if (fixedLemma != null) builder.append(" and lemma = '").append(fixedLemma).append("'");
+            if (fixedTag != null) builder.append(" and tag = '").append(fixedTag).append("'");
+            if (fixedSource != null) builder.append(" and source = '").append(fixedSource).append("'");
         }
 
-        return sql.query(builder.toString());        
+        String query = builder.toString();
+        
+        try {
+            SQLResult sqlResult = sql.query(query);
+            return sqlResult;
+        } catch (SQLException ex){
+            Console.log("SQL Query: " + query);
+            throw ex;
+        }
     }    
     
     @ServerSide

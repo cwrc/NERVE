@@ -19,6 +19,8 @@ class AbstractModel {
     async notifyListeners(method) {
         Utility.log(AbstractModel, "notifyListeners", method);
 
+        if (method === "notifyEntityUpdate") console.warn("notifyEntityUpdate");
+
         console.log("EVENT " + this.constructor.name + " " + method);
 
         Array.prototype.shift.apply(arguments);

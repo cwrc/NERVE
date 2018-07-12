@@ -1,5 +1,4 @@
 const View = require("./mvc/view/View");
-const SearchView = require("./mvc/view/SearchView");
 const EntityDialog = require("./mvc/EntityDialog");
 const EnityPanelWidget = require("./mvc/EnityPanelWidget");
 const Menu = require("./mvc/menu/Menu");
@@ -21,11 +20,9 @@ window.jjjrmi = require("jjjrmi");
 $(window).on('load', async function () {
     console.log("Initializing main");
 
-//    jjjrmi.JJJRMISocket.flags.ONREGISTER = true;
-//    jjjrmi.JJJRMISocket.flags.RECEIVED = true;
-//    jjjrmi.JJJRMISocket.flags.SENT = true;
-//    jjjrmi.JJJRMISocket.flags.VERBOSE = true;
-//    console.log(jjjrmi.JJJRMISocket.flags);
+    jjjrmi.JJJRMISocket.flags.CONNECT = true;
+    jjjrmi.JJJRMISocket.flags.RECEIVED = true;
+    jjjrmi.JJJRMISocket.flags.SENT = true;
 
     jjjrmi.JJJRMISocket.registerPackage(require("nerscriber"));
     jjjrmi.JJJRMISocket.registerPackage(require("jjjsql"));
@@ -55,7 +52,6 @@ class Main extends AbstractModel {
         
         this.model.addListener(this.view);
         this.model.addListener(new MessageHandler($("#userMessage")));
-        this.model.addListener(new SearchView());        
         this.model.addListener(this.cwrc);
         this.model.addListener($.fn.xmlAttr);
         
@@ -98,9 +94,10 @@ class Main extends AbstractModel {
         this.menu.addListener(this.entityPanelWidget);            
         
         /* --- CONNECT SOCKET AND EXTRANEOUS SETUP --- */
-        let hostInfo = new HostInfo();
-        this.rootSocket = new jjjrmi.JJJRMISocket();        
-        this.rootObject = await this.rootSocket.connect(hostInfo.rootSocketAddress);
+//        let hostInfo = new HostInfo();
+        this.rootSocket = new jjjrmi.JJJRMISocket("NerveSocket");   
+        this.rootObject = await this.rootSocket.connect();
+//        this.rootObject = await this.rootSocket.connect(hostInfo.rootSocketAddress);
         this.scriber = this.rootObject.scriber;
         this.model.setScriber(this.scriber);
 

@@ -389,8 +389,11 @@ class TaggedEntityWidget extends AbstractModel {
         let updateInfo = new EntityValues(null, null, null, null, $(this.element).xmlAttr(Constants.DICT_SRC_ATTR));
 
         $(this.element).xmlAttr(Constants.DICT_SRC_ATTR, value);
-
-        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        
+        if (!silent){
+            console.warn(silent);
+            this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        }
         return $(this.element).xmlAttr(Constants.DICT_SRC_ATTR);
     }
     values(value = null, silent = false) {

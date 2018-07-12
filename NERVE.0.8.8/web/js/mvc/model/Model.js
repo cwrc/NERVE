@@ -16,7 +16,6 @@
  */
 
 const Schema = require("./schema");
-const SearchModel = require("./SearchModel");
 const TaggedEntityWidget = require("./TaggedEntityWidget");
 const Storage = require("../../util/storage");
 const HostInfo = require("../../util/hostinfo");
@@ -39,8 +38,7 @@ class Model extends AbstractModel {
         this.storage.registerClass(require("jjjrmi").ArrayList);
         this.storage.registerClass(require("jjjrmi").HashMap);
 
-        this.selectedEntites = new ArrayList();
-        this.searchModel = new SearchModel("#entityPanel");
+//        this.selectedEntites = new ArrayList();
         this.clipboard = null;
 
         this.latestValues = new EntityValues();
@@ -232,17 +230,6 @@ class Model extends AbstractModel {
         }
     }
 
-    addListener(listener) {
-        super.addListener(listener);
-        this.searchModel.addListener(listener);
-    }
-
-    getSearchModel() {
-        Utility.log(Model, "getSearchModel");
-        // Utility.enforceTypes(arguments);
-        return this.searchModel;
-    }
-
     async setDocument(text, context, filename, schemaURL) {
         Utility.log(Model, "setDocument");
         // Utility.enforceTypes(arguments, String, Context, String, String);
@@ -264,12 +251,6 @@ class Model extends AbstractModel {
             let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element);
             taggedEntityArray.push(taggedEntity);
             this.taggedEntityList.add(taggedEntity);            
-            let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag());
-            if (result.size() > 0){
-                let first = result.get(0);
-                let value = first.getEntry("source").getValue();
-                taggedEntity.datasource(value, false);
-            }
         });
         this.notifyListeners("notifyNewTaggedEntities", taggedEntityArray);
 
