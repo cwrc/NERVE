@@ -47,7 +47,7 @@
         <!------------------------------------------------------------------------------------------->
     </head>
 
-    <body>
+    <body oncontextmenu='return false'>
         <!-- typically hidden stuff -->
         <div id="userMessage"></div>
         <div id="throbberBG">
@@ -152,6 +152,7 @@
         <!------------------------------------------------------>        
 
         <div id="container">
+            <!------ MENU ------>
             <div id="menuContainer">
                 <div id="menuInfo">
                     <div id="abbr">NERVE 0.8.8</div>
@@ -159,7 +160,7 @@
                     <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>
                 <div id="documentTitle">Document Title</div>
-                <div id="menuBar">
+                <div id="menuBar">                    
                     <div class="menu">
                         <div class="menuTitle">File</div>
                         <div class="itemContainer">
@@ -200,6 +201,7 @@
             </div>
 
             <div id="middlePanel">
+                <!------ Lemma Dialog ------>
                 <div id="lemmaDialog" class="innerPanel">
                     <div id="buttonArea">
                         <button class="btn btn-primary" id="selectAllCategories">*</button>
@@ -209,12 +211,14 @@
                     </div>
                 </div>
 
+                <!------ Entity Panel ------>
                 <div id="panelContainer" class="innerPanel">
                     <div id="entityPanel" class="format-default"></div>
                 </div>
 
+                <!------ Entity Dialog ------>
                 <div id="entityDialog" class="innerPanel">
-                    <input type="search" name="search" value="" id="searchTextArea">
+                    <!--<input type="search" name="search" value="" id="searchTextArea">-->
                     <div>Tag Name</div>
                     <div><select name="selectTagName" id="selectTagName"></select></div>
 

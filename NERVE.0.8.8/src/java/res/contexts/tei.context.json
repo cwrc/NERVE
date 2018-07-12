@@ -1,9 +1,5 @@
 {
     "name"               : "TEI",
-    "readFromDictionary" : [
-        "custom",
-        "geonames"
-    ],
     "tags" : [
         {
             "name"           : "orgName",

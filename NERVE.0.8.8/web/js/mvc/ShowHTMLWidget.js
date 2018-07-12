@@ -1,8 +1,8 @@
 
-class TaggedEntityExamineWidget{
+class ShowHTMLWidget{
     
     constructor(taggedEntityWidget){
-        this.modal = $("#taggedEntityExamineWidget");
+        this.modal = $("#ShowHTMLWidget");
         let taggedEntityElement = taggedEntityWidget.getElement();
         let html = taggedEntityElement.outerHTML;        
         while(html.indexOf("&quot;") !== -1){ 
@@ -16,4 +16,4 @@ class TaggedEntityExamineWidget{
     }
 }
 
-module.exports = TaggedEntityExamineWidget;
+module.exports = ShowHTMLWidget;

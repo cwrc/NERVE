@@ -1,6 +1,6 @@
 const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("../../gen/nerve").EntityValues;
-const TaggedEntityExamineWidget = require("../TaggedEntityExamineWidget");
+const ShowHTMLWidget = require("../ShowHTMLWidget");
 const Constants = require("../../util/Constants");
 const AbstractModel = require("./AbstractModel");
 
@@ -8,7 +8,7 @@ class ContextMenu {
     constructor() {
         this.state = false;
         this.flags = {};
-        this.lastSubMenu = null;
+        this.lastSubMenu = null;        
     }
 
     setDictionary(dictionary) {
@@ -217,7 +217,6 @@ class TaggedEntityWidget extends AbstractModel {
         $(element).on("drop", (event) => this.drop(event));
 
         $(element).on("contextmenu", (event) => {
-            console.log(event);
             event.preventDefault();
             TaggedEntityWidget.contextMenu.show(event, this);
         });
@@ -244,7 +243,7 @@ class TaggedEntityWidget extends AbstractModel {
 
     contextShowHTML() {
         window.last = this;
-        new TaggedEntityExamineWidget(this).show();
+        new ShowHTMLWidget(this).show();
     }
 
     contextUntag() {

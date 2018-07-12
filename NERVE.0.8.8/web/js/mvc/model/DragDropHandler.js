@@ -1,7 +1,7 @@
 
 const AbstractModel = require("./AbstractModel");
 
-module.exports = class DragDropHandler extends AbstractModel{
+class DragDropHandler extends AbstractModel{
 
     constructor(){
         super();
@@ -32,3 +32,5 @@ module.exports = class DragDropHandler extends AbstractModel{
         return this.dataMap.has(field);
     }
 };
+
+module.exports = DragDropHandler;

@@ -1,9 +1,5 @@
 {
     "name"               : "Orlando",
-    "readFromDictionary" : [
-        "custom",
-        "geonames"
-    ],
     "tags" : [
         {
             "name"           : "ORGNAME",

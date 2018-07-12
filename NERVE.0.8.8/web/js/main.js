@@ -2,15 +2,13 @@ const View = require("./mvc/view/View");
 const SearchView = require("./mvc/view/SearchView");
 const EntityDialog = require("./mvc/EntityDialog");
 const EnityPanelWidget = require("./mvc/EnityPanelWidget");
-const CWRCDialogController = require("./mvc/controller/CWRCDialogController");
 const Menu = require("./mvc/menu/Menu");
 
 const DragDropHandler = require("./mvc/model/DragDropHandler");
 const MessageHandler = require("./mvc/messageHandler");
-const CWRCDialogModel = require("./mvc/model/cwrcDialogModel");
+const CWRCDialogModel = require("./mvc/CWRCDialogModel");
 const Model = require("./mvc/model/Model");
 const HostInfo = require("./util/hostinfo");
-const ModelListener = require("./mvc/model/modelListeners/modelListener");
 
 const TaggedEntityWidget = require("./mvc/model/TaggedEntityWidget");
 
@@ -72,20 +70,33 @@ class Main extends AbstractModel {
 
         /* --- ENTITY DIALOG (RHS) --- */
         this.entityDialog = new EntityDialog();        
+
+        /* --- MENU (top) --- */
+        this.menu = new Menu();
         
         /* SETUP ALL CROSS LISTENERS (order may matter) */
         this.model.addListener(this.lemmaDialogView);        
         this.model.addListener(this.entityPanelWidget);
         this.model.addListener(this.entityDialog);
-        this.model.addListener(this.lemmaDialogController);                
+        this.model.addListener(this.lemmaDialogController); 
+        
         this.entityPanelWidget.addListener(this.model);
         this.lemmaDialogModel.addListener(this.entityPanelWidget);    
         
         this.entityDialog.addListener(this.lemmaDialogController);
         this.entityDialog.addListener(this.entityPanelWidget);
         this.entityDialog.addListener(this.model);
+        this.entityDialog.addListener(this.cwrc);
+        
         this.entityPanelWidget.addListener(this.entityDialog);
-                
+
+        this.cwrc.addListener(this.entityPanelWidget);
+        this.cwrc.addListener(this.entityDialog);        
+
+        this.menu.addListener(this.view);
+        this.menu.addListener(this.model);
+        this.menu.addListener(this.entityPanelWidget);            
+        
         /* --- CONNECT SOCKET AND EXTRANEOUS SETUP --- */
         let hostInfo = new HostInfo();
         this.rootSocket = new jjjrmi.JJJRMISocket();        
@@ -93,16 +104,7 @@ class Main extends AbstractModel {
         this.scriber = this.rootObject.scriber;
         this.model.setScriber(this.scriber);
 
-        /* --- MENU --- */
-        this.menu = new Menu();
-        this.menu.addListener(this.view);
-        this.menu.addListener(this.model);
-        this.menu.addListener(this.entityPanelWidget);
-
         this.rootObject.getProgressMonitor().addListener(this.view);
-
-        new ModelListener(this.model, this.cwrc);
-        new CWRCDialogController(this.cwrc, this.entityDialog);
 
         await this.model.init(this.rootObject.dictionary);
         this.view.showThrobber(false);

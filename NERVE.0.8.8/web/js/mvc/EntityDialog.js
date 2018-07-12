@@ -65,6 +65,9 @@ class EntityDialog extends AbstractModel {
         $("#goLink").click((event) => {
             this.goLink();
         });        
+        
+        $("#entityLookupButton").click((event)=>this.notifyListeners("notifyLoookupEntity", this.getValues()));
+        $("#lemmaLookupButton").click((event)=>this.notifyListeners("notifyLoookupLemma", this.getValues()));
     }
     
     notifyReady(){
@@ -113,6 +116,13 @@ class EntityDialog extends AbstractModel {
         if (collection.isEmpty()) this.__clearDialogs();
         this.__setDialogs(collection);
     }
+
+    notifyCWRCSelection(values){
+        this.__setEntity(values.text());
+        this.__setLemma(values.lemma());
+        this.__setLink(values.link());
+        this.__setTagName(values.tag());
+    }  
 
     __setDialogs(collection) {
         this.__clearDialogs();

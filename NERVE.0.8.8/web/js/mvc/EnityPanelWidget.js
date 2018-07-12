@@ -29,6 +29,12 @@ class EnityPanelWidget extends AbstractModel {
         this.selectedEntities.clear();
     }
 
+    notifyCWRCSelection(values){
+        for (let taggedEntityWidget of this.selectedEntities) {
+            taggedEntityWidget.values(values);
+        }
+    }
+
     notifyDialogChange(fieldID, value) {
         for (let taggedEntityWidget of this.selectedEntities) {
             switch (fieldID) {

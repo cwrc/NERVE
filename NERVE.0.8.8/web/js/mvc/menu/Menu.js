@@ -150,9 +150,9 @@ class Menu extends AbstractModel {
                     case "e":
                         $("#menuTag").click();
                         break;
-                    case "f":
-                        $("#menuFind").click();
-                        break;
+//                    case "f":
+//                        $("#menuFind").click();
+//                        break;
                     case "m":
                         $("#menuMerge").click();
                         break;

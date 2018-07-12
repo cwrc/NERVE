@@ -1,5 +1,6 @@
-const AbstractModel = require("./AbstractModel");
+const AbstractModel = require("./model/AbstractModel");
 const NameSource = require("nerscriber").NameSource;
+const EntityValues = require("../gen/EntityValues");
 
 /**
  * Events: notifyCWRCSelection, notifyCWRCCancelled
@@ -32,6 +33,14 @@ class CWRCDialogModel extends AbstractModel{
         };
     }
 
+    notifyLoookupEntity(values){
+        this.query(values.text(), values);
+    }
+
+    notifyLoookupLemma(values){
+        this.query(values.lemma(), values);
+    }
+
     notifyContextChange(context){
         this.context = context;
     }
@@ -51,14 +60,6 @@ class CWRCDialogModel extends AbstractModel{
                 super.notifyListeners("notifyCWRCCancelled");
             }
         });
-    }
-
-    queryEntity(entityValue){
-        this.query(entityValue.text(), entityValue);
-    }
-
-    queryLemma(entityValue){
-        this.query(entityValue.lemma(), entityValue);
     }
 
     queryPerson(term){
