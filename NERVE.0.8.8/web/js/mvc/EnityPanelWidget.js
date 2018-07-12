@@ -12,6 +12,14 @@ class EnityPanelWidget extends AbstractModel {
         this.taggedEntities = new ArrayList(); /* a list of all tagged entities in the document */
         this.selectedEntities = new Collection();
         this.selectedEntities.setDelegate(this);
+        this.addListener(this);
+        
+        /* Default Document Click Event */
+        $("#entityPanel").click((event) => {
+            if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
+                this.notifyListeners("notifyDocumentClick");
+            }
+        });        
     }
 
     __emptyCollection() {

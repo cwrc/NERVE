@@ -56,5 +56,40 @@
     height: 60%;
 }
 
+.context-item > .context-left-image {
+    position: absolute;
+    left: 5px;
+    height: 60%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
 .context-item > .context-label{
+    position: relative;
+    left: 20px;
+}
+
+.context-help{
+    display: none;
+    position: fixed;
+    border: 1px solid #a0a0a0;
+    box-shadow: 5px 5px 20px #a0a0a0;
+    background-color: whitesmoke;
+    width: 400px;
+}
+
+.context-help > .title{
+    background-color: #455372;
+    color: white;
+    text-align: center;
+    font-size: larger;
+}
+
+.context-help > .contents{
+    text-align: center;
+    font-size: larger;
+    margin: 20px;
+    text-align: justify;
 }

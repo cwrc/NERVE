@@ -194,13 +194,6 @@ class Menu extends AbstractModel {
             event.preventDefault();
             event.stopPropagation();
         });
-
-        /* Default Document Click Event */
-        $("#entityPanel").click((event) => {
-            if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
-                this.notifyListeners("notifyDocumentClick");
-            }
-        });
     }
 }
 

@@ -17,11 +17,8 @@ class Dictionary {
 	deleteEntity(value) {
 		return this.__jjjWebsocket.methodRequest(this, "deleteEntity", arguments);
 	}
-	lookup(text, lemma, tag) {
+	lookup(text, lemma, tag, source) {
 		return this.__jjjWebsocket.methodRequest(this, "lookup", arguments);
-	}
-	lookupEntity(text) {
-		return this.__jjjWebsocket.methodRequest(this, "lookupEntity", arguments);
 	}
 	getEntities(entity) {
 		return this.__jjjWebsocket.methodRequest(this, "getEntities", arguments);

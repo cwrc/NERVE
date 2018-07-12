@@ -77,11 +77,15 @@
                 <div class="context-label">Remove Tag</div>
             </div>            
             <hr/>
-            <div id="addDict" data-eventname="contextAddDict"  class="context-item inactive">
+            <div id="addDict" data-contextflags='{"hide" : true}' data-context-help="addHelp"  data-eventname="contextAddDict"  class="context-item inactive">
+                <img class="context-left-image pointer" src="assets/question.png"/>
                 <div class="context-label">Add to dictionary</div>
+                <img class="context-right-image" src="assets/loader400.gif"/>
             </div>            
-            <div id="removeDict" data-eventname="contextRemoveDict"  class="context-item inactive">
+            <div id="removeDict" data-contextflags='{"hide" : true}'  data-eventname="contextRemoveDict"  class="context-item inactive">
+                <img class="context-left-image pointer" data-context-help="removeHelp" src="assets/question.png"/>
                 <div class="context-label">Remove from dictionary</div>
+                <img class="context-right-image" src="assets/loader400.gif"/>
             </div>
             <div id="dictOptions" data-eventname="" class="context-item">
                 <div class="context-label">Select entity</div>
@@ -89,7 +93,23 @@
                 <div id="dictOptionList" class="context-subdialog">                    
                 </div>                    
             </div>
+            <div class="context-help" id="addHelp">
+                <div class="title">Help: Add to dictionary</div>
+                <div class="contents">
+                    This option is available when the text, label, and tag of the selected entity
+                    does not match any dictionary entry.
+                </div>
+            </div>         
+            <div class="context-help" id="removeHelp">
+                <div class="title">Help: Add to dictionary</div>
+                <div class="contents">
+                    This option is available when the matching dictionary entry is from the 
+                    'custom' collection.  See the 'select entity' option below for available
+                    collections.
+                </div>
+            </div>              
         </div>
+
         <!------------------------------------------->        
 
         <!--- Tagged Entity Examine Widget --->
@@ -112,7 +132,6 @@
         </div>        
 
         <!------------------- Message Widget ------------------->
-
         <div class="modal fade" id="globalMessage" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
 
@@ -131,7 +150,7 @@
             </div>
         </div>        
         <!------------------------------------------------------>        
-        
+
         <div id="container">
             <div id="menuContainer">
                 <div id="menuInfo">

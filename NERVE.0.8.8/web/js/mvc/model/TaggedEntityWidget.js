@@ -41,22 +41,35 @@ class ContextMenu {
         });
 
         $(ContextMenu.SELECTOR).find(".context-item").click((event) => {
+            if ($(event.delegateTarget).hasClass("inactive")) return;
             let flags = $(event.delegateTarget).data("contextflags");
             if (flags && flags.hide) $(ContextMenu.SELECTOR).hide();
             let eventname = $(event.delegateTarget).attr("data-eventname");
             this.taggedEntityWidget.notifyListeners(eventname, this.taggedEntityWidget);
         });
+        
+        /* setup help popups */
+        $(ContextMenu.SELECTOR).find("[data-context-help]").each((i, e) => {
+            $(e).click((event) => {
+                let target = $(e).attr("data-context-help");
+                $(ContextMenu.SELECTOR).find(`#${target}`).show();
+                this.position($(ContextMenu.SELECTOR).find(`#${target}`).get(0), event);
+                console.log(target);
+            });
+        });
+        
+        $(ContextMenu.SELECTOR).find(".context-help").each((i, e) => {
+            $(e).mouseleave(() => $(e).hide());
+        });        
     }
 
-    clearOptions() {
-        $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").empty();
-    }
-
+    /* list all available entities for the user to select */
+    /* if none are found, "select entity" option is disabled */
     loadOptions(text) {
-        this.clearOptions();
+        $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").empty();
         $(ContextMenu.SELECTOR).find("#dictOptions").addClass("inactive");
-        $(ContextMenu.SELECTOR).find("#dictOptions > img").attr("src", "assets/loader400.gif");
-        let result = this.dictionary.lookupEntity(text);
+        $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").attr("src", "assets/loader400.gif");
+        let result = this.dictionary.lookup(text, null, null, null);
 
         result.then((sqlResult) => {
             if (sqlResult.size() !== 0) {
@@ -64,10 +77,10 @@ class ContextMenu {
                 for (let sqlRecord of sqlResult) {
                     this.addOption(sqlRecord);
                 }
-                $(ContextMenu.SELECTOR).find("#dictOptions > img").show();
-                $(ContextMenu.SELECTOR).find("#dictOptions > img").attr("src", "assets/context-arrow.png");
+                $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").show();
+                $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").attr("src", "assets/context-arrow.png");
             } else {
-                $(ContextMenu.SELECTOR).find("#dictOptions > img").hide();
+                $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").hide();
             }
         });
     }
@@ -75,13 +88,13 @@ class ContextMenu {
     setSelected(contextOptionDiv){
         let img = document.createElement("img");
         $(img).attr("src", "assets/context-selected.png");
-        $(img).addClass("context-right-image");
+        $(img).addClass("context-left-image");
         $(contextOptionDiv).append(img);
     }
     
     addClickEvent(contextOptionDiv, sqlRecord){
         $(contextOptionDiv).click(()=>{
-            this.taggedEntityWidget.lemma(sqlRecord.getEntry("entity").getValue());
+            this.taggedEntityWidget.lemma(sqlRecord.getEntry("lemma").getValue());
             this.taggedEntityWidget.datasource(sqlRecord.getEntry("source").getValue());
             this.taggedEntityWidget.tag(sqlRecord.getEntry("tag").getValue());
             this.taggedEntityWidget.link(sqlRecord.getEntry("link").getValue());
@@ -96,7 +109,7 @@ class ContextMenu {
         $(label).addClass("context-label");
         $(label).text(sqlRecord.getEntry("lemma").getValue() + " : " + sqlRecord.getEntry("tag").getValue());
         $(div).append(label);
-        $(div).attr("title", "source " + sqlRecord.getEntry("source").getValue());
+        $(div).attr("title", "collection " + sqlRecord.getEntry("source").getValue());
         $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").append(div);
         
         if (sqlRecord.getEntry("lemma").getValue() === this.taggedEntityWidget.lemma()
@@ -114,8 +127,7 @@ class ContextMenu {
         else return this.flags[flagname];
     }
 
-    position(event) {
-        let element = $(ContextMenu.SELECTOR).get(0);
+    position(element, event) {       
         let posX = event.clientX - 5;
         let posY = event.clientY - 5;
         element.style.left = posX + "px";
@@ -125,22 +137,47 @@ class ContextMenu {
     show(event, taggedEntityWidget) {
         $(ContextMenu.SELECTOR).show();
         this.loadOptions(taggedEntityWidget.text());
-        this.position(event);
+        this.position($(ContextMenu.SELECTOR).get(0), event);
         this.taggedEntityWidget = taggedEntityWidget;
-
-        let source = taggedEntityWidget.datasource();
-        if (!source) {
-            $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");
-            $(ContextMenu.SELECTOR).find("#addDict").removeClass("inactive");
-        } else if (source === "custom") {
-            $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");
-            $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
-        } else {
-            $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");
-            $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
-        }
-
-        console.log(source);
+        this.toggleAddMenuItem(taggedEntityWidget);
+        this.toggleRemoveMenuItem(taggedEntityWidget);
+    }
+    
+    /* if the tagged entity does not match an existing entry */
+    /* enable the addDict menu item                          */
+    toggleAddMenuItem(taggedEntityWidget){
+        $(ContextMenu.SELECTOR).find("#addDict > .context-right-image").show();
+        $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
+        
+        let text = taggedEntityWidget.text();
+        let lemma = taggedEntityWidget.lemma();
+        let tag = taggedEntityWidget.tag();
+        let result = this.dictionary.lookup(text, lemma, tag, null);
+        
+        result.then((sqlResult) => {
+            if (sqlResult.size() === 0){
+                $(ContextMenu.SELECTOR).find("#addDict").removeClass("inactive");                
+            }
+            $(ContextMenu.SELECTOR).find("#addDict > .context-right-image").hide();
+        });
+    }
+    
+    
+    toggleRemoveMenuItem(taggedEntityWidget){
+        $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").show();
+        $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");        
+        
+        let text = taggedEntityWidget.text();
+        let lemma = taggedEntityWidget.lemma();
+        let tag = taggedEntityWidget.tag();
+        let result = this.dictionary.lookup(text, lemma, tag, "custom");
+        
+        result.then((sqlResult) => {
+            if (sqlResult.size() !== 0){
+                $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");              
+            }
+            $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").hide();
+        });        
     }
 }
 

@@ -30,7 +30,7 @@ class AbstractModel {
 
         for (let listener of this.abstractModelListeners) {
             if (typeof listener[method] !== "function") {
-                console.log(" ? " + listener.constructor.name);
+//                console.log(" ? " + listener.constructor.name);
             } else {
                 console.log(" + " + listener.constructor.name + " " + method);
                 await listener[method].apply(listener, arguments);

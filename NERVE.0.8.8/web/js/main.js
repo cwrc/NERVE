@@ -109,9 +109,10 @@ class Main extends AbstractModel {
         
         TaggedEntityWidget.contextMenu.setDictionary(this.rootObject.dictionary);     
         
-        this.menu.addListener(TaggedEntityWidget.contextMenu);
+        this.entityPanelWidget.addListener(TaggedEntityWidget.contextMenu);
         this.addListener(TaggedEntityWidget.contextMenu);
         this.addListener(this.entityDialog);
+        
         this.notifyListeners("notifyReady");
     }
 }

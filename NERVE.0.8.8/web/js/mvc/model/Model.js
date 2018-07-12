@@ -368,10 +368,9 @@ class Model extends AbstractModel {
         taggedEntity.values(values, false);
         this.taggedEntityList.add(taggedEntity);
         
-        let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag());
+        let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag(), null);
         if (result.size() > 0){            
             let first = result.get(0);
-            console.log(first);            
             taggedEntity.datasource(first.getEntry("source").getValue(), false);
             taggedEntity.link(first.getEntry("link").getValue(), false);
         }        
@@ -413,6 +412,8 @@ class Model extends AbstractModel {
 
         selection.removeAllRanges();
         document.normalize();
+
+        console.log(taggedEntity);
 
         return taggedEntity;
     }

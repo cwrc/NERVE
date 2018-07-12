@@ -68,7 +68,7 @@ public class Dictionary extends JJJObject {
     }    
     
     @ServerSide
-    public SQLResult lookup(String text, String lemma, String tag) throws SQLException{
+    public SQLResult lookup(String text, String lemma, String tag, String source) throws SQLException{
         StringBuilder builder = new StringBuilder();
         
         SQLResult dictionaries = sql.query("select * from dictionaries");
@@ -79,29 +79,13 @@ public class Dictionary extends JJJObject {
             builder.append("select * from ");
             builder.append(dictionary);
             builder.append(" where entity = '").append(text).append("'");
-            builder.append(" and lemma = '").append(lemma).append("'");
-            builder.append(" and tag = '").append(tag).append("'");
+            if (lemma != null) builder.append(" and lemma = '").append(lemma).append("'");
+            if (tag != null) builder.append(" and tag = '").append(tag).append("'");
+            if (source != null) builder.append(" and source = '").append(source).append("'");
         }
 
         return sql.query(builder.toString());        
     }    
-    
-    @ServerSide
-    public SQLResult lookupEntity(String text) throws SQLException{
-        StringBuilder builder = new StringBuilder();
-        
-        SQLResult dictionaries = sql.query("select * from dictionaries");
-        
-        for (SQLRecord record : dictionaries){
-            String dictionary = record.getEntry("name").getValue();
-            if (!dictionary.equals(dictionaries.get(0).getEntry("name").getValue())) builder.append(" union ");            
-            builder.append("select * from ");
-            builder.append(dictionary);
-            builder.append(" where entity = '").append(text).append("'");
-        }
-
-        return sql.query(builder.toString());        
-    }        
     
     @ServerSide
     public SQLResult getEntities(String entity) throws SQLException{
