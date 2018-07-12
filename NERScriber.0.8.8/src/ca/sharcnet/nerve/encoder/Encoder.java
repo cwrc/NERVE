@@ -194,7 +194,6 @@ public class Encoder extends ProgressListenerList {
         }
 
         String query = builder.toString();
-        Console.log(query);
         return query;
     }
 
@@ -209,13 +208,12 @@ public class Encoder extends ProgressListenerList {
             builder.append("select * from ");
             builder.append(dictionary);
             builder.append(" where entity = '");
-            builder.append(entityText);
+            builder.append(entityText.replaceAll("'", "\\\\'"));
             builder.append("'");
             i++;
         }
 
         String query = builder.toString();
-        Console.log(query);
         return query;
     }    
     
@@ -251,7 +249,7 @@ public class Encoder extends ProgressListenerList {
 
         String text = node.text().replaceAll("\"", "\\\\\"");
         String query = buildDictionaryQuery(text);
-
+        
         try {
             SQLResult sqlResult = sql.query(query);
             if (sqlResult.size() == 0) return;
