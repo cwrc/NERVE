@@ -1,6 +1,7 @@
 package ca.sharcnet.nerve.decode;
 
 import ca.frar.utility.console.Console;
+import ca.sharcnet.nerve.Constants;
 import static ca.sharcnet.nerve.Constants.*;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.ProgressListener;
@@ -119,6 +120,7 @@ public class Decoder {
 
             try {
                 for (String key : json.keySet()) {
+                    if (key.equals(Constants.DICT_SRC_ATTR)) continue;
                     node.attr(key, json.getString(key));
                 }
             } catch (DocNavException ex) {

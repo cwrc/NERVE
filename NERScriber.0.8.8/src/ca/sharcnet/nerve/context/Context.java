@@ -2,7 +2,9 @@ package ca.sharcnet.nerve.context;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
+import ca.frar.jjjrmi.socket.JJJObject;
 import ca.frar.jjjrmi.translator.DataObject;
+import ca.frar.utility.console.Console;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +13,16 @@ import org.json.JSONObject;
 
 @JJJ
 @JJJOptions(retain=false)
-public class Context implements Serializable, DataObject {
-    private final String name;
-    private final String schemaName;
-    private final String scriptFilename;
-    private final String tagSourceAttribute;
-    private final ArrayList<String> dictionaries = new ArrayList<>();
-    private final ArrayList<String> styleList = new ArrayList<>();
-    private final ArrayList<TagInfo> tagList = new ArrayList<>();
+public class Context extends JJJObject implements Serializable, DataObject {
+    private String name;
+    private String schemaName;
+    private String scriptFilename;
+    private String tagSourceAttribute;
+    private ArrayList<String> styleList = new ArrayList<>();
+    private ArrayList<TagInfo> tagList = new ArrayList<>();
 
+    private Context(){}
+    
     public Context(JSONObject json) {
         this.name = json.getString("name");
 
@@ -31,9 +34,6 @@ public class Context implements Serializable, DataObject {
 
         if (!json.has("tagSourceAttribute")) this.tagSourceAttribute = "";
         else this.tagSourceAttribute = json.getString("tagSourceAttribute");
-        
-        JSONArray jsonRFD = json.getJSONArray("readFromDictionary");
-        for (int i = 0; i < jsonRFD.length(); i++) dictionaries.add(jsonRFD.getString(i));
 
         JSONArray jsonStyles = json.getJSONArray("styles");
         for (int i = 0; i < jsonStyles.length(); i++) styleList.add(jsonStyles.getString(i));
@@ -72,11 +72,6 @@ public class Context implements Serializable, DataObject {
     @NativeJS
     public String getSchemaName() {
         return schemaName;
-    }
-
-    @NativeJS
-    public List<String> readFromDictionary() {
-        return dictionaries;
     }
 
     @NativeJS

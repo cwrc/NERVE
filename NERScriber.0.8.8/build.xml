@@ -7,7 +7,7 @@
     <import file="D:/Dropbox/projects-new/shared.xml"/>  
     
     <taskdef resource="jjjrmiant.xml"/>       
-    <property name="version.num" value="0.8.6" />
+    <property name="version.num" value="0.8.8" />
     <property name="lib.jar.name" value="NERScriber-${version.num}.jar"/>
     
     <!-- After jar creation copy file to common library -->

@@ -30,9 +30,6 @@ class Context {
 	getSchemaName() {
 		return this.schemaName;
 	}
-	readFromDictionary() {
-		return this.dictionaries;
-	}
 	styles() {
 		return this.styleList;
 	}
@@ -44,7 +41,7 @@ class Context {
 			if (tagInfo.getName(source) === tagname)return tagInfo;
 			
 		}
-		throw new Error(`ContextException taginfo not found for tagname:${tagname}, source:${source}, context:${this.name}`);
+		throw new Error("ca.sharcnet.nerve.context.ContextException");
 	}
 	isTagName(tagname, source) {
 		for(let tagInfo of this.tagList){

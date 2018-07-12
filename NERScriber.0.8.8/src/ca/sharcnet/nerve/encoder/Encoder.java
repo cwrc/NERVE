@@ -66,6 +66,11 @@ public class Encoder extends ProgressListenerList {
         config.load(cfgStream);
         SQL sql = new SQL(config);
 
+        SQLResult sqlResult = sql.query("select * from nerve.dictionaries");
+        for (SQLRecord rec : sqlResult){
+            Console.log(rec.getEntry("name").getValue());
+        }
+        
         /* build classifier */
         progressPacket.message("Building Classifier").stage(ProgressStage.CONTINUE);
         if (listener != null) listener.notifyProgress(progressPacket);
@@ -175,26 +180,49 @@ public class Encoder extends ProgressListenerList {
         this.schema = schema;
     }
 
-    private String buildDictionaryQuery() {
-        List<String> dictionaries = context.readFromDictionary();
-
+    private String buildDictionaryQuery() throws SQLException {
+        SQLResult dictionaries = sql.query("select * from dictionaries");
         StringBuilder builder = new StringBuilder();
-        if (dictionaries.size() > 0) {
-            builder.append("collection = \"").append(dictionaries.get(0)).append("\" ");
-            for (int i = 1; i < dictionaries.size(); i++) {
-                builder.append(" OR collection = \"").append(dictionaries.get(i)).append("\" ");
-            }
+        int i = 0;
+        
+        for (SQLRecord sqlRecord : dictionaries){
+            String dictionary = sqlRecord.getEntry("name").getValue();
+            if (i != 0) builder.append(" union ");            
+            builder.append("select * from ");
+            builder.append(dictionary);
+            i++;
         }
 
-        String query = "select * from dictionary";
-        if (builder.length() > 0) query = String.format("select * from dictionary where (%s) ", builder.toString());
+        String query = builder.toString();
+        Console.log(query);
         return query;
     }
 
+    private String buildDictionaryQuery(String entityText) throws SQLException {
+        SQLResult dictionaries = sql.query("select * from dictionaries");
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        
+        for (SQLRecord sqlRecord : dictionaries){
+            String dictionary = sqlRecord.getEntry("name").getValue();
+            if (i != 0) builder.append(" union ");            
+            builder.append("select * from ");
+            builder.append(dictionary);
+            builder.append(" where entity = '");
+            builder.append(entityText);
+            builder.append("'");
+            i++;
+        }
+
+        String query = builder.toString();
+        Console.log(query);
+        return query;
+    }    
+    
     private void lookupTag() throws SQLException {
         StringMatch knownEntities = new StringMatch();
         SQLResult sqlResult = sql.query(buildDictionaryQuery());
-
+        
         for (int i = 0; i < sqlResult.size(); i++) {
             SQLRecord row = sqlResult.get(i);
             knownEntities.addCandidate(row.getEntry("entity").getValue(), row);
@@ -221,12 +249,8 @@ public class Encoder extends ProgressListenerList {
 
         if (linkAttribute.isEmpty() || node.hasAttribute(linkAttribute)) return;
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(buildDictionaryQuery());
-        builder.append(" AND (entity=\"");
-        builder.append(node.text().replaceAll("\"", "\\\\\""));
-        builder.append("\")");
-        String query = builder.toString();
+        String text = node.text().replaceAll("\"", "\\\\\"");
+        String query = buildDictionaryQuery(text);
 
         try {
             SQLResult sqlResult = sql.query(query);
@@ -260,8 +284,8 @@ public class Encoder extends ProgressListenerList {
                 String linkAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).getLinkAttribute();
                 if (!linkAttribute.isEmpty()) elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 newNodes.add(elementNode);
-                
-//                elementNode.attr(tagSourceAttr, Constants.TAG_SRC_VAL_DICT);                
+                elementNode.attr(Constants.DICT_SRC_ATTR, row.getEntry("source").getValue());                
+//                elementNode.attr(tagSourceAttr, Constants.TAG_SRC_VAL_DICT);
             }
         };
 
