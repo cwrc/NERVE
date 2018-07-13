@@ -48,6 +48,19 @@
             </bookmark>
         </file>
         <file>
+            <url>web/javaScript/mvc/listeners.js</url>
+            <bookmark id="177">
+                <name/>
+                <line>68</line>
+                <key/>
+            </bookmark>
+            <bookmark id="172">
+                <name/>
+                <line>252</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/classes/util/customQuery.js</url>
             <bookmark id="134">
                 <name/>
@@ -136,47 +149,10 @@
             </bookmark>
         </file>
         <file>
-            <url>web/js/mvc/model/taggedEntityModel.js</url>
-            <bookmark id="190">
+            <url>web/js/mvc/model/Model.js</url>
+            <bookmark id="207">
                 <name/>
-                <line>150</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/view/lemmaDialogView.js</url>
-            <bookmark id="196">
-                <name/>
-                <line>80</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/dialogs/js/app.js</url>
-            <bookmark id="41">
-                <name/>
-                <line>217</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/util/utility.js</url>
-            <bookmark id="165">
-                <name/>
-                <line>236</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/mvc/listeners.js</url>
-            <bookmark id="177">
-                <name/>
-                <line>68</line>
-                <key/>
-            </bookmark>
-            <bookmark id="172">
-                <name/>
-                <line>252</line>
+                <line>280</line>
                 <key/>
             </bookmark>
         </file>
@@ -199,26 +175,10 @@
             </bookmark>
         </file>
         <file>
-            <url>web/js/mvc/model/Model.js</url>
-            <bookmark id="207">
-                <name/>
-                <line>280</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>web/cwrcDialogs.js</url>
             <bookmark id="52">
                 <name/>
                 <line>1807</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/model/lemmaDialogModel.js</url>
-            <bookmark id="195">
-                <name/>
-                <line>137</line>
                 <key/>
             </bookmark>
         </file>
@@ -232,6 +192,22 @@
             <bookmark id="29">
                 <name/>
                 <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/model/lemmaDialogModel.js</url>
+            <bookmark id="195">
+                <name/>
+                <line>137</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/model/taggedEntityModel.js</url>
+            <bookmark id="190">
+                <name/>
+                <line>150</line>
                 <key/>
             </bookmark>
         </file>
@@ -257,7 +233,31 @@
             <url>web/js/mvc/EntityDialog.js</url>
             <bookmark id="199">
                 <name/>
-                <line>72</line>
+                <line>75</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/view/lemmaDialogView.js</url>
+            <bookmark id="196">
+                <name/>
+                <line>80</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/dialogs/js/app.js</url>
+            <bookmark id="41">
+                <name/>
+                <line>217</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/util/utility.js</url>
+            <bookmark id="165">
+                <name/>
+                <line>236</line>
                 <key/>
             </bookmark>
         </file>
@@ -308,7 +308,12 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
         <group>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.8/web/js/mvc/model/TaggedEntityWidget.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.8/web/js/mvc/model/Schema.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.8/web/js/mvc/ShowHTMLWidget.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.8/web/js/main.js</file>
             <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.8/web/js/mvc/model/Model.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.8/web/nerve.html</file>
         </group>
     </open-files>
 </project-private>

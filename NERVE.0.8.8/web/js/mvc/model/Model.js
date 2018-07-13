@@ -15,7 +15,7 @@
  *  - notifyCollectionRemove
  */
 
-const Schema = require("./schema");
+const Schema = require("./Schema");
 const TaggedEntityWidget = require("./TaggedEntityWidget");
 const Storage = require("../../util/storage");
 const HostInfo = require("../../util/hostinfo");
