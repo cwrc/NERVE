@@ -3,7 +3,6 @@ import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.translator.DataObject;
-import static ca.sharcnet.nerve.context.NameSource.*;
 import java.util.HashMap;
 import org.json.JSONObject;
 
@@ -11,9 +10,7 @@ import org.json.JSONObject;
 @JJJOptions(retain=false)
 public class TagInfo implements DataObject{
     private final String name;
-    private final String dictionary;
-    private final String nerMap;
-    private final String dialog = "";
+    private final String standard;
     private final String lemmaAttribute;
     private final String linkAttribute;
     private final String idAttribute;
@@ -24,19 +21,18 @@ public class TagInfo implements DataObject{
 
     public TagInfo(JSONObject json) {
         this.name = json.getString("name");
-        this.dictionary = json.getString("dictionary");
         this.lemmaAttribute = json.getString("lemmaAttribute");
         this.linkAttribute = json.getString("linkAttribute");
-        this.nerMap = json.getString("nerMap");
         this.idAttribute = json.getString("idAttribute");
-
+        this.standard = json.getString("standard");
+        
         if (json.has("dialog-method")) this.dialogMethod = json.getString("dialog-method");
         else this.dialogMethod = "";
         if (json.has("decode")) this.decodeScript = json.getString("decode");
         else this.decodeScript = "";
         if (json.has("encode")) this.encodeScript = json.getString("encode");
         else this.encodeScript = "";
-
+        
         JSONObject jsonDefaults = json.getJSONObject("defaults");
         for (String key : jsonDefaults.keySet()) {
             String value = jsonDefaults.getString(key);
@@ -100,26 +96,12 @@ public class TagInfo implements DataObject{
     }
 
     @NativeJS
-    public boolean hasName(String name){
-        if (getName(DICTIONARY).equals(name)) return true;
-        if (getName(DIALOG).equals(name)) return true;
-        if (getName(NERMAP).equals(name)) return true;
-        if (getName(NAME).equals(name)) return true;
-        return false;
+    public String getName(){
+        return this.name;
     }
 
     @NativeJS
-    public String getName(NameSource nameSource) {
-        switch (nameSource) {
-            case DICTIONARY:
-                return this.dictionary;
-            case DIALOG:
-                return this.dialog;
-            case NERMAP:
-                return this.nerMap;
-            case NAME:
-            default:
-                return this.name;
-        }
+    public String getStandard() {
+        return this.standard;
     }
 }

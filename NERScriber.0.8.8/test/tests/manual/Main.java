@@ -27,9 +27,7 @@ public class Main implements HasStreams,ProgressListener {
         Main main = new Main();
         Document doc = DocumentLoader.documentFromStream(new FileInputStream(filename));
         EncodeOptions encodeOptions = new EncodeOptions();      
-//        encodeOptions.addProcess(EncodeProcess.DICTIONARY, EncodeProcess.NER); /* works */
-//        encodeOptions.addProcess(EncodeProcess.NER, EncodeProcess.DICTIONARY); /* doesn't work */
-        encodeOptions.addProcess(EncodeProcess.DICTIONARY); /* doesn't work */
+        encodeOptions.addProcess(EncodeProcess.DICTIONARY, EncodeProcess.NER); /* works */
         
         EncodedDocument encoded = Encoder.encode(doc, main, encodeOptions, main);
         Console.log(encoded);

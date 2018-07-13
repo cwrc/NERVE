@@ -1,4 +1,3 @@
-const NameSource = require("./NameSource");
 class TagInfo {
 	constructor() {
 	}
@@ -44,29 +43,11 @@ class TagInfo {
 	getDialogMethod() {
 		return this.dialogMethod;
 	}
-	hasName(name) {
-		if (this.getName(NameSource.DICTIONARY) === name)return true;
-		
-		if (this.getName(NameSource.DIALOG) === name)return true;
-		
-		if (this.getName(NameSource.NERMAP) === name)return true;
-		
-		if (this.getName(NameSource.NAME) === name)return true;
-		
-		return false;
+	getName() {
+		return this.name;
 	}
-	getName(nameSource) {
-		switch (nameSource){
-			case NameSource.DICTIONARY: return this.dictionary;
-			
-			case NameSource.DIALOG: return this.dialog;
-			
-			case NameSource.NERMAP: return this.nerMap;
-			
-			case NameSource.NAME: ;
-			default: return this.name;
-			
-		}
+	getStandard() {
+		return this.standard;
 	}
 };
 

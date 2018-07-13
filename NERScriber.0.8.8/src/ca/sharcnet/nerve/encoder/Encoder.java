@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.encoder;
+
 import ca.frar.utility.SQL.SQL;
 import ca.frar.utility.SQL.SQLRecord;
 import ca.frar.utility.SQL.SQLResult;
@@ -8,10 +9,8 @@ import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import ca.sharcnet.nerve.HasStreams;
-import static ca.sharcnet.nerve.context.NameSource.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
@@ -25,6 +24,7 @@ import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
 
 public class Encoder extends ProgressListenerList {
+
     private final Context context;
     private final SQL sql;
     private final Classifier classifier;
@@ -34,13 +34,12 @@ public class Encoder extends ProgressListenerList {
     private ProgressPacket progressPacket;
 
     /**
-     * Encode a document.  The hasStreams object must have the config.txt & classification file in root
-     * and contexts in /contexts.  The options (EncodedOptions) will control which actions to perform.
-     * Output will be written to listener (ProgressListener).
-     * 
+     * Encode a document. The hasStreams object must have the config.txt & classification file in root and contexts in /contexts. The options (EncodedOptions)
+     * will control which actions to perform. Output will be written to listener (ProgressListener).
+     *
      * @param document The loaded document.
-     * @param hasStreams 
-     * @param options 
+     * @param hasStreams
+     * @param options
      * @param listener
      * @return
      * @throws IOException
@@ -48,16 +47,16 @@ public class Encoder extends ProgressListenerList {
      * @throws InstantiationException
      * @throws IllegalAccessException
      * @throws SQLException
-     * @throws ParserConfigurationException 
+     * @throws ParserConfigurationException
      */
-    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options, ProgressListener listener) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {       
+    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options, ProgressListener listener) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (document == null) throw new NullPointerException();
         if (hasStreams == null) throw new NullPointerException();
-        
+
         ProgressPacket progressPacket = new ProgressPacket();
         progressPacket.message("Encoding Document").stage(ProgressStage.START);
         if (listener != null) listener.notifyProgress(progressPacket);
-        
+
         /* connect to SQL */
         progressPacket.message("Connecting to SQL database").stage(ProgressStage.CONTINUE);
         if (listener != null) listener.notifyProgress(progressPacket);
@@ -66,11 +65,6 @@ public class Encoder extends ProgressListenerList {
         config.load(cfgStream);
         SQL sql = new SQL(config);
 
-        SQLResult sqlResult = sql.query("select * from nerve.dictionaries");
-        for (SQLRecord rec : sqlResult){
-            Console.log(rec.getEntry("name").getValue());
-        }
-        
         /* build classifier */
         progressPacket.message("Building Classifier").stage(ProgressStage.CONTINUE);
         if (listener != null) listener.notifyProgress(progressPacket);
@@ -80,11 +74,12 @@ public class Encoder extends ProgressListenerList {
         cStream.close();
 
         /* retrieve the schema url to set the context (or use context instruction node) */
-        progressPacket.message("Retrieving Schema").stage(ProgressStage.CONTINUE);
-        if (listener != null) listener.notifyProgress(progressPacket);        
         Context context = null;
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaURL = model.attr(SCHEMA_NODE_ATTR);
+
+        progressPacket.message("Retrieving Schema\n" + schemaURL).stage(ProgressStage.CONTINUE);
+        if (listener != null) listener.notifyProgress(progressPacket);
 
         String schema = model.attr(SCHEMA_NODE_ATTR);
         int index = schema.lastIndexOf('/');
@@ -127,17 +122,17 @@ public class Encoder extends ProgressListenerList {
 
         EncodedDocument encoded = encoder.encode();
         encoded.setSchema(schemaURL);
-        
+
         progressPacket.message("").stage(ProgressStage.COMPLETE);
         listener.notifyProgress(progressPacket);
-        
+
         return encoded;
     }
 
     private Encoder(Document document, Context context, SQL sql, Classifier classifier, EncodeOptions options) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
-        
+
         this.options = options;
         this.sql = sql;
         this.context = context;
@@ -145,10 +140,10 @@ public class Encoder extends ProgressListenerList {
         this.classifier = classifier;
     }
 
-    private void setProgressPacket(ProgressPacket progressPacket){
+    private void setProgressPacket(ProgressPacket progressPacket) {
         this.progressPacket = progressPacket;
     }
-    
+
     private EncodedDocument encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         for (EncodeProcess process : options.getProcesses()) {
             switch (process) {
@@ -167,7 +162,7 @@ public class Encoder extends ProgressListenerList {
 
         progressPacket.message("Converting Tags").stage(ProgressStage.CONTINUE);
         this.forEach(lst -> lst.notifyProgress(progressPacket));
-        wrapTags(document);
+        wrapNode(document);
 
         /* put the context name into the schema(xml-model) node, or the context node */
         Query query = document.queryf("[%1$s='%2$s'], [%1$s='%3$s']", ORG_TAGNAME, SCHEMA_NODE_NAME, CONTEXT_NODE_NAME);
@@ -181,13 +176,14 @@ public class Encoder extends ProgressListenerList {
     }
 
     private String buildDictionaryQuery() throws SQLException {
+        Console.log("buildDictionaryQuery()");
         SQLResult dictionaries = sql.query("select * from dictionaries");
         StringBuilder builder = new StringBuilder();
         int i = 0;
-        
-        for (SQLRecord sqlRecord : dictionaries){
+
+        for (SQLRecord sqlRecord : dictionaries) {
             String dictionary = sqlRecord.getEntry("name").getValue();
-            if (i != 0) builder.append(" union ");            
+            if (i != 0) builder.append(" union ");
             builder.append("select * from ");
             builder.append(dictionary);
             i++;
@@ -198,13 +194,14 @@ public class Encoder extends ProgressListenerList {
     }
 
     private String buildDictionaryQuery(String entityText) throws SQLException {
+        Console.log("buildDictionaryQuery(\"" + entityText + "\")");
         SQLResult dictionaries = sql.query("select * from dictionaries");
         StringBuilder builder = new StringBuilder();
         int i = 0;
-        
-        for (SQLRecord sqlRecord : dictionaries){
+
+        for (SQLRecord sqlRecord : dictionaries) {
             String dictionary = sqlRecord.getEntry("name").getValue();
-            if (i != 0) builder.append(" union ");            
+            if (i != 0) builder.append(" union ");
             builder.append("select * from ");
             builder.append(dictionary);
             builder.append(" where entity = '");
@@ -215,12 +212,12 @@ public class Encoder extends ProgressListenerList {
 
         String query = builder.toString();
         return query;
-    }    
-    
+    }
+
     private void lookupTag() throws SQLException {
         StringMatch knownEntities = new StringMatch();
         SQLResult sqlResult = sql.query(buildDictionaryQuery());
-        
+
         for (int i = 0; i < sqlResult.size(); i++) {
             SQLRecord row = sqlResult.get(i);
             knownEntities.addCandidate(row.getEntry("entity").getValue(), row);
@@ -236,20 +233,22 @@ public class Encoder extends ProgressListenerList {
         int N = textNodes.size();
 
         for (Node node : textNodes) {
-            if (context.isTagName(node.getParent().name(), NAME)) lookupTaggedNode(node.getParent());
+            if (context.isTagName(node.getParent().name())) lookupTaggedNode(node.getParent());
             else lookupTag((TextNode) node, knownEntities);
         }
     }
 
     private void lookupTaggedNode(Node node) throws SQLException {
-        String linkAttribute = context.getTagInfo(node.name(), NAME).getLinkAttribute();
-        String lemmaAttribute = context.getTagInfo(node.name(), NAME).getLemmaAttribute();
+        String standardTag = context.getStandardTag(node.name());
+        TagInfo tagInfo = context.getTagInfo(standardTag);
+        String linkAttribute = tagInfo.getLinkAttribute();
+        String lemmaAttribute = tagInfo.getLemmaAttribute();
 
         if (linkAttribute.isEmpty() || node.hasAttribute(linkAttribute)) return;
 
         String text = node.text().replaceAll("\"", "\\\\\"");
         String query = buildDictionaryQuery(text);
-        
+
         try {
             SQLResult sqlResult = sql.query(query);
             if (sqlResult.size() == 0) return;
@@ -267,22 +266,22 @@ public class Encoder extends ProgressListenerList {
         String innerText = child.getText();
         final NodeList newNodes = new NodeList();
 //        String tagSourceAttr = context.getTagSourceAttribute();
-        
+
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
-            TagInfo tagInfo = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY);
+            String standardTag = row.getEntry("tag").getValue();
+            TagInfo tagInfo = context.getTagInfo(standardTag);
+            String schemaTag = tagInfo.getName();
+            String linkAttribute = tagInfo.getLinkAttribute();
+            String lemmaAttribute = tagInfo.getLemmaAttribute();
 
-            if (schema != null && !schema.isValid(child.getParent(), tagInfo.getName(NAME))) {
+            if (schema != null && !schema.isValid(child.getParent(), schemaTag)) {
                 newNodes.add(new TextNode(string));
             } else {
-                Node elementNode = new ElementNode(tagInfo.getName(NAME), string);
-                String lemmaAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).getLemmaAttribute();
+                Node elementNode = new ElementNode(schemaTag, string);
                 if (!lemmaAttribute.isEmpty()) elementNode.attr(lemmaAttribute, row.getEntry("lemma").getValue());
-
-                String linkAttribute = context.getTagInfo(row.getEntry("tag").getValue(), DICTIONARY).getLinkAttribute();
                 if (!linkAttribute.isEmpty()) elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 newNodes.add(elementNode);
-                elementNode.attr(Constants.DICT_SRC_ATTR, row.getEntry("source").getValue());                
 //                elementNode.attr(tagSourceAttr, Constants.TAG_SRC_VAL_DICT);
             }
         };
@@ -296,16 +295,16 @@ public class Encoder extends ProgressListenerList {
     }
 
     /**
+     * Convert an xml node into an html node
      * @param node the node to wrap
-     * @param allowEntities if false wrap all child tags as if they are
-     * non-entity tags
+     * @param allowEntities if false wrap all child tags as if they are non-entity tags
      * @throws ClassNotFoundException
      * @throws InstantiationException
      * @throws IllegalAccessException
      * @throws IOException
      * @throws SQLException
      */
-    private void wrapTags(Node node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
+    private void wrapNode(Node node) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (node.isType(NodeType.DOCTYPE)) {
             Node eNode = new ElementNode(HTML_TAGNAME);
             eNode.attr("class", HTML_DOCTYPE);
@@ -322,33 +321,38 @@ public class Encoder extends ProgressListenerList {
         node.clearAttributes();
 
         Node eNode = node;
+        String schemaTag = node.name();
 
         if (node.isType(NodeType.INSTRUCTION)) {
             eNode = new ElementNode(HTML_TAGNAME);
             node.replaceWith(eNode);
             eNode.attr("class", HTML_PROLOG);
-        } else if (context.isTagName(node.name(), NAME)) {
+        } else if (context.isTagName(schemaTag)) {
             node.attr("class", HTML_ENTITY);
             for (Node child : eNode.childNodes()) {
-                wrapTags(child);
+                wrapNode(child);
             }
         } else {
             node.attr("class", HTML_NONENTITY);
             for (Node child : eNode.childNodes()) {
-                wrapTags(child);
+                wrapNode(child);
             }
         }
 
-        if (context.isTagName(eNode.name(), NAME)) {
-            TagInfo tagInfo = context.getTagInfo(eNode.name(), NAME);
+        if (context.isTagName(schemaTag)) {
+            String standardTag = context.getStandardTag(schemaTag);
+            TagInfo tagInfo = context.getTagInfo(standardTag);
             String lemmaAttribute = tagInfo.getLemmaAttribute();
+            eNode.attr(ORG_TAGNAME, standardTag);
+            
             if (!lemmaAttribute.isEmpty() && eNode.attr(lemmaAttribute).isEmpty()) {
                 eNode.attr(lemmaAttribute, eNode.text());
             }
+        } else {
+            eNode.attr(ORG_TAGNAME, node.name());   
         }
-
-        eNode.attr(XML_ATTR_LIST, jsonObj.toString());
-        eNode.attr(ORG_TAGNAME, node.name());
+        
+        eNode.attr(XML_ATTR_LIST, jsonObj.toString());        
         eNode.name(HTML_TAGNAME);
     }
 
@@ -360,7 +364,7 @@ public class Encoder extends ProgressListenerList {
 
             /* skip nodes that are already tagged */
             NodeList ancestorNodes = node.ancestorNodes(NodeType.ELEMENT);
-            if (ancestorNodes.testAny(nd -> context.isTagName(nd.name(), NAME))) continue;
+            if (ancestorNodes.testAny(nd -> context.isTagName(nd.name()))) continue;
 
             NodeList nerList = applyNamedEntityRecognizer(node.text());
 
@@ -412,27 +416,27 @@ public class Encoder extends ProgressListenerList {
 
         /* create a document out of the text */
         Document localDoc = DocumentLoader.documentFromString(text);
-        NodeList nodes = localDoc.query("*");
+//        NodeList nodes = localDoc.query("*");
 
         /* for each node in the document (from above) if it's an NER node     *
          * change it's tagname to a valid tag name occording to the context   *
          * and set it's lemma if it doesn't already have one.                 *
          * Ensure that the node has the default attributes, and note the tag  *
          * source.                                                            */
-        
 //        String tagSourceAttr = context.getTagSourceAttribute();
-        for (Node node : nodes) {
+//        for (Node node : nodes) {
             /* if node name is an NER tag name */
-            if (context.isTagName(node.name(), NERMAP)) {
-                TagInfo tagInfo = context.getTagInfo(node.name(), NERMAP);
-                node.name(tagInfo.getName(NAME));
-//                node.attr(tagSourceAttr, Constants.TAG_SRC_VAL_NER);
-                if (!tagInfo.getLemmaAttribute().isEmpty()) {
-                    Node eNode = (Node) node;
-                    eNode.attr(new Attribute(tagInfo.getLemmaAttribute(), eNode.text()));
-                }
-            }
-        }
+            
+//            if (context.isTagName(node.name(), NERMAP)) {
+//                TagInfo tagInfo = context.getTagInfo(node.name(), NERMAP);
+//                node.name(tagInfo.getName(NAME));
+////                node.attr(tagSourceAttr, Constants.TAG_SRC_VAL_NER);
+//                if (!tagInfo.getLemmaAttribute().isEmpty()) {
+//                    Node eNode = (Node) node;
+//                    eNode.attr(new Attribute(tagInfo.getLemmaAttribute(), eNode.text()));
+//                }
+//            }
+//        }
 
         Node eNode = localDoc.childNodes().get(0);
         NodeList childNodes = eNode.childNodes();

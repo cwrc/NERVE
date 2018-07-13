@@ -4,7 +4,6 @@ import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
 import ca.frar.jjjrmi.translator.DataObject;
-import ca.frar.utility.console.Console;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 @JJJ
-@JJJOptions(retain=false)
+@JJJOptions(retain = false)
 public class Context extends JJJObject implements Serializable, DataObject {
     private String name;
     private String schemaName;
@@ -20,9 +19,10 @@ public class Context extends JJJObject implements Serializable, DataObject {
     private String tagSourceAttribute;
     private ArrayList<String> styleList = new ArrayList<>();
     private ArrayList<TagInfo> tagList = new ArrayList<>();
-
-    private Context(){}
     
+    private Context() {
+    }
+
     public Context(JSONObject json) {
         this.name = json.getString("name");
 
@@ -45,22 +45,22 @@ public class Context extends JJJObject implements Serializable, DataObject {
     }
 
     @NativeJS
-    public boolean hasTagSourceAttribute(){
+    public boolean hasTagSourceAttribute() {
         return (!tagSourceAttribute.isEmpty());
     }
 
     @NativeJS
-    public String getTagSourceAttribute(){
+    public String getTagSourceAttribute() {
         return tagSourceAttribute;
-    }    
-    
+    }
+
     @NativeJS
-    public boolean hasScriptFilename(){
+    public boolean hasScriptFilename() {
         return (!scriptFilename.isEmpty());
     }
 
     @NativeJS
-    public String getScriptFilename(){
+    public String getScriptFilename() {
         return scriptFilename;
     }
 
@@ -85,27 +85,26 @@ public class Context extends JJJObject implements Serializable, DataObject {
     }
 
     /*
-    Return the tagInfo for the given tagname as it matches to any value in groups.
+    Return the tagInfo for the matching 'standard' tag name.
      */
     @NativeJS
-    public TagInfo getTagInfo(String tagname, NameSource source) {
+    public TagInfo getTagInfo(String standardTagName) {
         for (TagInfo tagInfo : tagList) {
-            if (tagInfo.getName(source).equals(tagname)) return tagInfo;
+            if (tagInfo.getStandard().equals(standardTagName)) return tagInfo;
         }
-        throw new ContextException("in context '" + this.getName() + "' tag name '" + tagname + "' of source '" + source.name() + "' not found.");
+        throw new ContextException("in context '" + this.getName() + "' standard tag name '" + standardTagName + "' not found.");
     }
 
-    /**
-    Determine if a given tagname matches a taginfo rule.
-    Omitting groups tests them all.
-    @param tagname
-    @param groups
-    @return
-     */
-    @NativeJS
-    public Boolean isTagName(String tagname, NameSource source) {       
+    public String getStandardTag(String schemaTagName) {
         for (TagInfo tagInfo : tagList) {
-            if (tagInfo.getName(source).equals(tagname)) return true;
+            if (tagInfo.getName().equals(schemaTagName)) return tagInfo.getStandard();
+        }
+        throw new ContextException("in context '" + this.getName() + "' schema tag name '" + schemaTagName + "' not found.");
+    }
+
+    public boolean isTagName(String schemaTagName) {
+        for (TagInfo tagInfo : tagList) {
+            if (tagInfo.getName().equals(schemaTagName)) return true;
         }
         return false;
     }

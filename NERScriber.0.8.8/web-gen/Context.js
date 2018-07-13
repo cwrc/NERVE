@@ -1,5 +1,4 @@
 const TagInfo = require("./TagInfo");
-const NameSource = require("./NameSource");
 class Context {
 	constructor() {
 	}
@@ -36,19 +35,12 @@ class Context {
 	tags() {
 		return this.tagList;
 	}
-	getTagInfo(tagname, source) {
+	getTagInfo(standardTagName) {
 		for(let tagInfo of this.tagList){
-			if (tagInfo.getName(source) === tagname)return tagInfo;
+			if (tagInfo.getStandard() === standardTagName)return tagInfo;
 			
 		}
 		throw new Error("ca.sharcnet.nerve.context.ContextException");
-	}
-	isTagName(tagname, source) {
-		for(let tagInfo of this.tagList){
-			if (tagInfo.getName(source) === tagname)return true;
-			
-		}
-		return false;
 	}
 };
 

@@ -1,6 +1,4 @@
 package ca.sharcnet.nerve.decode;
-
-import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.Constants;
 import static ca.sharcnet.nerve.Constants.*;
 import ca.sharcnet.nerve.HasStreams;
@@ -8,7 +6,6 @@ import ca.sharcnet.nerve.ProgressListener;
 import ca.sharcnet.nerve.ProgressPacket;
 import ca.sharcnet.nerve.ProgressStage;
 import ca.sharcnet.nerve.context.Context;
-import static ca.sharcnet.nerve.context.NameSource.NAME;
 import ca.sharcnet.nerve.context.ContextLoader;
 import ca.sharcnet.nerve.context.TagInfo;
 import ca.sharcnet.nerve.docnav.dom.DocNavException;
@@ -19,7 +16,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 import ca.sharcnet.nerve.docnav.dom.DoctypeNode;
-import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -87,10 +83,6 @@ public class Decoder {
         return decode(document, hasStreams, null);
     }
 
-    private void setProgressPacket(ProgressPacket progressPacket) {
-        this.progressPacket = progressPacket;
-    }
-
     /**
      * Decode a document using a 'HasStreams' with a provided context.
      *
@@ -112,7 +104,16 @@ public class Decoder {
 
         for (Node node : xmltag) {
             /* change html tag name to xml tag name, which is stored in ORG_TAGNAME attribute */
-            node.name(node.attr(ORG_TAGNAME));
+            switch (node.attr("class")){
+                case HTML_NONENTITY:
+                    node.name(node.attr(ORG_TAGNAME));
+                break;
+                case HTML_ENTITY:
+                    String standardTag = node.attr(ORG_TAGNAME);
+                    TagInfo tagInfo = context.getTagInfo(standardTag);
+                    node.name(tagInfo.getName());
+                break;
+            }
             
             /* restore xml attribtes from JSON object stored in XML_ATTR_LIST */
             JSONObject json = new JSONObject(node.attr(XML_ATTR_LIST));
@@ -128,8 +129,9 @@ public class Decoder {
             }
 
             /* set default values */
-            if (context.isTagName(node.name(), NAME)) {
-                TagInfo tagInfo = context.getTagInfo(node.name(), NAME);
+            if (context.isTagName(node.name())) {
+                String standardTag = context.getStandardTag(node.name());
+                TagInfo tagInfo = context.getTagInfo(standardTag);
 
                 for (String key : tagInfo.defaults().keySet()) {
                     if (node.hasAttribute(key)) {
