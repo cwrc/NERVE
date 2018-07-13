@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NERScriber" default="default" basedir=".">
+    <description>Builds, tests, and runs the project NERScriber.</description>
+    
+    <property file="nbproject/project.properties"/>
+    <import file="nbproject/build-impl.xml"/>        
+    <import file="D:/Dropbox/projects-new/shared.xml"/>  
+    
+    <taskdef resource="jjjrmiant.xml"/>       
+    <property name="version.num" value="0.8.9" />
+    <property name="lib.jar.name" value="NERScriber-${version.num}.jar"/>
+    
+    <!-- After jar creation copy file to common library -->
+    <target name="-post-jar" depends="jar-to-custom-lib,scriber.generate.code"/>
+
+    <target name="scriber.generate.code">
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/web-gen" package="nerscriber"/>
+    </target>
+</project>

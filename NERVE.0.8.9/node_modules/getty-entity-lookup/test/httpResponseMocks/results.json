@@ -1,0 +1,157 @@
+{
+  "head": {
+    "vars": [
+      "Subject",
+      "Term",
+      "Parents",
+      "Descr",
+      "ScopeNote",
+      "Type",
+      "ExtraType"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "Subject": {
+          "type": "uri",
+          "value": "http://vocab.getty.edu/ulan/500206621"
+        },
+        "Term": {
+          "type": "literal",
+          "value": "Jones & Jones"
+        },
+        "Parents": {
+          "type": "literal",
+          "value": "Corporate Bodies"
+        },
+        "Descr": {
+          "type": "literal",
+          "value": "American architectural and engineering firm, contemporary"
+        },
+        "ScopeNote": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "American architectural and landscape architecture firm, Seattle, WA."
+        },
+        "Type": {
+          "type": "literal",
+          "value": "GroupConcept"
+        },
+        "ExtraType": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "architectural firms"
+        }
+      },
+      {
+        "Subject": {
+          "type": "uri",
+          "value": "http://vocab.getty.edu/ulan/500363611"
+        },
+        "Term": {
+          "type": "literal",
+          "value": "Jones, A."
+        },
+        "Parents": {
+          "type": "literal",
+          "value": "Unidentified Named People and Firms"
+        },
+        "Descr": {
+          "type": "literal",
+          "value": "British owner"
+        },
+        "Type": {
+          "type": "literal",
+          "value": "PersonConcept"
+        },
+        "ExtraType": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "owners"
+        }
+      },
+      {
+        "Subject": {
+          "type": "uri",
+          "value": "http://vocab.getty.edu/ulan/500026176"
+        },
+        "Term": {
+          "type": "literal",
+          "value": "Dunkarton, Jones"
+        },
+        "Parents": {
+          "type": "literal",
+          "value": "Persons, Artists"
+        },
+        "Descr": {
+          "type": "literal",
+          "value": "British artist, 1746-1795"
+        },
+        "Type": {
+          "type": "literal",
+          "value": "PersonConcept"
+        },
+        "ExtraType": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "artists (visual artists)"
+        }
+      },
+      {
+        "Subject": {
+          "type": "uri",
+          "value": "http://vocab.getty.edu/ulan/500016656"
+        },
+        "Term": {
+          "type": "literal",
+          "value": "Jones, Adrian"
+        },
+        "Parents": {
+          "type": "literal",
+          "value": "Persons, Artists"
+        },
+        "Descr": {
+          "type": "literal",
+          "value": "English sculptor and painter, 1845-1938"
+        },
+        "Type": {
+          "type": "literal",
+          "value": "PersonConcept"
+        },
+        "ExtraType": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "artists (visual artists)"
+        }
+      },
+      {
+        "Subject": {
+          "type": "uri",
+          "value": "http://vocab.getty.edu/ulan/500184567"
+        },
+        "Term": {
+          "type": "literal",
+          "value": "Jones, Edward"
+        },
+        "Parents": {
+          "type": "literal",
+          "value": "Persons, Artists"
+        },
+        "Descr": {
+          "type": "literal",
+          "value": "British artist, active 1820"
+        },
+        "Type": {
+          "type": "literal",
+          "value": "PersonConcept"
+        },
+        "ExtraType": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "artists (visual artists)"
+        }
+      }
+    ]
+  }
+}

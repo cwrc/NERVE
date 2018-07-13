@@ -1,0 +1,543 @@
+{ "searchRetrieveResponse": {
+    "version": "1.1",
+    "numberOfRecords": "25851",
+    "resultSetIdleTime": "1",
+    "records": [
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "9962148947841654950005",
+            "Document": {
+              "@about": "http://viaf.org/viaf/9962148947841654950005/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/9962148947841654950005"
+              }
+            },
+            "nameType": "Personal",
+            "sources": {
+              "source": [
+                {
+                  "@nsid": "0000000066177993",
+                  "#text": "ISNI|0000000066177993"
+                },
+                {
+                  "@nsid": "131858564",
+                  "#text": "NTA|131858564"
+                }
+              ]
+            },
+            "length": "14",
+            "mainHeadings": {
+              "data": {
+                "text": "Jones, Hugh Prosser",
+                "sources": {
+                  "s": [
+                    "ISNI",
+                    "NTA"
+                  ],
+                  "sid": [
+                    "ISNI|0000000066177993",
+                    "NTA|131858564"
+                  ]
+                }
+              },
+              "mainHeadingEl": [
+                {
+                  "datafield": {
+                    "@ind1": "1",
+                    "@ind2": " ",
+                    "@tag": "100",
+                    "@dtype": "MARC21",
+                    "subfield": {
+                      "@code": "a",
+                      "#text": "Jones, Hugh Prosser"
+                    }
+                  },
+                  "sources": {
+                    "s": "NTA",
+                    "sid": "NTA|131858564"
+                  },
+                  "id": "NTA|131858564",
+                  "links": {
+                    "link": [
+                      {
+                        "match": null,
+                        "#text": "ISNI|0000000066177993"
+                      },
+                      {
+                        "match": null,
+                        "#text": "ISNI|0000000066177993"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "datafield": {
+                    "@ind1": "1",
+                    "@ind2": " ",
+                    "@tag": "100",
+                    "@dtype": "MARC21",
+                    "subfield": {
+                      "@code": "a",
+                      "#text": "Jones, Hugh Prosser"
+                    }
+                  },
+                  "sources": {
+                    "s": "ISNI",
+                    "sid": "ISNI|0000000066177993"
+                  },
+                  "id": "ISNI|0000000066177993",
+                  "links": {
+                    "link": {
+                      "match": null,
+                      "#text": "NTA|131858564"
+                    }
+                  }
+                }
+              ]
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "coauthors": {
+              "data": {
+                "@count": "2",
+                "@tag": "950",
+                "text": "Williams, Howard 1916-",
+                "sources": {
+                  "s": [
+                    "ISNI",
+                    "NTA"
+                  ],
+                  "sid": [
+                    "ISNI|0000000066177993",
+                    "NTA|131858564"
+                  ]
+                }
+              }
+            },
+            "publishers": {
+              "data": {
+                "@count": "2",
+                "text": "Macmillan",
+                "sources": {
+                  "s": [
+                    "ISNI",
+                    "NTA"
+                  ],
+                  "sid": [
+                    "ISNI|0000000066177993",
+                    "NTA|131858564"
+                  ]
+                }
+              }
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "dates": {
+              "@min": "196",
+              "@max": "197",
+              "date": [
+                {
+                  "@count": "1",
+                  "@scaled": "0.00",
+                  "#text": "196"
+                },
+                {
+                  "@count": "2",
+                  "@scaled": "1.00",
+                  "#text": "197"
+                }
+              ]
+            },
+            "RecFormats": {
+              "data": {
+                "@count": "1",
+                "text": "am",
+                "sources": {
+                  "s": "NTA",
+                  "sid": "NTA|131858564"
+                }
+              }
+            },
+            "ISBNs": {
+              "@unique": "1",
+              "data": {
+                "@count": "1",
+                "text": "9780333134221",
+                "sources": {
+                  "s": "NTA",
+                  "sid": "NTA|131858564"
+                }
+              }
+            },
+            "countries": {
+              "data": {
+                "@count": "1",
+                "@scaled": "1",
+                "text": "GB",
+                "sources": {
+                  "s": "NTA",
+                  "sid": "NTA|131858564"
+                }
+              }
+            },
+            "titles": {
+              "work": {
+                "sources": {
+                  "s": "NTA",
+                  "sid": "NTA|131858564"
+                },
+                "title": "Physical basis of the British Isles"
+              }
+            },
+            "history": {
+              "ht": [
+                {
+                  "@recid": "NTA|131858564",
+                  "@time": "2017-03-13T23:00:16.178913+00:00"
+                },
+                {
+                  "@recid": "ISNI|0000000066177993",
+                  "@time": "2017-05-30T16:05:08.629264+00:00"
+                }
+              ]
+            },
+            "creationtime": "2017-09-06T02:47:07.627867+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "9939148390858810830007",
+            "Document": {
+              "@about": "http://viaf.org/viaf/9939148390858810830007/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/9939148390858810830007"
+              }
+            },
+            "nameType": "Personal",
+            "sources": {
+              "source": {
+                "@nsid": "000058767838",
+                "@sparse": "true",
+                "#text": "NLA|000058767838"
+              }
+            },
+            "length": "10",
+            "mainHeadings": {
+              "data": {
+                "text": "Jones, T. W.",
+                "sources": {
+                  "s": "NLA",
+                  "sid": "NLA|000058767838"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "1",
+                  "@ind2": " ",
+                  "@tag": "100",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Jones, T. W."
+                  }
+                },
+                "sources": {
+                  "s": "NLA",
+                  "sid": "NLA|000058767838"
+                },
+                "id": "NLA|000058767838"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "titles": null,
+            "history": {
+              "ht": {
+                "@recid": "NLA|000058767838",
+                "@time": "2017-01-08T10:49:48.640172+00:00"
+              }
+            },
+            "creationtime": "2017-09-17T09:20:32.960088+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "9889148997622759870008",
+            "Document": {
+              "@about": "http://viaf.org/viaf/9889148997622759870008/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/9889148997622759870008"
+              }
+            },
+            "nameType": "Personal",
+            "sources": {
+              "source": {
+                "@nsid": "90612905",
+                "@sparse": "true",
+                "#text": "BIBSYS|90612905"
+              }
+            },
+            "length": "10",
+            "mainHeadings": {
+              "data": {
+                "text": "Bellis-Jones, Robin",
+                "sources": {
+                  "s": "BIBSYS",
+                  "sid": "BIBSYS|90612905"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "1",
+                  "@ind2": " ",
+                  "@tag": "100",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Bellis-Jones, Robin"
+                  }
+                },
+                "sources": {
+                  "s": "BIBSYS",
+                  "sid": "BIBSYS|90612905"
+                },
+                "id": "BIBSYS|90612905"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "titles": null,
+            "history": {
+              "ht": {
+                "@recid": "BIBSYS|90612905",
+                "@time": "2017-03-19T17:17:07.791040+00:00"
+              }
+            },
+            "creationtime": "2017-09-17T09:12:38.425837+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "9886148947892054950009",
+            "Document": {
+              "@about": "http://viaf.org/viaf/9886148947892054950009/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/9886148947892054950009"
+              }
+            },
+            "nameType": "Personal",
+            "sources": {
+              "source": {
+                "@nsid": "http://d-nb.info/gnd/1127079042",
+                "#text": "DNB|1127079042"
+              }
+            },
+            "length": "11",
+            "mainHeadings": {
+              "data": {
+                "text": "Jones, Sheep ca. 20./21.Jh.",
+                "sources": {
+                  "s": "DNB",
+                  "sid": "DNB|1127079042"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "1",
+                  "@ind2": " ",
+                  "@tag": "100",
+                  "@dtype": "MARC21",
+                  "subfield": [
+                    {
+                      "@code": "a",
+                      "#text": "Jones, Sheep"
+                    },
+                    {
+                      "@code": "d",
+                      "#text": "ca. 20./21.Jh."
+                    }
+                  ]
+                },
+                "sources": {
+                  "s": "DNB",
+                  "sid": "DNB|1127079042"
+                },
+                "id": "DNB|1127079042"
+              }
+            },
+            "fixed": {
+              "gender": "a"
+            },
+            "x500s": {
+              "x500": {
+                "@viafLink": "132507641",
+                "datafield": {
+                  "@ind1": " ",
+                  "@ind2": " ",
+                  "@tag": "551",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Waterville, Me."
+                  },
+                  "normalized": "waterville me"
+                },
+                "sources": {
+                  "s": "DNB",
+                  "sid": "DNB|1127079042"
+                }
+              }
+            },
+            "birthDate": "1900",
+            "deathDate": "0",
+            "dateType": "flourished",
+            "nationalityOfEntity": {
+              "data": {
+                "text": "US",
+                "sources": {
+                  "s": "DNB"
+                }
+              }
+            },
+            "titles": null,
+            "history": {
+              "ht": {
+                "@recid": "DNB|1127079042",
+                "@time": "2017-03-13T23:08:40.447261+00:00"
+              }
+            },
+            "creationtime": "2017-09-17T11:55:13.962669+00:00"
+          }
+        }
+      },
+      {
+        "record": {
+          "recordSchema": "http://viaf.org/VIAFCluster",
+          "recordPacking": "json",
+          "recordData": {
+            "@xmlns": "http://viaf.org/viaf/terms#",
+            "@xmlns:foaf": "http://xmlns.com/foaf/0.1/",
+            "@xmlns:owl": "http://www.w3.org/2002/07/owl#",
+            "@xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "@xmlns:void": "http://rdfs.org/ns/void#",
+            "viafID": "9880148451592415970004",
+            "Document": {
+              "@about": "http://viaf.org/viaf/9880148451592415970004/",
+              "inDataset": {
+                "@resource": "http://viaf.org/viaf/data"
+              },
+              "primaryTopic": {
+                "@resource": "http://viaf.org/viaf/9880148451592415970004"
+              }
+            },
+            "nameType": "Personal",
+            "sources": {
+              "source": {
+                "@nsid": "000678703",
+                "#text": "NSK|000678703"
+              }
+            },
+            "length": "10",
+            "mainHeadings": {
+              "data": {
+                "text": "Jones, Derry W.",
+                "sources": {
+                  "s": "NSK",
+                  "sid": "NSK|000678703"
+                }
+              },
+              "mainHeadingEl": {
+                "datafield": {
+                  "@ind1": "1",
+                  "@ind2": " ",
+                  "@tag": "100",
+                  "@dtype": "MARC21",
+                  "subfield": {
+                    "@code": "a",
+                    "#text": "Jones, Derry W."
+                  }
+                },
+                "sources": {
+                  "s": "NSK",
+                  "sid": "NSK|000678703"
+                },
+                "id": "NSK|000678703"
+              }
+            },
+            "fixed": {
+              "gender": "u"
+            },
+            "birthDate": "0",
+            "deathDate": "0",
+            "dateType": "lived",
+            "titles": null,
+            "history": {
+              "ht": {
+                "@recid": "NSK|000678703",
+                "@time": "2017-01-15T11:32:04.342045+00:00"
+              }
+            },
+            "creationtime": "2017-09-17T09:23:48.353665+00:00"
+          }
+        }
+      }
+    ]
+  }
+}

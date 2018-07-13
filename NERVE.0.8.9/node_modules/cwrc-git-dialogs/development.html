@@ -1,0 +1,29 @@
+<html>
+<head>
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
+   
+</head>
+<body>
+	<!-- development.html for testing the popups locally.
+	For this to work, the gitServer has to be running at http://localhost/dialogstest, and this file
+	also has to be served from http://localhost/dialogstest.
+	One way to do that is to start the gitserver at localhost:3000 using 'npm run start' and then 
+	add the following to the local apache config:
+	
+	ProxyPass /dialogstest/github http://localhost:3000/github
+	ProxyPassReverse /dialogstest/github http://localhost:3000/github
+
+	and then also symlink the test directory from this project into the apache home directory (which on OSX is /Library/WebServer/Documents)
+
+	sudo ln -s /Users/jc/Dropbox/cwrc/github/cwrc-git-dialogs dialogstest
+	--> 
+	<div  style="text-align:center;margin-top:5em">
+	 <button id="load-pop" type="button" class="btn btn-default">Open File Load Popup</button>
+	 <button id="save-pop" type="button" class="btn btn-default">Open File Save Popup</button>
+    </div>
+
+	<script type="text/javascript" src ="./build/development.js"></script>
+	
+</body>
+</html>
