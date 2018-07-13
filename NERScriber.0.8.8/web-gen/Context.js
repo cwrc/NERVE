@@ -42,6 +42,27 @@ class Context {
 		}
 		throw new Error("ca.sharcnet.nerve.context.ContextException");
 	}
+	getStandardTag(schemaTagName) {
+		for(let tagInfo of this.tagList){
+			if (tagInfo.getName() === schemaTagName)return tagInfo.getStandard();
+			
+		}
+		throw new Error("ca.sharcnet.nerve.context.ContextException");
+	}
+	isTagName(schemaTagName) {
+		for(let tagInfo of this.tagList){
+			if (tagInfo.getName() === schemaTagName)return true;
+			
+		}
+		return false;
+	}
+	isStandardTag(schemaTagName) {
+		for(let tagInfo of this.tagList){
+			if (tagInfo.getStandard() === schemaTagName)return true;
+			
+		}
+		return false;
+	}
 };
 
 if (typeof module !== "undefined") module.exports = Context;
