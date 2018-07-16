@@ -10,14 +10,6 @@ class Menu extends AbstractModel {
         $("#fileOpenDialog").change(async (event) => {
         });
 
-        /* search events */
-//        $("#searchTextArea").keyup((event) => {
-//            if (event.keyCode !== 13) return;
-//            event.stopPropagation();
-//            this.model.getSearchModel().search($("#searchTextArea").val());
-//            this.model.getSearchModel().next();
-//        });
-
         /* menu events key events fire these events */
         $("#menuSave").click(async (event) => {
             event.stopPropagation();
@@ -150,9 +142,6 @@ class Menu extends AbstractModel {
                     case "e":
                         $("#menuTag").click();
                         break;
-//                    case "f":
-//                        $("#menuFind").click();
-//                        break;
                     case "m":
                         $("#menuMerge").click();
                         break;
@@ -185,6 +174,7 @@ class Menu extends AbstractModel {
                         break;
                     case "Escape":
                         $("#menuClear").click();
+                        this.triggerConsoleClear();
                         break;
                     default:
                         return;
@@ -194,6 +184,18 @@ class Menu extends AbstractModel {
             event.preventDefault();
             event.stopPropagation();
         });
+    }
+    
+    triggerConsoleClear(){
+        if (this.clearConsoleTimer !== undefined){
+            clearTimeout(this.clearConsoleTimer);
+            this.clearConsoleTimer = undefined;
+            console.clear();
+        }
+        
+        this.clearConsoleTimer = setTimeout(()=>{
+            this.clearConsoleTimer = undefined;
+        }, 500);
     }
 }
 

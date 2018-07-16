@@ -44,12 +44,13 @@ class ContextMenu {
             });
         });
 
+        /* setup menu clicks */
         $(ContextMenu.SELECTOR).find(".context-item > .context-label").click((event) => {
             if ($(event.delegateTarget).parent().hasClass("inactive")) return;
             let flags = $(event.delegateTarget).parent().data("contextflags");
             if (flags && flags.hide) $(ContextMenu.SELECTOR).hide();
             let eventname = $(event.delegateTarget).parent().attr("data-eventname");
-            this.taggedEntityWidget.notifyListeners(eventname, this.taggedEntityWidget);
+            TaggedEntityWidget.delegate.notifyListeners(eventname, this.taggedEntityWidget);
         });
         
         /* setup help popups */
@@ -59,7 +60,6 @@ class ContextMenu {
                 let target = $(e).attr("data-context-help");
                 $(ContextMenu.SELECTOR).find(`#${target}`).show();
                 this.position($(ContextMenu.SELECTOR).find(`#${target}`).get(0), event);
-                console.log(target);
             });
         });
         
@@ -199,20 +199,11 @@ ContextMenu.SELECTOR = "#taggedEntityContextMenu";
  * 
  * @type type
  */
-class TaggedEntityWidget extends AbstractModel {
-    constructor(model, dragDropHandler, element, tagName = null) {
-        Utility.log(TaggedEntityWidget, "constructor");
-//        // Utility.enforceTypes(arguments, Model, DragDropHandler, HTMLDivElement, ["optional", String]);
-
-        super();
+class TaggedEntityWidget {
+    constructor(dragDropHandler, element, tagName = null) {
         this.element = element;
         this.dragDropHandler = dragDropHandler;
-        this.model = model;
-        this.context = model.getContext();
         element.entity = this;
-
-        this.addListener(this);
-        this.addListener(model);
 
         $(element).addClass("taggedentity");
         $(element).attr("draggable", "true");
@@ -228,12 +219,12 @@ class TaggedEntityWidget extends AbstractModel {
 
         $(element).click((event) => {
             if (event.button !== 0) return; /* left click only */
-            this.model.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
+            TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
             event.stopPropagation();
         });
         $(element).dblclick((event) => {
             if (event.button !== 0) return; /* left click only */
-            this.model.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
+            TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
             event.stopPropagation();
         });
 
@@ -244,11 +235,6 @@ class TaggedEntityWidget extends AbstractModel {
          */
         if (tagName !== null) this.tag(tagName, true);
         this.lemma(this.text(), true);
-    }
-
-    contextShowHTML() {
-        window.last = this;
-        new ShowHTMLWidget(this).show();
     }
 
     contextUntag() {
@@ -331,20 +317,24 @@ class TaggedEntityWidget extends AbstractModel {
         return this.contents;
     }
 
+    getContext(){
+        return TaggedEntityWidget.delegate.getContext();
+    }
+
     tag(value = null, silent = false) {
         Utility.log(TaggedEntityWidget, "tag", value);
         if (value === null) return $(this.element).tag();
        
         let updateInfo = new EntityValues(null, null, null, $(this.element).tag(), null);
 
-        if (!this.context.isStandardTag(value)) {
+        if (!this.getContext().isStandardTag(value)) {
             throw new Error(`Tagname '${value}' doesn't match any known standard tag in context ${this.context.getName()}`);
         }
 
         $(this.markup).text(value);
         $(this.element).tag(value);
 
-        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         return $(this.element).tag();
     }
     /**
@@ -360,7 +350,7 @@ class TaggedEntityWidget extends AbstractModel {
 
         $(this.element).lemma(value);
 
-        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         return $(this.element).lemma();
     }
     link(value = null, silent = false) {
@@ -370,7 +360,7 @@ class TaggedEntityWidget extends AbstractModel {
 
         $(this.element).link(value);
 
-        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         return $(this.element).link();
     }
     text(value = null, silent = false) {
@@ -380,7 +370,7 @@ class TaggedEntityWidget extends AbstractModel {
 
         $(this.contents).text(value);
 
-        if (!silent) this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         return $(this.element).link();
         return $(this.contents).text();
     }
@@ -393,7 +383,7 @@ class TaggedEntityWidget extends AbstractModel {
         
         if (!silent){
             console.warn(silent);
-            this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+            TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         }
         return $(this.element).xmlAttr(Constants.DICT_SRC_ATTR);
     }
@@ -424,7 +414,7 @@ class TaggedEntityWidget extends AbstractModel {
                 updateInfo.datasource(this.datasource());
                 this.datasource(value.datasource(), true);
             }
-            if (!silent) this.model.notifyListeners("notifyEntityUpdate", this, updateInfo);
+            if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         }
 
         return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
@@ -442,17 +432,38 @@ class TaggedEntityWidget extends AbstractModel {
         $(this.element).removeClass(classname);
     }
 
-    setHasBackground(value) {
-        $(this.contents).attr(`data-hasbg`, value);
-    }
-
     highlight(value) {
         if (value === undefined) return $(this.element).hasClass("selected");
         else if (value) $(this.element).addClass("selected");
         else $(this.element).removeClass("selected");
     }
+  
 }
 ;
 
+class TaggedEntityDelegate extends AbstractModel{
+    
+    constructor(){
+        super();
+        this.contxt = null;
+        this.addListener(this);
+    }
+    
+    getContext(){
+        return this.context;
+    }
+    
+    notifyContextChange(context){
+        this.context = context;
+    }
+    
+    contextShowHTML(taggedEntityWidget) {
+        window.last = this;
+        new ShowHTMLWidget(taggedEntityWidget).show();
+    }
+}
+
 TaggedEntityWidget.contextMenu = new ContextMenu();
+TaggedEntityWidget.delegate = new TaggedEntityDelegate();
+
 module.exports = TaggedEntityWidget;

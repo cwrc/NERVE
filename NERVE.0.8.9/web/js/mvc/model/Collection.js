@@ -8,11 +8,8 @@
 Utility = require("../../util/utility");
 AbstractModel = require("./AbstractModel");
 
-module.exports = class Collection extends AbstractModel{
+module.exports = class Collection extends AbstractModel {
     constructor(array) {
-        Utility.log(Collection, "constructor");
-        // Utility.enforceTypes(arguments, ["optional", Array, HTMLCollection]);
-
         super();
         this.delegate = this;
 
@@ -25,7 +22,7 @@ module.exports = class Collection extends AbstractModel{
         }
     }
 
-    setDelegate(delegate){
+    setDelegate(delegate) {
         this.delegate = delegate;
     }
 
@@ -35,57 +32,48 @@ module.exports = class Collection extends AbstractModel{
     [Symbol.iterator] () {
         return this.innerArray[Symbol.iterator]();
     }
+            
     add(obj) {
-        Utility.log(Collection, "add");
-        // Utility.enforceTypes(arguments, Object);
-
-        if (!this.contains(obj)) {
+        let notifyarray = [];
+        if (obj instanceof Array) {
+            for (let o of obj) {
+                if (!this.contains(o)) {
+                    this.innerArray.push(o);
+                    notifyarray.push(o);
+                }
+            }
+        } else if (!this.contains(obj)) {
             this.innerArray.push(obj);
-            this.delegate.notifyListeners("notifyCollectionAdd", this, obj);
+            notifyarray.push(obj);
         }
+        this.delegate.notifyListeners("notifyCollectionAdd", this, notifyarray);
     }
     set(obj) {
-        Utility.log(Collection, "add");
-        // Utility.enforceTypes(arguments, Object);
         this.clear();
         this.add(obj);
     }
     async clear() {
-        Utility.log(Collection, "clear");
-        // Utility.enforceTypes(arguments);
         if (this.isEmpty()) return;
         let oldArray = this.innerArray;
         this.innerArray = [];
         await this.delegate.notifyListeners("notifyCollectionClear", this, oldArray);
     }
     get(i) {
-        Utility.log(Collection, "get");
-        // Utility.enforceTypes(arguments, Number);
         return this.innerArray[i];
     }
     getLast() {
-        Utility.log(Collection, "getLast");
-        // Utility.enforceTypes(arguments);
         return this.innerArray[this.innerArray.length - 1];
     }
     getFirst() {
-        Utility.log(Collection, "getFirst");
-        // Utility.enforceTypes(arguments);
         return this.innerArray[0];
     }
     size() {
-        Utility.log(Collection, "size");
-        // Utility.enforceTypes(arguments);
         return this.innerArray.length;
     }
     isEmpty() {
-        Utility.log(Collection, "isEmpty", "", this.innerArray.length === 0);
-        // Utility.enforceTypes(arguments);
         return this.innerArray.length === 0;
     }
     remove(obj) {
-        Utility.log(Collection, "remove");
-        // Utility.enforceTypes(arguments, Object);
         if (!this.contains(obj)) return null;
         this.innerArray.splice(this.innerArray.indexOf(obj), 1);
         this.delegate.notifyListeners();
@@ -93,8 +81,6 @@ module.exports = class Collection extends AbstractModel{
         return obj;
     }
     contains(obj) {
-        Utility.log(Collection, "contains");
-        // Utility.enforceTypes(arguments, Object);
         return this.innerArray.indexOf(obj) !== -1;
     }
 }

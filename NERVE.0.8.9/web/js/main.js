@@ -20,9 +20,9 @@ window.jjjrmi = require("jjjrmi");
 $(window).on('load', async function () {
     console.log("Initializing main");
 
-    jjjrmi.JJJRMISocket.flags.CONNECT = true;
-    jjjrmi.JJJRMISocket.flags.RECEIVED = true;
-    jjjrmi.JJJRMISocket.flags.SENT = true;
+//    jjjrmi.JJJRMISocket.flags.CONNECT = true;
+//    jjjrmi.JJJRMISocket.flags.RECEIVED = true;
+//    jjjrmi.JJJRMISocket.flags.SENT = true;
 
     jjjrmi.JJJRMISocket.registerPackage(require("nerscriber"));
     jjjrmi.JJJRMISocket.registerPackage(require("jjjsql"));
@@ -68,28 +68,36 @@ class Main extends AbstractModel {
         this.menu = new Menu();
         
         /* SETUP ALL CROSS LISTENERS (order may matter) */
+        /* model saves state and has to be the last listener */
         this.model.addListener(this.lemmaDialogWidget);        
         this.model.addListener(this.entityPanelWidget);
         this.model.addListener(this.entityDialog);
-        this.model.addListener(this.lemmaDialogWidget); 
         this.model.addListener(TaggedEntityWidget.contextMenu);
-        
+        this.model.addListener(TaggedEntityWidget.delegate);
+                
+        this.entityPanelWidget.addListener(this.lemmaDialogWidget);
         this.entityPanelWidget.addListener(this.model);
+        
         this.lemmaDialogWidget.addListener(this.entityPanelWidget);    
         
         this.entityDialog.addListener(this.lemmaDialogWidget);
-        this.entityDialog.addListener(this.entityPanelWidget);
-        this.entityDialog.addListener(this.model);
+        this.entityDialog.addListener(this.entityPanelWidget);        
         this.entityDialog.addListener(this.cwrc);
+        this.entityDialog.addListener(this.model);
         
         this.entityPanelWidget.addListener(this.entityDialog);
 
         this.cwrc.addListener(this.entityPanelWidget);
         this.cwrc.addListener(this.entityDialog);        
 
-        this.menu.addListener(this.view);
+        this.menu.addListener(this.view);        
+        this.menu.addListener(this.entityPanelWidget);
         this.menu.addListener(this.model);
-        this.menu.addListener(this.entityPanelWidget);            
+                
+        TaggedEntityWidget.delegate.addListener(TaggedEntityWidget.contextMenu);
+        TaggedEntityWidget.delegate.addListener(this.entityPanelWidget);
+        TaggedEntityWidget.delegate.addListener(this.lemmaDialogWidget);
+        TaggedEntityWidget.delegate.addListener(this.model);
         
         /* --- CONNECT SOCKET AND EXTRANEOUS SETUP --- */
         this.rootSocket = new jjjrmi.JJJRMISocket("NerveSocket");   
@@ -99,8 +107,9 @@ class Main extends AbstractModel {
 
         this.rootObject.getProgressMonitor().addListener(this.view);
 
-        /* this has to be kept near the end as it triggers a notifyContextChange event */
-        await this.model.init(this.rootObject.dictionary); 
+        /* model.init has to be kept near the end as it triggers a notifyContextChange event */
+        await this.entityPanelWidget.init(this.rootObject.dictionary);
+        await this.model.init(this.rootObject.dictionary);        
         
         this.view.showThrobber(false);
         

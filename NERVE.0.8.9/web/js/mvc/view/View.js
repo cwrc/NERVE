@@ -6,7 +6,6 @@ module.exports = class View {
     constructor() {
         Utility.log(View, "constructor");
 
-        this.context = null;
         this.onMenuTags(false);
 
         this.delayThrobber = null;
@@ -23,10 +22,9 @@ module.exports = class View {
         $("#documentTitle").text("");
     }
 
-    notifyCollectionAdd(collection, TaggedEntityWidget) {
-        Utility.log(View, "notifyCollectionAdd", TaggedEntityWidget.text());
-        // // Utility.enforceTypes(arguments, Collection, TaggedEntityWidget);
-        $(TaggedEntityWidget.getElement()).addClass("selected");
+    notifyCollectionAdd(collection, taggedEntityWidgets) {
+        let taggedEntityWidget = taggedEntityWidgets[0];
+        $(taggedEntityWidget.getElement()).addClass("selected");
     }
     notifyCollectionClear(collection, TaggedEntityWidgets) {
         Utility.log(View, "notifyCollectionClear");
@@ -135,59 +133,6 @@ module.exports = class View {
         $(modal).modal("show");
     }    
     
-    notifyContextChange(context) {
-        Utility.log(View, "notifyContextChange");
-        // // Utility.enforceTypes(arguments, Context);
-
-        /* remove old .css class */
-        if (this.context !== null) {
-            for (let stylename of this.context.styles()) {
-                $("#entityPanel").removeClass(stylename);
-            }
-        }
-
-        this.context = context;
-
-        /* add new .css class */
-        for (let stylename of this.context.styles()) {
-            $("#entityPanel").addClass(stylename);
-        }
-    }
-    /* add a link element to the head of the document as a style sheet.  Adds
-     * a link id = filename so it's easily found again.
-     * @param {type} filename
-     * @returns {undefined}
-     */
-    attachStyle(filename) {
-        Utility.log(View, "attachStyle", filename);
-        // // Utility.enforceTypes(arguments, String);
-
-        var fileref = document.createElement("link");
-        fileref.setAttribute("rel", "stylesheet");
-        fileref.setAttribute("type", "text/css");
-        fileref.setAttribute("href", "styles/" + filename);
-        fileref.setAttribute("id", filename);
-        document.head.appendChild(fileref);
-
-        window.requestAnimationFrame(() => {
-            $(window).trigger('resize');
-        });
-    }
-    /* Removes a stylesheet that was attached using the 'attachstyle' method.
-     *
-     * @param {type} filename
-     * @returns {undefined}
-     */
-    detachStyle(filename) {
-        Utility.log(View, "detachStyle", filename);
-        // // Utility.enforceTypes(arguments, String);
-
-        let style = document.getElementById(filename);
-        if (typeof style !== "undefined" && style !== null) {
-            let parent = style.parentNode;
-            parent.removeChild(style);
-        }
-    }
     clearThrobber() {
         this.showThrobber(false);
         $("message").text("");
@@ -250,10 +195,10 @@ module.exports = class View {
         }
         
         if (this.tagMode) {
-            $("#menuTags").text("Tag Mode On");
+            $("#menuTags").text("Show Tags Enabled");
             $("#entityPanel").addClass("show-tags");
         } else {
-            $("#menuTags").text("Tag Mode Off");
+            $("#menuTags").text("Show Tags Disabled");
             $("#entityPanel").removeClass("show-tags");
         }
     }

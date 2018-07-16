@@ -30,9 +30,15 @@ class LemmaWidget {
         this.dragDropHandler = dragDropHandler;
 
         this.element = $(document.createElement("button"));
+        this.element.addClass("lemmaWidget");
         this.element.addClass("btn");
         this.element.addClass("btn-primary");
         this.element.text(text);
+
+        this.countElement = $(document.createElement("div"));
+        $(this.countElement).text("0");
+        $(this.countElement).addClass("count");
+        this.element.append(this.countElement);
 
         $(this.element).attr("draggable", "true");
         $(this.element).on("dragstart", (event) => this.dragstart(event));
@@ -46,12 +52,18 @@ class LemmaWidget {
             delegate.notifyListeners("notifyDblClickLemmaWidget", lemma, category, event.ctrlKey, event.shiftKey, event.altKey);
         });
 
+        this.entities = [];
         this.appendTo("#lemmaDialog > #displayArea");
     }
+
+    getEntityArray() {
+        return this.entities;
+    }
+
     drop(event) {
         if (this.dragDropHandler.hasData("lemmaWidget")) {
             let src = this.dragDropHandler.deleteData("lemmaWidget");
-            for (let entity of src.taggedEntities) {
+            for (let entity of src.entities) {
                 entity.lemma(this.lemma);
                 entity.tag(this.category);
             }
@@ -89,42 +101,45 @@ class LemmaWidget {
     appendTo(target) {
         $(target).append(this.element);
     }
-    active(value) {
-        if (value === undefined) return $(this.element).hasClass("highlight");
-        else if (value) $(this.element).addClass("highlight");
-        else $(this.element).removeClass("highlight");
-    }
-
     addEntity(taggedEntityWidget) {
-        if (this.taggedEntities.contains(taggedEntityWidget)) return false;
-        this.taggedEntities.add(taggedEntityWidget);
-        return true;
+        if (this.entities.indexOf(taggedEntityWidget) !== -1) return false;
+        this.entities.push(taggedEntityWidget);
+        $(this.countElement).text(this.entities.length);
+        return this.entities.length;
     }
     removeEntity(taggedEntityWidget) {
-        if (!this.taggedEntities.contains(taggedEntityWidget)) return false;
-        this.taggedEntities.remove(taggedEntityWidget);
-        return true;
+        let index = this.entities.indexOf(taggedEntityWidget);
+        if (index === -1) throw new Error("Lemma Widget does not contain entity");
+        this.entities.splice(index, 1);
+        $(this.countElement).text(this.entities.length);
+        return this.entities.length;
     }
-    entityCount() {
-        return this.taggedEntities.size();
+    highlight(value) {
+        if (value === undefined) return this.element.hasClass("highlight");
+        if (value) this.element.addClass("highlight");
+        else this.element.removeClass("highlight");        
     }
 }
 
 class CategoryButton {
-    constructor(text, category, lemmaDialogWidget) {
+    constructor(text, category, lemmaDialogWidget, dragDropHandler) {
         this.category = category;
+        this.dragDropHandler = dragDropHandler;
         this.element = $(document.createElement("button"));
         this.element.addClass("btn");
         this.element.addClass("btn-primary");
         this.element.addClass("active");
         this.element.text(text);
 
+        $(this.element).on("dragover", (event) => this.dragover(event));
+        $(this.element).on("drop", (event) => this.drop(event));
+
         $(this.element).mouseup(() => {
             lemmaDialogWidget.toggleCategory(this);
         });
         $(this.element).dblclick(() => {
             lemmaDialogWidget.selectNoCategories();
-            lemmaDialogWidget.selectCategory(this);
+            lemmaDialogWidget.enableCategory(this);
         });
 
         this.appendTo("#lemmaDialog > #buttonArea");
@@ -143,6 +158,17 @@ class CategoryButton {
     appendTo(target) {
         $(target).append(this.element);
     }
+    drop(event) {
+        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
+            let src = this.dragDropHandler.deleteData("TaggedEntityWidget");
+            src.tag(this.category);
+        }
+    }
+    dragover(event) {
+        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
+            event.originalEvent.preventDefault();
+        }
+    }
 }
 
 /**
@@ -155,6 +181,8 @@ class LemmaDialogWidget extends AbstractModel {
         this.categories = new Map();
         this.dragDropHandler = dragDropHandler;
         this.categoryButtons = [];
+        this.entityLemmaMap = new Map(); /* lemmas may change, need to know old lemma */
+        this.entityTagMap = new Map(); /* tags may change, need to know old tag */
 
         if ($("#lemmaDialog > #buttonArea").length === 0) {
             console.warn("element #lemmaDialog > #buttonArea not found");
@@ -180,41 +208,85 @@ class LemmaDialogWidget extends AbstractModel {
         });
     }
 
-    async notifyContextChange(context) {
-        this.context = context;
-
+    notifyUnsetDocument() {
         for (let button of this.categoryButtons) {
             button.detach();
         }
+
+        $(".lemmaWidget").detach();
+
         this.categoryButtons = [];
         this.categories = new Map();
+        this.entityLemmaMap = new Map();
+        this.entityTagMap = new Map();
+    }
+
+    async notifyContextChange(context) {
+        this.context = context;
+        this.notifyUnsetDocument();
 
         for (let tagInfo of context.tags()) {
             if (this.categories.has(tagInfo.getStandard())) continue;
             this.categories.set(tagInfo.getStandard(), new Map());
-            let button = new CategoryButton(tagInfo.getName(), tagInfo.getStandard(), this);
+            let button = new CategoryButton(tagInfo.getName(), tagInfo.getStandard(), this, this.dragDropHandler);
             this.categoryButtons.push(button);
         }
+    }
+
+    async notifyEntityUpdate(taggedEntityWidget) {
+        this.untagEntity(taggedEntityWidget);
+        this.newTaggedEntity(taggedEntityWidget);
     }
 
     newTaggedEntity(taggedEntityWidget) {
         let lemma = taggedEntityWidget.lemma();
         let tag = taggedEntityWidget.tag();
         let categoryMap = this.categories.get(tag);
-
-        console.log(tag);
-        console.log(categoryMap);
-
-        if (categoryMap.has(lemma)) return;
+        if (categoryMap === undefined) throw new Error(`Category ${tag} not found`);
 
         let text = lemma + " - " + this.context.getTagInfo(tag).getName();
-        let lemmaWidget = new LemmaWidget(text, lemma, tag, this, this.dragDropHandler);
-        categoryMap.set(lemma, lemmaWidget);
+
+        if (!categoryMap.has(lemma)) {
+            let lemmaWidget = new LemmaWidget(text, lemma, tag, this, this.dragDropHandler);
+            categoryMap.set(lemma, lemmaWidget);
+        }
+
+        let lemmaWidget = categoryMap.get(lemma);
+
+        lemmaWidget.addEntity(taggedEntityWidget);
+
+        this.entityLemmaMap.set(taggedEntityWidget, lemma);
+        this.entityTagMap.set(taggedEntityWidget, tag);
     }
 
     async notifyNewTaggedEntities(taggedEntityWidgetArray) {
         for (let taggedEntityWidget of taggedEntityWidgetArray) {
             this.newTaggedEntity(taggedEntityWidget);
+        }
+    }
+
+    untagEntity(taggedEntityWidget) {
+        let lemma = this.entityLemmaMap.get(taggedEntityWidget);
+        let tag = this.entityTagMap.get(taggedEntityWidget);
+        if (lemma === undefined || tag === undefined) console.warn(`TaggedEntityWidget not found`);
+        this.entityLemmaMap.delete(taggedEntityWidget);
+        this.entityTagMap.delete(taggedEntityWidget);
+
+        let categoryMap = this.categories.get(tag);
+        if (categoryMap === undefined) throw new Error(`Category ${tag} not found`);
+        let lemmaWidget = categoryMap.get(lemma);
+        let r = lemmaWidget.removeEntity(taggedEntityWidget);
+
+        if (r === 0) {
+            let r = categoryMap.delete(lemma);
+            if (!r) throw new Error("Lemma not removed from category map.");
+            lemmaWidget.detach();
+        }
+    }
+
+    async notifyUntaggedEntities(taggedEntityWidgetArray) {
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
+            this.untagEntity(taggedEntityWidget);
         }
     }
 
@@ -261,173 +333,45 @@ class LemmaDialogWidget extends AbstractModel {
         this.notifyListeners("notifyDisableCategories", categoryArray);
     }
 
-//
-//    notifyUnsetDocument() {
-//        let lemmaWidgetArray = [];
-//        for (let taggedEntityWidget of this.taggedEntityList) {
-//            let lemmaWidget = this.getWidget(taggedEntityWidget.lemma(), taggedEntityWidget.tag());
-//            lemmaWidgetArray.push(lemmaWidget);
-//            lemmaWidget.removeEntity(taggedEntityWidget);
-//
-//            if (lemmaWidget.entityCount() === 0) {
-//                this.removeWidget(taggedEntityWidget.lemma(), taggedEntityWidget.tag());
-//            }
-//        }
-//        this.notifyListeners("notifyRemoveLemmas", lemmaWidgetArray);
-//    }
-//
-//    async notifyEntityUpdate(taggedEntityWidget, oldValues) {
-//        let lemmaWidget = this.addWidget(taggedEntityWidget.lemma(), taggedEntityWidget.tag());
-//        this.notifyListeners("notifyAddLemmas", [lemmaWidget]);
-//
-//        let oldLemma = taggedEntityWidget.lemma();
-//        let oldTag = taggedEntityWidget.tag();
-//        if (oldValues.lemma() !== null) oldLemma = oldValues.lemma();
-//        if (oldValues.tag() !== null) oldTag = oldValues.tag();
-//
-//        let oldLemmaWidget = this.getWidget(oldLemma, oldTag);
-//        let newLemmaWidget = this.getWidget(taggedEntityWidget.lemma(), taggedEntityWidget.tag());
-//        oldLemmaWidget.removeEntity(taggedEntityWidget);
-//        newLemmaWidget.addEntity(taggedEntityWidget);
-//
-//        if (oldLemmaWidget.entityCount() === 0) {
-//            let lemmaWidget = this.removeWidget(oldLemma, oldTag);
-//            this.notifyListeners("notifyRemoveLemmas", [lemmaWidget]);
-//        }
-//    }
-//
-//    async notifyNewTaggedEntities(taggedEntityWidgetArray) {
-//        let lemmaWidgetArray = [];
-//
-//        for (let taggedEntityWidget of taggedEntityWidgetArray) {
-//            let lemma = taggedEntityWidget.lemma();
-//            let tag = taggedEntityWidget.tag();
-//            
-//            let key = lemma + ":" + tag;
-//            if (this.lemmaWidgets.has(key)) return this.lemmaWidgets.get(key);
-//            let lemmaWidget = new LemmaWidget(lemma, tag, this, this.dragDropHandler);
-//            this.lemmaWidgets.set(key, lemmaWidget);
-//            
-//            this.taggedEntityList.add(taggedEntityWidget);
-//            lemmaWidget.addEntity(taggedEntityWidget);
-//            lemmaWidgetArray.push(lemmaWidget);
-//            
-//            lemmaWidget.appendTo("#lemmaDialog > #displayArea");
-//            this.lemmaWidgets.set(key, lemmaWidget);
-//
-//            if (!this.categoryButtons.has(lemmaWidget.getCategory())) {
-//                console.warn("category not found: " + lemmaWidget.getCategory());
-//                return;
-//            }
-//
-//            let categoryButton = this.categoryButtons.get(lemmaWidget.getCategory());
-//            if (categoryButton.active()) lemmaWidget.show();
-//            else lemmaWidget.hide();            
-//        }
-//        this.notifyListeners("notifyAddLemmas", lemmaWidgetArray);
-//    }
-//
-//    async notifyUntaggedEntities(taggedEntityWidgetArray) {
-//        let lemmaWidgetArray = [];
-//
-//        for (let taggedEntityWidget of taggedEntityWidgetArray) {
-//            this.taggedEntityList.remove(taggedEntityWidget);
-//            let lemmaWidget = this.getWidget(taggedEntityWidget.lemma(), taggedEntityWidget.tag());
-//
-//            if (lemmaWidget === null || lemmaWidget === undefined) {
-//                let error = new Error("Undefined Lemma Widget");
-//                error.taggedEntityWidget = taggedEntityWidget;
-//                window.error = error;
-//                throw error;
-//            }
-//
-//            lemmaWidget.removeEntity(taggedEntityWidget);
-//            if (lemmaWidget.entityCount() === 0) {
-//                let lemmaWidget = this.removeWidget(taggedEntityWidget.lemma(), taggedEntityWidget.tag());
-//                lemmaWidgetArray.push(lemmaWidget);
-//            }
-//        }
-//        this.notifyListeners("notifyRemoveLemmas", lemmaWidgetArray);
-//    }
-//
-//    hasWidget(lemma, category) {
-//        let key = lemma + ":" + category;
-//        return this.lemmaWidgets.has(key);
-//    }
-//
-//    removeWidget(lemma, category) {
-//        let key = lemma + ":" + category;
-//        if (!this.lemmaWidgets.has(key)) return;
-//        let lemmaWidget = this.lemmaWidgets.get(key);
-//        lemmaWidget.detach();
-//        this.lemmaWidgets.delete(key);
-//        return lemmaWidget;
-//    }
-//
-//    getWidget(lemma, category) {
-//        let key = lemma + ":" + category;
-//        return this.lemmaWidgets.get(key);
-//    }
-//
-
-//    selectCategory(categoryButton) {
-//        if (!categoryButton.active()) {
-//            categoryButton.active(true);
-//            this.notifyListeners("notifySelectCategory", categoryButton);
-//        }
-//    }
-//    unselectCategory(categoryButton) {
-//        if (categoryButton.active()) {
-//            categoryButton.active(false);
-//            this.notifyListeners("notifyUnselectCategory", categoryButton);
-//        }
-//    }
-//
     layout() {
         let calculatedHeight = `calc(100% - ${this.buttonArea.height() + 25}px)`;
         this.displayArea.height(calculatedHeight);
     }
-//
-//    notifyAddCategories(categoryButtonArray) {
-//        for (let categoryButton of categoryButtonArray) {
-//            categoryButton.appendTo(this.buttonArea);
-//            this.categoryButtons.set(categoryButton.getCategory(), categoryButton);
-//        }
-//        this.layout();
-//    }
-//
-//    notifyRemoveLemmas(lemmaWidgetArray) {
-//        for (let lemmaWidget of lemmaWidgetArray) {
-//            lemmaWidget.detach();
-//            let index = this.lemmaWidgets.indexOf(lemmaWidget);
-//            this.lemmaWidgets.splice(index, 1);
-//        }
-//    }
-//    notifyUnselectCategory(categoryButton) {
-//        for (let widget of this.lemmaWidgets) {
-//            let category = categoryButton.getCategory();
-//            if (widget.getCategory() === category) {
-//                widget.hide();
-//            }
-//        }
-//    }
-//    notifySelectCategory(categoryButton) {
-//        for (let widget of this.lemmaWidgets) {
-//            let category = categoryButton.getCategory();
-//            if (widget.getCategory() === category) {
-//                widget.show();
-//            }
-//        }
-//    }
-//
-//    scrollTo(lemmaWidget) {
-//        let element = lemmaWidget.element;
-//
-//        $("#displayArea").scrollTop(
-//                $(element).offset().top - $("#displayArea").offset().top + $("#displayArea").scrollTop() - ($("#displayArea").height() / 2)
-//                );
-//    }
+
+    notifyCollectionAdd(collection, taggedEntityWidgets) {
+        let taggedEntityWidget = taggedEntityWidgets[0];
+        let lemma = this.entityLemmaMap.get(taggedEntityWidget);
+        let tag = this.entityTagMap.get(taggedEntityWidget);
+        if (lemma === undefined || tag === undefined) throw new Error(`TaggedEntityWidget not found`);
+
+        let categoryMap = this.categories.get(tag);
+        if (categoryMap === undefined) throw new Error(`Category ${tag} not found`);
+        let lemmaWidget = categoryMap.get(lemma);
+        this.scrollTo(lemmaWidget.element);
+        lemmaWidget.highlight(true);
+    }
+
+    notifyCollectionClear(collection, taggedEntityWidgets) {
+        for (let taggedEntityWidget of taggedEntityWidgets) {
+            let lemma = this.entityLemmaMap.get(taggedEntityWidget);
+            let tag = this.entityTagMap.get(taggedEntityWidget);
+            if (lemma === undefined || tag === undefined){
+                throw new Error(`TaggedEntityWidget not found: ${lemma} - ${tag} for ${taggedEntityWidget.lemma()} - ${taggedEntityWidget.tag()}`);
+            }
+
+            let categoryMap = this.categories.get(tag);
+            if (categoryMap === undefined) throw new Error(`Category ${tag} not found`);
+            let lemmaWidget = categoryMap.get(lemma);
+            lemmaWidget.highlight(false);
+        }
+    }
+
+    scrollTo(element) {
+        let elementRelativeTop = $(element).offset().top - $("#displayArea").offset().top;
+        let scrollTo = elementRelativeTop + $("#displayArea").scrollTop() - $("#displayArea").height() / 2;
+        $("#displayArea").scrollTop(scrollTo);
+    }
 }
-;
 
 module.exports = LemmaDialogWidget;
+

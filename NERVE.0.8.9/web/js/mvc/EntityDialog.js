@@ -105,13 +105,13 @@ class EntityDialog extends AbstractModel {
         this.__setTagName(this.context.tags().get(0).getStandard());
     }
 
-    notifyCollectionAdd(collection, TaggedEntityWidget) {
+    notifyCollectionAdd(collection, taggedEntityWidgets) {
         this.__setDialogs(collection);
     }
-    notifyCollectionClear(collection, TaggedEntityWidgets) {
+    notifyCollectionClear(collection, taggedEntityWidgets) {
         this.__clearDialogs();
     }
-    notifyCollectionRemove(collection, TaggedEntityWidget) {
+    notifyCollectionRemove(collection, taggedEntityWidgets) {
         if (collection.isEmpty()) this.__clearDialogs();
         this.__setDialogs(collection);
     }
@@ -127,6 +127,7 @@ class EntityDialog extends AbstractModel {
         this.__clearDialogs();
         this.__clearDialogBG();
 
+        if (collection.size() <= 0) return;
         let entity = collection.getLast();
 
         this.__setEntity(entity.text());

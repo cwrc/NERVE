@@ -35,7 +35,7 @@
         }
     ],
     "styles" : [
-        "playwrights"
+        "cwrc"
     ],
     "schemaName" : "http://cwrc.ca/schemas/cwrc_entry.rng",
     "tagSourceAttribute" : "whoTagged"

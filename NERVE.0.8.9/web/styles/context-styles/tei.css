@@ -2,1357 +2,1222 @@
     top: 16px;
 }
 
-.tei .xmltag[xmltagname="TEI"] {
-    margin : 10px 25px;
+.tei div[xmltagname="TEI"] {
     font-family : Georgia, serif;
     line-height : 1.5;
 }
 
-.tei .xmltag[xmltagname="abbr"] {
+.tei div[xmltagname="abbr"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="add"] {
+.tei div[xmltagname="add"] {
     display : inline;
     text-decoration : underline;
 }
 
-.tei .xmltag[xmltagname="anchor"] {
+.tei div[xmltagname="anchor"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="argument"] {
+.tei div[xmltagname="argument"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="att"] {
+.tei div[xmltagname="att"] {
     display : inline;
     font-family : sans-serif;
 }
 
-.tei .xmltag[xmltagname="author"] {
+.tei div[xmltagname="author"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="back"] {
+.tei div[xmltagname="back"] {
     display : block;
     border : thin black solid;
-    margin-top : 1em;
-    padding-top : 0.5em;
-    padding-left : 0.5em;
-    padding-right : 0.5em;
-    padding-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="bibl"] {
+.tei div[xmltagname="bibl"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="div"] {
-    margin:0 0 0 2em;
+.tei div[xmltagname="div"] {
 }
 
-.tei .xmltag[xmltagname="bibl"]>
-.tei .xmltag[xmltagname="note"] {
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="note"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="bibl"]>
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="title"] {
     content: "Alternate Title: " !important;
 }
 
-.tei .xmltag[xmltagname="bibl"]>
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="title"] {
     content: "";
 }
 
-.tei .xmltag[xmltagname="argument"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="body"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="cit"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div0"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div1"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div2"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div3"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div4"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div5"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div6"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="div7"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="epigraph"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="list"]
-.tei .xmltag[xmltagname="ibl"]>
-.tei .xmltag[xmltagname="bibl"]>
-.tei .xmltag[xmltagname="bibl"],
-.tei .xmltag[xmltagname="taxonomy"]>
-.tei .xmltag[xmltagname="bibl"] {
+.tei div[xmltagname="argument"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="body"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="cit"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div0"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div1"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div2"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div3"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div4"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div5"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div6"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="div7"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="epigraph"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="list"]
+.tei div[xmltagname="ibl"]>
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="bibl"],
+.tei div[xmltagname="taxonomy"]>
+.tei div[xmltagname="bibl"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="biblFull"] {
+.tei div[xmltagname="biblFull"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="argument"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="body"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="cit"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div0"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div1"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div2"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div3"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div4"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div5"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div6"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="div7"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="epigraph"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="listBibl"]>
-.tei .xmltag[xmltagname="biblFull"]>
-.tei .xmltag[xmltagname="biblFull"],
-.tei .xmltag[xmltagname="taxonomy"]>
-.tei .xmltag[xmltagname="biblFull"] {
+.tei div[xmltagname="argument"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="body"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="cit"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div0"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div1"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div2"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div3"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div4"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div5"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div6"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="div7"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="epigraph"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="listBibl"]>
+.tei div[xmltagname="biblFull"]>
+.tei div[xmltagname="biblFull"],
+.tei div[xmltagname="taxonomy"]>
+.tei div[xmltagname="biblFull"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="biblScope"] {
+.tei div[xmltagname="biblScope"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="imprint"]>
-.tei .xmltag[xmltagname="biblScope"] {
+.tei div[xmltagname="imprint"]>
+.tei div[xmltagname="biblScope"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="body"] {
-    margin-top : 5px;
-    padding : 0 2em 0 0;
+.tei div[xmltagname="body"] {
     display : block;
     counter-reset : div1;
 }
 
-.tei .xmltag[xmltagname="byline"] {
+.tei div[xmltagname="byline"] {
     display : block;
     font-style : italic;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="category"] {
+.tei div[xmltagname="category"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="catRef"] {
+.tei div[xmltagname="catRef"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="cell"] {
+.tei div[xmltagname="cell"] {
     display : table-cell;
     border : 1px solid #EEEFEE;
-    padding : 3px;
 }
 
-.tei .xmltag[xmltagname="change"] {
+.tei div[xmltagname="change"] {
     display : block;
-    margin-bottom : 1em;
-    margin-left : 2em;
 }
 
-.tei .xmltag[xmltagname="cit"] {
+.tei div[xmltagname="cit"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="argument"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div0"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div1"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div2"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div3"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div4"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div5"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div6"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="div7"] >
-.tei .xmltag[xmltagname="cit"] ,
-.tei .xmltag[xmltagname="epigraph"] >
-.tei .xmltag[xmltagname="cit"] {
-    display : block;
-    margin-bottom : 0.5em;
-    margin-top : 0.5em;
-}
-
-.tei .xmltag[xmltagname="classCode"] {
+.tei div[xmltagname="argument"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div0"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div1"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div2"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div3"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div4"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div5"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div6"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="div7"] >
+.tei div[xmltagname="cit"] ,
+.tei div[xmltagname="epigraph"] >
+.tei div[xmltagname="cit"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="elementSpec"],
-.tei .xmltag[xmltagname="macroSpec"],
-.tei .xmltag[xmltagname="classSpec"] {
+.tei div[xmltagname="classCode"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="closer"] {
+.tei div[xmltagname="elementSpec"],
+.tei div[xmltagname="macroSpec"],
+.tei div[xmltagname="classSpec"] {
     display : block;
-    margin-bottom : 1em;
+}
+
+.tei div[xmltagname="closer"] {
+    display : block;
     width : 95%;
 }
 
-.tei .xmltag[xmltagname="code"] {
+.tei div[xmltagname="code"] {
     display : inline;
     font-family : monospace;
 }
 
-.tei .xmltag[xmltagname="corr"] {
+.tei div[xmltagname="corr"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="creation"] {
+.tei div[xmltagname="creation"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="date"] {
+.tei div[xmltagname="date"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="change"]>
-.tei .xmltag[xmltagname="date"],
-.tei .xmltag[xmltagname="publicationStmt"]>
-.tei .xmltag[xmltagname="date"] {
+.tei div[xmltagname="change"]>
+.tei div[xmltagname="date"],
+.tei div[xmltagname="publicationStmt"]>
+.tei div[xmltagname="date"] {
     display : block;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="dateline"] {
+.tei div[xmltagname="dateline"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="del"] {
+.tei div[xmltagname="del"] {
     display : inline;
     color : red;
     background-color : inherit;
     text-decoration : line-through;
 }
 
-.tei .xmltag[xmltagname="distributor"] {
+.tei div[xmltagname="distributor"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="body"]>
-.tei .xmltag[xmltagname="div"] {
+.tei div[xmltagname="body"]>
+.tei div[xmltagname="div"] {
     display : block;
     counter-increment : div1;
     counter-reset : div2;
-    margin : 0 0 1.5em 0;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="div"] {
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div2;
     counter-reset : div3;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="div"] {
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div3;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] {
-    margin-bottom : 2em !important;
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] {
 }
 
-.tei .xmltag[xmltagname="div"] {
+.tei div[xmltagname="div"] {
     counter-reset:line;
 }
 
-.tei .xmltag[xmltagname="div1"] {
+.tei div[xmltagname="div1"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div1;
     counter-reset : div2;
 }
 
-.tei .xmltag[xmltagname="div2"] {
+.tei div[xmltagname="div2"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div2;
     counter-reset : div3;
 }
 
-.tei .xmltag[xmltagname="div3"] {
+.tei div[xmltagname="div3"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div3;
     counter-reset : div4;
 }
 
-.tei .xmltag[xmltagname="div4"] {
+.tei div[xmltagname="div4"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div4;
     counter-reset : div5;
 }
 
-.tei .xmltag[xmltagname="div5"] {
+.tei div[xmltagname="div5"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div5;
     counter-reset : div6;
 }
 
-.tei .xmltag[xmltagname="div6"] {
+.tei div[xmltagname="div6"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div6;
     counter-reset : div7;
 }
 
-.tei .xmltag[xmltagname="div7"] {
+.tei div[xmltagname="div7"] {
     display : block;
-    margin-bottom : 1em;
     counter-increment : div7;
 }
 
-.tei .xmltag[xmltagname="divGen"] {
+.tei div[xmltagname="divGen"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="docAuthor"] {
+.tei div[xmltagname="docAuthor"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="byline"]
-.tei .xmltag[xmltagname="docAuthor"] {
+.tei div[xmltagname="byline"]
+.tei div[xmltagname="docAuthor"] {
     display : inline;
 }
 
-
-.tei .xmltag[xmltagname="edition"] {
+.tei div[xmltagname="edition"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="bibl"]
-.tei .xmltag[xmltagname="edition"] {
+.tei div[xmltagname="bibl"]
+.tei div[xmltagname="edition"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="editionStmt"] {
-    display : block;
-    margin-bottom : 1em;
-}
-
-.tei .xmltag[xmltagname="editor"] {
+.tei div[xmltagname="editionStmt"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="bibl"]
-.tei .xmltag[xmltagname="editor"] {
+.tei div[xmltagname="editor"] {
+    display : block;
+}
+
+.tei div[xmltagname="bibl"]
+.tei div[xmltagname="editor"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="eg"] {
+.tei div[xmltagname="eg"] {
     font-family : monospace;
-    padding-top : 3mm;
-    padding-left : 4pt;
-    padding-bottom : 2pt;
     display : block;
-    margin-top : 12pt;
-    margin-bottom : 12pt;
     white-space : pre;
     color : inherit;
     background-color : #FFCC99;
 }
 
-.tei .xmltag[xmltagname="argument"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div0"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div1"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div2"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div3"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div4"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div5"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div6"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="div7"] >
-.tei .xmltag[xmltagname="eg"],
-.tei .xmltag[xmltagname="epigraph"] >
-.tei .xmltag[xmltagname="eg"] {
+.tei div[xmltagname="argument"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div0"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div1"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div2"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div3"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div4"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div5"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div6"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="div7"] >
+.tei div[xmltagname="eg"],
+.tei div[xmltagname="epigraph"] >
+.tei div[xmltagname="eg"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="emph"] {
+.tei div[xmltagname="emph"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="epigraph"] {
+.tei div[xmltagname="epigraph"] {
     display : block;
-    margin-bottom : 1em;
     text-align : center;
 }
 
-.tei .xmltag[xmltagname="extent"] {
+.tei div[xmltagname="extent"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="bibl"]
-.tei .xmltag[xmltagname="extent"] {
+.tei div[xmltagname="bibl"]
+.tei div[xmltagname="extent"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="graphic"] {
+.tei div[xmltagname="graphic"] {
     color : gray;
     background-color : inherit;
-    content : "{" attr(url) "}";
+    content : "{" attr(url) "}
+";
 }
 
-.tei .xmltag[xmltagname="figure"] {
+.tei div[xmltagname="figure"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="foreign"] {
+.tei div[xmltagname="foreign"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="formula"] {
+.tei div[xmltagname="formula"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="front"] {
+.tei div[xmltagname="front"] {
     display : block;
-    margin-bottom : 1em;
-    padding-top : 0.5em;
-    padding-left : 0.5em;
-    padding-right : 0.5em;
-    padding-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="funder"] {
+.tei div[xmltagname="funder"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="gap"] {
+.tei div[xmltagname="gap"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="gi"],
-.tei .xmltag[xmltagname="tag"] {
+.tei div[xmltagname="gi"],
+.tei div[xmltagname="tag"] {
     display : inline;
     font-family : sans-serif;
     color : black;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="gloss"] {
+.tei div[xmltagname="gloss"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="group"] {
+.tei div[xmltagname="group"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="head"] {
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
     display : block;
-    padding-top : 7px;
-    padding-bottom : 10px;
     color : inherit;
     font-weight : bold;
-    margin-bottom : 0.5em;
-    margin-top : 1em;
     font-size : 18px;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] >
-head .tei .xmltag[xmltagname="author"] {
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+head .tei div[xmltagname="author"] {
     font-weight:normal;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="head"] {
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
     display : block;
-    padding-top : 14px;
-    padding-bottom : 10px;
-    padding-left : 10px;
     color : inherit;
     background-color : #BBBBBB;
     font-weight : bold;
-    margin-bottom : 0.5em;
-    margin-top : 11px;
 }
 
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="head"] {
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
     display : block;
-    padding-top : 14px;
-    padding-bottom : 10px;
-    padding-left : 10px;
     color : inherit;
     background-color : #BBBBBB;
     font-weight : bold;
-    margin-bottom : 0.5em;
-    margin-top : 1em;
 }
 
-.tei .xmltag[xmltagname="div"]
-.tei .xmltag[xmltagname="opener"]
-.tei .xmltag[xmltagname="dateline"] {
+.tei div[xmltagname="div"]
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="dateline"] {
     display : block;
     text-align : right;
     width : 95%;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     background-color : yellow;
     color : black;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     background-color : inherit;
     color : inherit;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     text-decoration : underline;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     font-variant : small-caps;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     vertical-align : super;
     font-size : smaller;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     vertical-align : sub;
     font-size : smaller;
 }
 
-.tei .xmltag[xmltagname="hi"] {
+.tei div[xmltagname="hi"] {
     display : inline;
     text-decoration : underline;
 }
 
-.tei .xmltag[xmltagname="ident"] {
+.tei div[xmltagname="ident"] {
     display : inline;
     font-family : monospace;
 }
 
-.tei .xmltag[xmltagname="idno"] {
+.tei div[xmltagname="idno"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="bibl"]
-.tei .xmltag[xmltagname="idno"] {
+.tei div[xmltagname="bibl"]
+.tei div[xmltagname="idno"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="imprint"] {
+.tei div[xmltagname="imprint"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="index"] {
+.tei div[xmltagname="index"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="interp"] {
+.tei div[xmltagname="interp"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="interpGrp"] {
+.tei div[xmltagname="interpGrp"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="list"]
-.tei .xmltag[xmltagname="item"] {
+.tei div[xmltagname="list"]
+.tei div[xmltagname="item"] {
     display : block;
-    margin-left : 1em;
 }
 
-.tei .xmltag[xmltagname="list"]
-.tei .xmltag[xmltagname="item"] {
+.tei div[xmltagname="list"]
+.tei div[xmltagname="item"] {
     display : list-item;
-    margin-left : 12pt;
 }
 
-.tei .xmltag[xmltagname="item"] {
+.tei div[xmltagname="item"] {
     display : list-item;
-    margin-left : 12pt;
 }
 
-.tei .xmltag[xmltagname="change"]
-.tei .xmltag[xmltagname="item"] {
+.tei div[xmltagname="change"]
+.tei div[xmltagname="item"] {
     display : block;
-    margin-bottom : 0.5em;
-    margin-left : 1em;
-    margin-top : 0.5em;
 }
 
-.tei .xmltag[xmltagname="keywords"] {
+.tei div[xmltagname="keywords"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="kw"] {
+.tei div[xmltagname="kw"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="l"] {
+.tei div[xmltagname="l"] {
     display : block;
     white-space : nowrap;
 }
 
-.tei .xmltag[xmltagname="label"] {
+.tei div[xmltagname="label"] {
     display : inline;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="Label"] {
+.tei div[xmltagname="Label"] {
     display : inline;
     font-weight : bold;
     color : #2F4F4F;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="argument"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div0"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div1"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div2"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div3"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div4"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div5"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div6"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="div7"] >
-.tei .xmltag[xmltagname="label"] ,
-.tei .xmltag[xmltagname="epigraph"] >
-.tei .xmltag[xmltagname="label"] {
+.tei div[xmltagname="argument"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div0"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div1"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div2"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div3"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div4"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div5"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div6"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div7"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="epigraph"] >
+.tei div[xmltagname="label"] {
     display : block;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="langUsage"] {
-    display : block;
-    margin-bottom : 1em;
-}
-
-.tei .xmltag[xmltagname="lb"] {
+.tei div[xmltagname="langUsage"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="lg"] {
+.tei div[xmltagname="lb"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="lg"] {
+    display : block;
+}
+
+.tei div[xmltagname="list"] {
     display : block;
     list-style-type : disc;
     list-style-position : outside;
-    margin-bottom : 1em;
-    margin-left : 2em;
-    margin-top : 1em;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="list"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="list"] {
     list-style-type : disc;
     list-style-position : outside;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="list"] {
     list-style-type : disc;
     list-style-position : outside;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="list"] {
     list-style-type : decimal;
     list-style-position : outside;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="list"] {
     list-style-type : decimal;
     list-style-position : outside;
 }
 
-.tei .xmltag[xmltagname="list"] {
+.tei div[xmltagname="list"] {
     list-style-type : none;
 }
 
-.tei .xmltag[xmltagname="listBibl"] {
+.tei div[xmltagname="listBibl"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="mentioned"] {
+.tei div[xmltagname="mentioned"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="milestone"] {
+.tei div[xmltagname="milestone"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="name"] {
+.tei div[xmltagname="name"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="note"] {
+.tei div[xmltagname="note"] {
     display : block;
     color:#999;
 }
 
-.tei .xmltag[xmltagname="opener"]
-.tei .xmltag[xmltagname="note"] {
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="note"] {
     display : block;
     color:#999;
 }
 
-.tei .xmltag[xmltagname="div"]
-.tei .xmltag[xmltagname="note"]
-.tei .xmltag[xmltagname="persName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="orgName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="title"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="note"] .tei .xmltag[xmltagname="placeName"] {
+.tei div[xmltagname="div"]
+.tei div[xmltagname="note"]
+.tei div[xmltagname="persName"], .tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="orgName"], .tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="title"], .tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="placeName"] {
     color:#6DB0CC !important;
 }
 
-.tei .xmltag[xmltagname="note"] {
+.tei div[xmltagname="note"] {
     float : left;
 }
 
-.tei .xmltag[xmltagname="note"] {
+.tei div[xmltagname="note"] {
     float : right;
 }
 
-.tei .xmltag[xmltagname="note"],
-.tei .xmltag[xmltagname="note"] {
+.tei div[xmltagname="note"],
+.tei div[xmltagname="note"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="notesStmt"] {
+.tei div[xmltagname="notesStmt"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="num"] {
+.tei div[xmltagname="num"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="opener"] {
+.tei div[xmltagname="opener"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="opener"]
-.tei .xmltag[xmltagname="p"] {
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="p"] {
     text-align : justify !important;
     text-indent : 0 !important;
 }
 
-.tei .xmltag[xmltagname="orig"] {
+.tei div[xmltagname="orig"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="p"] {
+.tei div[xmltagname="p"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="pb"] {
+.tei div[xmltagname="pb"] {
     display : none;
 }
 
-.tei .xmltag[xmltagname="div"]
-.tei .xmltag[xmltagname="persName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="placeName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="orgName"], .tei .xmltag[xmltagname="div"] .tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="div"]
+.tei div[xmltagname="persName"], .tei div[xmltagname="div"] .tei div[xmltagname="placeName"], .tei div[xmltagname="div"] .tei div[xmltagname="orgName"], .tei div[xmltagname="div"] .tei div[xmltagname="title"] {
     color: #336699;
 }
 
-.tei .xmltag[xmltagname="principal"] {
+.tei div[xmltagname="principal"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="ptr"] {
+.tei div[xmltagname="ptr"] {
     color : navy;
     text-decoration : underline;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="publicationStmt"] {
-        display : block;
-    margin-bottom : 0.5em;
-}
-
-.tei .xmltag[xmltagname="publicationStmt"]
-.tei .xmltag[xmltagname="p"] {
+.tei div[xmltagname="publicationStmt"] {
     display : block;
-    margin-bottom : 0;
 }
 
-.tei .xmltag[xmltagname="publisher"] {
+.tei div[xmltagname="publicationStmt"]
+.tei div[xmltagname="p"] {
+    display : block;
+}
+
+.tei div[xmltagname="publisher"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="imprint"] >
-.tei .xmltag[xmltagname="publisher"],
-.tei .xmltag[xmltagname="publicationStmt"] >
-.tei .xmltag[xmltagname="publisher"] {
+.tei div[xmltagname="imprint"] >
+.tei div[xmltagname="publisher"],
+.tei div[xmltagname="publicationStmt"] >
+.tei div[xmltagname="publisher"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="pubPlace"] {
+.tei div[xmltagname="pubPlace"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="imprint"] >
-.tei .xmltag[xmltagname="pubPlace"],
-.tei .xmltag[xmltagname="publicationStmt"] >
-.tei .xmltag[xmltagname="pubPlace"] {
+.tei div[xmltagname="imprint"] >
+.tei div[xmltagname="pubPlace"],
+.tei div[xmltagname="publicationStmt"] >
+.tei div[xmltagname="pubPlace"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="q"] {
+.tei div[xmltagname="q"] {
     display : inline;
     quotes : '"' '"' "'" "'";
-    margin-top : 0em;
-    margin-left : 0em;
-    margin-right : 0em;
-    margin-bottom : 0em;
 }
 
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="argument"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="body"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="cit"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div0"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div1"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div2"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div3"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div4"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div5"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div6"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="div7"] >
-.tei .xmltag[xmltagname="q"],
-.tei .xmltag[xmltagname="epigraph"] >
-.tei .xmltag[xmltagname="q"] {
+.tei div[xmltagname="q"],
+.tei div[xmltagname="argument"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="cit"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div0"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div1"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div2"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div3"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div4"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div5"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div6"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="div7"] >
+.tei div[xmltagname="q"],
+.tei div[xmltagname="epigraph"] >
+.tei div[xmltagname="q"] {
     display : block;
-    margin-bottom : 0.5em;
-    margin-left : 3em;
-    margin-right : 3em;
     quotes : none;
 }
 
-.tei .xmltag[xmltagname="ref"] {
+.tei div[xmltagname="ref"] {
     display : inline;
     color : black;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="reg"] {
+.tei div[xmltagname="reg"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="rendition"] {
-    display : block;
-    margin-bottom : 0.5em;
-}
-
-.tei .xmltag[xmltagname="resp"] {
+.tei div[xmltagname="rendition"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="respStmt"] {
+.tei div[xmltagname="resp"] {
     display : block;
-    margin-left:1em;
 }
 
-.tei .xmltag[xmltagname="bibl"]
-.tei .xmltag[xmltagname="respStmt"] {
+.tei div[xmltagname="respStmt"] {
+    display : block;
+}
+
+.tei div[xmltagname="bibl"]
+.tei div[xmltagname="respStmt"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="row"] {
+.tei div[xmltagname="row"] {
     display : table-row;
 }
 
-.tei .xmltag[xmltagname="row"] {
+.tei div[xmltagname="row"] {
     color : inherit;
     background-color : #BBBBBB;
 }
 
-.tei .xmltag[xmltagname="rs"] {
+.tei div[xmltagname="rs"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="s"] {
+.tei div[xmltagname="s"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="salute"] {
+.tei div[xmltagname="salute"] {
     display : block;
-    margin-bottom : 0.5em;
-    margin-top : 1em;
 }
 
-.tei .xmltag[xmltagname="samplingDecl"] {
+.tei div[xmltagname="samplingDecl"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="seg"] {
+.tei div[xmltagname="seg"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="seriesStmt"] {
+.tei div[xmltagname="seriesStmt"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="sic"] {
+.tei div[xmltagname="sic"] {
     display : inline;
     color : red;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="signed"] {
+.tei div[xmltagname="signed"] {
     display : block;
     text-align : right;
 }
 
-.tei .xmltag[xmltagname="soCalled"] {
+.tei div[xmltagname="soCalled"] {
     display : inline;
     font-style : italic;
     quotes : "'" "'";
 }
 
-.tei .xmltag[xmltagname="sp"] {
+.tei div[xmltagname="sp"] {
     display : block;
-    margin-bottom : 0.5em;
-    margin-left : 2em;
 }
 
-.tei .xmltag[xmltagname="div"]
-.tei .xmltag[xmltagname="p"] {
+.tei div[xmltagname="div"]
+.tei div[xmltagname="p"] {
     text-align : justify;
     text-indent : 30px;
 }
 
-.tei .xmltag[xmltagname="speaker"] {
+.tei div[xmltagname="speaker"] {
     display : inline;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="sponsor"] {
+.tei div[xmltagname="sponsor"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="stage"] {
+.tei div[xmltagname="stage"] {
     display : inline;
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="table"] {
+.tei div[xmltagname="table"] {
     text-align : center;
     display : table;
     margin : 1em
 }
 
-.tei .xmltag[xmltagname="table"] >
-.tei .xmltag[xmltagname="head"] {
+.tei div[xmltagname="table"] >
+.tei div[xmltagname="head"] {
     display : table-caption;
     font-style : italic;
-    margin-bottom : 6pt;
 }
 
-.tei .xmltag[xmltagname="tagUsage"] {
+.tei div[xmltagname="tagUsage"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="taxonomy"] {
+.tei div[xmltagname="taxonomy"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="term"] {
+.tei div[xmltagname="term"] {
     font-family : sans-serif;
     color : black;
     background-color : inherit;
     display : inline;
 }
 
-.tei .xmltag[xmltagname="textClass"] {
+.tei div[xmltagname="textClass"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="time"] {
+.tei div[xmltagname="time"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="title"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="title"] {
     display : block;
     font-weight:normal;
 }
 
-.tei .xmltag[xmltagname="title"],
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="title"],
+.tei div[xmltagname="title"] {
     font-style : italic;
 }
 
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="title"] {
     font-style : normal;
 }
 
-.tei .xmltag[xmltagname="title"],
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="title"],
+.tei div[xmltagname="title"] {
     font-style : normal;
 }
 
-.tei .xmltag[xmltagname="seriesStmt"] >
-.tei .xmltag[xmltagname="title"],
-.tei .xmltag[xmltagname="titleStmt"] >
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="seriesStmt"] >
+.tei div[xmltagname="title"],
+.tei div[xmltagname="titleStmt"] >
+.tei div[xmltagname="title"] {
     color:gray;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="titlePage"] {
+.tei div[xmltagname="titlePage"] {
     display : block;
     border : thin black solid;
-    margin-bottom : 2em;
     text-align : center;
-    padding-top : 1em;
-    padding-left : 1em;
-    padding-right : 1em;
-    padding-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="titlePart"] {
+.tei div[xmltagname="titlePart"] {
     display : block;
 }
 
-.tei .xmltag[xmltagname="titleStmt"] {
-    margin-bottom : 1em;
+.tei div[xmltagname="titleStmt"] {
     color : #333;
 }
 
-.tei .xmltag[xmltagname="trailer"] {
+.tei div[xmltagname="trailer"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="unclear"] {
+.tei div[xmltagname="unclear"] {
     display : inline;
     color : gray;
     background-color : inherit;
     font-style : italic;
 }
 
- .tei .xmltag[xmltagname="header-related"] .tei .xmltag[xmltagname="material"]
-.tei .xmltag[xmltagname="teiHeader"] {
+.tei div[xmltagname="header-related"] .tei div[xmltagname="material"] .tei div[xmltagname="teiHeader"] {
     display : block;
     color : gray;
     background-color : rgb(251, 242, 234);
-    padding : .5em;
 }
 
-.tei .xmltag[xmltagname="teiHeader"]
-.tei .xmltag[xmltagname="title"] {
+.tei div[xmltagname="teiHeader"]
+.tei div[xmltagname="title"] {
     color:gray;
 }
 
-.tei .xmltag[xmltagname="titleStmt"] >
-.tei .xmltag[xmltagname="author"] {
+.tei div[xmltagname="titleStmt"] >
+.tei div[xmltagname="author"] {
     display : block;
-    margin-left : 1em;
 }
 
-.tei .xmltag[xmltagname="authority"] {
+.tei div[xmltagname="authority"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="availability"] {
+.tei div[xmltagname="availability"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="fileDesc"] {
-        display : block;
-    margin-bottom : .5em;
+.tei div[xmltagname="fileDesc"] {
+    display : block;
 }
 
-.tei .xmltag[xmltagname="sourceDesc"] {
-        display : block;
+.tei div[xmltagname="sourceDesc"] {
+    display : block;
     border : thin silver solid;
-    padding : .5em .5em 0 .5em;
 }
 
-.tei .xmltag[xmltagname="sourceDesc"]
-.tei .xmltag[xmltagname="p"] {
-    margin : 0;
+.tei div[xmltagname="sourceDesc"]
+.tei div[xmltagname="p"] {
 }
 
-.tei .xmltag[xmltagname="revisionDesc"] {
+.tei div[xmltagname="revisionDesc"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="catDesc"] {
+.tei div[xmltagname="catDesc"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="encodingDesc"] {
+.tei div[xmltagname="encodingDesc"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="profileDesc"] {
+.tei div[xmltagname="profileDesc"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="projectDesc"] {
+.tei div[xmltagname="projectDesc"] {
     display : block;
-    margin-bottom : 1em;
 }
 
-.tei .xmltag[xmltagname="docDate"] {
+.tei div[xmltagname="docDate"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="docImprint"]
-.tei .xmltag[xmltagname="docDate"] {
+.tei div[xmltagname="docImprint"]
+.tei div[xmltagname="docDate"] {
     display : inline;
 }
 
-.tei .xmltag[xmltagname="docEdition"] {
+.tei div[xmltagname="docEdition"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="docImprint"] {
+.tei div[xmltagname="docImprint"] {
     display : block;
-    margin-bottom : 0.5em;
 }
 
-.tei .xmltag[xmltagname="docTitle"] {
+.tei div[xmltagname="docTitle"] {
     display : block;
     font-weight : bold;
-    margin-bottom : 0.5em;
     font-weight:bold;
 }
 
-.tei .xmltag[xmltagname="OUCS"] .tei .xmltag[xmltagname="additions"]
-.tei .xmltag[xmltagname="Button"] {
+.tei div[xmltagname="OUCS"] .tei div[xmltagname="additions"]
+.tei div[xmltagname="Button"] {
     font-family : monospace;
     color : red;
     font-weight : bold;
     background-color : rgb(75%, 75%, 75%)
 }
 
-.tei .xmltag[xmltagname="Value"] {
+.tei div[xmltagname="Value"] {
     font-family : monospace;
     color : rgb(255, 102, 0);
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Code"] {
+.tei div[xmltagname="Code"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Field"] {
+.tei div[xmltagname="Field"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Filespec"] {
+.tei div[xmltagname="Filespec"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Input"] {
+.tei div[xmltagname="Input"] {
     font-family : monospace;
     color : green;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Key"] {
+.tei div[xmltagname="Key"] {
     font-family : monospace;
     text-decoration : underline;
     color : green;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Link"] {
+.tei div[xmltagname="Link"] {
     font-family : monospace;
     color : green;
     background-color : inherit;
     text-decoration : underline;
 }
 
-.tei .xmltag[xmltagname="Menu"] {
+.tei div[xmltagname="Menu"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Output"] {
+.tei div[xmltagname="Output"] {
     font-family : monospace;
     color : red;
     background-color : inherit;
 }
 
-.tei .xmltag[xmltagname="Icon"] {
+.tei div[xmltagname="Icon"] {
     color : inherit;
     background-color : #B0E0E6;
     font-weight : bold;
 }
 
-.tei .xmltag[xmltagname="Screen"] {
+.tei div[xmltagname="Screen"] {
     font-family : monospace;
-    padding-top : 3mm;
-    padding-left : 4pt;
-    padding-bottom : 2pt;
     display : block;
-    margin-top : 12pt;
-    margin-bottom : 12pt;
     white-space : pre;
     color : inherit;
     background-color : #FFCC99;
 }
+

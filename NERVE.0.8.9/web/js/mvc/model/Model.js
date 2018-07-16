@@ -2,17 +2,8 @@
  * events: 
  *  - notifyDocumentClosed
  *  - notifyContextChange
- *  - setDocument 
- *  - setText
- *  - userMessage
+ *  - notifySetDocument
  *  - notifyNewTaggedEntities(taggedEntityWidgetArray)
- * events from TaggedEntityWidget: 
- *  - notifyEntityUpdate(taggedEntityWidget, previousValues)
- *  - notifyUntaggedEntities(TaggedEntityWidget)
- * events from collection: 
- *  - notifyCollectionAdd
- *  - notifyCollectionClear
- *  - notifyCollectionRemove
  */
 
 const Schema = require("./Schema");
@@ -24,6 +15,7 @@ const Utility = require("../../util/Utility");
 const ArrayList = require("jjjrmi").ArrayList;
 const EntityValues = require("../../gen/nerve").EntityValues;
 const FileOperations = require("../../util/fileOperations");
+const Collection = require("./Collection");
 
 class Model extends AbstractModel {
     constructor(dragDropHandler) {
@@ -32,16 +24,15 @@ class Model extends AbstractModel {
 
         this.hostInfo = new HostInfo();
         this.dragDropHandler = dragDropHandler;
+        this.collection = new Collection();
 
         this.storage = new Storage("NERVE_MODEL");
         this.storage.registerPackage(require("nerscriber"));
         this.storage.registerClass(require("jjjrmi").ArrayList);
         this.storage.registerClass(require("jjjrmi").HashMap);
-
-//        this.selectedEntites = new ArrayList();
         this.clipboard = null;
 
-        this.latestValues = new EntityValues();
+//        this.latestValues = new EntityValues();
         this.taggedEntityList = new ArrayList();
 
         this.currentStateIndex = 0;
@@ -114,27 +105,12 @@ class Model extends AbstractModel {
         await this.close();
     }
 
-    async onMenuClear() {
-        this.getCollection().clear();
-    }
-
     async onMenuCopy() {
         this.copy();
     }
 
     async onMenuPaste() {
         this.paste();
-        this.saveState();
-    }
-
-    async onMenuMerge() {
-        let entity = await this.mergeEntities(this.collection);
-        this.getCollection().set(entity);
-        this.saveState();
-    }
-
-    async onMenuTag() {
-        await this.tagSelection(window.getSelection());
         this.saveState();
     }
 
@@ -213,23 +189,6 @@ class Model extends AbstractModel {
         return docText;
     }
 
-    notifyDialogChange(fieldID, value) {
-        switch (fieldID) {
-            case "entityText":
-                this.latestValues.text(value);
-                break;
-            case "lemma":
-                this.latestValues.lemma(value);
-                break;
-            case "link":
-                this.latestValues.link(value);
-                break;
-            case "tagName":
-                this.latestValues.tag(value);
-                break;
-        }
-    }
-
     async setDocument(text, context, filename, schemaURL) {
         Utility.log(Model, "setDocument");
         // Utility.enforceTypes(arguments, String, Context, String, String);
@@ -242,13 +201,13 @@ class Model extends AbstractModel {
 
         $("#entityPanel").html(text);
 
-        await this.notifyListeners("notifyContextChange", context);
+        await this.notifyListeners("notifyContextChange", context, this.schema);
         await this.notifyListeners("notifySetDocument", $("#entityPanel").get(0));
         await this.notifyListeners("notifySetFilename", filename);
 
         let taggedEntityArray = [];
         $(".taggedentity").each(async (i, element) => {
-            let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element);
+            let taggedEntity = new TaggedEntityWidget(this.dragDropHandler, element);
             taggedEntityArray.push(taggedEntity);
             this.taggedEntityList.add(taggedEntity);            
         });
@@ -263,25 +222,6 @@ class Model extends AbstractModel {
 //        await this.__addDictionaryAttribute();
     }
 
-    debug() {
-        let i = 0;
-        for (let taggedEntityWidget of this.taggedEntityList) {
-            console.log((i++) + " " + taggedEntityWidget.lemma() + " " + taggedEntityWidget.tag());
-        }
-        console.log("------------------------------------------");
-        console.log(this.taggedEntityList.size() + " entities");
-    }
-
-    async untagAll() {
-        let i = 0;
-        while (!this.taggedEntityList.isEmpty()) {
-            let taggedEntityWidget = this.taggedEntityList.remove(0);
-            console.log("* UNTAG " + (i++) + "/" + this.taggedEntityList.size() + " " + taggedEntityWidget.lemma() + " " + taggedEntityWidget.tag());
-            await taggedEntityWidget.untag();
-        }
-//        this.taggedEntityList.clear();                          
-    }
-
     async close() {
         Utility.log(Model, "close");
         // Utility.enforceTypes(arguments);
@@ -289,8 +229,6 @@ class Model extends AbstractModel {
         this.storage.setValue("filename", null);
         this.storage.setValue("context", null);
         localStorage.clear();
-
-        let i = 0;
 
         let taggedEntityWidgetArray = [];
         while (!this.taggedEntityList.isEmpty()) {
@@ -305,114 +243,12 @@ class Model extends AbstractModel {
         this.notifyListeners("notifyDocumentClosed");
     }
 
-    getCollection() {
-        Utility.log(Model, "getCollection");
-        // Utility.enforceTypes(arguments);
-        return this.collection;
-    }
-
-    async mergeEntities() {
-        Utility.log(Model, "mergeEntities");
-        let selection = window.getSelection();
-        if (selection.rangeCount !== 0 && !selection.isCollapsed) {
-            let newEntity = await this.tagSelectedRange();
-            this.collection.add(newEntity);
-        }
-
-        let contents = $();
-
-        let taggedEntityArray = [];
-        for (let entity of this.collection) {
-            let contentElement = entity.getContentElement();
-            $(entity.getElement()).replaceWith(contentElement);
-            contents = contents.add(contentElement);
-            taggedEntityArray.push(entity);
-        }
-        this.notifyListeners("notifyUntaggedEntities", taggedEntityArray);
-
-        contents = contents.mergeElements();
-        contents[0].normalize();
-        return this.createTaggedEntity(contents[0]);
-    }
-
-    async createTaggedEntity(element) {
-        Utility.log(Model, "createTaggedEntity");
-//        let values = await this.dictionary.pollEntity(this.context, $(element).text());
-//        if (values === null) values = this.latestValues;
-
-        let values = this.latestValues;
-
-        values.text(null);
-        values.lemma(null);
-
-        let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element, values.tag());
-        taggedEntity.values(values, false);
-        this.taggedEntityList.add(taggedEntity);
-        
-        let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag(), null);
-        if (result.size() > 0){            
-            let first = result.get(0);
-            taggedEntity.datasource(first.getEntry("source").getValue(), false);
-            taggedEntity.link(first.getEntry("link").getValue(), false);
-        }        
-
-        this.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
-        return taggedEntity;
-    }
-
     notifyUntaggedEntities(taggedEntityWidgetArray) {
         for (let taggedEntityWidget of taggedEntityWidgetArray) {
             if (this.taggedEntityList.contains(taggedEntityWidget)) {
                 this.taggedEntityList.remove(taggedEntityWidget);
             }
         }
-    }
-
-    /* seperate so that the model isn't saved twice on merge */
-    async tagSelection(selection) {
-        Utility.log(Model, "tagSelection");
-        if (selection.rangeCount === 0) return null;
-
-        let range = selection.getRangeAt(0);
-        range = this.__trimRange(range);
-
-        let tagName = this.latestValues.tag();
-        console.log(tagName);
-        console.log(this.context.isStandardTag(tagName));
-        let schemaTagName = this.context.getTagInfo(tagName).getName();
-
-        if (!this.schema.isValid(range.commonAncestorContainer, schemaTagName)) {
-            this.notifyListeners("userMessage", `Tagging "${schemaTagName}" is not valid in the Schema at this location.`);
-            return null;
-        }
-
-        var element = document.createElement("div");
-        $(element).append(range.extractContents());
-
-        let taggedEntity = await this.createTaggedEntity(element);
-
-        range.deleteContents();
-        range.insertNode(element);
-
-        selection.removeAllRanges();
-        document.normalize();
-
-        console.log(taggedEntity);
-
-        return taggedEntity;
-    }
-
-    __trimRange(range) {
-        Utility.log(Model, "__trimRange");
-        while (range.toString().charAt(range.toString().length - 1) === ' ') {
-            range.setEnd(range.endContainer, range.endOffset - 1);
-        }
-
-        while (range.toString().charAt(0) === ' ') {
-            range.setStart(range.startContainer, range.startOffset + 1);
-        }
-
-        return range;
     }
 
     /**
@@ -467,12 +303,17 @@ class Model extends AbstractModel {
         $("#entityPanel").html(docHTML);
 
         $(".taggedentity").each((i, element) => {
-            let taggedEntity = new TaggedEntityWidget(this, this.dragDropHandler, element);
-            this.taggedEntityList.add(taggedEntity);
+            let taggedEntity = new TaggedEntityWidget(this.dragDropHandler, element);            
             this.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
         });
 
         this.storage.setValue("current", "document", docHTML);
+    }
+
+    notifyNewTaggedEntities(taggedEntityArray){
+        for (let taggedEntity of taggedEntityArray){
+            this.taggedEntityList.add(taggedEntity);
+        }
     }
 
     __resetState() {

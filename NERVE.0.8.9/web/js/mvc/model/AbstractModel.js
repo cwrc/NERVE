@@ -19,14 +19,15 @@ class AbstractModel {
     async notifyListeners(method) {
         Utility.log(AbstractModel, "notifyListeners", method);
 
-        if (method === "notifyEntityUpdate") console.warn("notifyEntityUpdate");
-
         console.log("EVENT " + this.constructor.name + " " + method);
+
+//        if (method === "notifyCollectionClear") console.warn("notifyCollectionClear");
 
         Array.prototype.shift.apply(arguments);
         window.lastEvent = {
             method: method,
-            args: arguments
+            args: arguments,
+            source: this
         };
         AbstractModel.events.push(window.lastEvent);
 

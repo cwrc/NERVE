@@ -1,6 +1,7 @@
 
-#entityPanel, #tagnamePanel{
+#entityPanel{
     position: absolute;
+    display: inline;
     top: 0px;
     left: 0px;
     height: 100%;
@@ -9,10 +10,6 @@
     word-wrap: normal;
     line-height: 175%;
     padding: 15px;
-}
-
-#entityPanel *{
-    display: inline;
 }
 
 #dialogFade{
