@@ -1,15 +1,13 @@
 class EntityValues {
-	constructor(entity, lemma, link, tag, collection) {
+	constructor(entity, lemma, link, tag) {
 		this.entityValue = null;
 		this.lemmaValue = null;
 		this.linkValue = null;
 		this.tagValue = null;
-		this.datasourceValue = null;
 		this.entityValue = entity;
 		this.lemmaValue = lemma;
 		this.linkValue = link;
 		this.tagValue = tag;
-		this.datasourceValue = collection;
 	}
 	static __isTransient() {
 		return true;
@@ -26,9 +24,7 @@ class EntityValues {
 		let lemma = $(entity).lemma();
 		let link = $(entity).link();
 		let tag = $(entity).tag();
-		let collection = $(entity).attr("data-collection");
-		if (!collection) collection = "";
-		return new EntityValues(text, lemma, link, tag, collection);
+		return new EntityValues(text, lemma, link, tag);
 	}
 	copyTo(dest) {
 		
@@ -36,12 +32,11 @@ class EntityValues {
 		if (this.lemma() !== null) dest.lemma(this.lemma());
 		if (this.link() !== null) dest.link(this.link());
 		if (this.tag() !== null) dest.tag(this.tag());
-		if (this.collection() !== null) dest.collection(this.text());
 		
 		return this;
 	}
 	copy() {
-		return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
+		return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
 	}
 	text(value) {
 		
@@ -70,13 +65,6 @@ class EntityValues {
 		
 		this.tagValue = value;
 		return this.tagValue;
-	}
-	datasource(value) {
-		
-		if (typeof value === "undefined") return this.datasourceValue;
-		
-		this.datasourceValue = value;
-		return this.datasourceValue;
 	}
 };
 

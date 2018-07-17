@@ -17,17 +17,15 @@ public class EntityValues extends JJJObject{
     private String lemmaValue = null;
     private String linkValue = null;
     private String tagValue = null;
-    private String datasourceValue = null;
 
     private EntityValues() {}
 
     @NativeJS
-    public EntityValues(String entity, String lemma, String link, String tag, String collection) {
+    public EntityValues(String entity, String lemma, String link, String tag) {
         this.entityValue = entity;
         this.lemmaValue = lemma;
         this.linkValue = link;
         this.tagValue = tag;
-        this.datasourceValue = collection;
     }
 
     public EntityValues(SQLRecord record) {
@@ -35,7 +33,6 @@ public class EntityValues extends JJJObject{
         this.lemmaValue = record.getEntry("lemma").getValue();
         this.linkValue = record.getEntry("link").getValue();
         this.tagValue = record.getEntry("tag").getValue();
-        this.datasourceValue = record.getEntry("collection").getValue();
     }
 
     @NativeJS
@@ -45,9 +42,7 @@ public class EntityValues extends JJJObject{
             let lemma = $(entity).lemma();
             let link = $(entity).link();
             let tag = $(entity).tag();
-            let collection = $(entity).attr("data-collection");
-            if (!collection) collection = "";
-            return new EntityValues(text, lemma, link, tag, collection);
+            return new EntityValues(text, lemma, link, tag);
         }*/
     }
 
@@ -58,14 +53,13 @@ public class EntityValues extends JJJObject{
             if (this.lemma() !== null) dest.lemma(this.lemma());
             if (this.link() !== null) dest.link(this.link());
             if (this.tag() !== null) dest.tag(this.tag());
-            if (this.collection() !== null) dest.collection(this.text());
         }*/
         return this;
     }
-
+    
     @NativeJS
     public EntityValues copy(){
-        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
+        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
     }
 
     public String text() {
@@ -118,18 +112,5 @@ public class EntityValues extends JJJObject{
         }*/
         this.tagValue = value;
         return this.tagValue;
-    }
-
-    public String datasource() {
-        return this.datasourceValue;
-    }
-
-    @NativeJS
-    public String datasource(String value) {
-        /*JS{
-            if (typeof value === "undefined") return this.datasourceValue;
-        }*/
-        this.datasourceValue = value;
-        return this.datasourceValue;
     }
 }

@@ -105,15 +105,6 @@ class Model extends AbstractModel {
         await this.close();
     }
 
-    async onMenuCopy() {
-        this.copy();
-    }
-
-    async onMenuPaste() {
-        this.paste();
-        this.saveState();
-    }
-
     async onMenuUntag() {
         this.notifyListeners("requestUntagAll");
         this.isSaved = false;
@@ -334,14 +325,6 @@ class Model extends AbstractModel {
         Utility.log(Model, "getContext");
         // Utility.enforceTypes(arguments);
         return this.context;
-    }
-
-    copy() {
-        window.alert("TODO: copy");
-    }
-
-    paste() {
-        window.alert("TODO: paste");
     }
 }
 

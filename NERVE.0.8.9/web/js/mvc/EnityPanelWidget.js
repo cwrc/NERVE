@@ -20,6 +20,7 @@ class EnityPanelWidget extends AbstractModel {
         this.stylename = "";
         this.schema = null;
         this.latestValues = new EntityValues();
+        this.copyValues = new EntityValues();
         this.dictionary = null;
 
         /* Default Document Click Event */
@@ -59,21 +60,24 @@ class EnityPanelWidget extends AbstractModel {
         }
     }
 
-    notifyDialogChange(fieldID, value) {
-        for (let taggedEntityWidget of this.selectedEntities) {
-            switch (fieldID) {
-                case "entityText":
-                    taggedEntityWidget.text(value);
-                    break;
-                case "lemma":
-                    taggedEntityWidget.lemma(value);
-                    break;
-                case "link":
-                    taggedEntityWidget.link(value);
-                    break;
-                case "tagName":
-                    taggedEntityWidget.tag(value);
-                    break;
+    notifyDialogChange(changeList) {
+        for (let fieldID in changeList) {
+            let value = changeList[fieldID];
+            for (let taggedEntityWidget of this.selectedEntities) {
+                switch (fieldID) {
+                    case "text":
+                        taggedEntityWidget.text(value);
+                        break;
+                    case "lemma":
+                        taggedEntityWidget.lemma(value);
+                        break;
+                    case "link":
+                        taggedEntityWidget.link(value);
+                        break;
+                    case "tagName":
+                        taggedEntityWidget.tag(value);
+                        break;
+                }
             }
         }
     }
@@ -212,8 +216,6 @@ class EnityPanelWidget extends AbstractModel {
     }
 
     scrollTo(element) {
-        console.log(element);
-
         let elementRelativeTop = $(element).offset().top - $("#panelContainer").offset().top;
         let scrollTo = elementRelativeTop + $("#panelContainer").scrollTop() - $("#panelContainer").height() / 2;
         $("#panelContainer").scrollTop(scrollTo);
@@ -226,7 +228,7 @@ class EnityPanelWidget extends AbstractModel {
 
     async onMenuTag() {
         await this.tagSelection(window.getSelection());
-    }    
+    }
 
     async mergeEntities() {
         let selection = window.getSelection();
@@ -244,7 +246,7 @@ class EnityPanelWidget extends AbstractModel {
             contents = contents.add(contentElement);
             taggedEntityArray.push(entity);
         }
-        
+
         this.selectedEntities.clear();
         this.notifyListeners("notifyUntaggedEntities", taggedEntityArray);
 
@@ -311,23 +313,6 @@ class EnityPanelWidget extends AbstractModel {
         }
 
         return range;
-    }    
-
-    notifyDialogChange(fieldID, value) {
-        switch (fieldID) {
-            case "entityText":
-                this.latestValues.text(value);
-                break;
-            case "lemma":
-                this.latestValues.lemma(value);
-                break;
-            case "link":
-                this.latestValues.link(value);
-                break;
-            case "tagName":
-                this.latestValues.tag(value);
-                break;
-        }
     }
 }
 

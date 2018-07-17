@@ -93,6 +93,7 @@ class Main extends AbstractModel {
         this.menu.addListener(this.view);        
         this.menu.addListener(this.entityPanelWidget);
         this.menu.addListener(this.model);
+        this.menu.addListener(this.entityDialog);
                 
         TaggedEntityWidget.delegate.addListener(TaggedEntityWidget.contextMenu);
         TaggedEntityWidget.delegate.addListener(this.entityPanelWidget);

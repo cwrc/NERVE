@@ -8,7 +8,7 @@
 Utility = require("../../util/utility");
 AbstractModel = require("./AbstractModel");
 
-module.exports = class Collection extends AbstractModel {
+class Collection extends AbstractModel {
     constructor(array) {
         super();
         this.delegate = this;
@@ -46,7 +46,7 @@ module.exports = class Collection extends AbstractModel {
             this.innerArray.push(obj);
             notifyarray.push(obj);
         }
-        this.delegate.notifyListeners("notifyCollectionAdd", this, notifyarray);
+        this.delegate.notifyListeners("notifyCollectionAdd", this.clone(), notifyarray);
     }
     set(obj) {
         this.clear();
@@ -56,7 +56,7 @@ module.exports = class Collection extends AbstractModel {
         if (this.isEmpty()) return;
         let oldArray = this.innerArray;
         this.innerArray = [];
-        await this.delegate.notifyListeners("notifyCollectionClear", this, oldArray);
+        await this.delegate.notifyListeners("notifyCollectionClear", this.clone(), oldArray);
     }
     get(i) {
         return this.innerArray[i];
@@ -77,10 +77,20 @@ module.exports = class Collection extends AbstractModel {
         if (!this.contains(obj)) return null;
         this.innerArray.splice(this.innerArray.indexOf(obj), 1);
         this.delegate.notifyListeners();
-        this.delegate.notifyListeners("notifyCollectionRemove", this, obj);
+        this.delegate.notifyListeners("notifyCollectionRemove", this.clone(), obj);
         return obj;
     }
     contains(obj) {
         return this.innerArray.indexOf(obj) !== -1;
     }
+    
+    /**
+     * Create a new Collection with the contents of this collection.  Does not copy the delegate.
+     * @return {nm$_Collection.Collection}
+     */
+    clone(){
+        return new Collection(this.innerArray);
+    }
 }
+
+module.exports = Collection;

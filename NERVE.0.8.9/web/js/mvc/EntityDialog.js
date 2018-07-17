@@ -1,5 +1,6 @@
 const AbstractModel = require("./model/AbstractModel");
 const EntityValues = require("../gen/nerve").EntityValues;
+const Collection = require("./model/Collection");
 
 class EntityTextBox {
     constructor(delegate, selector, dialogStringID) {
@@ -12,14 +13,18 @@ class EntityTextBox {
         
         $(selector).on("blur", () => {
             if (this.update) {
-                this.delegate.notifyListeners("notifyDialogChange", dialogStringID, $(selector).val());
+                let changes = {};
+                changes[dialogStringID] = $(selector).val();
+                this.delegate.notifyListeners("notifyDialogChange", changes);
             }
             this.update = false;
         });          
         
         $(selector).keyup((event) => {
             if (event.keyCode !== 13) return;
-            this.delegate.notifyListeners("notifyDialogChange", dialogStringID, $(selector).val());
+            let changes = {};
+            changes[dialogStringID] = $(selector).val();            
+            this.delegate.notifyListeners("notifyDialogChange", changes);
             this.update = false;
             event.stopPropagation();
         });        
@@ -34,7 +39,9 @@ class EntityListSelector{
         this.update = false;
         
         $(selector).on("input", (event) => {
-            this.delegate.notifyListeners("notifyDialogChange", dialogStringID, $(selector).val());
+            let changes = {};
+            changes[dialogStringID] = $(selector).val();            
+            this.delegate.notifyListeners("notifyDialogChange", changes);
         });        
     }
     
@@ -43,7 +50,9 @@ class EntityListSelector{
     }
     
     ready(){
-        this.delegate.notifyListeners("notifyDialogChange", this.dialogStringID, $(this.selector).val());
+        let changes = {};
+        changes[this.dialogStringID] = $(this.selector).val();            
+        this.delegate.notifyListeners("notifyDialogChange", changes);        
     }
 }
 
@@ -51,7 +60,7 @@ class EntityDialog extends AbstractModel {
     constructor() {
         super();
 
-        new EntityTextBox(this, "#txtEntity", "entityText");
+        new EntityTextBox(this, "#txtEntity", "text");
         new EntityTextBox(this, "#txtLemma", "lemma");
         new EntityTextBox(this, "#txtLink", "link");
         this.entitySelctorList = new EntityListSelector(this, "#selectTagName", "tagName");
@@ -67,6 +76,27 @@ class EntityDialog extends AbstractModel {
         
         $("#entityLookupButton").click((event)=>this.notifyListeners("notifyLoookupEntity", this.getValues()));
         $("#lemmaLookupButton").click((event)=>this.notifyListeners("notifyLoookupLemma", this.getValues()));
+        
+        this.copyValues = new EntityValues();
+        this.selected = new Collection();
+    }
+    
+    async onMenuCopy() {
+        this.getValues().copyTo(this.copyValues);
+    }
+
+    async onMenuPaste() {
+        let changes = {};
+        if (this.copyValues.lemma()!== null) changes["lemma"] = this.copyValues.lemma();
+        if (this.copyValues.tag() !== null) changes["Tag"] = this.copyValues.tag();
+        if (this.copyValues.link() !== null) changes["link"] = this.copyValues.link();
+        
+        this.__setLemma(this.copyValues.lemma());
+        this.__setLink(this.copyValues.link());
+        this.__setTagName(this.copyValues.tag());        
+                
+        this.notifyListeners("notifyDialogChange", changes);
+        this.__setDialogs();
     }
     
     notifyReady(){
@@ -106,14 +136,16 @@ class EntityDialog extends AbstractModel {
     }
 
     notifyCollectionAdd(collection, taggedEntityWidgets) {
-        this.__setDialogs(collection);
+        this.selected = collection;
+        this.__setDialogs();        
     }
     notifyCollectionClear(collection, taggedEntityWidgets) {
-        this.__clearDialogs();
+        this.selected = collection;
+        this.__setDialogs();
     }
     notifyCollectionRemove(collection, taggedEntityWidgets) {
-        if (collection.isEmpty()) this.__clearDialogs();
-        this.__setDialogs(collection);
+        this.selected = collection;
+        this.__setDialogs();
     }
 
     notifyCWRCSelection(values){
@@ -123,12 +155,19 @@ class EntityDialog extends AbstractModel {
         this.__setTagName(values.tag());
     }  
 
-    __setDialogs(collection) {
+    __clearDialogs() {
+        document.getElementById("txtEntity").value = "";
+        document.getElementById("txtLemma").value = "";
+        document.getElementById("txtLink").value = "";
+    }
+
+    __setDialogs() {
+        console.log("__setDialogs()");
         this.__clearDialogs();
         this.__clearDialogBG();
 
-        if (collection.size() <= 0) return;
-        let entity = collection.getLast();
+        if (this.selected.size() <= 0) return;
+        let entity = this.selected.getLast();
 
         this.__setEntity(entity.text());
         this.__setLemma(entity.lemma());
@@ -137,7 +176,8 @@ class EntityDialog extends AbstractModel {
 
         let values = this.getValues();
 
-        for (let entity of collection) {
+        for (let entity of this.selected) {
+            console.log(entity);
             if (entity.lemma() !== values.lemma()) this.__setDialogBG("lemma");
             if (entity.link() !== values.link()) this.__setDialogBG("link");
             if (entity.text() !== values.text()) this.__setDialogBG("text");
@@ -181,12 +221,6 @@ class EntityDialog extends AbstractModel {
     }
     __setLink(string) {
         document.getElementById("txtLink").value = string;
-    }
-
-    __clearDialogs() {
-        document.getElementById("txtEntity").value = "";
-        document.getElementById("txtLemma").value = "";
-        document.getElementById("txtLink").value = "";
     }
 }
 
