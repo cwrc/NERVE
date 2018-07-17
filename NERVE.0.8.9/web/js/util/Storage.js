@@ -1,6 +1,6 @@
 const jjjrmi = require("jjjrmi");
 
-module.exports = class Storage {
+class Storage {
     constructor(settingsName = location.pathname.split("/")[1]) {
         this.sName = settingsName;
         this.translator = new jjjrmi.Translator();
@@ -63,3 +63,5 @@ module.exports = class Storage {
         return JSON.stringify(Storage.getObject(this.sName), null, 2);
     }
 }
+
+module.exports = Storage;

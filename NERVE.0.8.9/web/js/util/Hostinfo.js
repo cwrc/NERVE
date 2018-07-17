@@ -1,4 +1,4 @@
-module.exports = class HostInfo {
+class HostInfo {
     constructor() {
         let prequel = "ws://";
         let host = window.location.host;
@@ -14,3 +14,5 @@ module.exports = class HostInfo {
     static getType(){ return HostInfo;}
     static rootPath(){ return window.location.pathname.split("/")[1];}
 };
+
+module.exports = HostInfo;

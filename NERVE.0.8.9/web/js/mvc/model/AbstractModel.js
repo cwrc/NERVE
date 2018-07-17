@@ -15,8 +15,6 @@ class AbstractModel {
      * @returns {undefined}
      */
     async notifyListeners(method) {
-        
-
         console.log("EVENT " + this.constructor.name + " " + method);
 
 //        if (method === "notifyCollectionClear") console.warn("notifyCollectionClear");
@@ -39,7 +37,6 @@ class AbstractModel {
         }
     }
 }
-;
 
 AbstractModel.events = [];
 module.exports = AbstractModel;

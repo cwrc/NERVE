@@ -18,7 +18,6 @@ const Collection = require("./Collection");
 
 class Model extends AbstractModel {
     constructor(dragDropHandler) {
-        
         super();
 
         this.hostInfo = new HostInfo();
@@ -31,7 +30,6 @@ class Model extends AbstractModel {
         this.storage.registerClass(require("jjjrmi").HashMap);
         this.clipboard = null;
 
-//        this.latestValues = new EntityValues();
         this.taggedEntityList = new ArrayList();
 
         this.currentStateIndex = 0;
@@ -111,8 +109,6 @@ class Model extends AbstractModel {
     }
 
     async loadDocument(filename, text, action) {
-        
-
         let encodeResponse = null;
         switch (action) {
             case "OPEN": /* NER & dict */
@@ -161,8 +157,6 @@ class Model extends AbstractModel {
      * @returns {String}
      */
     getDocument() {
-        
-
         let doc = $("#entityPanel").get(0);
         let clone = doc.cloneNode(true);
 
@@ -180,9 +174,6 @@ class Model extends AbstractModel {
     }
 
     async setDocument(text, context, filename, schemaURL) {
-        
-        // Utility.enforceTypes(arguments, String, Context, String, String);
-
         await this.notifyListeners("notifyUnsetDocument");
 
         this.context = context;
@@ -213,8 +204,6 @@ class Model extends AbstractModel {
     }
 
     async close() {
-        
-        // Utility.enforceTypes(arguments);
         this.storage.setValue("document", null);
         this.storage.setValue("filename", null);
         this.storage.setValue("context", null);
@@ -248,9 +237,6 @@ class Model extends AbstractModel {
      * @returns {undefined}
      */
     saveState() {
-        
-        // Utility.enforceTypes(arguments);
-
         this.currentStateIndex = this.currentStateIndex + 1;
         this.stateList[this.currentStateIndex] = $("#entityPanel").html();
         this.storage.setValue("document", $("#entityPanel").html());
@@ -265,8 +251,6 @@ class Model extends AbstractModel {
     }
 
     async revertState() {
-        
-
         if (this.currentStateIndex <= 0) return false;
         this.currentStateIndex = this.currentStateIndex - 1;
         let docHTML = this.stateList[this.currentStateIndex];
@@ -274,8 +258,6 @@ class Model extends AbstractModel {
     }
 
     async advanceState() {
-        
-
         if (typeof this.stateList[this.currentStateIndex + 1] === "undefined" || this.stateList[this.currentStateIndex + 1] === null) return;
         this.currentStateIndex = this.currentStateIndex + 1;
         let docHTML = this.stateList[this.currentStateIndex];
@@ -307,22 +289,15 @@ class Model extends AbstractModel {
     }
 
     __resetState() {
-        
-        // Utility.enforceTypes(arguments);
-
         this.stateList = [];
         this.currentStateIndex = 0;
         this.stateList[0] = $("#entityPanel").html();
     }
     getFilename() {
-        
-        // Utility.enforceTypes(arguments);
         return this.storage.getValue("filename");
     }
 
     getContext() {
-        
-        // Utility.enforceTypes(arguments);
         return this.context;
     }
 }

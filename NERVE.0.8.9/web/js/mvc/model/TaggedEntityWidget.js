@@ -303,7 +303,7 @@ class TaggedEntityWidget {
 
     getElement() {
         
-        // Utility.enforceTypes(arguments);
+        
         return this.element;
     }
 
@@ -313,7 +313,7 @@ class TaggedEntityWidget {
 
     getContentElement() {
         
-        // Utility.enforceTypes(arguments);
+        
         return this.contents;
     }
 
@@ -389,7 +389,7 @@ class TaggedEntityWidget {
     }
     values(value = null, silent = false) {
         
-        // Utility.enforceTypes(arguments, ["optional", EntityValues], ["optional", Boolean]);
+        
 
         if (value === null) return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
         else {

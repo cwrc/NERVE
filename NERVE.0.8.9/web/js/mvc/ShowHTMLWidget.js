@@ -1,6 +1,5 @@
 
 class ShowHTMLWidget{
-    
     constructor(taggedEntityWidget){
         console.log("ShowHTMLWidget");
         this.modal = $("#showHTMLWidget");
@@ -11,7 +10,6 @@ class ShowHTMLWidget{
         }
         $(this.modal).find("[data-widget-id='html-contents']").text(html);
     }    
-    
     show(){
         $(this.modal).modal("show");
     }

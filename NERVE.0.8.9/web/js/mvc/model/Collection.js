@@ -1,5 +1,3 @@
-/* global Utility, Symbol */
-
 /**
  * events: notifyCollectionAdd, notifyCollectionClear, notifyCollectionRemove
  * @type type

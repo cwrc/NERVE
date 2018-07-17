@@ -1,11 +1,8 @@
 /* global Utility, TaggedEntityWidget, Collection, ProgressPacket */
-
 const ProgressStage = require("nerscriber").ProgressStage;
 
-module.exports = class View {
+class View {
     constructor() {
-        
-
         this.onMenuTags(false);
 
         this.delayThrobber = null;
@@ -27,21 +24,14 @@ module.exports = class View {
         $(taggedEntityWidget.getElement()).addClass("selected");
     }
     notifyCollectionClear(collection, TaggedEntityWidgets) {
-        
-        // // Utility.enforceTypes(arguments, Collection, Array);
         for (let TaggedEntityWidget of TaggedEntityWidgets) {
             $(TaggedEntityWidget.getElement()).removeClass("selected");
         }
     }
     notifyCollectionRemove(collection, TaggedEntityWidget) {
-        
-        // // Utility.enforceTypes(arguments, Collection, TaggedEntityWidget);
         $(TaggedEntityWidget.getElement()).removeClass("selected");
     }
     notifyProgress(progressPacket) {
-        
-        // // Utility.enforceTypes(arguments, ProgressPacket);
-
         if (progressPacket.progressStage === ProgressStage.START){
             this.showThrobber(true);
         } else if (progressPacket.progressStage === ProgressStage.CONTINUE){
@@ -51,14 +41,9 @@ module.exports = class View {
         }
     }
     notifySetDocument(docElement){
-        
-        // // Utility.enforceTypes(arguments, HTMLDivElement );
         $(docElement).find("*").removeClass("selected");
     }
     setDictionaryButton(button) {
-        
-        // // Utility.enforceTypes(arguments, String);
-
         $("#dictionary > button").hide();
         switch (button) {
             case "add":
@@ -73,66 +58,43 @@ module.exports = class View {
         }
     }
     scrollTo(element) {
-        
-        // // Utility.enforceTypes(arguments, [Element]);
-
         $("#panelContainer").scrollTop(
                 $(element).offset().top - $("#panelContainer").offset().top + $("#panelContainer").scrollTop() - ($("#panelContainer").height() / 2)
                 );
     }
     focusFind() {
-        
-        // // Utility.enforceTypes(arguments);
         document.getElementById("epsTextArea").focus();
     }
     setFindText(string) {
-        
-        // // Utility.enforceTypes(arguments, String);
         document.getElementById("epsTextArea").value = string;
     }
     getSearchTerm() {
-        
-        // // Utility.enforceTypes(arguments);
         return document.getElementById("epsTextArea").value;
     }
     clear() {
-        
-        // // Utility.enforceTypes(arguments);
-
         $("#entityPanel").empty();
         $("#tagnamePanel").empty();
     }
     setFilename(text) {
-        
-        // // Utility.enforceTypes(arguments, String);
-
         document.getElementById("documentTitle").innerHTML = text;
     }
     setDialogs(value) {
-        
-        // // Utility.enforceTypes(arguments, EntityValues);
-
         $("#txtEntity").val(value.text());
         $("#txtLemma").val(value.lemma());
         $("#txtLink").val(value.link());
         $("#selectTagName").val(value.tag());
     }
     setSearchText(string) {
-        
-        // // Utility.enforceTypes(arguments, String);
-
         if (typeof string === undefined || string === null) {
             string = "";
         }
         document.getElementById("epsTextArea").value = string;
     }
-    
     notifyMessage(message){
         let modal = $("#globalMessage");
         $(modal).find("[data-widget-id='message']").text(message);
         $(modal).modal("show");
     }    
-    
     clearThrobber() {
         this.showThrobber(false);
         $("message").text("");
@@ -154,25 +116,16 @@ module.exports = class View {
         }
     }
     showThrobber(flag = true, opacity = 0.7) {
-        
-        // // Utility.enforceTypes(arguments, ["optional", Boolean], ["optional", Number]);
-
         $("#throbberBG").css("opacity", opacity);
 
         if (flag) $("#throbberBG").show();
         else $("#throbberBG").hide();
     }
     pushThrobberMessage(string) {
-        
-        // // Utility.enforceTypes(arguments, String);
-
         this.throbberMessageStack.push(string);
         document.getElementById("message").innerText = string;
     }
     popThrobberMessage() {
-        
-        // // Utility.enforceTypes(arguments);
-
         let string = "";
         this.throbberMessageStack.pop();
         if (this.throbberMessageStack.length > 0) {
@@ -181,19 +134,13 @@ module.exports = class View {
         document.getElementById("message").innerText = string;
     }
     setThrobberMessage(string) {
-        
-        // // Utility.enforceTypes(arguments, String);
-
         this.throbberMessageStack = [string];
         document.getElementById("message").innerText = string;
     }
     onMenuTags(value) {
-        
-        
         if (value === undefined){
             this.tagMode = !this.tagMode;
         }
-        
         if (this.tagMode) {
             $("#menuTags").text("Show Tags Enabled");
             $("#entityPanel").addClass("show-tags");
@@ -202,4 +149,6 @@ module.exports = class View {
             $("#entityPanel").removeClass("show-tags");
         }
     }
-};
+}
+
+module.exports = View;

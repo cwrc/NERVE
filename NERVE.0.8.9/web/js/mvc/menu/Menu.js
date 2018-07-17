@@ -1,5 +1,3 @@
-/* global Utility */
-
 const AbstractModel = require("../model/AbstractModel");
 
 class Menu extends AbstractModel {

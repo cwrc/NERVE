@@ -1,19 +1,12 @@
 module.exports = class MessageHandler {
     constructor(element) {
-        
-        // Utility.enforceTypes(arguments, [HTMLElement, jQuery]);
         this.container = null;
         this.setContainer(element);
     }
     setContainer(element) {
-        
-        // Utility.enforceTypes(arguments, [HTMLElement, jQuery]);
         this.container = element;
     }
     userMessage(string, duration = 3000) {
-        
-        // Utility.enforceTypes(arguments, String, ["optional", Number]);
-
         let msgElement = document.createElement("div");
         msgElement.className = "userMessageElement";
         $(this.container).append(msgElement);

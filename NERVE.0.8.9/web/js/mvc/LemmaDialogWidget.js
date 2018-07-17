@@ -23,8 +23,6 @@ const ArrayList = require("jjjrmi").ArrayList;
  */
 class LemmaWidget {
     constructor(text, lemma, category, delegate, dragDropHandler) {
-        
-
         this.lemma = lemma;
         this.category = category;
         this.dragDropHandler = dragDropHandler;
