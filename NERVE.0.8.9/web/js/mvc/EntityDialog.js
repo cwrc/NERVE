@@ -162,7 +162,6 @@ class EntityDialog extends AbstractModel {
     }
 
     __setDialogs() {
-        console.log("__setDialogs()");
         this.__clearDialogs();
         this.__clearDialogBG();
 
@@ -177,7 +176,6 @@ class EntityDialog extends AbstractModel {
         let values = this.getValues();
 
         for (let entity of this.selected) {
-            console.log(entity);
             if (entity.lemma() !== values.lemma()) this.__setDialogBG("lemma");
             if (entity.link() !== values.link()) this.__setDialogBG("link");
             if (entity.text() !== values.text()) this.__setDialogBG("text");
