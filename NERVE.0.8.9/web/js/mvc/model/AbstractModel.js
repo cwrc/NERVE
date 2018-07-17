@@ -5,9 +5,7 @@ class AbstractModel {
     }
 
     addListener(listener) {
-        Utility.log(AbstractModel, "addListener", listener.constructor.name);
-        // Utility.enforceTypes(arguments, Object);
-
+        if (typeof listener !== "object") throw new Error("invalid AbstractModel listener type: " + typeof listener);
         this.abstractModelListeners.push(listener);
     }
 
@@ -17,7 +15,7 @@ class AbstractModel {
      * @returns {undefined}
      */
     async notifyListeners(method) {
-        Utility.log(AbstractModel, "notifyListeners", method);
+        
 
         console.log("EVENT " + this.constructor.name + " " + method);
 

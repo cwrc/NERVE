@@ -2,7 +2,7 @@ AbstractModel = require("./AbstractModel");
 
 class SearchModel extends AbstractModel{
     constructor(srcSelector){
-        Utility.log(SearchModel, "constructor");
+        
         // Utility.enforceTypes(arguments, String);
 
         super();
@@ -20,7 +20,7 @@ class SearchModel extends AbstractModel{
     }
 
     search(term) {
-        Utility.log(SearchModel, "search");
+        
         // Utility.enforceTypes(arguments, String);
 
         if (term === null || this.lastTerm === term || term.length === 0) return this.instances.length;
@@ -37,7 +37,7 @@ class SearchModel extends AbstractModel{
     }
 
     next(){
-        Utility.log(SearchModel, "next");
+        
         // Utility.enforceTypes(arguments);
         let last = this.current;
         this.current++;
@@ -46,7 +46,7 @@ class SearchModel extends AbstractModel{
     }
 
     prev(){
-        Utility.log(SearchModel, "prev");
+        
         // Utility.enforceTypes(arguments);
         let last = this.current;
         this.current--;
@@ -55,7 +55,7 @@ class SearchModel extends AbstractModel{
     }
 
     __searchRecurse(ele, term, foundObjects) {
-        Utility.log(SearchModel, "__searchRecurse");
+        
         // Utility.enforceTypes(arguments, [HTMLElement, Comment], String, Array);
 
         for (var child of ele.childNodes) {

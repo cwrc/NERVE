@@ -2,11 +2,11 @@ const FileOperations = require("../../util/FileOperations");
 
 class Schema {
     constructor() {
-        Utility.log(Schema, "constructor");
+        
         // Utility.enforceTypes(arguments);
     }
     async load(url) {
-        Utility.log(Schema, "load");
+        
         // Utility.enforceTypes(arguments, String);
 
         let fileResult = await FileOperations.loadFromRemote(url);
@@ -35,7 +35,7 @@ class Schema {
         return branch;
     }
     isValid(element, childNodeName) {
-        Utility.log(Schema, "isValid");
+        
         // Utility.enforceTypes(arguments, Object, String);
 
         let path = Schema.branch(element);
@@ -43,7 +43,7 @@ class Schema {
         return this.checkValidity(path, this.$start);
     }
     checkValidity(path, schemaNode) {
-        Utility.log(Schema, "checkValidity");
+        
 
         switch ($(schemaNode).prop("tagName")) {
             case "element":
@@ -66,7 +66,7 @@ class Schema {
         }
     }
     checkElement(path, schemaNode) {
-        Utility.log(Schema, "checkElement");
+        
         if ($(schemaNode).attr("name") !== path[0]) return false;
 
         let head = path.shift();
@@ -80,14 +80,14 @@ class Schema {
         return false;
     }
     checkRef(path, schemaNode) {
-        Utility.log(Schema, "checkRef");
+        
         let name = $(schemaNode).attr("name");
         let defines = $xml.find(`define[name='${name}']`);
         if (defines.length === 0) throw new Error(`Undefined lookup : ${name}`);
         return this.checkValidity(path, defines[0]);
     }
     checkGroup(path, schemaNode) {
-        Utility.log(Schema, "checkGroup");
+        
         for (let child of $(schemaNode).children()) {
             if (this.checkValidity(path, child)) return true;
         }

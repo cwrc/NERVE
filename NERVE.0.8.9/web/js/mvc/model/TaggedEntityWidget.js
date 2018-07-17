@@ -302,7 +302,7 @@ class TaggedEntityWidget {
     }
 
     getElement() {
-        Utility.log(TaggedEntityWidget, "getElement");
+        
         // Utility.enforceTypes(arguments);
         return this.element;
     }
@@ -312,7 +312,7 @@ class TaggedEntityWidget {
     }
 
     getContentElement() {
-        Utility.log(TaggedEntityWidget, "getElement");
+        
         // Utility.enforceTypes(arguments);
         return this.contents;
     }
@@ -322,7 +322,7 @@ class TaggedEntityWidget {
     }
 
     tag(value = null, silent = false) {
-        Utility.log(TaggedEntityWidget, "tag", value);
+        
         if (value === null) return $(this.element).tag();
        
         let updateInfo = new EntityValues(null, null, null, $(this.element).tag(), null);
@@ -344,7 +344,7 @@ class TaggedEntityWidget {
      * @returns {string} the value of lemma
      */
     lemma(value = null, silent = false) {
-        Utility.log(TaggedEntityWidget, "lemma", value);
+        
         if (value === null) return $(this.element).lemma();
         let updateInfo = new EntityValues(null, $(this.element).lemma(), null, null, null);
 
@@ -354,7 +354,7 @@ class TaggedEntityWidget {
         return $(this.element).lemma();
     }
     link(value = null, silent = false) {
-        Utility.log(TaggedEntityWidget, "link", value);
+        
         if (value === null) return $(this.element).link();
         let updateInfo = new EntityValues(null, null, $(this.element).link(), null, null);
 
@@ -364,7 +364,7 @@ class TaggedEntityWidget {
         return $(this.element).link();
     }
     text(value = null, silent = false) {
-        Utility.log(TaggedEntityWidget, "text", value);
+        
         if (value === null) return $(this.contents).text();
         let updateInfo = new EntityValues($(this.contents).text(), null, null, null, null);
 
@@ -375,7 +375,7 @@ class TaggedEntityWidget {
         return $(this.contents).text();
     }
     datasource(value = null, silent = false) {
-        Utility.log(TaggedEntityWidget, "datasource", value);
+        
         if (value === null) return $(this.element).xmlAttr(Constants.DICT_SRC_ATTR);
         let updateInfo = new EntityValues(null, null, null, null, $(this.element).xmlAttr(Constants.DICT_SRC_ATTR));
 
@@ -388,7 +388,7 @@ class TaggedEntityWidget {
         return $(this.element).xmlAttr(Constants.DICT_SRC_ATTR);
     }
     values(value = null, silent = false) {
-        Utility.log(TaggedEntityWidget, "values");
+        
         // Utility.enforceTypes(arguments, ["optional", EntityValues], ["optional", Boolean]);
 
         if (value === null) return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());

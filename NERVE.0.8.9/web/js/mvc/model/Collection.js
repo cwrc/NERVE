@@ -5,7 +5,6 @@
  * @type type
  */
 
-Utility = require("../../util/utility");
 AbstractModel = require("./AbstractModel");
 
 class Collection extends AbstractModel {

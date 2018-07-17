@@ -11,7 +11,6 @@ const TaggedEntityWidget = require("./TaggedEntityWidget");
 const Storage = require("../../util/storage");
 const HostInfo = require("../../util/hostinfo");
 const AbstractModel = require("./AbstractModel");
-const Utility = require("../../util/Utility");
 const ArrayList = require("jjjrmi").ArrayList;
 const EntityValues = require("../../gen/nerve").EntityValues;
 const FileOperations = require("../../util/fileOperations");
@@ -19,7 +18,7 @@ const Collection = require("./Collection");
 
 class Model extends AbstractModel {
     constructor(dragDropHandler) {
-        Utility.log(Model, "constructor");
+        
         super();
 
         this.hostInfo = new HostInfo();
@@ -112,7 +111,7 @@ class Model extends AbstractModel {
     }
 
     async loadDocument(filename, text, action) {
-        Utility.log(Model, "loadDocument");
+        
 
         let encodeResponse = null;
         switch (action) {
@@ -162,7 +161,7 @@ class Model extends AbstractModel {
      * @returns {String}
      */
     getDocument() {
-        Utility.log(Model, "getDocument");
+        
 
         let doc = $("#entityPanel").get(0);
         let clone = doc.cloneNode(true);
@@ -181,7 +180,7 @@ class Model extends AbstractModel {
     }
 
     async setDocument(text, context, filename, schemaURL) {
-        Utility.log(Model, "setDocument");
+        
         // Utility.enforceTypes(arguments, String, Context, String, String);
 
         await this.notifyListeners("notifyUnsetDocument");
@@ -214,7 +213,7 @@ class Model extends AbstractModel {
     }
 
     async close() {
-        Utility.log(Model, "close");
+        
         // Utility.enforceTypes(arguments);
         this.storage.setValue("document", null);
         this.storage.setValue("filename", null);
@@ -249,7 +248,7 @@ class Model extends AbstractModel {
      * @returns {undefined}
      */
     saveState() {
-        Utility.log(Model, "saveState");
+        
         // Utility.enforceTypes(arguments);
 
         this.currentStateIndex = this.currentStateIndex + 1;
@@ -266,7 +265,7 @@ class Model extends AbstractModel {
     }
 
     async revertState() {
-        Utility.log(Model, "revertState");
+        
 
         if (this.currentStateIndex <= 0) return false;
         this.currentStateIndex = this.currentStateIndex - 1;
@@ -275,7 +274,7 @@ class Model extends AbstractModel {
     }
 
     async advanceState() {
-        Utility.log(Model, "advanceState");
+        
 
         if (typeof this.stateList[this.currentStateIndex + 1] === "undefined" || this.stateList[this.currentStateIndex + 1] === null) return;
         this.currentStateIndex = this.currentStateIndex + 1;
@@ -308,7 +307,7 @@ class Model extends AbstractModel {
     }
 
     __resetState() {
-        Utility.log(Model, "__resetState");
+        
         // Utility.enforceTypes(arguments);
 
         this.stateList = [];
@@ -316,13 +315,13 @@ class Model extends AbstractModel {
         this.stateList[0] = $("#entityPanel").html();
     }
     getFilename() {
-        Utility.log(Model, "getFilename");
+        
         // Utility.enforceTypes(arguments);
         return this.storage.getValue("filename");
     }
 
     getContext() {
-        Utility.log(Model, "getContext");
+        
         // Utility.enforceTypes(arguments);
         return this.context;
     }

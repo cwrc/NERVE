@@ -1,19 +1,19 @@
+require("./util/customQuery");
+
 const View = require("./mvc/view/View");
 const EntityDialog = require("./mvc/EntityDialog");
 const EnityPanelWidget = require("./mvc/EnityPanelWidget");
 const Menu = require("./mvc/menu/Menu");
-
 const DragDropHandler = require("./mvc/model/DragDropHandler");
 const MessageHandler = require("./mvc/messageHandler");
 const CWRCDialogModel = require("./mvc/CWRCDialogModel");
 const Model = require("./mvc/model/Model");
 const HostInfo = require("./util/hostinfo");
-
 const TaggedEntityWidget = require("./mvc/model/TaggedEntityWidget");
-
 const LemmaDialogWidget = require("./mvc/LemmaDialogWidget");
 const nerve = require("./gen/nerve");
 const AbstractModel = require("./mvc/model/AbstractModel");
+const CustomQuery = require("./util/CustomQuery");
 
 window.jjjrmi = require("jjjrmi");
 
@@ -53,7 +53,7 @@ class Main extends AbstractModel {
         this.model.addListener(this.view);
         this.model.addListener(new MessageHandler($("#userMessage")));
         this.model.addListener(this.cwrc);
-        this.model.addListener($.fn.xmlAttr);
+        this.model.addListener(CustomQuery.instance);
         
         /* --- LEMMA DIALOG (LHS) --- */
         this.lemmaDialogWidget = new LemmaDialogWidget(this.dragDropHandler);

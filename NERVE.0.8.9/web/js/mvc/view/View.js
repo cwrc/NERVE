@@ -4,7 +4,7 @@ const ProgressStage = require("nerscriber").ProgressStage;
 
 module.exports = class View {
     constructor() {
-        Utility.log(View, "constructor");
+        
 
         this.onMenuTags(false);
 
@@ -27,19 +27,19 @@ module.exports = class View {
         $(taggedEntityWidget.getElement()).addClass("selected");
     }
     notifyCollectionClear(collection, TaggedEntityWidgets) {
-        Utility.log(View, "notifyCollectionClear");
+        
         // // Utility.enforceTypes(arguments, Collection, Array);
         for (let TaggedEntityWidget of TaggedEntityWidgets) {
             $(TaggedEntityWidget.getElement()).removeClass("selected");
         }
     }
     notifyCollectionRemove(collection, TaggedEntityWidget) {
-        Utility.log(View, "notifyCollectionRemove");
+        
         // // Utility.enforceTypes(arguments, Collection, TaggedEntityWidget);
         $(TaggedEntityWidget.getElement()).removeClass("selected");
     }
     notifyProgress(progressPacket) {
-        Utility.log(View, "notifyProgress");
+        
         // // Utility.enforceTypes(arguments, ProgressPacket);
 
         if (progressPacket.progressStage === ProgressStage.START){
@@ -51,12 +51,12 @@ module.exports = class View {
         }
     }
     notifySetDocument(docElement){
-        Utility.log(View, "notifySetDocument");
+        
         // // Utility.enforceTypes(arguments, HTMLDivElement );
         $(docElement).find("*").removeClass("selected");
     }
     setDictionaryButton(button) {
-        Utility.log(View, "setDictionaryButton");
+        
         // // Utility.enforceTypes(arguments, String);
 
         $("#dictionary > button").hide();
@@ -73,7 +73,7 @@ module.exports = class View {
         }
     }
     scrollTo(element) {
-        Utility.log(View, "scrollTo");
+        
         // // Utility.enforceTypes(arguments, [Element]);
 
         $("#panelContainer").scrollTop(
@@ -81,35 +81,35 @@ module.exports = class View {
                 );
     }
     focusFind() {
-        Utility.log(View, "focusFind");
+        
         // // Utility.enforceTypes(arguments);
         document.getElementById("epsTextArea").focus();
     }
     setFindText(string) {
-        Utility.log(View, "setFindText");
+        
         // // Utility.enforceTypes(arguments, String);
         document.getElementById("epsTextArea").value = string;
     }
     getSearchTerm() {
-        Utility.log(View, "getSearchTerm");
+        
         // // Utility.enforceTypes(arguments);
         return document.getElementById("epsTextArea").value;
     }
     clear() {
-        Utility.log(View, "clear");
+        
         // // Utility.enforceTypes(arguments);
 
         $("#entityPanel").empty();
         $("#tagnamePanel").empty();
     }
     setFilename(text) {
-        Utility.log(View, "setFilename");
+        
         // // Utility.enforceTypes(arguments, String);
 
         document.getElementById("documentTitle").innerHTML = text;
     }
     setDialogs(value) {
-        Utility.log(View, "setDialogs");
+        
         // // Utility.enforceTypes(arguments, EntityValues);
 
         $("#txtEntity").val(value.text());
@@ -118,7 +118,7 @@ module.exports = class View {
         $("#selectTagName").val(value.tag());
     }
     setSearchText(string) {
-        Utility.log(View, "setSearchText");
+        
         // // Utility.enforceTypes(arguments, String);
 
         if (typeof string === undefined || string === null) {
@@ -154,7 +154,7 @@ module.exports = class View {
         }
     }
     showThrobber(flag = true, opacity = 0.7) {
-        Utility.log(View, "showThrobber", flag);
+        
         // // Utility.enforceTypes(arguments, ["optional", Boolean], ["optional", Number]);
 
         $("#throbberBG").css("opacity", opacity);
@@ -163,14 +163,14 @@ module.exports = class View {
         else $("#throbberBG").hide();
     }
     pushThrobberMessage(string) {
-        Utility.log(View, "pushThrobberMessage");
+        
         // // Utility.enforceTypes(arguments, String);
 
         this.throbberMessageStack.push(string);
         document.getElementById("message").innerText = string;
     }
     popThrobberMessage() {
-        Utility.log(View, "popThrobberMessage");
+        
         // // Utility.enforceTypes(arguments);
 
         let string = "";
@@ -181,14 +181,14 @@ module.exports = class View {
         document.getElementById("message").innerText = string;
     }
     setThrobberMessage(string) {
-        Utility.log(View, "setThrobberMessage", string);
+        
         // // Utility.enforceTypes(arguments, String);
 
         this.throbberMessageStack = [string];
         document.getElementById("message").innerText = string;
     }
     onMenuTags(value) {
-        Utility.log(View, "onMenuTags");
+        
         
         if (value === undefined){
             this.tagMode = !this.tagMode;
