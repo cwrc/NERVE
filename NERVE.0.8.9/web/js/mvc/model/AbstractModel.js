@@ -23,7 +23,8 @@ class AbstractModel {
         window.lastEvent = {
             method: method,
             args: arguments,
-            source: this
+            source: this,
+            listeners : []
         };
         AbstractModel.events.push(window.lastEvent);
 
@@ -32,6 +33,7 @@ class AbstractModel {
 //                console.log(" ? " + listener.constructor.name);
             } else {
                 console.log(" + " + listener.constructor.name + " " + method);
+                window.lastEvent.listeners.push(listener.constructor.name);
                 await listener[method].apply(listener, arguments);
             }
         }

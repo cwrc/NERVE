@@ -118,8 +118,7 @@ class ContextMenu {
         $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").append(div);
         
         if (sqlRecord.getEntry("lemma").getValue() === this.taggedEntityWidget.lemma()
-        &&  sqlRecord.getEntry("tag").getValue() === this.taggedEntityWidget.tag()
-        &&  sqlRecord.getEntry("source").getValue() === this.taggedEntityWidget.datasource())
+        &&  sqlRecord.getEntry("tag").getValue() === this.taggedEntityWidget.tag())
         {
             this.setSelected(div);
         }
@@ -374,24 +373,11 @@ class TaggedEntityWidget {
         return $(this.element).link();
         return $(this.contents).text();
     }
-    datasource(value = null, silent = false) {
-        
-        if (value === null) return $(this.element).xmlAttr(Constants.DICT_SRC_ATTR);
-        let updateInfo = new EntityValues(null, null, null, null, $(this.element).xmlAttr(Constants.DICT_SRC_ATTR));
-
-        $(this.element).xmlAttr(Constants.DICT_SRC_ATTR, value);
-        
-        if (!silent){
-            console.warn(silent);
-            TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
-        }
-        return $(this.element).xmlAttr(Constants.DICT_SRC_ATTR);
-    }
     values(value = null, silent = false) {
         
         
 
-        if (value === null) return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
+        if (value === null) return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
         else {
             let updateInfo = new EntityValues(null, null, null, null, null);
             if (value.text() !== null) {
@@ -410,14 +396,10 @@ class TaggedEntityWidget {
                 updateInfo.tag(this.tag());
                 this.tag(value.tag(), true);
             }
-            if (value.datasource() !== null) {
-                updateInfo.datasource(this.datasource());
-                this.datasource(value.datasource(), true);
-            }
             if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
         }
 
-        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag(), this.datasource());
+        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
     }
     async untag() {
         let children = $(this.contents).contents();
