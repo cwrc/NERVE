@@ -36,6 +36,15 @@ public final class EntityValues extends JJJObject{
     }
     
     @NativeJS
+    public EntityValues clone(){
+        EntityValues entityValues = new EntityValues();
+        for (String key : this.values.keySet()){
+            entityValues.set(key, this.get(key));
+        }
+        return entityValues;
+    }
+    
+    @NativeJS
     public EntityValues copyTo(Object dest){
         /*JS{
             if (this.text() !== null) dest.text(this.text());

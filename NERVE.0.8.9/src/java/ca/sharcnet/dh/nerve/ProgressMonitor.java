@@ -1,4 +1,4 @@
-/* generated 2018/07/18 15:58:29 */
+/* generated 2018/07/18 16:38:35 */
 package ca.sharcnet.dh.nerve;
 @ca.frar.jjjrmi.annotations.JJJ("ProgressMonitor")
 @ca.frar.jjjrmi.annotations.JJJOptions(jsExtends = "require('../mvc/model/AbstractModel')")

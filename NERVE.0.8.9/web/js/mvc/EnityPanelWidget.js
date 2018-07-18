@@ -60,14 +60,11 @@ class EnityPanelWidget extends AbstractModel {
         }
     }
 
-    notifyDialogChange(changes) {
-        console.log(changes);
+    notifyDialogChange(changes, current) {
         for (let taggedEntityWidget of this.selectedEntities){
             taggedEntityWidget.values(changes);
         }
-        for (let field in changes){
-            this.latestValues.set(field, changes.get(field));
-        }
+        this.latestValues = current.clone();
     }
 
     requestUntagAll() {
@@ -260,6 +257,7 @@ class EnityPanelWidget extends AbstractModel {
         }
 
         this.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+        this.selectedEntities.set(taggedEntity);
         return taggedEntity;
     }
 

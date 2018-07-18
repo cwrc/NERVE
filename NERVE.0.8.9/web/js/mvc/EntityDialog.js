@@ -3,8 +3,8 @@ const EntityValues = require("../gen/nerve").EntityValues;
 const Collection = require("./model/Collection");
 
 class EntityTextBox {
-    constructor(delegate, selector, dialogStringID) {
-        this.delegate = delegate;
+    constructor(entityDialog, selector, dialogStringID) {
+        this.entityDialog = entityDialog;
         this.update = false;
         
         $(selector).on("input", () => {
@@ -15,7 +15,7 @@ class EntityTextBox {
             if (this.update) {
                 let changes = new EntityValues();
                 changes.set(dialogStringID, $(selector).val());
-                this.delegate.notifyListeners("notifyDialogChange", changes);
+                this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
             }
             this.update = false;
         });          
@@ -24,7 +24,7 @@ class EntityTextBox {
             if (event.keyCode !== 13) return;
             let changes = {};
             changes[dialogStringID] = $(selector).val();            
-            this.delegate.notifyListeners("notifyDialogChange", changes);
+            this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
             this.update = false;
             event.stopPropagation();
         });        
@@ -32,8 +32,8 @@ class EntityTextBox {
 }
 
 class EntityListSelector{
-    constructor(delegate, selector, dialogStringID) {
-        this.delegate = delegate;
+    constructor(entityDialog, selector, dialogStringID) {
+        this.entityDialog = entityDialog;
         this.dialogStringID = dialogStringID;
         this.selector = selector;
         this.update = false;
@@ -41,8 +41,8 @@ class EntityListSelector{
         $(selector).on("input", (event) => {
             let changes = new EntityValues();
             changes.set(dialogStringID, $(selector).val());          
-            this.delegate.notifyListeners("notifyDialogChange", changes);
-        });        
+            this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
+        }); 
     }
     
     setValue(value){
@@ -52,7 +52,7 @@ class EntityListSelector{
     ready(){
         let changes = new EntityValues();
         changes.set(this.dialogStringID, $(this.selector).val());               
-        this.delegate.notifyListeners("notifyDialogChange", changes);        
+        this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());        
     }
 }
 
@@ -66,7 +66,6 @@ class EntityDialog extends AbstractModel {
         this.entitySelectorList = new EntityListSelector(this, "#selectTagName", "tag");
 
         $('#txtEntity').textinput();
-        $('#searchDialog').textinput();
         $('#txtLemma').textinput();
         $('#txtLink').textinput();
         
@@ -89,7 +88,7 @@ class EntityDialog extends AbstractModel {
         this.__setLemma(this.copyValues.lemma());
         this.__setLink(this.copyValues.link());
         this.__setTagName(this.copyValues.tag());                        
-        this.notifyListeners("notifyDialogChange", this.getValues());
+        this.notifyListeners("notifyDialogChange", this.getValues(), this.entityDialog.getValues());
         this.__setDialogs();
     }
     

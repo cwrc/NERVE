@@ -15,6 +15,13 @@ class EntityValues {
 	[Symbol.iterator]() {
 		return this.values.keySet();
 	}
+	clone() {
+		let entityValues = new EntityValues();
+		for(let key of this.values.keySet()){
+			entityValues.set(key, this.get(key));
+		}
+		return entityValues;
+	}
 	copyTo(dest) {
 		
 		if (this.text() !== null) dest.text(this.text());
