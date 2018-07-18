@@ -60,27 +60,13 @@ class EnityPanelWidget extends AbstractModel {
         }
     }
 
-    notifyDialogChange(changeList) {
-        for (let fieldID in changeList) {
-            let value = changeList[fieldID];
-            switch (fieldID) {
-                case "text":
-                    for (let taggedEntityWidget of this.selectedEntities) taggedEntityWidget.text(value);                        
-                    this.latestValues.text(value);
-                    break;
-                case "lemma":
-                    for (let taggedEntityWidget of this.selectedEntities) taggedEntityWidget.lemma(value);
-                    this.latestValues.lemma(value);
-                    break;
-                case "link":
-                    for (let taggedEntityWidget of this.selectedEntities) taggedEntityWidget.link(value)
-                    this.latestValues.link(value);
-                    break;
-                case "tagName":
-                    for (let taggedEntityWidget of this.selectedEntities) taggedEntityWidget.tag(value);
-                    this.latestValues.tag(value);
-                    break;
-            }
+    notifyDialogChange(changes) {
+        console.log(changes);
+        for (let taggedEntityWidget of this.selectedEntities){
+            taggedEntityWidget.values(changes);
+        }
+        for (let field in changes){
+            this.latestValues.set(field, changes.get(field));
         }
     }
 

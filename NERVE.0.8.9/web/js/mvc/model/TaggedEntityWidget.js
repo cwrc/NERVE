@@ -181,7 +181,7 @@ class ContextMenu {
                 $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");              
             }
             $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").hide();
-        });        
+        });
     }
 }
 
@@ -302,7 +302,6 @@ class TaggedEntityWidget {
 
     getElement() {
         
-        
         return this.element;
     }
 
@@ -312,7 +311,6 @@ class TaggedEntityWidget {
 
     getContentElement() {
         
-        
         return this.contents;
     }
 
@@ -321,9 +319,7 @@ class TaggedEntityWidget {
     }
 
     tag(value = null, silent = false) {
-        
         if (value === null) return $(this.element).tag();
-       
         let updateInfo = new EntityValues(null, null, null, $(this.element).tag(), null);
 
         if (!this.getContext().isStandardTag(value)) {
@@ -333,7 +329,7 @@ class TaggedEntityWidget {
         $(this.markup).text(value);
         $(this.element).tag(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], updateInfo);
         return $(this.element).tag();
     }
     /**
@@ -343,63 +339,52 @@ class TaggedEntityWidget {
      * @returns {string} the value of lemma
      */
     lemma(value = null, silent = false) {
-        
         if (value === null) return $(this.element).lemma();
-        let updateInfo = new EntityValues(null, $(this.element).lemma(), null, null, null);
-
         $(this.element).lemma(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
         return $(this.element).lemma();
     }
     link(value = null, silent = false) {
-        
         if (value === null) return $(this.element).link();
-        let updateInfo = new EntityValues(null, null, $(this.element).link(), null, null);
-
         $(this.element).link(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
         return $(this.element).link();
     }
     text(value = null, silent = false) {
-        
         if (value === null) return $(this.contents).text();
-        let updateInfo = new EntityValues($(this.contents).text(), null, null, null, null);
-
         $(this.contents).text(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
         return $(this.element).link();
         return $(this.contents).text();
     }
-    values(value = null, silent = false) {
-        
-        
-
-        if (value === null) return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
-        else {
-            let updateInfo = new EntityValues(null, null, null, null, null);
-            if (value.text() !== null) {
-                updateInfo.text(this.text());
+    values(value = null, silent = false) {        
+        if (value === null){             
+            let entityValues = new EntityValues();
+            if (this.text() !== "") entityValues.text(this.text());
+            if (this.lemma() !== "") entityValues.lemma(this.lemma());
+            if (this.link() !== "") entityValues.link(this.link());
+            if (this.tag() !== "") entityValues.tag(this.tag());
+            return entityValues;
+        } else {
+            if (value.hasText()) {
                 this.text(value.text(), true);
             }
-            if (value.lemma() !== null) {
-                updateInfo.lemma(this.lemma());
+            if (value.hasLemma()) {
                 this.lemma(value.lemma(), true);
             }
-            if (value.link() !== null) {
-                updateInfo.link(this.link());
+            if (value.hasLink()) {
                 this.link(value.link(), true);
             }
-            if (value.tag() !== null) {
-                updateInfo.tag(this.tag());
+            if (value.hasTag()) {
                 this.tag(value.tag(), true);
             }
-            if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this, updateInfo);
+            if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
         }
 
-        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
+        return this.values();
     }
     async untag() {
         let children = $(this.contents).contents();
@@ -418,13 +403,10 @@ class TaggedEntityWidget {
         if (value === undefined) return $(this.element).hasClass("selected");
         else if (value) $(this.element).addClass("selected");
         else $(this.element).removeClass("selected");
-    }
-  
+    }  
 }
-;
 
 class TaggedEntityDelegate extends AbstractModel{
-    
     constructor(){
         super();
         this.contxt = null;

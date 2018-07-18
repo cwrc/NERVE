@@ -32,10 +32,6 @@ class Model extends AbstractModel {
 
         this.taggedEntityList = new ArrayList();
 
-        this.currentStateIndex = 0;
-        this.maxStateIndex = 30;
-        this.__resetState();
-
         this.reader = new FileReader();
         this.reader.model = this;
         this.reader.onload = async function (event) {
@@ -71,7 +67,6 @@ class Model extends AbstractModel {
         let r = await this.dictionary.addEntity(taggedEntityWidget.values());
         if (r === 1) {
             this.notifyListeners("notifyMessage", "entity added to dictionary");
-            taggedEntityWidget.datasource("custom");
         } else {
             this.notifyListeners("notifyMessage", "entity not added to dictionary: " + r);
         }
@@ -83,19 +78,10 @@ class Model extends AbstractModel {
         let r = await this.dictionary.deleteEntity(taggedEntityWidget.values());
         if (r === 1) {
             this.notifyListeners("notifyMessage", "entity removed from dictionary");
-            taggedEntityWidget.datasource("custom");
         } else {
             this.notifyListeners("notifyMessage", "entity not removed from dictionary: " + r);
         }
         this.notifyListeners("clearThrobber");        
-    }
-
-    async onMenuUndo() {
-        this.revertState();
-    }
-
-    async onMenuRedo() {
-        this.advanceState();
     }
 
     async onMenuClose() {
@@ -105,7 +91,6 @@ class Model extends AbstractModel {
     async onMenuUntag() {
         this.notifyListeners("requestUntagAll");
         this.isSaved = false;
-        this.saveState();
     }
 
     async loadDocument(filename, text, action) {
@@ -198,7 +183,6 @@ class Model extends AbstractModel {
         this.storage.setValue("filename", filename);
         this.storage.setValue("context", context);
         this.storage.setValue("schemaURL", schemaURL);
-        this.__resetState();
 
 //        await this.__addDictionaryAttribute();
     }
@@ -230,40 +214,7 @@ class Model extends AbstractModel {
         }
     }
 
-    /**
-     * Call 'saveState()' after any change that you want to be able to recover
-     * to.  This is typically any change in the model that can be seen by the
-     * user.
-     * @returns {undefined}
-     */
-    saveState() {
-        this.currentStateIndex = this.currentStateIndex + 1;
-        this.stateList[this.currentStateIndex] = $("#entityPanel").html();
-        this.storage.setValue("document", $("#entityPanel").html());
-
-        if (this.currentStateIndex === this.maxStateIndex) {
-            this.stateList = this.stateList.slice(1, this.currentStateIndex);
-        } else {
-            for (let i = this.currentStateIndex + 1; i < this.maxStateIndex; i++) {
-                this.stateList[i] = null;
-            }
-        }
-    }
-
-    async revertState() {
-        if (this.currentStateIndex <= 0) return false;
-        this.currentStateIndex = this.currentStateIndex - 1;
-        let docHTML = this.stateList[this.currentStateIndex];
-        this.__setDocument(docHTML);
-    }
-
-    async advanceState() {
-        if (typeof this.stateList[this.currentStateIndex + 1] === "undefined" || this.stateList[this.currentStateIndex + 1] === null) return;
-        this.currentStateIndex = this.currentStateIndex + 1;
-        let docHTML = this.stateList[this.currentStateIndex];
-        this.__setDocument(docHTML);
-    }
-
+    
     __setDocument(docHTML) {
         while (!this.taggedEntityList.isEmpty()) {
             let taggedEntityWidget = this.taggedEntityList.remove(0);
@@ -288,11 +239,6 @@ class Model extends AbstractModel {
         }
     }
 
-    __resetState() {
-        this.stateList = [];
-        this.currentStateIndex = 0;
-        this.stateList[0] = $("#entityPanel").html();
-    }
     getFilename() {
         return this.storage.getValue("filename");
     }

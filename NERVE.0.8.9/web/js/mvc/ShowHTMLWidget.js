@@ -1,8 +1,9 @@
 
 class ShowHTMLWidget{
     constructor(taggedEntityWidget){
-        console.log("ShowHTMLWidget");
+        console.log("ShowHTMLWidget - widget stored in window.widget");
         this.modal = $("#showHTMLWidget");
+        window.widget = taggedEntityWidget;
         let taggedEntityElement = taggedEntityWidget.getElement();
         let html = taggedEntityElement.outerHTML;        
         while(html.indexOf("&quot;") !== -1){ 

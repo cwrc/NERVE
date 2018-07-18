@@ -17,6 +17,8 @@
 const AbstractModel = require("./model/AbstractModel");
 const nerscriber = require("nerscriber");
 const ArrayList = require("jjjrmi").ArrayList;
+const Collection = require("./model/Collection");
+const EntityValues = require("../gen/EntityValues");
 
 /**
  * A LemmaWidget is created for every unique lemma value in the document.
@@ -50,25 +52,24 @@ class LemmaWidget {
             delegate.notifyListeners("notifyDblClickLemmaWidget", lemma, category, event.ctrlKey, event.shiftKey, event.altKey);
         });
 
-        this.entities = [];
+        this.entityCollection = new Collection();
         this.appendTo("#lemmaDialog > #displayArea");
     }
 
-    getEntityArray() {
-        return this.entities;
+    getEntityCollection() {
+        return this.entityCollection;
     }
 
-    drop(event) {
+    drop(event) {        
         if (this.dragDropHandler.hasData("lemmaWidget")) {
             let src = this.dragDropHandler.deleteData("lemmaWidget");
-            for (let entity of src.entities) {
-                entity.lemma(this.lemma);
-                entity.tag(this.category);
-            }
+            let entities = src.getEntityCollection();
+            let values = new EntityValues().lemma(this.lemma).tag(this.category);
+            entities.values(values);
         } else if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
             let src = this.dragDropHandler.deleteData("TaggedEntityWidget");
-            src.lemma(this.lemma);
-            src.tag(this.category);
+            let values = new EntityValues().lemma(this.lemma).tag(this.category);
+            src.values(values);            
         }
     }
     dragover(event) {
@@ -100,22 +101,21 @@ class LemmaWidget {
         $(target).append(this.element);
     }
     addEntity(taggedEntityWidget) {
-        if (this.entities.indexOf(taggedEntityWidget) !== -1) return false;
-        this.entities.push(taggedEntityWidget);
-        $(this.countElement).text(this.entities.length);
-        return this.entities.length;
+        if (this.entityCollection.contains(taggedEntityWidget)) return false;
+        this.entityCollection.add(taggedEntityWidget);
+        $(this.countElement).text(this.entityCollection.size());
+        return this.entityCollection.size();
     }
     removeEntity(taggedEntityWidget) {
-        let index = this.entities.indexOf(taggedEntityWidget);
-        if (index === -1) throw new Error("Lemma Widget does not contain entity");
-        this.entities.splice(index, 1);
-        $(this.countElement).text(this.entities.length);
-        return this.entities.length;
+        if (this.entityCollection.contains(taggedEntityWidget) === false) throw new Error("Lemma Widget does not contain entity");
+        this.entityCollection.remove(taggedEntityWidget);
+        $(this.countElement).text(this.entityCollection.size());
+        return this.entityCollection.size();
     }
     highlight(value) {
         if (value === undefined) return this.element.hasClass("highlight");
         if (value) this.element.addClass("highlight");
-        else this.element.removeClass("highlight");        
+        else this.element.removeClass("highlight");
     }
 }
 
@@ -231,9 +231,11 @@ class LemmaDialogWidget extends AbstractModel {
         }
     }
 
-    async notifyEntityUpdate(taggedEntityWidget) {
-        this.untagEntity(taggedEntityWidget);
-        this.newTaggedEntity(taggedEntityWidget);
+    async notifyEntityUpdate(taggedEntityWidgets) {
+        for (let taggedEntityWidget of taggedEntityWidgets) {
+            this.untagEntity(taggedEntityWidget);
+            this.newTaggedEntity(taggedEntityWidget);
+        }
     }
 
     newTaggedEntity(taggedEntityWidget) {
@@ -353,7 +355,7 @@ class LemmaDialogWidget extends AbstractModel {
         for (let taggedEntityWidget of taggedEntityWidgets) {
             let lemma = this.entityLemmaMap.get(taggedEntityWidget);
             let tag = this.entityTagMap.get(taggedEntityWidget);
-            if (lemma === undefined || tag === undefined){
+            if (lemma === undefined || tag === undefined) {
                 throw new Error(`TaggedEntityWidget not found: ${lemma} - ${tag} for ${taggedEntityWidget.lemma()} - ${taggedEntityWidget.tag()}`);
             }
 

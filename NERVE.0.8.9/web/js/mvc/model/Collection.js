@@ -4,18 +4,20 @@
  */
 
 AbstractModel = require("./AbstractModel");
+TaggedEntityWidget = require("./TaggedEntityWidget");
 
 class Collection extends AbstractModel {
     constructor(array) {
         super();
-        this.delegate = this;
-
+        
+        this.delegate = {
+            notifyListeners : function(){}
+        };
+        
         this.innerArray = [];
 
         if (typeof array !== "undefined" & array !== null) {
-            this.innerArray = Array(array.length);
-            let i = array.length;
-            while (i--) this.innerArray[i] = array[i];
+            this.innerArray = array.slice();
         }
     }
 
@@ -87,6 +89,13 @@ class Collection extends AbstractModel {
      */
     clone(){
         return new Collection(this.innerArray);
+    }
+    
+    values(values){
+        for (let taggedEntityWidget of this.innerArray){
+            taggedEntityWidget.values(values, true);
+        }
+        TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), values);
     }
 }
 

@@ -13,8 +13,8 @@ class EntityTextBox {
         
         $(selector).on("blur", () => {
             if (this.update) {
-                let changes = {};
-                changes[dialogStringID] = $(selector).val();
+                let changes = new EntityValues();
+                changes.set(dialogStringID, $(selector).val());
                 this.delegate.notifyListeners("notifyDialogChange", changes);
             }
             this.update = false;
@@ -39,8 +39,8 @@ class EntityListSelector{
         this.update = false;
         
         $(selector).on("input", (event) => {
-            let changes = {};
-            changes[dialogStringID] = $(selector).val();            
+            let changes = new EntityValues();
+            changes.set(dialogStringID, $(selector).val());          
             this.delegate.notifyListeners("notifyDialogChange", changes);
         });        
     }
@@ -50,8 +50,8 @@ class EntityListSelector{
     }
     
     ready(){
-        let changes = {};
-        changes[this.dialogStringID] = $(this.selector).val();            
+        let changes = new EntityValues();
+        changes.set(this.dialogStringID, $(this.selector).val());               
         this.delegate.notifyListeners("notifyDialogChange", changes);        
     }
 }
@@ -63,7 +63,7 @@ class EntityDialog extends AbstractModel {
         new EntityTextBox(this, "#txtEntity", "text");
         new EntityTextBox(this, "#txtLemma", "lemma");
         new EntityTextBox(this, "#txtLink", "link");
-        this.entitySelctorList = new EntityListSelector(this, "#selectTagName", "tagName");
+        this.entitySelectorList = new EntityListSelector(this, "#selectTagName", "tag");
 
         $('#txtEntity').textinput();
         $('#searchDialog').textinput();
@@ -82,25 +82,19 @@ class EntityDialog extends AbstractModel {
     }
     
     async onMenuCopy() {
-        this.getValues().copyTo(this.copyValues);
+        this.copyValues = this.getValues();
     }
 
     async onMenuPaste() {
-        let changes = {};
-        if (this.copyValues.lemma()!== null) changes["lemma"] = this.copyValues.lemma();
-        if (this.copyValues.tag() !== null) changes["Tag"] = this.copyValues.tag();
-        if (this.copyValues.link() !== null) changes["link"] = this.copyValues.link();
-        
         this.__setLemma(this.copyValues.lemma());
         this.__setLink(this.copyValues.link());
-        this.__setTagName(this.copyValues.tag());        
-                
-        this.notifyListeners("notifyDialogChange", changes);
+        this.__setTagName(this.copyValues.tag());                        
+        this.notifyListeners("notifyDialogChange", this.getValues());
         this.__setDialogs();
     }
     
     notifyReady(){
-        this.entitySelctorList.ready();
+        this.entitySelectorList.ready();
     }
     
     goLink() {
@@ -114,7 +108,12 @@ class EntityDialog extends AbstractModel {
     }    
     
     getValues() {
-        return new EntityValues($("#txtEntity").val(), $("#txtLemma").val(), $("#txtLink").val(), $("#selectTagName").val());
+        let values = new EntityValues();
+        if ($("#txtEntity").val() !== "") values.text($("#txtEntity").val());
+        if ($("#txtLemma").val() !== "") values.lemma($("#txtLemma").val());
+        if ($("#selectTagName").val() !== "") values.tag($("#selectTagName").val());
+        if ($("#txtLink").val() !== "") values.link($("#txtLink").val());
+        return values;
     }
     notifyContextChange(context) {
         this.context = context;
@@ -136,15 +135,15 @@ class EntityDialog extends AbstractModel {
     }
 
     notifyCollectionAdd(collection, taggedEntityWidgets) {
-        this.selected = collection;
+        this.selected = collection.clone();
         this.__setDialogs();        
     }
     notifyCollectionClear(collection, taggedEntityWidgets) {
-        this.selected = collection;
+        this.selected = collection.clone();
         this.__setDialogs();
     }
     notifyCollectionRemove(collection, taggedEntityWidgets) {
-        this.selected = collection;
+        this.selected = collection.clone();
         this.__setDialogs();
     }
 

@@ -1,13 +1,7 @@
+const HashMap = require ('jjjrmi').HashMap;
 class EntityValues {
-	constructor(entity, lemma, link, tag) {
-		this.entityValue = null;
-		this.lemmaValue = null;
-		this.linkValue = null;
-		this.tagValue = null;
-		this.entityValue = entity;
-		this.lemmaValue = lemma;
-		this.linkValue = link;
-		this.tagValue = tag;
+	constructor() {
+		this.values = new HashMap();
 	}
 	static __isTransient() {
 		return true;
@@ -18,13 +12,8 @@ class EntityValues {
 	static __isEnum() {
 		return false;
 	}
-	static extract(entity) {
-		
-		let text = $(entity).text();
-		let lemma = $(entity).lemma();
-		let link = $(entity).link();
-		let tag = $(entity).tag();
-		return new EntityValues(text, lemma, link, tag);
+	[Symbol.iterator]() {
+		return this.values.keySet();
 	}
 	copyTo(dest) {
 		
@@ -35,36 +24,65 @@ class EntityValues {
 		
 		return this;
 	}
-	copy() {
-		return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
+	values(that) {
+		
+		if (typeof that === "undefined") return this;
+		
+		this.text(that.text());
+		this.lemma(that.lemma());
+		this.link(that.link());
+		this.tag(that.tag());
+		return this;
 	}
 	text(value) {
 		
-		if (typeof value === "undefined") return this.entityValue;
+		if (typeof value === "undefined") return this.values.get("text");
 		
-		this.entityValue = value;
-		return this.entityValue;
+		this.values.put("text", value);
+		return this;
 	}
 	lemma(value) {
 		
-		if (typeof value === "undefined") return this.lemmaValue;
+		if (typeof value === "undefined") return this.values.get("lemma");
 		
-		this.lemmaValue = value;
-		return this.lemmaValue;
+		this.values.put("lemma", value);
+		return this;
 	}
 	link(value) {
 		
-		if (typeof value === "undefined") return this.linkValue;
+		if (typeof value === "undefined") return this.values.get("link");
 		
-		this.linkValue = value;
-		return this.linkValue;
+		this.values.put("link", value);
+		return this;
+	}
+	set(key, value) {
+		this.values.put(key, value);
+		return this;
+	}
+	get(key) {
+		return this.values.get(key);
+	}
+	has(key) {
+		return this.values.containsKey(key);
 	}
 	tag(value) {
 		
-		if (typeof value === "undefined") return this.tagValue;
+		if (typeof value === "undefined") return this.values.get("tag");
 		
-		this.tagValue = value;
-		return this.tagValue;
+		this.values.put("tag", value);
+		return this;
+	}
+	hasText() {
+		return this.values.containsKey("text");
+	}
+	hasLemma() {
+		return this.values.containsKey("lemma");
+	}
+	hasLink() {
+		return this.values.containsKey("link");
+	}
+	hasTag() {
+		return this.values.containsKey("tag");
 	}
 };
 

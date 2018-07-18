@@ -1,51 +1,40 @@
 package ca.sharcnet.dh.nerve;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
+import ca.frar.jjjrmi.annotations.JSPrequel;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
 import ca.frar.utility.SQL.SQLRecord;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
 Values set to NULL are explicitly unset, those set to "" are blank.  During copies all null should be ignored.
 @author edward
 */
 
+
+@JSPrequel("const HashMap = require ('jjjrmi').HashMap;")
 @JJJ()
 @JJJOptions(retain = false)
-public class EntityValues extends JJJObject{
-    private String entityValue = null;
-    private String lemmaValue = null;
-    private String linkValue = null;
-    private String tagValue = null;
+public final class EntityValues extends JJJObject{
+    private HashMap<String, String> values = new HashMap<>();
 
+    @NativeJS
     private EntityValues() {}
 
-    @NativeJS
-    public EntityValues(String entity, String lemma, String link, String tag) {
-        this.entityValue = entity;
-        this.lemmaValue = lemma;
-        this.linkValue = link;
-        this.tagValue = tag;
-    }
-
     public EntityValues(SQLRecord record) {
-        this.entityValue = record.getEntry("entity").getValue();
-        this.lemmaValue = record.getEntry("lemma").getValue();
-        this.linkValue = record.getEntry("link").getValue();
-        this.tagValue = record.getEntry("tag").getValue();
+        this.text(record.getEntry("entity").getValue());
+        this.lemma(record.getEntry("lemma").getValue());
+        this.link(record.getEntry("link").getValue());
+        this.tag(record.getEntry("tag").getValue());
     }
 
-    @NativeJS
-    public static void extract(Object entity) {
-        /*JS{
-            let text = $(entity).text();
-            let lemma = $(entity).lemma();
-            let link = $(entity).link();
-            let tag = $(entity).tag();
-            return new EntityValues(text, lemma, link, tag);
-        }*/
+    @NativeJS("[Symbol.iterator]")
+    public Set<String> keySet() {
+        return this.values.keySet();
     }
-
+    
     @NativeJS
     public EntityValues copyTo(Object dest){
         /*JS{
@@ -56,61 +45,104 @@ public class EntityValues extends JJJObject{
         }*/
         return this;
     }
-    
-    @NativeJS
-    public EntityValues copy(){
-        return new EntityValues(this.text(), this.lemma(), this.link(), this.tag());
-    }
-
-    public String text() {
-        return this.entityValue;
-    }
 
     @NativeJS
-    public String text(String value) {
+    public EntityValues values(EntityValues that){
         /*JS{
-            if (typeof value === "undefined") return this.entityValue;
+            if (typeof that === "undefined") return this;
         }*/
-        this.entityValue = value;
-        return this.entityValue;
+        this.text(that.text());
+        this.lemma(that.lemma());
+        this.link(that.link());
+        this.tag(that.tag());
+        return this;
+    }
+    
+    public String text() {
+        return this.values.get("text");
+    }
+
+    @NativeJS
+    public EntityValues text(String value) {
+        /*JS{
+            if (typeof value === "undefined") return this.values.get("text");
+        }*/
+        this.values.put("text", value);
+        return this;
     }
 
     public String lemma() {
-        return this.lemmaValue;
+        return this.values.get("lemma");
     }
 
     @NativeJS
-    public String lemma(String value) {
+    public EntityValues lemma(String value) {
         /*JS{
-            if (typeof value === "undefined") return this.lemmaValue;
+            if (typeof value === "undefined") return this.values.get("lemma");
         }*/
-        this.lemmaValue = value;
-        return this.lemmaValue;
+        this.values.put("lemma", value);
+        return this;
     }
 
     public String link() {
-        return this.linkValue;
+        return this.values.get("link");
     }
 
     @NativeJS
-    public String link(String value) {
+    public EntityValues link(String value) {
         /*JS{
-            if (typeof value === "undefined") return this.linkValue;
+            if (typeof value === "undefined") return this.values.get("link");
         }*/
-        this.linkValue = value;
-        return this.linkValue;
+        this.values.put("link", value);
+        return this;
     }
 
     public String tag() {
-        return this.tagValue;
+        return this.values.get("tag");
     }
 
     @NativeJS
-    public String tag(String value) {
-        /*JS{
-            if (typeof value === "undefined") return this.tagValue;
-        }*/
-        this.tagValue = value;
-        return this.tagValue;
+    public EntityValues set(String key, String value){
+        this.values.put(key, value);
+        return this;
     }
+    
+    @NativeJS
+    public String get(String key){
+        return this.values.get(key);
+    }    
+    
+    @NativeJS
+    public boolean has(String key){
+        return this.values.containsKey(key);
+    }        
+    
+    @NativeJS
+    public EntityValues tag(String value) {
+        /*JS{
+            if (typeof value === "undefined") return this.values.get("tag");
+        }*/
+        this.values.put("tag", value);
+        return this;
+    }
+    
+    @NativeJS
+    public boolean hasText(){
+        return this.values.containsKey("text");
+    }
+    
+    @NativeJS
+    public boolean hasLemma(){
+        return this.values.containsKey("lemma");
+    }
+
+    @NativeJS
+    public boolean hasLink(){
+        return this.values.containsKey("link");
+    }
+
+    @NativeJS
+    public boolean hasTag(){
+        return this.values.containsKey("tag");
+    }    
 }
