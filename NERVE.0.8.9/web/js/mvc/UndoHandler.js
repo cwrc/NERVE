@@ -1,17 +1,32 @@
-
-class UndoHandler{
+class UndoHandler extends AbstractModel{
     constructor(){
+        super();
+        this.eventList = [];
         this.currentStateIndex = 0;
         this.maxStateIndex = 30;
-        this.__resetState();
     }
     
-    notifyUntaggedEntities(taggedEntityArray){
-        
+    notifyUntaggedEntities(taggedEntityArray, textNodeArray){
+        this.eventList.push({
+            event : "untag",
+            entityArray : taggedEntityArray.slice(),
+            textArray : textNodeArray.slice()
+        });
     }
     
     notifyNewTaggedEntities(taggedEntityArray){
-        
+        this.eventList.push({
+            event : "tag",
+            entityArray : taggedEntityArray.slice()
+        });         
+    }
+    
+    notifyEntityUpdate(taggedEntityArray, oldValues){
+        this.eventList.push({
+            event : "update",
+            entityArray : taggedEntityArray.slice(),
+            valueArray : oldValues.slice()
+        });        
     }
     
     /**
@@ -21,37 +36,55 @@ class UndoHandler{
      * @returns {undefined}
      */
     saveState() {
-        this.currentStateIndex = this.currentStateIndex + 1;
-        this.stateList[this.currentStateIndex] = $("#entityPanel").html();
-        this.storage.setValue("document", $("#entityPanel").html());
+    }
 
-        if (this.currentStateIndex === this.maxStateIndex) {
-            this.stateList = this.stateList.slice(1, this.currentStateIndex);
-        } else {
-            for (let i = this.currentStateIndex + 1; i < this.maxStateIndex; i++) {
-                this.stateList[i] = null;
-            }
+    revertState() {
+        if (this.eventList.length === 0) return;
+        let event = this.eventList.pop();
+        
+        switch(event.event){
+            case "untag":
+                this.__revertUntag(event);
+            break;
+            case "update":
+                this.__revertUpdate(event);
+            break;          
+            case "tag":
+                this.__revertTags(event);
+            break;           
         }
     }
 
-    async revertState() {
-        if (this.currentStateIndex <= 0) return false;
-        this.currentStateIndex = this.currentStateIndex - 1;
-        let docHTML = this.stateList[this.currentStateIndex];
-        this.__setDocument(docHTML);
+    __revertTags(event){
+        for (let taggedEntity of event.entityArray){
+            taggedEntity.untag();
+        }
+        this.notifyListeners("notifyRevertTaggedEntities", event.entityArray);
+    }
+
+    __revertUntag(event){
+        let i = 0;
+        
+        for (let taggedEntity of event.entityArray){
+            let text = event.textArray[i++];
+            $(text).replaceWith(taggedEntity.getElement());
+            taggedEntity.setup();
+        }
+        this.notifyListeners("notifyRestoredTaggedEntities", event.entityArray);
+    }
+
+    __revertUpdate(event){
+        let i = 0;
+       
+        for (let taggedEntity of event.entityArray){
+            let values = event.valueArray[i++];
+            console.log(values);
+            taggedEntity.values(values, true);
+        }
+        this.notifyListeners("notifyRestoredValues", event.entityArray);
     }
 
     async advanceState() {
-        if (typeof this.stateList[this.currentStateIndex + 1] === "undefined" || this.stateList[this.currentStateIndex + 1] === null) return;
-        this.currentStateIndex = this.currentStateIndex + 1;
-        let docHTML = this.stateList[this.currentStateIndex];
-        this.__setDocument(docHTML);
-    }
-
-    __resetState() {
-        this.stateList = [];
-        this.currentStateIndex = 0;
-        this.stateList[0] = $("#entityPanel").html();
     }
     
     async onMenuUndo() {

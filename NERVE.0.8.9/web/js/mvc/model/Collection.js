@@ -92,10 +92,13 @@ class Collection extends AbstractModel {
     }
     
     values(values){
+        let oldValues = [];
+        
         for (let taggedEntityWidget of this.innerArray){
+            oldValues.push(taggedEntityWidget.values);
             taggedEntityWidget.values(values, true);
         }
-        TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), values);
+        TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), oldValues);
     }
 }
 

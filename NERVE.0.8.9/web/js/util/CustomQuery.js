@@ -137,14 +137,14 @@
         var context = $.fn.xmlAttr.context;
 
         if (typeof value === "undefined") {
-            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
+            let tagName = $(this).tag();
             let lemmaAttr = context.getTagInfo(tagName).getLemmaAttribute();
             if (lemmaAttr === "" || typeof lemmaAttr === "undefined") return "";
             return $(this).xmlAttr(lemmaAttr);
         }
 
         return this.each(function () {
-            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
+            let tagName = $(this).tag();
             let lemmaAttr = context.getTagInfo(tagName).getLemmaAttribute();
             if (lemmaAttr !== "") $(this).xmlAttr(lemmaAttr, value);
         });
@@ -161,14 +161,14 @@
         var context = $.fn.xmlAttr.context;
 
         if (typeof value === "undefined") {
-            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
+            let tagName = $(this).tag();
             let linkAttr = context.getTagInfo(tagName).getLinkAttribute();
             if (linkAttr === "" || typeof linkAttr === "undefined") return "";
             return $(this).xmlAttr(linkAttr);
         }
 
         return this.each(function () {
-            let tagName = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
+            let tagName = $(this).tag();
             let linkAttr = context.getTagInfo(tagName).getLinkAttribute();
             $(this).xmlAttr(linkAttr, value);
         });
@@ -177,28 +177,34 @@
 
 /**
  * Get/Set the value of the tag attribute of this entity.
+ * Accepts a standard tag, displays a schema tag.
  * @param {type} $
  * @returns {undefined}
  */
 (function ($) {
-    $.fn.tag = function (value) {
+    $.fn.tag = function (standardTag) {
         let context = $.fn.xmlAttr.context;
 
-        if (!value) {
+        if (!standardTag) {
             return $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
         }
 
         /* when changing the entity tag, attribute name of the link & lemma attributes may change */
         return this.each(function () {
-            if (!context.isStandardTag(value)){
-                throw new Error(`Tagname '${value}' doesn't match any known standard tag in context ${this.context.getName()}`);
+            let context = $.fn.xmlAttr.context;
+            
+            if (!context.isStandardTag(standardTag)){
+                throw new Error(`Tagname '${standardTag}' doesn't match any known standard tag in context ${this.context.getName()}`);
             }
-            let oldEntityTag = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
-            if (oldEntityTag) {                
-                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag).getLinkAttribute(), context.getTagInfo(value).getLinkAttribute());
-                $(this).renameXMLAttr(context.getTagInfo(oldEntityTag).getLemmaAttribute(), context.getTagInfo(value).getLemmaAttribute());
+            
+            let oldStandardTag = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
+    
+            if (oldStandardTag){
+                $(this).renameXMLAttr(context.getTagInfo(oldStandardTag).getLinkAttribute(), context.getTagInfo(standardTag).getLinkAttribute());
+                $(this).renameXMLAttr(context.getTagInfo(oldStandardTag).getLemmaAttribute(), context.getTagInfo(standardTag).getLemmaAttribute());
             }
-            return $(this).attr($.fn.xmlAttr.defaults.xmlTagName, value);
+            
+            return $(this).attr($.fn.xmlAttr.defaults.xmlTagName, standardTag);
         });
     };
 }(jQuery));

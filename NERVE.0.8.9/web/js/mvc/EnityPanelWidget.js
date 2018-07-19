@@ -5,7 +5,7 @@ const TaggedEntityWidget = require("./model/TaggedEntityWidget");
 
 class EnityPanelWidget extends AbstractModel {
 
-    constructor() {
+    constructor(dragDropHandler) {
         super();
         this.lemmaWidget = null;
         this.index = -1;
@@ -22,6 +22,7 @@ class EnityPanelWidget extends AbstractModel {
         this.latestValues = new EntityValues();
         this.copyValues = new EntityValues();
         this.dictionary = null;
+        this.dragDropHandler = dragDropHandler;
 
         /* Default Document Click Event */
         $("#entityPanel").click((event) => {
@@ -67,16 +68,19 @@ class EnityPanelWidget extends AbstractModel {
         this.latestValues = current.clone();
     }
 
-    requestUntagAll() {
+    onMenuUntag() {
         if (this.selectedEntities.isEmpty()) return 0;
 
         let taggedEntityArray = [];
+        let textNodeArray = [];
+        
         for (let taggedEntityWidget of this.selectedEntities) {
             taggedEntityArray.push(taggedEntityWidget);
-            taggedEntityWidget.untag();
+            let text = taggedEntityWidget.untag();
+            textNodeArray.push(text);
         }
         this.selectedEntities.clear();
-        this.notifyListeners("notifyUntaggedEntities", taggedEntityArray);
+        this.notifyListeners("notifyUntaggedEntities", taggedEntityArray, textNodeArray);
     }
 
     notifyCollectionClear() {
@@ -150,9 +154,21 @@ class EnityPanelWidget extends AbstractModel {
         this.setStyle(styles.get(0));
     }
 
+    notifyRestoredTaggedEntities(taggedEntityWidgetArray) {
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
+            this.taggedEntities.add(taggedEntityWidget);
+        }
+    }
+
     notifyNewTaggedEntities(taggedEntityWidgetArray) {
         for (let taggedEntityWidget of taggedEntityWidgetArray) {
             this.taggedEntities.add(taggedEntityWidget);
+        }
+    }
+    
+    notifyRevertTaggedEntities(taggedEntityWidgetArray) {
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
+            this.taggedEntities.remove(taggedEntityWidget);
         }
     }
 
@@ -269,6 +285,7 @@ class EnityPanelWidget extends AbstractModel {
         range = this.__trimRange(range);
 
         let tagName = this.latestValues.tag();
+        console.log(tagName);
         let schemaTagName = this.context.getTagInfo(tagName).getName();
 
         if (!this.schema.isValid(range.commonAncestorContainer, schemaTagName)) {

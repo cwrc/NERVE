@@ -20,10 +20,51 @@
             </bookmark>
         </file>
         <file>
+            <url>web/dialogs/js/cD.js</url>
+            <bookmark id="51">
+                <name/>
+                <line>1415</line>
+                <key/>
+            </bookmark>
+            <bookmark id="2">
+                <name/>
+                <line>2932</line>
+                <key/>
+            </bookmark>
+            <bookmark id="50">
+                <name/>
+                <line>3285</line>
+                <key/>
+            </bookmark>
+            <bookmark id="3">
+                <name/>
+                <line>3350</line>
+                <key/>
+            </bookmark>
+            <bookmark id="53">
+                <name/>
+                <line>3406</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/classes/util/customQuery.js</url>
             <bookmark id="134">
                 <name/>
                 <line>131</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/javaScript/mvc/view.js</url>
+            <bookmark id="187">
+                <name/>
+                <line>239</line>
+                <key/>
+            </bookmark>
+            <bookmark id="176">
+                <name/>
+                <line>372</line>
                 <key/>
             </bookmark>
         </file>
@@ -58,118 +99,6 @@
             <bookmark id="186">
                 <name/>
                 <line>115</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/model/taggedEntityModel.js</url>
-            <bookmark id="190">
-                <name/>
-                <line>150</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/util/utility.js</url>
-            <bookmark id="165">
-                <name/>
-                <line>236</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/EnityPanelWidget.js</url>
-            <bookmark id="212">
-                <name/>
-                <line>110</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/model/Model.js</url>
-            <bookmark id="211">
-                <name/>
-                <line>219</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/classes/menu/menu.js</url>
-            <bookmark id="30">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-            <bookmark id="29">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/EntityDialog.js</url>
-            <bookmark id="199">
-                <name/>
-                <line>104</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/js/mvc/lemmaDialog.js</url>
-            <bookmark id="208">
-                <name/>
-                <line>183</line>
-                <key/>
-            </bookmark>
-            <bookmark id="206">
-                <name/>
-                <line>268</line>
-                <key/>
-            </bookmark>
-            <bookmark id="204">
-                <name/>
-                <line>405</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/dialogs/js/cD.js</url>
-            <bookmark id="51">
-                <name/>
-                <line>1415</line>
-                <key/>
-            </bookmark>
-            <bookmark id="2">
-                <name/>
-                <line>2932</line>
-                <key/>
-            </bookmark>
-            <bookmark id="50">
-                <name/>
-                <line>3285</line>
-                <key/>
-            </bookmark>
-            <bookmark id="3">
-                <name/>
-                <line>3350</line>
-                <key/>
-            </bookmark>
-            <bookmark id="53">
-                <name/>
-                <line>3406</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>web/javaScript/mvc/view.js</url>
-            <bookmark id="187">
-                <name/>
-                <line>239</line>
-                <key/>
-            </bookmark>
-            <bookmark id="176">
-                <name/>
-                <line>372</line>
                 <key/>
             </bookmark>
         </file>
@@ -215,6 +144,14 @@
             </bookmark>
         </file>
         <file>
+            <url>web/js/mvc/model/taggedEntityModel.js</url>
+            <bookmark id="190">
+                <name/>
+                <line>150</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/js/mvc/view/lemmaDialogView.js</url>
             <bookmark id="196">
                 <name/>
@@ -231,6 +168,14 @@
             </bookmark>
         </file>
         <file>
+            <url>web/javaScript/util/utility.js</url>
+            <bookmark id="165">
+                <name/>
+                <line>236</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/javaScript/mvc/listeners.js</url>
             <bookmark id="177">
                 <name/>
@@ -240,6 +185,22 @@
             <bookmark id="172">
                 <name/>
                 <line>252</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/EnityPanelWidget.js</url>
+            <bookmark id="212">
+                <name/>
+                <line>93</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/model/Model.js</url>
+            <bookmark id="211">
+                <name/>
+                <line>203</line>
                 <key/>
             </bookmark>
         </file>
@@ -270,10 +231,49 @@
             </bookmark>
         </file>
         <file>
+            <url>web/javaScript/classes/menu/menu.js</url>
+            <bookmark id="30">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+            <bookmark id="29">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>web/js/mvc/model/lemmaDialogModel.js</url>
             <bookmark id="195">
                 <name/>
                 <line>137</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/EntityDialog.js</url>
+            <bookmark id="199">
+                <name/>
+                <line>97</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/js/mvc/lemmaDialog.js</url>
+            <bookmark id="208">
+                <name/>
+                <line>183</line>
+                <key/>
+            </bookmark>
+            <bookmark id="206">
+                <name/>
+                <line>268</line>
+                <key/>
+            </bookmark>
+            <bookmark id="204">
+                <name/>
+                <line>405</line>
                 <key/>
             </bookmark>
         </file>
@@ -324,11 +324,9 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
         <group>
-            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/model/TaggedEntityWidget.js</file>
-            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/gen/EntityValues.js</file>
             <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/EntityDialog.js</file>
             <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/EnityPanelWidget.js</file>
-            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/model/AbstractModel.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/UndoHandler.js</file>
         </group>
     </open-files>
 </project-private>

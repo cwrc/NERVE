@@ -199,40 +199,61 @@ ContextMenu.SELECTOR = "#taggedEntityContextMenu";
  * @type type
  */
 class TaggedEntityWidget {
-    constructor(dragDropHandler, element, tagName = null) {
-        this.element = element;
-        this.dragDropHandler = dragDropHandler;
-        element.entity = this;
+    constructor(dragDropHandler, element, tagName = null){
+        if (!dragDropHandler) throw new Error("undefined DragDropHandler");
+        
+        let jq = $(element);
+        
+        if (jq.get(0) instanceof Element){
+            this.nodeConstructor(dragDropHandler, element, tagName);        
+        }
+        if (jq.get(0) instanceof Text){
+            let newElement = TaggedEntityWidget.newEmptyWidget();
+            console.log(newElement);
+            this.nodeConstructor(dragDropHandler, newElement, tagName);            
+            this.text(element.text(), true);
+            this.lemma(element.text(), true);
+            jq.replaceWith(this.getElement());
+        }
+    }
+    
+    setup(){
+        $(this.element).addClass("taggedentity");
+        $(this.element).attr("draggable", "true");
 
-        $(element).addClass("taggedentity");
-        $(element).attr("draggable", "true");
+        $(this.element).on("dragstart", (event) => this.dragstart(event));
+        $(this.element).on("dragover", (event) => this.dragover(event));
+        $(this.element).on("drop", (event) => this.drop(event));
 
-        $(element).on("dragstart", (event) => this.dragstart(event));
-        $(element).on("dragover", (event) => this.dragover(event));
-        $(element).on("drop", (event) => this.drop(event));
-
-        $(element).on("contextmenu", (event) => {
+        $(this.element).on("contextmenu", (event) => {
             event.preventDefault();
             TaggedEntityWidget.contextMenu.show(event, this);
         });
 
-        $(element).click((event) => {
+        $(this.element).click((event) => {
             if (event.button !== 0) return; /* left click only */
             TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
             event.stopPropagation();
         });
-        $(element).dblclick((event) => {
+        $(this.element).dblclick((event) => {
             if (event.button !== 0) return; /* left click only */
             TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
             event.stopPropagation();
-        });
-
-        this.format();
+        });        
+    }
+    
+    nodeConstructor(dragDropHandler, element, tagName = null) {
+        this.element = element;
+        this.dragDropHandler = dragDropHandler;
+        element.entity = this;
 
         /* default values - will throw an exception is the tagged text does not have a tagname attribute and
          * the tagName is not provided.
          */
-        if (tagName !== null) this.tag(tagName, true);
+        if (tagName !== null) $(this.element).tag(tagName); 
+        
+        this.setup();
+        this.format();
         this.lemma(this.text(), true);
     }
 
@@ -257,9 +278,10 @@ class TaggedEntityWidget {
         }
 
         if ($(this.element).children().filter(".tagname-markup").length === 0) {
+            console.log(this.element);
             this.markup = document.createElement("div");
             $(this.element).prepend(this.markup);
-            $(this.markup).addClass("tagname-markup");
+            $(this.markup).addClass("tagname-markup");            
             this.tag($(this.element).tag(), true);
         } else {
             this.markup = $(this.element).children(".tagname-markup");
@@ -280,9 +302,9 @@ class TaggedEntityWidget {
     drop(event) {
         if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
             let src = this.dragDropHandler.deleteData("TaggedEntityWidget");
-            let srcValues = src.values();
-            srcValues.text(null);
-            this.values(srcValues);
+            let values = this.values();
+            values.text(null);
+            src.values(values);
         }
     }
 
@@ -320,16 +342,17 @@ class TaggedEntityWidget {
 
     tag(value = null, silent = false) {
         if (value === null) return $(this.element).tag();
-        let updateInfo = new EntityValues(null, null, null, $(this.element).tag(), null);
+        let oldValues = this.values();
 
-        if (!this.getContext().isStandardTag(value)) {
-            throw new Error(`Tagname '${value}' doesn't match any known standard tag in context ${this.context.getName()}`);
+        if (this.getContext().isStandardTag(value) === false) {
+            throw new Error(`Tagname '${value}' doesn't match any known standard tag in context ${this.getContext().getName()}`);
         }
 
-        $(this.markup).text(value);
+        let schemaTag = this.getContext().getTagInfo(value).getName();
+        $(this.markup).text(schemaTag);
         $(this.element).tag(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], updateInfo);
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         return $(this.element).tag();
     }
     /**
@@ -340,27 +363,30 @@ class TaggedEntityWidget {
      */
     lemma(value = null, silent = false) {
         if (value === null) return $(this.element).lemma();
+        let oldValues = this.values();
         $(this.element).lemma(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         return $(this.element).lemma();
     }
     link(value = null, silent = false) {
         if (value === null) return $(this.element).link();
+        let oldValues = this.values();
         $(this.element).link(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         return $(this.element).link();
     }
     text(value = null, silent = false) {
         if (value === null) return $(this.contents).text();
+        let oldValues = this.values();
         $(this.contents).text(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
-        return $(this.element).link();
+        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         return $(this.contents).text();
     }
-    values(value = null, silent = false) {        
+    values(value = null, silent = false) {                
+        
         if (value === null){             
             let entityValues = new EntityValues();
             if (this.text() !== "") entityValues.text(this.text());
@@ -369,6 +395,7 @@ class TaggedEntityWidget {
             if (this.tag() !== "") entityValues.tag(this.tag());
             return entityValues;
         } else {
+            let oldValues = this.values();
             if (value.hasText()) {
                 this.text(value.text(), true);
             }
@@ -381,16 +408,18 @@ class TaggedEntityWidget {
             if (value.hasTag()) {
                 this.tag(value.tag(), true);
             }
-            if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], this.values());
+            if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         }
 
         return this.values();
     }
-    async untag() {
-        let children = $(this.contents).contents();
-        $(this.element).replaceWith(children);
-        document.normalize();
-        return children;
+    untag() {
+        this.highlight(false);
+        let contents = $(this.contents).contents();
+        let clone = contents.clone();
+        $(this.element).replaceWith(clone);
+//        document.normalize();
+        return clone;
     }
     addClass(classname) {
         $(this.element).addClass(classname);
@@ -404,6 +433,23 @@ class TaggedEntityWidget {
         else if (value) $(this.element).addClass("selected");
         else $(this.element).removeClass("selected");
     }  
+    
+    static newEmptyWidget(){
+        let div = document.createElement("div");
+        let contents = document.createElement("div");
+        let markup = document.createElement("div");
+        
+        $(div).append(markup);
+        $(div).append(contents);
+                
+        $(div).addClass("taggedEntity");
+        $(div).attr("draggable", true);
+        
+        $(markup).addClass("tagname-markup");
+        $(contents).addClass("contents");
+        
+        return div;
+    }
 }
 
 class TaggedEntityDelegate extends AbstractModel{

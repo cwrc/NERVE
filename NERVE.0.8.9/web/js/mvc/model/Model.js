@@ -89,7 +89,6 @@ class Model extends AbstractModel {
     }
 
     async onMenuUntag() {
-        this.notifyListeners("requestUntagAll");
         this.isSaved = false;
     }
 
@@ -206,7 +205,7 @@ class Model extends AbstractModel {
         this.notifyListeners("notifyDocumentClosed");
     }
 
-    notifyUntaggedEntities(taggedEntityWidgetArray) {
+    notifyRevertTaggedEntities(taggedEntityWidgetArray) {
         for (let taggedEntityWidget of taggedEntityWidgetArray) {
             if (this.taggedEntityList.contains(taggedEntityWidget)) {
                 this.taggedEntityList.remove(taggedEntityWidget);
@@ -214,6 +213,13 @@ class Model extends AbstractModel {
         }
     }
 
+    notifyUntaggedEntities(taggedEntityWidgetArray) {
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
+            if (this.taggedEntityList.contains(taggedEntityWidget)) {
+                this.taggedEntityList.remove(taggedEntityWidget);
+            }
+        }
+    }
     
     __setDocument(docHTML) {
         while (!this.taggedEntityList.isEmpty()) {
@@ -231,6 +237,12 @@ class Model extends AbstractModel {
         });
 
         this.storage.setValue("current", "document", docHTML);
+    }
+
+    notifyRestoredTaggedEntities(taggedEntityArray){
+        for (let taggedEntity of taggedEntityArray){
+            this.taggedEntityList.add(taggedEntity);
+        }
     }
 
     notifyNewTaggedEntities(taggedEntityArray){

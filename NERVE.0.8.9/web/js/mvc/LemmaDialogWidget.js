@@ -231,6 +231,13 @@ class LemmaDialogWidget extends AbstractModel {
         }
     }
 
+    async notifyRestoredValues(taggedEntityWidgets) {
+        for (let taggedEntityWidget of taggedEntityWidgets) {
+            this.untagEntity(taggedEntityWidget);
+            this.newTaggedEntity(taggedEntityWidget);
+        }
+    }
+
     async notifyEntityUpdate(taggedEntityWidgets) {
         for (let taggedEntityWidget of taggedEntityWidgets) {
             this.untagEntity(taggedEntityWidget);
@@ -259,6 +266,12 @@ class LemmaDialogWidget extends AbstractModel {
         this.entityTagMap.set(taggedEntityWidget, tag);
     }
 
+    async notifyRestoredTaggedEntities(taggedEntityWidgetArray) {
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
+            this.newTaggedEntity(taggedEntityWidget);
+        }
+    }
+
     async notifyNewTaggedEntities(taggedEntityWidgetArray) {
         for (let taggedEntityWidget of taggedEntityWidgetArray) {
             this.newTaggedEntity(taggedEntityWidget);
@@ -281,6 +294,12 @@ class LemmaDialogWidget extends AbstractModel {
             let r = categoryMap.delete(lemma);
             if (!r) throw new Error("Lemma not removed from category map.");
             lemmaWidget.detach();
+        }
+    }
+
+    async notifyRevertTaggedEntities(taggedEntityWidgetArray) {
+        for (let taggedEntityWidget of taggedEntityWidgetArray) {
+            this.untagEntity(taggedEntityWidget);
         }
     }
 
