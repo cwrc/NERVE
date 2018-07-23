@@ -23,7 +23,7 @@
     color: orangered;
 }
 
-.taggedentity > .tagname-markup{
+.tagname-markup{
     position: absolute;
     display: inline-block;
     color: red;

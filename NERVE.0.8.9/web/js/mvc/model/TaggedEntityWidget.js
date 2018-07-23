@@ -276,25 +276,14 @@ class TaggedEntityWidget {
             this.contents = $(this.element).children(".contents").get(0);
         }
 
-        if ($(this.element).children().filter(".tagname-markup").length === 0) {
+        if ($(this.contents).children().filter(".tagname-markup").length === 0) {
             this.markup = document.createElement("div");
-            $(this.element).prepend(this.markup);
+            $(this.contents).append(this.markup);
             $(this.markup).addClass("tagname-markup");            
             this.tag($(this.element).tag(), true);
         } else {
-            this.markup = $(this.element).children(".tagname-markup");
+            this.markup = $(this.contents).children(".tagname-markup");
         }
-    }
-
-    /**
-     * This method will remove html markup specific for the nerve environment.
-     * Must use markup before displaying
-     * @return {undefined}
-     */
-    unformat() {
-        let replaceWith = $(this.contents).contents();
-        $(this.element).empty();
-        $(this.element).append(replaceWith);
     }
 
     drop(event) {
@@ -413,6 +402,7 @@ class TaggedEntityWidget {
     }
     untag() {
         this.highlight(false);
+        $(this.markup).detach();
         let contents = $(this.contents).contents();
         let clone = contents.clone();
         $(this.element).replaceWith(clone);
