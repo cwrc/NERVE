@@ -339,7 +339,10 @@ public class Encoder extends ProgressListenerList {
             }
         }
 
+        Console.log("CONSIDERING NODE");
+        Console.log(node.name());
         if (context.isTagName(schemaTag)) {
+            Console.log(" - converting to " + context.getStandardTag(schemaTag));
             String standardTag = context.getStandardTag(schemaTag);
             TagInfo tagInfo = context.getTagInfo(standardTag);
             String lemmaAttribute = tagInfo.getLemmaAttribute();
@@ -361,20 +364,31 @@ public class Encoder extends ProgressListenerList {
 
         for (Node node : textNodes) {
             if (node.text().trim().isEmpty()) continue;
-
+            Console.log(node);
+            
             /* skip nodes that are already tagged */
             NodeList ancestorNodes = node.ancestorNodes(NodeType.ELEMENT);
-            if (ancestorNodes.testAny(nd -> context.isTagName(nd.name()))) continue;
+            if (ancestorNodes.testAny(nd -> {
+                String nodeName = nd.name();
+                return context.isTagName(nodeName);
+            })) continue;
 
             NodeList nerList = applyNamedEntityRecognizer(node.text());
-
+            
             /* for each element node in the list ensure the path is valid, otherwise convert it to a text node */
             for (int i = 0; i < nerList.size(); i++) {
                 Node nerNode = nerList.get(i);
+                Console.log(nerNode);
                 if (!nerNode.isType(NodeType.ELEMENT)) continue;
+
+                /* change the node name from standard to schema */
+                TagInfo tagInfo = context.getTagInfo(nerNode.name());
+                nerNode.name(tagInfo.getName());
+                Console.log(nerNode);
+                
                 if (schema != null && !schema.isValid(node.getParent(), nerNode.name())) {
                     TextNode textNode = new TextNode(nerNode.text());
-                    nerList.set(i, textNode);
+                    nerList.set(i, textNode);                    
                 }
             }
 

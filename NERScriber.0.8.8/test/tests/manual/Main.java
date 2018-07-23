@@ -21,13 +21,13 @@ import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class Main implements HasStreams,ProgressListener {
-    static String filename = "D:/nerve-temp/testFiles/basic_tei.xml";
+    static String filename = "D:/nerve-temp/testFiles/minimalOrlando.xml";
 
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
         Main main = new Main();
         Document doc = DocumentLoader.documentFromStream(new FileInputStream(filename));
         EncodeOptions encodeOptions = new EncodeOptions();      
-        encodeOptions.addProcess(EncodeProcess.DICTIONARY, EncodeProcess.NER); /* works */
+        encodeOptions.addProcess(EncodeProcess.NER); /* works */
         
         EncodedDocument encoded = Encoder.encode(doc, main, encodeOptions, main);
         Console.log(encoded);
