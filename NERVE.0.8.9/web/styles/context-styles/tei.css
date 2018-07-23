@@ -7,12 +7,7 @@
     line-height : 1.5;
 }
 
-.tei div[xmltagname="abbr"] {
-    display : inline;
-}
-
 .tei div[xmltagname="add"] {
-    display : inline;
     text-decoration : underline;
 }
 
@@ -20,34 +15,18 @@
     display : none;
 }
 
-.tei div[xmltagname="argument"] {
-    display : block;
-}
-
 .tei div[xmltagname="att"] {
-    display : inline;
     font-family : sans-serif;
 }
 
-.tei div[xmltagname="author"] {
-    display : inline;
-}
-
 .tei div[xmltagname="back"] {
-    display : block;
     border : thin black solid;
 }
 
-.tei div[xmltagname="bibl"] {
-    display : inline;
-}
-
-.tei div[xmltagname="div"] {
-}
-
-.tei div[xmltagname="bibl"]>
-.tei div[xmltagname="note"] {
-    display : inline;
+.tei div[xmltagname="bibl"]{
+    display: block;
+    margin-bottom: 1em;
+    text-align: left;
 }
 
 .tei div[xmltagname="bibl"]>
@@ -60,100 +39,12 @@
     content: "";
 }
 
-.tei div[xmltagname="argument"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="body"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="cit"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div0"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div1"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div2"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div3"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div4"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div5"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div6"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="div7"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="epigraph"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="list"]
-.tei div[xmltagname="ibl"]>
-.tei div[xmltagname="bibl"]>
-.tei div[xmltagname="bibl"],
-.tei div[xmltagname="taxonomy"]>
-.tei div[xmltagname="bibl"] {
-    display : block;
-}
-
-.tei div[xmltagname="biblFull"] {
-    display : inline;
-}
-
-.tei div[xmltagname="argument"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="body"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="cit"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div0"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div1"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div2"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div3"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div4"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div5"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div6"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="div7"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="epigraph"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="listBibl"]>
-.tei div[xmltagname="biblFull"]>
-.tei div[xmltagname="biblFull"],
-.tei div[xmltagname="taxonomy"]>
-.tei div[xmltagname="biblFull"] {
-    display : block;
-}
-
-.tei div[xmltagname="biblScope"] {
-    display : inline;
-}
-
-.tei div[xmltagname="imprint"]>
-.tei div[xmltagname="biblScope"] {
-    display : block;
-}
-
 .tei div[xmltagname="body"] {
-    display : block;
     counter-reset : div1;
 }
 
 .tei div[xmltagname="byline"] {
-    display : block;
     font-style : italic;
-}
-
-.tei div[xmltagname="category"] {
-    display : block;
 }
 
 .tei div[xmltagname="catRef"] {
@@ -165,99 +56,33 @@
     border : 1px solid #EEEFEE;
 }
 
-.tei div[xmltagname="change"] {
-    display : block;
-}
-
 .tei div[xmltagname="cit"] {
     display : inline;
 }
 
-.tei div[xmltagname="argument"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="body"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div0"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div1"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div2"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div3"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div4"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div5"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div6"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="div7"] >
-.tei div[xmltagname="cit"] ,
-.tei div[xmltagname="epigraph"] >
-.tei div[xmltagname="cit"] {
-    display : block;
-}
-
-.tei div[xmltagname="classCode"] {
-    display : block;
-}
-
-.tei div[xmltagname="elementSpec"],
-.tei div[xmltagname="macroSpec"],
-.tei div[xmltagname="classSpec"] {
-    display : block;
-}
-
 .tei div[xmltagname="closer"] {
-    display : block;
     width : 95%;
 }
 
 .tei div[xmltagname="code"] {
-    display : inline;
     font-family : monospace;
-}
-
-.tei div[xmltagname="corr"] {
-    display : inline;
-}
-
-.tei div[xmltagname="creation"] {
-    display : block;
-}
-
-.tei div[xmltagname="date"] {
-    display : inline;
 }
 
 .tei div[xmltagname="change"]>
 .tei div[xmltagname="date"],
 .tei div[xmltagname="publicationStmt"]>
 .tei div[xmltagname="date"] {
-    display : block;
     font-weight : bold;
 }
 
-.tei div[xmltagname="dateline"] {
-    display : inline;
-}
-
 .tei div[xmltagname="del"] {
-    display : inline;
     color : red;
     background-color : inherit;
     text-decoration : line-through;
 }
 
-.tei div[xmltagname="distributor"] {
-    display : block;
-}
-
 .tei div[xmltagname="body"]>
 .tei div[xmltagname="div"] {
-    display : block;
     counter-increment : div1;
     counter-reset : div2;
 }
@@ -265,7 +90,6 @@
 .tei div[xmltagname="body"] >
 .tei div[xmltagname="div"] >
 .tei div[xmltagname="div"] {
-    display : block;
     counter-increment : div2;
     counter-reset : div3;
 }
@@ -274,7 +98,6 @@
 .tei div[xmltagname="div"] >
 .tei div[xmltagname="div"] >
 .tei div[xmltagname="div"] {
-    display : block;
     counter-increment : div3;
 }
 
@@ -287,79 +110,41 @@
 }
 
 .tei div[xmltagname="div1"] {
-    display : block;
     counter-increment : div1;
     counter-reset : div2;
 }
 
 .tei div[xmltagname="div2"] {
-    display : block;
     counter-increment : div2;
     counter-reset : div3;
 }
 
 .tei div[xmltagname="div3"] {
-    display : block;
     counter-increment : div3;
     counter-reset : div4;
 }
 
 .tei div[xmltagname="div4"] {
-    display : block;
     counter-increment : div4;
     counter-reset : div5;
 }
 
 .tei div[xmltagname="div5"] {
-    display : block;
     counter-increment : div5;
     counter-reset : div6;
 }
 
 .tei div[xmltagname="div6"] {
-    display : block;
     counter-increment : div6;
     counter-reset : div7;
 }
 
 .tei div[xmltagname="div7"] {
-    display : block;
     counter-increment : div7;
 }
 
 .tei div[xmltagname="divGen"] {
     display : none;
-}
-
-.tei div[xmltagname="docAuthor"] {
-    display : block;
-}
-
-.tei div[xmltagname="byline"]
-.tei div[xmltagname="docAuthor"] {
-    display : inline;
-}
-
-.tei div[xmltagname="edition"] {
-    display : block;
-}
-
-.tei div[xmltagname="bibl"]
-.tei div[xmltagname="edition"] {
-    display : inline;
-}
-
-.tei div[xmltagname="editionStmt"] {
-    display : block;
-}
-
-.tei div[xmltagname="editor"] {
-    display : block;
-}
-
-.tei div[xmltagname="bibl"]
-.tei div[xmltagname="editor"] {
-    display : inline;
 }
 
 .tei div[xmltagname="eg"] {
@@ -370,35 +155,7 @@
     background-color : #FFCC99;
 }
 
-.tei div[xmltagname="argument"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="body"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div0"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div1"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div2"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div3"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div4"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div5"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div6"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="div7"] >
-.tei div[xmltagname="eg"],
-.tei div[xmltagname="epigraph"] >
-.tei div[xmltagname="eg"] {
-    display : block;
-}
-
 .tei div[xmltagname="emph"] {
-    display : inline;
     font-style : italic;
 }
 
@@ -409,11 +166,6 @@
 
 .tei div[xmltagname="extent"] {
     display : block;
-}
-
-.tei div[xmltagname="bibl"]
-.tei div[xmltagname="extent"] {
-    display : inline;
 }
 
 .tei div[xmltagname="graphic"] {
@@ -428,12 +180,10 @@
 }
 
 .tei div[xmltagname="foreign"] {
-    display : inline;
     font-style : italic;
 }
 
 .tei div[xmltagname="formula"] {
-    display : inline;
     font-style : italic;
 }
 
@@ -451,14 +201,9 @@
 
 .tei div[xmltagname="gi"],
 .tei div[xmltagname="tag"] {
-    display : inline;
     font-family : sans-serif;
     color : black;
     background-color : inherit;
-}
-
-.tei div[xmltagname="gloss"] {
-    display : inline;
 }
 
 .tei div[xmltagname="group"] {
@@ -510,7 +255,6 @@ head .tei div[xmltagname="author"] {
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     background-color : yellow;
     color : black;
 }
@@ -521,63 +265,41 @@ head .tei div[xmltagname="author"] {
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     font-weight : bold;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     font-style : italic;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     text-decoration : underline;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     font-style : italic;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     font-variant : small-caps;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     vertical-align : super;
     font-size : smaller;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     vertical-align : sub;
     font-size : smaller;
 }
 
 .tei div[xmltagname="hi"] {
-    display : inline;
     text-decoration : underline;
 }
 
 .tei div[xmltagname="ident"] {
-    display : inline;
     font-family : monospace;
-}
-
-.tei div[xmltagname="idno"] {
-    display : block;
-}
-
-.tei div[xmltagname="bibl"]
-.tei div[xmltagname="idno"] {
-    display : inline;
-}
-
-.tei div[xmltagname="imprint"] {
-    display : inline;
 }
 
 .tei div[xmltagname="index"] {
@@ -594,44 +316,22 @@ head .tei div[xmltagname="author"] {
 
 .tei div[xmltagname="list"]
 .tei div[xmltagname="item"] {
-    display : block;
-}
-
-.tei div[xmltagname="list"]
-.tei div[xmltagname="item"] {
     display : list-item;
 }
 
 .tei div[xmltagname="item"] {
     display : list-item;
-}
-
-.tei div[xmltagname="change"]
-.tei div[xmltagname="item"] {
-    display : block;
-}
-
-.tei div[xmltagname="keywords"] {
-    display : block;
 }
 
 .tei div[xmltagname="kw"] {
-    display : inline;
     font-style : italic;
 }
 
-.tei div[xmltagname="l"] {
-    display : block;
-    white-space : nowrap;
-}
-
 .tei div[xmltagname="label"] {
-    display : inline;
     font-weight : bold;
 }
 
 .tei div[xmltagname="Label"] {
-    display : inline;
     font-weight : bold;
     color : #2F4F4F;
     background-color : inherit;
@@ -661,20 +361,7 @@ head .tei div[xmltagname="author"] {
 .tei div[xmltagname="label"] ,
 .tei div[xmltagname="epigraph"] >
 .tei div[xmltagname="label"] {
-    display : block;
     font-weight : bold;
-}
-
-.tei div[xmltagname="langUsage"] {
-    display : block;
-}
-
-.tei div[xmltagname="lb"] {
-    display : block;
-}
-
-.tei div[xmltagname="lg"] {
-    display : block;
 }
 
 .tei div[xmltagname="list"] {
@@ -711,12 +398,7 @@ head .tei div[xmltagname="author"] {
     list-style-type : none;
 }
 
-.tei div[xmltagname="listBibl"] {
-    display : block;
-}
-
 .tei div[xmltagname="mentioned"] {
-    display : inline;
     font-style : italic;
 }
 
@@ -724,18 +406,12 @@ head .tei div[xmltagname="author"] {
     display : none;
 }
 
-.tei div[xmltagname="name"] {
-    display : inline;
-}
-
 .tei div[xmltagname="note"] {
-    display : block;
     color:#999;
 }
 
 .tei div[xmltagname="opener"]
 .tei div[xmltagname="note"] {
-    display : block;
     color:#999;
 }
 
@@ -758,30 +434,27 @@ head .tei div[xmltagname="author"] {
     display : inline;
 }
 
-.tei div[xmltagname="notesStmt"] {
-    display : block;
-}
-
 .tei div[xmltagname="num"] {
     display : inline;
 }
 
-.tei div[xmltagname="opener"] {
-    display : block;
-}
-
-.tei div[xmltagname="opener"]
+.tei div[xmltagname="head"],
+.tei div[xmltagname="byline"],
+.tei div[xmltagname="docAuthor"],
 .tei div[xmltagname="p"] {
+    word-wrap: normal;
+    white-space: pre-line;
+    display : block;    
     text-align : justify !important;
-    text-indent : 0 !important;
-}
-
-.tei div[xmltagname="orig"] {
-    display : inline;
+    margin-bottom: 1em;
 }
 
 .tei div[xmltagname="p"] {
-    display : block;
+    word-wrap: normal;
+    white-space: pre-line;
+    display : block;    
+    text-align : justify !important;
+    margin-bottom: 2em;
 }
 
 .tei div[xmltagname="pb"] {
@@ -835,67 +508,11 @@ head .tei div[xmltagname="author"] {
 }
 
 .tei div[xmltagname="q"] {
-    display : inline;
     quotes : '"' '"' "'" "'";
 }
 
-.tei div[xmltagname="q"],
-.tei div[xmltagname="argument"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="body"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="cit"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div0"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div1"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div2"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div3"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div4"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div5"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div6"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="div7"] >
-.tei div[xmltagname="q"],
-.tei div[xmltagname="epigraph"] >
-.tei div[xmltagname="q"] {
-    display : block;
-    quotes : none;
-}
-
-.tei div[xmltagname="ref"] {
-    display : inline;
-    color : black;
-    background-color : inherit;
-}
-
 .tei div[xmltagname="reg"] {
-    display : inline;
     font-style : italic;
-}
-
-.tei div[xmltagname="rendition"] {
-    display : block;
-}
-
-.tei div[xmltagname="resp"] {
-    display : block;
-}
-
-.tei div[xmltagname="respStmt"] {
-    display : block;
-}
-
-.tei div[xmltagname="bibl"]
-.tei div[xmltagname="respStmt"] {
-    display : inline;
 }
 
 .tei div[xmltagname="row"] {
@@ -907,49 +524,15 @@ head .tei div[xmltagname="author"] {
     background-color : #BBBBBB;
 }
 
-.tei div[xmltagname="rs"] {
-    display : inline;
-}
-
-.tei div[xmltagname="s"] {
-    display : inline;
-}
-
-.tei div[xmltagname="salute"] {
-    display : block;
-}
-
-.tei div[xmltagname="samplingDecl"] {
-    display : block;
-}
-
-.tei div[xmltagname="seg"] {
-    display : inline;
-}
-
-.tei div[xmltagname="seriesStmt"] {
-    display : block;
-}
-
 .tei div[xmltagname="sic"] {
-    display : inline;
     color : red;
     background-color : inherit;
-}
-
-.tei div[xmltagname="signed"] {
-    display : block;
-    text-align : right;
 }
 
 .tei div[xmltagname="soCalled"] {
     display : inline;
     font-style : italic;
     quotes : "'" "'";
-}
-
-.tei div[xmltagname="sp"] {
-    display : block;
 }
 
 .tei div[xmltagname="div"]
@@ -959,16 +542,11 @@ head .tei div[xmltagname="author"] {
 }
 
 .tei div[xmltagname="speaker"] {
-    display : inline;
     font-weight : bold;
 }
 
-.tei div[xmltagname="sponsor"] {
-    display : block;
-}
 
 .tei div[xmltagname="stage"] {
-    display : inline;
     font-style : italic;
 }
 
@@ -984,35 +562,13 @@ head .tei div[xmltagname="author"] {
     font-style : italic;
 }
 
-.tei div[xmltagname="tagUsage"] {
-    display : block;
-}
-
-.tei div[xmltagname="taxonomy"] {
-    display : block;
-}
-
 .tei div[xmltagname="term"] {
     font-family : sans-serif;
     color : black;
     background-color : inherit;
-    display : inline;
-}
-
-.tei div[xmltagname="textClass"] {
-    display : block;
-}
-
-.tei div[xmltagname="time"] {
-    display : inline;
 }
 
 .tei div[xmltagname="title"] {
-    display : inline;
-}
-
-.tei div[xmltagname="title"] {
-    display : block;
     font-weight:normal;
 }
 
@@ -1039,21 +595,12 @@ head .tei div[xmltagname="author"] {
 }
 
 .tei div[xmltagname="titlePage"] {
-    display : block;
     border : thin black solid;
     text-align : center;
 }
 
-.tei div[xmltagname="titlePart"] {
-    display : block;
-}
-
 .tei div[xmltagname="titleStmt"] {
     color : #333;
-}
-
-.tei div[xmltagname="trailer"] {
-    display : block;
 }
 
 .tei div[xmltagname="unclear"] {
@@ -1074,71 +621,11 @@ head .tei div[xmltagname="author"] {
     color:gray;
 }
 
-.tei div[xmltagname="titleStmt"] >
-.tei div[xmltagname="author"] {
-    display : block;
-}
-
-.tei div[xmltagname="authority"] {
-    display : block;
-}
-
-.tei div[xmltagname="availability"] {
-    display : block;
-}
-
-.tei div[xmltagname="fileDesc"] {
-    display : block;
-}
-
 .tei div[xmltagname="sourceDesc"] {
-    display : block;
     border : thin silver solid;
 }
 
-.tei div[xmltagname="sourceDesc"]
-.tei div[xmltagname="p"] {
-}
-
-.tei div[xmltagname="revisionDesc"] {
-    display : block;
-}
-
-.tei div[xmltagname="catDesc"] {
-    display : block;
-}
-
-.tei div[xmltagname="encodingDesc"] {
-    display : block;
-}
-
-.tei div[xmltagname="profileDesc"] {
-    display : block;
-}
-
-.tei div[xmltagname="projectDesc"] {
-    display : block;
-}
-
-.tei div[xmltagname="docDate"] {
-    display : block;
-}
-
-.tei div[xmltagname="docImprint"]
-.tei div[xmltagname="docDate"] {
-    display : inline;
-}
-
-.tei div[xmltagname="docEdition"] {
-    display : block;
-}
-
-.tei div[xmltagname="docImprint"] {
-    display : block;
-}
-
 .tei div[xmltagname="docTitle"] {
-    display : block;
     font-weight : bold;
     font-weight:bold;
 }

@@ -100,7 +100,6 @@ class ContextMenu {
     addClickEvent(contextOptionDiv, sqlRecord){
         $(contextOptionDiv).click(()=>{
             this.taggedEntityWidget.lemma(sqlRecord.getEntry("lemma").getValue());
-            this.taggedEntityWidget.datasource(sqlRecord.getEntry("source").getValue());
             this.taggedEntityWidget.tag(sqlRecord.getEntry("tag").getValue());
             this.taggedEntityWidget.link(sqlRecord.getEntry("link").getValue());
             $(ContextMenu.SELECTOR).hide();

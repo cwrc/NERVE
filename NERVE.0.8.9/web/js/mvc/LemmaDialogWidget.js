@@ -394,8 +394,15 @@ class LemmaDialogWidget extends AbstractModel {
     }
 
     scrollTo(element) {
-        let elementRelativeTop = $(element).offset().top - $("#displayArea").offset().top;
-        let scrollTo = elementRelativeTop + $("#displayArea").scrollTop() - $("#displayArea").height() / 2;
+        let eleTop = $(element).offset().top;
+        let eleBottom = eleTop + $(element).height();
+        let dispTop = $("#displayArea").offset().top;
+        let dispBottom = dispTop + $("#displayArea").height();
+        
+        if (eleTop > dispTop && eleBottom < dispBottom) return;
+        
+        let diffTop = eleTop - dispTop;
+        let scrollTo = diffTop + $("#displayArea").scrollTop() - $("#displayArea").height() / 2;
         $("#displayArea").scrollTop(scrollTo);
     }
 }

@@ -217,6 +217,13 @@ class EnityPanelWidget extends AbstractModel {
     }
 
     scrollTo(element) {
+        let eleTop = $(element).offset().top;
+        let eleBottom = eleTop + $(element).height();
+        let dispTop = $("#panelContainer").offset().top;
+        let dispBottom = dispTop + $("#panelContainer").height();
+        
+        if (eleTop > dispTop && eleBottom < dispBottom) return;        
+        
         let elementRelativeTop = $(element).offset().top - $("#panelContainer").offset().top;
         let scrollTo = elementRelativeTop + $("#panelContainer").scrollTop() - $("#panelContainer").height() / 2;
         $("#panelContainer").scrollTop(scrollTo);
@@ -249,7 +256,7 @@ class EnityPanelWidget extends AbstractModel {
         }
 
         this.selectedEntities.clear();
-        this.notifyListeners("notifyUntaggedEntities", taggedEntityArray);
+        this.notifyListeners("notifyUntaggedEntities", taggedEntityArray, []);
 
         contents = contents.mergeElements();
         contents[0].normalize();
