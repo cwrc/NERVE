@@ -171,6 +171,9 @@ class CategoryButton {
 
 /**
  * Listens for event triggers that will manipulate lemma dialog model.
+ * Keeps track of:
+ *  - Categories, set by context.
+ *  - 
  */
 class LemmaDialogWidget extends AbstractModel {
     constructor(dragDropHandler) {
@@ -280,8 +283,13 @@ class LemmaDialogWidget extends AbstractModel {
 
     untagEntity(taggedEntityWidget) {
         let lemma = this.entityLemmaMap.get(taggedEntityWidget);
+        
         let tag = this.entityTagMap.get(taggedEntityWidget);
-        if (lemma === undefined || tag === undefined) console.warn(`TaggedEntityWidget not found`);
+        if (lemma === undefined || tag === undefined){   
+            console.warn(taggedEntityWidget);
+            console.error(`TaggedEntityWidget not found`);            
+        }
+        
         this.entityLemmaMap.delete(taggedEntityWidget);
         this.entityTagMap.delete(taggedEntityWidget);
 

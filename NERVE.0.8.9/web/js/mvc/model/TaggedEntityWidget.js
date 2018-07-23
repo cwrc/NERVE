@@ -278,7 +278,6 @@ class TaggedEntityWidget {
         }
 
         if ($(this.element).children().filter(".tagname-markup").length === 0) {
-            console.log(this.element);
             this.markup = document.createElement("div");
             $(this.element).prepend(this.markup);
             $(this.markup).addClass("tagname-markup");            

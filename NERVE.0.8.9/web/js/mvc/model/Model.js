@@ -11,10 +11,10 @@ const TaggedEntityWidget = require("./TaggedEntityWidget");
 const Storage = require("../../util/storage");
 const HostInfo = require("../../util/hostinfo");
 const AbstractModel = require("./AbstractModel");
-const ArrayList = require("jjjrmi").ArrayList;
 const EntityValues = require("../../gen/nerve").EntityValues;
 const FileOperations = require("../../util/fileOperations");
 const Collection = require("./Collection");
+const ArrayList = require("jjjrmi").ArrayList;
 
 class Model extends AbstractModel {
     constructor(dragDropHandler) {
@@ -45,8 +45,6 @@ class Model extends AbstractModel {
             await this.reader.readAsText(event.currentTarget.files[0]);
             $("#fileOpenDialog").val("");
         });
-
-        this.addListener(this);
     }
 
     async init(dictionary) {
@@ -174,7 +172,7 @@ class Model extends AbstractModel {
         $(".taggedentity").each(async (i, element) => {
             let taggedEntity = new TaggedEntityWidget(this.dragDropHandler, element);
             taggedEntityArray.push(taggedEntity);
-            this.taggedEntityList.add(taggedEntity);            
+            this.taggedEntityList.add(taggedEntity);
         });
         this.notifyListeners("notifyNewTaggedEntities", taggedEntityArray);
 
@@ -182,8 +180,6 @@ class Model extends AbstractModel {
         this.storage.setValue("filename", filename);
         this.storage.setValue("context", context);
         this.storage.setValue("schemaURL", schemaURL);
-
-//        await this.__addDictionaryAttribute();
     }
 
     async close() {
@@ -192,13 +188,14 @@ class Model extends AbstractModel {
         this.storage.setValue("context", null);
         localStorage.clear();
 
-        let taggedEntityWidgetArray = [];
-        while (!this.taggedEntityList.isEmpty()) {
-            let taggedEntityWidget = this.taggedEntityList.remove(0);
-            taggedEntityWidgetArray.push(taggedEntityWidget);
+        let taggedEntityWidgetArray = this.taggedEntityList.toArray();
+        
+        for (let taggedEntityWidget of this.taggedEntityList){
+            this.taggedEntityList.remove(taggedEntityWidget);
             taggedEntityWidget.untag();
         }
-        this.taggedEntityList.clear();
+
+        this.taggedEntityList.clear();        
         this.notifyListeners("notifyUntaggedEntities", taggedEntityWidgetArray);
 
         $("#entityPanel").html("");
@@ -206,14 +203,6 @@ class Model extends AbstractModel {
     }
 
     notifyRevertTaggedEntities(taggedEntityWidgetArray) {
-        for (let taggedEntityWidget of taggedEntityWidgetArray) {
-            if (this.taggedEntityList.contains(taggedEntityWidget)) {
-                this.taggedEntityList.remove(taggedEntityWidget);
-            }
-        }
-    }
-
-    notifyUntaggedEntities(taggedEntityWidgetArray) {
         for (let taggedEntityWidget of taggedEntityWidgetArray) {
             if (this.taggedEntityList.contains(taggedEntityWidget)) {
                 this.taggedEntityList.remove(taggedEntityWidget);
@@ -240,12 +229,6 @@ class Model extends AbstractModel {
     }
 
     notifyRestoredTaggedEntities(taggedEntityArray){
-        for (let taggedEntity of taggedEntityArray){
-            this.taggedEntityList.add(taggedEntity);
-        }
-    }
-
-    notifyNewTaggedEntities(taggedEntityArray){
         for (let taggedEntity of taggedEntityArray){
             this.taggedEntityList.add(taggedEntity);
         }
