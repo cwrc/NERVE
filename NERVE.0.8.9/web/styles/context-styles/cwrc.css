@@ -1,13 +1,11 @@
-#comment {
-    color: #08eb03;
-    font-size:smaller
+.cwrc div[xmltagname="P"] {    
+    word-wrap: normal;
+    white-space: normal;
+    display : block;
+    margin-bottom: 20px;
+    text-align: justify;
 }
-#comment:before {
-    content: "<!--"
-}
-#comment:after {
-    content: "-->"
-}
+
 .cwrc div[xmltagname="EVENTS"] {
     font-family : "Times New Roman", Times, serif;
 }
@@ -39,6 +37,7 @@
 .cwrc div[xmltagname="SOURCE"] {
     display: block;
     display: list-item;
+    margin: 10px;
 }
 .cwrc div[xmltagname="DATAITEM"] {
     font-style: italic;
@@ -143,12 +142,6 @@
 .cwrc div[xmltagname="AVAILABILITY"] {
     display : inline;
 }
-.cwrc div[xmltagname="P"] {    
-    word-wrap: normal;
-    white-space: pre-line;
-    display : block;
-    margin-bottom: 15px;
-}
 .cwrc div[xmltagname="RESEARCHNOTE"] {
     background-color : #FBEFEF;
     color : #663366;
@@ -156,18 +149,13 @@
     font-size : smaller;
     display : list-item;
 }
-.cwrc div[xmltagname="DIV"]0 HEADING {
-    display : list-item;
+.cwrc div[xmltagname="HEADING"] {
     font-weight : bold;
     font-size : x-large;
     color : #039;
+    margin: 10px;
 }
-.cwrc div[xmltagname="DIV"]1 HEADING {
-    display : list-item;
-    font-weight : bold;
-    font-size : large;
-    color : #039;
-}
+
 .cwrc div[xmltagname="CHRONSTRUCT"] {
     display : list-item;
 }
@@ -186,8 +174,17 @@
 .cwrc div[xmltagname="SHORTPROSE"] {
     padding-left : 4em;
 }
+
+.cwrc div[xmltagname="LISTBIBCIT"] {
+    display: block;
+    margin: 10px;
+}
+
 .cwrc div[xmltagname="BIBCIT"] {
     display: block;
+    font-size: smaller;
+    margin-bottom: 5px;
+    display: list-item;
 }
 .cwrc div[xmltagname="BIBCIT"]:before {
     content : "(";

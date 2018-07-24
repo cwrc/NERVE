@@ -275,12 +275,21 @@ class TaggedEntityWidget {
 
         if ($(this.contents).children().filter(".tagname-markup").length === 0) {
             this.markup = document.createElement("div");
-            $(this.contents).append(this.markup);
+            $(this.element).append(this.markup);
             $(this.markup).addClass("tagname-markup");
             this.tag($(this.element).tag(), true);
         } else {
-            this.markup = $(this.contents).children(".tagname-markup");
+            this.markup = $(this.element).children(".tagname-markup");
         }
+    }
+
+    untag() {
+        this.highlight(false);
+        let contents = $(this.contents).contents();
+        let clone = contents.clone();
+        $(this.element).replaceWith(clone);
+//        document.normalize();
+        return clone;
     }
 
     drop(event) {
@@ -370,7 +379,10 @@ class TaggedEntityWidget {
         return $(this.contents).text();
     }
     values(value = null, silent = false) {
-
+        if (value !== null && value.constructor.name !== "EntityValues"){
+            throw new Error("Invalid parameter type");
+        }
+        
         if (value === null) {
             let entityValues = new EntityValues();
             if (this.text() !== "") entityValues.text(this.text());
@@ -396,15 +408,6 @@ class TaggedEntityWidget {
         }
 
         return this.values();
-    }
-    untag() {
-        this.highlight(false);
-        $(this.markup).detach();
-        let contents = $(this.contents).contents();
-        let clone = contents.clone();
-        $(this.element).replaceWith(clone);
-//        document.normalize();
-        return clone;
     }
     addClass(classname) {
         $(this.element).addClass(classname);

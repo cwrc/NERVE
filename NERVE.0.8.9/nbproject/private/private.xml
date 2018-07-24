@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="213">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="215">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="146">
@@ -266,6 +266,16 @@
                 <line>97</line>
                 <key/>
             </bookmark>
+            <bookmark id="215">
+                <name/>
+                <line>108</line>
+                <key/>
+            </bookmark>
+            <bookmark id="214">
+                <name/>
+                <line>177</line>
+                <key/>
+            </bookmark>
         </file>
         <file>
             <url>web/js/mvc/lemmaDialog.js</url>
@@ -331,6 +341,12 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/orlando.css</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/EntityDialog.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/TaggedEntityWidget.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/EnityPanelWidget.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/util/CustomQuery.js</file>
+            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/src/java/ca/sharcnet/dh/nerve/EntityValues.java</file>
+        </group>
     </open-files>
 </project-private>

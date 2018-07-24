@@ -197,8 +197,8 @@ class LemmaDialogWidget extends AbstractModel {
 
         this.buttonArea = $("#lemmaDialog > #buttonArea");
         this.displayArea = $("#lemmaDialog > #displayArea");
-        $(document).ready(() => this.layout());
-        $(window).on("resize", () => this.layout());
+//        $(document).ready(() => this.layout());
+//        $(window).on("resize", () => this.layout());
 
         $("#selectAllCategories").mouseup((event) => {
             this.selectAllCategories();
@@ -208,6 +208,11 @@ class LemmaDialogWidget extends AbstractModel {
             this.selectNoCategories();
         });
     }
+
+//    layout() {
+//        let calculatedHeight = `calc(100% - ${this.buttonArea.height() + 25}px)`;
+//        this.displayArea.height(calculatedHeight);
+//    }
 
     notifyUnsetDocument() {
         for (let button of this.categoryButtons) {
@@ -358,11 +363,6 @@ class LemmaDialogWidget extends AbstractModel {
             categoryArray.push(button.getCategory());
         }
         this.notifyListeners("notifyDisableCategories", categoryArray);
-    }
-
-    layout() {
-        let calculatedHeight = `calc(100% - ${this.buttonArea.height() + 25}px)`;
-        this.displayArea.height(calculatedHeight);
     }
 
     notifyCollectionAdd(collection, taggedEntityWidgets) {

@@ -6,11 +6,11 @@ class EntityTextBox {
     constructor(entityDialog, selector, dialogStringID) {
         this.entityDialog = entityDialog;
         this.update = false;
-        
+
         $(selector).on("input", () => {
             this.update = true;
-        });       
-        
+        });
+
         $(selector).on("blur", () => {
             if (this.update) {
                 let changes = new EntityValues();
@@ -18,41 +18,41 @@ class EntityTextBox {
                 this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
             }
             this.update = false;
-        });          
-        
+        });
+
         $(selector).keyup((event) => {
             if (event.keyCode !== 13) return;
-            let changes = {};
-            changes[dialogStringID] = $(selector).val();            
+            let changes = new EntityValues();
+            changes.set(dialogStringID, $(selector).val());
             this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
             this.update = false;
             event.stopPropagation();
-        });        
+        });
     }
 }
 
-class EntityListSelector{
+class EntityListSelector {
     constructor(entityDialog, selector, dialogStringID) {
         this.entityDialog = entityDialog;
         this.dialogStringID = dialogStringID;
         this.selector = selector;
         this.update = false;
-        
+
         $(selector).on("input", (event) => {
             let changes = new EntityValues();
-            changes.set(dialogStringID, $(selector).val());          
+            changes.set(dialogStringID, $(selector).val());
             this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
-        }); 
+        });
     }
-    
-    setValue(value){
+
+    setValue(value) {
         this.value = value;
     }
-    
-    ready(){
+
+    ready() {
         let changes = new EntityValues();
-        changes.set(this.dialogStringID, $(this.selector).val());               
-        this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());        
+        changes.set(this.dialogStringID, $(this.selector).val());
+        this.entityDialog.notifyListeners("notifyDialogChange", changes, this.entityDialog.getValues());
     }
 }
 
@@ -68,18 +68,18 @@ class EntityDialog extends AbstractModel {
         $('#txtEntity').textinput();
         $('#txtLemma').textinput();
         $('#txtLink').textinput();
-        
+
         $("#goLink").click((event) => {
             this.goLink();
-        });        
-        
-        $("#entityLookupButton").click((event)=>this.notifyListeners("notifyLoookupEntity", this.getValues()));
-        $("#lemmaLookupButton").click((event)=>this.notifyListeners("notifyLoookupLemma", this.getValues()));
-        
+        });
+
+        $("#entityLookupButton").click((event) => this.notifyListeners("notifyLoookupEntity", this.getValues()));
+        $("#lemmaLookupButton").click((event) => this.notifyListeners("notifyLoookupLemma", this.getValues()));
+
         this.copyValues = new EntityValues();
         this.selected = new Collection();
     }
-    
+
     async onMenuCopy() {
         this.copyValues = this.getValues();
     }
@@ -87,15 +87,15 @@ class EntityDialog extends AbstractModel {
     async onMenuPaste() {
         this.__setLemma(this.copyValues.lemma());
         this.__setLink(this.copyValues.link());
-        this.__setTagName(this.copyValues.tag());                        
+        this.__setTagName(this.copyValues.tag());
         this.notifyListeners("notifyDialogChange", this.getValues(), this.entityDialog.getValues());
         this.__setDialogs();
     }
-    
-    notifyReady(){
+
+    notifyReady() {
         this.entitySelectorList.ready();
     }
-    
+
     goLink() {
         let url = $("#txtLink").val();
         if (url.length === 0) return;
@@ -105,7 +105,7 @@ class EntityDialog extends AbstractModel {
         var win = window.open(url, '_blank');
         win.focus();
     }    
-    
+
     getValues() {
         let values = new EntityValues();
         if ($("#txtEntity").val() !== "") values.text($("#txtEntity").val());
@@ -135,7 +135,7 @@ class EntityDialog extends AbstractModel {
 
     notifyCollectionAdd(collection, taggedEntityWidgets) {
         this.selected = collection.clone();
-        this.__setDialogs();        
+        this.__setDialogs();
     }
     notifyCollectionClear(collection, taggedEntityWidgets) {
         this.selected = collection.clone();
@@ -146,12 +146,12 @@ class EntityDialog extends AbstractModel {
         this.__setDialogs();
     }
 
-    notifyCWRCSelection(values){
+    notifyCWRCSelection(values) {
         this.__setEntity(values.text());
         this.__setLemma(values.lemma());
         this.__setLink(values.link());
         this.__setTagName(values.tag());
-    }  
+    }
 
     __clearDialogs() {
         document.getElementById("txtEntity").value = "";
@@ -166,6 +166,8 @@ class EntityDialog extends AbstractModel {
         if (this.selected.size() <= 0) return;
         let entity = this.selected.getLast();
 
+        if (entity.link() === "undefined") warn("undefined link");
+
         this.__setEntity(entity.text());
         this.__setLemma(entity.lemma());
         this.__setLink(entity.link());
@@ -173,21 +175,21 @@ class EntityDialog extends AbstractModel {
 
         let values = this.getValues();
 
-        for (let entity of this.selected) {
+        for (let entity of this.selected) {            
             if (entity.lemma() !== values.lemma()) this.__setDialogBG("lemma");
             if (entity.link() !== values.link()) this.__setDialogBG("link");
             if (entity.text() !== values.text()) this.__setDialogBG("text");
             if (entity.tag() !== values.tag()) this.__setDialogBG("tag");
         }
     }
-    
+
     __clearDialogBG() {
         $("#selectTagName").parent().css("color", "#000000");
         $("#txtEntity").parent().css("background-color", "#ffffff");
         $("#txtLemma").parent().css("background-color", "#ffffff");
         $("#txtLink").parent().css("background-color", "#ffffff");
     }
-    
+
     __setDialogBG(item) {
         switch (item) {
             case "tag":
@@ -210,12 +212,15 @@ class EntityDialog extends AbstractModel {
         $("#selectTagName").selectmenu("refresh", true);
     }
     __setEntity(string) {
+        if (!string) return;
         document.getElementById("txtEntity").value = string;
     }
     __setLemma(string) {
+        if (!string) return;
         document.getElementById("txtLemma").value = string;
     }
     __setLink(string) {
+        if (!string) return;
         document.getElementById("txtLink").value = string;
     }
 }

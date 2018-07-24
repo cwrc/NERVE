@@ -61,7 +61,6 @@
             let xmlAttr = $(this).attr($.fn.xmlAttr.defaults.attrName);
             if (typeof xmlAttr === "undefined") return xmlAttr;
             let jsonObj = JSON.parse(xmlAttr);
-            if (!jsonObj[key]) return "";
             return jsonObj[key];
         }
 
@@ -139,7 +138,6 @@
         if (typeof value === "undefined") {
             let tagName = $(this).tag();
             let lemmaAttr = context.getTagInfo(tagName).getLemmaAttribute();
-            if (lemmaAttr === "" || typeof lemmaAttr === "undefined") return "";
             return $(this).xmlAttr(lemmaAttr);
         }
 
@@ -163,7 +161,6 @@
         if (typeof value === "undefined") {
             let tagName = $(this).tag();
             let linkAttr = context.getTagInfo(tagName).getLinkAttribute();
-            if (linkAttr === "" || typeof linkAttr === "undefined") return "";
             return $(this).xmlAttr(linkAttr);
         }
 
