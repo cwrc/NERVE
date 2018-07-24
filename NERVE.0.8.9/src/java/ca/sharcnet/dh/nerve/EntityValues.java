@@ -154,4 +154,16 @@ public final class EntityValues extends JJJObject{
     public boolean hasTag(){
         return this.values.containsKey("tag");
     }    
+    
+    public String toString(){
+        int i = 0;
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        for (String key : this.keySet()){
+            if (i++ != 0) builder.append(", ");
+            builder.append(key).append(":").append(this.values.get(key));            
+        }
+        builder.append("}");
+        return builder.toString();
+    }
 }

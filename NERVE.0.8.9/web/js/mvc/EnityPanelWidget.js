@@ -1,7 +1,7 @@
 const ArrayList = require("jjjrmi").ArrayList;
 const Collection = require("./model/Collection");
 const EntityValues = require("../gen/EntityValues");
-const TaggedEntityWidget = require("./model/TaggedEntityWidget");
+const TaggedEntityWidget = require("./TaggedEntityWidget");
 
 class EnityPanelWidget extends AbstractModel {
 

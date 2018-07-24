@@ -1,17 +1,17 @@
 const NameSource = require("nerscriber").NameSource;
-const EntityValues = require("../../gen/nerve").EntityValues;
-const ShowHTMLWidget = require("../ShowHTMLWidget");
-const Constants = require("../../util/Constants");
-const AbstractModel = require("./AbstractModel");
+const EntityValues = require("../gen/nerve").EntityValues;
+const ShowHTMLWidget = require("./ShowHTMLWidget");
+const Constants = require("../util/Constants");
+const AbstractModel = require("./Model/AbstractModel");
 
 class ContextMenu {
     constructor() {
         this.state = false;
         this.flags = {};
-        this.lastSubMenu = null;        
+        this.lastSubMenu = null;
     }
 
-    notifyContextChange(context){
+    notifyContextChange(context) {
         this.context = context;
     }
 
@@ -19,7 +19,7 @@ class ContextMenu {
         this.dictionary = dictionary;
     }
 
-    notifyDocumentClick(){
+    notifyDocumentClick() {
         $(ContextMenu.SELECTOR).hide();
     }
 
@@ -30,13 +30,13 @@ class ContextMenu {
         /* open submenu (if active) */
         $(ContextMenu.SELECTOR).find(".context-subdialog").each((i, e) => {
             $(e).parent().mouseenter(() => {
-                let p = $(e).parent();                
-                if ($(p).hasClass("inactive") === false){
+                let p = $(e).parent();
+                if ($(p).hasClass("inactive") === false) {
                     $(e).show();
                 }
             });
         });
-        
+
         /* close submenu */
         $(ContextMenu.SELECTOR).find(".context-subdialog").each((i, e) => {
             $(e).parent().mouseleave(() => {
@@ -52,7 +52,7 @@ class ContextMenu {
             let eventname = $(event.delegateTarget).parent().attr("data-eventname");
             TaggedEntityWidget.delegate.notifyListeners(eventname, this.taggedEntityWidget);
         });
-        
+
         /* setup help popups */
         $(ContextMenu.SELECTOR).find("[data-context-help]").each((i, e) => {
             $(e).click((event) => {
@@ -62,10 +62,10 @@ class ContextMenu {
                 this.position($(ContextMenu.SELECTOR).find(`#${target}`).get(0), event);
             });
         });
-        
+
         $(ContextMenu.SELECTOR).find(".context-help").each((i, e) => {
             $(e).mouseleave(() => $(e).hide());
-        });        
+        });
     }
 
     /* list all available entities for the user to select */
@@ -89,16 +89,16 @@ class ContextMenu {
             }
         });
     }
-    
-    setSelected(contextOptionDiv){
+
+    setSelected(contextOptionDiv) {
         let img = document.createElement("img");
         $(img).attr("src", "assets/context-selected.png");
         $(img).addClass("context-left-image");
         $(contextOptionDiv).append(img);
     }
-    
-    addClickEvent(contextOptionDiv, sqlRecord){
-        $(contextOptionDiv).click(()=>{
+
+    addClickEvent(contextOptionDiv, sqlRecord) {
+        $(contextOptionDiv).click(() => {
             this.taggedEntityWidget.lemma(sqlRecord.getEntry("lemma").getValue());
             this.taggedEntityWidget.tag(sqlRecord.getEntry("tag").getValue());
             this.taggedEntityWidget.link(sqlRecord.getEntry("link").getValue());
@@ -115,9 +115,9 @@ class ContextMenu {
         $(div).append(label);
         $(div).attr("title", "collection " + sqlRecord.getEntry("source").getValue());
         $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").append(div);
-        
+
         if (sqlRecord.getEntry("lemma").getValue() === this.taggedEntityWidget.lemma()
-        &&  sqlRecord.getEntry("tag").getValue() === this.taggedEntityWidget.tag())
+                && sqlRecord.getEntry("tag").getValue() === this.taggedEntityWidget.tag())
         {
             this.setSelected(div);
         }
@@ -130,7 +130,7 @@ class ContextMenu {
         else return this.flags[flagname];
     }
 
-    position(element, event) {       
+    position(element, event) {
         let posX = event.clientX - 5;
         let posY = event.clientY - 5;
         element.style.left = posX + "px";
@@ -145,39 +145,38 @@ class ContextMenu {
         this.toggleAddMenuItem(taggedEntityWidget);
         this.toggleRemoveMenuItem(taggedEntityWidget);
     }
-    
+
     /* if the tagged entity does not match an existing entry */
     /* enable the addDict menu item                          */
-    toggleAddMenuItem(taggedEntityWidget){
+    toggleAddMenuItem(taggedEntityWidget) {
         $(ContextMenu.SELECTOR).find("#addDict > .context-right-image").show();
         $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
-        
+
         let text = taggedEntityWidget.text();
         let lemma = taggedEntityWidget.lemma();
         let tag = taggedEntityWidget.tag();
         let result = this.dictionary.lookup(text, lemma, tag, null);
-        
+
         result.then((sqlResult) => {
-            if (sqlResult.size() === 0){
-                $(ContextMenu.SELECTOR).find("#addDict").removeClass("inactive");                
+            if (sqlResult.size() === 0) {
+                $(ContextMenu.SELECTOR).find("#addDict").removeClass("inactive");
             }
             $(ContextMenu.SELECTOR).find("#addDict > .context-right-image").hide();
         });
     }
-    
-    
-    toggleRemoveMenuItem(taggedEntityWidget){
+
+    toggleRemoveMenuItem(taggedEntityWidget) {
         $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").show();
-        $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");        
-        
+        $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");
+
         let text = taggedEntityWidget.text();
         let lemma = taggedEntityWidget.lemma();
         let tag = taggedEntityWidget.tag();
         let result = this.dictionary.lookup(text, lemma, tag, "custom");
-        
+
         result.then((sqlResult) => {
-            if (sqlResult.size() !== 0){
-                $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");              
+            if (sqlResult.size() !== 0) {
+                $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");
             }
             $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").hide();
         });
@@ -198,25 +197,38 @@ ContextMenu.SELECTOR = "#taggedEntityContextMenu";
  * @type type
  */
 class TaggedEntityWidget {
-    constructor(dragDropHandler, element, tagName = null){
+    constructor(dragDropHandler, element, tagName = null) {
         if (!dragDropHandler) throw new Error("undefined DragDropHandler");
-        
+
         let jq = $(element);
-        
-        if (jq.get(0) instanceof Element){
-            this.nodeConstructor(dragDropHandler, element, tagName);        
+
+        if (jq.get(0) instanceof Element) {
+            this.nodeConstructor(dragDropHandler, element, tagName);   
         }
-        if (jq.get(0) instanceof Text){
+        if (jq.get(0) instanceof Text) {
             let newElement = TaggedEntityWidget.newEmptyWidget();
-            console.log(newElement);
-            this.nodeConstructor(dragDropHandler, newElement, tagName);            
+            this.nodeConstructor(dragDropHandler, newElement, tagName);
             this.text(element.text(), true);
             this.lemma(element.text(), true);
             jq.replaceWith(this.getElement());
         }
     }
     
-    setup(){
+    nodeConstructor(dragDropHandler, element, tagName = null) {
+        this.element = element;
+        this.dragDropHandler = dragDropHandler;
+        element.entity = this;
+
+        /* default values - will throw an exception is the tagged text does not have a tagname attribute and
+         * the tagName is not provided.
+         */
+        if (tagName !== null) $(this.element).tag(tagName);
+        this.setup();
+        this.format();
+        this.lemma(this.text(), true);
+    }
+
+    setup() {
         $(this.element).addClass("taggedentity");
         $(this.element).attr("draggable", "true");
 
@@ -238,22 +250,7 @@ class TaggedEntityWidget {
             if (event.button !== 0) return; /* left click only */
             TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
             event.stopPropagation();
-        });        
-    }
-    
-    nodeConstructor(dragDropHandler, element, tagName = null) {
-        this.element = element;
-        this.dragDropHandler = dragDropHandler;
-        element.entity = this;
-
-        /* default values - will throw an exception is the tagged text does not have a tagname attribute and
-         * the tagName is not provided.
-         */
-        if (tagName !== null) $(this.element).tag(tagName); 
-        
-        this.setup();
-        this.format();
-        this.lemma(this.text(), true);
+        });
     }
 
     contextUntag() {
@@ -279,7 +276,7 @@ class TaggedEntityWidget {
         if ($(this.contents).children().filter(".tagname-markup").length === 0) {
             this.markup = document.createElement("div");
             $(this.contents).append(this.markup);
-            $(this.markup).addClass("tagname-markup");            
+            $(this.markup).addClass("tagname-markup");
             this.tag($(this.element).tag(), true);
         } else {
             this.markup = $(this.contents).children(".tagname-markup");
@@ -310,7 +307,7 @@ class TaggedEntityWidget {
     }
 
     getElement() {
-        
+
         return this.element;
     }
 
@@ -319,11 +316,11 @@ class TaggedEntityWidget {
     }
 
     getContentElement() {
-        
+
         return this.contents;
     }
 
-    getContext(){
+    getContext() {
         return TaggedEntityWidget.delegate.getContext();
     }
 
@@ -372,9 +369,9 @@ class TaggedEntityWidget {
         if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         return $(this.contents).text();
     }
-    values(value = null, silent = false) {                
-        
-        if (value === null){             
+    values(value = null, silent = false) {
+
+        if (value === null) {
             let entityValues = new EntityValues();
             if (this.text() !== "") entityValues.text(this.text());
             if (this.lemma() !== "") entityValues.lemma(this.lemma());
@@ -421,40 +418,40 @@ class TaggedEntityWidget {
         else if (value) $(this.element).addClass("selected");
         else $(this.element).removeClass("selected");
     }  
-    
-    static newEmptyWidget(){
+
+    static newEmptyWidget() {
         let div = document.createElement("div");
         let contents = document.createElement("div");
         let markup = document.createElement("div");
-        
+
         $(div).append(markup);
         $(div).append(contents);
-                
+
         $(div).addClass("taggedEntity");
         $(div).attr("draggable", true);
-        
+
         $(markup).addClass("tagname-markup");
         $(contents).addClass("contents");
-        
+
         return div;
     }
 }
 
-class TaggedEntityDelegate extends AbstractModel{
-    constructor(){
+class TaggedEntityDelegate extends AbstractModel {
+    constructor() {
         super();
         this.contxt = null;
         this.addListener(this);
     }
-    
-    getContext(){
+
+    getContext() {
         return this.context;
     }
-    
-    notifyContextChange(context){
+
+    notifyContextChange(context) {
         this.context = context;
     }
-    
+
     contextShowHTML(taggedEntityWidget) {
         window.last = this;
         new ShowHTMLWidget(taggedEntityWidget).show();

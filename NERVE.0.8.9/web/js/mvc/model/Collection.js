@@ -4,7 +4,7 @@
  */
 
 AbstractModel = require("./AbstractModel");
-TaggedEntityWidget = require("./TaggedEntityWidget");
+TaggedEntityWidget = require("../TaggedEntityWidget");
 
 class Collection extends AbstractModel {
     constructor(array) {

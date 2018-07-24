@@ -7,7 +7,7 @@
  */
 
 const Schema = require("./Schema");
-const TaggedEntityWidget = require("./TaggedEntityWidget");
+const TaggedEntityWidget = require("../TaggedEntityWidget");
 const Storage = require("../../util/storage");
 const HostInfo = require("../../util/hostinfo");
 const AbstractModel = require("./AbstractModel");
@@ -157,12 +157,12 @@ class Model extends AbstractModel {
 
     async setDocument(text, context, filename, schemaURL) {
         await this.notifyListeners("notifyUnsetDocument");
-
         this.context = context;
         this.schema = new Schema();
         await this.schema.load(schemaURL);
 
         $("#entityPanel").html(text);
+        
 
         await this.notifyListeners("notifyContextChange", context, this.schema);
         await this.notifyListeners("notifySetDocument", $("#entityPanel").get(0));

@@ -7,10 +7,8 @@ import ca.frar.jjjrmi.socket.JJJObject;
 import ca.frar.utility.SQL.SQL;
 import ca.frar.utility.SQL.SQLRecord;
 import ca.frar.utility.SQL.SQLResult;
-import ca.sharcnet.nerve.context.Context;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
 
 @JJJ
@@ -27,19 +25,15 @@ public class Dictionary extends JJJObject {
     @ServerSide
     public int addEntity(EntityValues value) throws SQLException{
         String format = String.format("insert into %s values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\") "
-                + "ON DUPLICATE KEY UPDATE lemma=\"%s\", link=\"%s\", tag=\"%s\", source=\"%s\""
+                + "ON DUPLICATE KEY UPDATE entity=\"%s\""
                 , DEFAULT_DICTIONARY
                 , value.text()
                 , value.lemma()
                 , value.link()
                 , value.tag()
                 , DEFAULT_DICTIONARY
-                , value.lemma()
-                , value.link()
-                , value.tag()
-                , DEFAULT_DICTIONARY
+                , value.text()
         );
-        
         return sql.update(format);
     }
 

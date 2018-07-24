@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="212">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="213">
         <file>
             <url>web/javaScript/classes/mvc/controller.js</url>
             <bookmark id="146">
@@ -192,7 +192,7 @@
             <url>web/js/mvc/EnityPanelWidget.js</url>
             <bookmark id="212">
                 <name/>
-                <line>93</line>
+                <line>97</line>
                 <key/>
             </bookmark>
         </file>
@@ -200,7 +200,7 @@
             <url>web/js/mvc/model/Model.js</url>
             <bookmark id="211">
                 <name/>
-                <line>203</line>
+                <line>199</line>
                 <key/>
             </bookmark>
         </file>
@@ -227,6 +227,14 @@
             <bookmark id="52">
                 <name/>
                 <line>1807</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>web/styles/context-styles/tei.css</url>
+            <bookmark id="213">
+                <name/>
+                <line>28</line>
                 <key/>
             </bookmark>
         </file>
@@ -323,10 +331,6 @@
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/styles/orlando.css</file>
             <file>file:/D:/Dropbox/projects.new/groups/nerve/NERVE/web/javaScript/mvc/listeners.js</file>
         </group>
-        <group>
-            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/EntityDialog.js</file>
-            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/EnityPanelWidget.js</file>
-            <file>file:/D:/Dropbox/projects-new/trunk/nerve/NERVE.0.8.9/web/js/mvc/UndoHandler.js</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
