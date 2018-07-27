@@ -1,0 +1,323 @@
+.playwrights .xmltag[xmltagname="RESEARCHNOTE"]{
+    display:none;
+    background-color:#FBEFEF;
+    color:#663366;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:smaller;
+    margin:0%;
+    padding:0%;
+}
+
+.playwrights .xmltag[xmltagname="CWRCHEADER"],
+.playwrights .xmltag[xmltagname="FILEDESC"],
+.playwrights .xmltag[xmltagname="DOCTITLE"],
+.playwrights .xmltag[xmltagname="DOCAUTHOR"]{
+    display:list-item
+}
+
+.playwrights .xmltag[xmltagname="FILEDESC"]{
+    content:url(http://playwrights.ca/templates/images/CWRC_logo.png);
+    background-color:#B8B891;
+    color:#555;
+    font-weight:normal;
+}
+
+.playwrights .xmltag[xmltagname="DOCTITLE"]{
+    font-variant:small-caps;
+    font-size:x-large;
+    font-weight:bold;
+}
+
+.playwrights .xmltag[xmltagname="DOCAUTHOR"]{
+    font-weight:bold
+}
+
+.playwrights .xmltag[xmltagname="PUBLICATIONSTMT"],
+.playwrights .xmltag[xmltagname="SOURCEDESC"],
+.playwrights .xmltag[xmltagname="REVISIONDESC"],
+.playwrights .xmltag[xmltagname="RESPONSIBILITY"]{
+    display:none
+}
+
+.playwrights .xmltag[xmltagname="ENTRY"]{
+    display:block;
+    margin-left:3%
+}
+
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="LISTBIBCIT"]{
+    line-height:150%
+}
+
+.playwrights .xmltag[xmltagname="HEADING"]{
+    display:block;
+    font-weight:bold;
+    color:brown;
+    padding-bottom:12pt
+}
+
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "1"]{
+    font-size:3em;
+    text-align:center;
+    padding-top:1em
+}
+
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "2"]{
+    font-size:2em;
+    padding-bottom:1%;
+    margin-bottom:1%;
+    border-bottom:solid;
+    padding-top:2%;
+    border-color:black
+}
+
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "3"]{
+    font-size:1.5em;
+    padding-left:4%;
+    padding-top:1em;
+    padding-bottom:0.5em
+}
+
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "3"]{
+    padding-left:0%
+}
+
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "4"]{
+    font-size:1em;
+
+    padding-top:1em;
+    padding-bottom:0.2em
+}
+
+.playwrights .xmltag[xmltagname="FIGURE"]{
+    display:block;
+    text-align:center;
+    border:thin solid white;
+    margin:0.5em;
+    padding:0.5em
+}
+
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="PERSONNAME"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="BIRTH"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RESIDENCEANDMOBILITY"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="CULTURALFORMATION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="PRODUCTION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="FAMILY"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RECEPTION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="OCCUPATION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="EDUCATION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="OTHERLIFEEVENT"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]{
+    display:block;
+    margin-left:4%;
+}
+
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="PRODUCTION"],
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="RECEPTION"]{
+    display:block;
+    margin-left:0%
+}
+
+.playwrights .xmltag[xmltagname="PERSONNAME"]
+.playwrights .xmltag[xmltagname="P"]
+.playwrights .xmltag[xmltagname="BIRTHNAME"],
+.playwrights .xmltag[xmltagname="BIRTHNAME"]
+.playwrights .xmltag[xmltagname="GIVEN"],
+.playwrights .xmltag[xmltagname="BIRTHNAME"]
+.playwrights .xmltag[xmltagname="SURNAME"],
+.playwrights .xmltag[xmltagname="PERSONNAME"]
+.playwrights .xmltag[xmltagname="P"]
+.playwrights .xmltag[xmltagname="NICKNAME"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="BIRTH"],
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATE"],
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="CHRONPROSE"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RESIDENCEANDMOBILITY"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="PRODUCTION"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="CULTURALFORMATION"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="FAMILY"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RECEPTION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="OCUPATION"]
+.playwrights .xmltag[xmltagname="P"] {
+    display:block;
+    margin-bottom:1em;
+}
+
+.playwrights .xmltag[xmltagname="GIVEN"]:before{
+    content:"First Name:";
+    display:inline-block;
+    padding-right:0.5em
+
+}
+
+.playwrights .xmltag[xmltagname="GIVEN"]+
+.playwrights .xmltag[xmltagname="GIVEN"]{
+    display:block
+}
+
+.playwrights .xmltag[xmltagname="GIVEN"]+
+.playwrights .xmltag[xmltagname="GIVEN"]:before{
+    content:"Middle Name:";
+    display:inline-block;
+    padding-right:0.5em
+}
+
+.playwrights .xmltag[xmltagname="SURNAME"]:before{
+    content:"Last Name at Birth:";
+    padding-right:0.5em
+}
+
+.playwrights .xmltag[xmltagname="NICKNAME"]:before{
+    content:"Nickname:";
+    padding-right:0.5em
+}
+
+.playwrights .xmltag[xmltagname="GENDER"]:before{
+    content:"Gender:";
+    padding-right:0.5em
+}
+
+.playwrights .xmltag[xmltagname="EDUCATION"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="OTHERLIFEEVENT"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="OCCUPATION"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="RECEPTION"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="EDUCATION"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"],
+.playwrights .xmltag[xmltagname="OTHERLIFEEVENT"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"],
+.playwrights .xmltag[xmltagname="OCCUPATION"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"],
+.playwrights .xmltag[xmltagname="RECEPTION"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"]{
+    display:block
+}
+
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATE"],
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATERANGE"]{
+    display:table-cell;
+    width:9em;
+    padding-right:0%
+}
+
+.playwrights .xmltag[xmltagname="CHRONPROSE"]{
+    display:table-cell;
+    line-height:150%
+}
+
+.playwrights .xmltag[xmltagname="DATASTRUCT"]{
+    width:auto;
+    line-height:150%
+}
+
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="PRODUCTION"]
+.playwrights .xmltag[xmltagname="P"]{
+    display:block;
+    padding-left:12em;
+    padding-bottom:0%;
+    margin-bottom:0%
+}
+
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="CHRONPROSE"],
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATE"]{
+    display:block; width:100%
+}
+
+.playwrights .xmltag[xmltagname="TEXTUALFEATURES"]{
+    padding-top:0%;
+    margin-top:0%
+}
+
+.playwrights .xmltag[xmltagname="TEXTUALFEATURES"]
+.playwrights .xmltag[xmltagname="HEADING"]{
+    padding-top:0%;
+    margin-top:1em
+}
+
+.playwrights .xmltag[xmltagname="TEXTUALFEATURES"]
+.playwrights .xmltag[xmltagname="P"]{
+    display:block;
+}
+
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "MONOGRAPHIC"]{
+    font-style:italic
+}
+
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "ANALYTIC"]:before{
+    content:"\""
+}
+
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "ANALYTIC"]:after{
+    content:"\""
+}
+
+.playwrights .xmltag[xmltagname="EMPH"]{
+    font-style:italic
+}
+
+.playwrights .xmltag[xmltagname="SOCALLED"]:before{
+    content:"\""
+}
+
+.playwrights .xmltag[xmltagname="SOCALLED"]:after{
+    content:"\""
+}
+
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "UNPUBLISHED"] EMPH{
+    font-style:italic;
+}
+
+.playwrights .xmltag[xmltagname="HEADING"]
+.playwrights .xmltag[xmltagname="TITLE"]
+.playwrights .xmltag[xmltagname="EMPH"]{
+    color:brown
+}
+
+.playwrights .xmltag[xmltagname="HEADING"]
+.playwrights .xmltag[xmltagname="TITLE"]{
+    display:inline;
+    padding-top:1%;
+    padding-bottom:1%;
+    color:brown
+}
+
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "MONOGRAPHIC"] TITLE[LEVEL = "MONOGRAPHIC"]{
+    font-style:normal
+}

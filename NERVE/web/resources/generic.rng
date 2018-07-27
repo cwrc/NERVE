@@ -1,0 +1,29 @@
+<grammar>
+    <start>
+        <element name="xml">
+            <element name="head">
+            </element>
+            <element name="body">
+                <ref name="LOC"></ref>
+                <element name="ORG"></element>
+                <element name="PER"></element>
+                <element name="TTL"></element>
+                <ref name="location"></ref>
+                <ref name="city"></ref>
+            </element>
+            <element name="tail">
+            </element>
+        </element>
+    </start>
+    <define name="ORG">
+    </define>
+    <define name="location">
+        <element name="LOC"></element>
+    </define>
+    <define name="LOC">
+        <ref name="city"></ref>
+    </define>
+    <define name="city">
+        <ref name="LOC"></ref>
+    </define>
+</grammar>
