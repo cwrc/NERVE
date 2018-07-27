@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <div>I am before the instruction node</div>
+    <?oxy_comment_start author="leslieallin" timestamp="20161210T123342-0500" comment="?"?>
+    <div>I am after the instruction node</div>
+</root>

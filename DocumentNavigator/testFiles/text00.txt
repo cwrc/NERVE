@@ -1,0 +1,6 @@
+<!--comment text here-->
+<div a="b" key="value"><div>text</div><div/>
+<inline>
+    some text here
+</inline>
+</div>
