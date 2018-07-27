@@ -1,4 +1,0 @@
-<xml>
-<div></div>
-<div></div>
-</xml>

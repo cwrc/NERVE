@@ -1,9 +1,0 @@
-<!-- external comment tag 1 -->
-<? META DATA TAG ?>
-<!-- external comment tag 2 -->
-<xml>
-<!--internal comment tag 1--><!--internal comment tag 2-->
-<div>a line of text</div>
-<div>two lines
-of text</div>
-</xml><!-- external comment tag 3 --> 

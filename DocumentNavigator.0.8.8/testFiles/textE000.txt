@@ -1,5 +1,0 @@
-<div_a>
-<div_b>
-
-</div_b>
-</div_a>
