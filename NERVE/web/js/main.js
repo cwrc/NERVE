@@ -4,15 +4,13 @@ const View = require("./mvc/view/View");
 const EntityDialog = require("./mvc/EntityDialog");
 const EnityPanelWidget = require("./mvc/EnityPanelWidget");
 const Menu = require("./mvc/menu/Menu");
-const DragDropHandler = require("./mvc/model/DragDropHandler");
 const MessageHandler = require("./mvc/messageHandler");
 const CWRCDialogModel = require("./mvc/CWRCDialogModel");
 const Model = require("./mvc/model/Model");
 const HostInfo = require("./util/hostinfo");
-TaggedEntityWidget = require("./mvc/TaggedEntityWidget");
-const LemmaDialogWidget = require("./mvc/LemmaDialogWidget");
+const TaggedEntityWidget = require("./mvc/TaggedEntityWidget");
 const nerve = require("./gen/nerve");
-const AbstractModel = require("./mvc/model/AbstractModel");
+const AbstractModel = require("Nidget/src/AbstractModel");
 const CustomQuery = require("./util/CustomQuery");
 const UndoHandler = require("./mvc/UndoHandler");
 
@@ -41,11 +39,9 @@ class Main extends AbstractModel {
         this.model = null;
         this.view = null;
     }
-    async initialize() {
-        this.dragDropHandler = new DragDropHandler();
-        
+    async initialize() {       
         /* --- USER INTERACTION & DOCUMENT MODEL --- */
-        this.model = new Model(this.dragDropHandler);
+        this.model = new Model();
         this.view = new View();        
         this.cwrc = new CWRCDialogModel();        
         this.undo = new UndoHandler();
@@ -60,10 +56,10 @@ class Main extends AbstractModel {
                 
         
         /* --- LEMMA DIALOG (LHS) --- */
-        this.lemmaDialogWidget = new LemmaDialogWidget(this.dragDropHandler);
+
 
         /* --- ENTITY PANEL (middle) --- */
-        this.entityPanelWidget = new EnityPanelWidget(this.dragDropHandler);
+        this.entityPanelWidget = new EnityPanelWidget();
 
         /* --- ENTITY DIALOG (RHS) --- */
         this.entityDialog = new EntityDialog();        
@@ -73,19 +69,19 @@ class Main extends AbstractModel {
         
         /* SETUP ALL CROSS LISTENERS (order may matter) */
         /* undo saves state and has to be the last listener */
-        this.model.addListener(this.lemmaDialogWidget);        
+//this.model.addListener(this.lemmaDialogWidget);        
         this.model.addListener(this.entityPanelWidget);
         this.model.addListener(this.entityDialog);
         this.model.addListener(TaggedEntityWidget.contextMenu);
         this.model.addListener(TaggedEntityWidget.delegate);
                 
-        this.entityPanelWidget.addListener(this.lemmaDialogWidget);
+//this.entityPanelWidget.addListener(this.lemmaDialogWidget);
         this.entityPanelWidget.addListener(this.model);
         this.entityPanelWidget.addListener(this.undo);
         
-        this.lemmaDialogWidget.addListener(this.entityPanelWidget);    
+//this.lemmaDialogWidget.addListener(this.entityPanelWidget);    
         
-        this.entityDialog.addListener(this.lemmaDialogWidget);
+//this.entityDialog.addListener(this.lemmaDialogWidget);
         this.entityDialog.addListener(this.entityPanelWidget);        
         this.entityDialog.addListener(this.cwrc);
         this.entityDialog.addListener(this.model);
@@ -103,12 +99,12 @@ class Main extends AbstractModel {
                 
         TaggedEntityWidget.delegate.addListener(TaggedEntityWidget.contextMenu);
         TaggedEntityWidget.delegate.addListener(this.entityPanelWidget);
-        TaggedEntityWidget.delegate.addListener(this.lemmaDialogWidget);
+//TaggedEntityWidget.delegate.addListener(this.lemmaDialogWidget);
         TaggedEntityWidget.delegate.addListener(this.model);
         TaggedEntityWidget.delegate.addListener(this.undo);
         
         this.undo.addListener(this.model);
-        this.undo.addListener(this.lemmaDialogWidget);
+//this.undo.addListener(this.lemmaDialogWidget);
         this.undo.addListener(this.entityPanelWidget);
         
         /* --- CONNECT SOCKET AND EXTRANEOUS SETUP --- */

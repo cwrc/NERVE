@@ -1,4 +1,4 @@
-const AbstractModel = require("./model/AbstractModel");
+const AbstractModel = require("Nidget/src/AbstractModel");
 const EntityValues = require("../gen/nerve").EntityValues;
 const Collection = require("./model/Collection");
 

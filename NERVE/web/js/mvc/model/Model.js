@@ -10,18 +10,17 @@ const Schema = require("./Schema");
 const TaggedEntityWidget = require("../TaggedEntityWidget");
 const Storage = require("../../util/storage");
 const HostInfo = require("../../util/hostinfo");
-const AbstractModel = require("./AbstractModel");
+const AbstractModel = require("Nidget/src/AbstractModel");
 const EntityValues = require("../../gen/nerve").EntityValues;
 const FileOperations = require("../../util/fileOperations");
 const Collection = require("./Collection");
 const ArrayList = require("jjjrmi").ArrayList;
 
 class Model extends AbstractModel {
-    constructor(dragDropHandler) {
+    constructor() {
         super();
 
         this.hostInfo = new HostInfo();
-        this.dragDropHandler = dragDropHandler;
         this.collection = new Collection();
 
         this.storage = new Storage("NERVE_MODEL");
@@ -40,7 +39,7 @@ class Model extends AbstractModel {
 
         /* file dialog event - related to menu open */
         $("#fileOpenDialog").change(async (event) => {
-            if (this.hasOpenDocument) this.close();
+            if (this.hasOpenDocument()) this.close();
             this.reader.filename = event.currentTarget.files[0].name;
             await this.reader.readAsText(event.currentTarget.files[0]);
             $("#fileOpenDialog").val("");
@@ -124,6 +123,7 @@ class Model extends AbstractModel {
     }
 
     hasOpenDocument() {
+        if (!this.storage.hasValue("filename")) return false;
         let filename = this.storage.getValue("filename");
         return (filename !== undefined && filename !== null);
     }
@@ -170,7 +170,7 @@ class Model extends AbstractModel {
 
         let taggedEntityArray = [];
         $(".taggedentity").each(async (i, element) => {
-            let taggedEntity = new TaggedEntityWidget(this.dragDropHandler, element);
+            let taggedEntity = new TaggedEntityWidget(element);
             taggedEntityArray.push(taggedEntity);
             this.taggedEntityList.add(taggedEntity);
         });
@@ -221,7 +221,7 @@ class Model extends AbstractModel {
         $("#entityPanel").html(docHTML);
 
         $(".taggedentity").each((i, element) => {
-            let taggedEntity = new TaggedEntityWidget(this.dragDropHandler, element);            
+            let taggedEntity = new TaggedEntityWidget(element);            
             this.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
         });
 

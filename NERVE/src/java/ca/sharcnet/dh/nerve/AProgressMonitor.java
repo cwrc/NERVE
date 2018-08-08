@@ -8,7 +8,7 @@ import ca.sharcnet.nerve.ProgressListener;
 import ca.sharcnet.nerve.ProgressPacket;
 
 @JJJ("ProgressMonitor")
-@JJJOptions(jsExtends="require('../mvc/model/AbstractModel')")
+@JJJOptions(jsExtends="require('Nidget/src/AbstractModel')")
 public abstract class AProgressMonitor implements ProgressListener{
 
     @NativeJS

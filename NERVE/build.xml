@@ -6,7 +6,7 @@
     <property name="keyfile" value="D:/cygwin/home/edward/.ssh/id_rsa"/>
     <!--<property name="keyfile" value="C:/cygwin64/home/edward/.ssh/id_rsa"/>-->
     <property name="remoteTarget" value="root@dh.sharcnet.ca:/www/glassfish/repository"/>
-    <property name="version.num" value="0.8.10" />
+    <property name="version.num" value="0.9.0" />
     <property name="lib.name" value="NERVE-${version.num}"/>
     <property name="lib.war.name" value="${lib.name}.war"/>
     <taskdef resource="jjjrmiant.xml"/>

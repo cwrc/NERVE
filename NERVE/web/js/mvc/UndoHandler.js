@@ -1,3 +1,5 @@
+const AbstractModel = require("Nidget/src/AbstractModel");
+
 class UndoHandler extends AbstractModel{
     constructor(){
         super();

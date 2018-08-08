@@ -1,4 +1,4 @@
-const AbstractModel = require("../model/AbstractModel");
+const AbstractModel = require("Nidget/src/AbstractModel");
 
 class Menu extends AbstractModel {
     constructor() {

@@ -3,7 +3,7 @@
  * @type type
  */
 
-AbstractModel = require("./AbstractModel");
+const AbstractModel = require("Nidget/src/AbstractModel");
 TaggedEntityWidget = require("../TaggedEntityWidget");
 
 class Collection extends AbstractModel {

@@ -2,7 +2,7 @@ const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("../gen/nerve").EntityValues;
 const ShowHTMLWidget = require("./ShowHTMLWidget");
 const Constants = require("../util/Constants");
-const AbstractModel = require("./Model/AbstractModel");
+const AbstractModel = require("Nidget/src/AbstractModel");
 
 class ContextMenu {
     constructor() {
@@ -198,26 +198,23 @@ ContextMenu.SELECTOR = "#taggedEntityContextMenu";
  * @type type
  */
 class TaggedEntityWidget {
-    constructor(dragDropHandler, element, tagName = null) {
-        if (!dragDropHandler) throw new Error("undefined DragDropHandler");
-
+    constructor(element, tagName = null) {
         let jq = $(element);
 
         if (jq.get(0) instanceof Element) {
-            this.nodeConstructor(dragDropHandler, element, tagName);   
+            this.nodeConstructor(element, tagName);   
         }
         if (jq.get(0) instanceof Text) {
             let newElement = TaggedEntityWidget.newEmptyWidget();
-            this.nodeConstructor(dragDropHandler, newElement, tagName);
+            this.nodeConstructor(newElement, tagName);
             this.text(element.text(), true);
             this.lemma(element.text(), true);
             jq.replaceWith(this.getElement());
         }
     }
     
-    nodeConstructor(dragDropHandler, element, tagName = null) {
+    nodeConstructor(element, tagName = null) {
         this.element = element;
-        this.dragDropHandler = dragDropHandler;
         element.entity = this;
 
         /* default values - will throw an exception is the tagged text does not have a tagname attribute and
@@ -300,22 +297,22 @@ class TaggedEntityWidget {
     }
 
     drop(event) {
-        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
-            let src = this.dragDropHandler.deleteData("TaggedEntityWidget");
-            let values = this.values();
-            values.text(null);
-            src.values(values);
-        }
+//        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
+//            let src = this.dragDropHandler.deleteData("TaggedEntityWidget");
+//            let values = this.values();
+//            values.text(null);
+//            src.values(values);
+//        }
     }
 
     dragover(event) {
-        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
-            event.originalEvent.preventDefault();
-        }
+//        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
+//            event.originalEvent.preventDefault();
+//        }
     }
 
     dragstart(event) {
-        this.dragDropHandler.setData("TaggedEntityWidget", this);
+//        this.dragDropHandler.setData("TaggedEntityWidget", this);
     }
 
     selectLikeEntitiesByLemma() {

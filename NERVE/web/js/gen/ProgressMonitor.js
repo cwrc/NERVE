@@ -1,4 +1,4 @@
-class ProgressMonitor extends require('../mvc/model/AbstractModel') {
+class ProgressMonitor extends require('Nidget/src/AbstractModel') {
 	constructor() {
 		super();
 	}

@@ -2,10 +2,11 @@ const ArrayList = require("jjjrmi").ArrayList;
 const Collection = require("./model/Collection");
 const EntityValues = require("../gen/EntityValues");
 const TaggedEntityWidget = require("./TaggedEntityWidget");
+const AbstractModel = require("Nidget/src/AbstractModel");
 
 class EnityPanelWidget extends AbstractModel {
 
-    constructor(dragDropHandler) {
+    constructor() {
         super();
         this.lemmaWidget = null;
         this.index = -1;
@@ -22,7 +23,6 @@ class EnityPanelWidget extends AbstractModel {
         this.latestValues = new EntityValues();
         this.copyValues = new EntityValues();
         this.dictionary = null;
-        this.dragDropHandler = dragDropHandler;
 
         /* Default Document Click Event */
         $("#entityPanel").click((event) => {
@@ -269,7 +269,7 @@ class EnityPanelWidget extends AbstractModel {
         values.text(null);
         values.lemma(null);
 
-        let taggedEntity = new TaggedEntityWidget(this.dragDropHandler, element, values.tag());
+        let taggedEntity = new TaggedEntityWidget(element, values.tag());
         taggedEntity.values(values, true);
 
         let result = await this.dictionary.lookup(taggedEntity.text(), taggedEntity.lemma(), taggedEntity.tag(), null);
@@ -292,7 +292,6 @@ class EnityPanelWidget extends AbstractModel {
         range = this.__trimRange(range);
 
         let tagName = this.latestValues.tag();
-        console.log(tagName);
         let schemaTagName = this.context.getTagInfo(tagName).getName();
 
         if (!this.schema.isValid(range.commonAncestorContainer, schemaTagName)) {
