@@ -1,0 +1,30 @@
+{
+  "name": "LemmaDialog",
+  "version": "0.0.0",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "edward",
+  "contributors": [],
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "nidget": "file:../Nidget"
+  },
+  "main": "./web/LemmaDialog.js",
+  "files": [
+    "web/**"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build-js": "browserify ./web/js/main.js -o ./web/build/main.js -d",
+    "watch-js": "watchify ./web/js/main.js -o ./web/build/main.js -dv"
+  },
+  "license": "ISC",
+  "description": ""
+}
