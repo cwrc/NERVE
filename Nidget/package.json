@@ -1,0 +1,24 @@
+{
+  "name": "nidget",
+  "version": "0.1.0",
+  "keywords": [
+    "util",
+    "functional",
+    "client",
+    "browser"
+  ],
+  "author": "edward",
+  "contributors": [],
+  "dependencies": {
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {},
+  "files": [
+    "src/**"
+  ],    
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "description": ""
+}
