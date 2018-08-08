@@ -238,7 +238,7 @@ CategoryWidget.arrow_image = "/LemmaPanelWidget/assets/lemma_category_arrow.png"
 CategoryWidget.visible_active = "/LemmaPanelWidget/assets/visible_eye.png";
 CategoryWidget.visible_inactive = "/LemmaPanelWidget/assets/visible_eye_cross.png";
 
-class LemmaContainer extends Widget {
+class LemmaDialog extends Widget {
 
     constructor(element) {
         super(element);
@@ -339,12 +339,11 @@ class LemmaContainer extends Widget {
                 if (lemmaWidget.getLemma() === lemma){
                     objects = objects.concat(lemmaWidget.getObjects());
                 }
-            }            
-            
+            }                        
         }
         
         return objects;
     }
 }
 
-module.exports = LemmaContainer;
+module.exports = LemmaDialog;
