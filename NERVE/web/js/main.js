@@ -1,4 +1,8 @@
+window.jQuery = require("jquery");
+window.$ = jQuery;
+
 require("./util/customQuery");
+require("../styles/main.css");
 
 const View = require("./mvc/view/View");
 const EntityDialog = require("./mvc/EntityDialog");
@@ -13,6 +17,8 @@ const nerve = require("./gen/nerve");
 const AbstractModel = require("Nidget/src/AbstractModel");
 const CustomQuery = require("./util/CustomQuery");
 const UndoHandler = require("./mvc/UndoHandler");
+
+const LemmmaDialog = require("LemmaDialog");
 
 window.jjjrmi = require("jjjrmi");
 
@@ -56,45 +62,45 @@ class Main extends AbstractModel {
                 
         
         /* --- LEMMA DIALOG (LHS) --- */
-
+        this.lemmaDialog = new LemmmaDialog("#lemmaDialog");
 
         /* --- ENTITY PANEL (middle) --- */
         this.entityPanelWidget = new EnityPanelWidget();
 
         /* --- ENTITY DIALOG (RHS) --- */
-        this.entityDialog = new EntityDialog();        
+//        this.entityDialog = new EntityDialog();        
 
         /* --- MENU (top) --- */
         this.menu = new Menu();
         
         /* SETUP ALL CROSS LISTENERS (order may matter) */
         /* undo saves state and has to be the last listener */
-//this.model.addListener(this.lemmaDialogWidget);        
+        this.model.addListener(this.lemmaDialog);        
         this.model.addListener(this.entityPanelWidget);
-        this.model.addListener(this.entityDialog);
+//        this.model.addListener(this.entityDialog);
         this.model.addListener(TaggedEntityWidget.contextMenu);
         this.model.addListener(TaggedEntityWidget.delegate);
                 
-//this.entityPanelWidget.addListener(this.lemmaDialogWidget);
+        this.entityPanelWidget.addListener(this.lemmaDialog);
         this.entityPanelWidget.addListener(this.model);
         this.entityPanelWidget.addListener(this.undo);
         
-//this.lemmaDialogWidget.addListener(this.entityPanelWidget);    
+        this.lemmaDialog.addListener(this.entityPanelWidget);    
         
-//this.entityDialog.addListener(this.lemmaDialogWidget);
-        this.entityDialog.addListener(this.entityPanelWidget);        
-        this.entityDialog.addListener(this.cwrc);
-        this.entityDialog.addListener(this.model);
-        
-        this.entityPanelWidget.addListener(this.entityDialog);
+//        this.entityDialog.addListener(this.lemmaDialog);
+//        this.entityDialog.addListener(this.entityPanelWidget);        
+//        this.entityDialog.addListener(this.cwrc);
+//        this.entityDialog.addListener(this.model);
+//        
+//        this.entityPanelWidget.addListener(this.entityDialog);
 
         this.cwrc.addListener(this.entityPanelWidget);
-        this.cwrc.addListener(this.entityDialog);        
+//        this.cwrc.addListener(this.entityDialog);        
 
         this.menu.addListener(this.view);        
         this.menu.addListener(this.entityPanelWidget);
         this.menu.addListener(this.model);
-        this.menu.addListener(this.entityDialog);
+//        this.menu.addListener(this.entityDialog);
         this.menu.addListener(this.undo);
                 
         TaggedEntityWidget.delegate.addListener(TaggedEntityWidget.contextMenu);
@@ -125,7 +131,7 @@ class Main extends AbstractModel {
         
         this.entityPanelWidget.addListener(TaggedEntityWidget.contextMenu);
         this.addListener(TaggedEntityWidget.contextMenu);
-        this.addListener(this.entityDialog);
+//        this.addListener(this.entityDialog);
         
         this.notifyListeners("notifyReady");
     }

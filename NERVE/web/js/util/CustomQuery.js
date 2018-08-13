@@ -1,5 +1,8 @@
 /* global Utility, Context */
 
+//const jQuery = require("jquery");
+//const $ = jQuery;
+
 (function ($) {
     $.fn.mergeElements = function (name = "div") {
         let range = $(this).asRange();
