@@ -11,10 +11,13 @@
   "author": "edward",
   "contributors": [],
   "dependencies": {
+    "Collection": "file:../Collection",
+    "NidgetContext": "file:../NidgetContext",
+    "asset-assistant": "file:D:/project-local/assets",
     "jquery": "^3.3.1",
     "nidget": "file:../Nidget"
   },
-  "main": "./web/LemmaDialog.js",
+  "main": "./src/js/lemmaDialog.js",
   "files": [
     "web/**"
   ],
@@ -22,9 +25,26 @@
     "test": "test"
   },
   "scripts": {
-    "build-js": "browserify ./web/js/main.js -o ./web/build/main.js -d",
-    "watch-js": "watchify ./web/js/main.js -o ./web/build/main.js -dv"
+    "build-js": "browserify src/js/main.js -o build/js/main.js -d",
+    "watch-js": "watchify src/js/main.js -o build/js/main.js -dv",
+    "build-assets": "assets -v",
+    "build-assets-remote": "assets -v --fileset=src",
+    "inject-header": "inject -vd build/css/* build/js/* build/index.html",
+    "build": "npm run build-assets && npm run build-js && npm run inject-header",
+    "clean": "assets --clean",
+    "clean-build": "npm run clean && npm run build"
   },
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "assets": {
+    "dest": "build",
+    "src": [
+      "src/assets/lemma_dialog/**/*",
+      "src/css/lemmadialog.css"
+    ],
+    "local-src": [
+      "src/*.html",
+      "src/css/main.css"
+    ]
+  }
 }

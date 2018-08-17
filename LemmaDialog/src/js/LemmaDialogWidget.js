@@ -1,7 +1,8 @@
 const $ = require("jquery");
-const Widget = require("Nidget/src/Widget");
-const DragDropWidget = require("Nidget/src/DragDropWidget");
-const DropWidget = require("Nidget/src/DropWidget");
+const Widget = require("nidget").Widget;
+const DragDropWidget = require("nidget").DragDropWidget;
+const DropWidget = require("nidget").DropWidget;
+const NidgetContext = require("NidgetContext");
 
 class LemmaWidget extends DragDropWidget {
     constructor(text, categoryWidget) {
@@ -20,7 +21,7 @@ class LemmaWidget extends DragDropWidget {
             this.notifyListeners("notifyClickLemmaWidget", this.getDelegate(), this.getCategory(), this.getLemma(), event.ctrlKey, event.shiftKey, event.altKey);
         });
         this.$.dblclick((event) => {
-            this.notifyListeners("notifyDblClickLemmaWidget", this.getDelegate(), this.getCategory(), this.getLemma(), event.shiftKey, event.altKey);
+            this.notifyListeners("notifyDblClickLemmaWidget", this.getDelegate(), this.getCategory(), this.getLemma(), event.ctrlKey, event.shiftKey, event.altKey);
         });
     }
     
@@ -66,11 +67,20 @@ class LemmaWidget extends DragDropWidget {
     
     drop(event, data){
         if (data instanceof LemmaWidget && data.categoryWidget !== this){
-            this.notifyListeners("lemmaDropWidget", this.getDelegate(), this.getCategory(), this.getLemma(), data);            
+            this.notifyListeners("notifyLemmaDropWidget", this.getDelegate(), this.getCategory(), this.getLemma(), data);            
         } else {
-            this.notifyListeners("lemmaDropObject", this.getDelegate(), this.getCategory(), this.getLemma(), data);
+            this.notifyListeners("notifyLemmaDropObject", this.getDelegate(), this.getCategory(), this.getLemma(), data);
         }
         event.stopPropagation();
+    }    
+    
+    highlight(value = true){
+        if (value) this.$.addClass("highlight");
+        else this.$.removeClass("highlight");
+    }
+    
+    focus(value = true){
+        this.$.addClass("focus");
     }    
 }
 
@@ -98,11 +108,11 @@ class CategoryWidget extends DropWidget {
 
         this.header.click(() => this.toggleContainer());
         this.eye.click((event) =>{
-            this.toggleEye();
+            this.toggleEye();            
             event.stopPropagation();
         });
         
-        this.$.contextmenu("contextMenu", ()=>false);
+        this.$.on("contextmenu", (event)=>false);
     }
 
     isOpen() {
@@ -110,24 +120,20 @@ class CategoryWidget extends DropWidget {
     }
 
     open() {
-        this.arrow.addClass("opened");
-        this.arrow.removeClass("closed");
         this.__expandContainer();        
-        this.notifyListeners("notifyExpandCategory", this.getDelegate(), this.categoryName);
+        this.notifyListeners("notifyExpandCategory", this.getDelegate(), [this.categoryName]);
     }
 
     close() {
-        this.arrow.addClass("closed");
-        this.arrow.removeClass("opened");
         this.__collapseContainer();
-        this.notifyListeners("notifyCollapseCategory", this.getDelegate(), this.categoryName);
+        this.notifyListeners("notifyCollapseCategory", this.getDelegate(), [this.categoryName]);
     }
 
     drop(event, data){
         if (data instanceof LemmaWidget && data.categoryWidget !== this){
-            this.notifyListeners("categoryDropWidget", this.getDelegate(), data, this.getCategory());
+            this.notifyListeners("notifyCategoryDropWidget", this.getDelegate(), this.getCategory(), data);
         } else {
-            this.notifyListeners("categoryDropObject", this.getDelegate(), data, this.getCategory());
+            this.notifyListeners("notifyCategoryDropObject", this.getDelegate(), this.getCategory(), data);
         }                
     }
 
@@ -136,6 +142,8 @@ class CategoryWidget extends DropWidget {
      * @returns {undefined}
      */
     __collapseContainer() {
+        this.arrow.addClass("closed");
+        this.arrow.removeClass("opened");        
         let containerElement = this.container.get(0);
         
         // get the height of the element's inner content, regardless of its actual size
@@ -162,6 +170,8 @@ class CategoryWidget extends DropWidget {
      * @returns {undefined}
      */
     __expandContainer() {
+        this.arrow.addClass("opened");
+        this.arrow.removeClass("closed");        
         let containerElement = this.container.get(0);
         
         // get the height of the element's inner content, regardless of its actual size
@@ -183,15 +193,22 @@ class CategoryWidget extends DropWidget {
 
     toggleEye(){
         if (this.eyeState){
-            this.eyeState = false;
-            this.eye.attr("src", CategoryWidget.visible_inactive);
+            this.__hideEye();
         } else {
-            this.eyeState = true;
-            this.eye.attr("src", CategoryWidget.visible_active);
+            this.__showEye();
         }
-        
-        this.notifyListeners("notifyEyeState", this.getDelegate(), this.getCategory(), this.eyeState);
+        this.notifyListeners("notifyEyeState", this.getDelegate(), [this.getCategory()], this.eyeState);
     }       
+
+    __hideEye(){
+        this.eyeState = false;
+        this.eye.attr("src", CategoryWidget.visible_inactive);
+    }    
+
+    __showEye(){
+        this.eyeState = true;
+        this.eye.attr("src", CategoryWidget.visible_active);
+    }    
 
     toggleContainer() {
         if (this.isOpen()) {
@@ -206,6 +223,7 @@ class CategoryWidget extends DropWidget {
         this.container.append(lemmaWidget.$);
         this.lemmaWidgets.set(lemma, lemmaWidget);
         if (this.isOpen()) this.__resizeContainer(0);
+        return lemmaWidget;
     }
     
     removeLemma(lemma){
@@ -234,21 +252,80 @@ class CategoryWidget extends DropWidget {
     }
 }
 
-CategoryWidget.arrow_image = "/LemmaPanelWidget/assets/lemma_category_arrow.png";
-CategoryWidget.visible_active = "/LemmaPanelWidget/assets/visible_eye.png";
-CategoryWidget.visible_inactive = "/LemmaPanelWidget/assets/visible_eye_cross.png";
+CategoryWidget.arrow_image = "assets/lemma_dialog/lemma_category_arrow.png";
+CategoryWidget.visible_active = "assets/lemma_dialog/visible_eye.png";
+CategoryWidget.visible_inactive = "assets/lemma_dialog/visible_eye_cross.png";
+CategoryWidget.tag_selection = "assets/lemma_dialog/tag.png";
 
-class LemmaDialog extends Widget {
+function sleep(miliseconds) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(resolve, miliseconds);
+    });
+}
 
+class LemmaDialogWidget extends Widget {
     constructor(element) {
         super(element);
         this.$.addClass("lemma_container");
         this.categories = new Map();
         this.objects = new Map();
+        this.currentHighlight = [];
         
         this.options = {
             remove_lemma_on_empty : true
         };
+        
+        this.categoryContextMenu = new NidgetContext();
+        this.categoryContextMenu.addMenuItem("Expand All", ()=>this.expandAll());
+        this.categoryContextMenu.addMenuItem("Collapse All", ()=>this.collapaseAll());
+        this.categoryContextMenu.addMenuItem("View All", ()=>this.viewAll())
+            .setImage(CategoryWidget.visible_active);
+        
+        this.categoryContextMenu.addMenuItem("View None", ()=>this.viewNone())
+            .setImage(CategoryWidget.visible_inactive);
+        
+        this.lemmaContextMenu = new NidgetContext();
+        this.lemmaContextMenu.addMenuItem("Select All");
+        this.lemmaContextMenu.addMenuItem("Select Next", {close_menu: false});
+        
+        $("html").on("click", ()=>this.categoryContextMenu.hide());        
+        $("html").on("click", ()=>this.lemmaContextMenu.hide());
+    }
+
+    expandAll(){
+        let array = [];
+        for (let category of this.categories.keys()){
+            array.push(category);
+            this.categories.get(category).__expandContainer();
+        }
+        this.notifyListeners("notifyExpandCategory", this.getDelegate(), array);
+    }
+    
+    collapaseAll(){
+        let array = [];
+        for (let category of this.categories.keys()){
+            array.push(category);
+            this.categories.get(category).__collapseContainer();
+        }
+        this.notifyListeners("notifyCollapseCategory", this.getDelegate(), array);        
+    }
+    
+    viewAll(){
+        let array = [];
+        for (let category of this.categories.keys()){
+            array.push(category);
+            this.categories.get(category).__showEye();
+        }
+        this.notifyListeners("notifyEyeState", this.getDelegate(), array, true);          
+    }
+    
+    viewNone(){
+        let array = [];
+        for (let category of this.categories.keys()){
+            array.push(category);
+            this.categories.get(category).__hideEye();
+        }
+        this.notifyListeners("notifyEyeState", this.getDelegate(), array, false);          
     }
 
     setOptions(options){
@@ -257,18 +334,36 @@ class LemmaDialog extends Widget {
         }
     }
 
-    addCategory(category) {
+    addCategory(categories){
+        if (categories instanceof Array){
+            for (let c of categories) this.__addCategory(c);
+        }
+        else{
+            this.__addCategory(categories);
+        }
+    }
+
+    __addCategory(category) {
         let categoryWidget = new CategoryWidget(category, this);
         this.$.append(categoryWidget.$);
         this.categories.set(category, categoryWidget);
+        
+        categoryWidget.header.on("contextmenu", (event)=>{
+            this.categoryContextMenu.show(event);
+            return false;
+        });
     }
 
     addLemma(category, lemma) {
-        if (!this.categories.has(category)) throw new Error("invalid category name");        
+        if (!this.categories.has(category)) throw new Error(`invalid category name: ${category}`);        
         let categoryWidget = this.categories.get(category);
         
         if (!categoryWidget.hasLemma(lemma)){
-            categoryWidget.addLemma(lemma);
+            let lemmaWidget = categoryWidget.addLemma(lemma);
+            lemmaWidget.$.on("contextmenu", (event)=>{
+                this.lemmaContextMenu.show(event);
+                return false;
+            });            
         }
     }
     
@@ -310,16 +405,46 @@ class LemmaDialog extends Widget {
     hasObject(object){
         return this.objects.has(object);
     }
+        
+    __getCategoryWidget(category){
+        if (!this.categories.has(category)) throw new Error("invalid category name");        
+        let categoryWidget = this.categories.get(category);
+        return categoryWidget;
+    }
     
     getCategory(object){
         return this.objects.get(object).category;
+    }
+
+    getCategories(){
+        let array = [];
+        for (let category of this.categories.keys()){
+            array.push(category);
+        }
+        return array;
     }
 
     getLemma(object){
         return this.objects.get(object).lemma;
     }    
     
-    getObjects(category, lemma){
+    /**
+     * Return all objects that matches categories and lemma.
+     * @param {type} categories and array or string
+     * @param {type} lemma a string
+     * @returns {Array|nm$_LemmaDialogWidget.exports.getObjects.objects|nm$_LemmaDialogWidget.LemmaDialogWidget.getObjects.objects}
+     */
+    getObjects(categories, lemma){
+        if (categories instanceof Array){
+            let objects = [];
+            for (let category of categories){
+                let catObjects = this.getObjects(category);
+                objects = objects.concat(catObjects);
+            }
+            return objects;
+        }
+        
+        let category = categories;
         let objects = [];
         
         if (!category){
@@ -344,6 +469,40 @@ class LemmaDialog extends Widget {
         
         return objects;
     }
+    
+    clearHighlight(){
+        for (let lemmaWidget of this.currentHighlight){
+            lemmaWidget.highlight(false);
+        }
+        this.currentHighlight = [];
+    }
+    
+    highlight(category, lemma){
+        let categoryWidget = this.__getCategoryWidget(category);
+        let lemmaWidget = categoryWidget.getLemmaWidget(lemma);
+        lemmaWidget.highlight();
+        this.currentHighlight.push(lemmaWidget);
+    }
+    
+    scrollTo(category, lemma){
+        let categoryWidget = this.__getCategoryWidget(category);
+        let lemmaWidget = categoryWidget.getLemmaWidget(lemma);
+        window.last = lemmaWidget;
+        this.__scrollToElement(lemmaWidget.$);
+    }
+    
+    __scrollToElement(element) {
+        let eleTop = $(element).offset().top;
+        let eleBottom = eleTop + $(element).height();
+        let dispTop = this.$.offset().top;
+        let dispBottom = dispTop + this.$.height();
+        
+        if (eleTop > dispTop && eleBottom < dispBottom) return;
+        
+        let diffTop = eleTop - dispTop;
+        let scrollTo = diffTop + this.$.scrollTop() - this.$.height() / 2;
+        this.$.scrollTop(scrollTo);
+    }    
 }
 
-module.exports = LemmaDialog;
+module.exports = LemmaDialogWidget;

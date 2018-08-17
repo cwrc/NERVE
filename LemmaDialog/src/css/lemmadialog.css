@@ -1,47 +1,6 @@
-body{
-    font-family: arial;
-}
-
-#content_container{
-    position: absolute;
-    width: 300px;
-    height: 500px;
-    border: 1px solid black;
-    left: calc(66% - 150px);
-    top: calc(50% - 250px);    
-   
-}
-
-#content_container > div {
-    border: 1px solid black;
-    margin: 5px;
-    padding: 5px;
-    cursor: pointer;
-}
-
-#content_container > div.highlight {
-    background-color: #ffff00;
-}
-
-#content_container > div:hover {
-    background-color: #e0e0e0;
-}
-
-#content_container > div.highlight:hover {
-    background-color: #e0e000;
-}
-
-#lemma_container_target{
-    position: absolute;
-    width: 300px;
-    height: 500px;
-    border: 1px solid black;
-    left: calc(33% - 150px);
-    top: calc(50% - 250px);
-}
-
 .lemma_container{
     padding: 2px;
+    overflow-y: auto;
 }
 
 .lemma_category{
@@ -88,17 +47,25 @@ body{
     vertical-align: middle;
 }
 
+.lemma_category_tag{
+    position: absolute;
+    height: 20px;
+    top: 4px;
+    right: 28px;    
+    border: 1px dotted lightgrey;
+}
+
 .lemma_category_eye{
     position: absolute;
     height: 20px;
     top: 4px;
     right: 4px;    
-    border: 1px dotted grey;
+    border: 1px dotted lightgrey;
 }
 
-.lemma_category_eye:hover{
+.lemma_category_eye:hover, .lemma_category_tag:hover{
     border: 1px solid grey;
-    background-color: rgba(200, 255, 255, 0.33);
+    background-color: rgba(255, 255, 200, 0.5);
 }
 
 .lemma_category_container{
@@ -122,6 +89,11 @@ body{
 .lemma_widget:hover{
     background-color: #e0e0e0;
     border: 1px solid #d0d0d0;
+}
+
+.lemma_widget.highlight{
+    color: #ff0033;
+    font-weight: bold;
 }
 
 .lemma_widget.focus{
