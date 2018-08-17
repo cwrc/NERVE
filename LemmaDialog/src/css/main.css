@@ -69,10 +69,11 @@ body{
     width: calc(100% - 90px);
 }
 
-#update{
+#create, #update, #delete{
     position: relative;
     width: calc(100% - 90px);
-    left: 86px;
+    left: 84px;
+    margin: 2px;
 }
 
 .entity {

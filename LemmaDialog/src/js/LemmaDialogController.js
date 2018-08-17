@@ -13,7 +13,12 @@ class LemmaDialogController{
     }
     
     notifyDocumentClick(){}
-    notifyUntaggedEntities(entityArray, textNodeArray){}
+    
+    notifyUntaggedEntities(entityArray, textNodeArray){
+        for (let entity of entityArray){
+            this.lemmaDialog.removeObject(entity);
+        }
+    }
     
     notifyNewTaggedEntities(entityArray){
         for (let entity of entityArray){
