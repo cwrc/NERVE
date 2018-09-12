@@ -1,3 +1,9 @@
+/* EVENTS
+ *  notifyDocumentClick : null
+ *  notifyUntaggedEntities : [entites untagged] [resulting text nodes]
+ *  notifyNewTaggedEntities : [new entities]
+ */
+
 const ArrayList = require("jjjrmi").ArrayList;
 const Collection = require("./model/Collection");
 const EntityValues = require("../gen/EntityValues");

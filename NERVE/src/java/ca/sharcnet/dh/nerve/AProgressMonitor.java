@@ -3,7 +3,6 @@ import ca.frar.jjjrmi.annotations.ClientSide;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
-import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.ProgressListener;
 import ca.sharcnet.nerve.ProgressPacket;
 

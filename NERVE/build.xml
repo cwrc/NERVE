@@ -9,6 +9,7 @@
     <property name="version.num" value="0.9.0" />
     <property name="lib.name" value="NERVE-${version.num}"/>
     <property name="lib.war.name" value="${lib.name}.war"/>
+    
     <taskdef resource="jjjrmiant.xml"/>
         
     <target name="nerve.build-js">
@@ -61,8 +62,8 @@
     <target name="-pre-compile" depends="nerve.jjj"/>
     
     <target name="nerve.jjj">
-        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/web/js/gen" package="nerve"/>
+        <jjj-js srcDir="${basedir}/src" destDir="node_modules" package="nerve"/>
         <jjj-java srcDir="${basedir}/src/java"/>
-    </target>    
+    </target>
     
 </project>

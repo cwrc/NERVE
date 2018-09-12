@@ -32,6 +32,11 @@ class Collection extends AbstractModel {
         return this.innerArray[Symbol.iterator]();
     }
             
+    /**
+     * Add object(s) if they are not already contained.
+     * @param {type} single object or array of objects
+     * @returns {undefined}
+     */
     add(obj) {
         let notifyarray = [];
         if (obj instanceof Array) {

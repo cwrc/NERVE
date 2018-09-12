@@ -28,8 +28,8 @@
   "devDependencies": {},
   "author": "",
   "scripts": {
-    "build-js": "browserify -g [browserify-css --output web/build/main.css] web/js/main.js -o web/build/nerveapp.js -d",
-    "watch-js": "watchify -g [browserify-css --output web/build/main.css] web/js/main.js -o web/build/nerveapp.js -dv",
+    "build-js": "browserify -t [browserify-css --output web/build/main.css] web/js/main.js -o web/build/nerveapp.js -d",
+    "watch-js": "watchify -t [browserify-css --output web/build/main.css] web/js/main.js -o web/build/nerveapp.js -dv",
         
     "copy-html": "copyfiles -f web/*.html web/build",
     "copy-assets-NidgetContext": "copyfiles -u 3 node_modules/NidgetContext/src/assets/**/* web/build",

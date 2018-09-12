@@ -1,12 +1,15 @@
 @import "node_modules/LemmaDialog/src/css/lemmadialog.css";
-@import "./nerve.css";
+@import url("./nerve.css");
 @import "./menu.css";
 @import "./tags.css";
 @import "./tagname-markup.css";
 @import "./entitypanel.css";
 @import "./contextDialog.css";
-
 @import "./context-styles/cwrc.css";
 @import "./context-styles/orlando.css";
 @import "./context-styles/playwrights.css";
 @import "./context-styles/tei.css";
+
+#test{
+    color: #000000;
+}

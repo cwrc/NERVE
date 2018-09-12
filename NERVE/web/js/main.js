@@ -62,7 +62,7 @@ class Main extends AbstractModel {
                 
         
         /* --- LEMMA DIALOG (LHS) --- */
-        this.lemmaDialog = new LemmmaDialog("#lemmaDialog");
+//        this.lemmaDialog = new LemmmaDialog("#lemmaDialog");
 
         /* --- ENTITY PANEL (middle) --- */
         this.entityPanelWidget = new EnityPanelWidget();

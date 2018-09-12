@@ -222,3 +222,1786 @@ body {
   height: 1em;
   left: 37px;
 }
+body {
+  -webkit-user-select: none;
+}
+#container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  min-width: 980px;
+  min-height: 480px;
+  background-color: #ced4e0;
+}
+#menuArea {
+  position: absolute;
+  border: 0px;
+  height: 100px;
+}
+#middlePanel {
+  position: absolute;
+  top: 75px;
+  width: 100%;
+  height: calc(100% - 85px);
+  margin: 5px;
+}
+#middlePanel > .innerPanel {
+  display: inline-block;
+  position: relative;
+  border: 1px solid black;
+  background-color: whitesmoke;
+  height: 100%;
+}
+#lemmaDialog {
+  vertical-align: top;
+  width: 250px;
+}
+#panelContainer {
+  width: calc(100% - 520px);
+  overflow-y: scroll;
+  -webkit-user-select: text;
+}
+#entityDialog {
+  vertical-align: top;
+  width: 250px;
+}
+#entityDialog > * {
+  margin: 10px;
+}
+#messagePanel {
+  position: absolute;
+  border: 1px solid black;
+  background-color: whitesmoke;
+  bottom: 13px;
+  left: 15%;
+  font-size: 14px;
+  word-wrap: normal;
+  overflow-y: scroll;
+  line-height: 100%;
+  z-index: 2;
+  /*-webkit-user-select: auto;*/
+  width: 60%;
+  min-width: 300px;
+}
+.messagePanelSmall {
+  height: 40px;
+}
+.messagePanelBig {
+  height: 300px;
+}
+#userMessage {
+  position: fixed;
+  text-align: center;
+  font-family: arial;
+  font-weight: 900;
+  font-size: 3.0vw;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0%);
+  color: #ccccff;
+  z-index: 1000;
+  pointer-events: none;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+.userMessageElement {
+  position: relative;
+  text-align: center;
+  font-family: arial;
+  font-weight: 900;
+  font-size: 3.0vw;
+  color: #ccccff;
+  z-index: 1000;
+  pointer-events: none;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+#throbberBG {
+  position: absolute;
+  /* or absolute */
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  background: rgb(205,205,205);
+  opacity: 0.7;
+}
+#throbberFG {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  height: 100px;
+  width: 100%;
+  transform: translateX(-50%) translateY(-50%);
+}
+#throbber {
+  position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 100px);
+  width: 200px;
+  height: 200px;
+}
+#message {
+  position: absolute;
+  text-align: center;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 2vw;
+  top: calc(50% - 170px);
+  width: 100%;
+}
+#percent {
+  display: none;
+  position: absolute;
+  text-align: center;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 3vw;
+  width: 200px;
+  left: calc(50% - 100px);
+  top: calc(50% - 20px);
+}
+#baubles {
+  position: absolute;
+  top: calc(50% - 130px);
+  left: calc(50% - 115px);
+  width: 100%;
+}
+#baubles > img {
+  display: none;
+  width: 30px;
+}
+#entityPanelSearch {
+  position: relative;
+  top: 10px;
+}
+#dictionary {
+  position: relative;
+  width: 100%;
+}
+#sourceDictionary {
+  text-overflow: ellipsis;
+  position: absolute;
+  left: 5%;
+  top: 25px;
+}
+#dictionary > button {
+  position: absolute;
+  display: none;
+  width: 90%;
+  left: 5%;
+  top: 0px;
+  text-overflow: ellipsis;
+}
+#fullname {
+  font-weight: normal;
+  font-size: 12px;
+  text-align: center;
+}
+#link {
+  font-weight: normal;
+  font-size: 12px;
+  text-align: center;
+}
+.inactiveForeground {
+  color: #b0b0d0;
+}
+.dialogSubtitle > button {
+  display: inline-block;
+  top: 10px;
+  left: 5px;
+}
+:root {
+  --main-bg-color: #455372;
+  --main-hover-color: #556382;
+  --main-shadow-color: #c0c0df;
+}
+#menuContainer {
+  position: absolute;
+  font: Lato,Arial,Helvetica,sans-serif;
+  color: #eeeeef;
+  width: 100%;
+  height: 75px;
+  border-bottom: 2px solid black;
+  background-color: var(--main-bg-color);
+}
+#documentTitle {
+  position: absolute;
+  height: 40px;
+  left: 262px;
+  font-size: 30px;
+  line-height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  /*-webkit-user-select: auto;*/
+}
+#menuBar {
+  position: absolute;
+  left: 260px;
+  width: calc(85% - 20px);
+  height: 33px;
+  top: 40px;
+  cursor: pointer;
+  /*-webkit-user-select: none;*/
+}
+.menu {
+  position: relative;
+  width: 200px;
+  height: 100%;
+  float: left;
+  font-size: 18px;
+  z-index: 5;
+}
+.menu:hover {
+  background-color: var(--main-hover-color);
+  -webkit-transition: box-shadow 0.25s;
+  box-shadow: 0px 0px 5px  var(--main-shadow-color);
+  height: 100%;
+}
+.menuTitle {
+  position: relative;
+  left: 4px;
+  top: 4px;
+}
+.menuItem {
+  position: relative;
+  font-weight: normal;
+  width: 200px;
+  z-index: 5;
+  padding-left: 4px;
+}
+.activeText {
+  color: white;
+}
+.itemContainer {
+  position: relative;
+  display: none;
+  top: 7px;
+  background-color: var(--main-bg-color);
+  z-index: 5;
+}
+.subItemContainer {
+  position: absolute;
+  display: none;
+  background-color: var(--main-bg-color);
+  left: 200px;
+  top: 0px;
+  z-index: 5;
+}
+.menu:hover .itemContainer {
+  display: block;
+}
+.menuItem:hover {
+  background-color: var(--main-hover-color);
+  -webkit-transition: box-shadow 0.25s;
+  box-shadow: 0px 0px 5px #c0c0df;
+  width: 195px;
+}
+.menuItem:hover .subItemContainer {
+  display: block;
+}
+.menuSC {
+  position: absolute;
+  display: inline-block;
+  right: 4px;
+  font-size: 14px;
+}
+#menuInfo {
+  position: absolute;
+  width: 258px;
+  text-align: center;
+  border-right: 2px solid black;
+  height: 100%;
+}
+.show-tags .xmltag:before {
+  content: "<" attr(xmltagname) ">";
+  font-size: small;
+  color: darkgray;
+  font-weight: normal;
+}
+.show-tags .xmltag:after {
+  content: "</" attr(xmltagname) ">";
+  font-size: small;
+  color: darkgray;
+  font-weight: normal;
+}
+.show-tags .xmltag:hover:before,
+.show-tags .xmltag:hover:after {
+  color: blue;
+}
+.show-tags .taggedentity {
+  color: red;
+}
+.show-tags .taggedentity:before {
+  content: "<" attr(xmltagname) ">";
+  font-size: small;
+  font-weight: bold;
+  color: red;
+}
+.show-tags .taggedentity:after {
+  content: "</" attr(xmltagname) ">";
+  font-size: small;
+  font-weight: bold;
+  color: red;
+}
+.show-tags .linked.taggedentity {
+  color: green;
+}
+.show-tags .linked.taggedentity:before {
+  content: "<" attr(xmltagname) ">";
+  font-size: small;
+  font-weight: bold;
+  color: green;
+}
+.show-tags .linked.taggedentity:after {
+  content: "</" attr(xmltagname) ">";
+  font-size: small;
+  font-weight: bold;
+  color: green;
+}
+/* Tagged Entity specific markups */
+.taggedentity,
+.xmltag {
+  position: relative;
+  display: inline;
+  z-index: 1;
+}
+.taggedentity > * {
+  z-index: 1;
+}
+.tagname-markup,
+.contents {
+  display: inline-block;
+}
+.linked > .tagname-markup {
+  color: green;
+}
+.unlinked > .tagname-markup {
+  color: orangered;
+}
+.tagname-markup {
+  position: absolute;
+  display: inline-block;
+  color: red;
+  top: 8px;
+  left: 1px;
+  font-size: 10px;
+  font-variant: small-caps;
+}
+.taggedentity[data-hasbg="false"] > .tagname-markup {
+  position: absolute;
+  display: none;
+  color: red;
+  top: 8px;
+  left: 1px;
+  font-size: 10px;
+  font-variant: small-caps;
+}
+.taggedentity.selected .tagname-markup,
+.taggedentity:hover .tagname-markup {
+  display: inline-block;
+}
+.taggedentity.selected,
+.taggedentity:hover {
+  text-decoration: underline;
+}
+.format-default .taggedentity.selected:hover {
+  background-color: #d8ff00;
+  cursor: pointer;
+}
+.format-default .taggedentity:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}
+.taggedentity[xmltagname="LOCATION"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(200, 200, 255, 0.75));
+}
+.taggedentity.selected[xmltagname="LOCATION"],
+.taggedentity[xmltagname="LOCATION"]:hover,
+.taggedentity[xmltagname="LOCATION"] + .contents:hover {
+  background: linear-gradient(rgba(200, 200, 255, 0.75), rgba(255, 255, 0, 0.75));
+}
+.taggedentity[xmltagname="PERSON"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(200, 255, 200, 0.9));
+}
+.taggedentity.selected[xmltagname="PERSON"],
+.taggedentity[xmltagname="PERSON"]:hover,
+.taggedentity[xmltagname="PERSON"] + .contents:hover {
+  background: linear-gradient(rgba(200, 255, 200, 0.9), rgba(255, 255, 0, 0.75));
+}
+.taggedentity[xmltagname="ORGANIZATION"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(128, 255, 255, 0.75));
+}
+.taggedentity.selected[xmltagname="ORGANIZATION"],
+.taggedentity[xmltagname="ORGANIZATION"]:hover,
+.taggedentity[xmltagname="ORGANIZATION"] + .contents:hover {
+  background: linear-gradient(rgba(128, 255, 255, 0.75), rgba(255, 255, 0, 0.75));
+}
+.taggedentity[xmltagname="TITLE"] {
+  background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(255, 128, 128, 0.5));
+}
+.taggedentity.selected[xmltagname="TITLE"],
+.taggedentity[xmltagname="TITLE"]:hover,
+.taggedentity[xmltagname="TITLE"] + .contents:hover {
+  background: linear-gradient(rgba(255, 128, 128, 0.5), rgba(255, 255, 0, 0.75));
+}
+#entityPanel {
+  position: absolute;
+  display: inline;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: calc(100% - 30px);
+  font-size: 18px;
+  word-wrap: normal;
+  line-height: 175%;
+  padding: 15px;
+}
+#dialogFade {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 50px);
+  background-color: rgba(206, 206, 228, 0.5);
+  left: 0px;
+  bottom: 0px;
+  z-index: 5;
+}
+.context-dialog,
+.context-dialog > * {
+  box-sizing: border-box;
+  font-family: arial;
+  font-size: small;
+}
+.context-dialog hr {
+  border-color: #b1b1b1;
+  height: 0px;
+}
+.context-item {
+  position: relative;
+  padding: 5px 10px 5px 10px;
+  width: 100%;
+}
+.context-dialog .context-item.inactive {
+  color: #a0a0a0;
+}
+.context-dialog .context-item:not(.inactive):hover {
+  background-color: #e1e1e1;
+}
+.context-dialog {
+  position: absolute;
+  z-index: 7500;
+  width: 275px;
+  background-color: whitesmoke;
+  border: 1px solid #a0a0a0;
+  left: 500px;
+  top: 500px;
+  box-shadow: 5px 5px 20px #a0a0a0;
+}
+.context-subdialog {
+  position: absolute;
+  z-index: 7500;
+  width: 275px;
+  background-color: whitesmoke;
+  border: 1px solid #a0a0a0;
+  left: 273px;
+  top: -1px;
+  box-shadow: 5px 5px 20px #a0a0a0;
+}
+.context-item > * {
+  display: inline-block;
+}
+.context-item > .context-right-image {
+  position: absolute;
+  right: 5px;
+  height: 60%;
+}
+.context-item > .context-left-image {
+  position: absolute;
+  left: 5px;
+  height: 60%;
+}
+.pointer {
+  cursor: pointer;
+}
+.context-item > .context-label {
+  cursor: pointer;
+  position: relative;
+  left: 20px;
+  width: 240px;
+}
+.context-help {
+  display: none;
+  position: fixed;
+  border: 1px solid #a0a0a0;
+  box-shadow: 5px 5px 20px #a0a0a0;
+  background-color: whitesmoke;
+  width: 400px;
+}
+.context-help > .title {
+  background-color: #455372;
+  color: white;
+  text-align: center;
+  font-size: larger;
+}
+.context-help > .contents {
+  text-align: center;
+  font-size: larger;
+  margin: 20px;
+  text-align: justify;
+}
+.cwrc div[xmltagname="P"] {
+  word-wrap: normal;
+  white-space: normal;
+  display: block;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+.cwrc div[xmltagname="EVENTS"] {
+  font-family: "Times New Roman", Times, serif;
+}
+.cwrc div[xmltagname="CWRCHEADER"] {
+  display: block;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: small;
+}
+.cwrc div[xmltagname="FILEDESC"] {
+  background-color: #BBB;
+  color: #555;
+  font-weight: bold;
+}
+.cwrc div[xmltagname="DOCTITLE"] {
+  display: block;
+  font-variant: small-caps;
+  font-size: x-large;
+  font-weight: normal;
+}
+.cwrc div[xmltagname="ENTRY"],
+.cwrc div[xmltagname="FILEDESC"],
+.cwrc div[xmltagname="DOCAUTHOR"],
+.cwrc div[xmltagname="DOCEDITOR"],
+.cwrc div[xmltagname="DOCEXTENT"],
+.cwrc div[xmltagname="PUBLICATIONSTMT"],
+.cwrc div[xmltagname="TITLESTMT"],
+.cwrc div[xmltagname="PUBPLACE"],
+.cwrc div[xmltagname="DATAITEM"],
+.cwrc div[xmltagname="SOURCE"] {
+  display: block;
+  display: list-item;
+  margin: 10px;
+}
+.cwrc div[xmltagname="DATAITEM"] {
+  font-style: italic;
+  font-weight: bold;
+}
+.cwrc div[xmltagname="BIRTHNAME"]:before {
+  content: "Birth Name:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="NICKNAME"]:before {
+  content: "Nickname:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="MARRIED"]:before {
+  content: "Married Name:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="INDEXED"]:before {
+  content: "Indexed:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="SELFCONSTRUCTED"]:before {
+  content: "Self Constructed:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="PSEUDONYM"]:before {
+  content: "Pseudonym:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="RELIGIOUSNAME"]:before {
+  content: "Religious Name:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="ROYAL"]:before {
+  content: "Royal Name:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="STYLED"]:before {
+  content: "Styled:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="TITLED"]:before {
+  content: "Titled:";
+  font-weight: normal;
+  font-style: normal;
+}
+.cwrc div[xmltagname="RESPONSIBILITY"] {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: small;
+  background-color: #F0EDFC;
+  display: list-item;
+}
+.cwrc div[xmltagname="STANDARD"] {
+  font-weight: bold;
+}
+.cwrc div[xmltagname="EMPH"] {
+  font-style: italic;
+}
+.cwrc div[xmltagname="FOREIGN"] {
+  font-style: italic;
+}
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
+  font-style: italic;
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
+  font-style: normal;
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
+  font-style: normal;
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
+  content: open-quote;
+}
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
+.cwrc div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
+  content: close-quote;
+}
+.cwrc div[xmltagname="ADDRLINE"] {
+  display: list-item;
+}
+.cwrc div[xmltagname="IDNO"] {
+  display: list-item;
+}
+.cwrc div[xmltagname="AVAILABILITY"] {
+  display: inline;
+}
+.cwrc div[xmltagname="RESEARCHNOTE"] {
+  background-color: #FBEFEF;
+  color: #663366;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: smaller;
+  display: list-item;
+}
+.cwrc div[xmltagname="HEADING"] {
+  font-weight: bold;
+  font-size: x-large;
+  color: #039;
+  margin: 10px;
+}
+.cwrc div[xmltagname="CHRONSTRUCT"] {
+  display: list-item;
+}
+.cwrc div[xmltagname="CHRONSTRUCT"] DATE {
+  font-weight: bold;
+}
+.cwrc div[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "BRITISHWOMENWRITERS"] {
+  content: url(http://cwrc.ca/templates/images/pen1.gif);
+}
+.cwrc div[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "NATIONALINTERNATIONAL"] {
+  content: url(http://cwrc.ca/templates/images/earth1.gif);
+}
+.cwrc div[xmltagname="CHRONSTRUCT"][CHRONCOLUMN = "SOCIALCLIMATE"] {
+  content: url(http://cwrc.ca/templates/images/people1.gif);
+}
+.cwrc div[xmltagname="SHORTPROSE"] {
+  padding-left: 4em;
+}
+.cwrc div[xmltagname="LISTBIBCIT"] {
+  display: block;
+  margin: 10px;
+}
+.cwrc div[xmltagname="BIBCIT"] {
+  display: block;
+  font-size: smaller;
+  margin-bottom: 5px;
+  display: list-item;
+}
+.cwrc div[xmltagname="BIBCIT"]:before {
+  content: "(";
+}
+.cwrc div[xmltagname="BIBCIT"]:after {
+  content: ")";
+}
+.cwrc div[xmltagname="BIBCITS"] {
+  display: block;
+  background-color: #FFC;
+}
+.cwrc div[xmltagname="SCHOLARNOTE"] .cwrc div[xmltagname="P"] {
+  content: url(http://cwrc.ca/templates/images/note.gif);
+  background-color: #E0E0F8;
+}
+.cwrc div[xmltagname="NAME"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="ORGNAME"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="SETTLEMENT"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="REGION"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="GEOG"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="AREA"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="TOPIC"] {
+  font-weight: bold;
+  color: #336699;
+}
+.cwrc div[xmltagname="QUOTE"]:before {
+  content: open-quote;
+}
+.cwrc div[xmltagname="QUOTE"]:after {
+  content: close-quote;
+}
+.cwrc div[xmltagname="QUOTE"][DIRECT = "N"]:before {
+  content: "'";
+}
+.cwrc div[xmltagname="QUOTE"][DIRECT = "N"]:after {
+  content: "'";
+}
+.cwrc div[xmltagname="SOCALLED"]:before {
+  content: "'";
+}
+.cwrc div[xmltagname="SOCALLED"]:after {
+  content: "'";
+}
+.orlando div[xmltagname="EVENTS"] {
+  font-family: Georgia, serif;
+  line-height: 1.5;
+  color: #333;
+  margin: 10px 25px;
+}
+.orlando div[xmltagname="ORLANDOHEADER"] {
+  font-size: 16px;
+  display: block;
+  background: #EEE;
+  margin-bottom: 1.5em;
+  padding: .5em;
+}
+.orlando div[xmltagname="FILEDESC"] {
+  background-color: #FFF;
+  color: gray;
+}
+.orlando div[xmltagname="DOCTITLE"] {
+  font-weight: normal;
+  color: black;
+  color: gray;
+  font-weight: bold;
+}
+.orlando div[xmltagname="DOCAUTHOR"],
+.orlando div[xmltagname="DOCEDITOR"],
+.orlando div[xmltagname="DOCEXTENT"],
+.orlando div[xmltagname="PUBLICATIONSTMT"],
+.orlando div[xmltagname="TITLESTMT"],
+.orlando div[xmltagname="PUBPLACE"] {
+  display: block;
+}
+.orlando div[xmltagname="RESPONSIBILITY"] {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: small;
+  background-color: #F0EDFC;
+  display: list-item;
+}
+.orlando div[xmltagname="EMPH"] {
+  font-style: italic;
+}
+.orlando div[xmltagname="FOREIGN"] {
+  font-style: italic;
+}
+.orlando div[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
+.orlando div[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
+  font-style: italic;
+  color: #336699;
+}
+.orlando div[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
+  font-style: normal;
+  color: #336699;
+}
+.orlando div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
+.orlando div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
+  font-style: normal;
+  color: #336699;
+}
+.orlando div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
+.orlando div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
+  content: open-quote;
+}
+.orlando div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
+.orlando div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
+  content: close-quote;
+}
+.orlando div[xmltagname="ADDRLINE"] {
+  display: list-item;
+}
+.orlando div[xmltagname="IDNO"] {
+  display: list-item;
+}
+.orlando div[xmltagname="P"] {
+  word-wrap: normal;
+  white-space: pre-line;
+  display: block;
+  margin-bottom: 15px;
+}
+.orlando div[xmltagname="RESEARCHNOTE"] {
+  background-color: #FBEFEF;
+  color: #663366;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: smaller;
+  display: list-item;
+}
+.orlando div[xmltagname="HEADING"] {
+  display: list-item;
+  font-weight: bold;
+  font-size: x-large;
+  color: #039;
+  margin: 25px 0 0 0;
+}
+.orlando div[xmltagname="DIV1"] {
+  margin: 20px 0 0 0;
+}
+.orlando div[xmltagname="CHRONEVENT"] {
+  display: block;
+  margin: 15px 0;
+}
+.orlando div[xmltagname="CHRONSTRUCT"] .orlando div[xmltagname="DATE"] {
+  font-weight: bold;
+}
+.orlando div[xmltagname="CHRONSTRUCT"] .orlando div[xmltagname="DATE"]:after {
+  content: ": ";
+}
+.orlando div[xmltagname="SHORTPROSE"] .orlando div[xmltagname="P"] {
+  padding-left: 4em;
+  margin: 10px 0 0 0;
+}
+.orlando div[xmltagname="BIBCIT"]:before {
+  content: "(";
+}
+.orlando div[xmltagname="BIBCIT"]:after {
+  content: ")";
+}
+.orlando div[xmltagname="SCHOLARNOTE"] .orlando div[xmltagname="P"] {
+  background-color: #E0E0F8;
+}
+.orlando div[xmltagname="TOPIC"],
+.orlando div[xmltagname="AREA"],
+.orlando div[xmltagname="NAME"],
+.orlando div[xmltagname="ORGNAME"] {
+  color: #336699;
+}
+.orlando div[xmltagname="TOPIC"],
+.orlando div[xmltagname="AREA"] {
+  font-weight: bold;
+  font-weight: bold;
+}
+.orlando div[xmltagname="QUOTE"]:before {
+  content: open-quote;
+}
+.orlando div[xmltagname="QUOTE"]:after {
+  content: close-quote;
+}
+.orlando div[xmltagname="QUOTE"][DIRECT = "N"]:before {
+  content: "'";
+}
+.orlando div[xmltagname="QUOTE"][DIRECT = "N"]:after {
+  content: "'";
+}
+.orlando div[xmltagname="SOCALLED"]:before {
+  content: "'";
+}
+.orlando div[xmltagname="SOCALLED"]:after {
+  content: "'";
+}
+.playwrights .xmltag[xmltagname="RESEARCHNOTE"] {
+  display: none;
+  background-color: #FBEFEF;
+  color: #663366;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: smaller;
+  margin: 0%;
+  padding: 0%;
+}
+.playwrights .xmltag[xmltagname="CWRCHEADER"],
+.playwrights .xmltag[xmltagname="FILEDESC"],
+.playwrights .xmltag[xmltagname="DOCTITLE"],
+.playwrights .xmltag[xmltagname="DOCAUTHOR"] {
+  display: list-item;
+}
+.playwrights .xmltag[xmltagname="FILEDESC"] {
+  content: url(http://playwrights.ca/templates/images/CWRC_logo.png);
+  background-color: #B8B891;
+  color: #555;
+  font-weight: normal;
+}
+.playwrights .xmltag[xmltagname="DOCTITLE"] {
+  font-variant: small-caps;
+  font-size: x-large;
+  font-weight: bold;
+}
+.playwrights .xmltag[xmltagname="DOCAUTHOR"] {
+  font-weight: bold;
+}
+.playwrights .xmltag[xmltagname="PUBLICATIONSTMT"],
+.playwrights .xmltag[xmltagname="SOURCEDESC"],
+.playwrights .xmltag[xmltagname="REVISIONDESC"],
+.playwrights .xmltag[xmltagname="RESPONSIBILITY"] {
+  display: none;
+}
+.playwrights .xmltag[xmltagname="ENTRY"] {
+  display: block;
+  margin-left: 3%;
+}
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="LISTBIBCIT"] {
+  line-height: 150%;
+}
+.playwrights .xmltag[xmltagname="HEADING"] {
+  display: block;
+  font-weight: bold;
+  color: brown;
+  padding-bottom: 12pt;
+}
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "1"] {
+  font-size: 3em;
+  text-align: center;
+  padding-top: 1em;
+}
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "2"] {
+  font-size: 2em;
+  padding-bottom: 1%;
+  margin-bottom: 1%;
+  border-bottom: solid;
+  padding-top: 2%;
+  border-color: black;
+}
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "3"] {
+  font-size: 1.5em;
+  padding-left: 4%;
+  padding-top: 1em;
+  padding-bottom: 0.5em;
+}
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "3"] {
+  padding-left: 0%;
+}
+.playwrights .xmltag[xmltagname="HEADING"][SUBTYPE = "4"] {
+  font-size: 1em;
+  padding-top: 1em;
+  padding-bottom: 0.2em;
+}
+.playwrights .xmltag[xmltagname="FIGURE"] {
+  display: block;
+  text-align: center;
+  border: thin solid white;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="PERSONNAME"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="BIRTH"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RESIDENCEANDMOBILITY"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="CULTURALFORMATION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="PRODUCTION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="FAMILY"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RECEPTION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="OCCUPATION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="EDUCATION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="OTHERLIFEEVENT"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="TEXTSCOPE"] {
+  display: block;
+  margin-left: 4%;
+}
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="PRODUCTION"],
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="RECEPTION"] {
+  display: block;
+  margin-left: 0%;
+}
+.playwrights .xmltag[xmltagname="PERSONNAME"]
+.playwrights .xmltag[xmltagname="P"]
+.playwrights .xmltag[xmltagname="BIRTHNAME"],
+.playwrights .xmltag[xmltagname="BIRTHNAME"]
+.playwrights .xmltag[xmltagname="GIVEN"],
+.playwrights .xmltag[xmltagname="BIRTHNAME"]
+.playwrights .xmltag[xmltagname="SURNAME"],
+.playwrights .xmltag[xmltagname="PERSONNAME"]
+.playwrights .xmltag[xmltagname="P"]
+.playwrights .xmltag[xmltagname="NICKNAME"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="BIRTH"],
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATE"],
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="CHRONPROSE"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RESIDENCEANDMOBILITY"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="PRODUCTION"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="CULTURALFORMATION"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="FAMILY"]
+.playwrights .xmltag[xmltagname="P"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="RECEPTION"],
+.playwrights .xmltag[xmltagname="ENTRY"]
+.playwrights .xmltag[xmltagname="OCUPATION"]
+.playwrights .xmltag[xmltagname="P"] {
+  display: block;
+  margin-bottom: 1em;
+}
+.playwrights .xmltag[xmltagname="GIVEN"]:before {
+  content: "First Name:";
+  display: inline-block;
+  padding-right: 0.5em;
+}
+.playwrights .xmltag[xmltagname="GIVEN"]+
+.playwrights .xmltag[xmltagname="GIVEN"] {
+  display: block;
+}
+.playwrights .xmltag[xmltagname="GIVEN"]+
+.playwrights .xmltag[xmltagname="GIVEN"]:before {
+  content: "Middle Name:";
+  display: inline-block;
+  padding-right: 0.5em;
+}
+.playwrights .xmltag[xmltagname="SURNAME"]:before {
+  content: "Last Name at Birth:";
+  padding-right: 0.5em;
+}
+.playwrights .xmltag[xmltagname="NICKNAME"]:before {
+  content: "Nickname:";
+  padding-right: 0.5em;
+}
+.playwrights .xmltag[xmltagname="GENDER"]:before {
+  content: "Gender:";
+  padding-right: 0.5em;
+}
+.playwrights .xmltag[xmltagname="EDUCATION"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="OTHERLIFEEVENT"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="OCCUPATION"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="RECEPTION"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"],
+.playwrights .xmltag[xmltagname="EDUCATION"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"],
+.playwrights .xmltag[xmltagname="OTHERLIFEEVENT"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"],
+.playwrights .xmltag[xmltagname="OCCUPATION"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"],
+.playwrights .xmltag[xmltagname="RECEPTION"]
+.playwrights .xmltag[xmltagname="DATASTRUCT"] {
+  display: block;
+}
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATE"],
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATERANGE"] {
+  display: table-cell;
+  width: 9em;
+  padding-right: 0%;
+}
+.playwrights .xmltag[xmltagname="CHRONPROSE"] {
+  display: table-cell;
+  line-height: 150%;
+}
+.playwrights .xmltag[xmltagname="DATASTRUCT"] {
+  width: auto;
+  line-height: 150%;
+}
+.playwrights .xmltag[xmltagname="TEXTSCOPE"]
+.playwrights .xmltag[xmltagname="PRODUCTION"]
+.playwrights .xmltag[xmltagname="P"] {
+  display: block;
+  padding-left: 12em;
+  padding-bottom: 0%;
+  margin-bottom: 0%;
+}
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="CHRONPROSE"],
+.playwrights .xmltag[xmltagname="BIRTH"]
+.playwrights .xmltag[xmltagname="CHRONSTRUCT"]
+.playwrights .xmltag[xmltagname="DATE"] {
+  display: block;
+  width: 100%;
+}
+.playwrights .xmltag[xmltagname="TEXTUALFEATURES"] {
+  padding-top: 0%;
+  margin-top: 0%;
+}
+.playwrights .xmltag[xmltagname="TEXTUALFEATURES"]
+.playwrights .xmltag[xmltagname="HEADING"] {
+  padding-top: 0%;
+  margin-top: 1em;
+}
+.playwrights .xmltag[xmltagname="TEXTUALFEATURES"]
+.playwrights .xmltag[xmltagname="P"] {
+  display: block;
+}
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "MONOGRAPHIC"] {
+  font-style: italic;
+}
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "ANALYTIC"]:before {
+  content: "\"";
+}
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "ANALYTIC"]:after {
+  content: "\"";
+}
+.playwrights .xmltag[xmltagname="EMPH"] {
+  font-style: italic;
+}
+.playwrights .xmltag[xmltagname="SOCALLED"]:before {
+  content: "\"";
+}
+.playwrights .xmltag[xmltagname="SOCALLED"]:after {
+  content: "\"";
+}
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "UNPUBLISHED"] EMPH {
+  font-style: italic;
+}
+.playwrights .xmltag[xmltagname="HEADING"]
+.playwrights .xmltag[xmltagname="TITLE"]
+.playwrights .xmltag[xmltagname="EMPH"] {
+  color: brown;
+}
+.playwrights .xmltag[xmltagname="HEADING"]
+.playwrights .xmltag[xmltagname="TITLE"] {
+  display: inline;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: brown;
+}
+.playwrights .xmltag[xmltagname="TITLE"][LEVEL = "MONOGRAPHIC"] TITLE[LEVEL = "MONOGRAPHIC"] {
+  font-style: normal;
+}
+.tei .tagname-markup {
+  top: 16px;
+}
+.tei div[xmltagname="TEI"] {
+  font-family: Georgia, serif;
+  line-height: 1.5;
+}
+.tei div[xmltagname="add"] {
+  text-decoration: underline;
+}
+.tei div[xmltagname="anchor"] {
+  display: none;
+}
+.tei div[xmltagname="att"] {
+  font-family: sans-serif;
+}
+.tei div[xmltagname="back"] {
+  border: thin black solid;
+}
+.tei div[xmltagname="bibl"] {
+  display: block;
+  margin-bottom: 1em;
+  text-align: left;
+}
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="title"] {
+  content: "Alternate Title: " !important;
+}
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="title"] {
+  content: "";
+}
+.tei div[xmltagname="body"] {
+  counter-reset: div1;
+}
+.tei div[xmltagname="byline"] {
+  font-style: italic;
+}
+.tei div[xmltagname="catRef"] {
+  display: none;
+}
+.tei div[xmltagname="cell"] {
+  display: table-cell;
+  border: 1px solid #EEEFEE;
+}
+.tei div[xmltagname="cit"] {
+  display: inline;
+}
+.tei div[xmltagname="closer"] {
+  width: 95%;
+}
+.tei div[xmltagname="code"] {
+  font-family: monospace;
+}
+.tei div[xmltagname="change"]>
+.tei div[xmltagname="date"],
+.tei div[xmltagname="publicationStmt"]>
+.tei div[xmltagname="date"] {
+  font-weight: bold;
+}
+.tei div[xmltagname="del"] {
+  color: red;
+  background-color: inherit;
+  text-decoration: line-through;
+}
+.tei div[xmltagname="body"]>
+.tei div[xmltagname="div"] {
+  counter-increment: div1;
+  counter-reset: div2;
+}
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] {
+  counter-increment: div2;
+  counter-reset: div3;
+}
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] {
+  counter-increment: div3;
+}
+
+.tei div[xmltagname="div"] {
+  counter-reset: line;
+}
+.tei div[xmltagname="div1"] {
+  counter-increment: div1;
+  counter-reset: div2;
+}
+.tei div[xmltagname="div2"] {
+  counter-increment: div2;
+  counter-reset: div3;
+}
+.tei div[xmltagname="div3"] {
+  counter-increment: div3;
+  counter-reset: div4;
+}
+.tei div[xmltagname="div4"] {
+  counter-increment: div4;
+  counter-reset: div5;
+}
+.tei div[xmltagname="div5"] {
+  counter-increment: div5;
+  counter-reset: div6;
+}
+.tei div[xmltagname="div6"] {
+  counter-increment: div6;
+  counter-reset: div7;
+}
+.tei div[xmltagname="div7"] {
+  counter-increment: div7;
+}
+.tei div[xmltagname="divGen"] {
+  display: none;
+}
+.tei div[xmltagname="eg"] {
+  font-family: monospace;
+  display: block;
+  white-space: pre;
+  color: inherit;
+  background-color: #FFCC99;
+}
+.tei div[xmltagname="emph"] {
+  font-style: italic;
+}
+.tei div[xmltagname="epigraph"] {
+  display: block;
+  text-align: center;
+}
+.tei div[xmltagname="extent"] {
+  display: block;
+}
+.tei div[xmltagname="graphic"] {
+  color: gray;
+  background-color: inherit;
+  content: "{" attr(url) ";
+}
+";
+}
+
+.tei div[xmltagname="figure"] {
+  display: block;
+}
+.tei div[xmltagname="foreign"] {
+  font-style: italic;
+}
+.tei div[xmltagname="formula"] {
+  font-style: italic;
+}
+.tei div[xmltagname="front"] {
+  display: block;
+}
+.tei div[xmltagname="funder"] {
+  display: block;
+}
+.tei div[xmltagname="gap"] {
+  display: none;
+}
+.tei div[xmltagname="gi"],
+.tei div[xmltagname="tag"] {
+  font-family: sans-serif;
+  color: black;
+  background-color: inherit;
+}
+.tei div[xmltagname="group"] {
+  display: block;
+}
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
+  display: block;
+  color: inherit;
+  font-weight: bold;
+  font-size: 18px;
+}
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+head .tei div[xmltagname="author"] {
+  font-weight: normal;
+}
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
+  display: block;
+  color: inherit;
+  background-color: #BBBBBB;
+  font-weight: bold;
+}
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
+  display: block;
+  color: inherit;
+  background-color: #BBBBBB;
+  font-weight: bold;
+}
+.tei div[xmltagname="div"]
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="dateline"] {
+  display: block;
+  text-align: right;
+  width: 95%;
+}
+.tei div[xmltagname="hi"] {
+  background-color: yellow;
+  color: black;
+}
+.tei div[xmltagname="hi"] {
+  background-color: inherit;
+  color: inherit;
+}
+.tei div[xmltagname="hi"] {
+  font-weight: bold;
+}
+.tei div[xmltagname="hi"] {
+  font-style: italic;
+}
+.tei div[xmltagname="hi"] {
+  text-decoration: underline;
+}
+.tei div[xmltagname="hi"] {
+  font-style: italic;
+}
+.tei div[xmltagname="hi"] {
+  font-variant: small-caps;
+}
+.tei div[xmltagname="hi"] {
+  vertical-align: super;
+  font-size: smaller;
+}
+.tei div[xmltagname="hi"] {
+  vertical-align: sub;
+  font-size: smaller;
+}
+.tei div[xmltagname="hi"] {
+  text-decoration: underline;
+}
+.tei div[xmltagname="ident"] {
+  font-family: monospace;
+}
+.tei div[xmltagname="index"] {
+  display: none;
+}
+.tei div[xmltagname="interp"] {
+  display: none;
+}
+.tei div[xmltagname="interpGrp"] {
+  display: none;
+}
+.tei div[xmltagname="list"]
+.tei div[xmltagname="item"] {
+  display: list-item;
+}
+.tei div[xmltagname="item"] {
+  display: list-item;
+}
+.tei div[xmltagname="kw"] {
+  font-style: italic;
+}
+.tei div[xmltagname="label"] {
+  font-weight: bold;
+}
+.tei div[xmltagname="Label"] {
+  font-weight: bold;
+  color: #2F4F4F;
+  background-color: inherit;
+}
+.tei div[xmltagname="argument"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div0"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div1"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div2"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div3"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div4"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div5"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div6"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="div7"] >
+.tei div[xmltagname="label"],
+.tei div[xmltagname="epigraph"] >
+.tei div[xmltagname="label"] {
+  font-weight: bold;
+}
+.tei div[xmltagname="list"] {
+  display: block;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.tei div[xmltagname="list"] {
+  display: inline;
+}
+.tei div[xmltagname="list"] {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.tei div[xmltagname="list"] {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.tei div[xmltagname="list"] {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+.tei div[xmltagname="list"] {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+.tei div[xmltagname="list"] {
+  list-style-type: none;
+}
+.tei div[xmltagname="mentioned"] {
+  font-style: italic;
+}
+.tei div[xmltagname="milestone"] {
+  display: none;
+}
+.tei div[xmltagname="note"] {
+  color: #999;
+}
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="note"] {
+  color: #999;
+}
+.tei div[xmltagname="div"]
+.tei div[xmltagname="note"]
+.tei div[xmltagname="persName"],
+.tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="orgName"],
+.tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="title"],
+.tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="placeName"] {
+  color: #6DB0CC !important;
+}
+.tei div[xmltagname="note"] {
+  float: left;
+}
+.tei div[xmltagname="note"] {
+  float: right;
+}
+.tei div[xmltagname="note"],
+.tei div[xmltagname="note"] {
+  display: inline;
+}
+.tei div[xmltagname="num"] {
+  display: inline;
+}
+.tei div[xmltagname="head"],
+.tei div[xmltagname="byline"],
+.tei div[xmltagname="docAuthor"],
+.tei div[xmltagname="p"] {
+  word-wrap: normal;
+  white-space: pre-line;
+  display: block;
+  text-align: justify !important;
+  margin-bottom: 1em;
+}
+.tei div[xmltagname="p"] {
+  word-wrap: normal;
+  white-space: pre-line;
+  display: block;
+  text-align: justify !important;
+  margin-bottom: 2em;
+}
+.tei div[xmltagname="pb"] {
+  display: none;
+}
+.tei div[xmltagname="div"]
+.tei div[xmltagname="persName"],
+.tei div[xmltagname="div"] .tei div[xmltagname="placeName"],
+.tei div[xmltagname="div"] .tei div[xmltagname="orgName"],
+.tei div[xmltagname="div"] .tei div[xmltagname="title"] {
+  color: #336699;
+}
+.tei div[xmltagname="principal"] {
+  display: block;
+}
+.tei div[xmltagname="ptr"] {
+  color: navy;
+  text-decoration: underline;
+  background-color: inherit;
+}
+.tei div[xmltagname="publicationStmt"] {
+  display: block;
+}
+.tei div[xmltagname="publicationStmt"]
+.tei div[xmltagname="p"] {
+  display: block;
+}
+.tei div[xmltagname="publisher"] {
+  display: inline;
+}
+.tei div[xmltagname="imprint"] >
+.tei div[xmltagname="publisher"],
+.tei div[xmltagname="publicationStmt"] >
+.tei div[xmltagname="publisher"] {
+  display: block;
+}
+.tei div[xmltagname="pubPlace"] {
+  display: inline;
+}
+.tei div[xmltagname="imprint"] >
+.tei div[xmltagname="pubPlace"],
+.tei div[xmltagname="publicationStmt"] >
+.tei div[xmltagname="pubPlace"] {
+  display: block;
+}
+.tei div[xmltagname="q"] {
+  quotes: '"' '"' "'" "'";
+}
+.tei div[xmltagname="reg"] {
+  font-style: italic;
+}
+.tei div[xmltagname="row"] {
+  display: table-row;
+}
+.tei div[xmltagname="row"] {
+  color: inherit;
+  background-color: #BBBBBB;
+}
+.tei div[xmltagname="sic"] {
+  color: red;
+  background-color: inherit;
+}
+.tei div[xmltagname="soCalled"] {
+  display: inline;
+  font-style: italic;
+  quotes: "'" "'";
+}
+.tei div[xmltagname="div"]
+.tei div[xmltagname="p"] {
+  text-align: justify;
+  text-indent: 30px;
+}
+.tei div[xmltagname="speaker"] {
+  font-weight: bold;
+}
+.tei div[xmltagname="stage"] {
+  font-style: italic;
+}
+.tei div[xmltagname="table"] {
+  text-align: center;
+  display: table;
+  margin: 1em;
+}
+.tei div[xmltagname="table"] >
+.tei div[xmltagname="head"] {
+  display: table-caption;
+  font-style: italic;
+}
+.tei div[xmltagname="term"] {
+  font-family: sans-serif;
+  color: black;
+  background-color: inherit;
+}
+.tei div[xmltagname="title"] {
+  font-weight: normal;
+}
+.tei div[xmltagname="title"],
+.tei div[xmltagname="title"] {
+  font-style: italic;
+}
+.tei div[xmltagname="title"] {
+  font-style: normal;
+}
+.tei div[xmltagname="title"],
+.tei div[xmltagname="title"] {
+  font-style: normal;
+}
+.tei div[xmltagname="seriesStmt"] >
+.tei div[xmltagname="title"],
+.tei div[xmltagname="titleStmt"] >
+.tei div[xmltagname="title"] {
+  color: gray;
+  font-weight: bold;
+}
+.tei div[xmltagname="titlePage"] {
+  border: thin black solid;
+  text-align: center;
+}
+.tei div[xmltagname="titleStmt"] {
+  color: #333;
+}
+.tei div[xmltagname="unclear"] {
+  display: inline;
+  color: gray;
+  background-color: inherit;
+  font-style: italic;
+}
+.tei div[xmltagname="header-related"] .tei div[xmltagname="material"] .tei div[xmltagname="teiHeader"] {
+  display: block;
+  color: gray;
+  background-color: rgb(251, 242, 234);
+}
+.tei div[xmltagname="teiHeader"]
+.tei div[xmltagname="title"] {
+  color: gray;
+}
+.tei div[xmltagname="sourceDesc"] {
+  border: thin silver solid;
+}
+.tei div[xmltagname="docTitle"] {
+  font-weight: bold;
+  font-weight: bold;
+}
+.tei div[xmltagname="OUCS"] .tei div[xmltagname="additions"]
+.tei div[xmltagname="Button"] {
+  font-family: monospace;
+  color: red;
+  font-weight: bold;
+  background-color: rgb(75%, 75%, 75%);
+}
+.tei div[xmltagname="Value"] {
+  font-family: monospace;
+  color: rgb(255, 102, 0);
+  background-color: inherit;
+}
+.tei div[xmltagname="Code"] {
+  font-family: monospace;
+  color: red;
+  background-color: inherit;
+}
+.tei div[xmltagname="Field"] {
+  font-family: monospace;
+  color: red;
+  background-color: inherit;
+}
+.tei div[xmltagname="Filespec"] {
+  font-family: monospace;
+  color: red;
+  background-color: inherit;
+}
+.tei div[xmltagname="Input"] {
+  font-family: monospace;
+  color: green;
+  background-color: inherit;
+}
+.tei div[xmltagname="Key"] {
+  font-family: monospace;
+  text-decoration: underline;
+  color: green;
+  background-color: inherit;
+}
+.tei div[xmltagname="Link"] {
+  font-family: monospace;
+  color: green;
+  background-color: inherit;
+  text-decoration: underline;
+}
+.tei div[xmltagname="Menu"] {
+  font-family: monospace;
+  color: red;
+  background-color: inherit;
+}
+.tei div[xmltagname="Output"] {
+  font-family: monospace;
+  color: red;
+  background-color: inherit;
+}
+.tei div[xmltagname="Icon"] {
+  color: inherit;
+  background-color: #B0E0E6;
+  font-weight: bold;
+}
+.tei div[xmltagname="Screen"] {
+  font-family: monospace;
+  display: block;
+  white-space: pre;
+  color: inherit;
+  background-color: #FFCC99;
+}
+#test {
+  color: #000000;
+}
