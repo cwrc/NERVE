@@ -6,7 +6,7 @@
 
 const ArrayList = require("jjjrmi").ArrayList;
 const Collection = require("./model/Collection");
-const EntityValues = require("../gen/EntityValues");
+const EntityValues = require("nerve").EntityValues;
 const TaggedEntityWidget = require("./TaggedEntityWidget");
 const AbstractModel = require("Nidget/src/AbstractModel");
 

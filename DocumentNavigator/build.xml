@@ -5,8 +5,8 @@
     <property file="D:/projects/shared.properties"/>
     <import file="nbproject/build-impl.xml"/>
         
-    <import file="D:/projects/shared.xml"/>     
-    <property name="version.num" value="0.8.2" />
+    <import file="D:/Dropbox/projects-new/shared.xml"/>       
+    <property name="version.num" value="0.8.9" />
     <property name="lib.jar.name" value="DocNav-${version.num}.jar"/>
     
     <!-- After jar creation copy file to common library -->

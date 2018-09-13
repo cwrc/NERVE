@@ -1,5 +1,5 @@
 const AbstractModel = require("Nidget/src/AbstractModel");
-const EntityValues = require("../gen/EntityValues");
+const EntityValues = require("nerve").EntityValues;
 
 /**
  * Events: notifyCWRCSelection, notifyCWRCCancelled

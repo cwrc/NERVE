@@ -7,13 +7,13 @@
     <import file="D:/Dropbox/projects-new/shared.xml"/>  
     
     <taskdef resource="jjjrmiant.xml"/>       
-    <property name="version.num" value="0.8.9" />
+    <property name="version.num" value="0.9.0" />
     <property name="lib.jar.name" value="NERScriber-${version.num}.jar"/>
     
     <!-- After jar creation copy file to common library -->
     <target name="-post-jar" depends="jar-to-custom-lib,scriber.generate.code"/>
 
     <target name="scriber.generate.code">
-        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/web-gen" package="nerscriber"/>
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/web-gen" package="nerscriber" generateJSON="false"/>
     </target>
 </project>

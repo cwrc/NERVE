@@ -13,7 +13,7 @@ const CWRCDialogModel = require("./mvc/CWRCDialogModel");
 const Model = require("./mvc/model/Model");
 const HostInfo = require("./util/hostinfo");
 const TaggedEntityWidget = require("./mvc/TaggedEntityWidget");
-const nerve = require("./gen/nerve");
+const nerve = require("nerve");
 const AbstractModel = require("Nidget/src/AbstractModel");
 const CustomQuery = require("./util/CustomQuery");
 const UndoHandler = require("./mvc/UndoHandler");
@@ -62,7 +62,7 @@ class Main extends AbstractModel {
                 
         
         /* --- LEMMA DIALOG (LHS) --- */
-//        this.lemmaDialog = new LemmmaDialog("#lemmaDialog");
+        this.lemmaDialog = new LemmmaDialog("#lemmaDialog");
 
         /* --- ENTITY PANEL (middle) --- */
         this.entityPanelWidget = new EnityPanelWidget();

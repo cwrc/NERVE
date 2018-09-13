@@ -40,7 +40,7 @@ class AbstractModel {
             source: this,
             listeners: []
         };
-        AbstractModel.events.push(window.lastEvent);
+        window.nEvents.push(window.lastEvent);
 
         for (let listener of this.delegate.abstractModelListeners) {
             if (listener[method]){
@@ -52,5 +52,5 @@ class AbstractModel {
     }
 }
 
-AbstractModel.events = [];
+window.nEvents = [];
 module.exports = AbstractModel;

@@ -3,8 +3,8 @@ import ca.frar.jjjrmi.annotations.ClientSide;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
-import ca.sharcnet.nerve.ProgressListener;
-import ca.sharcnet.nerve.ProgressPacket;
+import ca.sharcnet.dh.scriber.ProgressListener;
+import ca.sharcnet.dh.scriber.ProgressPacket;
 
 @JJJ("ProgressMonitor")
 @JJJOptions(jsExtends="require('Nidget/src/AbstractModel')")

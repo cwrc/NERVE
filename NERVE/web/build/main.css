@@ -1,132 +1,6 @@
-.nidget-context-dialog,
-.nidget-context-dialog > * {
-  box-sizing: border-box;
-  font-family: arial;
-  font-size: small;
-  user-select: none;
-}
-/*the main outer box of the dialog*/
-.nidget-context-menu {
-  position: absolute;
-  z-index: 7500;
-  width: 275px;
-  background-color: whitesmoke;
-  border: 1px solid #a0a0a0;
-  box-shadow: 5px 5px 20px #a0a0a0;
-}
-.nidget-context-dialog {
-  left: 500px;
-  top: 500px;
-}
-.nidget-context-submenu {
-  position: absolute;
-  left: 266px;
-  top: -1px;
-}
-.nidget-context-dialog hr {
-  border-color: #b1b1b1;
-  height: 0px;
-}
-/*top level menu item*/
-.nidget-context-menuitem {
-  position: relative;
-  padding: 5px 10px 5px 10px;
-  width: calc (100% - 10px);
-}
-.nidget-context-menuitem.disabled {
-  color: #a0a0a0;
-}
-.nidget-context-menuitem:not(.disabled):hover {
-  background-color: #e1e1e1;
-}
-.nidget-context-menuitem > * {
-  display: inline-block;
-}
-.nidget-context-right-image {
-  position: absolute;
-  right: 5px;
-  height: 60%;
-}
-.nidget-context-right-arrow {
-  position: absolute;
-  right: 5px;
-  height: 60%;
-}
-.nidget-context-image-throbber {
-  display: none;
-}
-.nidget-context-left-image {
-  position: absolute;
-  display: inline-block;
-  left: 5px;
-  height: 60%;
-}
-.nidget-context-label {
-  cursor: pointer;
-  position: relative;
-  left: 20px;
-  width: 240px;
-}
-.nidget-context-label.disabled {
-  cursor: not-allowed;
-  color: grey;
-}
-.nidget-context-help {
-  display: none;
-  position: fixed;
-  border: 1px solid #a0a0a0;
-  box-shadow: 5px 5px 20px #a0a0a0;
-  background-color: whitesmoke;
-  width: 400px;
-}
-.nidget-context-help > .nidget-title {
-  background-color: #455372;
-  color: white;
-  text-align: center;
-  font-size: larger;
-}
-.nidget-context-help > .nidget-contents {
-  text-align: center;
-  font-size: larger;
-  margin: 20px;
-  text-align: justify;
-}
-body {
-  font-family: arial;
-}
-#content_container {
-  position: absolute;
-  width: 300px;
-  height: 500px;
-  border: 1px solid black;
-  left: calc(66% - 150px);
-  top: calc(50% - 250px);
-}
-#content_container > div {
-  border: 1px solid black;
-  margin: 5px;
-  padding: 5px;
-  cursor: pointer;
-}
-#content_container > div.highlight {
-  background-color: #ffff00;
-}
-#content_container > div:hover {
-  background-color: #e0e0e0;
-}
-#content_container > div.highlight:hover {
-  background-color: #e0e000;
-}
-#lemma_container_target {
-  position: absolute;
-  width: 300px;
-  height: 500px;
-  border: 1px solid black;
-  left: calc(33% - 150px);
-  top: calc(50% - 250px);
-}
 .lemma_container {
   padding: 2px;
+  overflow-y: auto;
 }
 .lemma_category {
   position: relative;
@@ -203,6 +77,10 @@ body {
 .lemma_widget:hover {
   background-color: #e0e0e0;
   border: 1px solid #d0d0d0;
+}
+.lemma_widget.highlight {
+  color: #ff0033;
+  font-weight: bold;
 }
 .lemma_widget.focus {
   background-color: #e0e0e0;

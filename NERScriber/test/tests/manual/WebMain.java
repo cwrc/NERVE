@@ -1,9 +1,9 @@
 package tests.manual;
 import ca.frar.utility.console.Console;
-import ca.sharcnet.nerve.HasStreams;
-import ca.sharcnet.nerve.ProgressListener;
-import ca.sharcnet.nerve.ProgressPacket;
-import ca.sharcnet.nerve.decode.Decoder;
+import ca.sharcnet.dh.scriber.HasStreams;
+import ca.sharcnet.dh.scriber.ProgressListener;
+import ca.sharcnet.dh.scriber.ProgressPacket;
+import ca.sharcnet.dh.scriber.decode.Decoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import java.io.File;

@@ -13,6 +13,14 @@ class Widget extends AbstractModel{
     getElement(){
         return this.$.get(0);
     }
+    
+    static hasWidget(element){
+        return $(element).data("widget") !== undefined;
+    }
+    
+    static getWidget(element){
+        return $(element).data("widget");
+    }
 }
 
 module.exports = Widget;

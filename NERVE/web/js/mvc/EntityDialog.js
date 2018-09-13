@@ -1,5 +1,5 @@
 const AbstractModel = require("Nidget/src/AbstractModel");
-const EntityValues = require("../gen/nerve").EntityValues;
+const EntityValues = require("nerve").EntityValues;
 const Collection = require("./model/Collection");
 
 class EntityTextBox {

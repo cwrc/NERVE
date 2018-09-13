@@ -1,5 +1,5 @@
 const NameSource = require("nerscriber").NameSource;
-const EntityValues = require("../gen/nerve").EntityValues;
+const EntityValues = require("nerve").EntityValues;
 const ShowHTMLWidget = require("./ShowHTMLWidget");
 const Constants = require("../util/Constants");
 const AbstractModel = require("Nidget/src/AbstractModel");

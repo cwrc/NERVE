@@ -38,5 +38,5 @@ public class DocumentLoader {
         return root;
     }
 
-    private DocumentLoader() {}
+    public DocumentLoader() {}
 }
