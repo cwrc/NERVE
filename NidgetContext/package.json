@@ -1,0 +1,30 @@
+{
+    "name": "NidgetContext",
+    "version": "1.0.0",
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "client",
+        "browser"
+    ],
+    "author": "edward",
+    "contributors": [],
+    "dependencies": {
+        "asset-assistant": "file:../../../../../project-local/assets",
+        "nidget": "file:../Nidget"
+    },
+    "main": "./src/js/NidgetContext.js",
+    "scripts": {
+        "build-assets": "assets -v",
+        "clean": "assets --clean"
+    },
+    "license": "ISC",
+    "description": "",
+    "assets": {
+        "src": [
+            "src/assets/**",
+            "src/css/*"
+        ]
+    }
+}
