@@ -2,7 +2,6 @@ window.jQuery = require("jquery");
 window.$ = jQuery;
 
 require("./util/customQuery");
-require("../styles/main.css");
 
 const View = require("./mvc/view/View");
 const EntityDialog = require("./mvc/EntityDialog");
