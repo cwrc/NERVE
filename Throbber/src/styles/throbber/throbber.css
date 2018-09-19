@@ -1,0 +1,35 @@
+.throbber_background{
+    position: absolute;
+    z-index: 10000;
+    height: 100%;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    background: rgb(205,205,205);
+    opacity: 0.7;
+}
+
+.throbber_message{
+    position: absolute;
+    top: calc(50%);
+    left: calc(50%);
+    transform: translate(-50%, 10vh);
+    text-align: center;
+    font-size: 4vh;
+}
+
+.throbber_percent{
+    position: absolute;
+    top: calc(50%);
+    left: calc(50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 5vh;
+}
+.throbber_image{
+    position: absolute;
+    top: calc(50% - 10vh);
+    left: calc(50% - 10vh);
+    width: 20vh;
+    height: 20vh;
+}
