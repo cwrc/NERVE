@@ -12,11 +12,7 @@
     
     <taskdef resource="jjjrmiant.xml"/>
         
-    <target name="nerve.build-js">
-        <exec executable="cmd.exe">
-            <arg line="/c npm run build-js"/>
-        </exec>
-    </target>
+    <target name="-pre-compile" depends="nerve.jjj"/>    
     
     <target name="nerve.versionify">
         <fail unless="lib.war.name" message="lib.war.name is not set"/>        
@@ -59,11 +55,9 @@
     </target>
 
     <!--Generate the JJJ files-->
-    <target name="-pre-compile" depends="nerve.jjj"/>
-    
     <target name="nerve.jjj">
-        <jjj-java srcDir="${basedir}/src/java"/>
-        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/node_modules" package="nerve">
+        <jjj-java srcDir="${basedir}/src/java" destDir="${basedir}/src/java"/>
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/jjj_module" package="nerve">
             <classpath>
                 <pathelement path="D:/Dropbox/projects-new/lib/jars/antlr-4.7.1-complete.jar"/>
                 <pathelement path="D:/Dropbox/projects-new/lib/custom/NERScriber-0.9.0.jar"/>

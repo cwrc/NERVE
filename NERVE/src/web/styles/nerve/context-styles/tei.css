@@ -1,0 +1,710 @@
+.tei .tagname-markup {
+    top: 16px;
+}
+
+.tei div[xmltagname="TEI"] {
+    font-family : Georgia, serif;
+    line-height : 1.5;
+}
+
+.tei div[xmltagname="add"] {
+    text-decoration : underline;
+}
+
+.tei div[xmltagname="anchor"] {
+    display : none;
+}
+
+.tei div[xmltagname="att"] {
+    font-family : sans-serif;
+}
+
+.tei div[xmltagname="back"] {
+    border : thin black solid;
+}
+
+.tei div[xmltagname="bibl"]{
+    display: block;
+    margin-bottom: 1em;
+    text-align: left;
+}
+
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="title"] {
+    content: "Alternate Title: " !important;
+}
+
+.tei div[xmltagname="bibl"]>
+.tei div[xmltagname="title"] {
+    content: "";
+}
+
+.tei div[xmltagname="body"] {
+    counter-reset : div1;
+}
+
+.tei div[xmltagname="byline"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="catRef"] {
+    display : none;
+}
+
+.tei div[xmltagname="cell"] {
+    display : table-cell;
+    border : 1px solid #EEEFEE;
+}
+
+.tei div[xmltagname="cit"] {
+    display : inline;
+}
+
+.tei div[xmltagname="closer"] {
+    width : 95%;
+}
+
+.tei div[xmltagname="code"] {
+    font-family : monospace;
+}
+
+.tei div[xmltagname="change"]>
+.tei div[xmltagname="date"],
+.tei div[xmltagname="publicationStmt"]>
+.tei div[xmltagname="date"] {
+    font-weight : bold;
+}
+
+.tei div[xmltagname="del"] {
+    color : red;
+    background-color : inherit;
+    text-decoration : line-through;
+}
+
+.tei div[xmltagname="body"]>
+.tei div[xmltagname="div"] {
+    counter-increment : div1;
+    counter-reset : div2;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] {
+    counter-increment : div2;
+    counter-reset : div3;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] {
+    counter-increment : div3;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] {
+}
+
+.tei div[xmltagname="div"] {
+    counter-reset:line;
+}
+
+.tei div[xmltagname="div1"] {
+    counter-increment : div1;
+    counter-reset : div2;
+}
+
+.tei div[xmltagname="div2"] {
+    counter-increment : div2;
+    counter-reset : div3;
+}
+
+.tei div[xmltagname="div3"] {
+    counter-increment : div3;
+    counter-reset : div4;
+}
+
+.tei div[xmltagname="div4"] {
+    counter-increment : div4;
+    counter-reset : div5;
+}
+
+.tei div[xmltagname="div5"] {
+    counter-increment : div5;
+    counter-reset : div6;
+}
+
+.tei div[xmltagname="div6"] {
+    counter-increment : div6;
+    counter-reset : div7;
+}
+
+.tei div[xmltagname="div7"] {
+    counter-increment : div7;
+}
+
+.tei div[xmltagname="divGen"] {
+    display : none;
+}
+
+.tei div[xmltagname="eg"] {
+    font-family : monospace;
+    display : block;
+    white-space : pre;
+    color : inherit;
+    background-color : #FFCC99;
+}
+
+.tei div[xmltagname="emph"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="epigraph"] {
+    display : block;
+    text-align : center;
+}
+
+.tei div[xmltagname="extent"] {
+    display : block;
+}
+
+.tei div[xmltagname="graphic"] {
+    color : gray;
+    background-color : inherit;
+    content : "{" attr(url) "}
+";
+}
+
+.tei div[xmltagname="figure"] {
+    display : block;
+}
+
+.tei div[xmltagname="foreign"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="formula"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="front"] {
+    display : block;
+}
+
+.tei div[xmltagname="funder"] {
+    display : block;
+}
+
+.tei div[xmltagname="gap"] {
+    display : none;
+}
+
+.tei div[xmltagname="gi"],
+.tei div[xmltagname="tag"] {
+    font-family : sans-serif;
+    color : black;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="group"] {
+    display : block;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
+    display : block;
+    color : inherit;
+    font-weight : bold;
+    font-size : 18px;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+head .tei div[xmltagname="author"] {
+    font-weight:normal;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
+    display : block;
+    color : inherit;
+    background-color : #BBBBBB;
+    font-weight : bold;
+}
+
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="head"] {
+    display : block;
+    color : inherit;
+    background-color : #BBBBBB;
+    font-weight : bold;
+}
+
+.tei div[xmltagname="div"]
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="dateline"] {
+    display : block;
+    text-align : right;
+    width : 95%;
+}
+
+.tei div[xmltagname="hi"] {
+    background-color : yellow;
+    color : black;
+}
+
+.tei div[xmltagname="hi"] {
+    background-color : inherit;
+    color : inherit;
+}
+
+.tei div[xmltagname="hi"] {
+    font-weight : bold;
+}
+
+.tei div[xmltagname="hi"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="hi"] {
+    text-decoration : underline;
+}
+
+.tei div[xmltagname="hi"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="hi"] {
+    font-variant : small-caps;
+}
+
+.tei div[xmltagname="hi"] {
+    vertical-align : super;
+    font-size : smaller;
+}
+
+.tei div[xmltagname="hi"] {
+    vertical-align : sub;
+    font-size : smaller;
+}
+
+.tei div[xmltagname="hi"] {
+    text-decoration : underline;
+}
+
+.tei div[xmltagname="ident"] {
+    font-family : monospace;
+}
+
+.tei div[xmltagname="index"] {
+    display : none;
+}
+
+.tei div[xmltagname="interp"] {
+    display : none;
+}
+
+.tei div[xmltagname="interpGrp"] {
+    display : none;
+}
+
+.tei div[xmltagname="list"]
+.tei div[xmltagname="item"] {
+    display : list-item;
+}
+
+.tei div[xmltagname="item"] {
+    display : list-item;
+}
+
+.tei div[xmltagname="kw"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="label"] {
+    font-weight : bold;
+}
+
+.tei div[xmltagname="Label"] {
+    font-weight : bold;
+    color : #2F4F4F;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="argument"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="body"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div0"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div1"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div2"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div3"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div4"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div5"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div6"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="div7"] >
+.tei div[xmltagname="label"] ,
+.tei div[xmltagname="epigraph"] >
+.tei div[xmltagname="label"] {
+    font-weight : bold;
+}
+
+.tei div[xmltagname="list"] {
+    display : block;
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+.tei div[xmltagname="list"] {
+    display : inline;
+}
+
+.tei div[xmltagname="list"] {
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+.tei div[xmltagname="list"] {
+    list-style-type : disc;
+    list-style-position : outside;
+}
+
+.tei div[xmltagname="list"] {
+    list-style-type : decimal;
+    list-style-position : outside;
+}
+
+.tei div[xmltagname="list"] {
+    list-style-type : decimal;
+    list-style-position : outside;
+}
+
+.tei div[xmltagname="list"] {
+    list-style-type : none;
+}
+
+.tei div[xmltagname="mentioned"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="milestone"] {
+    display : none;
+}
+
+.tei div[xmltagname="note"] {
+    color:#999;
+}
+
+.tei div[xmltagname="opener"]
+.tei div[xmltagname="note"] {
+    color:#999;
+}
+
+.tei div[xmltagname="div"]
+.tei div[xmltagname="note"]
+.tei div[xmltagname="persName"], .tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="orgName"], .tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="title"], .tei div[xmltagname="div"] .tei div[xmltagname="note"] .tei div[xmltagname="placeName"] {
+    color:#6DB0CC !important;
+}
+
+.tei div[xmltagname="note"] {
+    float : left;
+}
+
+.tei div[xmltagname="note"] {
+    float : right;
+}
+
+.tei div[xmltagname="note"],
+.tei div[xmltagname="note"] {
+    display : inline;
+}
+
+.tei div[xmltagname="num"] {
+    display : inline;
+}
+
+.tei div[xmltagname="head"],
+.tei div[xmltagname="byline"],
+.tei div[xmltagname="docAuthor"],
+.tei div[xmltagname="p"] {
+    word-wrap: normal;
+    white-space: pre-line;
+    display : block;    
+    text-align : justify !important;
+    margin-bottom: 1em;
+}
+
+.tei div[xmltagname="p"] {
+    word-wrap: normal;
+    white-space: pre-line;
+    display : block;    
+    text-align : justify !important;
+    margin-bottom: 2em;
+}
+
+.tei div[xmltagname="pb"] {
+    display : none;
+}
+
+.tei div[xmltagname="div"]
+.tei div[xmltagname="persName"], .tei div[xmltagname="div"] .tei div[xmltagname="placeName"], .tei div[xmltagname="div"] .tei div[xmltagname="orgName"], .tei div[xmltagname="div"] .tei div[xmltagname="title"] {
+    color: #336699;
+}
+
+.tei div[xmltagname="principal"] {
+    display : block;
+}
+
+.tei div[xmltagname="ptr"] {
+    color : navy;
+    text-decoration : underline;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="publicationStmt"] {
+    display : block;
+}
+
+.tei div[xmltagname="publicationStmt"]
+.tei div[xmltagname="p"] {
+    display : block;
+}
+
+.tei div[xmltagname="publisher"] {
+    display : inline;
+}
+
+.tei div[xmltagname="imprint"] >
+.tei div[xmltagname="publisher"],
+.tei div[xmltagname="publicationStmt"] >
+.tei div[xmltagname="publisher"] {
+    display : block;
+}
+
+.tei div[xmltagname="pubPlace"] {
+    display : inline;
+}
+
+.tei div[xmltagname="imprint"] >
+.tei div[xmltagname="pubPlace"],
+.tei div[xmltagname="publicationStmt"] >
+.tei div[xmltagname="pubPlace"] {
+    display : block;
+}
+
+.tei div[xmltagname="q"] {
+    quotes : '"' '"' "'" "'";
+}
+
+.tei div[xmltagname="reg"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="row"] {
+    display : table-row;
+}
+
+.tei div[xmltagname="row"] {
+    color : inherit;
+    background-color : #BBBBBB;
+}
+
+.tei div[xmltagname="sic"] {
+    color : red;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="soCalled"] {
+    display : inline;
+    font-style : italic;
+    quotes : "'" "'";
+}
+
+.tei div[xmltagname="div"]
+.tei div[xmltagname="p"] {
+    text-align : justify;
+    text-indent : 30px;
+}
+
+.tei div[xmltagname="speaker"] {
+    font-weight : bold;
+}
+
+
+.tei div[xmltagname="stage"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="table"] {
+    text-align : center;
+    display : table;
+    margin : 1em
+}
+
+.tei div[xmltagname="table"] >
+.tei div[xmltagname="head"] {
+    display : table-caption;
+    font-style : italic;
+}
+
+.tei div[xmltagname="term"] {
+    font-family : sans-serif;
+    color : black;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="title"] {
+    font-weight:normal;
+}
+
+.tei div[xmltagname="title"],
+.tei div[xmltagname="title"] {
+    font-style : italic;
+}
+
+.tei div[xmltagname="title"] {
+    font-style : normal;
+}
+
+.tei div[xmltagname="title"],
+.tei div[xmltagname="title"] {
+    font-style : normal;
+}
+
+.tei div[xmltagname="seriesStmt"] >
+.tei div[xmltagname="title"],
+.tei div[xmltagname="titleStmt"] >
+.tei div[xmltagname="title"] {
+    color:gray;
+    font-weight : bold;
+}
+
+.tei div[xmltagname="titlePage"] {
+    border : thin black solid;
+    text-align : center;
+}
+
+.tei div[xmltagname="titleStmt"] {
+    color : #333;
+}
+
+.tei div[xmltagname="unclear"] {
+    display : inline;
+    color : gray;
+    background-color : inherit;
+    font-style : italic;
+}
+
+.tei div[xmltagname="header-related"] .tei div[xmltagname="material"] .tei div[xmltagname="teiHeader"] {
+    display : block;
+    color : gray;
+    background-color : rgb(251, 242, 234);
+}
+
+.tei div[xmltagname="teiHeader"]
+.tei div[xmltagname="title"] {
+    color:gray;
+}
+
+.tei div[xmltagname="sourceDesc"] {
+    border : thin silver solid;
+}
+
+.tei div[xmltagname="docTitle"] {
+    font-weight : bold;
+    font-weight:bold;
+}
+
+.tei div[xmltagname="OUCS"] .tei div[xmltagname="additions"]
+.tei div[xmltagname="Button"] {
+    font-family : monospace;
+    color : red;
+    font-weight : bold;
+    background-color : rgb(75%, 75%, 75%)
+}
+
+.tei div[xmltagname="Value"] {
+    font-family : monospace;
+    color : rgb(255, 102, 0);
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Code"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Field"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Filespec"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Input"] {
+    font-family : monospace;
+    color : green;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Key"] {
+    font-family : monospace;
+    text-decoration : underline;
+    color : green;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Link"] {
+    font-family : monospace;
+    color : green;
+    background-color : inherit;
+    text-decoration : underline;
+}
+
+.tei div[xmltagname="Menu"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Output"] {
+    font-family : monospace;
+    color : red;
+    background-color : inherit;
+}
+
+.tei div[xmltagname="Icon"] {
+    color : inherit;
+    background-color : #B0E0E6;
+    font-weight : bold;
+}
+
+.tei div[xmltagname="Screen"] {
+    font-family : monospace;
+    display : block;
+    white-space : pre;
+    color : inherit;
+    background-color : #FFCC99;
+}
+

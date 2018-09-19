@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html>
+    <head>
         <title>NERVE 0.9.0</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,29 +10,18 @@
         <script type="text/javascript" src="nerveapp.js"></script>
         <!------------------------------------------------------------------------------------------->
         
-    	<link href="styles/nerve\context-styles\cwrc.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\context-styles\orlando.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\context-styles\playwrights.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\context-styles\tei.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\contextDialog.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\entitypanel.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\lemmaDialog.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\menu.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\nerve.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\tagname-markup.css" rel="stylesheet" type="text/css" data-injected="true">
-	<link href="styles/nerve\tags.css" rel="stylesheet" type="text/css" data-injected="true">
-</head>
+    </head>
 
-    <body oncontextmenu="return false">
+    <body oncontextmenu='return false'>
         <!-- typically hidden stuff -->
         <div id="userMessage"></div>
         <div id="throbberBG">
-            <img id="throbber" src="assets/nerve/loader400.gif">           
+            <img id="throbber" src="assets/nerve/loader400.gif"/>           
             <div id="message"></div>
             <div id="percent">0%</div>
         </div>
 
-        <input type="file" id="fileOpenDialog">
+        <input type="file" id="fileOpenDialog"/>
         <!-- ---------------------- -->
 
 <!--        ---- Tagged Entity Context Dialog -----
@@ -84,7 +75,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title"></h4>
                     </div>
                     <div class="modal-body" data-widget-id="html-contents"></div>
@@ -103,7 +94,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Message</h4>
                     </div>
                     <div class="modal-body" data-widget-id="message"></div>
@@ -129,7 +120,7 @@
                     <div class="menu">
                         <div class="menuTitle">File</div>
                         <div class="itemContainer">
-                            <div class="menuItem" id="menuOpen">Open - NER &amp; Link<div class="menuSC">Ctrl-O</div></div>
+                            <div class="menuItem" id="menuOpen">Open - NER & Link<div class="menuSC">Ctrl-O</div></div>
                             <div class="menuItem" id="menuLink">Open - Link</div>
                             <div class="menuItem" id="menuNER">Open - NER</div>
                             <div class="menuItem" id="menuEdit">Open - Edit</div>
@@ -184,7 +175,7 @@
                                 <span class="ui-icon  ui-icon-search"></span>
                             </button>
                         </div>
-                        <input title="Text, as it appears in the document" class="entityDialogTB" id="txtEntity" type="text">
+                        <input title="Text, as it appears in the document" class="entityDialogTB" id="txtEntity" type="text"/>
                     </div>
 
                     <div>
@@ -193,7 +184,7 @@
                                 <span class="ui-icon  ui-icon-search"></span>
                             </button>
                         </span>
-                        <input class="entityDialogTB" id="txtLemma" type="text">
+                        <input class="entityDialogTB" id="txtLemma" type="text"/>
                     </div>
 
                     <div>
@@ -202,7 +193,7 @@
                                 <span class="ui-icon ui-icon-play"></span>
                             </button>
                         </span>
-                        <input class="entityDialogTB" id="txtLink" type="text">
+                        <input class="entityDialogTB" id="txtLink" type="text"/>
                     </div>
 
                     <!--                    <div>
@@ -218,5 +209,5 @@
 
             <!--<div id="dialogsHolder"></div>-->
         </div>
-    
-</body></html>
+    </body>
+</html>

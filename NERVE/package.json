@@ -3,51 +3,52 @@
     "version": "0.9.0",
     "main": "./web/js/main.js",
     "dependencies": {
-      "LemmaDialog": "file:../LemmaDialog",
-      "NidgetContext": "file:../NidgetContext",
-      "asset-assistant": "file:../../../../Dropbox/projects-new/trunk/asset-assistant",
-      "babel-core": "^6.26.0",
-      "babel-preset-es2015": "^6.24.1",
-      "babelify": "^8.0.0",
-      "browserify-css": "^0.14.0",
-      "cd": "^0.3.3",
-      "cwrc-git-dialogs": "^1.1.6",
-      "cwrc-public-entity-dialogs": "^1.2.8",
-      "cwrc-writer-base": "2.11.1",
-      "dbpedia-entity-lookup": "^0.2.1",
-      "fs": "0.0.1-security",
-      "geonames-entity-lookup": "^1.1.2",
-      "getty-entity-lookup": "^1.4.2",
-      "jjjrmi": "^0.4.10",
-      "jjjsql": "^1.1.3",
-      "jquery": "^3.3.1",
-      "nerscriber": "file:../NERScriber",
-      "nidget": "file:../Nidget",
-      "rootpath": "^0.1.2",
-      "viaf-entity-lookup": "^1.2.2",
-      "wikidata-entity-lookup": "^1.2.2"
+        "LemmaDialog": "file:../LemmaDialog",
+        "NidgetContext": "file:../NidgetContext",
+        "nidget": "file:../Nidget",
+        "nerve": "file:./jjj_module/nerve",
+        "asset-assistant": "file:../../../../Dropbox/projects-new/trunk/asset-assistant",
+        "babel-core": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babelify": "^8.0.0",
+        "browserify-css": "^0.14.0",
+        "cd": "^0.3.3",
+        "cwrc-git-dialogs": "^1.1.6",
+        "cwrc-public-entity-dialogs": "^1.2.8",
+        "cwrc-writer-base": "2.11.1",
+        "dbpedia-entity-lookup": "^0.2.1",
+        "fs": "0.0.1-security",
+        "geonames-entity-lookup": "^1.1.2",
+        "getty-entity-lookup": "^1.4.2",
+        "jjjrmi": "^0.4.10",
+        "jjjsql": "^1.1.3",
+        "jquery": "^3.3.1",
+        "nerscriber": "file:../NERScriber",
+        "rootpath": "^0.1.2",
+        "viaf-entity-lookup": "^1.2.2",
+        "wikidata-entity-lookup": "^1.2.2"
     },
     "devDependencies": {},
     "author": "",
     "scripts": {
         "build": "npm run build-js && npm run assets && npm run inject-css",
-        "build-js": "browserify web/js/main.js -o build/nerveapp.js -d",      
-        "assets": "assets -d",
-        "inject-css": "inject build/styles/**/*.css build/nerve.html",
-
-    "watch-js": "watchify web/js/main.js -o web/build/nerveapp.js -dv",
-      "copy-assets-this": "copyfiles -u 1 web/assets/**/* web/build",
-      "copy-assets": "npm run copy-assets-NidgetContext && npm run copy-assets-this && npm run copy-assets-LemmaDialog"
+        "build-js": "browserify src/web/js/main.js -o web/nerveapp.js -d",
+        "assets": "assets -v",
+        "inject-css": "inject web/*.js web/styles/**/*.css web/nerve.html",
+        "watch-js": "watchify s/src/js/main.js -o web/build/nerveapp.js -dv"
     },
     "assets": {
+        "up": 2,
         "local-src": [
-            "web/*.html"
+            "src/web/*.html"
         ],
         "src": [
-            "web/styles/**/*",
-            "web/WEB-INF/**/*"
-        ]
-    },  
+            "src/web/styles/**/*",
+            "src/web/WEB-INF/**/*",
+            "src/web/assets/**/*"
+        ],
+        "dest": "web"
+    },
     "directories": {
         "lib": "lib"
     },
