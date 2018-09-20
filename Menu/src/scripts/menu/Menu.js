@@ -13,6 +13,7 @@ class Menu extends Widget{
         for (let category in jsonObject){
             this.addCategory(category, jsonObject[category]);
         }
+        return this;
     }
     
     addCategory(text, jsonObject){
