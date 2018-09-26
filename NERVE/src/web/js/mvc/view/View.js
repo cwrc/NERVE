@@ -31,15 +31,15 @@ class View {
     notifyCollectionRemove(collection, TaggedEntityWidget) {
         $(TaggedEntityWidget.getElement()).removeClass("selected");
     }
-    notifyProgress(progressPacket) {
-        if (progressPacket.progressStage === ProgressStage.START){
-            this.showThrobber(true);
-        } else if (progressPacket.progressStage === ProgressStage.CONTINUE){
-            this.setThrobberMessage(progressPacket.message);
-        } else if (progressPacket.progressStage === ProgressStage.COMPLETE){
-            this.showThrobber(false);
-        }
-    }
+//    notifyProgress(progressPacket) {
+//        if (progressPacket.progressStage === ProgressStage.START){
+//            this.showThrobber(true);
+//        } else if (progressPacket.progressStage === ProgressStage.CONTINUE){
+//            this.setThrobberMessage(progressPacket.message);
+//        } else if (progressPacket.progressStage === ProgressStage.COMPLETE){
+//            this.showThrobber(false);
+//        }
+//    }
     notifySetDocument(docElement){
         $(docElement).find("*").removeClass("selected");
     }

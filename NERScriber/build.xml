@@ -3,17 +3,21 @@
     <description>Builds, tests, and runs the project NERScriber.</description>
     
     <property file="nbproject/project.properties"/>
-    <import file="nbproject/build-impl.xml"/>        
-    <import file="D:/Dropbox/projects-new/shared.xml"/>  
+    <import file="nbproject/build-impl.xml"/>
+    <property file="D:/project-local/trunk/nerve/shared.properties"/>
+    <import file="D:/project-local/trunk/nerve/shared.xml"/>       
     
-    <taskdef resource="jjjrmiant.xml"/>       
-    <property name="version.num" value="0.9.0" />
+    <taskdef resource="jjjrmiant.xml"/>     
+    <property name="version.num" value="0.9.0" />  
     <property name="lib.jar.name" value="NERScriber-${version.num}.jar"/>
-    
-    <!-- After jar creation copy file to common library -->
-    <target name="-post-jar" depends="jar-to-custom-lib,scriber.generate.code"/>
 
-    <target name="scriber.generate.code">
-        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/web-gen" package="nerscriber" generateJSON="false"/>
+    <!-- After jar creation copy file to common library -->
+    <target name="-post-jar" depends="jar-to-custom-lib"/> 
+
+    <!--Generate JJJ Files-->    
+    <target name="-pre-compile" depends="scriber.jjj"/>    
+    <target name="scriber.jjj">
+        <mkdir dir="${basedir}/dist/module"/>
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/dist/module" package="nerscriber" json="false"/>
     </target>
 </project>

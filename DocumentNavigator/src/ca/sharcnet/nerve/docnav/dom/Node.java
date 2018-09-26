@@ -1,8 +1,8 @@
 package ca.sharcnet.nerve.docnav.dom;
+import ca.sharcnet.docnav.DocNavException;
 import static ca.sharcnet.nerve.docnav.dom.NodeType.*;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.util.Iterator;
-import java.util.List;
 
 /**
 A node is a DOM object which may have a parent node, child nodes and/or attributes.
@@ -25,7 +25,7 @@ public abstract class Node implements Iterable<Node> {
      */
     public Node(IsNodeType type, String name, AttributeList attributes, NodeList children) {
         this.type = type;
-        this.name = name;
+        this.name(name);
         this.attributes = new AttributeList(attributes);
         for (Node node : children) this.addChild(node.copy());
     }
@@ -39,7 +39,7 @@ public abstract class Node implements Iterable<Node> {
      */
     public Node(IsNodeType type, String name, AttributeList attributes) {
         this.type = type;
-        this.name = name;
+        this.name(name);
         this.attributes = new AttributeList(attributes);
     }
 
@@ -52,7 +52,7 @@ public abstract class Node implements Iterable<Node> {
      */
     public Node(IsNodeType type, String name) {
         this.type = type;
-        this.name = name;
+        this.name(name);
         this.attributes = new AttributeList();
     }
 
@@ -90,13 +90,15 @@ public abstract class Node implements Iterable<Node> {
 
     /**
      * Set the node name, may mean different things to different nodes.
+     * @param name the name of the node (ie \<name\>\</name\>).
      */
     final public Node name(String name) {
+        if (name == null) throw new DocNavException("Node name can not be null");
         this.name = name;
         return this;
     }
 
-    public String name() {
+    public final String name() {
         return name;
     }
 

@@ -15,4 +15,8 @@ public class EncodeOptions {
     public EncodeProcess[] getProcesses(){
         return processes.toArray(new EncodeProcess[processes.size()]);
     }
+    
+    public boolean hasProcess(EncodeProcess encodeProcess){
+        return processes.contains(encodeProcess);
+    }
 }

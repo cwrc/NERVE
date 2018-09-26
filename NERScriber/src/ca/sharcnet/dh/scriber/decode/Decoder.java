@@ -8,7 +8,7 @@ import ca.sharcnet.dh.scriber.ProgressStage;
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
 import ca.sharcnet.dh.scriber.context.TagInfo;
-import ca.sharcnet.nerve.docnav.dom.DocNavException;
+import ca.sharcnet.docnav.DocNavException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.InstructionNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -56,7 +56,8 @@ public class Decoder {
         if (selected.isEmpty()) {
             throw new RuntimeException("Context element not found.");
         }
-        String contextPath = String.format("/contexts/%s.context.json", selected.attr(CONTEXT_ATTRIBUTE).toLowerCase());
+        
+        String contextPath = String.format("%s/%s.context.json", CONTEXT_PATH, selected.attr(CONTEXT_ATTRIBUTE).toLowerCase());
         Context context = ContextLoader.load(hasStreams.getResourceStream(contextPath));
 
         ScriptEngine engine = null;

@@ -66,10 +66,6 @@ class MenuItem extends Widget {
     }
 
     setKey(key, ctrl = true, alt = false, shift = false) {
-        if ((ctrl === false && alt === false)){
-            throw new Error("Menu key bindings must contain either CTRL, ALT or both");
-        }
-        
         if (this.shortcut !== null) {
             this.shortcut.detach();
         }

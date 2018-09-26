@@ -83,4 +83,14 @@ public class Constants {
     It will be ignored during decode.    
     */
     public final static String DICT_SRC_ATTR = "dict-src";
+    
+    /*
+    The root path to the schema documents in the resource dirctory
+    */
+    public final static String SCHEMA_PATH = "schemas";
+    
+    /*
+    The root path to the context documents in the resource dirctory
+    */
+    public final static String CONTEXT_PATH = "contexts";    
 }

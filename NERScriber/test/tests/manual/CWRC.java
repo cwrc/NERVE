@@ -1,53 +1,24 @@
 package tests.manual;
 import ca.frar.utility.console.Console;
-import ca.sharcnet.dh.scriber.HasStreams;
-import ca.sharcnet.dh.scriber.ProgressListener;
-import ca.sharcnet.dh.scriber.ProgressPacket;
-import ca.sharcnet.dh.scriber.decode.Decoder;
-import ca.sharcnet.nerve.docnav.DocumentLoader;
-import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.dh.scriber.encoder.EncodeOptions;
 import ca.sharcnet.dh.scriber.encoder.EncodeProcess;
 import ca.sharcnet.dh.scriber.encoder.EncodedDocument;
-import ca.sharcnet.dh.scriber.encoder.Encoder;
-import java.io.File;
-import java.io.FileInputStream;
+import ca.sharcnet.docnav.StartNodeException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class CWRC implements HasStreams,ProgressListener {
-    static String filename = "documents/cwrc.xml";
-
+public class CWRC {
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
-        CWRC main = new CWRC();
-        Document doc = DocumentLoader.documentFromStream(main.getResourceStream(filename));
-        EncodeOptions encodeOptions = new EncodeOptions();        
-        encodeOptions.addProcess(EncodeProcess.NER);
-        
-        EncodedDocument encoded = Encoder.encode(doc, main, encodeOptions, main);
-        Console.log(encoded);
-//        Document decoded = Decoder.decode(encoded, main, main);
-//        Console.log(decoded);
-    }
-
-    @Override
-    public InputStream getResourceStream(String path) {
-        try {
-            File file = new File("./resources" + "/" + path);
-            return new FileInputStream(file);
-        } catch (IOException ex) {
-            Logger.getLogger(CWRC.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            Main main = new Main("cwrc.xml");            
+            main.encode();
+            main.decode();
+        } catch (StartNodeException ex){
+            ex.printStackTrace();
+            System.err.println("----- Document Start -----");
+            System.err.print(ex.getDocument());
+            System.err.println("------ Document End ------");
         }
-        return null;
-    }
-
-    @Override
-    public void notifyProgress(ProgressPacket packet) {
-        Console.log(packet);
     }
 }

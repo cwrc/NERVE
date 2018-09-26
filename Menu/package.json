@@ -14,7 +14,8 @@
         "Utility": "file:../Utility",
         "asset-assistant": "",
         "jquery": "",
-        "nidget": "file:../Nidget"
+        "nidget": "file:../Nidget",
+        "opn": "^5.4.0"
     },
     "scripts": {
         "build": "npm run build-js && npm run assets",
@@ -22,7 +23,8 @@
         "assets": "assets -v && npm run inject-css",
         "inject-css": "inject public_html/scripts/*.js public_html/styles/**/*.css public_html/index.html",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
-        "clean": "assets --clean"
+        "clean": "assets --clean",
+        "browse-to": "opn "
     },
     "assets": {
         "src": [
@@ -31,5 +33,5 @@
         ],
         "dest": "public_html"
     },
-    "main": "src/scripts/throbber/Menu.js"
+    "main": "src/scripts/menu/Menu.js"
 }

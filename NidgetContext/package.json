@@ -11,7 +11,7 @@
     "author": "edward",
     "contributors": [],
     "dependencies": {
-        "asset-assistant": "file:../../../../../project-local/assets",
+        "asset-assistant": "",
         "nidget": "file:../Nidget"
     },
     "main": "./src/js/NidgetContext.js",

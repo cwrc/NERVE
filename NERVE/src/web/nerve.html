@@ -15,12 +15,6 @@
     <body oncontextmenu='return false'>
         <!-- typically hidden stuff -->
         <div id="userMessage"></div>
-        <div id="throbberBG">
-            <img id="throbber" src="assets/nerve/loader400.gif"/>           
-            <div id="message"></div>
-            <div id="percent">0%</div>
-        </div>
-
         <input type="file" id="fileOpenDialog"/>
         <!-- ---------------------- -->
 
@@ -108,50 +102,16 @@
         <!------------------------------------------------------>        
 
         <div id="container">
-            <!------ MENU ------>
+            
+            <!------------------------------ MENU ------------------------------>
             <div id="menuContainer">
                 <div id="menuInfo">
-                    <div id="abbr">NERVE 0.9.0</div>
-                    <div id="fullname">Named Entity Recognition Vetting Environment</div>
-                    <div id="link"><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
+                    <div>NERVE 0.9.0</div>
+                    <div>Named Entity Recognition Vetting Environment</div>
+                    <div><a href="http://dh.sharcnet.ca/nerve">dh.sharcnet.ca</a></div>
                 </div>
                 <div id="documentTitle">Document Title</div>
-                <div id="menuBar">                    
-                    <div class="menu">
-                        <div class="menuTitle">File</div>
-                        <div class="itemContainer">
-                            <div class="menuItem" id="menuOpen">Open - NER & Link<div class="menuSC">Ctrl-O</div></div>
-                            <div class="menuItem" id="menuLink">Open - Link</div>
-                            <div class="menuItem" id="menuNER">Open - NER</div>
-                            <div class="menuItem" id="menuEdit">Open - Edit</div>
-                            <div class="menuItem" id="menuSave">Save<div class="menuSC">Ctrl-S</div></div>
-                            <div class="menuItem" id="menuClose">Close</div>
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="menuTitle">View</div>
-                        <div class="itemContainer">
-                            <div class="menuItem" id="menuTags" data-value="false">Tag Mode</div>
-                            <div class="menuItem" id="menuClear">Clear Selection<div class="menuSC">esc</div></div>
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="menuTitle">Action</div>
-                        <div class="itemContainer">
-                            <div class="menuItem" id="menuTag">Tag<div class="menuSC">Ctrl-E</div></div>
-                            <div class="menuItem" id="menuUntag">Remove Tag<div class="menuSC">Ctrl-R</div></div>
-                            <div class="menuItem" id="menuMerge">Merge Entities<div class="menuSC">Ctrl-M</div></div>
-                            <div class="menuItem" id="menuCopy">Copy<div class="menuSC">Ctrl-C</div></div>
-                            <div class="menuItem" id="menuPaste">Paste<div class="menuSC">Ctrl-V</div></div>
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="menuTitle">Help</div>
-                        <div class="itemContainer">
-                            <div class="menuItem" id="menuWiki">Wiki</div>
-                        </div>
-                    </div>
-                </div>
+                <div id="menuBar"/>
             </div>
 
             <div id="middlePanel">

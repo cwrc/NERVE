@@ -20,25 +20,32 @@ import java.util.logging.Logger;
 import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Main implements HasStreams,ProgressListener {
-    static String filename = "D:/nerve-temp/testFiles/minimalOrlando.xml";
-
-    public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
-        Main main = new Main();
-        Document doc = DocumentLoader.documentFromStream(new FileInputStream(filename));
-        EncodeOptions encodeOptions = new EncodeOptions();      
-        encodeOptions.addProcess(EncodeProcess.NER);
-        
-        EncodedDocument encoded = Encoder.encode(doc, main, encodeOptions, main);
-        Console.log(encoded);
-        Document decoded = Decoder.decode(encoded, main, main);
-        Console.log(decoded);
+public class Main implements HasStreams, ProgressListener {
+    private final EncodeOptions encodeOptions;
+    private final Document doc;
+    private EncodedDocument encoded;
+    private Document decoded;
+    
+    public Main(String filename) throws IOException{
+        this.doc = DocumentLoader.documentFromStream(this.getFileStream(filename));
+        this.encodeOptions = new EncodeOptions();                
+    }
+    
+    public EncodedDocument encode(EncodeProcess ... encodeProcesses) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
+        encodeOptions.addProcess(encodeProcesses);
+        this.encoded = Encoder.encode(this.doc, this, this.encodeOptions, this);
+        return this.encoded;
     }
 
+    public Document decode() throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
+        this.decoded = Decoder.decode(this.encoded, this, this);
+        return decoded;
+    }
+    
     @Override
-    public InputStream getResourceStream(String path) {
+    public final InputStream getResourceStream(String path) {
         try {
-            File file = new File("./resources" + "/" + path);
+            File file = new File("./src/res/" + path);
             return new FileInputStream(file);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,6 +53,16 @@ public class Main implements HasStreams,ProgressListener {
         return null;
     }
 
+    public final InputStream getFileStream(String path) {
+        try {
+            File file = new File("./test/tests/documents/" + path);
+            return new FileInputStream(file);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }    
+    
     @Override
     public void notifyProgress(ProgressPacket packet) {
         Console.log(packet);

@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.schema.relaxng;
+import ca.sharcnet.docnav.StartNodeException;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -19,6 +20,7 @@ public final class RelaxNGSchema extends Document implements Schema {
     public RelaxNGSchema(Document doc) {
         super(doc);
         this.start = query("start").first();
+        if (this.start == null) throw new StartNodeException(doc);
         this.query("define").forEach(node -> defines.put(node.attr("name"), node));
     }
 
@@ -48,6 +50,8 @@ public final class RelaxNGSchema extends Document implements Schema {
     }
 
     private boolean checkValidity(LinkedList<String> path, Node schemaNode) {
+        if (schemaNode == null) throw new NullPointerException();
+        
         switch (schemaNode.name()) {
             case "element":
                 return checkElement(path, schemaNode);

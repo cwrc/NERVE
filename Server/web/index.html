@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Server Demo/Test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/main.js" type="text/javascript"></script>
+        
+        <style>
+            #filetext{
+                position: absolute;
+                border: 1px solid black;
+                width: 70vw;
+                height: 80vh;
+                left: 15vw;
+                top: 10vh;
+                background-color: whitesmoke; 
+                white-space: pre;
+                overflow: scroll;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="file" id="fileOpenDialog">
+        <button id="bEdit">Edit</button>
+        <button id="bNer">NER</button>
+        <button id="bDict">Dict</button>
+        <button id="bFull">Full</button>
+        <button id="bDecode">Decode</button>
+        <div id="filetext"></div>
+    </body>
+</html>

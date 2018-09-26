@@ -1,6 +1,6 @@
 package ca.sharcnet.nerve.docnav.tests;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
-import ca.sharcnet.nerve.docnav.dom.DocNavException;
+import ca.sharcnet.docnav.DocNavException;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.Node;

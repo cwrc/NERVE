@@ -1,0 +1,42 @@
+{
+    "name"               : "Orlando",
+    "tags" : [
+        {
+            "name"           : "ORGNAME",
+            "standard"       : "ORGANIZATION",
+            "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "PLACE",
+            "standard"       : "LOCATION",
+            "lemmaAttribute" : "REG",
+            "linkAttribute"  : "REF",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "NAME",
+            "standard"       : "PERSON",
+            "lemmaAttribute" : "STANDARD",
+            "linkAttribute"  : "REF",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {}
+        },
+        {
+            "name"           : "TITLE",
+            "standard"       : "TITLE",
+            "lemmaAttribute" : "REG",
+            "linkAttribute"  : "REF",
+            "idAttribute"    : "annotationId",
+            "defaults"       : {"TITLETYPE": "MONOGRAPHIC"}
+        }
+    ],
+    "styles" : [
+        "orlando"
+    ],
+    "schemaName" : "orlando_biography_v2.rng",
+    "tagSourceAttribute" : "whoTagged"
+}

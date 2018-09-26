@@ -1,6 +1,7 @@
 package ca.sharcnet.dh.scriber.context;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
+import ca.frar.jjjrmi.annotations.JSPrequel;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.translator.DataObject;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 
 @JJJ
 @JJJOptions(retain=false)
+@JSPrequel("const HashMap = require('jjjrmi').HashMap;")
 public class TagInfo implements DataObject{
     private final String name;
     private final String standard;

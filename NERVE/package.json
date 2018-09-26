@@ -4,9 +4,10 @@
     "main": "./web/js/main.js",
     "dependencies": {
         "LemmaDialog": "file:../LemmaDialog",
+        "Menu": "file:../Menu",
         "NidgetContext": "file:../NidgetContext",
-        "nidget": "file:../Nidget",
-        "nerve": "file:./jjj_module/nerve",
+        "Throbber": "file:../Throbber",
+        "Utility": "file:../Utility",
         "asset-assistant": "file:../../../../Dropbox/projects-new/trunk/asset-assistant",
         "babel-core": "^6.26.0",
         "babel-preset-es2015": "^6.24.1",
@@ -24,6 +25,8 @@
         "jjjsql": "^1.1.3",
         "jquery": "^3.3.1",
         "nerscriber": "file:../NERScriber",
+        "nerve": "file:./jjj_module/nerve",
+        "nidget": "file:../Nidget",
         "rootpath": "^0.1.2",
         "viaf-entity-lookup": "^1.2.2",
         "wikidata-entity-lookup": "^1.2.2"

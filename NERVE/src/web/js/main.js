@@ -1,4 +1,25 @@
-////window.jQuery = require("jquery");
+const jQuery = require("jquery");
+const $ = jQuery;
+const Throbber = require("Throbber");
+const Menu = require("Menu");
+const FileOperations = require("Utility").FileOperations;
+
+$(window).on('load', async function () {
+    window.throbber = new Throbber();
+    window.menu = new Menu();
+    menu.$.appendTo("#menuBar");
+    
+//    try{
+        let menuJSON = await FileOperations.getURL("assets/nerve/menu.json");
+        console.log(menuJSON);
+        window.menu.loadJSON(JSON.parse(menuJSON));        
+//    } catch (err){
+//        window.alert("Get File Error: " + err.url);
+//    }    
+});
+
+//
+//////window.jQuery = require("jquery");
 //window.$ = jQuery;
 //
 //require("./util/customQuery");

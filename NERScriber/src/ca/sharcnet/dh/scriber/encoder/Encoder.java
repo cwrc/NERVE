@@ -20,9 +20,11 @@ import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import ca.frar.utility.console.Console;
+import ca.sharcnet.dh.scriber.encoder.exceptions.NullSchemaPathException;
+import ca.sharcnet.dh.scriber.encoder.exceptions.NullSchemaStreamException;
+import ca.sharcnet.dh.scriber.encoder.exceptions.UnknownSchemaException;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
@@ -62,60 +64,63 @@ public class Encoder extends ProgressListenerList {
         if (listener != null) listener.notifyProgress(progressPacket);
 
         /* connect to SQL */
-        progressPacket.message("Connecting to SQL database").stage(ProgressStage.CONTINUE);
-        if (listener != null) listener.notifyProgress(progressPacket);
-        Properties config = new Properties();
-        InputStream cfgStream = hasStreams.getResourceStream("config.txt");
-        config.load(cfgStream);
-        SQL sql = new SQL(config);
+        SQL sql = null;
+        if (options.hasProcess(EncodeProcess.DICTIONARY)){
+            progressPacket.message("Connecting to SQL database").stage(ProgressStage.CONTINUE);
+            if (listener != null) listener.notifyProgress(progressPacket);
+            Properties config = new Properties();
+            InputStream cfgStream = hasStreams.getResourceStream("config.txt");
+            config.load(cfgStream);
+            sql = new SQL(config);
+        }
 
         /* build classifier */
-        progressPacket.message("Building Classifier").stage(ProgressStage.CONTINUE);
-        if (listener != null) listener.notifyProgress(progressPacket);
-        InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
-        BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
-        Classifier classifier = new Classifier(bis);
-        cStream.close();
+        Classifier classifier = null;
+        if (options.hasProcess(EncodeProcess.NER)){
+            progressPacket.message("Building Classifier").stage(ProgressStage.CONTINUE);
+            if (listener != null) listener.notifyProgress(progressPacket);
+            InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
+            BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
+            classifier = new Classifier(bis);
+            cStream.close();
+        }
 
-        /* retrieve the schema url to set the context (or use context instruction node) */
+        /* retrieve the schema url to set the context */
+        progressPacket.message("Determining Context").stage(ProgressStage.CONTINUE);
         Context context = null;
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaURL = model.attr(SCHEMA_NODE_ATTR);
 
-        progressPacket.message("Retrieving Schema\n" + schemaURL).stage(ProgressStage.CONTINUE);
         if (listener != null) listener.notifyProgress(progressPacket);
 
-        String schema = model.attr(SCHEMA_NODE_ATTR);
-        int index = schema.lastIndexOf('/');
-        schema = schema.substring(index);
+        String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
+        int index = schemaAttrValue.lastIndexOf('/');
+        schemaAttrValue = schemaAttrValue.substring(index);
 
-        switch (schema) {
+        switch (schemaAttrValue) {
             case "/orlando_biography_v2.rng":
-                context = ContextLoader.load(hasStreams.getResourceStream("contexts/orlando.context.json"));
+                context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/orlando.context.json"));
                 break;
             case "/cwrc_entry.rng":
-                context = ContextLoader.load(hasStreams.getResourceStream("contexts/cwrc.context.json"));
+                context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/cwrc.context.json"));
                 break;
             case "/cwrc_tei_lite.rng":
-                context = ContextLoader.load(hasStreams.getResourceStream("contexts/tei.context.json"));
+                context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/tei.context.json"));
                 break;
-            default:
-                throw new RuntimeException("Schema not found: " + schema);              
         }
-
+        
+        if (context == null) throw new UnknownSchemaException(context, schemaAttrValue);
+        
         Encoder encoder = new Encoder(document, context, sql, classifier, options);
+        
         encoder.setProgressPacket(progressPacket);
         if (listener != null) encoder.add(listener);
 
-        /* add the schema, the schema url in the context takes precedence */
-        if (!context.getSchemaName().isEmpty()) schemaURL = context.getSchemaName();
-
-        InputStream schemaStream = null;
-        if (schemaURL.startsWith("http:")) {
-            schemaStream = new URL(schemaURL).openStream();
-        } else if (schemaURL.startsWith("file:")) {
-            schemaStream = hasStreams.getResourceStream(schemaURL.substring(5));
-        }
+        String schemaFileName = context.getSchemaName();
+        if (schemaFileName == null) throw new NullSchemaPathException(context);
+        String schemaFilePath = SCHEMA_PATH + "/" + schemaFileName;
+        InputStream schemaStream = hasStreams.getResourceStream(schemaFilePath);
+        if (schemaStream == null) throw new NullSchemaStreamException(context, schemaFilePath);
         Schema schemaFromStream = RelaxNGSchemaLoader.schemaFromStream(schemaStream);
         encoder.setSchema(schemaFromStream);
 
@@ -130,7 +135,9 @@ public class Encoder extends ProgressListenerList {
     private Encoder(Document document, Context context, SQL sql, Classifier classifier, EncodeOptions options) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
-
+        if (options.hasProcess(EncodeProcess.NER) && classifier == null) throw new NullPointerException();
+        if (options.hasProcess(EncodeProcess.DICTIONARY) && sql == null) throw new NullPointerException();
+        
         this.options = options;
         this.sql = sql;
         this.context = context;
@@ -148,12 +155,12 @@ public class Encoder extends ProgressListenerList {
                 case NER:
                     progressPacket.message("Processing NER").stage(ProgressStage.CONTINUE);
                     this.forEach(lst -> lst.notifyProgress(progressPacket));
-                    if (this.classifier != null) processNER(document);
+                    processNER(document);
                     break;
                 case DICTIONARY:
                     progressPacket.message("Linking Entities").stage(ProgressStage.CONTINUE);
                     this.forEach(lst -> lst.notifyProgress(progressPacket));
-                    if (this.sql != null) lookupTag();
+                    lookupTag();
                     break;
             }
         }

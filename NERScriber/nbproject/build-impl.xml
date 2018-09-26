@@ -43,7 +43,7 @@ is divided into following sections:
         <property file="nbproject/private/private.properties"/>
     </target>
     <target name="-pre-init-libraries">
-        <property location="D:\Dropbox\projects-new\lib\nb-shared\nblibraries.properties" name="libraries.path"/>
+        <property location="../lib\nblibraries.properties" name="libraries.path"/>
         <dirname file="${libraries.path}" property="libraries.dir.nativedirsep"/>
         <pathconvert dirsep="/" property="libraries.dir">
             <path path="${libraries.dir.nativedirsep}"/>
@@ -930,8 +930,8 @@ is divided into following sections:
         </propertyfile>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
-            <param location="${project.SpoonLocal}" name="call.subproject"/>
-            <param location="${project.SpoonLocal}/build.xml" name="call.script"/>
+            <param location="${project.DocumentNavigator}" name="call.subproject"/>
+            <param location="${project.DocumentNavigator}/build.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
             <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
             <param name="transfer.not.archive.disabled" value="true"/>
@@ -1423,8 +1423,8 @@ is divided into following sections:
         </propertyfile>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-clean.properties}"/>
-            <param location="${project.SpoonLocal}" name="call.subproject"/>
-            <param location="${project.SpoonLocal}/build.xml" name="call.script"/>
+            <param location="${project.DocumentNavigator}" name="call.subproject"/>
+            <param location="${project.DocumentNavigator}/build.xml" name="call.script"/>
             <param name="call.target" value="clean"/>
             <param name="transfer.built-clean.properties" value="${built-clean.properties}"/>
             <param name="transfer.not.archive.disabled" value="true"/>

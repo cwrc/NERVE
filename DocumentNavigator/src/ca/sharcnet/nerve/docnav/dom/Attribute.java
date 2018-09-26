@@ -1,5 +1,6 @@
 package ca.sharcnet.nerve.docnav.dom;
 
+import ca.sharcnet.docnav.DocNavException;
 import java.util.Objects;
 
 /**

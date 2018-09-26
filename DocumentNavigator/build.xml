@@ -1,56 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="DocNav" default="default" basedir=".">
-    <description>Builds, tests, and runs the project DocumentNavigator.</description>
-    <property file="D:/projects/shared.properties"/>
+    <description>Builds, tests, and runs the project DocumentNavigator.</description>    
+    <property file="nbproject/project.properties"/>
+
+    <property file="nbproject/project.properties"/>
     <import file="nbproject/build-impl.xml"/>
-        
-    <import file="D:/Dropbox/projects-new/shared.xml"/>       
-    <property name="version.num" value="0.8.9" />
+    <property file="D:/project-local/trunk/nerve/shared.properties"/>
+    <import file="D:/project-local/trunk/nerve/shared.xml"/>       
+    
+    <property name="version.num" value="0.9.0" />
     <property name="lib.jar.name" value="DocNav-${version.num}.jar"/>
     
     <!-- After jar creation copy file to common library -->
     <target name="-post-jar" depends="jar-to-custom-lib"/>    
-    
-    <!-- Set value to "on" to enable coverage tracking -->
-    <property name="clover.enable" value="off"/>
-    <taskdef resource="cloverlib.xml"/>
-    
-    <target name="-pre-compile"  if="${clover.enable}">
-        <clover-setup/>
-    </target>
-
-    <target name="clover.report">
-        <clover-report>
-            <current outfile=".clover/html">
-                <format type="html"/>
-            </current>
-        </clover-report>
-        <nbbrowse context="${browser.context}" url="file://${basedir}/.clover/html/dashboard.html"/>
-    </target>
 
     <!-- Antlr targets should be called on an as needed basis -->
     <!-- Remove files genereted by antlr -->
     <target name="docnav.antlr.clean">
         <delete>
-          <fileset dir="${basedir}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
+            <fileset dir="${basedir}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
         </delete>
     </target>
 
-     <!-- Generate files with antlr -->
+    <!-- Generate files with antlr -->
     <target name="docnav.antlr.gen">
         <echo message="Building ANTLR"/>
         <echo message="Root: ${basedir}"/>
 
         <java jar="${shared.lib.dir}/jars/antlr-4.7.1-complete.jar" fork="false">
-             <arg value="-o"/>
-             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
-             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4"/>
+            <arg value="-o"/>
+            <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
+            <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4"/>
         </java>
         <java jar="${shared.lib.dir}/jars/antlr-4.7.1-complete.jar" fork="false">
-             <arg value="-o"/>
-             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
-             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4"/>
+            <arg value="-o"/>
+            <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
+            <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4"/>
         </java>
     </target>
 </project>

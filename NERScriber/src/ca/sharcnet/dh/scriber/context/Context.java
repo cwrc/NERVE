@@ -1,5 +1,6 @@
 package ca.sharcnet.dh.scriber.context;
 import ca.frar.jjjrmi.annotations.JJJ;
+import ca.frar.jjjrmi.annotations.JSPrequel;
 import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
@@ -12,9 +13,10 @@ import org.json.JSONObject;
 
 @JJJ
 @JJJOptions(retain = false)
+@JSPrequel("const ArrayList = require('jjjrmi').ArrayList;")
 public class Context extends JJJObject implements Serializable, DataObject {
     private String name;
-    private String schemaName;
+    private String schemaName = "";
     private String scriptFilename;
     private String tagSourceAttribute;
     private ArrayList<String> styleList = new ArrayList<>();
