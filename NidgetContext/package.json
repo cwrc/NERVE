@@ -14,7 +14,7 @@
         "asset-assistant": "",
         "nidget": "file:../Nidget"
     },
-    "main": "./src/js/NidgetContext.js",
+    "main": "src/js/nidgetcontext/NidgetContext.js",
     "scripts": {
         "build-assets": "assets -v",
         "clean": "assets --clean"
@@ -24,7 +24,7 @@
     "assets": {
         "src": [
             "src/assets/**",
-            "src/css/*"
+            "src/styles/**"
         ]
     }
 }

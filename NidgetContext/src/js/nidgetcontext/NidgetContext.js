@@ -6,7 +6,7 @@ class NidgetMenuItem extends Widget {
         this.nidgetContextMenu = nidgetContextMenu;
         this.label = $(` <div class="nidget-context-label">${labelText}</div>`);
         this.image = $(`<img class="nidget-context-left-image" src=""/>`);
-        this.throbber = $(`<img class="nidget-context-right-image nidget-context-image-throbber" src="assets/nidget_context/loader400.gif"/>`);       
+        this.throbber = $(`<img class="nidget-context-right-image nidget-context-image-throbber" src="assets/nidgetcontext/loader400.gif"/>`);       
         
         this.$.append(this.image);
         this.$.append(this.label);
@@ -82,9 +82,9 @@ class NidgetMenuItem extends Widget {
 
 class NidgetContextBase extends Widget {
 
-    constructor(element){
-        super(element);
-        this.menuItems = new Map();        
+    constructor(element, delegate){
+        super(element, delegate);
+        this.menuItems = new Map();
     }
 
     getMenuItem(displayString){
@@ -99,6 +99,11 @@ class NidgetContextBase extends Widget {
         this.dictionary = dictionary;
     }
 
+    /**
+     * Shows the context menu.
+     * @param {type} event contextmenu dom event.
+     * @returns {undefined}
+     */
     show(event){
         this.$.show();
         this.position(this.$.get(0), event);
@@ -118,8 +123,8 @@ class NidgetContextBase extends Widget {
 }
 
 class NidgetContext extends NidgetContextBase{
-    constructor() {
-        super(`<div class="nidget-context-dialog nidget-context-menu"></div>`);
+    constructor(delegate) {
+        super(`<div class="nidget-context-dialog nidget-context-menu"></div>`, delegate);
         $("body").append(this.$);
         
         this.$.on("contextmenu", ()=>{
@@ -129,7 +134,23 @@ class NidgetContext extends NidgetContextBase{
 
         this.hide();
     }
-    
+
+    /**
+     * Add a new clickable menu item.  Options can be omitted and the
+     * method signature addMenuItem(displayString, handler) used.
+     * 
+     * options = {
+     *   async : boolean [false],
+     *   close_menu : boolean [true]
+     * }
+     * 
+     * async = true, calls the handler with async,
+     * close_menu = true, closes the context menu when this button is clicked
+     * @param {type} displayString The string displayed to the user.
+     * @param {type} options see desc.
+     * @param {type} handler event to call when button is clicked, click event is passed in.
+     * @returns {NidgetMenuItem|NidgetContext.addMenuItem.menuItem|nm$_NidgetContext.NidgetContext.addMenuItem.menuItem}
+     */
     addMenuItem(displayString, options, handler) {
         let menuItem = new NidgetMenuItem(this, displayString, options, handler);
         this.$.append(menuItem.$);
@@ -137,12 +158,18 @@ class NidgetContext extends NidgetContextBase{
         return menuItem;
     }
 
+    /**
+     * Add a submenu to which menu items can be added.
+     * @param {type} displayString
+     * @param {type} options
+     * @returns {NidgetContext.addSubMenu.menuItem|nm$_NidgetContext.NidgetSubMenu|nm$_NidgetContext.NidgetContext.addSubMenu.menuItem}
+     */
     addSubMenu(displayString, options) {
         let menuItem = new NidgetSubMenu(this, displayString, options);
         this.$.append(menuItem.$);
         this.menuItems.set(menuItem);
         return menuItem;
-    }    
+    }
 }
 
 class NidgetSubMenu extends NidgetContextBase{

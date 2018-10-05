@@ -11,7 +11,7 @@ public class Orlando {
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
         try{
             Main main = new Main("minimalOrlando.xml");            
-            Console.log(main.encode());
+            Console.log(main.encode(EncodeProcess.NER, EncodeProcess.DICTIONARY));
             Console.log(main.decode());
         } catch (StartNodeException ex){
             ex.printStackTrace();

@@ -1,9 +1,7 @@
-const FileOperations = require("../../util/FileOperations");
 
 class Schema {
-    async load(url) {
-        let fileResult = await FileOperations.loadFromRemote(url);
-        let xml = $.parseXML(fileResult);
+    async load(xmlText) {
+        let xml = $.parseXML(xmlText);
         window.$xml = $(xml);
         this.$xml = $(xml);
         this.$start = $xml.find("start");

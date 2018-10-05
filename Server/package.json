@@ -2,7 +2,7 @@
   "name": "nerveserver",
   "version": "1.0.0",
   "description": "",
-  "main": "/web/src/js/nerveserver/package.js",
+  "main": "src/web/js/nerveserver/package.js",
   "scripts": {
     "build-js": "browserify src/web/js/main.js -o web/js/main.js -d",
     "watch-js": "watchify src/web/js/main.js -o web/js/main.js -dv"

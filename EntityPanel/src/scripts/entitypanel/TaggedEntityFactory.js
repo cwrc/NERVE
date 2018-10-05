@@ -1,190 +1,53 @@
 const NameSource = require("nerscriber").NameSource;
-const EntityValues = require("nerve").EntityValues;
+const EntityValues = require("nerveserver").EntityValues;
 const ShowHTMLWidget = require("./ShowHTMLWidget");
-const Constants = require("../util/Constants");
-const AbstractModel = require("Nidget/src/AbstractModel");
+const Constants = require("utility").Constants;
+const AbstractModel = require("nidget").AbstractModel;
+const Widget = require("nidget").Widget;
+const NidgetContext = require("NidgetContext");
 
-class ContextMenu {
-    constructor() {
-        this.state = false;
-        this.flags = {};
-        this.lastSubMenu = null;
-    }
-
-    notifyContextChange(context) {
-        this.context = context;
-    }
-
-    setDictionary(dictionary) {
-        this.dictionary = dictionary;
-    }
-
-    notifyDocumentClick() {
-        $(ContextMenu.SELECTOR).hide();
-    }
-
-    notifyReady() {
-        $(ContextMenu.SELECTOR).hide();
-        $(ContextMenu.SELECTOR).find(".context-subdialog").hide();
-
-        /* open submenu (if active) */
-        $(ContextMenu.SELECTOR).find(".context-subdialog").each((i, e) => {
-            $(e).parent().mouseenter(() => {
-                let p = $(e).parent();
-                if ($(p).hasClass("inactive") === false) {
-                    $(e).show();
-                }
-            });
+class TaggedEntityContextMenu extends NidgetContext{
+    constructor(delegate){
+        super(delegate);
+        
+        this.addMenuItem("Untag", (event)=>{
+            let textNode = this.taggedEntityWidget.untag();
+            this.notifyListeners("notifyUntaggedEntities", [this.taggedEntityWidget], [textNode]);
         });
 
-        /* close submenu */
-        $(ContextMenu.SELECTOR).find(".context-subdialog").each((i, e) => {
-            $(e).parent().mouseleave(() => {
-                $(e).hide();
-            });
-        });
+        this.addMenuItem("Tag Location", (event)=>{
+            this.taggedEntityWidget.tag("LOCATION");
+        });        
+        
+        this.addMenuItem("Tag Organization", (event)=>{
+            this.taggedEntityWidget.tag("ORGANIZATION");
+        });        
+        
+        this.addMenuItem("Tag Person", (event)=>{
+            this.taggedEntityWidget.tag("PERSON");
+        });        
 
-        /* setup menu clicks */
-        $(ContextMenu.SELECTOR).find(".context-item > .context-label").click((event) => {
-            if ($(event.delegateTarget).parent().hasClass("inactive")) return;
-            let flags = $(event.delegateTarget).parent().data("contextflags");
-            if (flags && flags.hide) $(ContextMenu.SELECTOR).hide();
-            let eventname = $(event.delegateTarget).parent().attr("data-eventname");
-            TaggedEntityWidget.delegate.notifyListeners(eventname, this.taggedEntityWidget);
-            event.stopPropagation();
-        });
+        this.addMenuItem("Tag Title", (event)=>{
+            this.taggedEntityWidget.tag("TITLE");
+        });        
+        
+        this.addMenuItem("Examine HTML", (event)=>{
+            new ShowHTMLWidget(this.taggedEntityWidget).show();
+        });        
 
-        /* setup help popups */
-        $(ContextMenu.SELECTOR).find("[data-context-help]").each((i, e) => {
-            $(e).click((event) => {
-                event.stopPropagation();
-                let target = $(e).attr("data-context-help");
-                $(ContextMenu.SELECTOR).find(`#${target}`).show();
-                this.position($(ContextMenu.SELECTOR).find(`#${target}`).get(0), event);
-            });
-        });
-
-        $(ContextMenu.SELECTOR).find(".context-help").each((i, e) => {
-            $(e).mouseleave(() => $(e).hide());
-        });
+        $(document).click(e=>this.hide());
     }
-
-    /* list all available entities for the user to select */
-    /* if none are found, "select entity" option is disabled */
-    loadOptions(text) {
-        $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").empty();
-        $(ContextMenu.SELECTOR).find("#dictOptions").addClass("inactive");
-        $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").attr("src", "assets/loader400.gif");
-        let result = this.dictionary.lookup(text, null, null, null);
-
-        result.then((sqlResult) => {
-            if (sqlResult.size() !== 0) {
-                $(ContextMenu.SELECTOR).find("#dictOptions").removeClass("inactive");
-                for (let sqlRecord of sqlResult) {
-                    this.addOption(sqlRecord);
-                }
-                $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").show();
-                $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").attr("src", "assets/context-arrow.png");
-            } else {
-                $(ContextMenu.SELECTOR).find("#dictOptions > .context-right-image").hide();
-            }
-        });
-    }
-
-    setSelected(contextOptionDiv) {
-        let img = document.createElement("img");
-        $(img).attr("src", "assets/context-selected.png");
-        $(img).addClass("context-left-image");
-        $(contextOptionDiv).append(img);
-    }
-
-    addClickEvent(contextOptionDiv, sqlRecord) {
-        $(contextOptionDiv).click(() => {
-            this.taggedEntityWidget.lemma(sqlRecord.getEntry("lemma").getValue());
-            this.taggedEntityWidget.tag(sqlRecord.getEntry("tag").getValue());
-            this.taggedEntityWidget.link(sqlRecord.getEntry("link").getValue());
-            $(ContextMenu.SELECTOR).hide();
-        });
-    }
-
-    addOption(sqlRecord) {
-        let div = document.createElement("div");
-        let label = document.createElement("div");
-        $(div).addClass("context-item");
-        $(label).addClass("context-label");
-        $(label).text(sqlRecord.getEntry("lemma").getValue() + " : " + sqlRecord.getEntry("tag").getValue());
-        $(div).append(label);
-        $(div).attr("title", "collection " + sqlRecord.getEntry("source").getValue());
-        $(ContextMenu.SELECTOR).find("#dictOptions > #dictOptionList").append(div);
-
-        if (sqlRecord.getEntry("lemma").getValue() === this.taggedEntityWidget.lemma()
-                && sqlRecord.getEntry("tag").getValue() === this.taggedEntityWidget.tag())
-        {
-            this.setSelected(div);
-        }
-        this.addClickEvent(div, sqlRecord);
-        return div;
-    }
-
-    isFlag(flagname) {
-        if (this.flags[flagname] === undefined) return false;
-        else return this.flags[flagname];
-    }
-
-    position(element, event) {
-        let posX = event.clientX - 5;
-        let posY = event.clientY - 5;
-        element.style.left = posX + "px";
-        element.style.top = posY + "px";
-    }
-
-    show(event, taggedEntityWidget) {
-        $(ContextMenu.SELECTOR).show();
-        this.loadOptions(taggedEntityWidget.text());
-        this.position($(ContextMenu.SELECTOR).get(0), event);
+    
+    show(event, taggedEntityWidget){
+        super.show(event);
         this.taggedEntityWidget = taggedEntityWidget;
-        this.toggleAddMenuItem(taggedEntityWidget);
-        this.toggleRemoveMenuItem(taggedEntityWidget);
     }
-
-    /* if the tagged entity does not match an existing entry */
-    /* enable the addDict menu item                          */
-    toggleAddMenuItem(taggedEntityWidget) {
-        $(ContextMenu.SELECTOR).find("#addDict > .context-right-image").show();
-        $(ContextMenu.SELECTOR).find("#addDict").addClass("inactive");
-
-        let text = taggedEntityWidget.text();
-        let lemma = taggedEntityWidget.lemma();
-        let tag = taggedEntityWidget.tag();
-        let result = this.dictionary.lookup(text, lemma, tag, null);
-
-        result.then((sqlResult) => {
-            if (sqlResult.size() === 0) {
-                $(ContextMenu.SELECTOR).find("#addDict").removeClass("inactive");
-            }
-            $(ContextMenu.SELECTOR).find("#addDict > .context-right-image").hide();
-        });
-    }
-
-    toggleRemoveMenuItem(taggedEntityWidget) {
-        $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").show();
-        $(ContextMenu.SELECTOR).find("#removeDict").addClass("inactive");
-
-        let text = taggedEntityWidget.text();
-        let lemma = taggedEntityWidget.lemma();
-        let tag = taggedEntityWidget.tag();
-        let result = this.dictionary.lookup(text, lemma, tag, "custom");
-
-        result.then((sqlResult) => {
-            if (sqlResult.size() !== 0) {
-                $(ContextMenu.SELECTOR).find("#removeDict").removeClass("inactive");
-            }
-            $(ContextMenu.SELECTOR).find("#removeDict > .context-right-image").hide();
-        });
+    
+    setDictionary(dictionary){
+        this.dictionary = dictionary;
     }
 }
 
-ContextMenu.SELECTOR = "#taggedEntityContextMenu";
 
 /**
  * All tagged entity elements get passed to a TaggedEntity constructor to provide functionality.
@@ -197,102 +60,93 @@ ContextMenu.SELECTOR = "#taggedEntityContextMenu";
  * 
  * @type type
  */
-class TaggedEntityWidget {
-    constructor(element, tagName = null) {
-        let jq = $(element);
+class TaggedEntityWidget extends Widget{
 
-        if (jq.get(0) instanceof Element) {
-            this.nodeConstructor(element, tagName);   
-        }
-        if (jq.get(0) instanceof Text) {
-            let newElement = TaggedEntityWidget.newEmptyWidget();
-            this.nodeConstructor(newElement, tagName);
-            this.text(element.text(), true);
-            this.lemma(element.text(), true);
-            jq.replaceWith(this.getElement());
-        }
+    constructor(element, factory, contextMenu) {
+        super(element, factory);
+        this.factory = factory;
+        this.setupListeners();
+        this.formatElements();
+        this.contextMenu = contextMenu;
+    }
+
+    /**
+     * Add dom listeners to the underlying dom elements to trigger nidget events.
+     * @returns {undefined}
+     */
+    setupListeners() {
+        this.$.addClass("taggedentity");
+        this.$.attr("draggable", "true");
+
+        this.$.on("dragstart", (event) => this.dragstart(event));
+        this.$.on("dragover", (event) => this.dragover(event));
+        this.$.on("drop", (event) => this.drop(event));
+
+        this.$.on("contextmenu", (event) => {
+            event.preventDefault();
+            this.contextMenu.show(event, this);
+        });
+
+        this.$.click((event) => {
+            if (event.button !== 0) return; /* left click only */
+            this.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
+            event.stopPropagation();
+        });
+        this.$.dblclick((event) => {
+            if (event.button !== 0) return; /* left click only */
+            this.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
+            event.stopPropagation();
+        });
     }
     
-    nodeConstructor(element, tagName = null) {
-        this.element = element;
-        element.entity = this;
+    /** 
+     * Add NERVE specific html elements.  These get removed with the untag()
+     * method.  It is assumed that a properly formatted HTML element has been
+     * set to 'this.$'.
+     * This element should look like the following:
+     * <div data-lemma="" data-link="" class="taggedentity" xmltagname="">TEXT</div>
+     * @returns {undefined}
+     */
+    formatElements() {
+        if (this.$.attr(Constants.DATA_LEMMA) === undefined){
+            this.$.attr(Constants.DATA_LEMMA, "");
+        }
 
-        /* default values - will throw an exception is the tagged text does not have a tagname attribute and
-         * the tagName is not provided.
-         */
-        if (tagName !== null) $(this.element).tag(tagName);
-        this.setup();
-        this.format();
-        this.lemma(this.text(), true);
-    }
-
-    setup() {
-        $(this.element).addClass("taggedentity");
-        $(this.element).attr("draggable", "true");
-
-        $(this.element).on("dragstart", (event) => this.dragstart(event));
-        $(this.element).on("dragover", (event) => this.dragover(event));
-        $(this.element).on("drop", (event) => this.drop(event));
-
-        $(this.element).on("contextmenu", (event) => {
-            event.preventDefault();
-            TaggedEntityWidget.contextMenu.show(event, this);
-        });
-
-        $(this.element).click((event) => {
-            if (event.button !== 0) return; /* left click only */
-            TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
-            event.stopPropagation();
-        });
-        $(this.element).dblclick((event) => {
-            if (event.button !== 0) return; /* left click only */
-            TaggedEntityWidget.delegate.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
-            event.stopPropagation();
-        });
+        if (this.$.attr(Constants.DATA_LINK) === undefined){
+            this.$.attr(Constants.DATA_LINK, "");
+        }        
+        
+        if (this.$.attr(Constants.ORG_TAGNAME) === undefined){
+            this.$.attr(Constants.ORG_TAGNAME, "-unset-");
+        }                
+        
+        /* put text into it's own element with class = contents */
+        this.contents = $("<div></div>");
+        this.contents.addClass("contents");
+        let currentText = this.$.text();
+        this.$.text("");
+        this.contents.text(currentText);
+        this.$.prepend(this.contents);
+        
+        /* add a markup element that will mirror the tagname element */
+        this.markup = $("<div></div>");
+        this.markup.addClass("tagname-markup");
+        let currentTag = this.$.attr(Constants.ORG_TAGNAME);
+        this.markup.text(currentTag);
+        this.$.append(this.markup);        
     }
 
     contextUntag() {
         this.untag();
     }
 
-    /**
-     * This method will add html markup specific for the nerve environment.
-     * @return {undefined}
-     */
-    format() {
-        if ($(this.element).contents().length === 0) {
-            this.contents = document.createElement("div");
-            $(this.contents).addClass("contents");
-            $(this.element).prepend(this.contents);
-        } else if ($(this.element).children().filter(".contents").length === 0) {
-            this.contents = $(this.element).contents().wrap().get(0);
-            $(this.contents).addClass("contents");
-        } else {
-            this.contents = $(this.element).children(".contents").get(0);
-        }
-
-        if ($(this.contents).children().filter(".tagname-markup").length === 0) {
-            this.markup = document.createElement("div");
-            $(this.element).append(this.markup);
-            $(this.markup).addClass("tagname-markup");
-            this.tag($(this.element).tag(), true);
-        } else {
-            this.markup = $(this.element).children(".tagname-markup");
-        }
-    }
-
     untag() {
+        this.factory.forget(this);                
         this.highlight(false);
         let contents = $(this.contents).contents();
         let clone = contents.clone();
-        $(this.element).replaceWith(clone);
-//        document.normalize();
-        
-        console.log("untag");
-        window.clone = clone;
-        window.r = new Range();
-//        window.r.selectNode(window.clone);
-        
+        this.$.replaceWith(clone);
+        document.normalize();       
         return clone;
     }
 
@@ -319,69 +173,90 @@ class TaggedEntityWidget {
         window.alert("TODO: select like entities by lemma");
     }
 
-    getElement() {
-
-        return this.element;
-    }
-
-    $() {
-        return $(this.getElement());
-    }
-
-    getContentElement() {
-
-        return this.contents;
-    }
-
-    getContext() {
-        return TaggedEntityWidget.delegate.getContext();
-    }
-
+    /**
+     * If value is set returns this, if it's not set return current value.
+     * Triggers event 'notifyEntityUpdate [entities] [oldvalues]' for a given
+     * index 'i' in entities, oldvalues[i] corrisponds to that entities previous
+     * values.
+     * @param {type} value new value
+     * @param {type} silent if set do not trigger event.
+     * @returns {nm$_TaggedEntityFactory.TaggedEntityWidget}
+     */
     tag(value = null, silent = false) {
-        if (value === null) return $(this.element).tag();
+        if (value === null) return this.$.attr(Constants.ORG_TAGNAME);
         let oldValues = this.values();
+        
+        $(this.markup).text(value);
+        this.$.attr(Constants.ORG_TAGNAME, value);
 
-        if (this.getContext().isStandardTag(value) === false) {
-            throw new Error(`Tagname '${value}' doesn't match any known standard tag in context ${this.getContext().getName()}`);
-        }
-
-        let schemaTag = this.getContext().getTagInfo(value).getName();
-        $(this.markup).text(schemaTag);
-        $(this.element).tag(value);
-
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
-        return $(this.element).tag();
+        if (!silent) this.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
+        return this;
     }
     /**
-     * Set standard value.
-     * @param {string} value if null do not set, just return value
-     * @param {boolean} silent true = fire notifyEntityUpdate event
-     * @returns {string} the value of lemma
+     * Sets the normalized value of this entity.
+     * If value is set returns this, if it's not set return current value.
+     * Triggers event 'notifyEntityUpdate [entities] [oldvalues]' for a given
+     * index 'i' in entities, oldvalues[i] corrisponds to that entities previous
+     * values.
+     * @param {type} value new value
+     * @param {type} silent if set do not trigger event.
+     * @returns {nm$_TaggedEntityFactory.TaggedEntityWidget}
      */
     lemma(value = null, silent = false) {
-        if (value === null) return $(this.element).lemma();
-        let oldValues = this.values();
-        $(this.element).lemma(value);
+        if (value === null) return this.$.attr(Constants.DATA_LEMMA);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
-        return $(this.element).lemma();
+        let oldValues = this.values();
+        this.$.attr(Constants.DATA_LEMMA, value);
+
+        if (!silent) this.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
+        return this;
     }
+    /**
+     * Sets the external link of this entity.
+     * If value is set returns this, if it's not set return current value.
+     * Triggers event 'notifyEntityUpdate [entities] [oldvalues]' for a given
+     * index 'i' in entities, oldvalues[i] corrisponds to that entities previous
+     * values.
+     * @param {type} value new value
+     * @param {type} silent if set do not trigger event.
+     * @returns {nm$_TaggedEntityFactory.TaggedEntityWidget}
+     */    
     link(value = null, silent = false) {
-        if (value === null) return $(this.element).link();
+        if (value === null) return this.$.attr(Constants.DATA_LINK);
         let oldValues = this.values();
-        $(this.element).link(value);
+        this.$.attr(Constants.DATA_LINK, value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
-        return $(this.element).link();
+        if (!silent) this.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
+        return this;
     }
+    /**
+     * Sets the display text of this entity.
+     * If value is set returns this, if it's not set return current value.
+     * Triggers event 'notifyEntityUpdate [entities] [oldvalues]' for a given
+     * index 'i' in entities, oldvalues[i] corrisponds to that entities previous
+     * values.
+     * @param {type} value new value
+     * @param {type} silent if set do not trigger event.
+     * @returns {nm$_TaggedEntityFactory.TaggedEntityWidget}
+     */    
     text(value = null, silent = false) {
         if (value === null) return $(this.contents).text();
         let oldValues = this.values();
         $(this.contents).text(value);
 
-        if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
+        if (!silent) this.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         return $(this.contents).text();
     }
+    /**
+     * All values of this entity.
+     * If value is set returns this, if it's not set return current value.
+     * Triggers event 'notifyEntityUpdate [entities] [oldvalues]' for a given
+     * index 'i' in entities, oldvalues[i] corrisponds to that entities previous
+     * values.
+     * @param {type} value new value
+     * @param {type} silent if set do not trigger event.
+     * @returns {nm$_TaggedEntityFactory.TaggedEntityWidget}
+     */    
     values(value = null, silent = false) {
         if (value !== null && value.constructor.name !== "EntityValues"){
             throw new Error("Invalid parameter type");
@@ -408,25 +283,62 @@ class TaggedEntityWidget {
             if (value.hasTag()) {
                 this.tag(value.tag(), true);
             }
-            if (!silent) TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
+            if (!silent) this.notifyListeners("notifyEntityUpdate", [this], [oldValues]);
         }
 
         return this.values();
     }
-    addClass(classname) {
-        $(this.element).addClass(classname);
-    }
-    removeClass(classname) {
-        $(this.element).removeClass(classname);
-    }
 
+    /**
+     * Sets the selected class for this entities dom element.
+     * If value is not defined, returns the current value.
+     * @param {type} value true = add class, false = remove class.
+     * @returns {unresolved}
+     */
     highlight(value) {
-        if (value === undefined) return $(this.element).hasClass("selected");
-        else if (value) $(this.element).addClass("selected");
-        else $(this.element).removeClass("selected");
+        if (value === undefined) return this.$.hasClass("selected");
+        else if (value) this.$.addClass("selected");
+        else this.$.removeClass("selected");
     }  
+}
 
-    static newEmptyWidget() {
+class TaggedEntityFactory extends AbstractModel {
+    constructor(delegate) {
+        super(delegate);
+        this.contextMenu = new TaggedEntityContextMenu(this);
+        this.entities = [];
+    }
+
+    setDictionary(dictionary){
+        this.contextMenu.setDictionary(dictionary);
+        return this;
+    }
+    
+    getAllEntities(){
+        return this.entities.slice();
+    }
+    
+    forget(taggedEntityWidget){
+        let index = this.entities.indexOf(taggedEntityWidget);
+        this.entities.splice(index, 1);
+    }
+    
+    constructFromText(text, tag){
+        let taggedEntityWidget = new this.__newEmptyWidget();
+        taggedEntityWidget.text(text, true);
+        taggedEntityWidget.lemma(text, true);
+        taggedEntityWidget.tag(tag, true);
+        this.entities.push(taggedEntityWidget);
+        return taggedEntityWidget;
+    }
+    
+    constructFromElement(element){        
+        let taggedEntityWidget = new TaggedEntityWidget(element, this, this.contextMenu);
+        this.entities.push(taggedEntityWidget);
+        return taggedEntityWidget;
+    }
+    
+    __newEmptyWidget() {
         let div = document.createElement("div");
         let contents = document.createElement("div");
         let markup = document.createElement("div");
@@ -434,38 +346,16 @@ class TaggedEntityWidget {
         $(div).append(markup);
         $(div).append(contents);
 
-        $(div).addClass("taggedEntity");
+        $(div).addClass(Constants.HTML_ENTITY);
         $(div).attr("draggable", true);
+        $(div).attr(Constants.DATA_LINK, "");
+        $(div).attr(Constants.DATA_LEMMA, "");
 
         $(markup).addClass("tagname-markup");
         $(contents).addClass("contents");
 
-        return div;
-    }
+        return new TaggedEntityWidget(div, this, this.contextMenu);
+    }    
 }
 
-class TaggedEntityDelegate extends AbstractModel {
-    constructor() {
-        super();
-        this.contxt = null;
-        this.addListener(this);
-    }
-
-    getContext() {
-        return this.context;
-    }
-
-    notifyContextChange(context) {
-        this.context = context;
-    }
-
-    contextShowHTML(taggedEntityWidget) {
-        window.last = this;
-        new ShowHTMLWidget(taggedEntityWidget).show();
-    }
-}
-
-TaggedEntityWidget.contextMenu = new ContextMenu();
-TaggedEntityWidget.delegate = new TaggedEntityDelegate();
-
-module.exports = TaggedEntityWidget;
+module.exports = TaggedEntityFactory;

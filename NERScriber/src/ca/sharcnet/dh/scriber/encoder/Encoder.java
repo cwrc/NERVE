@@ -323,10 +323,29 @@ public class Encoder extends ProgressListenerList {
         for (Attribute attr : node.getAttributes()) {
             jsonObj.put(attr.getKey(), attr.getValue());
         }
-        node.clearAttributes();
 
         Node eNode = node;
-        String schemaTag = node.name();
+        String schemaTag = node.name();        
+        
+        /* if the node is a tagged entity, copy the lemma / link attributes   */
+        /* to the html node as data attributes. These are removed from the    */
+        /* attribute object.  All remaining attributes are then removed from  */
+        /* the node                                                           */
+        if (context.isTagName(schemaTag)) {
+            String standardTag = context.getStandardTag(schemaTag);
+            TagInfo tagInfo = context.getTagInfo(standardTag);
+            String lemmaAttribute = tagInfo.getLemmaAttribute();
+            String linkAttribute = tagInfo.getLinkAttribute();            
+            String lemmaValue = node.attr(lemmaAttribute);
+            String linkValue = node.attr(linkAttribute);
+            node.clearAttributes();
+            node.attr(DATA_LEMMA, lemmaValue);
+            node.attr(DATA_LINK, linkValue);
+            jsonObj.remove(lemmaAttribute);
+            jsonObj.remove(linkAttribute);
+        } else {
+            node.clearAttributes();
+        }              
 
         if (node.isType(NodeType.INSTRUCTION)) {
             eNode = new ElementNode(HTML_TAGNAME);
@@ -344,6 +363,8 @@ public class Encoder extends ProgressListenerList {
             }
         }
 
+        /* save the xml tagname, either as the standard name if it's a tagged */ 
+        /* entity, else as the declared name of the xml node                  */
         if (context.isTagName(schemaTag)) {
             String standardTag = context.getStandardTag(schemaTag);
             eNode.attr(ORG_TAGNAME, standardTag);

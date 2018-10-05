@@ -1,8 +1,3 @@
-/**
- *
- * @author edward
- */
-
 class Constants{
 }
 
@@ -40,6 +35,7 @@ class Constants{
     The HTML class for XML tagged entity elements.
     */
     Constants.HTML_ENTITY = "taggedentity";
+    Constants.HTML_ENTITY_SELECTOR = ".taggedentity";
 
     /**
     The innertext value of XML doctype elements.
@@ -83,4 +79,15 @@ class Constants{
     It will be ignored during decode.    
     */
     Constants.DICT_SRC_ATTR = "dict-src";
+    
+    /*
+    Link data attribute for html.
+    */
+    Constants.DATA_LINK = "data-link";  
+    
+    /*
+    Lemma data attribute for html.
+    */
+    Constants.DATA_LEMMA = "data-lemma";     
+    
 module.exports = Constants;

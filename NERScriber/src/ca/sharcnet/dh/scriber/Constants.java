@@ -92,5 +92,15 @@ public class Constants {
     /*
     The root path to the context documents in the resource dirctory
     */
-    public final static String CONTEXT_PATH = "contexts";    
+    public final static String CONTEXT_PATH = "contexts";  
+    
+    /*
+    Link data attribute for html.
+    */
+    public final static String DATA_LINK = "data-link";  
+    
+    /*
+    Lemma data attribute for html.
+    */
+    public final static String DATA_LEMMA = "data-lemma";  
 }

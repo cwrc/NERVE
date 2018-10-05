@@ -53,11 +53,11 @@ class FileOperations {
      * @param {Function} errorCallback
      * @returns {undefined}
      */
-    static loadLocal(filename) {
+    static getLocal(filename) {
         let callback = function (resolve, reject) {
             var xhttp = new XMLHttpRequest();
             var data = {};
-            var url = "http://" + FileOperations.getServerName() + "/" + filename;
+            var url = window.location.href + "/" + filename;
 
             xhttp.onreadystatechange = function () {
                 if (xhttp.readyState === 4) {

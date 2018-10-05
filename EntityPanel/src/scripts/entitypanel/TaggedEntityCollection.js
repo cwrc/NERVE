@@ -1,33 +1,16 @@
+const AbstractModel = require("nidget").AbstractModel;
+
 /**
  * events: notifyCollectionAdd, notifyCollectionClear, notifyCollectionRemove
  * @type type
  */
 
-const AbstractModel = require("Nidget/src/AbstractModel");
-TaggedEntityWidget = require("../TaggedEntityWidget");
-
-class Collection extends AbstractModel {
-    constructor(array) {
-        super();
-        
-        this.delegate = {
-            notifyListeners : function(){}
-        };
-        
-        this.innerArray = [];
-
-        if (typeof array !== "undefined" & array !== null) {
-            this.innerArray = array.slice();
-        }
+class TaggedEntityCollection extends AbstractModel{
+    constructor(array = [], delegate) {
+        super(delegate);
+        this.innerArray = array.slice();
     }
 
-    setDelegate(delegate) {
-        this.delegate = delegate;
-    }
-
-    $() {
-        return $(this.innerArray);
-    }
     [Symbol.iterator] () {
         return this.innerArray[Symbol.iterator]();
     }
@@ -50,7 +33,7 @@ class Collection extends AbstractModel {
             this.innerArray.push(obj);
             notifyarray.push(obj);
         }
-        this.delegate.notifyListeners("notifyCollectionAdd", this.clone(), notifyarray);
+        this.notifyListeners("notifyCollectionAdd", this.clone(), notifyarray);
     }
     set(obj) {
         this.clear();
@@ -60,7 +43,7 @@ class Collection extends AbstractModel {
         if (this.isEmpty()) return;
         let oldArray = this.innerArray;
         this.innerArray = [];
-        await this.delegate.notifyListeners("notifyCollectionClear", this.clone(), oldArray);
+        await this.notifyListeners("notifyCollectionClear", this.clone(), oldArray);
     }
     get(i) {
         return this.innerArray[i];
@@ -80,8 +63,7 @@ class Collection extends AbstractModel {
     remove(obj) {
         if (!this.contains(obj)) return null;
         this.innerArray.splice(this.innerArray.indexOf(obj), 1);
-        this.delegate.notifyListeners();
-        this.delegate.notifyListeners("notifyCollectionRemove", this.clone(), obj);
+        this.notifyListeners("notifyCollectionRemove", this.clone(), obj);
         return obj;
     }
     contains(obj) {
@@ -93,7 +75,7 @@ class Collection extends AbstractModel {
      * @return {nm$_Collection.Collection}
      */
     clone(){
-        return new Collection(this.innerArray);
+        return new TaggedEntityCollection(this.innerArray);
     }
     
     values(values){
@@ -103,8 +85,8 @@ class Collection extends AbstractModel {
             oldValues.push(taggedEntityWidget.values);
             taggedEntityWidget.values(values, true);
         }
-        TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), oldValues);
+        this.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), oldValues);
     }
 }
 
-module.exports = Collection;
+module.exports = TaggedEntityCollection;

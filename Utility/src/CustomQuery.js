@@ -183,42 +183,22 @@ const $ = jQuery;
  */
 (function ($) {
     $.fn.tag = function (standardTag) {
-        let context = $.fn.xmlAttr.context;
-
         if (!standardTag) {
             return $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
         }
 
         /* when changing the entity tag, attribute name of the link & lemma attributes may change */
         return this.each(function () {
-            let context = $.fn.xmlAttr.context;
-            
-            if (!context.isStandardTag(standardTag)){
-                throw new Error(`Tagname '${standardTag}' doesn't match any known standard tag in context ${this.context.getName()}`);
-            }
-            
-            let oldStandardTag = $(this).attr($.fn.xmlAttr.defaults.xmlTagName);
-    
-            if (oldStandardTag){
-                $(this).renameXMLAttr(context.getTagInfo(oldStandardTag).getLinkAttribute(), context.getTagInfo(standardTag).getLinkAttribute());
-                $(this).renameXMLAttr(context.getTagInfo(oldStandardTag).getLemmaAttribute(), context.getTagInfo(standardTag).getLemmaAttribute());
-            }
-            
             return $(this).attr($.fn.xmlAttr.defaults.xmlTagName, standardTag);
         });
     };
 }(jQuery));
 
-class CustomQuery{
-    notifyContextChange(context){
-        $.fn.xmlAttr.context = context;
-    }
-}
+const CustomQuery = {
+    instance : new CustomQuery()    
+};
 
-CustomQuery.instance = new CustomQuery();
 module.exports = CustomQuery;
-
-$.fn.xmlAttr.context = null;
 
 $.fn.xmlAttr.defaults = {
     attrName: "xmlattrs",

@@ -1,6 +1,0 @@
-#sql database settings
-databaseURL=jdbc:mysql://dh.sharcnet.ca:3030
-databaseUser=HRBQDBZG
-databasePassword=ewikfsww42BMBSFE
-databaseDriver=com.mysql.jdbc.Driver
-databaseName=nerve

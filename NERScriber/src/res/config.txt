@@ -1,5 +1,5 @@
 #sql database settings
-databaseURL=jdbc:mysql://dh.sharcnet.ca:3030
+databaseURL=jdbc:mysql://dh.sharcnet.ca:3306
 databaseUser=HRBQDBZG
 databasePassword=ewikfsww42BMBSFE
 databaseDriver=com.mysql.jdbc.Driver

@@ -3,17 +3,8 @@
  * @type type
  */
 
-const AbstractModel = require("Nidget/src/AbstractModel");
-TaggedEntityWidget = require("../TaggedEntityWidget");
-
-class Collection extends AbstractModel {
+class Collection {
     constructor(array) {
-        super();
-        
-        this.delegate = {
-            notifyListeners : function(){}
-        };
-        
         this.innerArray = [];
 
         if (typeof array !== "undefined" & array !== null) {
@@ -96,15 +87,15 @@ class Collection extends AbstractModel {
         return new Collection(this.innerArray);
     }
     
-    values(values){
-        let oldValues = [];
-        
-        for (let taggedEntityWidget of this.innerArray){
-            oldValues.push(taggedEntityWidget.values);
-            taggedEntityWidget.values(values, true);
-        }
-        TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), oldValues);
-    }
+//    values(values){
+//        let oldValues = [];
+//        
+//        for (let taggedEntityWidget of this.innerArray){
+//            oldValues.push(taggedEntityWidget.values);
+//            taggedEntityWidget.values(values, true);
+//        }
+//        TaggedEntityWidget.delegate.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), oldValues);
+//    }
 }
 
 module.exports = Collection;

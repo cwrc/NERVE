@@ -8,11 +8,5 @@
     "files": [
         "src/**"
     ],
-    "assets": {
-        "src": [
-            "src/**/*",
-            "src/assets/**/*"
-        ]
-    },
     "main": "src/nidget.js"
 }

@@ -104,21 +104,27 @@ public class Decoder {
         Collections.reverse(xmltag);
 
         for (Node node : xmltag) {
+            JSONObject json = new JSONObject(node.attr(XML_ATTR_LIST));
+            
             /* change html tag name to xml tag name, which is stored in ORG_TAGNAME attribute */
             switch (node.attr("class")){
                 case HTML_NONENTITY:
                     node.name(node.attr(ORG_TAGNAME));
+                    node.clearAttributes();
                 break;
                 case HTML_ENTITY:
                     String standardTag = node.attr(ORG_TAGNAME);
                     TagInfo tagInfo = context.getTagInfo(standardTag);
-                    node.name(tagInfo.getName());
+                    node.name(tagInfo.getName());                    
+                    String lemmaValue = node.attr(DATA_LEMMA);
+                    String linkValue = node.attr(DATA_LINK);
+                    node.clearAttributes();
+                    String lemmaAttribute = tagInfo.getLemmaAttribute();
+                    String linkAttribute = tagInfo.getLinkAttribute();                     
+                    node.attr(lemmaAttribute, lemmaValue);
+                    node.attr(linkAttribute, linkValue);
                 break;
             }
-            
-            /* restore xml attribtes from JSON object stored in XML_ATTR_LIST */
-            JSONObject json = new JSONObject(node.attr(XML_ATTR_LIST));
-            node.clearAttributes();
 
             try {
                 for (String key : json.keySet()) {
