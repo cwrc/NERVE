@@ -1,3 +1,5 @@
+const $ = window.$ ? window.$ : require("jquery");
+
 /* global Utility */
 class FileOperations {
     static getServerName() {
@@ -11,6 +13,23 @@ class FileOperations {
             server = location.host + "/nerve";
         }
         return server;
+    }
+
+    static async loadDOMElement(url){
+        let text = await FileOperations.getURL(url);
+        let element = $(text);
+        let domElement = null;
+        
+        for (let node of element){
+            if (node.nodeType === FileOperations.NodeType.ELEMENT){
+                if (domElement !== null) throw new Error("Fragment must contain exactly 1 top level element.");
+                domElement = node;
+            }
+        }
+
+        if (domElement === null) throw new Error("Top level element not found.");
+        
+        return domElement;
     }
 
     /*
@@ -90,5 +109,20 @@ class FileOperations {
         anchor.click();
     }
 }
+
+FileOperations.NodeType = {
+    ELEMENT : 1,
+    ATTRIBUTE : 2,
+    TEXT : 3, 
+    CDATASECTION : 4,
+    ENTITYREFERNCE : 5,
+    ENTITY : 6,
+    PROCESSINGINSTRUCTION : 7,
+    COMMENT : 8,
+    DOCUMENT : 9,
+    DOCUMENTTYPE : 10,
+    DOCUMENTFRAGMENT : 11,
+    NOTATION : 12
+};
 
 module.exports = FileOperations;

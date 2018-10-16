@@ -1,3 +1,4 @@
+const $ = window.$ ? window.$ : require("jquery");
 const Widget = require("nidget/src/Widget");
 
 class NidgetMenuItem extends Widget {

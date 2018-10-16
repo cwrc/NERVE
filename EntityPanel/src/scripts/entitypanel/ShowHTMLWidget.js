@@ -1,28 +1,24 @@
+const $ = window.$ ? window.$ : require("jquery");
+const Widget = require("nidget").Widget;
+const FileOperations = require("utility").FileOperations;
 
-class ShowHTMLWidget{
+class ShowHTMLWidget extends Widget{
     
-    constructor(){
-        this.element = $("<iframe src='assets/entitypanel/showHTMLWidget.html'></iframe>");
-        $("body").append(this.element);
+    constructor(delegate){
+        super(null, delegate);
     }
     
-//    constructor(taggedEntityWidget){
-//        console.log("ShowHTMLWidget - widget stored in window.widget");
-//        this.modal = $("#showHTMLWidget");
-//        window.widget = taggedEntityWidget;
-//        let taggedEntityElement = taggedEntityWidget.getElement();
-//        let html = taggedEntityElement.outerHTML; 
-//        
-//        while(html.indexOf("&quot;") !== -1){ 
-//            html = html.replace("&quot;", "\"");
-//        }
-//        
-//        $(this.modal).find("[data-widget-id='html-contents']").text(html);
-//    }    
-//    
-//    show(){
-//        $(this.modal).modal("show");
-//    }
+    async load(){
+        let domElement = await FileOperations.loadDOMElement(`assets/entitypanel/showHTMLWidget.frag.html`);   
+        $("body").append(domElement);
+        super.setElement(domElement);
+    }
+    
+    show(taggedEntityWidget){
+        this.$.find("#shw_title").text(taggedEntityWidget.lemma());
+        this.$.find("#shw_body").text(taggedEntityWidget.$[0].outerHTML);
+        this.$.modal();
+    }
 }
 
 module.exports = ShowHTMLWidget;

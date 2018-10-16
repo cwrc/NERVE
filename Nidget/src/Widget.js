@@ -1,13 +1,19 @@
-const $ = require("jquery");
+const $ = window.$ ? window.$ :require("jquery");
 const AbstractModel = require("./AbstractModel");
 
 class Widget extends AbstractModel{
     
     constructor(element = null, delegate){
         super(delegate);
-        if (element !== null) this.$ = $(element);
-        else this.$ = $("<div></div>");                
-        this.$.data("widget", this);
+        if (element !== null){
+            this.$ = $(element);
+            this.$.data("widget", this);
+        }
+    }
+    
+    setElement(element){
+        this.$ = $(element);
+        this.$.data("widget", this);  
     }
     
     getElement(){

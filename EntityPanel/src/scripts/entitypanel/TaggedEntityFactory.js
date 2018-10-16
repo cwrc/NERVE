@@ -1,3 +1,4 @@
+const $ = window.$ ? window.$ : require("jquery");
 const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("nerveserver").EntityValues;
 const ShowHTMLWidget = require("./ShowHTMLWidget");
@@ -9,6 +10,7 @@ const NidgetContext = require("NidgetContext");
 class TaggedEntityContextMenu extends NidgetContext{
     constructor(delegate){
         super(delegate);
+        this.ready = false;
         
         this.addMenuItem("Untag", (event)=>{
             let textNode = this.taggedEntityWidget.untag();
@@ -17,7 +19,7 @@ class TaggedEntityContextMenu extends NidgetContext{
 
         this.addMenuItem("Tag Location", (event)=>{
             this.taggedEntityWidget.tag("LOCATION");
-        });        
+        });
         
         this.addMenuItem("Tag Organization", (event)=>{
             this.taggedEntityWidget.tag("ORGANIZATION");
@@ -32,13 +34,21 @@ class TaggedEntityContextMenu extends NidgetContext{
         });        
         
         this.addMenuItem("Examine HTML", (event)=>{
-            new ShowHTMLWidget(this.taggedEntityWidget).show();
+            this.showHTMLWidget.show(this.taggedEntityWidget);
         });        
 
         $(document).click(e=>this.hide());
     }
     
+    async makeReady(){
+        this.showHTMLWidget = new ShowHTMLWidget();
+        await this.showHTMLWidget.load();
+        window.showHTMLWidget = this.showHTMLWidget;        
+        this.ready = true;
+    }
+    
     show(event, taggedEntityWidget){
+        if (!this.ready) throw new Error("TaggedEntiyFactory not ready");
         super.show(event);
         this.taggedEntityWidget = taggedEntityWidget;
     }
@@ -306,6 +316,7 @@ class TaggedEntityFactory extends AbstractModel {
     constructor(delegate) {
         super(delegate);
         this.contextMenu = new TaggedEntityContextMenu(this);
+        this.contextMenu.makeReady(); /* todo move this to make ready function */
         this.entities = [];
     }
 

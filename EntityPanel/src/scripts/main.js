@@ -1,4 +1,7 @@
 window.$ = require("jquery");
+window.jquery = require("jquery");
+window.bootstrap = require("bootstrap");
+
 const EntityPanel = require("./entityPanel/EnityPanelWidget");
 const FileOperations = require("utility").FileOperations;
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;

@@ -1,0 +1,16 @@
+This module requires asset-assistant to run.
+
+Installing for development / testing:
+1) Download NERVE repository.  This requires some local projects.
+   - nerscriber
+   - nerveserver
+   - nidget
+   - utility
+
+2) exec 'npm i' to install node_modules.
+3) exec 'npm run build' to setup dependencies and build the root js file.
+
+Install for use with other pacakages.
+1) exec 'npm i <this directory>'
+2) exec 'assets src' to copy dependencies. Note, bootstrap.css will be put into
+   scripts/bootstrap.

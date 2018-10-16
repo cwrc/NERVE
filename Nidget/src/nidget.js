@@ -3,5 +3,6 @@ module.exports = {
     DragDropWidget : require("./DragDropWidget"),
     DragWidget : require("./DragWidget"),
     DropWidget : require("./DropWidget"),
-    Widget : require("./Widget")
+    Widget : require("./Widget"),
+    IFrameWidget : require("./IFrameWidget")
 };

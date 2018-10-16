@@ -18,6 +18,15 @@ class AbstractModel {
         return this.delegate;
     }
     
+    setDelegate(delegate = null){
+        if (delegate === null) {
+            this.delegate = this;
+            this.abstractModelListeners = [];
+        } else {
+            this.delegate = delegate.delegate;
+        }
+    }
+    
     addListener(listener) {
         if (typeof listener !== "object"){
             throw new Error("invalid AbstractModel listener type: " + typeof listener);
