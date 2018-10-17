@@ -1,5 +1,4 @@
-const jQuery = require("jquery");
-const $ = jQuery;
+const $ = window.$ ? window.$ : require("jquery");
 const Widget = require("nidget").Widget;
 const MenuCategory = require("./MenuCategory");
 const FileOpertions = require("Utility").FileOperations;
@@ -7,6 +6,7 @@ const FileOpertions = require("Utility").FileOperations;
 class Menu extends Widget{
     constructor(delegate){
         super("<div class='menu_root'></div>", delegate);
+        this.categoryMap = new Map();
     }
     
     loadJSON(jsonObject){
@@ -19,11 +19,21 @@ class Menu extends Widget{
     addCategory(text, jsonObject){
         let menuCategory = new MenuCategory(text, this, jsonObject);
         this.append(menuCategory);
+        this.categoryMap.set(text, menuCategory);
         return menuCategory;
     }
     
     appendTo(target){
-        $(target).append(this.$);
+        $(target).append(this.getElement());
+    }
+    
+    getCategory(categoryText){
+        return this.categoryMap.get(categoryText);
+    }
+    
+    getMenuItem(categoryText, itemText){
+        let menuCategory = this.getCategory(categoryText);
+        return menuCategory.getMenuItem(itemText);
     }
 }
 

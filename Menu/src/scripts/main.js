@@ -5,15 +5,11 @@ const FileOperations = require("Utility").FileOperations;
 
 $(window).on('load', async function () {
     window.menu = new Menu();
-    menu.$.appendTo("#target");
+    $(menu.getElement()).appendTo("#target");
     
-//    try{        
-        let menuJSON = await FileOperations.getURL("assets/menu.json");
-        console.log(menuJSON);
-        menu.loadJSON(JSON.parse(menuJSON));
-//    } catch (err){
-//        window.alert("Get File Error: " + err.url);
-//    }    
+    let menuJSON = await FileOperations.getURL("assets/menu.json");
+    console.log(menuJSON);
+    menu.loadJSON(JSON.parse(menuJSON));
 
     menu.addListener({
         onMenuOpen: function(){console.log("menu open");}

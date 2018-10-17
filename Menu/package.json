@@ -12,10 +12,8 @@
     "contributors": [],
     "dependencies": {
         "Utility": "file:../Utility",
-        "asset-assistant": "",
         "jquery": "",
-        "nidget": "file:../Nidget",
-        "opn": "^5.4.0"
+        "nidget": "file:../Nidget"
     },
     "scripts": {
         "build": "npm run build-js && npm run assets",

@@ -40,14 +40,13 @@ let contexts = {
 let currentContext = null;
 
 $(window).on('load', async function () {
-    let nerveRoot = await scriberSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");
-    
+    let nerveRoot = await scriberSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");   
     window.entityPanel = new EntityPanel("#target");
     entityPanel.setDictionary(nerveRoot.getDictionary());
     
     $("#bOrlando").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/orlando.html");
-        let schema = await FileOperations.getURL("assets/schemas/orlando_biography_v2.rng");        
+        let schema = await FileOperations.getURL("assets/entitypanel/schemas/orlando_biography_v2.rng");        
         window.entityPanel.setDocument("orlando", file, schema);
         document.title = "orlando";
         entityPanel.setStyle("orlando");
@@ -56,7 +55,7 @@ $(window).on('load', async function () {
     
     $("#bTei").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/tei.html");
-        let schema = await FileOperations.getURL("assets/schemas/cwrc_tei_lite.rng");        
+        let schema = await FileOperations.getURL("assets/entitypanel/schemas/cwrc_tei_lite.rng");        
         window.entityPanel.setDocument("tei", file, schema);
         document.title = "tei";
         entityPanel.setStyle("tei");
@@ -65,7 +64,7 @@ $(window).on('load', async function () {
     
     $("#bCwrc").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/cwrc.html");
-        let schema = await FileOperations.getURL("assets/schemas/cwrc_entry.rng");        
+        let schema = await FileOperations.getURL("assets/entitypanel/schemas/cwrc_entry.rng");        
         window.entityPanel.setDocument("cwrc", file, schema);
         document.title = "cwrc";
         entityPanel.setStyle("cwrc");
@@ -99,7 +98,7 @@ $(window).on('load', async function () {
     });         
     $("#bPers").click(async ()=>{
         let selection = window.getSelection();
-        let taggedEntityWidget = await entityPanel.tagSelection(selection, currentContext.person);
+//        let taggedEntityWidget = await entityPanel.tagSelection(selection, currentContext.person);
         console.log(taggedEntityWidget);
         window.widget = taggedEntityWidget;
         if (taggedEntityWidget !== null) taggedEntityWidget.tag("PERSON");

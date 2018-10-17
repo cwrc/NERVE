@@ -1,6 +1,7 @@
 This module requires asset-assistant to run.
 
 Installing for development / testing:
+--------------------------------------------------------------------------------
 1) Download NERVE repository.  This requires some local projects.
    - nerscriber
    - nerveserver
@@ -11,12 +12,13 @@ Installing for development / testing:
 4) start nerve 'Server' first.
 
 Install for use with other pacakages.
+--------------------------------------------------------------------------------
 1) exec 'npm i <this directory>'
 2) exec 'assets src' to copy dependencies. Note, bootstrap.css will be put into
    scripts/bootstrap.
 
-
 Directory Layout
+--------------------------------------------------------------------------------
 - root/ 
     - nbproject/ : netbeans project files
     - public_html : web root when deployed for testing target for build
@@ -26,4 +28,10 @@ Directory Layout
         - assets/entitypanel/ : asset files copied with 'assets'.
         - scripts/entitypanel/ : source js files for browserify        
         - styles/entitypanel/ : css files copied with 'assets'.
-        
+
+Code Fragment         
+--------------------------------------------------------------------------------
+const EntityPanel = require("EntityPanel");
+let nerveRoot = await scriberSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");   
+window.entityPanel = new EntityPanel("#target");
+entityPanel.setDictionary(nerveRoot.getDictionary());

@@ -201,7 +201,12 @@ class EnityPanelWidget extends Widget {
         return taggedEntityWidget;
     }
 
-    /* seperate so that the model isn't saved twice on merge */
+    /**
+     * Tag selected text with the tagname from the schema.
+     * @param {type} selection
+     * @param {type} schemaTagName
+     * @returns {EnityPanelWidget.tagSelection.taggedEntity}
+     */
     async tagSelection(selection, schemaTagName) {
         if (selection.rangeCount === 0){
             this.notifyListeners("notifyWarning", `No range selected.`);

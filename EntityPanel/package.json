@@ -1,24 +1,24 @@
 {
-    "name": "entitypanel",
-    "version": "1.0.0",
+    "name": "EntityPanel",
+    "version": "0.0.0",
     "description": "",
     "dependencies": {
         "NidgetContext": "file:../NidgetContext",
         "bootstrap": "^4.1.3",
         "jjjrmi": "^0.4.10",
         "jquery": "",
+        "popper.js": "^1.14.4",
         "nerscriber": "file:../NERScriber",
         "nerveserver": "file:../Server",
         "nidget": "file:../Nidget",
-        "popper.js": "^1.14.4",
         "utility": "file:../Utility"
     },
     "scripts": {
         "build": "npm run build-js && npm run assets",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
+        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "assets": "assets -v src && npm run inject",
         "inject": "inject public_html/lib/**/* public_html/styles/**/* public_html/index.html",
-        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "clean": "clean -e"
     },
     "assets": {
@@ -28,9 +28,9 @@
             {
                 "src": "node_modules/bootstrap/dist/css/bootstrap.css",
                 "dest": "${dest}/styles/bootstrap"
-            }            
+            }
         ],
-        "dest": "public_html"        
+        "dest": "public_html"
     },
     "clean": [
         "public_html/assets/entitypanel/**",
@@ -40,5 +40,5 @@
         "public_html/styles/nidgetcontext/**",
         "public_html/main.js"
     ],
-    "main": "src/scripts/entitypanel/entitypanel.js"
+    "main": "src/scripts/entitypanel/EntityPanelWidget.js"
 }

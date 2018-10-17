@@ -8,6 +8,7 @@ class MenuCategory extends Widget{
         super(`<div class='menu_category'></div>`, delegate);
         this.title = $(`<div class='menu_title'>${text}</div>`);
         this.container = $(`<div class='menu_container'></div>`);
+        this.menuItemMap = new Map();
         
         this.$.append(this.title);
         this.$.append(this.container);
@@ -22,7 +23,12 @@ class MenuCategory extends Widget{
     addItem(text, jsonObject){
         let menuItem = new MenuItem(text, this, jsonObject);
         this.container.append(menuItem.$);
+        this.menuItemMap.set(text, menuItem);
         return menuItem;
+    }
+    
+    getMenuItem(text){
+        return this.menuItemMap.get(text);
     }
 }
 
