@@ -6,8 +6,7 @@ class Widget extends AbstractModel{
     constructor(element = null, delegate){
         super(delegate);
         if (element !== null){
-            this.$ = $(element);
-            this.$.data("widget", this);
+            this.setElement(element);
         }
     }
     
@@ -18,6 +17,15 @@ class Widget extends AbstractModel{
     
     getElement(){
         return this.$.get(0);
+    }
+    
+    append(child){
+        if (child instanceof Widget){
+            let childElement = child.getElement();
+            $(this.getElement()).append(childElement);
+        } else {
+            $(this.getElement()).append(child);
+        }
     }
     
     static hasWidget(element){

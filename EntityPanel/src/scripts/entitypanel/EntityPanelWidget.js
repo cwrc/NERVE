@@ -95,6 +95,10 @@ class EnityPanelWidget extends Widget {
         this.dictionary = dictionary;
     }
 
+    /**
+     * Clear the document from the widget.  
+     * @returns {undefined}
+     */
     async unsetDocument(){
         if (!this.hasDocument) return;
         this.hasDocument = false;

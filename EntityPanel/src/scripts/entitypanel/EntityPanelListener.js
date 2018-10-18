@@ -67,7 +67,7 @@ class EntityPanelListener{
         this.widget.emptyCollection();
     }
     
- notifySelectCategory(categoryButton) {
+    notifySelectCategory(categoryButton) {
         let category = categoryButton.getCategory();
 //        for (let TaggedEntityWidget of this.widget.taggedEntities) {
 //            if (TaggedEntityWidget.tag() === category) {

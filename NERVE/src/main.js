@@ -13,6 +13,12 @@ const OpenAsWidget = require("./OpenAsWidget");
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
 
+//JJJRMISocket.flags.CONNECT = true;
+//JJJRMISocket.flags.RECEIVED = true;
+//JJJRMISocket.flags.SENT = true;
+//JJJRMISocket.flags.VERBOSE = true;
+//JJJRMISocket.flags.ONMESSAGE = true;
+
 $(window).on('load', async function () {
     window.main = new Main();
     await main.load();
@@ -47,26 +53,26 @@ class Main extends AbstractModel {
     }
 
     async onMenuOpen() {
-        let text = await this.customReader.show();
+        let fileObject = await this.customReader.show();
         let openAsOptions = this.openAsWidget.getOptions();
-        await this.loadFile(text, openAsOptions);
+        await this.loadFile(fileObject.contents, openAsOptions);
     }
 
     async onMenuOpenAs() {
         let openAsOptions = await this.openAsWidget.show();
         if (!openAsOptions.accept) return;
-        let text = await this.customReader.show();
-        await this.loadFile(text, openAsOptions);
+        let fileObject = await this.customReader.show();
+        await this.loadFile(fileObject.contents, openAsOptions);
     }
     
     async loadFile(text, openAsOptions){
         let encoded = null;
-        
-        if (openAsOptions.ner && openAsOptions.dict) encoded = this.scriber.encode(text);
-        else if (openAsOptions.ner) encoded = this.scriber.tag(text);
-        else if (openAsOptions.dict) encoded = this.scriber.link(text);
-        else encoded = this.scriber.edit(text);
-        
+
+        if (openAsOptions.ner && openAsOptions.dict) encoded = await this.scriber.encode(text);
+        else if (openAsOptions.ner) encoded = await this.scriber.tag(text);
+        else if (openAsOptions.dict) encoded = await this.scriber.link(text);
+        else encoded = await this.scriber.edit(text);
+
         return encoded;
     }
 }

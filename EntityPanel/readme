@@ -29,9 +29,32 @@ Directory Layout
         - scripts/entitypanel/ : source js files for browserify        
         - styles/entitypanel/ : css files copied with 'assets'.
 
-Code Fragment         
+Initialization Code Fragment         
 --------------------------------------------------------------------------------
 const EntityPanel = require("EntityPanel");
 let nerveRoot = await scriberSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");   
 window.entityPanel = new EntityPanel("#target");
 entityPanel.setDictionary(nerveRoot.getDictionary());
+
+Methods
+--------------------------------------------------------------------------------
+unsetDocument() : triggers notifyClearDocument
+setDocument(filename, documentText, schemaXMLText) : triggers notifySetDocument
+setStyle(stylename) : use to change styles associated with contexts
+emptyCollection() : unselect all selected entities
+selectByLemmaTag(lemma, tag) : selectg entities that metch both leamma & tag
+scrollTo(taggedEntityWidget)
+mergeEntities() : merge all selected entities
+tagSelection(selection, schemaTagName) : tag selected text (needs schemaTagName to verify)
+
+
+Events
+--------------------------------------------------------------------------------
+notifyWarning(text)
+notifyClearDocument(taggedEntityArray)
+notifySetDocument(filename, taggedEntityArray)
+notifyUntaggedEntities (array of untagged entities, array of resulting text nodes)
+notifyDocumentClick() : when a non-entiy part of the document is clicked
+notifyCollectionAdd(array of currently selected entities, array of newly selected entities)
+notifyCollectionClear(array of currently selected entities, array of previously selected entities)
+notifyCollectionRemove(array of currently selected entities, array of previously selected entities)

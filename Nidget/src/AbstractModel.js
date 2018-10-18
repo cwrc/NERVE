@@ -12,6 +12,10 @@ class AbstractModel {
         } else {
             this.delegate = delegate.delegate;
         }
+        
+        if (this.delegate === undefined || this.delegate === null){
+            throw new Error("undefined delegate");
+        }        
     }
 
     getDelegate(){
@@ -24,6 +28,10 @@ class AbstractModel {
             this.abstractModelListeners = [];
         } else {
             this.delegate = delegate.delegate;
+        }
+        
+        if (this.delegate === undefined){
+            throw new Error("undefined delegate");
         }
     }
     
