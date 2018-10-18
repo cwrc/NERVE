@@ -34,9 +34,7 @@
             "defaults"       : {"level": "m"}
         }
     ],
-    "styles" : [
-        "tei"
-    ],
+    "style" :"tei",
     "schemaName" : "cwrc_tei_lite.rng",
     "tagSourceAttribute" : "whoTagged"
 }

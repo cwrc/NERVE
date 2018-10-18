@@ -34,9 +34,7 @@
             "defaults"       : {"TITLETYPE": "MONOGRAPHIC"}
         }
     ],
-    "styles" : [
-        "orlando"
-    ],
+    "style" :"orlando",
     "schemaName" : "orlando_biography_v2.rng",
     "tagSourceAttribute" : "whoTagged"
 }

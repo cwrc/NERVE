@@ -19,7 +19,7 @@ public class Context extends JJJObject implements Serializable, DataObject {
     private String schemaName = "";
     private String scriptFilename;
     private String tagSourceAttribute;
-    private ArrayList<String> styleList = new ArrayList<>();
+    private String style = "";
     private ArrayList<TagInfo> tagList = new ArrayList<>();
     
     private Context() {
@@ -37,8 +37,8 @@ public class Context extends JJJObject implements Serializable, DataObject {
         if (!json.has("tagSourceAttribute")) this.tagSourceAttribute = "";
         else this.tagSourceAttribute = json.getString("tagSourceAttribute");
 
-        JSONArray jsonStyles = json.getJSONArray("styles");
-        for (int i = 0; i < jsonStyles.length(); i++) styleList.add(jsonStyles.getString(i));
+        if (!json.has("style")) this.style = "";
+        else this.style = json.getString("style");
 
         JSONArray jsonTags = json.getJSONArray("tags");
         for (int i = 0; i < jsonTags.length(); i++) {
@@ -77,8 +77,8 @@ public class Context extends JJJObject implements Serializable, DataObject {
     }
 
     @NativeJS
-    public List<String> styles() {
-        return styleList;
+    public String getStyle() {
+        return style;
     }
 
     @NativeJS
