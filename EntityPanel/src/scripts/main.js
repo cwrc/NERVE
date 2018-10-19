@@ -2,7 +2,7 @@ window.$ = require("jquery");
 window.jquery = require("jquery");
 window.bootstrap = require("bootstrap");
 
-const EntityPanel = require("./entityPanel/EnityPanelWidget");
+const EntityPanel = require("./entitypanel/EntityPanelWidget");
 const FileOperations = require("utility").FileOperations;
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 
@@ -47,7 +47,7 @@ $(window).on('load', async function () {
     $("#bOrlando").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/orlando.html");
         let schema = await FileOperations.getURL("assets/entitypanel/schemas/orlando_biography_v2.rng");        
-        window.entityPanel.setDocument("orlando", file, schema);
+        window.entityPanel.setDocument(file, "orlando", schema);
         document.title = "orlando";
         entityPanel.setStyle("orlando");
         currentContext = contexts.orlando;
@@ -56,7 +56,7 @@ $(window).on('load', async function () {
     $("#bTei").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/tei.html");
         let schema = await FileOperations.getURL("assets/entitypanel/schemas/cwrc_tei_lite.rng");        
-        window.entityPanel.setDocument("tei", file, schema);
+        window.entityPanel.setDocument(file, "tei", schema);
         document.title = "tei";
         entityPanel.setStyle("tei");
         currentContext = contexts.tei;
@@ -65,7 +65,7 @@ $(window).on('load', async function () {
     $("#bCwrc").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/cwrc.html");
         let schema = await FileOperations.getURL("assets/entitypanel/schemas/cwrc_entry.rng");        
-        window.entityPanel.setDocument("cwrc", file, schema);
+        window.entityPanel.setDocument(file, "cwrc", schema);
         document.title = "cwrc";
         entityPanel.setStyle("cwrc");
         currentContext = contexts.cwrc;

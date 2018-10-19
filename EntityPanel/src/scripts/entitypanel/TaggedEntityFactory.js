@@ -8,8 +8,8 @@ const Widget = require("nidget").Widget;
 const NidgetContext = require("NidgetContext");
 
 class TaggedEntityContextMenu extends NidgetContext{
-    constructor(delegate){
-        super(delegate);
+    constructor(taggedEntityFactory, entityPanelWidget){
+        super(taggedEntityFactory);
         this.ready = false;
         
         this.addMenuItem("Untag", (event)=>{
@@ -32,6 +32,10 @@ class TaggedEntityContextMenu extends NidgetContext{
         this.addMenuItem("Tag Title", (event)=>{
             this.taggedEntityWidget.tag("TITLE");
         });        
+
+        this.addMenuItem("Edit Entity", (event)=>{
+             this.notifyListeners("notifyEditEntities", entityPanelWidget.getSelectedEntities());
+        });                
         
         this.addMenuItem("Examine HTML", (event)=>{
             this.showHTMLWidget.show(this.taggedEntityWidget);
@@ -131,19 +135,27 @@ class TaggedEntityWidget extends Widget{
         }                
         
         /* put text into it's own element with class = contents */
-        this.contents = $("<div></div>");
-        this.contents.addClass("contents");
-        let currentText = this.$.text();
-        this.$.text("");
-        this.contents.text(currentText);
-        this.$.prepend(this.contents);
+        if (this.$.find(".contents").length === 0){
+            this.contents = $("<div></div>");
+            this.contents.addClass("contents");
+            let currentText = this.$.text();
+            this.$.text("");
+            this.contents.text(currentText);
+            this.$.prepend(this.contents);
+        } else {
+            this.contents = this.$.find(".contents");
+        }
         
         /* add a markup element that will mirror the tagname element */
-        this.markup = $("<div></div>");
-        this.markup.addClass("tagname-markup");
-        let currentTag = this.$.attr(Constants.ORG_TAGNAME);
-        this.markup.text(currentTag);
-        this.$.append(this.markup);        
+        if (this.$.find(".tagname-markup").length === 0){
+            this.markup = $("<div></div>");
+            this.markup.addClass("tagname-markup");
+            let currentTag = this.$.attr(Constants.ORG_TAGNAME);
+            this.markup.text(currentTag);
+            this.$.append(this.markup);     
+        } else {
+            this.markup = this.$.find(".tagname-markup");
+        }
     }
 
     contextUntag() {
@@ -313,9 +325,9 @@ class TaggedEntityWidget extends Widget{
 }
 
 class TaggedEntityFactory extends AbstractModel {
-    constructor(delegate) {
-        super(delegate);
-        this.contextMenu = new TaggedEntityContextMenu(this);
+    constructor(entityPanelWidget) {
+        super(entityPanelWidget);
+        this.contextMenu = new TaggedEntityContextMenu(this, entityPanelWidget);
         this.contextMenu.makeReady(); /* todo move this to make ready function */
         this.entities = [];
     }

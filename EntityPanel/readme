@@ -38,11 +38,11 @@ entityPanel.setDictionary(nerveRoot.getDictionary());
 
 Methods
 --------------------------------------------------------------------------------
-unsetDocument() : triggers notifyClearDocument
-setDocument(filename, documentText, schemaXMLText) : triggers notifySetDocument
-setStyle(stylename) : use to change styles associated with contexts
+async unsetDocument() : triggers notifyClearDocument
+async setDocument(filename, documentText, schemaXMLText) : triggers notifySetDocument
+setStyle(stylename) : use to change styles associated with context's styles array
 emptyCollection() : unselect all selected entities
-selectByLemmaTag(lemma, tag) : selectg entities that metch both leamma & tag
+async selectByLemmaTag(lemma, tag) : selectg entities that metch both leamma & tag
 scrollTo(taggedEntityWidget)
 mergeEntities() : merge all selected entities
 tagSelection(selection, schemaTagName) : tag selected text (needs schemaTagName to verify)
@@ -58,3 +58,7 @@ notifyDocumentClick() : when a non-entiy part of the document is clicked
 notifyCollectionAdd(array of currently selected entities, array of newly selected entities)
 notifyCollectionClear(array of currently selected entities, array of previously selected entities)
 notifyCollectionRemove(array of currently selected entities, array of previously selected entities)
+notifyEntityUpdate(array of manipulated entities, array of previous values*)
+notifyTaggedEntityClick(entity, double, ctrl, shift alt)
+
+* each entry corrisponds to a tagged entity in the other array. 

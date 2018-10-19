@@ -7,11 +7,11 @@ import ca.sharcnet.dh.scriber.context.Context;
 @JJJ
 public class EncodeResponse extends JJJObject{
     private final String text;
-    private final Context context;
+    private final String context;
     private final String schemaURL;
     private String filename = "";
 
-    public EncodeResponse(String text, Context context, String schemaURL){
+    public EncodeResponse(String text, String context, String schemaURL){
         this.text = text;
         this.context = context;
         this.schemaURL = schemaURL;
@@ -25,6 +25,7 @@ public class EncodeResponse extends JJJObject{
     /**
      * @return the text
      */
+    @NativeJS
     public String getText() {
         return text;
     }
@@ -32,13 +33,15 @@ public class EncodeResponse extends JJJObject{
     /**
      * @return the context
      */
-    public Context getContext() {
+    @NativeJS
+    public String getContext() {
         return context;
     }
 
     /**
      * @return the schemaURL
      */
+    @NativeJS
     public String getSchemaURL() {
         return schemaURL;
     }
@@ -46,6 +49,7 @@ public class EncodeResponse extends JJJObject{
     /**
      * @return the filename
      */
+    @NativeJS
     public String getFilename() {
         return filename;
     }    

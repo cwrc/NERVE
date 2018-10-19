@@ -1,39 +1,35 @@
 {
     "name"               : "CWRC",
-    "tags" : [
-        {
+    "tags" : {
+        "ORGANIZATION": {
             "name"           : "ORGNAME",
-            "standard"       : "ORGANIZATION",
             "lemmaAttribute" : "STANDARD",
             "linkAttribute"  : "REF",
             "idAttribute"    : "annotationID",
             "defaults"       : {}
         },
-        {
+        "LOCATION": {
             "name"           : "PLACE",
-            "standard"       : "LOCATION",
             "lemmaAttribute" : "REG",
             "linkAttribute"  : "REF",
             "idAttribute"    : "annotationID",
             "defaults"       : {}
         },
-        {
+        "PERSON": {
             "name"           : "NAME",
-            "standard"       : "PERSON",
             "lemmaAttribute" : "STANDARD",
             "linkAttribute"  : "REF",
             "idAttribute"    : "annotationID",
             "defaults"       : {}
         },
-        {
+        "TITLE": {
             "name"           : "TITLE",
-            "standard"       : "TITLE",
             "lemmaAttribute" : "REG",
             "linkAttribute"  : "REF",
             "idAttribute"    : "annotationID",
             "defaults"       : {"LEVEL": "MONOGRAPHIC"}
         }
-    ],
+    },
     "style" : "playwrights",
     "schemaName" : "cwrc_entry.rng",
     "tagSourceAttribute" : "whoTagged"

@@ -39,7 +39,7 @@ class MenuItem extends Widget {
                 this.disabled(settingObject);
             break;        
             case "shortcut":
-                this.setKey(settingObject.key, settingObject.ctrl, settingObject.alt, settingObject.shift);
+                this.setKey(settingObject.key, settingObject.ctrl, settingObject.alt, settingObject.shift, settingObject.text);
             break;                
         }
     }
@@ -65,15 +65,18 @@ class MenuItem extends Widget {
         }
     }
 
-    setKey(key, ctrl = true, alt = false, shift = false) {
+    setKey(key, ctrl = true, alt = false, shift = false, text = null) {
         if (this.shortcut !== null) {
             this.shortcut.detach();
         }
 
-        let text = key.toUpperCase();
-        if (shift) text = "SHIFT " + text;
-        if (ctrl) text = "CTRL " + text;
-        if (alt) text = "ALT " + text;
+        if (text === null){
+            text = key.toUpperCase();
+            if (shift) text = "SHIFT " + text;
+            if (ctrl) text = "CTRL " + text;
+            if (alt) text = "ALT " + text;
+        }
+        
         this.shortcut = $(`<div class='menu_shortcut'>${text}</div>`);
         this.$.append(this.shortcut);
 
@@ -81,7 +84,7 @@ class MenuItem extends Widget {
             if (!this.active) return;
             let evtCtrl = false;
             if (event.ctrlKey || event.metaKey) evtCtrl = true;           
-            if (event.key !== key.toLowerCase()) return;
+            if (event.key.toLowerCase() !== key.toLowerCase()) return;
             if (evtCtrl !== ctrl) return;
             if (event.altKey !== alt) return;
             if (event.shiftKey !== shift) return;

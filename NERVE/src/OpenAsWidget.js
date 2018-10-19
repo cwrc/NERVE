@@ -8,8 +8,8 @@ class OpenAsWidget extends Widget{
         super(null, delegate);
         
         this.dialogOptions = {
-            ner : $("#openNER").is(":checked"),
-            dict : $("#openDict").is(":checked"),
+            ner : true,
+            dict : true,
             accept : undefined
         };        
     }
@@ -39,8 +39,7 @@ class OpenAsWidget extends Widget{
             accept : accept
         };
         
-        console.log(dialogOptions);
-        this.resolve(dialogOptions);        
+        this.resolve(this.dialogOptions);        
     }
     
     async show(){

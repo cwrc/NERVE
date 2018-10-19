@@ -21,12 +21,12 @@ public class TagInfo implements DataObject{
     private final HashMap<String, String> defaults = new HashMap<>();
     private final String dialogMethod;
 
-    public TagInfo(JSONObject json) {
+    public TagInfo(String standard, JSONObject json) {
         this.name = json.getString("name");
         this.lemmaAttribute = json.getString("lemmaAttribute");
         this.linkAttribute = json.getString("linkAttribute");
         this.idAttribute = json.getString("idAttribute");
-        this.standard = json.getString("standard");
+        this.standard = standard;
         
         if (json.has("dialog-method")) this.dialogMethod = json.getString("dialog-method");
         else this.dialogMethod = "";

@@ -37,7 +37,10 @@ const Constants = require("utility").Constants;
     };
 }($));
 
-class EntityPanelSelfListener{
+/**
+ * Listens for tagged entity widget clicks to add/remove them from the collection.
+ */
+class EntityPanelClickListener{
     constructor(entityPanelWidget){
         this.widget = entityPanelWidget;
     }
@@ -60,7 +63,7 @@ class EntityPanelSelfListener{
     }
 }
 
-class EnityPanelWidget extends Widget {
+class EntityPanelWidget extends Widget {
 
     constructor(target, delegate) {
         super(`<div id="entityPanel" class="format-default"></div>`, delegate);
@@ -68,7 +71,7 @@ class EnityPanelWidget extends Widget {
         
         this.taggedEntityFactory = new TaggedEntityFactory(this);
         this.hasDocument = false;
-        this.addListener(new EntityPanelSelfListener(this));
+        this.addListener(new EntityPanelClickListener(this));
         this.selectedEntities = new TaggedEntityCollection();        
         this.stylename = "";        
         this.schema = null;
@@ -84,6 +87,18 @@ class EnityPanelWidget extends Widget {
                 this.emptyCollection();  
             }
         });
+        
+        $(this.getElement()).on("contextmenu", (event) => {
+            event.preventDefault();
+        });
+    }
+    
+    getSelectedEntities(){
+        return this.selectedEntities.asArray();
+    }
+    
+    getDocument(){
+        return $("#entityPanel").html();
     }
     
     setDictionary(dictionary){
@@ -116,14 +131,20 @@ class EnityPanelWidget extends Widget {
         await this.notifyListeners("notifyClearDocument", taggedEntityArray);
     }
 
-    async setDocument(filename, documentText, schemaXMLText) {        
+    async setDocument(documentText, filename = null, schemaXMLText = null) {        
+        if (filename !== null) this.filename = filename;
+        else filename = this.filename;
+        
         if (this.hasDocument){
             this.unsetDocument();
         }
         
         this.hasDocument = true;
-        this.schema = new Schema();
-        await this.schema.load(schemaXMLText);
+
+        if (schemaXMLText !== null){
+            this.schema = new Schema();
+            await this.schema.load(schemaXMLText);
+        }
 
         this.$.html(documentText);
         
@@ -268,4 +289,4 @@ class EnityPanelWidget extends Widget {
     }
 }
 
-module.exports = EnityPanelWidget;
+module.exports = EntityPanelWidget;

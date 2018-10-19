@@ -40,7 +40,7 @@ public class Scriber extends JJJObject implements HasStreams {
     private EncodeResponse doEncode(String source, EncodeOptions options) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         Document document = DocumentLoader.documentFromString(source);
         EncodedDocument encoded = Encoder.encode(document, ScriberResource.getInstance(), options, progressListener);
-        EncodeResponse encodeResponse = new EncodeResponse(encoded.toString(), encoded.getContext(), encoded.getSchema());
+        EncodeResponse encodeResponse = new EncodeResponse(encoded.toString(), encoded.getContext().getSourceString(), encoded.getSchema());
         for (EncodeListener encodeListener : this.encodeListeners) encodeListener.onEncode(encodeResponse);
         return encodeResponse;
     }

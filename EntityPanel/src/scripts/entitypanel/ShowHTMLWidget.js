@@ -15,8 +15,10 @@ class ShowHTMLWidget extends Widget{
     }
     
     show(taggedEntityWidget){
-        this.$.find("#shw_title").text(taggedEntityWidget.lemma());
-        this.$.find("#shw_body").text(taggedEntityWidget.$[0].outerHTML);
+        
+        
+        this.$.find('[data-widget-id="title"]').text(taggedEntityWidget.lemma());
+        this.$.find('[data-widget-id="contents"]').text(taggedEntityWidget.$[0].outerHTML);
         this.$.modal();
     }
 }

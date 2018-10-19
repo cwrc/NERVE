@@ -1,31 +1,26 @@
 package ca.sharcnet.dh.scriber.context;
-import ca.frar.jjjrmi.annotations.JJJ;
-import ca.frar.jjjrmi.annotations.JSPrequel;
-import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
 import ca.frar.jjjrmi.translator.DataObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
-@JJJ
-@JJJOptions(retain = false)
-@JSPrequel("const ArrayList = require('jjjrmi').ArrayList;")
 public class Context extends JJJObject implements Serializable, DataObject {
     private String name;
     private String schemaName = "";
     private String scriptFilename;
     private String tagSourceAttribute;
     private String style = "";
+    private String sourceString = "";
     private ArrayList<TagInfo> tagList = new ArrayList<>();
-    
-    private Context() {
-    }
 
-    public Context(JSONObject json) {
+    public Context(String jsonString) {
+        this.sourceString = jsonString;
+        JSONTokener jst = new JSONTokener(jsonString);
+        JSONObject json = new JSONObject(jst);
         this.name = json.getString("name");
 
         if (!json.has("schemaName")) this.schemaName = "";
@@ -40,12 +35,17 @@ public class Context extends JJJObject implements Serializable, DataObject {
         if (!json.has("style")) this.style = "";
         else this.style = json.getString("style");
 
-        JSONArray jsonTags = json.getJSONArray("tags");
-        for (int i = 0; i < jsonTags.length(); i++) {
-            tagList.add(new TagInfo(jsonTags.getJSONObject(i)));
+        JSONObject jsonTags = json.getJSONObject("tags");
+        for (String key : jsonTags.keySet()){
+            JSONObject tagInfoJSON = jsonTags.getJSONObject(key);
+            tagList.add(new TagInfo(key, tagInfoJSON));
         }
     }
 
+    public String getSourceString(){
+        return this.sourceString;
+    }
+    
     @NativeJS
     public boolean hasTagSourceAttribute() {
         return (!tagSourceAttribute.isEmpty());

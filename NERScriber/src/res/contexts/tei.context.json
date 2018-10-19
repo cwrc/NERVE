@@ -1,39 +1,35 @@
 {
     "name"               : "TEI",
-    "tags" : [
-        {
+    "tags" : {
+        "ORGANIZATION": {
             "name"           : "orgName",
-            "standard"       : "ORGANIZATION",            
             "linkAttribute"  : "ref",
             "idAttribute"    : "annotationID",
             "lemmaAttribute" : "key",            
             "defaults"       : {}
         },
-        {
+        "LOCATION": {
             "name"           : "placeName",
-            "standard"       : "LOCATION",
             "linkAttribute"  : "ref",
             "idAttribute"    : "annotationID",
             "lemmaAttribute" : "key",            
             "defaults"       : {}
         },
-        {
+        "PERSON": {
             "name"           : "persName",
-            "standard"       : "PERSON",            
             "linkAttribute"  : "ref",
             "idAttribute"    : "annotationID",
             "lemmaAttribute" : "key",            
             "defaults"       : {}
         },
-        {
+        "TITLE": {
             "name"           : "title",
-            "standard"       : "TITLE",            
             "linkAttribute"  : "ref",
             "idAttribute"    : "annotationID",
             "lemmaAttribute" : "key",
             "defaults"       : {"level": "m"}
         }
-    ],
+    },
     "style" :"tei",
     "schemaName" : "cwrc_tei_lite.rng",
     "tagSourceAttribute" : "whoTagged"

@@ -15,6 +15,10 @@ class TaggedEntityCollection extends AbstractModel{
         return this.innerArray[Symbol.iterator]();
     }
             
+    asArray(){
+        return this.innerArray.slice();
+    }
+            
     /**
      * Add object(s) if they are not already contained.
      * @param {type} single object or array of objects
@@ -63,7 +67,7 @@ class TaggedEntityCollection extends AbstractModel{
     remove(obj) {
         if (!this.contains(obj)) return null;
         this.innerArray.splice(this.innerArray.indexOf(obj), 1);
-        this.notifyListeners("notifyCollectionRemove", this.clone(), obj);
+        this.notifyListeners("notifyCollectionRemove", this.clone(), [obj]);
         return obj;
     }
     contains(obj) {
