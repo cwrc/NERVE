@@ -14,7 +14,7 @@ class AbstractModel {
         }
         
         if (this.delegate === undefined || this.delegate === null){
-            throw new Error("undefined delegate");
+            throw new Error(`undefined delegate: ${typeof delegate}`);
         }        
     }
 

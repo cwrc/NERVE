@@ -15,6 +15,11 @@ class FileOperations {
         return server;
     }
 
+    /**
+     * Create a new dom element from a file (url).
+     * @param {type} url
+     * @returns {node|FileOperations.loadDOMElement.domElement}
+     */
     static async loadDOMElement(url){
         let text = await FileOperations.getURL(url);
         let element = $(text);
@@ -66,7 +71,7 @@ class FileOperations {
     }
 
     /*
-     * Send contents of 'filename' from server to client.
+     * Send contents of 'filename' from server to client using current window location.
      * @param {String} filename
      * @param {Function} successCallback
      * @param {Function} errorCallback

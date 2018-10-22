@@ -1,67 +1,9 @@
 const $ = window.$ ? window.$ : require("jquery");
 const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("nerveserver").EntityValues;
-const ShowHTMLWidget = require("./ShowHTMLWidget");
 const Constants = require("utility").Constants;
 const AbstractModel = require("nidget").AbstractModel;
 const Widget = require("nidget").Widget;
-const NidgetContext = require("NidgetContext");
-
-class TaggedEntityContextMenu extends NidgetContext{
-    constructor(taggedEntityFactory, entityPanelWidget){
-        super(taggedEntityFactory);
-        this.ready = false;
-        
-        this.addMenuItem("Untag", (event)=>{
-            let textNode = this.taggedEntityWidget.untag();
-            this.notifyListeners("notifyUntaggedEntities", [this.taggedEntityWidget], [textNode]);
-        });
-
-        this.addMenuItem("Tag Location", (event)=>{
-            this.taggedEntityWidget.tag("LOCATION");
-        });
-        
-        this.addMenuItem("Tag Organization", (event)=>{
-            this.taggedEntityWidget.tag("ORGANIZATION");
-        });        
-        
-        this.addMenuItem("Tag Person", (event)=>{
-            this.taggedEntityWidget.tag("PERSON");
-        });        
-
-        this.addMenuItem("Tag Title", (event)=>{
-            this.taggedEntityWidget.tag("TITLE");
-        });        
-
-        this.addMenuItem("Edit Entity", (event)=>{
-             this.notifyListeners("notifyEditEntities", entityPanelWidget.getSelectedEntities());
-        });                
-        
-        this.addMenuItem("Examine HTML", (event)=>{
-            this.showHTMLWidget.show(this.taggedEntityWidget);
-        });        
-
-        $(document).click(e=>this.hide());
-    }
-    
-    async makeReady(){
-        this.showHTMLWidget = new ShowHTMLWidget();
-        await this.showHTMLWidget.load();
-        window.showHTMLWidget = this.showHTMLWidget;        
-        this.ready = true;
-    }
-    
-    show(event, taggedEntityWidget){
-        if (!this.ready) throw new Error("TaggedEntiyFactory not ready");
-        super.show(event);
-        this.taggedEntityWidget = taggedEntityWidget;
-    }
-    
-    setDictionary(dictionary){
-        this.dictionary = dictionary;
-    }
-}
-
 
 /**
  * All tagged entity elements get passed to a TaggedEntity constructor to provide functionality.
@@ -76,12 +18,11 @@ class TaggedEntityContextMenu extends NidgetContext{
  */
 class TaggedEntityWidget extends Widget{
 
-    constructor(element, factory, contextMenu) {
+    constructor(element, factory) {
         super(element, factory);
         this.factory = factory;
         this.setupListeners();
         this.formatElements();
-        this.contextMenu = contextMenu;
     }
 
     /**
@@ -98,17 +39,18 @@ class TaggedEntityWidget extends Widget{
 
         this.$.on("contextmenu", (event) => {
             event.preventDefault();
-            this.contextMenu.show(event, this);
+            event.stopPropagation();
+            this.notifyListeners("notifyTaggedEntityContextMenu", this, false, event.ctrlKey, event.shiftKey, event.altKey, event);
         });
 
         this.$.click((event) => {
             if (event.button !== 0) return; /* left click only */
-            this.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey);
+            this.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey, event);
             event.stopPropagation();
         });
         this.$.dblclick((event) => {
             if (event.button !== 0) return; /* left click only */
-            this.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey);
+            this.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey, event);
             event.stopPropagation();
         });
     }
@@ -327,14 +269,7 @@ class TaggedEntityWidget extends Widget{
 class TaggedEntityFactory extends AbstractModel {
     constructor(entityPanelWidget) {
         super(entityPanelWidget);
-        this.contextMenu = new TaggedEntityContextMenu(this, entityPanelWidget);
-        this.contextMenu.makeReady(); /* todo move this to make ready function */
         this.entities = [];
-    }
-
-    setDictionary(dictionary){
-        this.contextMenu.setDictionary(dictionary);
-        return this;
     }
     
     getAllEntities(){
@@ -356,7 +291,7 @@ class TaggedEntityFactory extends AbstractModel {
     }
     
     constructFromElement(element){        
-        let taggedEntityWidget = new TaggedEntityWidget(element, this, this.contextMenu);
+        let taggedEntityWidget = new TaggedEntityWidget(element, this);
         this.entities.push(taggedEntityWidget);
         return taggedEntityWidget;
     }
@@ -377,7 +312,7 @@ class TaggedEntityFactory extends AbstractModel {
         $(markup).addClass("tagname-markup");
         $(contents).addClass("contents");
 
-        return new TaggedEntityWidget(div, this, this.contextMenu);
+        return new TaggedEntityWidget(div, this);
     }    
 }
 

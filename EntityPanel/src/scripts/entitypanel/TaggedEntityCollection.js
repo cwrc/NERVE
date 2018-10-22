@@ -6,7 +6,7 @@ const AbstractModel = require("nidget").AbstractModel;
  */
 
 class TaggedEntityCollection extends AbstractModel{
-    constructor(array = [], delegate) {
+    constructor(delegate, array = []) {
         super(delegate);
         this.innerArray = array.slice();
     }
@@ -38,6 +38,7 @@ class TaggedEntityCollection extends AbstractModel{
             notifyarray.push(obj);
         }
         this.notifyListeners("notifyCollectionAdd", this.clone(), notifyarray);
+        return this;
     }
     set(obj) {
         this.clear();
@@ -79,14 +80,14 @@ class TaggedEntityCollection extends AbstractModel{
      * @return {nm$_Collection.Collection}
      */
     clone(){
-        return new TaggedEntityCollection(this.innerArray);
+        return new TaggedEntityCollection(this.getDelegate(), this.innerArray);
     }
     
     values(values){
         let oldValues = [];
         
         for (let taggedEntityWidget of this.innerArray){
-            oldValues.push(taggedEntityWidget.values);
+            oldValues.push(taggedEntityWidget.values());
             taggedEntityWidget.values(values, true);
         }
         this.notifyListeners("notifyEntityUpdate", this.innerArray.slice(), oldValues);

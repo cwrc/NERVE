@@ -9,18 +9,21 @@ const EntityPanel = require("EntityPanel");
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");
-const EntityPanelListener = require("./EntityPanelListener");
 const EditEntityWidget = require("./EditEntityWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
 
-//JJJRMISocket.flags.CONNECT = true;
-//JJJRMISocket.flags.RECEIVED = true;
-//JJJRMISocket.flags.SENT = true;
-//JJJRMISocket.flags.VERBOSE = true;
-//JJJRMISocket.flags.ONMESSAGE = true;
+JJJRMISocket.flags = {
+    SILENT: false, /* do not print exceptions to console */
+    CONNECT: false, /* show the subset of ONMESSAGE that deals with the initial connection */
+    ONMESSAGE: false, /* describe the action taken when a message is received */
+    SENT: true, /* show the send object, versbose shows the json text as well */
+    RECEIVED: false, /* show the received server object, verbose shows the json text as well */
+    VERBOSE: true, /* print raw text for SENT / RECEIVED */
+    ONREGISTER: false /* report classes as they are registered */
+};
 
 $(window).on('load', async function () {
     window.main = new Main();
@@ -51,10 +54,8 @@ class Main extends AbstractModel {
         this.menu.loadJSON(JSON.parse(menuJSON));
 
         /* EntityPanel setup */
-        this.entityPanel = new EntityPanel("#panelContainer", this);
-        this.entityPanel.setDictionary(await this.rootObject.getDictionary());
-        this.entityPanelListener = new EntityPanelListener(this, this.entityPanel);
-        this.addListener(this.entityPanelListener);
+        let dictionary = await this.rootObject.getDictionary();
+        this.entityPanel = new EntityPanel("#panelContainer", this, dictionary);
         
         /* Undo listener */
         this.entityPanelChangeListener = new EntityPanelChangeListener(this.entityPanel);
@@ -82,6 +83,7 @@ class Main extends AbstractModel {
     }
     
     async notifyEditEntities(taggedEntities){
+        console.log(taggedEntities);
         let editEntityResult = await this.editEntityWidget.show(taggedEntities);
         console.log(editEntityResult);
         
@@ -93,6 +95,13 @@ class Main extends AbstractModel {
                 if (editEntityResult.tag !== null) taggedEntity.tag(editEntityResult.tag, true);
             }
         }
+    }
+
+    async onMenuSave(){
+        let document = this.entityPanel.getDocument();
+        console.log(document);
+        let decoded = await this.scriber.decode(document);
+        FileOperations.saveToFile(decoded, localStorage.filename);
     }
 
     async onMenuClose(){
@@ -151,4 +160,38 @@ class Main extends AbstractModel {
 
         return encoded;
     }
+    onMenuRemoveTag(taggedEntityCollection = null) {
+        if (taggedEntityCollection === null){
+            taggedEntityCollection = this.entityPanel.selectedEntities.clone();
+        }
+        
+        if (taggedEntityCollection.isEmpty()) return 0;
+
+        let taggedEntityArray = [];
+        let textNodeArray = [];
+        
+        for (let taggedEntityWidget of taggedEntityCollection) {
+            taggedEntityArray.push(taggedEntityWidget);
+            let text = taggedEntityWidget.untag();
+            textNodeArray.push(text);
+        }
+        this.entityPanel.selectedEntities.clear();
+        this.entityPanel.notifyListeners("notifyUntaggedEntities", taggedEntityArray, textNodeArray);
+    }
+    
+    async onMenuMergeEntities() {
+        let taggedEntity = await this.entityPanel.mergeEntities(this.entityPanel.collection);
+        this.entityPanel.selectedEntities.set(taggedEntity);
+        this.entityPanel.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+    }
+
+    async onMenuTag(tagname = "PERSON") {
+        let taggedEntity = await this.entityPanel.tagSelection(window.getSelection());
+        taggedEntity.tag(tagname, true);
+        this.entityPanel.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+    }       
+    
+    async onMenuClearSelection() {
+        this.entityPanel.emptyCollection();
+    }    
 }

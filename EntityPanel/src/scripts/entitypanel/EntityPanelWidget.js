@@ -6,6 +6,8 @@ const TaggedEntityFactory = require("./TaggedEntityFactory");
 const Widget = require("nidget").Widget;
 const Schema = require("./Schema");
 const Constants = require("utility").Constants;
+const TaggedEntityContextMenu = require("./TaggedEntityContextMenu");
+const EntityPanelContextMenu = require("./EntityPanelContextMenu");
 
 (function ($) {
     $.fn.mergeElements = function (name = "div") {
@@ -17,7 +19,7 @@ const Constants = require("utility").Constants;
     };
 }($));
 
-(function ($) {    
+(function ($) {
     $.fn.asRange = function () {
         let start = null;
         let end = null;
@@ -40,11 +42,11 @@ const Constants = require("utility").Constants;
 /**
  * Listens for tagged entity widget clicks to add/remove them from the collection.
  */
-class EntityPanelClickListener{
-    constructor(entityPanelWidget){
+class EntityPanelClickListener {
+    constructor(entityPanelWidget) {
         this.widget = entityPanelWidget;
     }
-    
+
     notifyTaggedEntityClick(taggedEntity, double, control, shift, alt) {
         if (double) {
             if (!control) this.widget.emptyCollection();
@@ -61,21 +63,34 @@ class EntityPanelClickListener{
             taggedEntity.highlight(true);
         }
     }
+
+    async notifyTaggedEntityContextMenu(taggedEntity, dbl, ctrl, alt, shft, event) {
+        /* if the collection is empty make taggedEntity the collection */
+        let tempCollection = this.widget.selectedEntities.clone();
+        tempCollection.add(taggedEntity);
+        this.widget.taggedEntityContextMenu.show(event, tempCollection);
+    }
 }
 
 class EntityPanelWidget extends Widget {
 
-    constructor(target, delegate) {
+    constructor(target, delegate, dictionary) {
         super(`<div id="entityPanel" class="format-default"></div>`, delegate);
         $(target).append(this.$);
-        
+
         this.taggedEntityFactory = new TaggedEntityFactory(this);
         this.hasDocument = false;
         this.addListener(new EntityPanelClickListener(this));
-        this.selectedEntities = new TaggedEntityCollection();        
-        this.stylename = "";        
+        this.selectedEntities = new TaggedEntityCollection();
+        this.stylename = "";
         this.schema = null;
-        
+
+        this.taggedEntityContextMenu = new TaggedEntityContextMenu(this);
+        this.taggedEntityContextMenu.setDictionary(dictionary);
+        this.taggedEntityContextMenu.makeReady(); /* todo move this to make ready function */
+
+        this.entityPanelContextMenu = new EntityPanelContextMenu(this);
+
         this.latestValues = new EntityValues();
         this.copyValues = new EntityValues();
         this.dictionary = null;
@@ -84,77 +99,80 @@ class EntityPanelWidget extends Widget {
         $("#entityPanel").click((event) => {
             if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
                 this.notifyListeners("notifyDocumentClick");
-                this.emptyCollection();  
+                this.emptyCollection();
             }
         });
-        
+
         $(this.getElement()).on("contextmenu", (event) => {
             event.preventDefault();
+            event.stopPropagation();
+
+            if (this.selectedEntities.isEmpty()) {
+                if (window.getSelection().isCollapsed){
+                    this.entityPanelContextMenu.showDisabled(event);
+                }
+                else{
+                    this.entityPanelContextMenu.show(event);
+                }
+            } else {
+                this.taggedEntityContextMenu.show(event, this.selectedEntities);
+            }
         });
     }
-    
-    getSelectedEntities(){
-        return this.selectedEntities.asArray();
-    }
-    
-    getDocument(){
-        return $("#entityPanel").html();
-    }
-    
-    setDictionary(dictionary){
-        this.taggedEntityFactory.setDictionary(dictionary);
-        return this;
+
+    getSelectedEntities() {
+        return this.selectedEntities.clone();
     }
 
-    async init(dictionary) {
-        this.dictionary = dictionary;
+    getDocument() {
+        return $("#entityPanel").html();
     }
 
     /**
      * Clear the document from the widget.  
      * @returns {undefined}
      */
-    async unsetDocument(){
+    async unsetDocument() {
         if (!this.hasDocument) return;
         this.hasDocument = false;
-        
+
         /* retrieve all tagged entities from the document */
         let taggedEntityArray = [];
         $(".taggedentity").each(async (i, element) => {
-            if (Widget.hasWidget(element)){
+            if (Widget.hasWidget(element)) {
                 let taggedEntityWidget = Widget.getWidget(element);
                 taggedEntityArray.push(taggedEntityWidget);
             }
         });
-        
+
         this.$.html("");
         await this.notifyListeners("notifyClearDocument", taggedEntityArray);
     }
 
-    async setDocument(documentText, filename = null, schemaXMLText = null) {        
+    async setDocument(documentText, filename = null, schemaXMLText = null) {
         if (filename !== null) this.filename = filename;
         else filename = this.filename;
-        
-        if (this.hasDocument){
+
+        if (this.hasDocument) {
             this.unsetDocument();
         }
-        
+
         this.hasDocument = true;
 
-        if (schemaXMLText !== null){
+        if (schemaXMLText !== null) {
             this.schema = new Schema();
             await this.schema.load(schemaXMLText);
         }
 
         this.$.html(documentText);
-        
-        let taggedEntityArray = [];        
+
+        let taggedEntityArray = [];
         $(".taggedentity").each(async (i, element) => {
             let taggedEntity = this.taggedEntityFactory.constructFromElement(element);
             taggedEntityArray.push(taggedEntity);
         });
-        
-        await this.notifyListeners("notifySetDocument", filename, taggedEntityArray);        
+
+        await this.notifyListeners("notifySetDocument", filename, taggedEntityArray);
     }
 
     setStyle(stylename) {
@@ -188,9 +206,9 @@ class EntityPanelWidget extends Widget {
         let eleBottom = eleTop + taggedEntityWidget.$.height();
         let dispTop = $("#panelContainer").offset().top;
         let dispBottom = dispTop + $("#panelContainer").height();
-        
-        if (eleTop > dispTop && eleBottom < dispBottom) return;        
-        
+
+        if (eleTop > dispTop && eleBottom < dispBottom) return;
+
         let elementRelativeTop = taggedEntityWidget.$.offset().top - $("#panelContainer").offset().top;
         let scrollTo = elementRelativeTop + $("#panelContainer").scrollTop() - $("#panelContainer").height() / 2;
         $("#panelContainer").scrollTop(scrollTo);
@@ -198,7 +216,7 @@ class EntityPanelWidget extends Widget {
 
     async mergeEntities() {
         let selection = window.getSelection();
-        
+
         if (selection.rangeCount !== 0 && !selection.isCollapsed) {
             let newEntity = await this.tagSelectedRange();
             this.collection.add(newEntity);
@@ -220,7 +238,7 @@ class EntityPanelWidget extends Widget {
 
         contents = contents.mergeElements();
         contents[0].normalize();
-        
+
         let taggedEntityWidget = this.taggedEntityFactory.constructFromElement(contents[0]);
         taggedEntityWidget.tag(tagOfLastSelected);
         return taggedEntityWidget;
@@ -233,24 +251,24 @@ class EntityPanelWidget extends Widget {
      * @returns {EnityPanelWidget.tagSelection.taggedEntity}
      */
     async tagSelection(selection, schemaTagName) {
-        if (selection.rangeCount === 0){
+        if (selection.rangeCount === 0) {
             this.notifyListeners("notifyWarning", `No range selected.`);
             return null;
         }
 
         let range = selection.getRangeAt(0);
-        
-        if (range.collapsed){
+
+        if (range.collapsed) {
             this.notifyListeners("notifyWarning", `No range selected.`);
             return null;
-        }        
-        
+        }
+
         range = this.__trimRange(range);
 
-        if (range.collapsed){
+        if (range.collapsed) {
             this.notifyListeners("notifyWarning", `Range does not contain text.`);
             return null;
-        }       
+        }
 
         if (!this.schema.isValid(range.commonAncestorContainer, schemaTagName)) {
             this.notifyListeners("notifyWarning", `Tagging "${schemaTagName}" is not valid in the Schema at this location.`);
@@ -258,9 +276,9 @@ class EntityPanelWidget extends Widget {
         }
 
         let entityCountInRange = $(range.cloneContents()).find(Constants.HTML_ENTITY_SELECTOR).length;
-        if (entityCountInRange !== 0){
+        if (entityCountInRange !== 0) {
             this.notifyListeners("notifyWarning", `Selection can not contain already tagged entities.`);
-            return null;            
+            return null;
         }
 
         var element = document.createElement("div");

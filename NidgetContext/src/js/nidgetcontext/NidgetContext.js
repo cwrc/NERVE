@@ -54,6 +54,7 @@ class NidgetMenuItem extends Widget {
 
     __setupAsyncClick() {
         this.$.click(async (event) => {
+            if (this.label.hasClass("disabled")) return;
             this.throbber.show();
             await this.handler();
             this.throbber.hide();
@@ -64,6 +65,7 @@ class NidgetMenuItem extends Widget {
 
     __setupSyncClick() {
         this.$.click((event) => {
+            if (this.label.hasClass("disabled")) return;
             this.handler();
             if (this.options.close_menu) this.nidgetContextMenu.hide();
             event.stopPropagation();

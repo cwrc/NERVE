@@ -8,34 +8,34 @@ class EntityPanelListener extends AbstractModel{
     }
 
     onMenuRemoveTag() {
-        if (this.widget.selectedEntities.isEmpty()) return 0;
+        if (this.entityPanel.selectedEntities.isEmpty()) return 0;
 
         let taggedEntityArray = [];
         let textNodeArray = [];
         
-        for (let taggedEntityWidget of this.widget.selectedEntities) {
+        for (let taggedEntityWidget of this.entityPanel.selectedEntities) {
             taggedEntityArray.push(taggedEntityWidget);
             let text = taggedEntityWidget.untag();
             textNodeArray.push(text);
         }
-        this.widget.selectedEntities.clear();
-        this.widget.notifyListeners("notifyUntaggedEntities", taggedEntityArray, textNodeArray);
+        this.entityPanel.selectedEntities.clear();
+        this.entityPanel.notifyListeners("notifyUntaggedEntities", taggedEntityArray, textNodeArray);
     }
     
     async onMenuMergeEntities() {
-        let taggedEntity = await this.widget.mergeEntities(this.widget.collection);
-        this.widget.selectedEntities.set(taggedEntity);
-        this.widget.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+        let taggedEntity = await this.entityPanel.mergeEntities(this.entityPanel.collection);
+        this.entityPanel.selectedEntities.set(taggedEntity);
+        this.entityPanel.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
     }
 
     async onMenuTag() {
-        let taggedEntity = await this.widget.tagSelection(window.getSelection());
+        let taggedEntity = await this.entityPanel.tagSelection(window.getSelection());
         taggedEntity.tag("PERSON", true);
-        this.widget.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+        this.entityPanel.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
     }       
     
     async onMenuClearSelection() {
-        this.widget.emptyCollection();
+        this.entityPanel.emptyCollection();
     }    
 //    
 //    notifyCWRCSelection(values) {
