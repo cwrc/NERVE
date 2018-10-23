@@ -17,15 +17,12 @@
     "scripts": {
         "build": "npm run build-js && npm run assets",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
-        "assets": "assets -v && npm run inject-css",
+        "assets": "assets -v src && npm run inject-css",
         "inject-css": "inject public_html/*.js public_html/styles/**/*.css public_html/index.html",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
-        "clean": "assets --clean"
+        "clean": "clean -e"
     },
     "assets": {
-        "local-src": [
-            "src/*.html"
-        ],
         "src": [
             "src/styles/**/*",
             "src/assets/**/*"
