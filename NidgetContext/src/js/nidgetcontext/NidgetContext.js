@@ -176,12 +176,12 @@ class NidgetContext extends NidgetContextBase{
 }
 
 class NidgetSubMenu extends NidgetContextBase{
-    constructor(nidgetContextMenu, labelText) {
+    constructor(nidgetContextMenu, labelText, options = {}) {
         super(`<div class="nidget-context-menuitem"></div>`);
 
         this.image = $(`<img class="nidget-context-left-image" src=""/>`);
         this.label = $(` <div class="nidget-context-label">${labelText}</div>`);        
-        this.arrow = $(`<img class="nidget-context-right-arrow" src="assets/nidget_context/submenu_arrow.png"/>`);               
+        this.arrow = $(`<img class="nidget-context-right-arrow" src="assets/nidgetcontext/submenu_arrow.png"/>`);               
         this.container = $(`<div class="nidget-context-submenu nidget-context-menu"><div>`);
     
         this.nidgetContextMenu = nidgetContextMenu;
@@ -205,14 +205,14 @@ class NidgetSubMenu extends NidgetContextBase{
     }
     
     addMenuItem(displayString, options, handler) {
-        let menuItem = new NidgetMenuItem(this, displayString, options, handler);
+        let menuItem = new NidgetMenuItem(this.nidgetContextMenu, displayString, options, handler);
         this.container.append(menuItem.$);
         this.menuItems.set(menuItem);
         return menuItem;
     }
 
     addSubMenu(displayString, options) {
-        let menuItem = new NidgetSubMenu(this, displayString, options);
+        let menuItem = new NidgetSubMenu(this.nidgetContextMenu, displayString, options);
         this.container.append(menuItem.$);
         this.menuItems.set(menuItem);
         return menuItem;
