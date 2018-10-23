@@ -3,8 +3,6 @@
 <project name="DocNav" default="default" basedir=".">
     <description>Builds, tests, and runs the project DocumentNavigator.</description>    
     <property file="nbproject/project.properties"/>
-
-    <property file="nbproject/project.properties"/>
     <import file="nbproject/build-impl.xml"/>
     <property file="D:/project-local/trunk/nerve/shared.properties"/>
     <import file="D:/project-local/trunk/nerve/shared.xml"/>       
