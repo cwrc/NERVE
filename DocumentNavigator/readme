@@ -1,0 +1,2 @@
+build with netbeans build task
+ - copies jar files into shared library directory specified in shared.properties
