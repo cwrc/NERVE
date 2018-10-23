@@ -11,6 +11,7 @@ const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");
 const EditEntityWidget = require("./EditEntityWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
+const CWRCDialogModel = require("./CWRCDialogModel");
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -64,6 +65,9 @@ class Main extends AbstractModel {
         /* Entity edit widget */
         this.editEntityWidget = new EditEntityWidget();
         await this.editEntityWidget.load();
+        
+        /* CWRC Dialogs */
+        this.cwrcDialogModel = new CWRCDialogModel();
         
         await this.__checkForPreviousDocument();
     }
