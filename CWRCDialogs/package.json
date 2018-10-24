@@ -1,0 +1,48 @@
+{
+    "name": "@thaerious/cwrcdialogs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
+        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
+        "assets": "assets -v && npm run inject-css",
+        "inject-css": "inject public_html/styles/**/* public_html/index.html",
+        "clean": "clean -e"
+    },
+    "author": "",
+    "license": "ISC",
+    "assets": {
+        "src": [
+            "src/styles/**/*",
+            "src/assets/**/*",
+            {
+                "src": "node_modules/bootstrap/dist/css/bootstrap.css",
+                "dest": "${dest}/styles/bootstrap"
+            },
+            {
+                "src": "node_modules/bootstrap/dist/css/bootstrap-theme.css",
+                "dest": "${dest}/styles/bootstrap"
+            },
+            {
+                "src": "node_modules/bootstrap/dist/fonts/*",
+                "dest": "${dest}/styles/fonts"
+            }
+        ],
+        "dest": "public_html"
+    },
+    "clean": [
+        "public_html/main.js"
+    ],
+    "dependencies": {
+        "bootstrap": "3.3.7",
+        "jquery": "^3.3.1",
+        "nidget": "file:../../nerve/Nidget",
+        "popper.js": "^1.14.4",
+        "utility": "file:../../nerve/utility",
+        "wikidata-sdk": "^5.15.8"
+    }
+}
