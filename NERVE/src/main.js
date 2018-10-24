@@ -1,5 +1,5 @@
 window.$ = require("jquery");
-window.jquery = require("jquery");
+window.jQuery = require("jquery");
 window.bootstrap = require("bootstrap");
 
 const Menu = require("Menu");
@@ -11,7 +11,7 @@ const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");
 const EditEntityWidget = require("./EditEntityWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
-const CWRCDialogModel = require("./CWRCDialogModel");
+const CWRCDialogs = require("@thaerious/cwrcdialogs").CWRCDialogs;
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -67,7 +67,14 @@ class Main extends AbstractModel {
         await this.editEntityWidget.load();
         
         /* CWRC Dialogs */
-        this.cwrcDialogModel = new CWRCDialogModel();
+        this.cwrcDialogs = new CWRCDialogs();
+        await this.cwrcDialogs.load();
+        
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").viaf);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").dbpedia);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").wiki);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").getty);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").geonames);        
         
         await this.__checkForPreviousDocument();
     }
@@ -198,4 +205,10 @@ class Main extends AbstractModel {
     async onMenuClearSelection() {
         this.entityPanel.emptyCollection();
     }    
+    
+    async notifyLookupEntities(taggedEntityCollection){
+        let taggedEntity = taggedEntityCollection.getLast();
+        this.cwrcDialogs.show();
+        this.cwrcDialogs.search(taggedEntity.text(), taggedEntity.tag());
+    }
 }

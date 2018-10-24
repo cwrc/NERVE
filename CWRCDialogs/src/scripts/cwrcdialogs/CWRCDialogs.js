@@ -85,45 +85,56 @@ class CWRCDialogs extends Widget {
      * async findOrganization() : 
      * async findTitle() :
      * @param {type} entityQuery The string to query.
-     * @param {type} sourceMethod The name of the method to call on the target.
+     * @param {type} action
      * @returns {undefined}
      */
-    async search(entityQuery, sourceMethod) {
+    async search(entityQuery, action) {
         $($("[id^=cwrc-panel-]")).hide();
 
-        for (let source of this.entitySources) {
-            if (typeof source[sourceMethod] === "function") {
-                this.performSearch(source, entityQuery, sourceMethod);
-            }
-        }
-    }
-
-    async performSearch(source, entityQuery, sourceMethod) {
-        $("[id^=cwrc-list]").empty();
-        $(`#cwrc-panel-${source.getUID()}`).show();
-        let result = source[sourceMethod](entityQuery);
-        console.log(result);
-
         let tagName = "";
-        switch (sourceMethod) {
-            case "findPlace":
+        let sourceMethod = "";
+        
+        switch (action.toLowerCase()) {
+            case "location":
+            case "findplace":
                 tagName = "LOCATION";
+                sourceMethod = "findPlace";
                 $("#cwrc-entity-lookup-title").text("Search Location");
                 break;
-            case "findPerson":
+            case "person":
+            case "findperson":
                 tagName = "PERSON";
+                sourceMethod = "findPerson";
                 $("#cwrc-entity-lookup-title").text("Search Person");
                 break;
-            case "findOrganization":
+            case "organization":
+            case "findorganization":
                 tagName = "ORGANIZATION";
+                sourceMethod = "findOrganization";
                 $("#cwrc-entity-lookup-title").text("Search Organization");
                 break;
-            case "findTitle":
+            case "title":
+            case "findtitle":
                 tagName = "TITLE";
+                sourceMethod = "findTitle";
                 $("#cwrc-entity-lookup-title").text("Search Title");
                 break;
         }
 
+        for (let source of this.entitySources) {
+            if (typeof source[sourceMethod] === "function") {
+                this.performSearch(source, entityQuery, sourceMethod, tagName);
+            }
+        }
+        
+        return this;
+    }
+
+    async performSearch(source, entityQuery, sourceMethod, tagName) {
+        $("[id^=cwrc-list]").empty();
+        $(`#cwrc-panel-${source.getUID()}`).show();
+
+        let result = source[sourceMethod](entityQuery);
         let onSuccess = (results) => this.showResults(results, source.getUID(), tagName);
         let onError = (error) => this.showError(error, source.getUID());
 
@@ -152,10 +163,12 @@ class CWRCDialogs extends Widget {
 
     show() {
         $(this.getElement()).modal();
+        return this;
     }
 
     hide() {
         $(this.getElement()).modal('hide');
+        return this;
     }
 
     /**

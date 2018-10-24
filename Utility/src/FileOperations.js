@@ -18,12 +18,43 @@ class FileOperations {
     /**
      * Create a new dom element from a file (url).
      * @param {type} url
+     * @param {type} map
      * @returns {node|FileOperations.loadDOMElement.domElement}
      */
-    static async loadDOMElement(url){
+    static async loadDOMElement(url, map){        
+        if (map === undefined) map = new Map();
+        if (map instanceof Map === false) map = FileOperations.objectToMap(map);
+        
         let text = await FileOperations.getURL(url);
+        return FileOperations.stringToDOMElement(text, map);
+    }
+
+    static objectToMap(object){
+        let map = new Map();
+        for (let field in object){
+            console.log(field);
+            if (typeof object[field] === "string" || typeof object[field] === "number"){
+                map.put(field, object[field]);
+            }
+        }
+        return map;
+    }
+
+    /**
+     * Create a new dom element from a file (url).
+     * @param {type} text
+     * @param {type} map
+     * @returns {node|FileOperations.loadDOMElement.domElement}
+     */
+    static stringToDOMElement(text, map = new Map()){
+        for (let key of map.keys()){                  
+            let value = map.get(key);
+            let regex = new RegExp(`[$][{]?${key}[}]`, `g`);
+            text = text.replace(regex, value);    
+        }
+
         let element = $(text);
-        let domElement = null;
+        let domElement = null;        
         
         for (let node of element){
             if (node.nodeType === FileOperations.NodeType.ELEMENT){

@@ -15,12 +15,15 @@ class CWRCDialogModel extends AbstractModel {
         let dbpedia = require('dbpedia-entity-lookup');
         let geonames = require('geonames-entity-lookup');
 
+        console.log(`this.dialogs.registerEntitySources`);
         this.dialogs.registerEntitySources({
             people: (new Map()).set('viaf', viaf).set('wikidata', wikidata).set('getty', getty).set('dbpedia', dbpedia),
             places: (new Map()).set('viaf', viaf).set('geonames', geonames).set('dbpedia', viaf).set('wikidata', wikidata).set('geocode', viaf).set('dbpedia', dbpedia),
             organizations: (new Map()).set('viaf', viaf).set('dbpedia', viaf).set('wikidata', wikidata).set('dbpedia', dbpedia),
             titles: (new Map()).set('viaf', viaf).set('dbpedia', viaf).set('wikidata', wikidata).set('dbpedia', dbpedia)
         });
+
+        console.log(this.dialogs.entitySources);
 
         this.queryOptions = {
             query: 'jones',
@@ -30,37 +33,43 @@ class CWRCDialogModel extends AbstractModel {
     }
 
     notifyLoookupEntity(values) {
-        this.query(values.text(), values);
+        this.query(values);
     }
 
     notifyLoookupLemma(values) {
-        this.query(values.lemma(), values);
+        this.query(values);
     }
 
-    query(searchTerm, entityValue) {
-        let dialogMethod = "";
+    query(entityValues) {
+        let dialogMethod = "popSearchPerson";
         
-        switch (entityValue.tag()) {
-            case "LOCATION":
-                dialogMethod = "popSearchPlace";
-                break;
-            case "PERSON":
-                dialogMethod = "popSearchPerson";
-                break;
-            case "ORGANIZATION":
-                dialogMethod = "popSearchOrganization";
-                break;
-            case "TITLE":
-                dialogMethod = "popSearchTitle";
-                break;
+        if (entityValues){
+            switch (entityValues.tag()) {
+                case "LOCATION":
+                    dialogMethod = "popSearchPlace";
+                    break;
+                case "PERSON":
+                    dialogMethod = "popSearchPerson";
+                    break;
+                case "ORGANIZATION":
+                    dialogMethod = "popSearchOrganization";
+                    break;
+                case "TITLE":
+                    dialogMethod = "popSearchTitle";
+                    break;
+            }
         }
 
+        let searchTerm = entityValues ? entityValues.text() : "john doe";
+        let tag = entityValues ? entityValues.tag() : "PERSON";
+        console.log(dialogMethod, searchTerm);
+        
 
         this.dialogs[dialogMethod]({
             query: searchTerm,
             success: (result) => {
                 console.log(result);
-                let values = new EntityValues(entityValue.text(), result.name, result.uri, entityValue.tag(), "");
+                let values = new EntityValues(searchTerm, result.name, result.uri, tag, "");
                 super.notifyListeners("notifyCWRCSelection", values);
             },
             cancelled: () => {

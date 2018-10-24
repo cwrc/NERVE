@@ -36,10 +36,9 @@ class TaggedEntityContextMenu extends NidgetContext{
             this.showHTMLWidget.show(lastSelected);
         });        
 
-        let dialogSubMenu = this.addSubMenu("Dialogs");
-        dialogSubMenu.addMenuItem("CWRC", (event)=>{
-            
-        });
+        this.addMenuItem("Lookup Entity", (event)=>{
+            this.notifyListeners("notifyLookupEntities", this.selected);
+        });   
 
         $(document).click(e=>this.hide());
     }
