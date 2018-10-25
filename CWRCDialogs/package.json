@@ -7,7 +7,9 @@
         "test": "test"
     },
     "scripts": {
+        "build-css": "sass src/scss/custom.scss public_html/compiled.css",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "assets": "assets -v && npm run inject-css",
         "inject-css": "inject public_html/styles/**/* public_html/index.html",
@@ -38,6 +40,7 @@
         "public_html/main.js"
     ],
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.4.1",
         "@thaerious/utility": "0.0.1",
         "bootstrap": "^4.1.3",
         "jquery": "^3.3.1",
