@@ -1,2 +1,3 @@
-/public_html/**/*
+/public_html/assets/**/*
+/public_html/scripts/**/*
 /node_modules/**/*

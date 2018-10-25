@@ -3,6 +3,5 @@ module.exports = {
     Constants : require("./Constants"),
     FileOperations : require("./FileOperations"),
     HostInfo : require("./HostInfo"),
-    Storage : require("./Storage"),
     Keycodes : require("./Keycodes")
 };

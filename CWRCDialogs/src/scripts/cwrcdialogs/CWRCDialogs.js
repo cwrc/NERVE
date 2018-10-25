@@ -1,7 +1,7 @@
 const $ = window.$ ? window.$ : require("jquery");
 const jQuery = $;
 const Widget = require("nidget").Widget;
-const FileOperations = require("utility").FileOperations;
+const FileOperations = require("@thaerious/utility").FileOperations;
 const ResultWidget = require("./ResultWidget");
 
 class CWRCDialogs extends Widget {

@@ -1,21 +1,17 @@
 {
-    "name": "utility",
-    "version": "0.0.0",
+    "name": "@thaerious/utility",
+    "version": "0.0.1",
     "keywords": [
         "util",
-        "functional",
-        "server",
         "client",
         "browser"
     ],
-    "author": "edward",
-    "contributors": [],
+    "author": "Ed Armstrong",
     "dependencies": {
-        "jjjrmi": "^0.4.17",
         "jquery": "^3.3.1"
     },
     "files": [
         "src/**"
     ],
-    "main": "src/utility.js"
+    "main": "src/package.js"
 }
