@@ -5,7 +5,7 @@ const EntityValues = require("nerveserver").EntityValues;
 const TaggedEntityFactory = require("./TaggedEntityFactory");
 const Widget = require("nidget").Widget;
 const Schema = require("./Schema");
-const Constants = require("utility").Constants;
+const Constants = require("@thaerious/utility").Constants;
 const TaggedEntityContextMenu = require("./TaggedEntityContextMenu");
 const EntityPanelContextMenu = require("./EntityPanelContextMenu");
 

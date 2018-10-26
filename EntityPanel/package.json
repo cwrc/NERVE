@@ -3,42 +3,37 @@
     "version": "0.0.0",
     "description": "",
     "dependencies": {
-        "NidgetContext": "file:../NidgetContext",
+        "@thaerious/utility": "0.0.1",
         "bootstrap": "^4.1.3",
         "jjjrmi": "^0.4.10",
         "jquery": "",
-        "popper.js": "^1.14.4",
         "nerscriber": "file:../NERScriber",
         "nerveserver": "file:../Server",
         "nidget": "file:../Nidget",
-        "utility": "file:../Utility"
+        "nidgetcontext": "file:../NidgetContext",
+        "popper.js": "^1.14.4"
     },
     "scripts": {
-        "build": "npm run build-js && npm run assets",
+        "build": "npm run build-js && npm run build-css && npm run assets",
+        "build-css": "sass src/scss/custom.scss public_html/compiled.css",
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
-        "assets": "assets -v src && npm run inject",
-        "inject": "inject public_html/lib/**/* public_html/styles/**/* public_html/index.html",
+        "assets": "assets -v src",
         "clean": "clean -e"
     },
     "assets": {
         "src": [
-            "src/styles/**/*",
-            "src/assets/**/*",
-            {
-                "src": "node_modules/bootstrap/dist/css/bootstrap.css",
-                "dest": "${dest}/styles/bootstrap"
-            }
+            "src/assets/**/*"
         ],
         "dest": "public_html"
     },
     "clean": [
         "public_html/assets/entitypanel/**",
         "public_html/assets/nidgetcontext/**",
-        "public_html/styles/bootstrap/**",
-        "public_html/styles/entitypanel/**",
-        "public_html/styles/nidgetcontext/**",
-        "public_html/main.js"
+        "public_html/main.js",
+        "compiled.css",
+        "compiled.css.map"
     ],
     "main": "src/scripts/entitypanel/EntityPanelWidget.js"
 }

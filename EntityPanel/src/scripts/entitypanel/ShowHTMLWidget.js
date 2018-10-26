@@ -1,6 +1,6 @@
 const $ = window.$ ? window.$ : require("jquery");
 const Widget = require("nidget").Widget;
-const FileOperations = require("utility").FileOperations;
+const FileOperations = require("@thaerious/utility").FileOperations;
 
 class ShowHTMLWidget extends Widget{
     

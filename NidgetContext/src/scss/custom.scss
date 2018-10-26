@@ -37,7 +37,7 @@
 .nidget-context-menuitem{
     position: relative;
     padding: 5px 10px 5px 10px;
-    width: calc (100% - 10px);    
+    width: unquote("calc (100% - 10px)");    
 }
 
 .nidget-context-menuitem.disabled{

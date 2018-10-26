@@ -3,7 +3,7 @@ window.jquery = require("jquery");
 window.bootstrap = require("bootstrap");
 
 const EntityPanel = require("./entitypanel/EntityPanelWidget");
-const FileOperations = require("utility").FileOperations;
+const FileOperations = require("@thaerious/utility").FileOperations;
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 
 JJJRMISocket.flags.ONREGISTER = true;

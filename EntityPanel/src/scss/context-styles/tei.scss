@@ -171,8 +171,6 @@
 .tei div[xmltagname="graphic"] {
     color : gray;
     background-color : inherit;
-    content : "{" attr(url) "}
-";
 }
 
 .tei div[xmltagname="figure"] {

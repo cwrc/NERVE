@@ -8,8 +8,8 @@
     },
     "scripts": {
         "build-css": "sass src/scss/custom.scss public_html/compiled.css",
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",        
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
-        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "assets": "assets -v && npm run inject-css",
         "inject-css": "inject public_html/styles/**/* public_html/index.html",

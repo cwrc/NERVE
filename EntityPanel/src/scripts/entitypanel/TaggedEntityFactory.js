@@ -1,7 +1,7 @@
 const $ = window.$ ? window.$ : require("jquery");
 const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("nerveserver").EntityValues;
-const Constants = require("utility").Constants;
+const Constants = require("@thaerious/utility").Constants;
 const AbstractModel = require("nidget").AbstractModel;
 const Widget = require("nidget").Widget;
 

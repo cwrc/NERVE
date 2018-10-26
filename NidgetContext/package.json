@@ -1,5 +1,5 @@
 {
-    "name": "NidgetContext",
+    "name": "nidgetcontext",
     "version": "1.0.0",
     "keywords": [
         "util",
@@ -15,17 +15,15 @@
         "jquery": "^3.3.1",
         "nidget": "file:../Nidget"
     },
-    "main": "src/js/nidgetcontext/NidgetContext.js",
+    "main": "src/scripts/nidgetcontext/NidgetContext.js",
     "scripts": {
-        "build-assets": "assets -v",
-        "clean": "assets --clean"
+        "build-assets": "assets -v"
     },
     "license": "ISC",
     "description": "",
     "assets": {
         "src": [
-            "src/assets/**",
-            "src/styles/**"
+            "src/assets/**"
         ]
     }
 }
