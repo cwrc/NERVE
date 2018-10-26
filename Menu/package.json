@@ -16,17 +16,15 @@
         "nidget": "file:../Nidget"
     },
     "scripts": {
-        "build": "npm run build-js && npm run assets",        
-        "assets": "assets -v && npm run inject-css",
-        "inject-css": "inject public_html/scripts/*.js public_html/styles/**/*.css public_html/index.html",
+        "build": "npm run build-js && npm run build-css && npm run assets",
+        "build-css": "sass src/scss/custom.scss public_html/compiled.css",
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",    
+        "assets": "assets -v",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",        
-        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
-        "clean": "assets --clean",
-        "browse-to": "opn "
+        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv"
     },
     "assets": {
         "src": [
-            "src/styles/**/*",
             "src/assets/**/*"
         ],
         "dest": "public_html"

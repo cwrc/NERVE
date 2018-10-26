@@ -42,7 +42,6 @@ let currentContext = null;
 $(window).on('load', async function () {
     let nerveRoot = await scriberSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");   
     window.entityPanel = new EntityPanel("#target");
-    entityPanel.setDictionary(nerveRoot.getDictionary());
     
     $("#bOrlando").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/orlando.html");
