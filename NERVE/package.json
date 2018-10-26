@@ -28,6 +28,7 @@
     ],
     "dependencies": {
         "@thaerious/cwrcdialogs": "file:../CWRCDialogs",
+        "@thaerious/utility": "0.0.1",
         "EntityPanel": "file:../EntityPanel",
         "Menu": "file:../Menu",
         "bootstrap": "^4.1.3",
@@ -36,7 +37,6 @@
         "nerscriber": "file:../NERScriber",
         "nerveserver": "file:../Server",
         "nidget": "file:../Nidget",
-        "popper.js": "^1.14.4",
-        "utility": "file:../Utility"
+        "popper.js": "^1.14.4"
     }
 }
