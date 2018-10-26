@@ -28,7 +28,11 @@
         "dest": "public_html"
     },
     "clean": [
-        "public_html/main.js"
+        "public_html/main.js",
+        "public_html/compiled.css.map",
+        "public_html/compiled.css",
+        "public_html/assets/**/*",
+        "public_html/webfonts/*"
     ],
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.4.1",
