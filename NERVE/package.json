@@ -7,7 +7,7 @@
         "build": "npm run build-js && npm run assets",
         "build-js": "browserify src/main.js -o public_html/main.js -d -g deamdify -t [ babelify --presets [ es2015 ] ]",
         "watch-js": "watchify src/main.js -o public_html/main.js -dv",
-        "assets": "assets -vd && npm run inject-css",
+        "assets": "assets -vd",
         "inject-css": "inject public_html/styles/**/* public_html/index.html",
         "clean": "clean -e"
     },

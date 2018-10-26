@@ -30,51 +30,19 @@ class CWRCDialogs extends Widget {
         let domElement = await FileOperations.loadDOMElement(`assets/cwrcdialogs/dialog.frag.html`);
         $("body").append(domElement);
         this.setElement(domElement);
-
-        $('#cwrc-entity-lookup button[data-dismiss="modal"]').on('click', () => cancel());
-        $('#cwrc-entity-lookup-title').text(this.currentSearchOptions.entityLookupTitle);
-        $('#cwrc-entity-query').keyup((event) => {
-            if (event.which === 13) {
-                this.find($('#cwrc-entity-query').val());
+        
+        $("#cwrc-entity-lookup-redo").click((event)=>{
+            let query = $("#cwrc-entity-query").val();
+            this.search(query);
+        });
+        
+        $("#cwrc-entity-query").keyup((event)=>{
+            if (event.key === "Enter"){
+                let query = $("#cwrc-entity-query").val();
+                this.search(query);
             }
-        });
-        $('#cwrc-entity-lookup-redo').click(function (event) {
-            find($('#cwrc-entity-query').val());
-        });
-        $('#cwrc-manual-input').keyup(function (event) {
-            $(this).parent().removeClass('has-error').find('span.help-block').remove();
-            handleSelectButtonState();
-        });
-        $('#cwrc-entity-lookup-new').click(function (event) {
-            if (this.currentSearchOptions.entityType === 'title') {
-                $('#cwrc-entity-lookup').modal('hide');
-                doShowModal('cwrc-title-entity-dialog');
-            } else {
-                openEntityFormWindow(false);
-            }
-        });
-        $('#cwrc-entity-lookup-edit').click(function (event) {
-            if (this.currentSearchOptions.entityType === 'title') {
-                $('#cwrc-entity-lookup').modal('hide');
-                doShowModal('cwrc-title-entity-dialog');
-            } else if (this.selectedResult !== undefined && this.selectedResult.repository === 'CWRC') {
-                openEntityFormWindow(true);
-            }
-        });
-        $('#cwrc-entity-lookup-nolink').click(function (event) {
-            returnResult({});
-        });
-
-        $('#cwrc-title-entity-dialog-ok').click(function (event) {
-            openEntityFormWindow();
-            $('#cwrc-title-entity-dialog').modal('hide');
-            doShowModal('cwrc-entity-lookup');
-        });
-        $('#cwrc-title-entity-dialog button[data-dismiss="modal"]').click(function (event) {
-            $('#cwrc-title-entity-dialog').modal('hide');
-            doShowModal('cwrc-entity-lookup');
-        });
-
+        });        
+        
         return this;
     }
 
@@ -88,12 +56,15 @@ class CWRCDialogs extends Widget {
      * @param {type} action
      * @returns {undefined}
      */
-    async search(entityQuery, action) {
+    async search(entityQuery, action = this.lastAction) {
         $($("[id^=cwrc-panel-]")).hide();
 
+        $("#cwrc-entity-query").val(entityQuery);
+
+        this.lastAction = action;
         let tagName = "";
         let sourceMethod = "";
-        
+                
         switch (action.toLowerCase()) {
             case "location":
             case "findplace":
@@ -123,14 +94,22 @@ class CWRCDialogs extends Widget {
 
         for (let source of this.entitySources) {
             if (typeof source[sourceMethod] === "function") {
-                this.performSearch(source, entityQuery, sourceMethod, tagName);
+                this.__performSearch(source, entityQuery, sourceMethod, tagName);
             }
         }
         
         return this;
     }
 
-    async performSearch(source, entityQuery, sourceMethod, tagName) {
+    /**
+     * Perform the actual search from 3rd party sites.
+     * @param {type} source
+     * @param {type} entityQuery
+     * @param {type} sourceMethod
+     * @param {type} tagName
+     * @returns {undefined}
+     */
+    async __performSearch(source, entityQuery, sourceMethod, tagName) {
         $("[id^=cwrc-list]").empty();
         $(`#cwrc-panel-${source.getUID()}`).show();
 

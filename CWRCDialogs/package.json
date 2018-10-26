@@ -19,19 +19,10 @@
     "license": "ISC",
     "assets": {
         "src": [
-            "src/styles/**/*",
             "src/assets/**/*",
             {
-                "src": "node_modules/bootstrap/dist/css/bootstrap.css",
-                "dest": "${dest}/styles/bootstrap"
-            },
-            {
-                "src": "node_modules/bootstrap/dist/css/bootstrap-theme.css",
-                "dest": "${dest}/styles/bootstrap"
-            },
-            {
-                "src": "node_modules/bootstrap/dist/fonts/*",
-                "dest": "${dest}/styles/fonts"
+                "src": "node_modules/@fortawesome/fontawesome-free/webfonts/*",
+                "dest": "${dest}/webfonts"
             }
         ],
         "dest": "public_html"
