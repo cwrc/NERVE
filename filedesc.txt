@@ -15,7 +15,15 @@ NERScriber
 
 Server
     - websocket interface for NERScriber
-    - must be started before NERVE is accessed
+    - must be started before NERVE is accessed    
+    - package name nerveserver
+    - generated js classes (src/js/nerveserver):
+        - Dictionary
+        - EncodeResponse
+        - EntityValues
+        - ProgressMonitor
+        - Scriber
+        - NerveRoot
     
 JS Modules
     - all modules have the following npm tasks

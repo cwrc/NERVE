@@ -8,7 +8,7 @@
     },
     "scripts": {
         "build-css": "sass src/scss/custom.scss public_html/compiled.css",
-        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",        
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "assets": "assets -v",
@@ -38,6 +38,7 @@
         "@thaerious/utility": "0.0.1",
         "bootstrap": "^4.1.3",
         "jquery": "^3.3.1",
+        "nerveserver": "file:../Server",
         "nidget": "file:../../nerve/Nidget",
         "popper.js": "^1.14.4",
         "wikidata-sdk": "^5.15.8"

@@ -1,6 +1,7 @@
 const $ = window.$ ? window.$ : require("jquery");
 const Widget = require("nidget").Widget;
 const FileOperations = require("@thaerious/utility").FileOperations;
+const EntityValues = require("nerveserver").EntityValues;
 
 class ResultWidget extends Widget{
     constructor(cwrcDialog, result, tagName){
@@ -52,7 +53,12 @@ class ResultWidget extends Widget{
         
         $(this.getElement()).find(".cwrc-result-button-select").click((event)=>{
             this.cwrcDialog.hide();
-            this.notifyListeners("notifySourceSelect", this);
+            let entityValues = new EntityValues();
+            entityValues.tag(this.tagName);
+            entityValues.lemma(result.name);
+            entityValues.link(result.uri);
+            entityValues.text(result.originalQueryString);
+            this.notifyListeners("notifySourceSelect", entityValues);
         });        
     }
 }
