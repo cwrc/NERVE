@@ -1,1 +1,7 @@
 /node_modules/**/*
+/public_html/assest/cwrcdialogs/**/*
+/public_html/assest/entitypanel/**/*
+/public_html/assest/nidgetcontext/**/*
+/public_html/compiled.css
+/public_html/compiled.css.map
+/public_html/webfonts

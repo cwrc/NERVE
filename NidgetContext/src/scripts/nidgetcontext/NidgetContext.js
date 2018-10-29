@@ -1,5 +1,5 @@
 const $ = window.$ ? window.$ : require("jquery");
-const Widget = require("nidget/src/Widget");
+const Widget = require("@thaerious/nidget").Widget;
 
 class NidgetMenuItem extends Widget {
     constructor(nidgetContextMenu, labelText, options, handler) {

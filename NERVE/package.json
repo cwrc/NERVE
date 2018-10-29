@@ -22,21 +22,24 @@
     },
     "clean": [
         "public_html/main.js",
-        "public_html/assest/**/*",
+        "public_html/assest/cwrcdialogs/**/*",
+        "public_html/assest/entitypanel/**/*",
+        "public_html/assest/nidgetcontext/**/*",
         "public_html/compiled.css",
         "public_html/compiled.css.map"
     ],
     "dependencies": {
         "@thaerious/cwrcdialogs": "file:../CWRCDialogs",
+        "@thaerious/entitypanel": "file:../EntityPanel",
+        "@thaerious/menu": "file:../Menu",
+        "@thaerious/nidget": "file:../Nidget",
         "@thaerious/utility": "0.0.1",
-        "EntityPanel": "file:../EntityPanel",
-        "Menu": "file:../Menu",
         "bootstrap": "^4.1.3",
         "jjjrmi": "^0.4.17",
         "jquery": "^3.3.1",
         "nerscriber": "file:../NERScriber",
         "nerveserver": "file:../Server",
-        "nidget": "file:../Nidget",
         "popper.js": "^1.14.4"
     }
 }
+

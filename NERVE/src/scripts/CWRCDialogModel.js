@@ -1,4 +1,4 @@
-const AbstractModel = require("Nidget/src/AbstractModel");
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
 const EntityValues = require("nerscriber").EntityValues;
 
 /**

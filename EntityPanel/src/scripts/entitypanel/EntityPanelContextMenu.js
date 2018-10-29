@@ -1,4 +1,4 @@
-const NidgetContext = require("nidgetcontext");
+const NidgetContext = require("@thaerious/nidgetcontext");
 const ShowHTMLWidget = require("./ShowHTMLWidget");
 const EntityValues = require("nerveserver").EntityValues;
 

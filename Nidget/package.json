@@ -1,5 +1,5 @@
 {
-    "name": "nidget",
+    "name": "@thaerious/nidget",
     "version": "0.1.0",
     "author": "ed armstrong",
     "dependencies": {

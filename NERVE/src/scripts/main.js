@@ -2,10 +2,10 @@ window.$ = require("jquery");
 window.jQuery = require("jquery");
 window.bootstrap = require("bootstrap");
 
-const Menu = require("Menu");
-const FileOperations = require("utility").FileOperations;
-const AbstractModel = require("nidget").AbstractModel;
-const EntityPanel = require("EntityPanel");
+const Menu = require("@thaerious/menu");
+const FileOperations = require("@thaerious/utility").FileOperations;
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
+const EntityPanel = require("@thaerious/entitypanel");
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");

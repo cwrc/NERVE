@@ -2,8 +2,8 @@ const $ = window.$ ? window.$ : require("jquery");
 const NameSource = require("nerscriber").NameSource;
 const EntityValues = require("nerveserver").EntityValues;
 const Constants = require("@thaerious/utility").Constants;
-const AbstractModel = require("nidget").AbstractModel;
-const Widget = require("nidget").Widget;
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
+const Widget = require("@thaerious/nidget").Widget;
 
 /**
  * All tagged entity elements get passed to a TaggedEntity constructor to provide functionality.

@@ -17,8 +17,7 @@
     "scripts": {
         "build": "npm run build-js && npm run assets",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
-        "assets": "assets -v src && npm run inject-css",
-        "inject-css": "inject public_html/*.js public_html/styles/**/*.css public_html/index.html",
+        "assets": "assets -v src",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "clean": "clean -e"
     },

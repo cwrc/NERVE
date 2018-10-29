@@ -1,4 +1,4 @@
-const AbstractModel = require("nidget").AbstractModel;
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
 
 /**
  * events: notifyCollectionAdd, notifyCollectionClear, notifyCollectionRemove
