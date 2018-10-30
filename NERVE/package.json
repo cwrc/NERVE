@@ -29,6 +29,7 @@
     ],
     "dependencies": {
         "@thaerious/entitypanel": "file:../EntityPanel",
+        "@thaerious/lemmadialog": "file:../LemmaDialog",
         "@thaerious/menu": "file:../Menu",
         "@thaerious/nidget": "file:../Nidget",
         "@thaerious/utility": "0.0.1",

@@ -1,5 +1,5 @@
 {
-  "name": "LemmaDialog",
+  "name": "@thaerious/lemmadialog",
   "version": "0.0.0",
   "keywords": [
     "util",
@@ -16,7 +16,7 @@
     "@thaerious/nidgetcontext": "file:../NidgetContext",
     "jquery": "^3.3.1"
   },
-  "main": "./src/scripts/lemmaDialog.js",
+  "main": "src/scripts/lemmadialog/LemmaDialogWidget.js",
   "files": [
     "src/**"
   ],

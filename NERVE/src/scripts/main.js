@@ -5,12 +5,13 @@ window.bootstrap = require("bootstrap");
 const Menu = require("@thaerious/menu");
 const FileOperations = require("@thaerious/utility").FileOperations;
 const AbstractModel = require("@thaerious/nidget").AbstractModel;
-console.log(require("@thaerious/entitypanel"));
 const EntityPanel = require("@thaerious/entitypanel").EntityPanelWidget;
+const LemmaDialogWidget = require("@thaerious/lemmadialog");
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
+const LemmaDialogController = require("./LemmaDialogController");
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -62,6 +63,13 @@ class Main extends AbstractModel {
         /* Undo listener */
         this.entityPanelChangeListener = new EntityPanelChangeListener(this.entityPanel);
         this.addListener(this.entityPanelChangeListener);
+        
+        /* Lemma Dialog */
+        this.lemmaDialogWidget = new LemmaDialogWidget("#lemmaDialog");
+        this.lemmaDialogWidget.addCategory(["PERSON", "LOCATION", "ORGANIZATION", "TITLE"]);        
+        this.lemmaDialogController = new LemmaDialogController(this.lemmaDialogWidget);
+        this.entityPanel.addListener(this.lemmaDialogController);
+        this.addListener(this.lemmaDialogController); /* needed ? */
         
         await this.__checkForPreviousDocument();
     }

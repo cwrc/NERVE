@@ -288,12 +288,22 @@ class TaggedEntityFactory extends AbstractModel {
         taggedEntityWidget.lemma(text, true);
         taggedEntityWidget.tag(tag, true);
         this.entities.push(taggedEntityWidget);
+        
+        if (taggedEntityWidget.lemma() === ""){
+            taggedEntityWidget.lemma(taggedEntityWidget.text());
+        }
+        
         return taggedEntityWidget;
     }
     
     constructFromElement(element){        
         let taggedEntityWidget = new TaggedEntityWidget(element, this);
         this.entities.push(taggedEntityWidget);
+        
+        if (taggedEntityWidget.lemma() === ""){
+            taggedEntityWidget.lemma(taggedEntityWidget.text());
+        }        
+        
         return taggedEntityWidget;
     }
     

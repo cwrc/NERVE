@@ -1,6 +1,12 @@
+.lemma_container * {
+  box-sizing: border-box;
+  line-height: 24px;
+}
+
 .lemma_container {
   padding: 2px;
   overflow-y: auto;
+  color: black;
 }
 
 .lemma_category {
@@ -26,8 +32,9 @@
 .lemma_category_arrow {
   position: relative;
   height: 15px;
-  top: 7px;
+  top: 5px;
   padding: 0px 5px 0px 5px;
+  line-height: 1;
 }
 
 .lemma_category_arrow.closed {
