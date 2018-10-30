@@ -1,0 +1,46 @@
+{
+  "name": "LemmaDialog",
+  "version": "0.0.0",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "edward",
+  "contributors": [],
+  "dependencies": {
+    "@thaerious/entitypanel": "file:../EntityPanel",
+    "jquery": "^3.3.1"
+  },
+  "main": "./src/scripts/lemmaDialog.js",
+  "files": [
+    "src/**"
+  ],
+  "scripts": {
+    "build": "npm run build-js && npm run build-css && npm run assets",
+    "build-css": "sass src/scss/custom.scss public_html/compiled.css",
+    "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
+    "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
+    "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
+    "assets": "assets -v src",
+    "clean": "clean -e"
+  },
+  "assets": {
+    "dest": "src",
+    "src": [
+      "src/assets/lemma_dialog/**/*",
+      "src/css/lemmadialog.css"
+    ]
+  },
+  "clean": [
+    "public_html/assets/entitypanel/**",
+    "public_html/assets/nidgetcontext/**",
+    "public_html/main.js",
+    "compiled.css",
+    "compiled.css.map"
+  ],
+  "license": "ISC",
+  "description": ""
+}

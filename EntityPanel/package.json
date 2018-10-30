@@ -36,5 +36,5 @@
         "compiled.css",
         "compiled.css.map"
     ],
-    "main": "src/scripts/entitypanel/EntityPanelWidget.js"
+    "main": "src/scripts/entitypanel/package.js"
 }

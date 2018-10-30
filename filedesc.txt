@@ -69,4 +69,8 @@ EntityPanel
     - widget for main panel
     - package name @thaerious/entitypanel
     - stored locallaly under EntityPanel
-    
+
+LemmaDialog
+    - widget for left hand panel
+    - package name @thaerious/lemmadialog
+    - stored locallaly under LemmaDialog
