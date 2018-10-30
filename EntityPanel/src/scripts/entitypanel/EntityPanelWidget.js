@@ -8,6 +8,8 @@ const Schema = require("./Schema");
 const Constants = require("@thaerious/utility").Constants;
 const TaggedEntityContextMenu = require("./TaggedEntityContextMenu");
 const EntityPanelContextMenu = require("./EntityPanelContextMenu");
+const CWRCDialogs = require("@thaerious/cwrcdialogs").CWRCDialogs;
+const EditEntityWidget = require("./EditEntityWidget");
 
 (function ($) {
     $.fn.mergeElements = function (name = "div") {
@@ -42,58 +44,89 @@ const EntityPanelContextMenu = require("./EntityPanelContextMenu");
 /**
  * Listens for tagged entity widget clicks to add/remove them from the collection.
  */
-class EntityPanelClickListener {
-    constructor(entityPanelWidget) {
-        this.widget = entityPanelWidget;
+class EntityPanelListener {
+    constructor(entityPanel) {
+        this.entityPanel = entityPanel;
     }
 
     notifyTaggedEntityClick(taggedEntity, double, control, shift, alt) {
         if (double) {
-            if (!control) this.widget.emptyCollection();
-            this.widget.selectByLemmaTag(taggedEntity.lemma(), taggedEntity.tag());
-        } else if (control && !this.widget.selectedEntities.contains(taggedEntity)) {
-            this.widget.selectedEntities.add(taggedEntity);
+            if (!control) this.entityPanel.emptyCollection();
+            this.entityPanel.selectByLemmaTag(taggedEntity.lemma(), taggedEntity.tag());
+        } else if (control && !this.entityPanel.selectedEntities.contains(taggedEntity)) {
+            this.entityPanel.selectedEntities.add(taggedEntity);
             taggedEntity.highlight(true);
-        } else if (control && this.widget.selectedEntities.contains(taggedEntity)) {
-            this.widget.selectedEntities.remove(taggedEntity);
+        } else if (control && this.entityPanel.selectedEntities.contains(taggedEntity)) {
+            this.entityPanel.selectedEntities.remove(taggedEntity);
             taggedEntity.highlight(false);
         } else {
-            this.widget.emptyCollection();
-            this.widget.selectedEntities.add(taggedEntity);
+            this.entityPanel.emptyCollection();
+            this.entityPanel.selectedEntities.add(taggedEntity);
             taggedEntity.highlight(true);
         }
     }
 
     async notifyTaggedEntityContextMenu(taggedEntity, dbl, ctrl, alt, shft, event) {
         /* if the collection is empty make taggedEntity the collection */
-        let tempCollection = this.widget.selectedEntities.clone();
-        tempCollection.add(taggedEntity);
-        this.widget.taggedEntityContextMenu.show(event, tempCollection);
+        this.entityPanel.selectedEntities.add(taggedEntity);
+        taggedEntity.highlight(true);
+        this.entityPanel.taggedEntityContextMenu.show(event, this.entityPanel.selectedEntities.clone());
     }
+    
+    async notifySourceSelect(entityValues){
+        this.entityPanel.selectedEntities.values(entityValues);
+    }        
+    
+    /* event from TaggedEntityContextMenu */
+    async notifyLookupEntities(){
+        this.entityPanel.search();
+    }
+    
+    /* event from TaggedEntityContextMenu */
+    async notifyEditEntities(taggedEntities){
+        let editEntityWidget = this.entityPanel.editEntityWidget;
+        let editEntityResult = await editEntityWidget.show(taggedEntities);
+        
+        if (editEntityResult.accept){
+            for (let taggedEntity of taggedEntities){
+                if (editEntityResult.text !== null) taggedEntity.text(editEntityResult.text, true);
+                if (editEntityResult.lemma !== null) taggedEntity.lemma(editEntityResult.lemma, true);
+                if (editEntityResult.link !== null) taggedEntity.link(editEntityResult.link, true);
+                if (editEntityResult.tag !== null) taggedEntity.tag(editEntityResult.tag, true);
+            }
+        }
+    }    
 }
 
 class EntityPanelWidget extends Widget {
 
-    constructor(target, delegate, dictionary) {
-        super(`<div id="entityPanel" class="format-default"></div>`, delegate);
+    constructor(target, dictionary) {
+        super(`<div id="entityPanel" class="format-default"></div>`);
         $(target).append(this.$);
 
         this.taggedEntityFactory = new TaggedEntityFactory(this);
         this.hasDocument = false;
-        this.addListener(new EntityPanelClickListener(this));
         this.selectedEntities = new TaggedEntityCollection();
         this.stylename = "";
         this.schema = null;
 
         this.taggedEntityContextMenu = new TaggedEntityContextMenu(this);
-        this.taggedEntityContextMenu.setDictionary(dictionary);
-        this.taggedEntityContextMenu.makeReady(); /* todo move this to make ready function */
+        this.taggedEntityContextMenu.setDictionary(dictionary);        
 
         this.entityPanelContextMenu = new EntityPanelContextMenu(this);
+
+        this.addListener(new EntityPanelListener(this));
 
         this.latestValues = new EntityValues();
         this.copyValues = new EntityValues();
         this.dictionary = null;
+
+        /* CWRC DIALOG events are caught by entity panel so that the proper   */
+        /* collection can be added as an argument                             */
+        this.cwrcDialogs = new CWRCDialogs(this);
+
+        /* Entity edit widget */
+        this.editEntityWidget = new EditEntityWidget();        
 
         /* Default Document Click Event */
         $("#entityPanel").click((event) => {
@@ -118,6 +151,19 @@ class EntityPanelWidget extends Widget {
                 this.taggedEntityContextMenu.show(event, this.selectedEntities);
             }
         });
+    }
+
+    async load(){
+        await this.cwrcDialogs.load();
+        await this.taggedEntityContextMenu.load();
+        await this.editEntityWidget.load();
+        
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").viaf);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").dbpedia);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").wiki);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").getty);
+        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").geonames);        
+        
     }
 
     getSelectedEntities() {
@@ -304,6 +350,15 @@ class EntityPanelWidget extends Widget {
         }
 
         return range;
+    }
+    
+    search(){        
+        this.cwrcDialogs.show();
+        
+        if (!this.selectedEntities.isEmpty()){
+            let taggedEntity = this.selectedEntities.getLast();
+            this.cwrcDialogs.search(taggedEntity.text(), taggedEntity.tag());        
+        }
     }
 }
 

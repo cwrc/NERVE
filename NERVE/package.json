@@ -10,7 +10,6 @@
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
         "assets": "assets -vd",
-        "inject-css": "inject public_html/styles/**/* public_html/index.html",
         "clean": "clean -e"
     },
     "author": "",
@@ -29,7 +28,6 @@
         "public_html/compiled.css.map"
     ],
     "dependencies": {
-        "@thaerious/cwrcdialogs": "file:../CWRCDialogs",
         "@thaerious/entitypanel": "file:../EntityPanel",
         "@thaerious/menu": "file:../Menu",
         "@thaerious/nidget": "file:../Nidget",
@@ -42,4 +40,3 @@
         "popper.js": "^1.14.4"
     }
 }
-

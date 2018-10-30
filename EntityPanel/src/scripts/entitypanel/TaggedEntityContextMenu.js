@@ -43,7 +43,7 @@ class TaggedEntityContextMenu extends NidgetContext{
         $(document).click(e=>this.hide());
     }
      
-    async makeReady(){
+    async load(){
         this.showHTMLWidget = new ShowHTMLWidget();
         await this.showHTMLWidget.load();
         window.showHTMLWidget = this.showHTMLWidget;        
@@ -52,6 +52,8 @@ class TaggedEntityContextMenu extends NidgetContext{
    
     show(event, taggedEntityCollection){
         if (!this.ready) throw new Error("TaggedEntiyFactory not ready");
+        if (!taggedEntityCollection) throw new Error("Undefined taggedEntityCollection");        
+        if (taggedEntityCollection.isEmpty()) throw new Error("Empty taggedEntityCollection");        
         super.show(event);
         this.selected = taggedEntityCollection;        
     }

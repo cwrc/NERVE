@@ -5,7 +5,7 @@ const EntityValues = require("nerveserver").EntityValues;
 
 class ResultWidget extends Widget{
     constructor(cwrcDialog, result, tagName){
-        super(cwrcDialog);
+        super(null, cwrcDialog);
         this.cwrcDialog = cwrcDialog;
         this.result = result;
         this.tagName = tagName;

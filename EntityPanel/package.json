@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "description": "",
     "dependencies": {
+        "@thaerious/cwrcdialogs": "file:../CWRCDialogs",
         "@thaerious/nidget": "file:../Nidget",
         "@thaerious/nidgetcontext": "file:../NidgetContext",
         "@thaerious/utility": "0.0.1",

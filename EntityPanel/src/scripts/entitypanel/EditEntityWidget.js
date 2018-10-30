@@ -9,7 +9,7 @@ class EditEntityWidget extends Widget {
     }
 
     async load() {
-        let domElement = await FileOperations.loadDOMElement(`assets/editEntityWidget.frag.html`);
+        let domElement = await FileOperations.loadDOMElement(`assets/entitypanel/editEntityWidget.frag.html`);
         $("body").append(domElement);
         super.setElement(domElement);
                 $(this.getElement()).find("#editEntityAccept").click(() => {

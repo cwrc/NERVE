@@ -9,9 +9,7 @@ const EntityPanel = require("@thaerious/entitypanel");
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");
-const EditEntityWidget = require("./EditEntityWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
-const CWRCDialogs = require("@thaerious/cwrcdialogs").CWRCDialogs;
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -56,25 +54,13 @@ class Main extends AbstractModel {
 
         /* EntityPanel setup */
         let dictionary = await this.rootObject.getDictionary();
-        this.entityPanel = new EntityPanel("#panelContainer", this, dictionary);
+        this.entityPanel = new EntityPanel("#panelContainer", dictionary);
+        await this.entityPanel.load();
+        this.entityPanel.addListener(this);
         
         /* Undo listener */
         this.entityPanelChangeListener = new EntityPanelChangeListener(this.entityPanel);
         this.addListener(this.entityPanelChangeListener);
-        
-        /* Entity edit widget */
-        this.editEntityWidget = new EditEntityWidget();
-        await this.editEntityWidget.load();
-        
-        /* CWRC Dialogs */
-        this.cwrcDialogs = new CWRCDialogs();
-        await this.cwrcDialogs.load();
-        
-        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").viaf);
-        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").dbpedia);
-        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").wiki);
-        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").getty);
-        await this.cwrcDialogs.registerEntitySource(require("@thaerious/cwrcdialogs").geonames);        
         
         await this.__checkForPreviousDocument();
     }
@@ -91,21 +77,6 @@ class Main extends AbstractModel {
         $("#documentTitle").text(localStorage.filename);
         this.menu.getMenuItem("File", "Close").disabled(false);
         this.menu.getMenuItem("File", "Save").disabled(false);        
-    }
-    
-    async notifyEditEntities(taggedEntities){
-        console.log(taggedEntities);
-        let editEntityResult = await this.editEntityWidget.show(taggedEntities);
-        console.log(editEntityResult);
-        
-        if (editEntityResult.accept){
-            for (let taggedEntity of taggedEntities){
-                if (editEntityResult.text !== null) taggedEntity.text(editEntityResult.text, true);
-                if (editEntityResult.lemma !== null) taggedEntity.lemma(editEntityResult.lemma, true);
-                if (editEntityResult.link !== null) taggedEntity.link(editEntityResult.link, true);
-                if (editEntityResult.tag !== null) taggedEntity.tag(editEntityResult.tag, true);
-            }
-        }
     }
 
     async onMenuSave(){
@@ -205,10 +176,4 @@ class Main extends AbstractModel {
     async onMenuClearSelection() {
         this.entityPanel.emptyCollection();
     }    
-    
-    async notifyLookupEntities(taggedEntityCollection){
-        let taggedEntity = taggedEntityCollection.getLast();
-        this.cwrcDialogs.show();
-        this.cwrcDialogs.search(taggedEntity.text(), taggedEntity.tag());
-    }
 }

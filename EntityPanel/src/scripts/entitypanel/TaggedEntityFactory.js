@@ -48,6 +48,7 @@ class TaggedEntityWidget extends Widget{
             this.notifyListeners("notifyTaggedEntityClick", this, false, event.ctrlKey, event.shiftKey, event.altKey, event);
             event.stopPropagation();
         });
+        
         this.$.dblclick((event) => {
             if (event.button !== 0) return; /* left click only */
             this.notifyListeners("notifyTaggedEntityClick", this, true, event.ctrlKey, event.shiftKey, event.altKey, event);
