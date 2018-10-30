@@ -1,10 +1,10 @@
 window.$ = require("jquery");
-const AbstractModel = require("nidget").AbstractModel;
-const DragWidget = require("nidget").DragWidget;
-const DropWidget = require("nidget").DropWidget;
-const LemmaDialogWidget = require("./lemmaDialog").LemmaDialogWidget;
-const LemmaDialogController = require("./lemmaDialog").LemmaDialogController;
-const Collection = require("Collection");
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
+const DragWidget = require("@thaerious/nidget").DragWidget;
+const DropWidget = require("@thaerious/nidget").DropWidget;
+const LemmaDialogWidget = require("./lemmadialog/LemmaDialogWidget");
+const LemmaDialogController = require("./lemmadialog/LemmaDialogController");
+const TaggedEntityCollection = require("@thaerious/entitypanel").TaggedEntityCollection;
 
 class EntityController{
     constructor(entityContainer, dropContainer){
@@ -84,7 +84,7 @@ class EntityContainer extends DropWidget{
 class DropContainer extends DropWidget{
     constructor(){
         super("#collection_container");
-        this.collection = new Collection(this);
+        this.collection = new TaggedEntityCollection(this);
         
         $("#update").click(()=>{
             let array = [];
@@ -158,4 +158,7 @@ class Main extends AbstractModel{
     }
 }
 
-window.main = new Main();
+$(window).on('load', async function () {
+    console.log("LOAD MAIN");
+    window.main = new Main();
+});

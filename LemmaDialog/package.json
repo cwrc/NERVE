@@ -12,6 +12,8 @@
   "contributors": [],
   "dependencies": {
     "@thaerious/entitypanel": "file:../EntityPanel",
+    "@thaerious/nidget": "file:../Nidget",
+    "@thaerious/nidgetcontext": "file:../NidgetContext",
     "jquery": "^3.3.1"
   },
   "main": "./src/scripts/lemmaDialog.js",
@@ -28,10 +30,9 @@
     "clean": "clean -e"
   },
   "assets": {
-    "dest": "src",
+    "dest": "public_html",
     "src": [
-      "src/assets/lemma_dialog/**/*",
-      "src/css/lemmadialog.css"
+      "src/assets/lemma_dialog/**/*"
     ]
   },
   "clean": [
