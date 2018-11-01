@@ -88,12 +88,17 @@ class EntityPanelListener {
         let editEntityResult = await editEntityWidget.show(taggedEntities);
         
         if (editEntityResult.accept){
+            let valueArray = [];
             for (let taggedEntity of taggedEntities){
-                if (editEntityResult.text !== null) taggedEntity.text(editEntityResult.text, true);
-                if (editEntityResult.lemma !== null) taggedEntity.lemma(editEntityResult.lemma, true);
-                if (editEntityResult.link !== null) taggedEntity.link(editEntityResult.link, true);
-                if (editEntityResult.tag !== null) taggedEntity.tag(editEntityResult.tag, true);
+                let values = new EntityValues();
+                if (editEntityResult.text !== null) values.text(editEntityResult.text);
+                if (editEntityResult.lemma !== null) values.lemma(editEntityResult.lemma);
+                if (editEntityResult.link !== null) values.link(editEntityResult.link);
+                if (editEntityResult.tag !== null) values.tag(editEntityResult.tag);
+                taggedEntity.values(values);
+                valueArray.push(values);
             }
+            this.entityPanel.notifyListeners("notifyEntityUpdate", taggedEntities.asArray(), valueArray);
         }
     }    
 }

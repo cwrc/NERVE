@@ -235,7 +235,10 @@ class CategoryWidget extends DropWidget {
     }
     
     getLemmaWidget(lemma){
-        if (!this.lemmaWidgets.has(lemma)) throw new Errow("invalid lemma text");
+        if (!this.lemmaWidgets.has(lemma)){
+            throw new Error("unknown lemma text");
+        }
+        
         return this.lemmaWidgets.get(lemma);
     }
     

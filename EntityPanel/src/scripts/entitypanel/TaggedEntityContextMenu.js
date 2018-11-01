@@ -50,6 +50,12 @@ class TaggedEntityContextMenu extends NidgetContext{
         this.ready = true;
     }
    
+    /**
+     * The delgate of 'taggedEntityCollection will receive events
+     * @param {type} event
+     * @param {type} taggedEntityCollection
+     * @returns {undefined}
+     */
     show(event, taggedEntityCollection){
         if (!this.ready) throw new Error("TaggedEntiyFactory not ready");
         if (!taggedEntityCollection) throw new Error("Undefined taggedEntityCollection");        

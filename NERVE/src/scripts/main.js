@@ -12,6 +12,7 @@ const CustomReader = require("./CustomReader");
 const OpenAsWidget = require("./OpenAsWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
 const LemmaDialogController = require("./LemmaDialogController");
+const EntityPanelLemmaDialogListener = require("./EntityPanelLemmaDialogListener");
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -70,6 +71,9 @@ class Main extends AbstractModel {
         this.lemmaDialogController = new LemmaDialogController(this.lemmaDialogWidget);
         this.entityPanel.addListener(this.lemmaDialogController);
         this.addListener(this.lemmaDialogController); /* needed ? */
+        
+        /* Connect Lemma Dialog and Entity Panel */
+        this.entityPanelLemmaDialogListener = new EntityPanelLemmaDialogListener(this.entityPanel, this.lemmaDialogWidget);
         
         await this.__checkForPreviousDocument();
     }
