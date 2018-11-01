@@ -4,6 +4,7 @@ const EntityValues = require("nerveserver").EntityValues;
 const Constants = require("@thaerious/utility").Constants;
 const AbstractModel = require("@thaerious/nidget").AbstractModel;
 const Widget = require("@thaerious/nidget").Widget;
+const DragWidget = require("@thaerious/nidget").DragWidget;
 
 /**
  * All tagged entity elements get passed to a TaggedEntity constructor to provide functionality.
@@ -16,7 +17,7 @@ const Widget = require("@thaerious/nidget").Widget;
  * 
  * @type type
  */
-class TaggedEntityWidget extends Widget{
+class TaggedEntityWidget extends DragWidget{
 
     constructor(element, factory) {
         super(element, factory);

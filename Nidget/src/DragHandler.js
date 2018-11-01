@@ -1,4 +1,8 @@
 
+/**
+ * Singlton class to providing functionality to DragWidgets and DropWidgets.
+ * It stores the corrently being dragged widget.
+ */
 class DragHandler{
     
     constructor(){
