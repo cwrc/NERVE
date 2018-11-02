@@ -23,6 +23,10 @@
     color: orangered;
 }
 
+.taggedentity.selected .tagname-markup, .taggedentity:hover .tagname-markup{
+    display: inline-block;
+}
+
 .tagname-markup{
     position: absolute;
     display: inline-block;
@@ -33,70 +37,53 @@
     font-variant: small-caps;
 }
 
-.taggedentity[data-hasbg="false"] > .tagname-markup{
-    position: absolute;
-    display: none;
-    color: red;
-    top: 8px;
-    left: 1px;
-    font-size: 10px;
-    font-variant: small-caps;
+@mixin tag-toggle-on($tag, $colorNormal){
+    #{".taggedentity[xmltagname='" + $tag + "']"}{    
+        background: linear-gradient(rgba(0, 0, 0, 0.0),  $colorNormal);
+    }
+
+    #{".taggedentity.selected[xmltagname='" + $tag + "']"},
+    #{".taggedentity[xmltagname='" + $tag + "']:hover"},
+    #{".taggedentity[xmltagname='" + $tag + "'] + .contents:hover"}{
+        cursor: pointer;
+        background: linear-gradient($colorNormal, rgba(255, 255, 0, 0.75));
+    }
 }
 
-.taggedentity.selected .tagname-markup, .taggedentity:hover .tagname-markup{
-    display: inline-block;
+@mixin tag-toggle-off($tag){
+    #{".taggedentity[xmltagname='" + $tag + "'] .tagname-markup"}{
+        display: none;
+    }
 }
 
-.taggedentity.selected, .taggedentity:hover{
-    text-decoration: underline;
+#entityPanel:not([data-hide-location='true']){
+    @include tag-toggle-on(LOCATION, rgba(200, 200, 255, 0.75));
 }
 
-.format-default .taggedentity.selected:hover{
-    background-color: #d8ff00;
-    cursor: pointer;
+#entityPanel:not([data-hide-person='true']){
+    @include tag-toggle-on(PERSON, rgba(200, 255, 200, 0.9));
 }
 
-.format-default .taggedentity:hover{
-    background-color: lightblue;
-    cursor: pointer;
+#entityPanel:not([data-hide-organization='true']){
+    @include tag-toggle-on(ORGANIZATION, rgba(200, 200, 255, 0.75));
 }
 
-.taggedentity[xmltagname="LOCATION"]{
-    background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(200, 200, 255, 0.75));
+#entityPanel:not([data-hide-title='true']){
+    @include tag-toggle-on(TITLE, rgba(200, 200, 255, 0.75));
 }
 
-.taggedentity.selected[xmltagname="LOCATION"],
-.taggedentity[xmltagname="LOCATION"]:hover,
-.taggedentity[xmltagname="LOCATION"] + .contents:hover{
-    background: linear-gradient(rgba(200, 200, 255, 0.75), rgba(255, 255, 0, 0.75));
+#entityPanel[data-hide-location='true']{
+    @include tag-toggle-off(LOCATION);
 }
 
-.taggedentity[xmltagname="PERSON"]{
-    background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(200, 255, 200, 0.9));
+#entityPanel[data-hide-person='true']{
+    @include tag-toggle-off(PERSON);
 }
 
-.taggedentity.selected[xmltagname="PERSON"],
-.taggedentity[xmltagname="PERSON"]:hover,
-.taggedentity[xmltagname="PERSON"] + .contents:hover{
-    background: linear-gradient(rgba(200, 255, 200, 0.9), rgba(255, 255, 0, 0.75));
+#entityPanel[data-hide-organization='true']{
+    @include tag-toggle-off(ORGANIZATION);
 }
 
-.taggedentity[xmltagname="ORGANIZATION"]{
-    background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(128, 255, 255, 0.75));
-}
-
-.taggedentity.selected[xmltagname="ORGANIZATION"],
-.taggedentity[xmltagname="ORGANIZATION"]:hover,
-.taggedentity[xmltagname="ORGANIZATION"] + .contents:hover{
-    background: linear-gradient(rgba(128, 255, 255, 0.75), rgba(255, 255, 0, 0.75));
-}
-
-.taggedentity[xmltagname="TITLE"]{
-    background: linear-gradient(rgba(0, 0, 0, 0.0),  rgba(255, 128, 128, 0.5));
-}
-
-.taggedentity.selected[xmltagname="TITLE"],
-.taggedentity[xmltagname="TITLE"]:hover,
-.taggedentity[xmltagname="TITLE"] + .contents:hover{
-    background: linear-gradient(rgba(255, 128, 128, 0.5), rgba(255, 255, 0, 0.75));
+#entityPanel[data-hide-title='true']{
+    @include tag-toggle-off(TITLE);
 }

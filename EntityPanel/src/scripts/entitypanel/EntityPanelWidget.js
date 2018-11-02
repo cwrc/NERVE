@@ -370,6 +370,18 @@ class EntityPanelWidget extends Widget {
             this.cwrcDialogs.search(taggedEntity.text(), taggedEntity.tag());        
         }
     }
+    
+    setAttribute(key, value){
+        $(this.getElement()).attr(key, value);
+    }
+    
+    clearAttribute(key){
+        $(this.getElement()).removeAttr(key);
+    }
+    
+    getAttribute(key){
+        return $(this.getElement()).attr(key);
+    }
 }
 
 module.exports = EntityPanelWidget;
