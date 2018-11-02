@@ -10,8 +10,8 @@
         "bootstrap": "^4.1.3",
         "jjjrmi": "^0.4.10",
         "jquery": "",
-        "nerscriber": "file:../NERScriber",
-        "nerveserver": "file:../Server",
+        "@thaerious/nerscriber": "file:../NERScriber",
+        "@thaerious/nerveserver": "file:../Server",
         "popper.js": "^1.14.4"
     },
     "scripts": {
