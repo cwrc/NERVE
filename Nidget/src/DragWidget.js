@@ -11,7 +11,7 @@ class DragWidget extends Widget{
         super(element, delegate);
         this.$.attr("draggable", "true");
         
-        this.$.on("dragstart", (event) =>{
+        this.$.on("dragstart", (event) =>{     
             dragHandler.set(this);
             if (this.dragstart) this.dragstart(event);
         });

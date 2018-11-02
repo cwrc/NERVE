@@ -1,4 +1,4 @@
-class ProgressMonitor extends require('Nidget/src/AbstractModel') {
+class ProgressMonitor extends require('@thaerious/nidget').AbstractModel {
 	constructor() {
 		super();
 	}

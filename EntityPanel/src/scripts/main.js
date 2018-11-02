@@ -6,10 +6,10 @@ const EntityPanel = require("./entitypanel/EntityPanelWidget");
 const FileOperations = require("@thaerious/utility").FileOperations;
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 
-JJJRMISocket.flags.ONREGISTER = true;
-JJJRMISocket.flags.CONNECT = true;
-JJJRMISocket.flags.RECEIVED = true;
-JJJRMISocket.flags.SENT = true;
+//JJJRMISocket.flags.ONREGISTER = true;
+//JJJRMISocket.flags.CONNECT = true;
+//JJJRMISocket.flags.RECEIVED = true;
+//JJJRMISocket.flags.SENT = true;
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));

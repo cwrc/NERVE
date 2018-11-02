@@ -32,11 +32,6 @@ class TaggedEntityWidget extends DragWidget{
      */
     setupListeners() {
         this.$.addClass("taggedentity");
-        this.$.attr("draggable", "true");
-
-        this.$.on("dragstart", (event) => this.dragstart(event));
-        this.$.on("dragover", (event) => this.dragover(event));
-        this.$.on("drop", (event) => this.drop(event));
 
         this.$.on("contextmenu", (event) => {
             event.preventDefault();
@@ -132,7 +127,7 @@ class TaggedEntityWidget extends DragWidget{
     }
 
     dragstart(event) {
-//        this.dragDropHandler.setData("TaggedEntityWidget", this);
+        this.notifyListeners("notifyEntityDragStart", this);
     }
 
     selectLikeEntitiesByLemma() {

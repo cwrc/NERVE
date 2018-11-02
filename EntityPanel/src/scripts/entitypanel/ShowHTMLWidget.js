@@ -11,7 +11,7 @@ class ShowHTMLWidget extends Widget{
     async load(){
         let domElement = await FileOperations.loadDOMElement(`assets/entitypanel/showHTMLWidget.frag.html`);   
         $("body").append(domElement);
-        super.setElement(domElement);
+        this.setElement(domElement);
     }
     
     show(taggedEntityWidget){

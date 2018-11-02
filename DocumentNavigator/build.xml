@@ -4,8 +4,8 @@
     <description>Builds, tests, and runs the project DocumentNavigator.</description>    
     <property file="nbproject/project.properties"/>
     <import file="nbproject/build-impl.xml"/>
-    <property file="D:/project-local/trunk/nerve/shared.properties"/>
-    <import file="D:/project-local/trunk/nerve/shared.xml"/>       
+    <property file="../shared.properties"/>
+    <import file="../shared.xml"/>       
     
     <property name="version.num" value="0.9.0" />
     <property name="lib.jar.name" value="DocNav-${version.num}.jar"/>

@@ -4,8 +4,8 @@
     
     <property file="nbproject/project.properties"/>
     <import file="nbproject/build-impl.xml"/>
-    <property file="D:/project-local/trunk/nerve/shared.properties"/>
-    <import file="D:/project-local/trunk/nerve/shared.xml"/>       
+    <property file="../shared.properties"/>
+    <import file="../shared.xml"/>       
     
     <taskdef resource="jjjrmiant.xml"/>     
     <property name="version.num" value="0.9.0" />  

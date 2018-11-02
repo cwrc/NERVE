@@ -11,16 +11,16 @@
     "author": "edward",
     "contributors": [],
     "dependencies": {
-        "Utility": "file:../Utility",
-        "jquery": "",
-        "nidget": "file:../Nidget"
+        "@thaerious/nidget": "file:../Nidget",
+        "@thaerious/utility": "0.0.1",
+        "jquery": ""
     },
     "scripts": {
         "build": "npm run build-js && npm run build-css && npm run assets",
         "build-css": "sass src/scss/custom.scss public_html/compiled.css",
-        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",    
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "assets": "assets -v",
-        "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",        
+        "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv"
     },
     "assets": {

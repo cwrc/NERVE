@@ -7,7 +7,7 @@ import ca.sharcnet.dh.scriber.ProgressListener;
 import ca.sharcnet.dh.scriber.ProgressPacket;
 
 @JJJ("ProgressMonitor")
-@JJJOptions(jsExtends="require('Nidget/src/AbstractModel')")
+@JJJOptions(jsExtends="require('@thaerious/nidget').AbstractModel")
 public abstract class AProgressMonitor implements ProgressListener{
 
     @NativeJS

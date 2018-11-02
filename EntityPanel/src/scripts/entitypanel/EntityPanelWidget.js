@@ -234,6 +234,11 @@ class EntityPanelWidget extends Widget {
         this.stylename = stylename;
     }
 
+    addSelected(taggedEntityWidget){
+        this.selectedEntities.add(taggedEntityWidget);
+        taggedEntityWidget.highlight(true);
+    }
+
     emptyCollection() {
         for (let collectionEntity of this.selectedEntities) {
             collectionEntity.highlight(false);

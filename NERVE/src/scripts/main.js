@@ -63,7 +63,7 @@ class Main extends AbstractModel {
         
         /* Undo listener */
         this.entityPanelChangeListener = new EntityPanelChangeListener(this.entityPanel);
-        this.addListener(this.entityPanelChangeListener);
+        this.entityPanel.addListener(this.entityPanelChangeListener);
         
         /* Lemma Dialog */
         this.lemmaDialogWidget = new LemmaDialogWidget("#lemmaDialog");

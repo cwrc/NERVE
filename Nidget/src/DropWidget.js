@@ -13,10 +13,10 @@ class DropWidget extends Widget{
             let dragWidget = DragHandler.get();
             
             if (dragWidget && typeof dragWidget.dragover === "function"){
-                dragWidget.dragover(event, this);
+                dragWidget.dragover(event, dragWidget, this);
             }
             if (typeof this.dragover === "function"){
-                 this.dragover(event, dragWidget);
+                 this.dragover(event, dragWidget, this);
             }
         });        
         
@@ -24,10 +24,10 @@ class DropWidget extends Widget{
             let dragWidget = DragHandler.get();
             
             if (dragWidget && typeof dragWidget.drop === "function"){
-                dragWidget.drop(event, this);
+                dragWidget.drop(event, dragWidget, this);
             } 
             if (typeof this.drop === "function"){
-                this.drop(event, dragWidget);
+                this.drop(event, dragWidget, this);
             }
             DragHandler.clear();
         });

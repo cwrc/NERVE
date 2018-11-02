@@ -1,7 +1,7 @@
 const $ = window.$ ? window.$ : require("jquery");
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const MenuCategory = require("./MenuCategory");
-const FileOpertions = require("Utility").FileOperations;
+const FileOpertions = require("@thaerious/utility").FileOperations;
 
 class Menu extends Widget{
     constructor(delegate){

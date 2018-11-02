@@ -1,6 +1,6 @@
 const jQuery = require("jquery");
 const $ = jQuery;
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const MenuItem = require("./MenuItem");
 
 class MenuCategory extends Widget{
