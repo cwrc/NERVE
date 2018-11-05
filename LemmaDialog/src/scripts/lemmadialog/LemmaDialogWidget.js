@@ -181,7 +181,7 @@ class CategoryWidget extends DropWidget {
         containerElement.style.height = sectionHeight + 'px';
     }
 
-    __resizeContainer(amount){
+    __resizeContainer(amount = 0){
         let containerElement = this.container.get(0);
         
         // get the height of the element's inner content, regardless of its actual size
@@ -216,6 +216,16 @@ class CategoryWidget extends DropWidget {
         } else {
             this.open();
         }
+    }
+
+    /**
+     * Remove all lemmas.  Resets to empty state.
+     * @returns {undefined}
+     */
+    clearLemmas(){
+        this.container.empty();
+        this.lemmaWidgets.clear();
+        this.__resizeContainer(0);
     }
 
     addLemma(lemma) {
@@ -270,7 +280,7 @@ class LemmaDialogWidget extends Widget {
     constructor(element) {
         super(element);
         this.$.addClass("lemma_container");
-        this.categories = new Map();
+        this.categories = new Map(); /* map of {category name : sting} -> {category widget} */
         this.objects = new Map();
         this.currentHighlight = [];
         
@@ -293,6 +303,17 @@ class LemmaDialogWidget extends Widget {
         
         $("html").on("click", ()=>this.categoryContextMenu.hide());        
         $("html").on("click", ()=>this.lemmaContextMenu.hide());
+    }
+
+    /**
+     * Remove all lemmas
+     * @returns {undefined}
+     */
+    clearLemmas(){
+        for (let category of this.categories.values()){
+            category.clearLemmas();
+        }
+        this.objects.clear();
     }
 
     expandAll(){
@@ -364,9 +385,10 @@ class LemmaDialogWidget extends Widget {
         if (!categoryWidget.hasLemma(lemma)){
             let lemmaWidget = categoryWidget.addLemma(lemma);
             lemmaWidget.$.on("contextmenu", (event)=>{
-                this.lemmaContextMenu.show(event);
+                console.log("*** LemmaWidget in LemmaDialog Context Menu Disabled ***");
+//                this.lemmaContextMenu.show(event);
                 return false;
-            });            
+            });
         }
     }
     
@@ -378,9 +400,9 @@ class LemmaDialogWidget extends Widget {
     
     /**
      * Will add lemma if it doesn't exist.
-     * @param {type} category
-     * @param {type} lemma
-     * @param {type} object
+     * @param {type} category heading to add lemma too
+     * @param {type} lemma text
+     * @param {type} object associated external object
      * @returns {undefined}
      */
     setObject(category, lemma, object){

@@ -1,0 +1,27 @@
+{
+    "File" : {
+        "Open" : {
+            "shortcut": {"key": "O", "alt": true}
+        },
+        "Save" : {
+            "disabled": true
+        },
+        "Close" : {
+            "disabled": true
+        }
+    },
+    "View" : {
+        "Tag Mode" : {},
+        "Clear Selection" : {}
+    },
+    "Action" : {
+        "Tag" : {},
+        "Remove Tag" : {},
+        "Merge Entities" : {},
+        "Copy" : {},
+        "Paste" : {}
+    },
+    "Help" : {
+        "Wiki" : {}
+    }
+}

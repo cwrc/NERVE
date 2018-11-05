@@ -43,7 +43,7 @@ class LemmaDialogController{
             this.lemmaDialog.removeObject(entity);
             this.lemmaDialog.setObject(entity.tag(), entity.lemma(), entity);
         }
-        
+         
         this.lemmaDialog.clearHighlight();
         for (let entity of this.lastCollection){
             this.lemmaDialog.highlight(entity.tag(), entity.lemma());

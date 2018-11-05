@@ -297,7 +297,7 @@ class TaggedEntityFactory extends AbstractModel {
         this.entities.push(taggedEntityWidget);
         
         if (taggedEntityWidget.lemma() === ""){
-            taggedEntityWidget.lemma(taggedEntityWidget.text());
+            taggedEntityWidget.lemma(taggedEntityWidget.text(), true);
         }        
         
         return taggedEntityWidget;
