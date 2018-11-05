@@ -1,7 +1,7 @@
 package tests.manual;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.HasStreams;
-import ca.sharcnet.dh.scriber.ProgressListener;
+import ca.sharcnet.dh.progress.ProgressListener;
 import ca.sharcnet.dh.scriber.ProgressPacket;
 import ca.sharcnet.dh.scriber.decode.Decoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
@@ -64,7 +64,22 @@ public class Main implements HasStreams, ProgressListener {
     }    
     
     @Override
-    public void notifyProgress(ProgressPacket packet) {
-        Console.log(packet);
+    public void start(String message) {
+        Console.log("START: " + message);
+    }
+
+    @Override
+    public void updateMessage(String message) {
+        Console.log("MESSAGE: " + message);
+    }
+
+    @Override
+    public void updateProgress(int percent) {
+        Console.log("PROGRESS: " + percent);
+    }
+
+    @Override
+    public void end() {
+        Console.log("END:");
     }
 }

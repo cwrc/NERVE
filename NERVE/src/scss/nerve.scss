@@ -88,7 +88,7 @@ body{
 
 #panelContainer{
     width: calc(100% - 265px);
-    overflow-y: scroll;
+    overflow-y: none;
     -webkit-user-select: text;
 }
 

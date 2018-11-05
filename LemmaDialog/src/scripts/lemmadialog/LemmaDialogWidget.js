@@ -454,7 +454,7 @@ class LemmaDialogWidget extends Widget {
     }    
     
     /**
-     * Return all objects that matches categories and lemma.
+     * Return an array of all objects that matches categories and lemma.
      * @param {type} categories and array or string
      * @param {type} lemma a string
      * @returns {Array|nm$_LemmaDialogWidget.exports.getObjects.objects|nm$_LemmaDialogWidget.LemmaDialogWidget.getObjects.objects}

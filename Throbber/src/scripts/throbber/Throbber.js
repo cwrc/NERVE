@@ -1,21 +1,16 @@
-const jQuery = require("jquery");
-const $ = jQuery;
+const $ = window.$ ? window.$ :require("jquery");
+const Widget = require("@thaerious/nidget").Widget;
 
-class Throbber{
+class Throbber extends Widget{
     constructor(){
-        this.$ = $("<div class=throbber_background></div>");       
+        super("<div class=throbber_background></div>");
         this.image = $("<img class='throbber_image' src='assets/throbber/loader400.gif'/>");
         this.messageElement = $("<div class='throbber_message'></div>");                
         this.percentElement = $("<div class='throbber_percent'>0%</div>");                
         this.$.append(this.image);
         this.$.append(this.messageElement);
         this.$.append(this.percentElement);        
-        $("body").append(this.$);        
         this.hideAll();
-    }
-    
-    getElement(){
-        return this.$.get(0);
     }
     
     setMessage(message){

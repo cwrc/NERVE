@@ -260,14 +260,14 @@ class EntityPanelWidget extends Widget {
     scrollTo(taggedEntityWidget) {
         let eleTop = taggedEntityWidget.$.offset().top;
         let eleBottom = eleTop + taggedEntityWidget.$.height();
-        let dispTop = $("#panelContainer").offset().top;
-        let dispBottom = dispTop + $("#panelContainer").height();
+        let dispTop = $("#entityPanel").offset().top;
+        let dispBottom = dispTop + $("#entityPanel").height();
 
         if (eleTop > dispTop && eleBottom < dispBottom) return;
 
-        let elementRelativeTop = taggedEntityWidget.$.offset().top - $("#panelContainer").offset().top;
-        let scrollTo = elementRelativeTop + $("#panelContainer").scrollTop() - $("#panelContainer").height() / 2;
-        $("#panelContainer").scrollTop(scrollTo);
+        let elementRelativeTop = taggedEntityWidget.$.offset().top - $("#entityPanel").offset().top;
+        let scrollTo = elementRelativeTop + $("#entityPanel").scrollTop() - $("#entityPanel").height() / 2;
+        $("#entityPanel").scrollTop(scrollTo);
     }
 
     async mergeEntities() {

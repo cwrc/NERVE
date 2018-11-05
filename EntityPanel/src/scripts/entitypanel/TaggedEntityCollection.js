@@ -8,8 +8,6 @@ const AbstractModel = require("@thaerious/nidget").AbstractModel;
 class TaggedEntityCollection extends AbstractModel{
     constructor(delegate, array = []) {
         super(delegate);
-        console.log("new TaggedEntityCollection");
-        console.log(delegate);
         this.innerArray = array.slice();
     }
 

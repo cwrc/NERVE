@@ -3,24 +3,44 @@ import ca.frar.jjjrmi.annotations.ClientSide;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.NativeJS;
-import ca.sharcnet.dh.scriber.ProgressListener;
-import ca.sharcnet.dh.scriber.ProgressPacket;
+import ca.sharcnet.dh.progress.ProgressListener;
 
 @JJJ("ProgressMonitor")
 @JJJOptions(jsExtends="require('@thaerious/nidget').AbstractModel")
 public abstract class AProgressMonitor implements ProgressListener{
 
     @NativeJS
-    public AProgressMonitor(){
+    public AProgressMonitor(){}
+    
+    @ClientSide(true)
+    @Override
+    public void start(String message) {
+        /*JS{
+        this.notifyListeners("serverStart", message);
+        }*/
+    }
 
+    @ClientSide(true)
+    @Override
+    public void updateMessage(String message) {
+        /*JS{
+        this.notifyListeners("serverUpdateMessage", message);
+        }*/
     }
     
     @ClientSide(true)
     @Override
-    public void notifyProgress(ProgressPacket pp) {
+    public void updateProgress(int i) {
         /*JS{
-        this.notifyListeners("notifyProgress", pp);
+        this.notifyListeners("serverUpdateProgress", i);
         }*/
     }
-    
+
+    @ClientSide(true)
+    @Override
+    public void end() {
+        /*JS{
+        this.notifyListeners("serverEnd");
+        }*/
+    }
 }

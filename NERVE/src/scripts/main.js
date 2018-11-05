@@ -13,6 +13,7 @@ const OpenAsWidget = require("./OpenAsWidget");
 const EntityPanelChangeListener = require("./EntityPanelChangeListener");
 const LemmaDialogController = require("./LemmaDialogController");
 const EntityPanelLemmaDialogListener = require("./EntityPanelLemmaDialogListener");
+const Throbber = require("@thaerious/throbber");
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -74,6 +75,12 @@ class Main extends AbstractModel {
         
         /* Connect Lemma Dialog and Entity Panel */
         this.entityPanelLemmaDialogListener = new EntityPanelLemmaDialogListener(this.entityPanel, this.lemmaDialogWidget);
+        
+        /* Throbber & user message handlers */
+        this.throbber = new Throbber();
+        $("body").append(this.throbber.$);
+        let monitor = this.rootObject.getProgressMonitor();
+        monitor.addListener(new MonitorListener(this.throbber));
         
         await this.__checkForPreviousDocument();
     }
@@ -189,4 +196,27 @@ class Main extends AbstractModel {
     async onMenuClearSelection() {
         this.entityPanel.emptyCollection();
     }    
+}
+
+class MonitorListener{
+    constructor(throbber){
+        this.throbber = throbber;
+    }
+    
+    serverStart(message){
+        this.throbber.setMessage(message);
+        this.throbber.show();
+    }
+    
+    serverUpdateMessage(message){
+        this.throbber.setMessage(message);
+    }
+    
+    serverUpdateProgress(percent){
+        this.throbber.setPercent(percent);
+    }
+    
+    serverEnd(){
+        this.throbber.hide();
+    }
 }

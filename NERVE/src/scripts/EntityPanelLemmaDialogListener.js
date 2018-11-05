@@ -58,6 +58,11 @@ class EntityPanelLemmaDialogListener{
     notifyClickLemmaWidget(lemmaDialogWidget, tag, lemma){
         this.entityPanel.emptyCollection();
         this.entityPanel.selectByLemmaTag(lemma, tag);
+        let taggedEntityWidgets = lemmaDialogWidget.getObjects(tag, lemma);
+        this.entityPanel.scrollTo(taggedEntityWidgets[0]);
+        
+        console.log(taggedEntityWidgets);
+        window.widgets = taggedEntityWidgets;
     }
     
     /**
@@ -75,6 +80,19 @@ class EntityPanelLemmaDialogListener{
      */
     notifyClearDocument(){
         this.lemmaDialog.clearLemmas();
+    }
+    
+    /**
+     * Event received from LemmaDialog.
+     * @param {type} lemmaDialogWidget
+     * @param {type} tags
+     * @param {type} state
+     * @returns {undefined}
+     */
+    notifyEyeState(lemmaDialogWidget, tags, show){
+        for (let tag of tags){
+            this.entityPanel.setAttribute(`data-hide-${tag}`, `${!show}`);
+        }
     }
 }
 

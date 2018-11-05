@@ -11,6 +11,18 @@ class EncodeResponse {
 	static __isEnum() {
 		return false;
 	}
+	getContext() {
+		return this.context;
+	}
+	getFilename() {
+		return this.filename;
+	}
+	getSchemaURL() {
+		return this.schemaURL;
+	}
+	getText() {
+		return this.text;
+	}
 	setFilename(filename) {
 		this.filename = filename;
 	}

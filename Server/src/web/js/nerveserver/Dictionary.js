@@ -2,6 +2,7 @@ const EntityValues = require("./EntityValues");
 class Dictionary {
 	constructor() {
 		this.DEFAULT_DICTIONARY = "custom";
+		this.SQL_CONFIG = "WEB-INF/config.txt";
 	}
 	static __isTransient() {
 		return false;

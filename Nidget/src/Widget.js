@@ -3,7 +3,7 @@ const AbstractModel = require("./AbstractModel");
 
 class Widget extends AbstractModel{
     
-    constructor(element = null, delegate){
+    constructor(element = null, delegate = null){
         super(delegate);
         if (element !== null){
             this.setElement(element);

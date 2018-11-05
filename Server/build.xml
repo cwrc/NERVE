@@ -13,7 +13,7 @@
     <taskdef resource="jjjrmiant.xml"/>
     
     <!--Predefined Netbeans targets-->
-    <!--<target name="-pre-compile" depends="jjj.build"/>-->
+    <target name="-pre-compile" depends="jjj.build"/>
     <!--<target name="-post-clean" depends="jjj.clean"/>-->
     
     <!--Remove JJJ files-->
@@ -26,10 +26,10 @@
         <jjj-java srcDir="${basedir}/src/java" destDir="${basedir}/src/java"/>
         <jjj-js srcDir="${basedir}/src/java" destDir="${basedir}/src/web/js" package="nerveserver" json="false">
             <classpath>
-                <pathelement path="D:/Dropbox/projects-new/lib/jars/antlr-4.7.1-complete.jar"/>
-                <pathelement path="D:/Dropbox/projects-new/lib/custom/NERScriber-0.9.0.jar"/>
-                <pathelement path="D:/Dropbox/projects-new/lib/custom/DocNav-0.8.9.jar"/>
-                <pathelement path="D:/Dropbox/projects-new/lib/custom/JJJSQL-1.1.3.jar"/>
+                <pathelement path="../lib/antlr-4.7.1-complete.jar"/>
+                <pathelement path="../lib/NERScriber-0.9.0.jar"/>
+                <pathelement path="../lib/DocNav-0.9.0.jar"/>
+                <pathelement path="../lib/JJJSQL-1.1.3.jar"/>
             </classpath>
         </jjj-js>
     </target>

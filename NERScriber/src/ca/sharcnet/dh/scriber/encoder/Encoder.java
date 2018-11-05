@@ -5,7 +5,7 @@ import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.TagInfo;
 import ca.sharcnet.dh.scriber.ProgressStage;
 import ca.sharcnet.dh.scriber.ProgressPacket;
-import ca.sharcnet.dh.scriber.ProgressListener;
+import ca.sharcnet.dh.progress.ProgressListener;
 import ca.frar.utility.SQL.SQL;
 import ca.frar.utility.SQL.SQLRecord;
 import ca.frar.utility.SQL.SQLResult;
@@ -61,13 +61,12 @@ public class Encoder extends ProgressListenerList {
 
         ProgressPacket progressPacket = new ProgressPacket();
         progressPacket.message("Encoding Document").stage(ProgressStage.START);
-        if (listener != null) listener.notifyProgress(progressPacket);
+        if (listener != null) listener.start("Encoding Document");
 
         /* connect to SQL */
         SQL sql = null;
         if (options.hasProcess(EncodeProcess.DICTIONARY)){
-            progressPacket.message("Connecting to SQL database").stage(ProgressStage.CONTINUE);
-            if (listener != null) listener.notifyProgress(progressPacket);
+            if (listener != null) listener.updateMessage("Connecting to SQL database");
             Properties config = new Properties();
             InputStream cfgStream = hasStreams.getResourceStream("config.txt");
             config.load(cfgStream);
@@ -77,8 +76,7 @@ public class Encoder extends ProgressListenerList {
         /* build classifier */
         Classifier classifier = null;
         if (options.hasProcess(EncodeProcess.NER)){
-            progressPacket.message("Building Classifier").stage(ProgressStage.CONTINUE);
-            if (listener != null) listener.notifyProgress(progressPacket);
+            if (listener != null) listener.updateMessage("Building Classifier");
             InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
             BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
             classifier = new Classifier(bis);
@@ -86,12 +84,11 @@ public class Encoder extends ProgressListenerList {
         }
 
         /* retrieve the schema url to set the context */
-        progressPacket.message("Determining Context").stage(ProgressStage.CONTINUE);
         Context context = null;
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaURL = model.attr(SCHEMA_NODE_ATTR);
 
-        if (listener != null) listener.notifyProgress(progressPacket);
+        if (listener != null) listener.updateMessage("Determining Context");
 
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
         int index = schemaAttrValue.lastIndexOf('/');
@@ -127,8 +124,7 @@ public class Encoder extends ProgressListenerList {
         EncodedDocument encoded = encoder.encode();
         encoded.setSchema(schemaURL);
 
-        progressPacket.message("").stage(ProgressStage.COMPLETE);
-        listener.notifyProgress(progressPacket);
+        if (listener != null) listener.end();
         return encoded;
     }
 
@@ -153,20 +149,17 @@ public class Encoder extends ProgressListenerList {
         for (EncodeProcess process : options.getProcesses()) {
             switch (process) {
                 case NER:
-                    progressPacket.message("Processing NER").stage(ProgressStage.CONTINUE);
-                    this.forEach(lst -> lst.notifyProgress(progressPacket));
+                    this.forEach(lst -> lst.updateMessage("Processing NER"));
                     processNER(document);
                     break;
                 case DICTIONARY:
-                    progressPacket.message("Linking Entities").stage(ProgressStage.CONTINUE);
-                    this.forEach(lst -> lst.notifyProgress(progressPacket));
+                    this.forEach(lst -> lst.updateMessage("Linking Entities"));
                     lookupTag();
                     break;
             }
         }
 
-        progressPacket.message("Converting Tags").stage(ProgressStage.CONTINUE);
-        this.forEach(lst -> lst.notifyProgress(progressPacket));
+        this.forEach(lst -> lst.updateMessage("Converting Tags"));
         wrapNode(document);
 
         /* put the context name into the schema(xml-model) node, or the context node */
@@ -234,12 +227,13 @@ public class Encoder extends ProgressListenerList {
     private void lookupTag(Document doc, StringMatch knownEntities) throws SQLException {
         Query textNodes = doc.query(NodeType.TEXT);
 
-        int n = 0;
-        int N = textNodes.size();
+        double n = 0;
+        double N = textNodes.size();
 
-        for (Node node : textNodes) {
+        for (Node node : textNodes) {            
             if (context.isTagName(node.getParent().name())) lookupTaggedNode(node.getParent());
             else lookupTag((TextNode) node, knownEntities);
+            for (ProgressListener lst : this) lst.updateProgress((int)(++n / N * 100));
         }
     }
 

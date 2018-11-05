@@ -2,7 +2,7 @@ package ca.sharcnet.dh.scriber.decode;
 import ca.sharcnet.dh.scriber.Constants;
 import static ca.sharcnet.dh.scriber.Constants.*;
 import ca.sharcnet.dh.scriber.HasStreams;
-import ca.sharcnet.dh.scriber.ProgressListener;
+import ca.sharcnet.dh.progress.ProgressListener;
 import ca.sharcnet.dh.scriber.ProgressPacket;
 import ca.sharcnet.dh.scriber.ProgressStage;
 import ca.sharcnet.dh.scriber.context.Context;
@@ -47,10 +47,8 @@ public class Decoder {
      */
     public static Document decode(Document document, HasStreams hasStreams, ProgressListener listener) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
         ProgressPacket progressPacket = new ProgressPacket();
-        progressPacket.message("Decoding Document").stage(ProgressStage.START);
-        if (listener != null) {
-            listener.notifyProgress(progressPacket);
-        }
+        if (listener != null) listener.start("Decoding Document");
+
 
         Query selected = document.queryf("[%s]", CONTEXT_ATTRIBUTE);
         if (selected.isEmpty()) {
@@ -73,10 +71,7 @@ public class Decoder {
         Document decoded = new Decoder().decode(document, context, (Invocable) engine);
 
         progressPacket.message("").stage(ProgressStage.COMPLETE);
-        if (listener != null) {
-            listener.notifyProgress(progressPacket);
-        }
-
+        if (listener != null) listener.end();
         return decoded;
     }
 

@@ -1,7 +1,7 @@
-/* generated 2018/09/24 14:50:52 */
+/* generated 2018/11/05 15:19:34 */
 package ca.sharcnet.dh.nerve;
 @ca.frar.jjjrmi.annotations.JJJ("ProgressMonitor")
-@ca.frar.jjjrmi.annotations.JJJOptions(jsExtends = "require('Nidget/src/AbstractModel')")
+@ca.frar.jjjrmi.annotations.JJJOptions(jsExtends = "require('@thaerious/nidget').AbstractModel")
 @ca.frar.jjjrmi.annotations.Generated
 public class ProgressMonitor extends ca.sharcnet.dh.nerve.AProgressMonitor implements ca.frar.jjjrmi.translator.HasWebsockets {
     @ca.frar.jjjrmi.annotations.NativeJS
@@ -28,11 +28,35 @@ public class ProgressMonitor extends ca.sharcnet.dh.nerve.AProgressMonitor imple
         getWebsockets().forEach(s->s.forget(this));
     }
 
-    public void notifyProgress(ca.sharcnet.dh.scriber.ProgressPacket pp) {
-        super.notifyProgress(pp);
-        Object[] args = {pp};
+    public void end() {
+        super.end();
+        Object[] args = {};
         for (ca.frar.jjjrmi.socket.InvokesMethods invokes : this.getWebsockets()){
-        	invokes.invokeClientMethod(this, "notifyProgress", args);
+        	invokes.invokeClientMethod(this, "end", args);
+        };
+    }
+
+    public void start(java.lang.String message) {
+        super.start(message);
+        Object[] args = {message};
+        for (ca.frar.jjjrmi.socket.InvokesMethods invokes : this.getWebsockets()){
+        	invokes.invokeClientMethod(this, "start", args);
+        };
+    }
+
+    public void updateMessage(java.lang.String message) {
+        super.updateMessage(message);
+        Object[] args = {message};
+        for (ca.frar.jjjrmi.socket.InvokesMethods invokes : this.getWebsockets()){
+        	invokes.invokeClientMethod(this, "updateMessage", args);
+        };
+    }
+
+    public void updateProgress(int i) {
+        super.updateProgress(i);
+        Object[] args = {i};
+        for (ca.frar.jjjrmi.socket.InvokesMethods invokes : this.getWebsockets()){
+        	invokes.invokeClientMethod(this, "updateProgress", args);
         };
     }
 }

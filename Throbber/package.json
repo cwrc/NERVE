@@ -1,5 +1,5 @@
 {
-    "name": "Throbber",
+    "name": "@thaerious/throbber",
     "version": "0.0.0",
     "keywords": [
         "util",
@@ -11,19 +11,21 @@
     "author": "edward",
     "contributors": [],
     "dependencies": {
-        "asset-assistant": "D:/Dropbox/projects-new/trunk/asset-assistant",
-        "jquery": ""
+        "@thaerious/nidget": "file:../Nidget",
+        "jquery": "",
+        "nerscriber": "file:../NERScriber"
     },
     "scripts": {
-        "build": "npm run build-js && npm run assets",
+        "build": "npm run build-js && npm run build-css && npm run assets",
+        "build-css": "sass src/scss/custom.scss public_html/compiled.css",
+        "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
-        "assets": "assets -v src",
         "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
+        "assets": "assets -v src",
         "clean": "clean -e"
     },
     "assets": {
         "src": [
-            "src/styles/**/*",
             "src/assets/**/*"
         ],
         "dest": "public_html"
