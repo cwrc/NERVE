@@ -12,7 +12,8 @@
         }
     },
     "View" : {
-        "Tag Mode" : {},
+        "XML Mode" : {},
+        "Entity Mode" : {},
         "Clear Selection" : {
             "shortcut": {"text": "esc", "key": "escape", "ctrl": false}
         }

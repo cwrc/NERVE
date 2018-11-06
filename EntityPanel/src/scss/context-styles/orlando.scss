@@ -1,152 +1,154 @@
-.orlando div[xmltagname="EVENTS"] {
-    font-family : Georgia, serif;
-    line-height : 1.5;
-    color : #333;
-    margin : 10px 25px;
-}
-.orlando div[xmltagname="ORLANDOHEADER"] {
-    font-size : 16px;
-    display : block;
-    background : #EEE;
-    margin-bottom: 1.5em;
-    padding: .5em;
-}
-.orlando div[xmltagname="FILEDESC"] {
-    background-color : #FFF;
-    color : gray;
-}
-.orlando div[xmltagname="DOCTITLE"] {
-    font-weight : normal;
-    color : black;
-    color:gray;
-    font-weight:bold;
-}
-.orlando div[xmltagname="DOCAUTHOR"],
-.orlando div[xmltagname="DOCEDITOR"],
-.orlando div[xmltagname="DOCEXTENT"],
-.orlando div[xmltagname="PUBLICATIONSTMT"],
-.orlando div[xmltagname="TITLESTMT"],
-.orlando div[xmltagname="PUBPLACE"] {
-    display : block;
-}
-.orlando div[xmltagname="RESPONSIBILITY"] {
-    font-family : Verdana, Geneva, sans-serif;
-    font-size : small;
-    background-color : #F0EDFC;
-    display : list-item;
-}
-.orlando div[xmltagname="EMPH"] {
-    font-style : italic;
-}
-.orlando div[xmltagname="FOREIGN"] {
-    font-style : italic;
-}
-.orlando div[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
-.orlando div[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
-    font-style : italic;
-    color : #336699;
-}
-.orlando div[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
-    font-style : normal;
-    color : #336699;
-}
-.orlando div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
-.orlando div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
-    font-style : normal;
-    color : #336699;
-}
-.orlando div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
-.orlando div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
-    content : open-quote;
-}
-.orlando div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
-.orlando div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
-    content : close-quote;
-}
-.orlando div[xmltagname="ADDRLINE"] {
-    display : list-item;
-}
-.orlando div[xmltagname="IDNO"] {
-    display : list-item;
-}
-.orlando div[xmltagname="P"] {
-    word-wrap: normal;
-    white-space: pre-line;
-    display : block;
-    margin-bottom: 15px;
-}
-.orlando div[xmltagname="RESEARCHNOTE"] {
-    background-color : #FBEFEF;
-    color : #663366;
-    font-family : Arial, Helvetica, sans-serif;
-    font-size : smaller;
-    display : list-item;
-}
-.orlando div[xmltagname="HEADING"]{
-    display : list-item;
-    font-weight : bold;
-    font-size : x-large;
-    color : #039;
-    margin : 25px 0 0 0;
-}
-.orlando div[xmltagname="DIV1"] {
-    margin : 20px 0 0 0;
-}
+#entityPanel.orlando[data-mode="entity"]{
+    div[xmltagname="EVENTS"] {
+        font-family : Georgia, serif;
+        line-height : 1.5;
+        color : #333;
+        margin : 10px 25px;
+    }
+    div[xmltagname="ORLANDOHEADER"] {
+        font-size : 16px;
+        display : block;
+        background : #EEE;
+        margin-bottom: 1.5em;
+        padding: .5em;
+    }
+    div[xmltagname="FILEDESC"] {
+        background-color : #FFF;
+        color : gray;
+    }
+    div[xmltagname="DOCTITLE"] {
+        font-weight : normal;
+        color : black;
+        color:gray;
+        font-weight:bold;
+    }
+    div[xmltagname="DOCAUTHOR"],
+    div[xmltagname="DOCEDITOR"],
+    div[xmltagname="DOCEXTENT"],
+    div[xmltagname="PUBLICATIONSTMT"],
+    div[xmltagname="TITLESTMT"],
+    div[xmltagname="PUBPLACE"] {
+        display : block;
+    }
+    div[xmltagname="RESPONSIBILITY"] {
+        font-family : Verdana, Geneva, sans-serif;
+        font-size : small;
+        background-color : #F0EDFC;
+        display : list-item;
+    }
+    div[xmltagname="EMPH"] {
+        font-style : italic;
+    }
+    div[xmltagname="FOREIGN"] {
+        font-style : italic;
+    }
+    div[xmltagname="TITLE"][TITLETYPE = "MONOGRAPHIC"],
+    div[xmltagname="TITLE"][TITLETYPE = "JOURNAL"] {
+        font-style : italic;
+        color : #336699;
+    }
+    div[xmltagname="TITLE"][TITLETYPE = "SERIES"] {
+        font-style : normal;
+        color : #336699;
+    }
+    div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"],
+    div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"] {
+        font-style : normal;
+        color : #336699;
+    }
+    div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:before,
+        div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:before {
+        content : open-quote;
+    }
+    div[xmltagname="TITLE"][TITLETYPE = "ANALYTIC"]:after,
+        div[xmltagname="TITLE"][TITLETYPE = "UNPUBLISHED"]:after {
+        content : close-quote;
+    }
+    div[xmltagname="ADDRLINE"] {
+        display : list-item;
+    }
+    div[xmltagname="IDNO"] {
+        display : list-item;
+    }
+    div[xmltagname="P"] {
+        word-wrap: normal;
+        white-space: pre-line;
+        display : block;
+        margin-bottom: 15px;
+    }
+    div[xmltagname="RESEARCHNOTE"] {
+        background-color : #FBEFEF;
+        color : #663366;
+        font-family : Arial, Helvetica, sans-serif;
+        font-size : smaller;
+        display : list-item;
+    }
+    div[xmltagname="HEADING"]{
+        display : list-item;
+        font-weight : bold;
+        font-size : x-large;
+        color : #039;
+        margin : 25px 0 0 0;
+    }
+    div[xmltagname="DIV1"] {
+        margin : 20px 0 0 0;
+    }
 
-.orlando div[xmltagname="CHRONEVENT"] {
-    display : block;
-    margin : 15px 0;
-}
-.orlando div[xmltagname="CHRONSTRUCT"] .orlando div[xmltagname="DATE"] {
-    font-weight : bold;
-}
-.orlando div[xmltagname="CHRONSTRUCT"] .orlando div[xmltagname="DATE"]:after {
-    content : ": ";
-}
+    div[xmltagname="CHRONEVENT"] {
+        display : block;
+        margin : 15px 0;
+    }
+    div[xmltagname="CHRONSTRUCT"] div[xmltagname="DATE"] {
+        font-weight : bold;
+    }
+    div[xmltagname="CHRONSTRUCT"] div[xmltagname="DATE"]:after {
+        content : ": ";
+    }
 
-.orlando div[xmltagname="SHORTPROSE"] .orlando div[xmltagname="P"] {
-    padding-left : 4em;
-    margin : 10px 0 0 0;
-}
+    div[xmltagname="SHORTPROSE"] div[xmltagname="P"] {
+        padding-left : 4em;
+        margin : 10px 0 0 0;
+    }
 
-.orlando div[xmltagname="BIBCIT"]:before {
-    content : "(";
-}
-.orlando div[xmltagname="BIBCIT"]:after {
-    content : ")";
-}
-.orlando div[xmltagname="SCHOLARNOTE"] .orlando div[xmltagname="P"] {
-    background-color : #E0E0F8;
-}
+    div[xmltagname="BIBCIT"]:before {
+        content : "(";
+    }
+    div[xmltagname="BIBCIT"]:after {
+        content : ")";
+    }
+    div[xmltagname="SCHOLARNOTE"] div[xmltagname="P"] {
+        background-color : #E0E0F8;
+    }
 
-.orlando div[xmltagname="TOPIC"],
-.orlando div[xmltagname="AREA"],
-.orlando div[xmltagname="NAME"],
-.orlando div[xmltagname="ORGNAME"] {
-    color : #336699;
-}
+    div[xmltagname="TOPIC"],
+    div[xmltagname="AREA"],
+    div[xmltagname="NAME"],
+    div[xmltagname="ORGNAME"] {
+        color : #336699;
+    }
 
-.orlando div[xmltagname="TOPIC"],
-.orlando div[xmltagname="AREA"] {
-    font-weight : bold;
-    font-weight : bold;
-}
+    div[xmltagname="TOPIC"],
+    div[xmltagname="AREA"] {
+        font-weight : bold;
+        font-weight : bold;
+    }
 
-.orlando div[xmltagname="QUOTE"]:before {
-    content : open-quote;
-}
-.orlando div[xmltagname="QUOTE"]:after {
-    content : close-quote;
-}
-.orlando div[xmltagname="QUOTE"][DIRECT = "N"]:before {
-    content : "'";
-}
-.orlando div[xmltagname="QUOTE"][DIRECT = "N"]:after {
-    content : "'";
-}
-.orlando div[xmltagname="SOCALLED"]:before {
-    content : "'";
-}
-.orlando div[xmltagname="SOCALLED"]:after {
-    content : "'";
+    div[xmltagname="QUOTE"]:before {
+        content : open-quote;
+    }
+    div[xmltagname="QUOTE"]:after {
+        content : close-quote;
+    }
+    div[xmltagname="QUOTE"][DIRECT = "N"]:before {
+        content : "'";
+    }
+    div[xmltagname="QUOTE"][DIRECT = "N"]:after {
+        content : "'";
+    }
+    div[xmltagname="SOCALLED"]:before {
+        content : "'";
+    }
+    div[xmltagname="SOCALLED"]:after {
+        content : "'";
+    }
 }

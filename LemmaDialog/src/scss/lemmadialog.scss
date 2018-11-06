@@ -119,7 +119,12 @@
 }
 
 .lemma_widget_text{    
-    position: absolute;
+    position: relative;
     height: 1em;
     left: 37px;
+    white-space: nowrap; 
+    overflow: hidden;    
+    text-overflow: ellipsis;
+    line-height: normal;
+    top: 3px;
 }

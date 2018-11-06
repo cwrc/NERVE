@@ -1,5 +1,3 @@
-
-
 class EntityPanelLemmaDialogListener{
     
     constructor(entityPanel, lemmaDialog){
@@ -11,6 +9,8 @@ class EntityPanelLemmaDialogListener{
         
         entityPanel.addListener(this);
         lemmaDialog.addListener(this);
+        
+        this.lastLemmaClick = {tag: "", lemma: "", array: [], n: 0};
     }
     
     /**
@@ -49,20 +49,27 @@ class EntityPanelLemmaDialogListener{
     }
     
     /**
-     * Event received from LemmaDialog
+     * Event received from LemmaDialog when lemma widget is clicked.
      * @param {type} lemmaDialogWidget
      * @param {type} tag
      * @param {type} lemma
      * @returns {undefined}
      */
     notifyClickLemmaWidget(lemmaDialogWidget, tag, lemma){
-        this.entityPanel.emptyCollection();
-        this.entityPanel.selectByLemmaTag(lemma, tag);
-        let taggedEntityWidgets = lemmaDialogWidget.getObjects(tag, lemma);
-        this.entityPanel.scrollTo(taggedEntityWidgets[0]);
+        if (this.lastLemmaClick.tag === tag && this.lastLemmaClick.lemma === lemma){
+            this.lastLemmaClick.n = this.lastLemmaClick.n + 1;
+            if (this.lastLemmaClick.n >= this.lastLemmaClick.array.length){
+                this.lastLemmaClick.n = 0;
+            }
+        } else {
+            this.entityPanel.emptyCollection();
+            this.entityPanel.selectByLemmaTag(lemma, tag);
+            let taggedEntityWidgets = lemmaDialogWidget.getObjects(tag, lemma);
+            this.lastLemmaClick = {tag: tag, lemma: lemma, array: taggedEntityWidgets, n: 0};            
+        }
         
-        console.log(taggedEntityWidgets);
-        window.widgets = taggedEntityWidgets;
+        let nextWidget = this.lastLemmaClick.array[this.lastLemmaClick.n];
+        this.entityPanel.scrollTo(nextWidget);
     }
     
     /**

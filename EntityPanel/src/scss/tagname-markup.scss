@@ -15,19 +15,11 @@
     display: inline-block;
 }
 
-.linked > .tagname-markup{
-    color: green;
-}
-
-.unlinked > .tagname-markup{
-    color: orangered;
-}
-
 .taggedentity.selected .tagname-markup, .taggedentity:hover .tagname-markup{
-    display: inline-block;
+    display: inline-block;    
 }
 
-.tagname-markup{
+#entityPanel[data-mode="entity"] .tagname-markup{
     position: absolute;
     display: inline-block;
     color: red;
@@ -35,6 +27,60 @@
     left: 1px;
     font-size: 10px;
     font-variant: small-caps;
+}
+
+#entityPanel[data-mode="tag"]{
+    white-space: pre;
+    
+    .tagname-markup{
+        display: none;
+    }
+        
+    .taggedentity::before{
+        content: "<" attr(xmltagname) " lemma='" attr(data-lemma) "' link='" attr(data-link) "'>";
+        color: #000077;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .taggedentity::after{
+        content: "</" attr(xmltagname) ">";
+        color: #000077;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .taggedentity{
+        color: #202020;
+    }    
+    
+    .taggedentity.selected, .taggedentity:hover{
+        background-color:  rgba(255, 255, 0, 0.4);   
+        cursor: pointer;
+    }    
+ 
+    .taggedentity.selected:hover{
+        background-color:  rgba(255, 255, 0, 1.0);   
+        cursor: pointer;
+    }    
+    
+    .xmltag::before{
+        content: "<" attr(xmltagname) ">";
+        color: #000000;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .xmltag::after{
+        content: "</" attr(xmltagname) ">";
+        color: #000000;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .xmltag{
+        color: #202020;
+    }
 }
 
 @mixin tag-toggle-on($tag, $colorNormal){
@@ -56,19 +102,19 @@
     }
 }
 
-#entityPanel:not([data-hide-location='true']){
+#entityPanel[data-mode="entity"]:not([data-hide-location='true']){
     @include tag-toggle-on(LOCATION, rgba(200, 200, 255, 0.75));
 }
 
-#entityPanel:not([data-hide-person='true']){
+#entityPanel[data-mode="entity"]:not([data-hide-person='true']){
     @include tag-toggle-on(PERSON, rgba(200, 255, 200, 0.9));
 }
 
-#entityPanel:not([data-hide-organization='true']){
+#entityPanel[data-mode="entity"]:not([data-hide-organization='true']){
     @include tag-toggle-on(ORGANIZATION, rgba(200, 200, 255, 0.75));
 }
 
-#entityPanel:not([data-hide-title='true']){
+#entityPanel[data-mode="entity"]:not([data-hide-title='true']){
     @include tag-toggle-on(TITLE, rgba(200, 200, 255, 0.75));
 }
 

@@ -99,9 +99,16 @@ class Main extends AbstractModel {
         this.menu.getMenuItem("File", "Save").disabled(false);        
     }
 
+    async onMenuXMLMode(){
+        this.entityPanel.setAttribute("data-mode", "tag");
+    }
+    
+    async onMenuEntityMode(){
+        this.entityPanel.setAttribute("data-mode", "entity");
+    }
+
     async onMenuSave(){
         let document = this.entityPanel.getDocument();
-        console.log(document);
         let decoded = await this.scriber.decode(document);
         FileOperations.saveToFile(decoded, localStorage.filename);
     }

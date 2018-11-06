@@ -106,7 +106,7 @@ class EntityPanelListener {
 class EntityPanelWidget extends Widget {
 
     constructor(target, dictionary) {
-        super(`<div id="entityPanel" class="format-default"></div>`);
+        super(`<div id="entityPanel" class="format-default" data-mode="tag"></div>`);
         $(target).append(this.$);
 
         this.taggedEntityFactory = new TaggedEntityFactory(this);
