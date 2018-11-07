@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.docnav.schema.relaxng;
+import ca.frar.utility.console.Console;
 import ca.sharcnet.docnav.StartNodeException;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.dom.Document;
@@ -34,6 +35,8 @@ public final class RelaxNGSchema extends Document implements Schema {
     public boolean isValid(Node element, String childNodeName) {
         NodeList branch = element.branch(NodeType.ELEMENT);
         LinkedList<String> path = new LinkedList<>();
+        
+        /* Convert node list to string list */
         branch.forEach(node -> path.addFirst(node.name()));
         if (!childNodeName.isEmpty()) path.addLast(childNodeName);
         return checkValidity(path, this.start);
@@ -52,7 +55,12 @@ public final class RelaxNGSchema extends Document implements Schema {
     private boolean checkValidity(LinkedList<String> path, Node schemaNode) {
         if (schemaNode == null) throw new NullPointerException();
         
+        Console.log("<" + schemaNode.name() + "> " + path.getFirst());
+        Console.log(path);
+        
         switch (schemaNode.name()) {
+            case "any":
+                return checkAny(path, schemaNode);
             case "element":
                 return checkElement(path, schemaNode);
             case "ref":
@@ -72,7 +80,29 @@ public final class RelaxNGSchema extends Document implements Schema {
                 return false;
         }
     }
+    
+    /**
+     * Accept any head node and continue with child nodes.
+     * @param path
+     * @param schemaNode
+     * @return 
+     */
+    private boolean checkAny(LinkedList<String> path, Node schemaNode){
+        String head = path.removeFirst();        
+        if (path.isEmpty()) return true;
 
+        Console.log("-- in check any --");
+        Console.log(schemaNode.childNodes(NodeType.ELEMENT));
+        Console.log(path);
+        Console.log("-- end check any --");
+        
+        for (Node child : schemaNode.childNodes(NodeType.ELEMENT)) {
+            if (checkValidity(path, child)) return true;
+        }
+        path.addFirst(head);
+        return false;
+    }
+    
     private boolean checkElement(LinkedList<String> path, Node schemaNode) {
         if (!schemaNode.attr("name").equals(path.getFirst())) return false;
 

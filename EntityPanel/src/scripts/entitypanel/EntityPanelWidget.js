@@ -106,7 +106,7 @@ class EntityPanelListener {
 class EntityPanelWidget extends Widget {
 
     constructor(target, dictionary) {
-        super(`<div id="entityPanel" class="format-default" data-mode="tag"></div>`);
+        super(`<div id="entityPanel" class="format-default" data-mode="entity"></div>`);
         $(target).append(this.$);
 
         this.taggedEntityFactory = new TaggedEntityFactory(this);
@@ -156,6 +156,22 @@ class EntityPanelWidget extends Widget {
                 this.taggedEntityContextMenu.show(event, this.selectedEntities);
             }
         });
+        
+        /* check for local storage */
+        if (localStorage.entityPanel !== undefined){
+            this.localStorage = JSON.parse(localStorage.entityPanel);            
+        }
+        else {
+            this.localStorage = {mode : "entity"};
+            localStorage.entityPanel = JSON.stringify(this.localStorage);
+        }        
+        this.setAttribute("data-mode", this.localStorage.mode);
+    }
+
+    setMode(mode){
+        this.setAttribute("data-mode", mode);
+        this.localStorage.mode = mode;
+        localStorage.entityPanel = JSON.stringify(this.localStorage);
     }
 
     async load(){

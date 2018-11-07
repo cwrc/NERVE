@@ -100,11 +100,11 @@ class Main extends AbstractModel {
     }
 
     async onMenuXMLMode(){
-        this.entityPanel.setAttribute("data-mode", "tag");
+        this.entityPanel.setMode("tag");
     }
     
     async onMenuEntityMode(){
-        this.entityPanel.setAttribute("data-mode", "entity");
+        this.entityPanel.setMode("entity");
     }
 
     async onMenuSave(){

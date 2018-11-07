@@ -44,7 +44,7 @@
             <url>src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</url>
             <bookmark id="5">
                 <name/>
-                <line>96</line>
+                <line>126</line>
                 <key/>
             </bookmark>
         </file>
@@ -72,6 +72,12 @@
         <group name="NERVE3"/>
         <group name="Frontier Web App"/>
         <group name="NERVE"/>
-        <group/>
+        <group>
+            <file>file:/D:/project-local/trunk/nerve/DocumentNavigator/test/resources/multi.xml</file>
+            <file>file:/D:/project-local/trunk/nerve/DocumentNavigator/test/resources/schemas/default.rng</file>
+            <file>file:/D:/project-local/trunk/nerve/DocumentNavigator/test/ca/sharcnet/nerve/docnav/tests/TestSchemaRuleAll.java</file>
+            <file>file:/D:/project-local/trunk/nerve/DocumentNavigator/src/ca/sharcnet/nerve/docnav/schema/relaxng/RelaxNGSchema.java</file>
+            <file>file:/D:/project-local/trunk/nerve/DocumentNavigator/readme</file>
+        </group>
     </open-files>
 </project-private>

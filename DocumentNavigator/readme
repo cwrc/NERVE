@@ -1,2 +1,5 @@
 build with netbeans build task
  - copies jar files into shared library directory specified in shared.properties
+
+versions
+0.9.1 Added 'any' to relaxNGSchema

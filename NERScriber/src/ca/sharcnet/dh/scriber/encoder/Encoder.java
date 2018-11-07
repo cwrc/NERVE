@@ -94,6 +94,7 @@ public class Encoder extends ProgressListenerList {
         int index = schemaAttrValue.lastIndexOf('/');
         schemaAttrValue = schemaAttrValue.substring(index);
 
+        /* Choose the context based on the schema delcared in the xml document */
         switch (schemaAttrValue) {
             case "/orlando_biography_v2.rng":
                 context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/orlando.context.json"));
@@ -103,6 +104,9 @@ public class Encoder extends ProgressListenerList {
                 break;
             case "/cwrc_tei_lite.rng":
                 context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/tei.context.json"));
+                break;
+            default:
+                context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/default.json"));
                 break;
         }
         

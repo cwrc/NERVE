@@ -293,8 +293,8 @@ public abstract class Node implements Iterable<Node> {
     }
 
     /**
-    Retrieve a list of ancestor nodes that this node is decended from inclusive with this node.
-    @param types
+    Retrieve a list of ancestor nodes that this node is descended from this node, inclusive.
+    @param types A list of node types to include in the result.  A non-inclusive type will not terminate the traversal.
     @return
      */
     public NodeList branch(IsNodeType... types) {
@@ -315,8 +315,8 @@ public abstract class Node implements Iterable<Node> {
     }
 
     /**
-    Retrieve a list of child nodes that decend from this element, and also match 'types'.  If types is not included
-    retrieve all decendent nodes.
+    Retrieve a list of child nodes that descend from this element, and also match 'types'.  If types is not included
+    retrieve all descendent nodes.
     @param types
     @return
      */

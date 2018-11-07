@@ -28,8 +28,6 @@
         "Merge Entities" : {
             "shortcut": {"key": "M"}
         },
-        "Copy" : {},
-        "Paste" : {},
         "Undo" : {
             "shortcut": {"key": "Z"}
         },

@@ -6,6 +6,7 @@ public interface Schema {
     /**
     Return true if this element, with the child node, does not violate the schema.
     @param element
+    @param childNodeName
     @return
      */
     boolean isValid(Node element, String childNodeName);
