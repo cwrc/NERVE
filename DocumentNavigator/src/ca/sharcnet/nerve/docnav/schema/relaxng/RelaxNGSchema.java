@@ -90,11 +90,6 @@ public final class RelaxNGSchema extends Document implements Schema {
     private boolean checkAny(LinkedList<String> path, Node schemaNode){
         String head = path.removeFirst();        
         if (path.isEmpty()) return true;
-
-        Console.log("-- in check any --");
-        Console.log(schemaNode.childNodes(NodeType.ELEMENT));
-        Console.log(path);
-        Console.log("-- end check any --");
         
         for (Node child : schemaNode.childNodes(NodeType.ELEMENT)) {
             if (checkValidity(path, child)) return true;

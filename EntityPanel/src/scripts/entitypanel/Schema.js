@@ -32,6 +32,8 @@ class Schema {
     }
     checkValidity(path, schemaNode) {
         switch ($(schemaNode).prop("tagName")) {
+            case "any":
+                return this.checkAny(path, schemaNode);
             case "element":
                 return this.checkElement(path, schemaNode);
             case "ref":
@@ -51,6 +53,19 @@ class Schema {
                 return false;
         }
     }
+    
+    checkAny(path, schemaNode) {
+        let head = path.shift();
+        if (path.length === 0) return true;
+
+        for (let child of $(schemaNode).children()) {
+            if (this.checkValidity(path, child)) return true;
+        }
+
+        path.unshift(head);
+        return false;        
+    }
+    
     checkElement(path, schemaNode) {
         if ($(schemaNode).attr("name") !== path[0]) return false;
 

@@ -91,8 +91,11 @@ public class Encoder extends ProgressListenerList {
         if (listener != null) listener.updateMessage("Determining Context");
 
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
-        int index = schemaAttrValue.lastIndexOf('/');
-        schemaAttrValue = schemaAttrValue.substring(index);
+        
+        if (!schemaAttrValue.isEmpty()){
+            int index = schemaAttrValue.lastIndexOf('/');
+            schemaAttrValue = schemaAttrValue.substring(index);
+        }
 
         /* Choose the context based on the schema delcared in the xml document */
         switch (schemaAttrValue) {
@@ -106,7 +109,7 @@ public class Encoder extends ProgressListenerList {
                 context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/tei.context.json"));
                 break;
             default:
-                context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/default.json"));
+                context = ContextLoader.load(hasStreams.getResourceStream(CONTEXT_PATH + "/default.context.json"));
                 break;
         }
         
@@ -168,7 +171,10 @@ public class Encoder extends ProgressListenerList {
 
         /* put the context name into the schema(xml-model) node, or the context node */
         Query query = document.queryf("[%1$s='%2$s'], [%1$s='%3$s']", ORG_TAGNAME, SCHEMA_NODE_NAME, CONTEXT_NODE_NAME);
-        query.first().attr(CONTEXT_ATTRIBUTE, context.getName());
+        
+        if (!query.isEmpty()){
+            query.first().attr(CONTEXT_ATTRIBUTE, context.getName());
+        }
 
         return document;
     }
