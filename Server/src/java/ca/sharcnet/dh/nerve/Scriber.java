@@ -73,10 +73,10 @@ public class Scriber extends JJJObject implements HasStreams {
     }
 
     @ServerSide
-    public String decode(String source) throws IOException, IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
+    public String decode(String source, String contextName) throws IOException, IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
         Console.log(source);
         Document document = DocumentLoader.documentFromString("<doc>" + source + "</doc>");
-        Document decoded = Decoder.decode(document, ScriberResource.getInstance(), progressListener);
+        Document decoded = Decoder.decode(document, contextName, ScriberResource.getInstance(), progressListener);
         decoded.query("doc").extract();
         return decoded.toString();        
     }

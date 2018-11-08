@@ -34,6 +34,7 @@ public class Decoder {
      * Decode a document using a 'HasStreams' object to load the context.
      *
      * @param document An encoded document.
+     * @param contextName
      * @param hasStreams Class from which streams will be read.
      * @param listener Class to which output messages will be sent.
      * @return
@@ -45,17 +46,11 @@ public class Decoder {
      * @throws SQLException
      * @throws ParserConfigurationException
      */
-    public static Document decode(Document document, HasStreams hasStreams, ProgressListener listener) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
+    public static Document decode(Document document, String contextName, HasStreams hasStreams, ProgressListener listener) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
         ProgressPacket progressPacket = new ProgressPacket();
         if (listener != null) listener.start("Decoding Document");
-
-
-        Query selected = document.queryf("[%s]", CONTEXT_ATTRIBUTE);
-        if (selected.isEmpty()) {
-            throw new RuntimeException("Context element not found.");
-        }
-        
-        String contextPath = String.format("%s/%s.context.json", CONTEXT_PATH, selected.attr(CONTEXT_ATTRIBUTE).toLowerCase());
+                
+        String contextPath = String.format("%s/%s.context.json", CONTEXT_PATH, contextName.toLowerCase());
         Context context = ContextLoader.load(hasStreams.getResourceStream(contextPath));
 
         ScriptEngine engine = null;
@@ -75,8 +70,8 @@ public class Decoder {
         return decoded;
     }
 
-    public static Document decode(Document document, HasStreams hasStreams) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
-        return decode(document, hasStreams, null);
+    public static Document decode(Document document, String contextName, HasStreams hasStreams) throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException {
+        return decode(document, contextName, hasStreams, null);
     }
 
     /**

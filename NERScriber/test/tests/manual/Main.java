@@ -38,7 +38,7 @@ public class Main implements HasStreams, ProgressListener {
     }
 
     public Document decode() throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
-        this.decoded = Decoder.decode(this.encoded, this, this);
+        this.decoded = Decoder.decode(this.encoded, this.encoded.getContext().getName(), this, this);
         return decoded;
     }
     

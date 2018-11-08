@@ -13,7 +13,7 @@ class Scriber {
 	static __isEnum() {
 		return false;
 	}
-	decode(source) {
+	decode(source, contextName) {
 		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
 	}
 	edit(source) {

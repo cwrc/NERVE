@@ -37,7 +37,6 @@ public class Encoder extends ProgressListenerList {
     private Schema schema = null;
     private EncodedDocument document = null;
     private EncodeOptions options;
-    private ProgressPacket progressPacket;
 
     /**
      * Encode a document. The hasStreams object must have the config.txt & classification file in root and contexts in /contexts. The options (EncodedOptions)
@@ -168,13 +167,6 @@ public class Encoder extends ProgressListenerList {
 
         this.forEach(lst -> lst.updateMessage("Converting Tags"));
         wrapNode(document);
-
-        /* put the context name into the schema(xml-model) node, or the context node */
-        Query query = document.queryf("[%1$s='%2$s'], [%1$s='%3$s']", ORG_TAGNAME, SCHEMA_NODE_NAME, CONTEXT_NODE_NAME);
-        
-        if (!query.isEmpty()){
-            query.first().attr(CONTEXT_ATTRIBUTE, context.getName());
-        }
 
         return document;
     }

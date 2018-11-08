@@ -45,6 +45,7 @@ class Main {
             } else {                
                 let result = await this.scriber.edit(this.document);
                 this.encoded = result.text;
+                this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
                 console.log("---- Encoded ----");
                 console.log(result);                
@@ -58,6 +59,7 @@ class Main {
             } else {                
                 let result = await this.scriber.tag(this.document);                
                 this.encoded = result.text;
+                this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
                 console.log("---- Encoded ----");
                 console.log(result);                
@@ -71,6 +73,7 @@ class Main {
             } else {                
                 let result = await this.scriber.link(this.document); 
                 this.encoded = result.text;
+                this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
                 console.log("---- Encoded ----");
                 console.log(result);                
@@ -84,6 +87,7 @@ class Main {
             } else {                
                 let result = await this.scriber.encode(this.document);
                 this.encoded = result.text;
+                this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
                 console.log("---- Encoded ----");
                 console.log(result);                
@@ -96,7 +100,7 @@ class Main {
                 window.alert("no document encoded");
             } else {                
                 console.log(this.encoded);
-                let result = await this.scriber.decode(this.encoded);                
+                let result = await this.scriber.decode(this.encoded, this.context.name);                
                 $("#filetext").text(result);
                 console.log("---- Decoded ----");
                 console.log(result);                

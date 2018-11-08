@@ -43,11 +43,6 @@ public class Constants {
     */
     public final static String DOCTYPE_INNERTEXT = "xmlinnertext";
 
-    /**
-    The name of the html attribute which contains the context name.
-    */
-    public final static String CONTEXT_ATTRIBUTE = "data-context";
-
     /*
     The name of the instruction node which will have the schema url.
     */
