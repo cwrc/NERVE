@@ -25,6 +25,7 @@ import ca.sharcnet.dh.scriber.encoder.exceptions.NullSchemaStreamException;
 import ca.sharcnet.dh.scriber.encoder.exceptions.UnknownSchemaException;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
@@ -113,10 +114,7 @@ public class Encoder extends ProgressListenerList {
         }
         
         if (context == null) throw new UnknownSchemaException(context, schemaAttrValue);
-        
-        Encoder encoder = new Encoder(document, context, sql, classifier, options);
-        
-        encoder.setProgressPacket(progressPacket);
+        Encoder encoder = new Encoder(document, context, sql, classifier, options);        
         if (listener != null) encoder.add(listener);
 
         String schemaFileName = context.getSchemaName();
@@ -147,10 +145,6 @@ public class Encoder extends ProgressListenerList {
         this.classifier = classifier;
     }
 
-    private void setProgressPacket(ProgressPacket progressPacket) {
-        this.progressPacket = progressPacket;
-    }
-
     private EncodedDocument encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         for (EncodeProcess process : options.getProcesses()) {
             switch (process) {
@@ -176,19 +170,26 @@ public class Encoder extends ProgressListenerList {
     }
 
     private String buildDictionaryQuery() throws SQLException {
-        Console.log("buildDictionaryQuery()");
-        SQLResult dictionaries = sql.query("select * from dictionaries");
-        StringBuilder builder = new StringBuilder();
-        int i = 0;
+        /* first check context for dictionary list */
+        List<String> dictList = this.context.getDictionaries();
 
-        for (SQLRecord sqlRecord : dictionaries) {
-            String dictionary = sqlRecord.getEntry("name").getValue();
-            if (i != 0) builder.append(" union ");
-            builder.append("select * from ");
-            builder.append(dictionary);
-            i++;
+        if (dictList.isEmpty()){
+            SQLResult dictionaries = sql.query("select * from dictionaries");
+            for (SQLRecord sqlRecord : dictionaries) {
+                dictList.add(sqlRecord.getEntry("name").getValue());
+            }
         }
 
+        StringBuilder builder = new StringBuilder();
+        if (dictList.isEmpty()) return "";
+        builder.append("select * from ");
+        builder.append(dictList.get(0));
+        
+        for (int i = 1; i < dictList.size(); i++){
+            builder.append(" union select * from ");
+            builder.append(dictList.get(i));            
+        }
+        
         String query = builder.toString();
         return query;
     }
@@ -216,8 +217,11 @@ public class Encoder extends ProgressListenerList {
 
     private void lookupTag() throws SQLException {
         StringMatch knownEntities = new StringMatch();
-        SQLResult sqlResult = sql.query(buildDictionaryQuery());
-
+        String dictionaryQuery = buildDictionaryQuery();            
+        if (dictionaryQuery.isEmpty()) return;        
+        
+        SQLResult sqlResult = sql.query(dictionaryQuery);
+        
         for (int i = 0; i < sqlResult.size(); i++) {
             SQLRecord row = sqlResult.get(i);
             knownEntities.addCandidate(row.getEntry("entity").getValue(), row);
@@ -232,7 +236,7 @@ public class Encoder extends ProgressListenerList {
         double n = 0;
         double N = textNodes.size();
 
-        for (Node node : textNodes) {            
+        for (Node node : textNodes) {
             if (context.isTagName(node.getParent().name())) lookupTaggedNode(node.getParent());
             else lookupTag((TextNode) node, knownEntities);
             for (ProgressListener lst : this) lst.updateProgress((int)(++n / N * 100));
@@ -275,7 +279,7 @@ public class Encoder extends ProgressListenerList {
             String schemaTag = tagInfo.getName();
             String linkAttribute = tagInfo.getLinkAttribute();
             String lemmaAttribute = tagInfo.getLemmaAttribute();
-
+            
             if (!schema.isValid(child.getParent(), schemaTag)) {
                 newNodes.add(new TextNode(string));
             } else {

@@ -21,13 +21,22 @@ import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class Main implements HasStreams, ProgressListener {
-    private final EncodeOptions encodeOptions;
-    private final Document doc;
-    private EncodedDocument encoded;
-    private Document decoded;
+    final EncodeOptions encodeOptions;
+    Document doc;
+    EncodedDocument encoded;
+    Document decoded;
+    
+    public Main(){
+        this.encodeOptions = new EncodeOptions();
+    }
     
     public Main(String filename) throws IOException{
         this.doc = DocumentLoader.documentFromStream(this.getFileStream(filename));
+        this.encodeOptions = new EncodeOptions();                
+    }
+
+    public Main(Document doc) throws IOException{
+        this.doc = doc;
         this.encodeOptions = new EncodeOptions();                
     }
     
@@ -41,6 +50,13 @@ public class Main implements HasStreams, ProgressListener {
         this.decoded = Decoder.decode(this.encoded, this.encoded.getContext().getName(), this, this);
         return decoded;
     }
+
+    public Document decodeFromText() throws IllegalArgumentException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, ScriptException, NoSuchMethodException{
+        Document doc = DocumentLoader.documentFromString(this.encoded.toString());
+        this.decoded = Decoder.decode(doc, this.encoded.getContext().getName(), this, this);
+        return decoded;
+    }
+
     
     @Override
     public final InputStream getResourceStream(String path) {

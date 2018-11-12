@@ -17,14 +17,21 @@ import java.util.HashMap;
 public final class RelaxNGSchema extends Document implements Schema {
     private final Node start;
     private final HashMap<String, Node> defines = new HashMap<>();
+    private final Document doc;
 
     public RelaxNGSchema(Document doc) {
         super(doc);
+        this.doc = doc;
         this.start = query("start").first();
         if (this.start == null) throw new StartNodeException(doc);
         this.query("define").forEach(node -> defines.put(node.attr("name"), node));
     }
 
+    @Override
+    public String toString(){
+        return this.doc.toString();
+    }
+    
     /**
     Return true if this element, with the child node, does not violate the schema.
     @param element
@@ -54,9 +61,6 @@ public final class RelaxNGSchema extends Document implements Schema {
 
     private boolean checkValidity(LinkedList<String> path, Node schemaNode) {
         if (schemaNode == null) throw new NullPointerException();
-        
-        Console.log("<" + schemaNode.name() + "> " + path.getFirst());
-        Console.log(path);
         
         switch (schemaNode.name()) {
             case "any":

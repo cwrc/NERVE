@@ -5,6 +5,7 @@ import ca.frar.jjjrmi.translator.DataObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -16,11 +17,12 @@ public class Context extends JJJObject implements Serializable, DataObject {
     private String style = "";
     private String sourceString = "";
     private ArrayList<TagInfo> tagList = new ArrayList<>();
+    private final JSONObject json;
 
     public Context(String jsonString) {
         this.sourceString = jsonString;
         JSONTokener jst = new JSONTokener(jsonString);
-        JSONObject json = new JSONObject(jst);
+        this.json = new JSONObject(jst);
         this.name = json.getString("name");
 
         if (!json.has("schemaName")) this.schemaName = "";
@@ -120,4 +122,15 @@ public class Context extends JJJObject implements Serializable, DataObject {
         }
         return false;
     }    
+    
+    public List<String>getDictionaries(){
+        ArrayList<String> rvalue = new ArrayList<>();
+        
+        if (!this.json.has("dictionaries")) return rvalue;
+        JSONArray jsonArray = this.json.getJSONArray("dictionaries");
+        for (int i = 0; i < jsonArray.length(); i++){
+            rvalue.add(jsonArray.getString(i));
+        }
+        return rvalue;
+    }
 }

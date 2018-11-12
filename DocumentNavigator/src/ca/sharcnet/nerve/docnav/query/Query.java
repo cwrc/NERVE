@@ -24,6 +24,10 @@ public class Query extends NodeList {
             if (selectAny.check(element)) this.add(element);
         }
     }
+    
+    public Query(Node node){
+        this.add(node);
+    }
 
     public String getSelectString(){
         return select;

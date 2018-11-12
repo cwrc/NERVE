@@ -18,8 +18,12 @@ public class StringMatch {
         this("[^a-zA-Z0-9]");
     }
 
-    public StringMatch(String tokenRegex) {
-        this.tokenRegex = tokenRegex;
+    /**
+     * 
+     * @param deliminatorRegex The regular expression denoting separate words.
+     */
+    public StringMatch(String deliminatorRegex) {
+        this.tokenRegex = deliminatorRegex;
     }
 
     /**
@@ -37,9 +41,8 @@ public class StringMatch {
     }
 
     /**
-        Tokenize the given line and call 'function' on all matches found.  Will
-        convert line to lower case if 'case sensative' was set to true in the
-        constructor.
+        Tokenize the given line and call 'function' on all matches found.  
+        constructor.  Accept(matching entity, associated sql row)
         @param source
         @param reject
         @param accept
