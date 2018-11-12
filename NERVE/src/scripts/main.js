@@ -109,7 +109,7 @@ class Main extends AbstractModel {
 
     async onMenuSave(){
         let context = JSON.parse(localStorage.contextText);        
-        let document = this.entityPanel.getDocument();        
+        let document = this.entityPanel.getDecodedDocument();        
         let decoded = await this.scriber.decode(document, context.name);
         FileOperations.saveToFile(decoded, localStorage.filename);
     }

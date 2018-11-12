@@ -11,7 +11,7 @@ class EntityPanelChangeListener{
     
     notifySetDocument(){
         if (!this.active) return;
-        let document = this.widget.getDocument();
+        let document = this.widget.getRawDocument();
         this.memory = [document];
         this.last = 0;
         localStorage.lastDocument = document;
@@ -42,7 +42,7 @@ class EntityPanelChangeListener{
     
     __onChange(){
         if (!this.active) return;
-        let document = this.widget.getDocument();
+        let document = this.widget.getRawDocument();
         this.memory = this.memory.slice(0, this.last + 1);
         this.memory.push(document);
         this.last = this.memory.length - 1;

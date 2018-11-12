@@ -191,8 +191,26 @@ class EntityPanelWidget extends Widget {
         return this.selectedEntities.clone();
     }
 
-    getDocument() {
+    getRawDocument(){
         return $("#entityPanel").html();
+    }
+    
+    /**
+     * Return copy of document with entityPanel markup removed.
+     * @returns {unresolved}
+     */
+    getDecodedDocument() {
+        let document = $("#entityPanel").clone();
+        
+        document.find(".taggedentity").each((i, e) => {
+            console.log(`removing markup from:`);
+            console.log(e);
+            TaggedEntityFactory.removeMarkup(e);
+            console.log("-------------------------------------");
+        });
+        
+        console.log(document.html());
+        return document.html();
     }
 
     /**

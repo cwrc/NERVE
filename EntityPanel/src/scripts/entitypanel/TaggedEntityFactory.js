@@ -111,21 +111,6 @@ class TaggedEntityWidget extends DragWidget{
         return clone;
     }
 
-    drop(event) {
-//        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
-//            let src = this.dragDropHandler.deleteData("TaggedEntityWidget");
-//            let values = this.values();
-//            values.text(null);
-//            src.values(values);
-//        }
-    }
-
-    dragover(event) {
-//        if (this.dragDropHandler.hasData("TaggedEntityWidget")) {
-//            event.originalEvent.preventDefault();
-//        }
-    }
-
     dragstart(event) {
         this.notifyListeners("notifyEntityDragStart", this);
     }
@@ -320,6 +305,13 @@ class TaggedEntityFactory extends AbstractModel {
         $(contents).addClass("contents");
 
         return new TaggedEntityWidget(div, this);
+    }    
+    
+    /* remove tagged entity markup from a dom element */
+    static removeMarkup(element) {
+        let contentsHTML = $(element).find(".contents").first().html();
+        $(element).html(contentsHTML);
+        document.normalize();
     }    
 }
 
