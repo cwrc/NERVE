@@ -107,7 +107,7 @@ class EntityPanelWidget extends Widget {
 
     constructor(target, dictionary) {
         super(`<div id="entityPanel" class="format-default" data-mode="entity"></div>`);
-        $(target).append(this.$);
+        $(target).append(this.getElement());
 
         this.taggedEntityFactory = new TaggedEntityFactory(this);
         this.hasDocument = false;
@@ -203,13 +203,9 @@ class EntityPanelWidget extends Widget {
         let document = $("#entityPanel").clone();
         
         document.find(".taggedentity").each((i, e) => {
-            console.log(`removing markup from:`);
-            console.log(e);
             TaggedEntityFactory.removeMarkup(e);
-            console.log("-------------------------------------");
         });
         
-        console.log(document.html());
         return document.html();
     }
 
