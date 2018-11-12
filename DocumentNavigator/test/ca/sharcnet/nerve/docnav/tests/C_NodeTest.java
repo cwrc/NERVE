@@ -132,7 +132,6 @@ public class C_NodeTest implements HasStreams{
         list.add(new ElementNode("x3"));
 
         doc.query(".first").replaceWith(list);
-        Console.log(doc.query("root > *"));
         assertEquals("[x1, x2, x3, div.second, div.third]", doc.query("root > *").toString());
     }
 }

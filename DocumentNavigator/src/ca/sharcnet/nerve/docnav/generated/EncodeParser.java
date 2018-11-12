@@ -1,4 +1,4 @@
-// Generated from D:\projects\trunk\nerve\0.8.2\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.7.1
+// Generated from D:\project-local\trunk\nerve\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4 by ANTLR 4.7.1
 
     package ca.sharcnet.nerve.docnav.generated;
     import ca.sharcnet.nerve.docnav.dom.*;
@@ -94,10 +94,10 @@ public class EncodeParser extends AbstractParser {
 	}
 	public static class StartContext extends ParserRuleContext {
 		public MiscListContext m1;
-		public ElementContext element;
+		public ContentsContext contents;
 		public MiscListContext m2;
-		public ElementContext element() {
-			return getRuleContext(ElementContext.class,0);
+		public ContentsContext contents() {
+			return getRuleContext(ContentsContext.class,0);
 		}
 		public List<MiscListContext> miscList() {
 			return getRuleContexts(MiscListContext.class);
@@ -128,14 +128,14 @@ public class EncodeParser extends AbstractParser {
 			setState(26);
 			((StartContext)_localctx).m1 = miscList();
 			setState(27);
-			((StartContext)_localctx).element = element();
+			((StartContext)_localctx).contents = contents();
 			setState(28);
 			((StartContext)_localctx).m2 = miscList();
 
-			        this.nodes.add(((StartContext)_localctx).m1.nodes);
-			        this.nodes.add(((StartContext)_localctx).element.node);
-			        this.nodes.add(((StartContext)_localctx).m2.nodes);
-			    
+			            this.nodes.add(((StartContext)_localctx).m1.nodes);
+			            this.nodes.add(((StartContext)_localctx).contents.nodelist);
+			            this.nodes.add(((StartContext)_localctx).m2.nodes);
+			        
 			}
 		}
 		catch (RecognitionException re) {
@@ -754,23 +754,25 @@ public class EncodeParser extends AbstractParser {
 	public final MiscListContext miscList() throws RecognitionException {
 		MiscListContext _localctx = new MiscListContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_miscList);
-		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(103);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT) | (1L << DOCTYPE) | (1L << SEA_WS) | (1L << INSTR_OPEN))) != 0)) {
-				{
-				{
-				setState(100);
-				misc();
-				}
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(100);
+					misc();
+					}
+					} 
 				}
 				setState(105);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
 			}
 		}
@@ -928,7 +930,7 @@ public class EncodeParser extends AbstractParser {
 		"\16\3\16\3\16\3\16\3\16\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30"+
 		"\32\2\3\4\2\7\7\n\n\2}\2\34\3\2\2\2\4$\3\2\2\2\6\65\3\2\2\2\bB\3\2\2\2"+
 		"\nD\3\2\2\2\fJ\3\2\2\2\16T\3\2\2\2\20Y\3\2\2\2\22\\\3\2\2\2\24b\3\2\2"+
-		"\2\26i\3\2\2\2\30u\3\2\2\2\32w\3\2\2\2\34\35\5\26\f\2\35\36\5\b\5\2\36"+
+		"\2\26i\3\2\2\2\30u\3\2\2\2\32w\3\2\2\2\34\35\5\26\f\2\35\36\5\4\3\2\36"+
 		"\37\5\26\f\2\37 \b\2\1\2 \3\3\2\2\2!#\5\6\4\2\"!\3\2\2\2#&\3\2\2\2$\""+
 		"\3\2\2\2$%\3\2\2\2%\5\3\2\2\2&$\3\2\2\2\'(\5\24\13\2()\b\4\1\2)\66\3\2"+
 		"\2\2*+\5\32\16\2+,\b\4\1\2,\66\3\2\2\2-.\5\b\5\2./\b\4\1\2/\66\3\2\2\2"+

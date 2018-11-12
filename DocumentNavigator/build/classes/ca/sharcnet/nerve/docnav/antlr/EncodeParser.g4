@@ -11,11 +11,11 @@ options {
 }
 
 start
-    :   m1=miscList element m2=miscList{
-        this.nodes.add($m1.nodes);
-        this.nodes.add($element.node);
-        this.nodes.add($m2.nodes);
-    }
+    :   m1=miscList contents m2=miscList{
+            this.nodes.add($m1.nodes);
+            this.nodes.add($contents.nodelist);
+            this.nodes.add($m2.nodes);
+        }
     ;
 
 contents returns [NodeList nodelist = new NodeList();]

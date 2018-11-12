@@ -7,7 +7,7 @@
     <property file="../shared.properties"/>
     <import file="../shared.xml"/>       
     
-    <property name="version.num" value="0.9.1" />
+    <property name="version.num" value="0.9.2" />
     <property name="lib.jar.name" value="DocNav-${version.num}.jar"/>
     
     <!-- After jar creation copy file to common library -->
@@ -26,12 +26,12 @@
         <echo message="Building ANTLR"/>
         <echo message="Root: ${basedir}"/>
 
-        <java jar="${shared.lib.dir}/jars/antlr-4.7.1-complete.jar" fork="false">
+        <java jar="${shared.lib.dir}/antlr-4.7.1-complete.jar" fork="false">
             <arg value="-o"/>
             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4"/>
         </java>
-        <java jar="${shared.lib.dir}/jars/antlr-4.7.1-complete.jar" fork="false">
+        <java jar="${shared.lib.dir}/antlr-4.7.1-complete.jar" fork="false">
             <arg value="-o"/>
             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/generated/"/>
             <arg value="${basedir}/src/ca/sharcnet/nerve/docnav/antlr/EncodeParser.g4"/>

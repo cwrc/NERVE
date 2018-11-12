@@ -1,0 +1,14 @@
+<!-- This would be a typical fragment document -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root id="frag1">
+    <div>IMA FRAGMENT</div>
+</root>
+
+<root id="frag2">
+    <div>IMA FRAGMENT TOO</div>
+</root>
+
+<root id="frag3">
+    <div>IMA FRAGMENT ALSO</div>
+</root>

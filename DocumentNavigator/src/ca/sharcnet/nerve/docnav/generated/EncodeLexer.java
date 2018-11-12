@@ -1,4 +1,4 @@
-// Generated from D:\projects\trunk\nerve\0.8.2\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4 by ANTLR 4.7.1
+// Generated from D:\project-local\trunk\nerve\DocumentNavigator/src/ca/sharcnet/nerve/docnav/antlr/EncodeLexer.g4 by ANTLR 4.7.1
 
     package ca.sharcnet.nerve.docnav.generated;
 
