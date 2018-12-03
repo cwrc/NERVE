@@ -62,6 +62,7 @@ class LemmaDialogController{
     }
     
     notifyCollectionClear(collectionClone, entityArray){
+        this.lemmaDialog.clearHighlight();
         this.lastCollection = collectionClone;        
     }
     

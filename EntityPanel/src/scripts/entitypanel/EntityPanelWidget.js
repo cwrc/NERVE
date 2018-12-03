@@ -111,7 +111,7 @@ class EntityPanelWidget extends Widget {
 
         this.taggedEntityFactory = new TaggedEntityFactory(this);
         this.hasDocument = false;
-        this.selectedEntities = new TaggedEntityCollection();
+        this.selectedEntities = new TaggedEntityCollection(this);
         this.stylename = "";
         this.schema = null;
 
