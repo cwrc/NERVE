@@ -4,5 +4,5 @@ test with netbeans run task
  - deploys to /NERVESERVER/
 
 to deploy
-- run copy task / scp to server
+- run ant copy task / scp to server
 - in server: asadmin deploy --name NERVESERVER ~/package/glassfish5/repository/Server.war

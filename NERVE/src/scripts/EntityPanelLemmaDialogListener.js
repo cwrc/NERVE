@@ -13,6 +13,12 @@ class EntityPanelLemmaDialogListener{
         this.lastLemmaClick = {tag: "", lemma: "", array: [], n: 0};
     }
     
+//    notifyEntityUpdate(taggedEntityArray, oldValueArray){
+//        for (let index in taggedEntityArray){
+//            console.log(index);
+//        }
+//    }
+    
     /**
      * Event received from LemmaDialog
      * @param {type} lemmaDialogWidget

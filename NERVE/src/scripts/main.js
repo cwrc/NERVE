@@ -43,7 +43,21 @@ class Main extends AbstractModel {
     async load() {
         /* Connect to socket */
         this.rootSocket = new JJJRMISocket("NerveSocket");
-        this.rootObject = await this.rootSocket.connect(`ws://${window.location.host}/NERVESERVER/NerveSocket`);
+        
+        let serverURL = "";
+        try{
+            serverURL = await FileOperations.getURL("serverlocation");
+        } catch (err){
+            window.alert("file not found:\nserverlocation");
+            return;
+        }
+        
+        try{            
+            this.rootObject = await this.rootSocket.connect(serverURL);
+        } catch (err){
+            window.alert("Server not found:\n" + serverURL);
+            return;
+        }
         this.scriber = this.rootObject.getScriber();
 
         /* Setup file open dialogs */
