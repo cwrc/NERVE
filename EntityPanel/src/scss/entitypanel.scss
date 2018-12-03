@@ -2,8 +2,9 @@
 #entityPanel{
     position: absolute;
     box-sizing: border-box;
-    /*display: inline;*/
-    dispaly: inline-block;
+    display: inline;
+    /*white-space: pre;*/
+    /*display: inline-block;*/
     height: 100%;
     width: 100%;
     font-size: 18px;

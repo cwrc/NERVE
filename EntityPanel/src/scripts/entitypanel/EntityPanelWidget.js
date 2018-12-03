@@ -141,6 +141,7 @@ class EntityPanelWidget extends Widget {
             }
         });
 
+        /* Context menu event */
         $(this.getElement()).on("contextmenu", (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -156,6 +157,19 @@ class EntityPanelWidget extends Widget {
                 this.taggedEntityContextMenu.show(event, this.selectedEntities);
             }
         });
+                
+        /* Enter key press trap */
+//        $(this.getElement()).attr("contenteditable", "true");   
+        this.getElement().spellcheck = false;
+        $(this.getElement()).keydown(function (e) {
+            // trap the return key being pressed
+            if (e.keyCode === 13) {
+                // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
+                document.execCommand('insertHTML', false, '&#10;&#13;');
+                // prevent the default behaviour of return key pressed
+                return false;
+            }
+        });        
         
         /* check for local storage */
         if (localStorage.entityPanel !== undefined){

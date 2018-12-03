@@ -3,6 +3,7 @@ window.jquery = require("jquery");
 window.bootstrap = require("bootstrap");
 
 const EntityPanel = require("./entitypanel/EntityPanelWidget");
+const MessageWidget = require("./entitypanel/MessageWidget");
 const FileOperations = require("@thaerious/utility").FileOperations;
 const JJJRMISocket = require("jjjrmi").JJJRMISocket;
 
@@ -42,6 +43,8 @@ let currentContext = null;
 $(window).on('load', async function () {
     let nerveRoot = await scriberSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");
     window.entityPanel = new EntityPanel("#target");
+    window.messageWidget = new MessageWidget();
+    await window.messageWidget.load();
 
     $("#bOrlando").click(async ()=>{
         let file = await FileOperations.getURL("assets/documents/orlando.html");

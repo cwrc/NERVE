@@ -1,0 +1,3 @@
+to deploy (remember to deploy SERVER war file)
+from the public_html directory exectue the following (excluding quotes):
+"scp -r . dh:~/package/glassfish5/glassfish/domains/dh/docroot/NERVE"

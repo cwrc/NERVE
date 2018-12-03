@@ -14,6 +14,7 @@ const EntityPanelChangeListener = require("./EntityPanelChangeListener");
 const LemmaDialogController = require("./LemmaDialogController");
 const EntityPanelLemmaDialogListener = require("./EntityPanelLemmaDialogListener");
 const Throbber = require("@thaerious/throbber");
+const MessageWidget = require("@thaerious/entitypanel").MessageWidget;
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -42,7 +43,7 @@ class Main extends AbstractModel {
     async load() {
         /* Connect to socket */
         this.rootSocket = new JJJRMISocket("NerveSocket");
-        this.rootObject = await this.rootSocket.connect("ws://localhost:8080/NERVESERVER/NerveSocket");
+        this.rootObject = await this.rootSocket.connect(`ws://${window.location.host}/NERVESERVER/NerveSocket`);
         this.scriber = this.rootObject.getScriber();
 
         /* Setup file open dialogs */
@@ -81,6 +82,13 @@ class Main extends AbstractModel {
         $("body").append(this.throbber.$);
         let monitor = this.rootObject.getProgressMonitor();
         monitor.addListener(new MonitorListener(this.throbber));
+        
+        /* Setup Message Wiget */
+        this.messageWidget = new MessageWidget();
+        await this.messageWidget.load();
+        this.messageWidgetListener = new MessageWidgetListener(this.messageWidget);        
+        this.entityPanel.addListener(this.messageWidgetListener);
+        this.addListener(this.messageWidgetListener);
         
         await this.__checkForPreviousDocument();
     }
@@ -197,8 +205,10 @@ class Main extends AbstractModel {
 
     async onMenuTag(tagname = "PERSON") {
         let taggedEntity = await this.entityPanel.tagSelection(window.getSelection());
-        taggedEntity.tag(tagname, true);
-        this.entityPanel.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+        if (taggedEntity){
+            taggedEntity.tag(tagname, true);
+            this.entityPanel.notifyListeners("notifyNewTaggedEntities", [taggedEntity]);
+        }
     }       
     
     async onMenuClearSelection() {
@@ -227,4 +237,37 @@ class MonitorListener{
     serverEnd(){
         this.throbber.hide();
     }
+}
+
+class MessageWidgetListener{
+    constructor(messageWidget){
+        this.messageWidget = messageWidget;
+    }
+    
+    notifyUntaggedEntities(taggedEntityArray){
+        let message = "";
+        if (taggedEntityArray.length === 1){
+            message = `${taggedEntityArray.length} entity untagged.`;
+        }
+        else {
+            message = `${taggedEntityArray.length} entities untagged.`;
+        }
+        this.messageWidget.notifyMessage("Untag", message);
+    }
+    
+    notifyNewTaggedEntities(taggedEntityArray){
+        let message = "";
+        if (taggedEntityArray.length === 1){
+            message = `${taggedEntityArray.length} entity tagged as ${taggedEntityArray[0].tag()}.`;
+        }
+        else {
+            message = `${taggedEntityArray.length} entities tagged as ${taggedEntityArray[0].tag()}.`;
+        }
+        this.messageWidget.notifyMessage("Tag", message);        
+    }
+    
+    notifyWarning(warning){
+        this.messageWidget.notifyWarning(warning);        
+    }
+    
 }

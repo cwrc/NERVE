@@ -33,4 +33,31 @@
             </classpath>
         </jjj-js>
     </target>
+    
+    
+    <!-- Deploy .war file to dh server -->
+    <property name="keyfile" value="D:/cygwin/home/edward/.ssh/id_rsa"/>
+    <property name="remoteTarget" value="debian@dh.sharcnet.ca:~/package/glassfish5/repository"/>
+    <property name="war.dir" value="dist"/>
+    <property name="war.name" value="Server.war"/>
+    <property name="name" value="Server"/>
+    
+    <target name="remotecopy">
+        <echo>copy ${war.dir}/${war.name} to ${remoteTarget}</echo>
+        <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
+            <fileset dir="${war.dir}">
+                <include name="${war.name}"/>
+            </fileset>
+        </scp>        
+    </target>
+
+    <target name="deploy" depends="remotecopy">
+        <echo>deploy .war file</echo>
+        <sshexec host="dh.sharcnet.ca" username="debian" keyfile="${keyfile}" trust="yes" command="asadmin deploy --name ${name} ~/package/glassfish5/repository/${war.name}"/>
+    </target>        
+            
+    <target name="redeploy" depends="remotecopy">
+        <echo>redeploy .war file</echo>
+        <sshexec host="dh.sharcnet.ca" username="debian" keyfile="${keyfile}" trust="yes" command="asadmin redeploy --name ${name} ~/package/glassfish5/repository/${war.name}"/>
+    </target>    
 </project>
