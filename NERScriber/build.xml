@@ -18,6 +18,6 @@
     <target name="-pre-compile" depends="scriber.jjj"/>    
     <target name="scriber.jjj">
         <mkdir dir="${basedir}/dist/module"/>
-        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/dist/module" package="nerscriber" json="false"/>
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/dist/module" package="nerscriber"/>
     </target>
 </project>
