@@ -8,35 +8,35 @@ Lookups are currenty limited to geonames, VIAF, and the CWRC (Canadian Writing R
 License and documentation forthcoming soon!
 
 ## Building from source.
-prerequisites: glassfish, ant, git, npm, node
+prerequisites: glassfish, ant, git, npm, node<br>
 
 ### chekcout repository
-> git@github.com:cwrc/NERVE.git (with key)
-> git clone git://github.com/cwrc/NERVE.git (without key)
+> git@github.com:cwrc/NERVE.git (with key)<br>
+> git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
 ### build server dependencies
-> ant -f ./DocumentNavigator/build.xml jar
-> ant -f ./DocumentNavigator/build.xml deploy (optional, to copy versionified jar to shared lib directory)
-> ant -f ./NERScriber/build.xml jar
-> ant -f ./NERScriber/build.xml deploy (optional, to copy versionified jar to shared lib directory)
+> ant -f ./DocumentNavigator/build.xml jar<br>
+> ant -f ./DocumentNavigator/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
+> ant -f ./NERScriber/build.xml jar<br>
+> ant -f ./NERScriber/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
 
 ### build server
-> cd Server
-> npm i
-> ant dist
+> cd Server<br>
+> npm i<br>
+> ant dist<br>
 
-Deploy to GlassFish Server
-> asadmin deploy ./dist/Server.war
+### Deploy to GlassFish Server
+> asadmin deploy ./dist/Server.war<br>
 
-If already deployed, redeploy to GlassFish Server
-> asadmin redeploy ./dist/Server.war
+If already deployed, redeploy to GlassFish Server<br>
+> asadmin redeploy ./dist/Server.war<br>
 
-Other commands of note:
-> asadmin start-domain [domain_name]
-> asadmin stop-domain [domain_name]
-> asadmin list-applications
+### Other commands of note:
+> asadmin start-domain [domain_name]<br>
+> asadmin stop-domain [domain_name]<br>
+> asadmin list-applications<br>
 
 ### List of projects
-DocumentNavigator - XML / HTML parser in Java
-NERScriber - Program for for encoding & decoding xml files.
-Server - Web service for NERScriber.  Contains test page @ host/NERVESERVER.
+DocumentNavigator - XML / HTML parser in Java<br>
+NERScriber - Program for for encoding & decoding xml files.<br>
+Server - Web service for NERScriber.  Contains test page @ host/NERVESERVER.<br>
