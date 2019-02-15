@@ -1,3 +1,4 @@
+"use strict";
 let HashMap = class HashMap {
     constructor() {
         this.map = new Map();

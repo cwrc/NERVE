@@ -1,3 +1,4 @@
+"use strict";
 Constants = class Constants {
 	constructor() {
 	}

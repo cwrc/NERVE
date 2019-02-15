@@ -1,3 +1,4 @@
+"use strict";
 let Constants = require("./Constants");
 let EncodedJSON = require("./EncodedJSON");
 

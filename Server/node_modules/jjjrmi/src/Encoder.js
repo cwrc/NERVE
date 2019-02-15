@@ -1,3 +1,4 @@
+"use strict";
 /* global Constants */
 let Constants = require("./Constants");
 

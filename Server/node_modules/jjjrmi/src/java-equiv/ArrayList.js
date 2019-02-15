@@ -1,3 +1,4 @@
+"use strict";
 let ArrayList = class ArrayList {
     constructor() {
         this.elementData = [];

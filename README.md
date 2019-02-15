@@ -7,14 +7,36 @@ Lookups are currenty limited to geonames, VIAF, and the CWRC (Canadian Writing R
 
 License and documentation forthcoming soon!
 
-## Development
+## Building from source.
+prerequisites: glassfish, ant, git, npm, node
 
-### Checkout and Setup
-* `git clone git@github.com:cwrc/NERVE.git ./nerve`
-* `cd nerve/NERVE`
-* `npm install`
+### chekcout repository
+> git@github.com:cwrc/NERVE.git (with key)
+> git clone git://github.com/cwrc/NERVE.git (without key)
 
-### Manually Build
-* `npm run build-js` Browserify javascript files.
-* `npm run copy-html` Copy html to build directory.
-* `npm run assets` 
+### build server dependencies
+> ant -f ./DocumentNavigator/build.xml jar
+> ant -f ./DocumentNavigator/build.xml deploy (optional, to copy versionified jar to shared lib directory)
+> ant -f ./NERScriber/build.xml jar
+> ant -f ./NERScriber/build.xml deploy (optional, to copy versionified jar to shared lib directory)
+
+### build server
+> cd Server
+> npm i
+> ant dist
+
+Deploy to GlassFish Server
+> asadmin deploy ./dist/Server.war
+
+If already deployed, redeploy to GlassFish Server
+> asadmin redeploy ./dist/Server.war
+
+Other commands of note:
+> asadmin start-domain [domain_name]
+> asadmin stop-domain [domain_name]
+> asadmin list-applications
+
+### List of projects
+DocumentNavigator - XML / HTML parser in Java
+NERScriber - Program for for encoding & decoding xml files.
+Server - Web service for NERScriber.  Contains test page @ host/NERVESERVER.

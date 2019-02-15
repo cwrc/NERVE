@@ -14,7 +14,7 @@
     <!-- After jar creation copy file to common library -->
     <target name="-post-jar" depends="jar-to-custom-lib"/>
 
-    <!--Generate JJJ Files-->    
+    <!--Generate JJJ Files-->
     <target name="-pre-compile" depends="scriber.jjj"/>    
     <target name="scriber.jjj">
         <mkdir dir="${basedir}/dist/module"/>

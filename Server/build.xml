@@ -14,7 +14,6 @@
     
     <!--Predefined Netbeans targets-->
     <target name="-pre-compile" depends="jjj.build"/>
-    <!--<target name="-post-clean" depends="jjj.clean"/>-->
     
     <!--Remove JJJ files-->
     <target name="jjj.clean">
@@ -24,7 +23,7 @@
     <!--Generate JJJ files-->
     <target name="jjj.build">
         <jjj-java srcDir="${basedir}/src/java" destDir="${basedir}/src/java"/>
-        <jjj-js srcDir="${basedir}/src/java" destDir="${basedir}/src/web/js" package="nerveserver" json="false">
+        <jjj-js srcDir="${basedir}/src/java" destDir="${basedir}/src/web/js" package="nerveserver">
             <classpath>
                 <pathelement path="../lib/antlr-4.7.1-complete.jar"/>
                 <pathelement path="../lib/NERScriber-0.9.0.jar"/>

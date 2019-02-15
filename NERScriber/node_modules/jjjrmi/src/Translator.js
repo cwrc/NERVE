@@ -1,3 +1,4 @@
+"use strict";
 let Encoder = require("./Encoder");
 let Decoder = require("./Decoder");
 let ArrayList = require("./java-equiv/ArrayList");
