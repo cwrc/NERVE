@@ -12,6 +12,10 @@
     <import file="nbproject/build-impl.xml"/>    
     <taskdef resource="jjjrmiant.xml"/>
     
+    <target name="echo">
+        <echo message="${j2ee.server.home}"/>
+    </target>
+    
     <!--Predefined Netbeans targets-->
     <target name="-pre-compile" depends="jjj.build"/>
     

@@ -1,5 +1,4 @@
 const HashMap = require ('jjjrmi').HashMap;
-const EntityValues = require("./EntityValues");
 class EntityValues {
 	constructor() {
 		this.values = new HashMap();

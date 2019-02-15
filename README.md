@@ -21,9 +21,10 @@ prerequisites: glassfish, ant, git, npm, node<br>
 > ant -f ./NERScriber/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
 
 ### 3. Build server
+Change 'j2ee.server.home' to point to the glassfish server installation.<br>
 > cd Server<br>
 > npm i<br>
-> ant dist<br>
+> ant -Dj2ee.server.home=/home/glassfish/glassfish5/glassfish/ dist<br>
 
 ### 4. Deploy to GlassFish Server
 > asadmin deploy ./dist/Server.war<br>
