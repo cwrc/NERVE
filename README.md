@@ -10,22 +10,22 @@ License and documentation forthcoming soon!
 ## Building from source.
 prerequisites: glassfish, ant, git, npm, node<br>
 
-### chekcout repository
+### 1. Chekcout repository
 > git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
-### build server dependencies
+### 2. Build server dependencies
 > ant -f ./DocumentNavigator/build.xml jar<br>
 > ant -f ./DocumentNavigator/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
 > ant -f ./NERScriber/build.xml jar<br>
 > ant -f ./NERScriber/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
 
-### build server
+### 3. Build server
 > cd Server<br>
 > npm i<br>
 > ant dist<br>
 
-### Deploy to GlassFish Server
+### 4. Deploy to GlassFish Server
 > asadmin deploy ./dist/Server.war<br>
 
 If already deployed, redeploy to GlassFish Server<br>
