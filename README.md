@@ -31,7 +31,8 @@ prerequisites: glassfish, ant, git, npm, node<br>
 If already deployed, redeploy to GlassFish Server<br>
 > asadmin redeploy ./dist/Server.war<br>
 
-### Other commands of note:
+## Notes
+### Other commands of note
 > asadmin start-domain [domain_name]<br>
 > asadmin stop-domain [domain_name]<br>
 > asadmin list-applications<br>
