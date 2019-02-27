@@ -1,5 +1,5 @@
 "use strict";
-const HashMap = require('jjjrmi').HashMap;
+const HashMap = require("jjjrmi").HashMap;
 class TagInfo {
 	constructor() {
 		this.defaults = new HashMap();

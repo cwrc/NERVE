@@ -1,5 +1,8 @@
 {
     "name": "nerscriber",
     "main": "packageFile.js",
-    "version": "0.0.0"
+    "version": "0.0.0",
+    "dependencies": {
+        "jjjrmi": "^0.4.21"
+    }
 }
