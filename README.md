@@ -11,7 +11,7 @@ License and documentation forthcoming soon!
 prerequisites: glassfish, ant, git, npm, node<br>
 Note: paths are system dependent.
 
-### 1. Chekcout repository
+### 1. Checkout repository
 > git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
