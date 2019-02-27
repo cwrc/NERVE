@@ -9,33 +9,28 @@ License and documentation forthcoming soon!
 
 ## Building from source.
 prerequisites: glassfish, ant, git, npm, node<br>
+Note: paths are system dependent.
 
 ### 1. Chekcout repository
 > git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
-### 2. Build server dependencies
-> ant -f ./DocumentNavigator/build.xml jar<br>
-> ant -f ./DocumentNavigator/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
-> ant -f ./NERScriber/build.xml jar<br>
-> ant -f ./NERScriber/build.xml deploy (optional, to copy versionified jar to shared lib directory)<br>
-
-### 3. Build server
+### 2. Build server
 Change 'j2ee.server.home' to point to the glassfish server installation.<br>
 > cd Server<br>
 > npm i<br>
-> ant -Dj2ee.server.home=/home/glassfish/glassfish5/glassfish/ dist<br>
+> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=/home/glassfish/glassfish5.0.1/glassfish/ dist<br>
 
-### 4. Deploy to GlassFish Server
+### 3. Deploy to GlassFish Server
 > asadmin deploy ./dist/Server.war<br>
 
 If already deployed, redeploy to GlassFish Server<br>
-> asadmin redeploy ./dist/Server.war --name=Server<br>
+> asadmin redeploy --name=Server ./dist/Server.war<br>
 
-### 5. Build client
-
-#### 5a. Pre-requisites
-> npm install -g browserify<br>
+### 4. Build client
+> npm i
+> npm run build-js
+> npm run build-css
 
 ## Notes
 ### Other commands of note
