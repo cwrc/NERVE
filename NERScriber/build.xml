@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="NERScriber" default="default" basedir=".">
     <description>Builds, tests, and runs the project NERScriber.</description>
-    
     <property file="nbproject/project.properties"/>
     <import file="nbproject/build-impl.xml"/>
-    <property file="../shared.properties"/>
-    <import file="../shared.xml"/>       
-    
+    <property file="build.properties"/>
     <taskdef resource="jjjrmiant.xml"/>     
-    <property name="version.num" value="0.9.0" />  
-    <property name="lib.jar.name" value="NERScriber-${version.num}.jar"/>
-
-    <!-- After jar creation copy file to common library -->
-    <target name="-post-jar" depends="jar-to-custom-lib,scriber.jjj"/>
+    
+    <!-- After jar creation copy file to common library with versioned name -->
+    <target name="-post-jar" depends="deploy.lib,scriber.jjj"/>
+    <target name="deploy.lib">
+        <fail unless="lib.jar.name" message="lib.jar.name is not set"/>        
+        <fail unless="shared.lib.dir" message="shared.lib.dir is not set"/>        
+        <copy file="${dist.jar}" tofile="${shared.lib.dir}/${lib.jar.name}" overwrite="yes"/> 
+    </target>    
 
     <!--Generate JJJ Files-->
     <target name="scriber.jjj">

@@ -37,7 +37,6 @@ If already deployed, redeploy to GlassFish Server<br>
 #### 5a. Pre-requisites
 > npm install -g browserify<br>
 
-
 ## Notes
 ### Other commands of note
 > asadmin start-domain [domain_name]<br>
