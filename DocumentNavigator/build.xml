@@ -3,26 +3,26 @@
 <project name="DocNav" default="default" basedir=".">
     <description>Builds, tests, and runs the project DocumentNavigator.</description>    
     <property file="nbproject/project.properties"/>
-    <import file="nbproject/build-impl.xml"/>
-    <property file="../shared.properties"/>
-    <import file="../shared.xml"/>       
-    
-    <property name="version.num" value="0.9.2" />
-    <property name="lib.jar.name" value="DocNav-${version.num}.jar"/>
-    
-    <!-- After jar creation copy file to common library -->
-    <target name="-post-jar" depends="jar-to-custom-lib"/>    
+    <property file="build.properties"/>
+    <import file="nbproject/build-impl.xml"/>  
 
-    <!-- Antlr targets should be called on an as needed basis -->
+    <!-- After jar creation copy file to common library with versioned name -->
+    <target name="-post-jar" depends="deploy.lib"/>
+    <target name="deploy.lib">
+        <fail unless="lib.jar.name" message="lib.jar.name is not set"/>        
+        <fail unless="shared.lib.dir" message="shared.lib.dir is not set"/>        
+        <copy file="${dist.jar}" tofile="${shared.lib.dir}/${lib.jar.name}" overwrite="yes"/> 
+    </target>
+    
     <!-- Remove files genereted by antlr -->
-    <target name="docnav.antlr.clean">
+    <target name="antlr.clean">
         <delete>
             <fileset dir="${basedir}/src/ca/sharcnet/nerve/docnav/generated/" includes="*.*"/>
         </delete>
     </target>
 
     <!-- Generate files with antlr -->
-    <target name="docnav.antlr.gen">
+    <target name="antlr.gen">
         <echo message="Building ANTLR"/>
         <echo message="Root: ${basedir}"/>
 
