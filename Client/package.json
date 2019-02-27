@@ -26,6 +26,6 @@
         "watch-css": "sass src/scss/custom.scss public_html/compiled.css --watch",
         "build": "npm run build-js && npm run build-css",
         "build-js": "browserify src/scripts/main.js -o public_html/main.js -d",
-        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv",
+        "watch-js": "watchify src/scripts/main.js -o public_html/main.js -dv"
     }
 }

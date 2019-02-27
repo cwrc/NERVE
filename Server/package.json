@@ -14,7 +14,6 @@
     "jjjrmi": "^0.4.21",
     "jjjsql": "",
     "jquery": "^3.3.1",
-    "nerscriber": "file:../NERScriber/dist/nerscriber",
-    "nidget": "file:../Nidget"
+    "nerscriber": "file:../NERScriber/dist/nerscriber"
   }
 }
