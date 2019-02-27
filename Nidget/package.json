@@ -8,5 +8,8 @@
     "files": [
         "src/**"
     ],
-    "main": "src/nidget.js"
+    "scripts": {
+        "publish": "npm publish --access public"
+    },
+    "main": "src/projectFile.js"
 }

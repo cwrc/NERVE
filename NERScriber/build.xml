@@ -12,12 +12,10 @@
     <property name="lib.jar.name" value="NERScriber-${version.num}.jar"/>
 
     <!-- After jar creation copy file to common library -->
-    <target name="-post-jar" depends="jar-to-custom-lib"/>
+    <target name="-post-jar" depends="jar-to-custom-lib,scriber.jjj"/>
 
     <!--Generate JJJ Files-->
-    <target name="-pre-compile" depends="scriber.jjj"/>    
     <target name="scriber.jjj">
-        <mkdir dir="${basedir}/dist/module"/>
-        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/dist/module" package="nerscriber"/>
+        <jjj-js srcDir="${basedir}/src" destDir="${basedir}/dist" package="nerscriber"/>
     </target>
 </project>

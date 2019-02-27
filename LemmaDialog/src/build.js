@@ -4,7 +4,7 @@
  * @type type
  */
 
-const AbstractModel = require("nidget").AbstractModel;
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
 
 class Collection extends AbstractModel {
     constructor(delegate, array) {
@@ -10543,9 +10543,9 @@ module.exports = LemmaDialogController;
 
 },{"Collection":1}],4:[function(require,module,exports){
 const $ = require("jquery");
-const Widget = require("nidget").Widget;
-const DragDropWidget = require("nidget").DragDropWidget;
-const DropWidget = require("nidget").DropWidget;
+const Widget = require("@thaerious/nidget").Widget;
+const DragDropWidget = require("@thaerious/nidget").DragDropWidget;
+const DropWidget = require("@thaerious/nidget").DropWidget;
 const NidgetContext = require("NidgetContext");
 
 class LemmaWidget extends DragDropWidget {
@@ -11058,9 +11058,9 @@ module.exports = {
 };
 },{"./LemmaDialogController":3,"./LemmaDialogWidget":4}],6:[function(require,module,exports){
 window.$ = require("jquery");
-const AbstractModel = require("nidget").AbstractModel;
-const DragWidget = require("nidget").DragWidget;
-const DropWidget = require("nidget").DropWidget;
+const AbstractModel = require("@thaerious/nidget").AbstractModel;
+const DragWidget = require("@thaerious/nidget").DragWidget;
+const DropWidget = require("@thaerious/nidget").DropWidget;
 const LemmaDialogWidget = require("./lemmaDialog").LemmaDialogWidget;
 const LemmaDialogController = require("./lemmaDialog").LemmaDialogController;
 const Collection = require("Collection");

@@ -10386,7 +10386,7 @@ $(window).on('load', async function () {
 
 },{"./menu/Menu":3,"Utility":21,"jquery":1}],3:[function(require,module,exports){
 const $ = window.$ ? window.$ : require("jquery");
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const MenuCategory = require("./MenuCategory");
 const FileOpertions = require("Utility").FileOperations;
 
@@ -10428,7 +10428,7 @@ module.exports = Menu;
 },{"./MenuCategory":4,"Utility":21,"jquery":1,"nidget":14}],4:[function(require,module,exports){
 const jQuery = require("jquery");
 const $ = jQuery;
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const MenuItem = require("./MenuItem");
 
 class MenuCategory extends Widget{
@@ -10464,7 +10464,7 @@ module.exports = MenuCategory;
 },{"./MenuItem":5,"jquery":1,"nidget":14}],5:[function(require,module,exports){
 const jQuery = require("jquery");
 const $ = jQuery;
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 
 /*
  * Valid setting : settingObject values

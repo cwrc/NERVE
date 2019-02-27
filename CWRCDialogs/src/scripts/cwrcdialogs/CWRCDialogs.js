@@ -1,6 +1,6 @@
 const $ = window.$ ? window.$ : require("jquery");
 const jQuery = $;
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const FileOperations = require("@thaerious/utility").FileOperations;
 const ResultWidget = require("./ResultWidget");
 

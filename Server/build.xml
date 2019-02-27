@@ -35,6 +35,9 @@
                 <pathelement path="../lib/JJJSQL-1.1.3.jar"/>
             </classpath>
         </jjj-js>
+        <copy todir="${basedir}/dist/"> 
+            <fileset dir="${basedir}/src/web/js"/>
+        </copy>
     </target>
     
     

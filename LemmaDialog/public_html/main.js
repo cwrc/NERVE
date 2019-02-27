@@ -12128,7 +12128,7 @@ const encodeCharacter = char => '%' + char.charCodeAt(0).toString(16)
 },{}],33:[function(require,module,exports){
 const $ = window.$ ? window.$ : require("jquery");
 const jQuery = $;
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const FileOperations = require("@thaerious/utility").FileOperations;
 const ResultWidget = require("./ResultWidget");
 
@@ -12426,7 +12426,7 @@ class CWRCDialogs extends Widget {
 module.exports = CWRCDialogs;
 },{"./ResultWidget":34,"@thaerious/utility":9,"jquery":10,"nidget":115}],34:[function(require,module,exports){
 const $ = window.$ ? window.$ : require("jquery");
-const Widget = require("nidget").Widget;
+const Widget = require("@thaerious/nidget").Widget;
 const FileOperations = require("@thaerious/utility").FileOperations;
 const EntityValues = require("nerveserver").EntityValues;
 

@@ -30,7 +30,13 @@ Change 'j2ee.server.home' to point to the glassfish server installation.<br>
 > asadmin deploy ./dist/Server.war<br>
 
 If already deployed, redeploy to GlassFish Server<br>
-> asadmin redeploy ./dist/Server.war<br>
+> asadmin redeploy ./dist/Server.war --name=Server<br>
+
+### 5. Build client
+
+#### 5a. Pre-requisites
+> npm install -g browserify<br>
+
 
 ## Notes
 ### Other commands of note

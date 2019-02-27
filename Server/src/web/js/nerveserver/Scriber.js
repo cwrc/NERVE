@@ -1,3 +1,4 @@
+"use strict";
 const ArrayList = require ('jjjrmi').ArrayList;
 const EncodeResponse = require("./EncodeResponse");
 class Scriber {

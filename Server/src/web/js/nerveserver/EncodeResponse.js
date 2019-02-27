@@ -1,3 +1,4 @@
+"use strict";
 class EncodeResponse {
 	constructor() {
 		this.filename = "";

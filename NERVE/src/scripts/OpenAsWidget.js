@@ -21,7 +21,7 @@ class OpenAsWidget extends Widget{
     async load(){
         let domElement = await FileOperations.loadDOMElement(`assets/openAs.frag.html`);   
         $("body").append(domElement);
-        super.setElement(domElement);
+        this.setElement(domElement);
         
         $(this.getElement()).find("#openAsAccept").click(()=>{
             this.onClose(true);
