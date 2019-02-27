@@ -32,7 +32,7 @@ If already deployed, redeploy to GlassFish Server<br>
 > npm i<br>
 > npm run build-js<br>
 > npm run build-css<br>
-> cp -r public_html/ /cygdrive/d/cygwin/opt/glassfish5.0.1/glassfish/domains/domain1/docroot/nerve
+> cp -r public_html/ home/glassfish/glassfish5.0.1/glassfish/domains/domain1/docroot/nerve
 
 ## Notes
 ### Other commands of note
