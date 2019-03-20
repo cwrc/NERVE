@@ -1,5 +1,5 @@
 {
     "name": "nerveserver",
-    "main": "packageFile.js",
+    "main": "package.js",
     "version": "0.0.0"
 }

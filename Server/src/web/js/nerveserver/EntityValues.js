@@ -1,4 +1,3 @@
-"use strict";
 const HashMap = require ('jjjrmi').HashMap;
 class EntityValues {
 	constructor() {

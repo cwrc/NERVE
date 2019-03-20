@@ -1,4 +1,3 @@
-"use strict";
 class ProgressStage {
 	constructor(value) {
 		this.__value = value;

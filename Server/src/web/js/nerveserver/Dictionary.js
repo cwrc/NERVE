@@ -1,4 +1,3 @@
-"use strict";
 const EntityValues = require("./EntityValues");
 class Dictionary {
 	constructor() {

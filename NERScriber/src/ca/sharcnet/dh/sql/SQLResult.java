@@ -24,7 +24,7 @@ public class SQLResult implements Iterable<SQLRecord>{
     @SkipJS
     public SQLResult(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
-        rs.beforeFirst();
+//        rs.beforeFirst();
 
         ArrayList<SQLRecord> list = new ArrayList<>();
 

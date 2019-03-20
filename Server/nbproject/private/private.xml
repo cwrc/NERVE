@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/project-local/trunk/nerve-current/Server/nbproject/project.properties</file>
+            <file>file:/D:/project-local/nerve/Server/web/WEB-INF/config.properties</file>
+            <file>file:/D:/project-local/nerve/Server/build.xml</file>
+            <file>file:/D:/project-local/nerve/Server/src/java/ca/sharcnet/dh/nerve/NerveRoot.java</file>
+            <file>file:/D:/project-local/nerve/Server/src/java/ca/sharcnet/dh/nerve/Scriber.java</file>
+            <file>file:/D:/project-local/nerve/Server/src/java/ca/sharcnet/dh/nerve/NerveSocket.java</file>
         </group>
     </open-files>
 </project-private>

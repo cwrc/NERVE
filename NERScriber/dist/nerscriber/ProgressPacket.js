@@ -1,8 +1,7 @@
-"use strict";
 const ProgressStage = require("./ProgressStage");
 class ProgressPacket {
 	constructor() {
-		
+		this.progressStage = ProgressStage.CONTINUE;
 	}
 	static __isTransient() {
 		return true;

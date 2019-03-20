@@ -1,8 +1,7 @@
-"use strict";
 const HashMap = require('jjjrmi').HashMap;
 class TagInfo {
 	constructor() {
-		
+		this.defaults = new HashMap();
 	}
 	static __isTransient() {
 		return true;
