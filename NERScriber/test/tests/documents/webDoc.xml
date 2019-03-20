@@ -1,0 +1,61 @@
+<div>
+    <div class="xmlprolog" xmlattrs="{&quot;version&quot;:&quot;1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;}" xmltagname="xml">
+    </div>
+    <div class="xmlprolog" xmlattrs="{&quot;href&quot;:&quot;http://cwrc.ca/schemas/orlando_biography_v2.rng&quot;,&quot;type&quot;:&quot;application/xml&quot;,&quot;schematypens&quot;:&quot;http://relaxng.org/ns/structure/1.0&quot;}" xmltagname="xml-model" data-context="Orlando"></div>
+    <div class="xmlprolog" xmlattrs="{&quot;type&quot;:&quot;text/css&quot;,&quot;href&quot;:&quot;http://cwrc.ca/templates/css/orlando.css&quot;}" xmltagname="xml-stylesheet"></div>
+    <div class="xmldoctype" xmlinnertext="<!DOCTYPE ORLANDO [ <!ENTITY % character_entities SYSTEM &quot;http://cwrc.ca/schemas/character_entities.dtd&quot;> %character_entities; ]>"></div>
+
+    <div class="xmltag" xmlattrs="{&quot;SEX&quot;:&quot;FEMALE&quot;,&quot;PERSON&quot;:&quot;BRWWRITER&quot;}" xmltagname="BIOGRAPHY">
+        <div class="xmltag" xmlattrs="{&quot;TYPE&quot;:&quot;text&quot;}" xmltagname="ORLANDOHEADER">
+            <div class="xmltag" xmlattrs="{}" xmltagname="FILEDESC">
+                <div class="xmltag" xmlattrs="{}" xmltagname="TITLESTMT">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DOCTITLE">Sophia Jex-Blake: biography</div>
+                </div>
+                <div class="xmltag" xmlattrs="{}" xmltagname="PUBLICATIONSTMT">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="AUTHORITY">Orlando Project</div>
+                </div>    
+                <div class="xmltag" xmlattrs="{}" xmltagname="SOURCEDESC">Created from original research by members of the Orlando Project</div>
+            </div> 
+            <div class="xmltag" xmlattrs="{}" xmltagname="REVISIONDESC">
+                <div class="xmltag" xmlattrs="{&quot;WORKSTATUS&quot;:&quot;RWT&quot;,&quot;RESP&quot;:&quot;CRF&quot;,&quot;WORKVALUE&quot;:&quot;C&quot;}" xmltagname="RESPONSIBILITY">
+                    <div class="taggedentity" reg="30 June 2016" xmlattrs="{&quot;REG&quot;:&quot;30 June 2016&quot;,&quot;&quot;:&quot;&quot;}" xmltagname="DATE" draggable="true" data-collection="">
+                        <div class="tagname-markup" data-norm="">DATE</div>
+                        <div class="contents">30 June 2016</div>
+                    </div>
+                    <div class="xmltag" xmlattrs="{}" xmltagname="ITEM"></div>
+                </div>
+            </div>
+        </div>
+        <div class="xmltag" xmlattrs="{}" xmltagname="DIV0">
+            <div class="xmltag" xmlattrs="{}" xmltagname="DIV1">
+                <div class="xmltag" xmlattrs="{}" xmltagname="PERSONNAME">
+                    <div class="xmltag" xmlattrs="{}" xmltagname="DIV2">
+                        <div class="xmltag" xmlattrs="{}" xmltagname="DATASTRUCT">
+                            <div class="xmltag" xmlattrs="{}" xmltagname="DATAITEM">
+                                <div class="xmltag" xmlattrs="{}" xmltagname="BIRTHNAME"> 
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="GIVEN">Sophia</div>
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="GIVEN">Louisa</div>
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="SURNAME">Jex-Blake</div> 
+                                </div>
+                                <div class="xmltag" xmlattrs="{}" xmltagname="SCHOLARNOTE">
+                                    <div class="xmlprolog" xmlattrs="{&quot;comment&quot;:&quot;i am a oxy comment&quot;}" xmltagname="oxy_comment_start"></div>
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="P">Jex-Blake's family name was changed from Blake by her grandfather, in <div class="taggedentity" draggable="true" xmltagname="ORGNAME" xmlattrs="{&quot;STANDARD&quot;:&quot;&quot;,&quot;REF&quot;:&quot;&quot;}" data-collection="">
+                                            <div class="tagname-markup" data-norm="ORGANIZATION">ORGNAME</div>
+                                            <div class="contents"></div>
+                                        </div>
+                                        <div class="taggedentity" draggable="true" xmltagname="ORGNAME" xmlattrs="{&quot;STANDARD&quot;:&quot;honour&quot;,&quot;REF&quot;:&quot;&quot;}" data-collection="">
+                                            <div class="tagname-markup" data-norm="ORGANIZATION">ORGNAME</div>
+                                            <div class="contents">
+                                                <div>honour</div>
+                                            </div>
+                                        </div> of his grandmother Elizabeth Jex.</div>
+                                    <div class="xmltag" xmlattrs="{}" xmltagname="P">Chicago is a city in Illinois which is on the way to Minnesota.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

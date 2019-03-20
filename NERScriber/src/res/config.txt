@@ -1,0 +1,10 @@
+#sql database settings
+databaseURL=jdbc:mysql://dh.sharcnet.ca:3306
+databaseUser=HRBQDBZG
+databasePassword=ewikfsww42BMBSFE
+databaseDriver=com.mysql.jdbc.Driver
+databaseName=nerve
+
+#classifier for nerTagger
+path.root=/
+classifier=/WEB-INF/english.all.3class.distsim.crf.ser.gz

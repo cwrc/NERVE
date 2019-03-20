@@ -1,0 +1,36 @@
+{
+    "name"               : "DEFAULT",
+    "tags" : {
+        "ORGANIZATION": {
+            "name"           : "ORGANIZATION",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {}
+        },
+        "LOCATION": {
+            "name"           : "LOCATION",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {}
+        },
+        "PERSON": {
+            "name"           : "PERSON",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {}
+        },
+        "TITLE": {
+            "name"           : "TITLE",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {}
+        }
+    },
+    "style" : "playwrights",
+    "schemaName" : "default.rng",
+    "tagSourceAttribute" : "whoTagged"
+}

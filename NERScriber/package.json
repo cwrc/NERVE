@@ -1,0 +1,12 @@
+{
+    "name": "nerscriber",
+    "version": "0.9.0",
+    "description": "",
+    "main": "dist/module/nerscriber/package.js",
+    "files": [
+        "dist/module/nerscriber/**"
+    ],
+    "dependencies": {
+        "jjjrmi": "^0.4.21"
+    }
+}

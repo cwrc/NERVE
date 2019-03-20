@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="Server" default="default" basedir=".">
+    <description>Builds, tests, and runs the project Server.</description>
+    <import file="nbproject/build-impl.xml"/>    
+    <taskdef resource="jjjrmiant.xml"/>
+    
+    <target name="echo">
+        <echo message="${j2ee.server.home}"/>
+    </target>
+    
+    <!--Predefined Netbeans targets-->
+    <target name="-pre-compile" depends="jjj.build"/>
+    
+    <!--Remove JJJ files-->
+    <target name="jjj.clean">
+        <delete dir="${basedir}/src/web/js/nerveserver" failonerror="false"/>
+    </target>
+    
+    <!--Generate JJJ files-->
+    <target name="jjj.build">
+        <jjj-java srcDir="${basedir}/src/java" destDir="${basedir}/src/java"/>
+        <jjj-js srcDir="${basedir}/src/java" destDir="${basedir}/src/web/js" package="nerveserver">
+            <classpath>
+                <pathelement path="../lib/antlr-4.7.1-complete.jar"/>
+                <pathelement path="../lib/NERScriber-0.9.0.jar"/>
+                <pathelement path="../lib/DocNav-0.9.2.jar"/>
+            </classpath>
+        </jjj-js>
+        <copy todir="${basedir}/dist/"> 
+            <fileset dir="${basedir}/src/web/js"/>
+        </copy>
+    </target>
+    
+    
+    <!-- Deploy .war file to dh server -->
+    <property name="keyfile" value="D:/cygwin/home/edward/.ssh/id_rsa"/>
+    <property name="remoteTarget" value="debian@dh.sharcnet.ca:~/package/glassfish5/repository"/>
+    <property name="war.dir" value="dist"/>
+    <property name="war.name" value="Server.war"/>
+    <property name="name" value="Server"/>
+    
+    <target name="remotecopy">
+        <echo>copy ${war.dir}/${war.name} to ${remoteTarget}</echo>
+        <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
+            <fileset dir="${war.dir}">
+                <include name="${war.name}"/>
+            </fileset>
+        </scp>        
+    </target>
+
+    <target name="deploy" depends="remotecopy">
+        <echo>deploy .war file</echo>
+        <sshexec host="dh.sharcnet.ca" username="debian" keyfile="${keyfile}" trust="yes" command="asadmin deploy --name ${name} ~/package/glassfish5/repository/${war.name}"/>
+    </target>        
+            
+    <target name="redeploy" depends="remotecopy">
+        <echo>redeploy .war file</echo>
+        <sshexec host="dh.sharcnet.ca" username="debian" keyfile="${keyfile}" trust="yes" command="asadmin redeploy --name ${name} ~/package/glassfish5/repository/${war.name}"/>
+    </target>    
+</project>

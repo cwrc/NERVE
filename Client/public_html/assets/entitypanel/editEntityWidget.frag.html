@@ -1,0 +1,44 @@
+<!--- Tagged Entity Examine Widget --->
+<div class="modal fade" id="showHTMLWidget" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Entities</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>                
+            </div>
+            <div class="modal-body" data-widget-id="html-contents">
+                <form>
+                    
+                    <div class="form-group" data-widget-id="text">
+                        <label><input type="checkbox"> Text:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    
+                    <div class="form-group" data-widget-id="lemma">
+                        <label><input type="checkbox" checked> Standard:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    
+                    <div class="form-group" data-widget-id="link">
+                        <label><input type="checkbox" checked> Link:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                                        
+                    
+                    <div data-widget-id="radioButtons">
+                        <label><input type="checkbox" checked> Tag:</label>                        
+                        <div class="radio"><label><input type="radio" name="editTag" value="LOCATION" checked>Location</label></div>
+                        <div class="radio"><label><input type="radio" name="editTag" value="ORGANIZATION">Organization</label></div>
+                        <div class="radio"><label><input type="radio" name="editTag" value="PERSON">Person</label></div>
+                        <div class="radio"><label><input type="radio" name="editTag" value="TITLE">Title</label></div>
+                    </div>
+                </form>                
+
+            </div>
+            <div class="modal-footer">
+                <button id="editEntityAccept" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+                <button id="editEntityCancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

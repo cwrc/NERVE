@@ -1,0 +1,8 @@
+use npm i to install js modules
+build with netbeans build task
+test with netbeans run task
+ - deploys to /NERVESERVER/
+
+to deploy
+- run ant copy task / scp to server
+- in server: asadmin deploy --name NERVESERVER ~/package/glassfish5/repository/Server.war

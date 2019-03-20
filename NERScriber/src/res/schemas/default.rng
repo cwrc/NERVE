@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar>
+    <start>
+        <ref name="accept_all"/>
+    </start>
+    <define name="accept_all">
+        <any>
+            <ref name="accept_all"/>
+        </any>
+    </define>
+</grammar>

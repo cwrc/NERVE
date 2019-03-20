@@ -1,0 +1,20 @@
+NERScriber
+
+This project encodes and decodes xml files to and from html.  JavaScript files
+are generated for use in the Server project.
+
+The ant build file requires the JJJRMI packed jar file.  This can be found in
+the shared lib directory.
+
+To build the project use 'ant -lib ../lib/JJJRMI.packed-0.4.20.jar jar' from the
+root directory. The ant tasks will generate JavaScript files which need to be 
+checked into git.
+
+When 'ant jar' is called a jar file with the version number will be copied into
+the shared lib directory for the project.  Version number and lib directory 
+settings can be found in the 'build.properties' file.  The dist directory is
+not checked into git because the shared lib directory is.
+
+If the version number changes then the property 'libs.NERScriber.classpath' in the
+'lib/nblibraries.properties' file needs to be updated.  This is typcially
+maintained by NetBeans.

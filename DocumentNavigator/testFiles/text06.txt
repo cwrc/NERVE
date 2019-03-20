@@ -1,0 +1,3 @@
+<xml>
+<div key="value" name="attr">text here</div>
+</xml>

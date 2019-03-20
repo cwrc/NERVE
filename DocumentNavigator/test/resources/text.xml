@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <div class="first">alpha <div>beta</div> charlie</div>
+    <div class="second">
+        delta
+    </div>
+</root>
