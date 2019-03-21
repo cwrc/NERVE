@@ -12,7 +12,7 @@ prerequisites: glassfish, ant, git, npm, node<br>
 Note: paths are system dependent.
 
 ### 1. Checkout repository
-> git@github.com:cwrc/NERVE.git (with key)<br>
+> git clone git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
 ### 2. Build server
