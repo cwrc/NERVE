@@ -1,3 +1,4 @@
+"use strict";
 class ProgressMonitor extends require('@thaerious/nidget').AbstractModel {
 	constructor() {
 		super();

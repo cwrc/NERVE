@@ -28,6 +28,8 @@ If already deployed, redeploy to GlassFish Server<br>
 > asadmin redeploy --name=Server ./dist/Server.war<br>
 
 ### 4. Build client
+> cd ../NERScriber<br>
+> npm i <br>
 > cd ../client<br>
 > npm i<br>
 > npm run build-js<br>
