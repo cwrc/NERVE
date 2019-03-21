@@ -32,7 +32,7 @@ If already deployed, redeploy to GlassFish Server<br>
 Requires browserify, and sass.<br>
 > npm i -g browserify<br>
 > npm i -g sass<br>
-
+<br>
 > cd ../NERScriber<br>
 > npm i <br>
 > cd ../client<br>
