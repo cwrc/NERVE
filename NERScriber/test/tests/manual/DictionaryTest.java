@@ -5,14 +5,14 @@
  */
 package tests.manual;
 
-import ca.frar.utility.SQL.SQL;
-import ca.frar.utility.SQL.SQLEntry;
-import ca.frar.utility.SQL.SQLRecord;
-import ca.frar.utility.SQL.SQLResult;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.ProgressStage;
 import ca.sharcnet.dh.scriber.ScriberResource;
 import ca.sharcnet.dh.scriber.encoder.StringMatch;
+import ca.sharcnet.dh.sql.SQL;
+import ca.sharcnet.dh.sql.SQLEntry;
+import ca.sharcnet.dh.sql.SQLRecord;
+import ca.sharcnet.dh.sql.SQLResult;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;

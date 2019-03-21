@@ -2,6 +2,7 @@ package ca.sharcnet.dh.nerve;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.JSPrequel;
 import ca.frar.jjjrmi.annotations.ServerSide;
+import ca.frar.jjjrmi.annotations.Transient;
 import ca.frar.jjjrmi.socket.JJJObject;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
@@ -16,11 +17,10 @@ import ca.sharcnet.dh.scriber.encoder.EncodeOptions;
 import ca.sharcnet.dh.scriber.encoder.EncodeProcess;
 import ca.sharcnet.dh.scriber.encoder.EncodedDocument;
 import ca.sharcnet.dh.scriber.encoder.Encoder;
-import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Properties;
 import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -28,21 +28,28 @@ import javax.xml.parsers.ParserConfigurationException;
 @JSPrequel("const ArrayList = require ('jjjrmi').ArrayList;")
 public class Scriber extends JJJObject implements HasStreams {
     private ProgressListener progressListener;
+    @Transient private Properties config = null;
 
     public void setProgressListener(ProgressListener progressListener) {
         this.progressListener = progressListener;
     }
+
+    protected Scriber(Properties config){
+        this.config = config;
+    }
+    
+    private Scriber(){}
     
     private EncodeResponse doEncode(String source, EncodeOptions options) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+        if (this.config == null) throw new NullPointerException("config not set");
         Document document = DocumentLoader.documentFromString(source);
-        EncodedDocument encoded = Encoder.encode(document, ScriberResource.getInstance(), options, progressListener);
+        EncodedDocument encoded = Encoder.encode(document, ScriberResource.getInstance(), options, progressListener, config);
         EncodeResponse encodeResponse = new EncodeResponse(encoded.toString(), encoded.getContext().getSourceString(), encoded.getSchema());
         return encodeResponse;
     }
 
     @ServerSide
     public EncodeResponse link(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        Console.log("link / dictionary");
         EncodeOptions options = new EncodeOptions();
         options.addProcess(EncodeProcess.DICTIONARY);
         return doEncode(source, options);

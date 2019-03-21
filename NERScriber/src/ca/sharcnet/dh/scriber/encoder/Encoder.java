@@ -6,9 +6,7 @@ import ca.sharcnet.dh.scriber.context.TagInfo;
 import ca.sharcnet.dh.scriber.ProgressStage;
 import ca.sharcnet.dh.scriber.ProgressPacket;
 import ca.sharcnet.dh.progress.ProgressListener;
-import ca.frar.utility.SQL.SQL;
-import ca.frar.utility.SQL.SQLRecord;
-import ca.frar.utility.SQL.SQLResult;
+import ca.sharcnet.dh.sql.*;
 import static ca.sharcnet.dh.scriber.Constants.*;
 import ca.sharcnet.nerve.docnav.*;
 import ca.sharcnet.nerve.docnav.dom.*;
@@ -39,6 +37,18 @@ public class Encoder extends ProgressListenerList {
     private EncodedDocument document = null;
     private EncodeOptions options;
 
+    public static SQLResult testSQL(HasStreams hasStreams) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
+        SQL sql = null;
+        Properties config = new Properties();
+        InputStream cfgStream = hasStreams.getResourceStream("config.txt");
+        config.load(cfgStream);
+        sql = new SQL(config);
+        SQLResult dictionaries = sql.query("select * from dictionaries");
+        
+        
+        return dictionaries;
+    }    
+    
     /**
      * Encode a document. The hasStreams object must have the config.txt & classification file in root and contexts in /contexts. The options (EncodedOptions)
      * will control which actions to perform. Output will be written to listener (ProgressListener).
@@ -55,7 +65,7 @@ public class Encoder extends ProgressListenerList {
      * @throws SQLException
      * @throws ParserConfigurationException
      */
-    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options, ProgressListener listener) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    public static EncodedDocument encode(Document document, HasStreams hasStreams, EncodeOptions options, ProgressListener listener, Properties config) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (document == null) throw new NullPointerException();
         if (hasStreams == null) throw new NullPointerException();
 
@@ -67,9 +77,6 @@ public class Encoder extends ProgressListenerList {
         SQL sql = null;
         if (options.hasProcess(EncodeProcess.DICTIONARY)){
             if (listener != null) listener.updateMessage("Connecting to SQL database");
-            Properties config = new Properties();
-            InputStream cfgStream = hasStreams.getResourceStream("config.txt");
-            config.load(cfgStream);
             sql = new SQL(config);
         }
 

@@ -3,7 +3,7 @@ const ArrayList = require ('jjjrmi').ArrayList;
 const EncodeResponse = require("./EncodeResponse");
 class Scriber {
 	constructor() {
-		
+		this.config = null;
 	}
 	static __isTransient() {
 		return false;

@@ -1,6 +1,6 @@
 package ca.sharcnet.dh.scriber.encoder;
 
-import ca.frar.utility.SQL.SQLRecord;
+import ca.sharcnet.dh.sql.*;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.graph.PathResult;
 import ca.sharcnet.dh.scriber.graph.Tree;

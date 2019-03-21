@@ -4,7 +4,7 @@ import ca.frar.jjjrmi.annotations.JJJOptions;
 import ca.frar.jjjrmi.annotations.JSPrequel;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
-import ca.frar.utility.SQL.SQLRecord;
+import ca.sharcnet.dh.sql.*;
 import java.util.HashMap;
 import java.util.Set;
 

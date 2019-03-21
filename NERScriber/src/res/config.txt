@@ -1,9 +1,13 @@
 #sql database settings
-databaseURL=jdbc:mysql://dh.sharcnet.ca:3306
-databaseUser=HRBQDBZG
-databasePassword=ewikfsww42BMBSFE
-databaseDriver=com.mysql.jdbc.Driver
-databaseName=nerve
+#databaseURL=jdbc:mysql://dh.sharcnet.ca:3306/nerve
+#databaseUser=HRBQDBZG
+#databasePassword=ewikfsww42BMBSFE
+#databaseDriver=com.mysql.jdbc.Driver
+#databaseName=nerve
+
+#sqlite database settings
+databaseURL=jdbc:sqlite:src/res/nerve.db
+databaseDriver=org.sqlite.JDBC
 
 #classifier for nerTagger
 path.root=/

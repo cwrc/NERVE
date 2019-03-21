@@ -4,19 +4,15 @@ import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.ServerSide;
 import ca.frar.jjjrmi.annotations.Transient;
 import ca.frar.jjjrmi.socket.JJJObject;
-import ca.frar.utility.SQL.SQL;
-import ca.frar.utility.SQL.SQLRecord;
-import ca.frar.utility.SQL.SQLResult;
+import ca.sharcnet.dh.sql.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Properties;
 
 @JJJ
 public class Dictionary extends JJJObject {
     @Transient private String DEFAULT_DICTIONARY = "custom";
     @Transient private SQL sql;
-    @Transient private String SQL_CONFIG = "WEB-INF/config.txt";
+    @Transient private String SQL_CONFIG = "WEB-INF/config.properties";
     
     public Dictionary() throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException{
 //        Properties config = new Properties();

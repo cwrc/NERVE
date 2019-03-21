@@ -4,7 +4,7 @@ const Dictionary = require("./Dictionary");
 const Scriber = require("./Scriber");
 class NerveRoot {
 	constructor() {
-		this.scriber = new Scriber();
+		
 	}
 	static __isTransient() {
 		return false;

@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.script.ScriptException;
@@ -42,7 +43,10 @@ public class Main implements HasStreams, ProgressListener {
     
     public EncodedDocument encode(EncodeProcess ... encodeProcesses) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException{
         encodeOptions.addProcess(encodeProcesses);
-        this.encoded = Encoder.encode(this.doc, this, this.encodeOptions, this);
+        InputStream cfgStream = this.getResourceStream("config.txt");
+        Properties config = new Properties();
+        config.load(cfgStream);        
+        this.encoded = Encoder.encode(this.doc, this, this.encodeOptions, this, config);
         return this.encoded;
     }
 

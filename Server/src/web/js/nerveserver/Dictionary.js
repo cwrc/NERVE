@@ -3,7 +3,7 @@ const EntityValues = require("./EntityValues");
 class Dictionary {
 	constructor() {
 		this.DEFAULT_DICTIONARY = "custom";
-		this.SQL_CONFIG = "WEB-INF/config.txt";
+		this.SQL_CONFIG = "WEB-INF/config.properties";
 	}
 	static __isTransient() {
 		return false;

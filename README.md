@@ -12,14 +12,15 @@ prerequisites: glassfish, ant, git, npm, node<br>
 Note: paths are system dependent.
 
 ### 1. Checkout repository
-> git@github.com:cwrc/NERVE.git (with key)<br>
+> git clone git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
 ### 2. Build server
 Change 'j2ee.server.home' to point to the glassfish server installation.<br>
+> export GFSERVER="/home/glassfish/glassfish5.0.1/glassfish/"
 > cd server<br>
 > npm i<br>
-> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=/home/glassfish/glassfish5.0.1/glassfish/ dist<br>
+> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=$GFSERVER dist<br>
 
 ### 3. Deploy to GlassFish Server
 > asadmin deploy ./dist/Server.war<br>
@@ -28,11 +29,23 @@ If already deployed, redeploy to GlassFish Server<br>
 > asadmin redeploy --name=Server ./dist/Server.war<br>
 
 ### 4. Build client
+Requires browserify, and sass.<br>
+> npm i -g browserify<br>
+> npm i -g sass<br>
+<br>
+> cd ../NERScriber<br>
+> npm i <br>
 > cd ../client<br>
 > npm i<br>
 > npm run build-js<br>
 > npm run build-css<br>
-> cp -r public_html/ home/glassfish/glassfish5.0.1/glassfish/domains/domain1/docroot/nerve
+> cp -r public_html/ $GFSERVER/domains/domain1/docroot/nerve
+
+### 5. Link Client to Server
+In the client side of the app there a file 'assets/serverlocation'. This file
+contains the location of the web socket, the default value is 
+'ws://localhost:8080/NERVESERVER/NerveSocket', the 'localhost:8080' needs to be
+changed to the ip/name of your server.
 
 ## Notes
 ### Other commands of note
