@@ -1,3 +1,4 @@
+"use strict";
 const SQLRecord = require("./SQLRecord");
 class SQLResult {
 	constructor() {

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class Dictionary extends JJJObject {
     @Transient private String DEFAULT_DICTIONARY = "custom";
     @Transient private SQL sql;
-    @Transient private String SQL_CONFIG = "WEB-INF/config.txt";
+    @Transient private String SQL_CONFIG = "WEB-INF/config.properties";
     
     public Dictionary() throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException{
 //        Properties config = new Properties();

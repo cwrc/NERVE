@@ -1,3 +1,4 @@
+"use strict";
 const HashMap = require('jjjrmi').HashMap;
 class TagInfo {
 	constructor() {

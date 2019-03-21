@@ -1,3 +1,4 @@
+"use strict";
 const ProgressStage = require("./ProgressStage");
 class ProgressPacket {
 	constructor() {

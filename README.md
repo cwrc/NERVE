@@ -12,7 +12,7 @@ prerequisites: glassfish, ant, git, npm, node<br>
 Note: paths are system dependent.
 
 ### 1. Checkout repository
-> git@github.com:cwrc/NERVE.git (with key)<br>
+> git clone git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
 ### 2. Build server
@@ -28,6 +28,8 @@ If already deployed, redeploy to GlassFish Server<br>
 > asadmin redeploy --name=Server ./dist/Server.war<br>
 
 ### 4. Build client
+> cd ../NERScriber<br>
+> npm i <br>
 > cd ../client<br>
 > npm i<br>
 > npm run build-js<br>

@@ -1,5 +1,5 @@
 {
     "name": "nerscriber",
-    "main": "package.js",
+    "main": "packageFile.js",
     "version": "0.0.0"
 }

@@ -1,3 +1,4 @@
+"use strict";
 const ProgressMonitor = require("./ProgressMonitor");
 const Dictionary = require("./Dictionary");
 const Scriber = require("./Scriber");
