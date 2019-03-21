@@ -28,6 +28,10 @@ If already deployed, redeploy to GlassFish Server<br>
 > asadmin redeploy --name=Server ./dist/Server.war<br>
 
 ### 4. Build client
+Requires browserify, and sass.<br>
+> npm i -g browserify<br>
+> npm i -g sass<br>
+
 > cd ../NERScriber<br>
 > npm i <br>
 > cd ../client<br>
