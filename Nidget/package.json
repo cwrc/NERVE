@@ -1,0 +1,12 @@
+{
+    "name": "@thaerious/nidget",
+    "version": "0.1.0",
+    "author": "ed armstrong",
+    "dependencies": {
+        "jquery": "^3.3.1"
+    },
+    "files": [
+        "src/**"
+    ],
+    "main": "src/nidget.js"
+}
