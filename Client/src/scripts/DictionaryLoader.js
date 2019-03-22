@@ -3,6 +3,7 @@ const $ = window.$ ? window.$ : require("jquery");
 let CustomReader = require("./CustomReader");
 const Widget = require("@thaerious/nidget").Widget;
 const FileOperations = require("./utility/FileOperations");
+const EntityValues = require("nerveserver").EntityValues;
 
 class DictionaryLoader {
 
@@ -13,30 +14,45 @@ class DictionaryLoader {
         this.throbber = throbber;
     }
 
-    async load(){
+    async load() {
         await this.widget.load();
     }
 
     async onMenuUploadDictionary() {
-        let result = await this.customReader.show();        
+        let result = await this.customReader.show();
         let name = result.filename.split(".")[0].replace(/[ ]+/g, "_");
-        this.widget.setName(name);        
+        this.widget.setName(name);
         let accept = await this.widget.show();
         if (!accept) return;
-        
-        this.dictionary.addTable(this.widget.getName());
+
+        await this.dictionary.addTable(this.widget.getName());
         let contents = result.contents.split(/\n/g);
-        
+
         this.throbber.setMessage("Loading Dictionary Entries");
         this.throbber.show();
-        let i = 0;
+        this.throbber.setPercent(0);
 
-        for (let entry of contents){
-            i++;
-            let percent = Math.round(i / contents.length * 100);
-            this.throbber.setPercent(percent);
-        }
-        this.throbber.hide();
+        setTimeout(function () {
+            let i = 0;
+
+            for (let row of contents) {                
+                i++;
+                let percent = Math.round(i / contents.length * 100);
+                this.throbber.setPercent(percent);
+//                console.log(percent);
+
+                let entry = row.split(/,/g);
+
+                let values = new EntityValues();
+                values.text(entry[0]);
+                values.lemma(entry[1]);
+                values.link(entry[2]);
+                values.tag(entry[3]);                
+                
+                this.dictionary.addEntity(name, values);
+            }
+            this.throbber.hide();
+        }.bind(this), 500);
     }
 }
 
@@ -50,35 +66,37 @@ class DictionaryDialogWidget extends Widget {
         let domElement = await FileOperations.loadDOMElement(`assets/namedict.frag.html`);
         $("body").append(domElement);
         this.setElement(domElement);
-        
-        $(this.getElement()).find("[data-action='accept']").click(()=>{
+
+        $(this.getElement()).find("[data-action='accept']").click(() => {
+            this.$.modal('hide');
             this.resolve(true);
         });
-        
-        $(this.getElement()).find("[data-action='cancel']").click(()=>{
+
+        $(this.getElement()).find("[data-action='cancel']").click(() => {
+            this.$.modal('hide');
             this.resolve(false);
-        });        
+        });
     }
-    
-    getName(){
+
+    getName() {
         let nameElement = $(this.getElement()).find("[data-component='name']");
         return $(nameElement).val();
     }
-    
-    setName(name){
+
+    setName(name) {
         let nameElement = $(this.getElement()).find("[data-component='name']");
         return $(nameElement).val(name);
-    }    
-    
-    async show(){
+    }
+
+    async show() {
         let callback = function (resolve, reject) {
             this.resolve = resolve;
             this.reject = reject;
         }.bind(this);
-        
+
         this.$.modal();
-        return new Promise(callback);            
-    }    
+        return new Promise(callback);
+    }
 }
 
 module.exports = DictionaryLoader;

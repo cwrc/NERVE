@@ -1,5 +1,4 @@
 'use strict';
-
 const $ = window.$ ? window.$ :require("jquery");
 const Widget = require("@thaerious/nidget").Widget;
 
