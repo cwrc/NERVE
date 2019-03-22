@@ -18,6 +18,7 @@ import javax.servlet.ServletContext;
 
 public class NerveSocket extends JJJSocket<NerveRoot> implements JJJObserver {
     private NerveRoot nerveRoot;
+    private SQL sql;
 
     public NerveSocket() throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
         this.addObserver(this);
@@ -42,7 +43,7 @@ public class NerveSocket extends JJJSocket<NerveRoot> implements JJJObserver {
             }
             Properties config = new Properties();
             config.load(configStream);
-            this.nerveRoot = new NerveRoot(config);
+            this.nerveRoot = new NerveRoot(config, sql);
 
             this.verifySQL(config);
 
@@ -52,17 +53,14 @@ public class NerveSocket extends JJJSocket<NerveRoot> implements JJJObserver {
     }
 
     private void verifySQL(Properties config) throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException {
-        SQL sql;
         try {
             sql = new SQL(config);
             SQLResult result = sql.tables();
-
-            Console.log(result.size() + " entries");
+            
             for (SQLRecord r : result) {
-                for (SQLEntry c : r) {
-                    Console.log(c.getName() + ", " + c.getValue());
-                }
+                Console.log(" - " + r.getEntry("TABLE_NAME").getValue());
             }
+            Console.log(result.size() + " table" + (result.size() == 1 ? "" : "s") + " in database");
 
             if (result.size() == 0) {
                 Console.log("creating tables");
@@ -75,7 +73,7 @@ public class NerveSocket extends JJJSocket<NerveRoot> implements JJJObserver {
                         + "source varchar(16) NOT NULL,"
                         + "constraint pk primary key(lemma, tag, source)"
                         + ");");
-                sql.update("CREATE INDEX iEntity ON custom (entity)");
+                sql.update("insert into dictionaries values('custom')");
             }
         } catch (SQLException ex) {
             Logger.getLogger(NerveSocket.class.getName()).log(Level.SEVERE, null, ex);

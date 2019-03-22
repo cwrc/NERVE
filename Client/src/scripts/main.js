@@ -17,6 +17,7 @@ const LemmaDialogController = require("./LemmaDialogController");
 const EntityPanelLemmaDialogListener = require("./EntityPanelLemmaDialogListener");
 const Throbber = require("./throbber/Throbber");
 const MessageWidget = require("./entitypanel/MessageWidget");
+const DictionaryLoader = require("./DictionaryLoader");
 
 JJJRMISocket.registerPackage(require("nerscriber"));
 JJJRMISocket.registerPackage(require("nerveserver"));
@@ -98,6 +99,11 @@ class Main extends AbstractModel {
         $("body").append(this.throbber.$);
         let monitor = this.rootObject.getProgressMonitor();
         monitor.addListener(new MonitorListener(this.throbber));
+        
+        /* Dictionary Loader */
+        this.dictionaryLoader = new DictionaryLoader(dictionary, this.throbber);
+        await this.dictionaryLoader.load();
+        this.addListener(this.dictionaryLoader);         
         
         /* Setup Message Wiget */
         this.messageWidget = new MessageWidget();

@@ -4,6 +4,7 @@ import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.progress.ProgressListener;
+import ca.sharcnet.dh.sql.SQL;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -15,9 +16,9 @@ public class NerveRoot extends JJJObject{
     private ProgressListener progressMonitor;
     private Dictionary dictionary;
 
-    NerveRoot(Properties config) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
+    NerveRoot(Properties config, SQL sql) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
         scriber = new Scriber(config);
-        this.dictionary = new Dictionary();
+        this.dictionary = new Dictionary(sql);
         this.progressMonitor = new ProgressMonitor();
         this.scriber.setProgressListener(progressMonitor);
     }

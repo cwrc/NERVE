@@ -14,8 +14,11 @@ class Dictionary {
 	static __isEnum() {
 		return false;
 	}
-	addEntity(value) {
+	addEntity(table, value) {
 		return this.__jjjWebsocket.methodRequest(this, "addEntity", arguments);
+	}
+	addTable(table) {
+		return this.__jjjWebsocket.methodRequest(this, "addTable", arguments);
 	}
 	deleteEntity(value) {
 		return this.__jjjWebsocket.methodRequest(this, "deleteEntity", arguments);

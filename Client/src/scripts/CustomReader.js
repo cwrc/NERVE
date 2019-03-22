@@ -1,6 +1,14 @@
 'use strict';
 
+/**
+ * Maintains a file load dialog.
+ */
 class CustomReader{    
+    
+    /**
+     * @param {type} target id of input with type file.
+     * @returns {nm$_CustomReader.CustomReader}
+     */
     constructor(target){
         this.target = target;
         
@@ -27,7 +35,7 @@ class CustomReader{
      * Return an object with {filename, contents}
      * @returns {Promise}
      */
-    async show(){               
+    async show(){   
         let callback = function (resolve, reject) {
             this.resolve = resolve;
             this.reject = reject;
@@ -37,28 +45,6 @@ class CustomReader{
         
         return new Promise(callback);
     }
-    
-    async loadDocument(filename, text, action) {
-        let encodeResponse = null;
-        switch (action) {
-            case "OPEN": /* NER & dict */
-                encodeResponse = await this.scriber.encode(text);
-                break;
-            case "EDIT": /* open no dict, no NER */
-                encodeResponse = await this.scriber.edit(text);
-                break;
-            case "TAG": /* NER only */
-                encodeResponse = await this.scriber.tag(text);
-                break;
-            case "LINK": /* NER only */
-                encodeResponse = await this.scriber.link(text);
-                break;
-        }
-
-        encodeResponse.setFilename(filename);
-        await this.setDocument(encodeResponse.text, encodeResponse.context, encodeResponse.filename, encodeResponse.schemaURL);
-        this.isSaved = true;
-    }    
 }
 
 module.exports = CustomReader;

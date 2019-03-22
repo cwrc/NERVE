@@ -50,8 +50,7 @@ class OpenAsWidget extends Widget{
             this.reject = reject;
         }.bind(this);
         
-        this.$.modal();
-        
+        this.$.modal();        
         return new Promise(callback);
     }
 }

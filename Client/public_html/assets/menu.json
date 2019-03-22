@@ -9,7 +9,8 @@
         },
         "Close" : {
             "disabled": true
-        }
+        },
+        "Upload Dictionary" : {}
     },
     "View" : {
         "XML Mode" : {},

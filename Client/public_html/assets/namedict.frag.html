@@ -2,22 +2,15 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Open File Options</h4>
-                <button type="button" class="close" data-dismiss="modal">×</button>                
+                <h4 class="modal-title">Dictionary Name</h4>
+                <button type="button" data-action="cancel" class="close" data-dismiss="modal">×</button>                
             </div>
             <div class="modal-body" data-widget-id="html-contents">
-                <div class="custom-control custom-checkbox">
-                    <input checked="" type="checkbox" class="custom-control-input" id="openDict">
-                    <label class="custom-control-label" for="openDict">Known Tag Lookup</label>
-                </div>                
-                <div class="custom-control custom-checkbox">
-                    <input checked="" type="checkbox" class="custom-control-input" id="openNER">
-                    <label class="custom-control-label" for="openNER">Named Entity Recognition</label>
-                </div>
+                <input type="text" class="form-control" data-component="name">
             </div>
             <div class="modal-footer">
-                <button type="button" id="openAsAccept" class="btn btn-primary" data-dismiss="modal">Choose File</button>
-                <button type="button" id="openAsCancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" data-action="accept" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                <button type="button" data-action="cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
