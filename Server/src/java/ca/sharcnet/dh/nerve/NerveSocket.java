@@ -41,41 +41,15 @@ public class NerveSocket extends JJJSocket<NerveRoot> implements JJJObserver {
             if (configStream == null) {
                 throw new NullPointerException("config.properties not found");
             }
+            
             Properties config = new Properties();
             config.load(configStream);
-            this.nerveRoot = new NerveRoot(config, sql);
-
-            this.verifySQL(config);
-
-        } catch (IOException | ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException ex) {
-            Logger.getLogger(NerveSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void verifySQL(Properties config) throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException {
-        try {
-            sql = new SQL(config);
-            SQLResult result = sql.tables();
             
-            for (SQLRecord r : result) {
-                Console.log(" - " + r.getEntry("TABLE_NAME").getValue());
-            }
-            Console.log(result.size() + " table" + (result.size() == 1 ? "" : "s") + " in database");
-
-            if (result.size() == 0) {
-                Console.log("creating tables");
-                sql.update("create table dictionaries (name varchar(64))");
-                sql.update("CREATE TABLE custom ("
-                        + "entity varchar(255) NOT NULL,"
-                        + "lemma varchar(128) NOT NULL,"
-                        + "link varchar(255) NOT NULL,"
-                        + "tag varchar(16) NOT NULL,"
-                        + "source varchar(16) NOT NULL,"
-                        + "constraint pk primary key(lemma, tag, source)"
-                        + ");");
-                sql.update("insert into dictionaries values('custom')");
-            }
-        } catch (SQLException ex) {
+            sql = new SQL(config);
+            
+            this.nerveRoot = new NerveRoot(config, sql);
+            this.nerveRoot.getDictionary().verifySQL(config);
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException ex) {
             Logger.getLogger(NerveSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

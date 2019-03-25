@@ -14,6 +14,9 @@ class Dictionary {
 	static __isEnum() {
 		return false;
 	}
+	addEntities(table, values) {
+		return this.__jjjWebsocket.methodRequest(this, "addEntities", arguments);
+	}
 	addEntity(table, value) {
 		return this.__jjjWebsocket.methodRequest(this, "addEntity", arguments);
 	}

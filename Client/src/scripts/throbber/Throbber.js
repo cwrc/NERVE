@@ -25,10 +25,12 @@ class Throbber extends Widget{
     }
     
     hide(){
+        console.log("throbber.hide()");
         this.$.hide();
     }
     
     show(){
+        console.log("throbber.show()");
         this.$.show();
     }
     

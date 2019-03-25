@@ -1,5 +1,4 @@
 package ca.sharcnet.dh.nerve;
-
 import ca.frar.utility.console.Console;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.ServerSide;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 
 @JJJ
 public class Dictionary extends JJJObject {
-
     @Transient
     private String DEFAULT_DICTIONARY = "custom";
     @Transient
@@ -26,6 +24,20 @@ public class Dictionary extends JJJObject {
         this.sql = sql;
     }
 
+    public void verifySQL(Properties config) throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException {
+        try {
+            SQLResult result = sql.tables();
+            
+            for (SQLRecord r : result) {
+                Console.log(" - " + r.getEntry("TABLE_NAME").getValue());
+            }
+            Console.log(result.size() + " table" + (result.size() == 1 ? "" : "s") + " in database");
+            if (result.size() == 0) this.addTable("custom");
+        } catch (SQLException ex) {
+            Logger.getLogger(NerveSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @ServerSide
     public boolean addTable(String table) throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
         String q = String.format("select * from dictionaries where name = '%s'", table);
@@ -40,7 +52,7 @@ public class Dictionary extends JJJObject {
                 + "link varchar(255) NOT NULL,"
                 + "tag varchar(16) NOT NULL,"
                 + "source varchar(16) NOT NULL,"
-                + "constraint pk primary key(lemma, tag, source)"
+                + "constraint pk primary key(lemma, tag, source) on conflict replace"
                 + ");",
                 table));
         
@@ -49,16 +61,35 @@ public class Dictionary extends JJJObject {
     }
 
     @ServerSide
+    public void addEntities(String table, EntityValues[] values) throws SQLException{
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(String.format("insert into %s values", SQL.sanitize(table)));        
+        for (int i = 0; i < values.length; i++){
+            EntityValues value = values[i];
+            builder.append(String.format("(%s, %s, %s, %s, %s)",
+                SQL.sanitize(value.text()),
+                SQL.sanitize(value.lemma()),
+                SQL.sanitize(value.link()),
+                SQL.sanitize(value.tag()),
+                SQL.sanitize(table)
+            ));
+            if (i < values.length - 1) builder.append(",");
+        }
+        String update = builder.toString();
+        Console.log(update);
+        sql.update(update);
+    }
+    
+    @ServerSide
     public int addEntity(String table, EntityValues value) throws SQLException {
-        String format = String.format("insert into %s values ('%s', '%s', '%s', '%s', '%s') "
-                + "ON DUPLICATE KEY UPDATE entity='%s'",
-                table,
-                value.text(),
-                value.lemma(),
-                value.link(),
-                value.tag(),
-                table,
-                value.text()
+        String format = String.format("insert into %s values (%s, %s, %s, %s, %s) ",
+                SQL.sanitize(table),
+                SQL.sanitize(value.text()),
+                SQL.sanitize(value.lemma()),
+                SQL.sanitize(value.link()),
+                SQL.sanitize(value.tag()),
+                SQL.sanitize(table)
         );
         return sql.update(format);
     }

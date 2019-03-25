@@ -18,8 +18,9 @@ import java.util.Properties;
 public class SQL {
 
     public static String sanitize(String innerText) {
-        String rvalue = innerText.replaceAll("\\\"", "\\\\\"");
-        return "\"" + rvalue + "\"";
+        if (innerText == null) innerText = "";
+        String rvalue = innerText.replaceAll("'", "''");
+        return "'" + rvalue + "'";
     }
 
     private final String url, user, pass, driver;

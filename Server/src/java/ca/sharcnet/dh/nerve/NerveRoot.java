@@ -17,6 +17,9 @@ public class NerveRoot extends JJJObject{
     private Dictionary dictionary;
 
     NerveRoot(Properties config, SQL sql) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
+        if (config == null) throw new NullPointerException();
+        if (sql == null) throw new NullPointerException();
+        
         scriber = new Scriber(config);
         this.dictionary = new Dictionary(sql);
         this.progressMonitor = new ProgressMonitor();

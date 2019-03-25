@@ -27,8 +27,8 @@ JJJRMISocket.flags = {
     CONNECT: false, /* show the subset of ONMESSAGE that deals with the initial connection */
     ONMESSAGE: false, /* describe the action taken when a message is received */
     SENT: true, /* show the send object, versbose shows the json text as well */
-    RECEIVED: false, /* show the received server object, verbose shows the json text as well */
-    VERBOSE: true, /* print raw text for SENT / RECEIVED */
+    RECEIVED: true, /* show the received server object, verbose shows the json text as well */
+    VERBOSE: false, /* print raw text for SENT / RECEIVED */
     ONREGISTER: false /* report classes as they are registered */
 };
 

@@ -25,34 +25,40 @@ class DictionaryLoader {
         let accept = await this.widget.show();
         if (!accept) return;
 
-        await this.dictionary.addTable(this.widget.getName());
-        let contents = result.contents.split(/\n/g);
+//        let wasTableAdded = await this.dictionary.addTable(this.widget.getName());
 
+//        console.log("Table was " + (wasTableAdded ? "" : "not ") + "added");
+
+        let contents = result.contents.split(/\n/g);
         this.throbber.setMessage("Loading Dictionary Entries");
         this.throbber.show();
         this.throbber.setPercent(0);
 
-        setTimeout(function () {
-            let i = 0;
+        let setSize = 500;
+        let sent = 0;
+        let valueArray = [];
 
-            for (let row of contents) {                
-                i++;
-                let percent = Math.round(i / contents.length * 100);
-                this.throbber.setPercent(percent);
-//                console.log(percent);
+        for (let row of contents) {
+            let entry = row.split(/,/g);
+            let values = new EntityValues();
+            values.text(entry[0]);
+            values.lemma(entry[1]);
+            values.link(entry[2]);
+            values.tag(entry[3]);
+            valueArray.push(values);
 
-                let entry = row.split(/,/g);
-
-                let values = new EntityValues();
-                values.text(entry[0]);
-                values.lemma(entry[1]);
-                values.link(entry[2]);
-                values.tag(entry[3]);                
-                
-                this.dictionary.addEntity(name, values);
+            if (valueArray.length >= setSize) {
+                sent = sent + valueArray.length;
+                await this.dictionary.addEntities(name, valueArray);
+                let p = sent / contents.length * 100;
+                this.throbber.setPercent(Math.trunc(p));
+                console.log(p + ", " + sent + " / " + contents.length);
+//                if (sent >= 20) break;
+                valueArray = [];
             }
-            this.throbber.hide();
-        }.bind(this), 500);
+        }
+
+        this.throbber.hide();
     }
 }
 
