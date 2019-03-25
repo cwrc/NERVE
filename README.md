@@ -16,11 +16,14 @@ Note: paths are system dependent.
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
 
 ### 2. Build server
-Change 'j2ee.server.home' to point to the glassfish server installation.<br>
-> export GFSERVER="/home/glassfish/glassfish5.0.1/glassfish/"
-> cd server<br>
-> npm i<br>
-> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=$GFSERVER dist<br>
+First, install the node dependencies. From the NERVE/Server directory, run
+> npm i
+
+Second, build the war file. The default task in the NERVE/Server/build.xml ant file will output the built server application to NERVE/Server/dist/Server.war.<br>
+The task relies upon the `j2ee.server.home` property being set to your glassfish server installation.<br>
+The task requires the `lib` path to be set to the JJJRMI.packed jar file in the NERVE/lib directory.<br>
+For example, from the NERVE/Server directory, run
+> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=/home/glassfish5/glassfish/
 
 ### 3. Deploy to GlassFish Server
 > asadmin deploy ./dist/Server.war<br>
@@ -39,7 +42,7 @@ Requires browserify, and sass.<br>
 > npm i<br>
 > npm run build-js<br>
 > npm run build-css<br>
-> cp -r public_html/ $GFSERVER/domains/domain1/docroot/nerve
+> cp -r public_html/ /home/glassfish5/glassfish/domains/domain1/docroot/nerve
 
 ### 5. Link Client to Server
 In the client side of the app there a file 'assets/serverlocation'. This file
