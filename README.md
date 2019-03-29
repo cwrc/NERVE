@@ -23,7 +23,7 @@ Second, build the war file. The default task in the NERVE/Server/build.xml ant f
 The task relies upon the `j2ee.server.home` property being set to your glassfish server installation.<br>
 The task requires the `lib` path to be set to the JJJRMI.packed jar file in the NERVE/lib directory.<br>
 For example, from the NERVE/Server directory, run
-> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=/home/glassfish5/glassfish/
+> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -D"j2ee.server.home"=/home/glassfish5/glassfish/
 
 ### 3. Deploy to GlassFish Server
 > asadmin deploy ./dist/Server.war<br>
