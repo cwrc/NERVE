@@ -210,5 +210,6 @@ Update [assets/serverlocation](https://github.com/cwrc/NERVE/blob/master/Client/
 Enhancements:
 - setup port forward
 
+Note: debugging - `glassfish/domains/domain1/logs/server.log`
 Note: Don't do the following: `keytool -storepasswd -keystore ./keystore.jks` as it leaves the keystore in an inconsitant state
 
