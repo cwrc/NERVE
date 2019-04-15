@@ -1,6 +1,7 @@
 const jQuery = require("jquery");
 const $ = jQuery;
 const jjjrmi = require("jjjrmi");
+const EntityValues = require("nerscriber").EntityValues;
 window.package = require("./nerveserver/package");
 
 $(window).on('load', async function () {
@@ -15,17 +16,21 @@ class Main {
         this.encoded = null;
 
         /* JJJ Initialization */
+        jjjrmi.JJJRMISocket.flags.ONREGISTER = true;
         jjjrmi.JJJRMISocket.flags.CONNECT = true;
         jjjrmi.JJJRMISocket.flags.RECEIVED = true;
         jjjrmi.JJJRMISocket.flags.SENT = true;
 
-        jjjrmi.JJJRMISocket.registerPackage(require("./nerveserver/package"));
+        console.log(jjjrmi.JJJRMISocket.flags);
+
+        jjjrmi.JJJRMISocket.registerPackage(require("./nerveserver/packageFile"));
         jjjrmi.JJJRMISocket.registerPackage(require("jjjsql"));
         jjjrmi.JJJRMISocket.registerPackage(require("nerscriber"));
 
         this.rootSocket = new jjjrmi.JJJRMISocket("NerveSocket");
         this.rootObject = await this.rootSocket.connect();
         this.scriber = this.rootObject.getScriber();
+        this.dictionary = this.rootObject.getDictionary();
 
         /* page functionality */
         reader.main = this;
@@ -108,6 +113,44 @@ class Main {
             }
         });          
         
+        $("#bUpload").click(async (event) => {
+            if (this.document === null){
+                window.alert("no document loaded");
+            } else {                
+                await this.uploadDictionary(this.document, p=>console.log(p));
+            }
+        });
+        
         return this;
+    }
+    
+    async uploadDictionary(document, onUpdate = p=>{}) {
+        let contents = document.split(/\n/g);
+
+        const SET_SIZE = 4000;
+        let sent = 0;
+        let valueArray = [];        
+
+        for (let row of contents) {
+            let entry = row.split(/,/g);
+            let values = new EntityValues();
+            values.text(entry[0]);
+            values.lemma(entry[1]);
+            values.link(entry[2]);
+            values.tag(entry[3]);
+            values.source(entry[4]);
+            valueArray.push(values);
+
+            if (valueArray.length >= SET_SIZE) {
+                sent = sent + valueArray.length;
+                await this.dictionary.addEntities(valueArray);
+                let p = sent / contents.length * 100;
+                onUpdate(Math.floor(p));
+                valueArray = [];
+            }
+        }
+        
+        await this.dictionary.addEntities(valueArray);
+        onUpdate(100);
     }
 }

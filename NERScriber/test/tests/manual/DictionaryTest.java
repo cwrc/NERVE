@@ -8,7 +8,7 @@ package tests.manual;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.ProgressStage;
 import ca.sharcnet.dh.scriber.ScriberResource;
-import ca.sharcnet.dh.scriber.encoder.StringMatch;
+import ca.sharcnet.dh.scriber.stringmatch.StringMatch;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.dh.sql.SQLEntry;
 import ca.sharcnet.dh.sql.SQLRecord;

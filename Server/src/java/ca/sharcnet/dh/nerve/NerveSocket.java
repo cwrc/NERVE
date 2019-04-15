@@ -5,9 +5,6 @@ import ca.frar.jjjrmi.socket.observer.events.JJJExceptionEvent;
 import ca.frar.jjjrmi.socket.observer.events.JJJOpenEvent;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.sql.SQL;
-import ca.sharcnet.dh.sql.SQLEntry;
-import ca.sharcnet.dh.sql.SQLRecord;
-import ca.sharcnet.dh.sql.SQLResult;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -45,10 +42,9 @@ public class NerveSocket extends JJJSocket<NerveRoot> implements JJJObserver {
             Properties config = new Properties();
             config.load(configStream);
             
-            sql = new SQL(config);
-            
+            sql = new SQL(config);            
             this.nerveRoot = new NerveRoot(config, sql);
-            this.nerveRoot.getDictionary().verifySQL(config);
+            this.nerveRoot.getDictionary().verifySQL();
         } catch (IOException | ClassNotFoundException | IllegalAccessException | SQLException | InstantiationException ex) {
             Logger.getLogger(NerveSocket.class.getName()).log(Level.SEVERE, null, ex);
         }

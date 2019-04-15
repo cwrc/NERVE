@@ -16,11 +16,11 @@ public class Orlando {
             Main main = new Main("minimalOrlando.xml");            
             System.out.println(main.doc);
             System.out.println();
-            EncodedDocument encode = main.encode();
-            System.out.println("----- encode.toString -----");
+            EncodedDocument encode = main.encode(EncodeProcess.DICTIONARY);
+//            System.out.println("----- encode.toString -----");
             System.out.println(encode.toString());
-            System.out.println("----- encode.documentFromString -----");
-            System.out.println(DocumentLoader.documentFromString(encode.toString()).toString());            
+//            System.out.println("----- encode.documentFromString -----");
+//            System.out.println(DocumentLoader.documentFromString(encode.toString()).toString());            
 //            System.out.println();
 //            Document decode = main.decodeFromText();
 //            System.out.println(decode);

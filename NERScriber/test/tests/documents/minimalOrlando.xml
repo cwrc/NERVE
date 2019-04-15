@@ -33,12 +33,9 @@
                                 <SURNAME>Jex-Blake</SURNAME> 
                             </BIRTHNAME>
                             <SCHOLARNOTE>
-                                <P>
-                                    <PLACE>Toronto<XREF>xref</XREF></PLACE>
-                                </P>
-                                <?oxy_comment_start comment="i am a oxy comment"?>
-                                <P>Jex-Blake&apos;s family name was changed from Blake by her grandfather, in honour of his grandmother Elizabeth Jex.</P>
-								<P>Chicago is a city in Illinois which is on the way to Minnesota.</P>
+                                Cotes Landing
+                                Cotes, Landing
+                                Cotes
                             </SCHOLARNOTE>
                         </DATAITEM>
                     </DATASTRUCT>

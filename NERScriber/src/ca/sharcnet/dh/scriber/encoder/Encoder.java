@@ -1,5 +1,9 @@
 package ca.sharcnet.dh.scriber.encoder;
 
+import ca.frar.utility.console.Console;
+import ca.sharcnet.dh.scriber.stringmatch.OnReject;
+import ca.sharcnet.dh.scriber.stringmatch.OnAccept;
+import ca.sharcnet.dh.scriber.stringmatch.StringMatch;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.TagInfo;
@@ -17,7 +21,7 @@ import ca.sharcnet.dh.scriber.HasStreams;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import ca.frar.utility.console.Console;
+import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.scriber.encoder.exceptions.NullSchemaPathException;
 import ca.sharcnet.dh.scriber.encoder.exceptions.NullSchemaStreamException;
 import ca.sharcnet.dh.scriber.encoder.exceptions.UnknownSchemaException;
@@ -29,13 +33,12 @@ import java.util.zip.GZIPInputStream;
 import org.json.JSONObject;
 
 public class Encoder extends ProgressListenerList {
-
     private final Context context;
-    private final SQL sql;
     private final Classifier classifier;
     private Schema schema = null;
     private EncodedDocument document = null;
     private EncodeOptions options;
+    private Dictionary dictionary;
 
     public static SQLResult testSQL(HasStreams hasStreams) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
         SQL sql = null;
@@ -44,8 +47,7 @@ public class Encoder extends ProgressListenerList {
         config.load(cfgStream);
         sql = new SQL(config);
         SQLResult dictionaries = sql.query("select * from dictionaries");
-        
-        
+                
         return dictionaries;
     }    
     
@@ -74,21 +76,17 @@ public class Encoder extends ProgressListenerList {
         if (listener != null) listener.start("Encoding Document");
 
         /* connect to SQL */
-        SQL sql = null;
-        if (options.hasProcess(EncodeProcess.DICTIONARY)){
-            if (listener != null) listener.updateMessage("Connecting to SQL database");
-            sql = new SQL(config);
-        }
+        SQL sql = null;                
+        if (listener != null) listener.updateMessage("Connecting to SQL database");
+        sql = new SQL(config);
 
         /* build classifier */
         Classifier classifier = null;
-        if (options.hasProcess(EncodeProcess.NER)){
-            if (listener != null) listener.updateMessage("Building Classifier");
-            InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
-            BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
-            classifier = new Classifier(bis);
-            cStream.close();
-        }
+        if (listener != null) listener.updateMessage("Building Classifier");
+        InputStream cStream = hasStreams.getResourceStream("english.all.3class.distsim.crf.ser.gz");
+        BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
+        classifier = new Classifier(bis);
+        cStream.close();
 
         /* retrieve the schema url to set the context */
         Context context = null;
@@ -142,14 +140,16 @@ public class Encoder extends ProgressListenerList {
     private Encoder(Document document, Context context, SQL sql, Classifier classifier, EncodeOptions options) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, SQLException {
         if (document == null) throw new NullPointerException();
         if (context == null) throw new NullPointerException();
-        if (options.hasProcess(EncodeProcess.NER) && classifier == null) throw new NullPointerException();
-        if (options.hasProcess(EncodeProcess.DICTIONARY) && sql == null) throw new NullPointerException();
+        if (classifier == null) throw new NullPointerException();
+        if (sql == null) throw new NullPointerException();
         
         this.options = options;
-        this.sql = sql;
         this.context = context;
         this.document = new EncodedDocument(document, context);
         this.classifier = classifier;
+        
+        this.dictionary = new Dictionary(sql);    
+        this.dictionary.verifySQL();
     }
 
     private EncodedDocument encode() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
@@ -160,15 +160,15 @@ public class Encoder extends ProgressListenerList {
                     processNER(document);
                     break;
                 case DICTIONARY:
-                    this.forEach(lst -> lst.updateMessage("Linking Entities"));
-                    lookupTag();
+                    this.forEach(lst -> lst.updateMessage("Seeking Entities"));
+                    seekEntities(document);
                     break;
+                case HTML:
+                    this.forEach(lst -> lst.updateMessage("Converting to HTML"));
+                    wrapNode(document);
+                break;
             }
         }
-
-        this.forEach(lst -> lst.updateMessage("Converting Tags"));
-        wrapNode(document);
-
         return document;
     }
 
@@ -176,111 +176,19 @@ public class Encoder extends ProgressListenerList {
         this.schema = schema;
     }
 
-    private String buildDictionaryQuery() throws SQLException {
-        /* first check context for dictionary list */
-        List<String> dictList = this.context.getDictionaries();
-
-        if (dictList.isEmpty()){
-            SQLResult dictionaries = sql.query("select * from dictionaries");
-            for (SQLRecord sqlRecord : dictionaries) {
-                dictList.add(sqlRecord.getEntry("name").getValue());
-            }
-        }
-
-        StringBuilder builder = new StringBuilder();
-        if (dictList.isEmpty()) return "";
-        builder.append("select * from ");
-        builder.append(dictList.get(0));
-        
-        for (int i = 1; i < dictList.size(); i++){
-            builder.append(" union select * from ");
-            builder.append(dictList.get(i));            
-        }
-        
-        String query = builder.toString();
-        return query;
-    }
-
-    private String buildDictionaryQuery(String entityText) throws SQLException {
-        Console.log("buildDictionaryQuery(\"" + entityText + "\")");
-        SQLResult dictionaries = sql.query("select * from dictionaries");
-        StringBuilder builder = new StringBuilder();
-        int i = 0;
-
-        for (SQLRecord sqlRecord : dictionaries) {
-            String dictionary = sqlRecord.getEntry("name").getValue();
-            if (i != 0) builder.append(" union ");
-            builder.append("select * from ");
-            builder.append(dictionary);
-            builder.append(" where entity = '");
-            builder.append(entityText.replaceAll("'", "\\\\'"));
-            builder.append("'");
-            i++;
-        }
-
-        String query = builder.toString();
-        return query;
-    }
-
-    private void lookupTag() throws SQLException {
-        StringMatch knownEntities = new StringMatch();
-        String dictionaryQuery = buildDictionaryQuery();            
-        if (dictionaryQuery.isEmpty()) return;        
-        
-        SQLResult sqlResult = sql.query(dictionaryQuery);
-        
-        for (int i = 0; i < sqlResult.size(); i++) {
-            SQLRecord row = sqlResult.get(i);
-            knownEntities.addCandidate(row.getEntry("entity").getValue(), row);
-        }
-
-        lookupTag(document, knownEntities);
-    }
-
-    private void lookupTag(Document doc, StringMatch knownEntities) throws SQLException {
-        Query textNodes = doc.query(NodeType.TEXT);
-
-        double n = 0;
-        double N = textNodes.size();
-
-        for (Node node : textNodes) {
-            if (context.isTagName(node.getParent().name())) lookupTaggedNode(node.getParent());
-            else lookupTag((TextNode) node, knownEntities);
-            for (ProgressListener lst : this) lst.updateProgress((int)(++n / N * 100));
+    private void seekEntities(Document document) throws SQLException{
+        Query textNodes = document.query(NodeType.TEXT);
+        for (Node textNode : textNodes) {        
+            seekEntities((TextNode)textNode);
         }
     }
-
-    private void lookupTaggedNode(Node node) throws SQLException {
-        String standardTag = context.getStandardTag(node.name());
-        TagInfo tagInfo = context.getTagInfo(standardTag);
-        String linkAttribute = tagInfo.getLinkAttribute();
-        String lemmaAttribute = tagInfo.getLemmaAttribute();
-
-        if (linkAttribute.isEmpty() || node.hasAttribute(linkAttribute)) return;
-
-        String text = node.text().replaceAll("\"", "\\\\\"");
-        String query = buildDictionaryQuery(text);
-
-        try {
-            SQLResult sqlResult = sql.query(query);
-            if (sqlResult.size() == 0) return;
-            SQLRecord row = sqlResult.get(0);
-
-            node.attr(lemmaAttribute, row.getEntry("lemma").getValue());
-            node.attr(linkAttribute, row.getEntry("link").getValue());
-        } catch (SQLException ex) {
-            Console.warn(query);
-            throw ex;
-        }
-    }
-
-    private void lookupTag(TextNode child, StringMatch knownEntities) {
-        String innerText = child.getText();
+    
+    private void seekEntities(TextNode child) throws SQLException {        
         final NodeList newNodes = new NodeList();
-//        String tagSourceAttr = context.getTagSourceAttribute();
 
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
+            Console.log("onAccept: " + string.replaceAll("\n", "[nl]"));
             String standardTag = row.getEntry("tag").getValue();
             TagInfo tagInfo = context.getTagInfo(standardTag);
             String schemaTag = tagInfo.getName();
@@ -289,12 +197,11 @@ public class Encoder extends ProgressListenerList {
             
             if (!schema.isValid(child.getParent(), schemaTag)) {
                 newNodes.add(new TextNode(string));
-            } else {
+            } else {                
                 Node elementNode = new ElementNode(schemaTag, string);
                 if (!lemmaAttribute.isEmpty()) elementNode.attr(lemmaAttribute, row.getEntry("lemma").getValue());
                 if (!linkAttribute.isEmpty()) elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 newNodes.add(elementNode);
-//                elementNode.attr(tagSourceAttr, Constants.TAG_SRC_VAL_DICT);
             }
         };
 
@@ -302,9 +209,49 @@ public class Encoder extends ProgressListenerList {
             newNodes.add(new TextNode(string));
         };
 
-        knownEntities.seekLine(innerText, onAccept, onReject);
+        StringMatch stringMatch = buildStringMatch(child.getText());
+        stringMatch.seekLine(onAccept, onReject);
         child.replaceWith(newNodes);
+    }           
+    
+    /**
+     * Create a new tagged entity for any text that is not already within a 
+     * tagged entity.
+     * @throws SQLException
+     */
+    private StringMatch buildStringMatch(String nodeText) throws SQLException {
+        StringMatch stringMatch = new StringMatch();
+        String[] candidates = stringMatch.setSource(nodeText);    
+        if (candidates.length == 0) return stringMatch;
+        
+        SQLResult sqlResult = this.dictionary.getEntities(candidates);
+        
+        Console.log(sqlResult.size());
+        for (int i = 0; i < sqlResult.size(); i++) {
+            SQLRecord row = sqlResult.get(i);
+            stringMatch.addCandidate(row.getEntry("entity").getValue(), row);
+        }
+        
+        return stringMatch;
     }
+    
+    private void lookupTaggedNode(Node node) throws SQLException {
+        String standardTag = context.getStandardTag(node.name());
+        TagInfo tagInfo = context.getTagInfo(standardTag);
+        String linkAttribute = tagInfo.getLinkAttribute();
+        String lemmaAttribute = tagInfo.getLemmaAttribute();
+
+        if (linkAttribute.isEmpty() || node.hasAttribute(linkAttribute)) return;
+        String text = node.text().replaceAll("\"", "\\\\\"");
+        SQLResult sqlResult = dictionary.getEntities(text);
+        if (sqlResult.size() == 0) return;
+        SQLRecord row = sqlResult.get(0);
+
+        node.attr(lemmaAttribute, row.getEntry("lemma").getValue());
+        node.attr(linkAttribute, row.getEntry("link").getValue());
+    }
+
+    
 
     /**
      * Convert an xml node into an html node
@@ -383,6 +330,16 @@ public class Encoder extends ProgressListenerList {
         eNode.name(HTML_TAGNAME);
     }
 
+    /**
+     * Add tagged entity markup for any text that is not already in a tagged entity.
+     * @param doc
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws SQLException
+     * @throws ParserConfigurationException 
+     */
     private void processNER(Document doc) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         Query textNodes = doc.query(NodeType.TEXT);
 

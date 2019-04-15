@@ -72,8 +72,6 @@
         <group name="NERVE3"/>
         <group name="Frontier Web App"/>
         <group name="NERVE"/>
-        <group>
-            <file>file:/D:/project-local/trunk/nerve-current/DocumentNavigator/build.xml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -14,17 +14,17 @@ import javax.xml.parsers.ParserConfigurationException;
 public class Plain02{
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
         try{            
-            Main main = new Main("plain-03.xml");            
+            Main main = new Main("bare.xml");            
               
             System.out.println("----- encoded -----");
-            Document encoded = main.encode();
+            Document encoded = main.encode(EncodeProcess.DICTIONARY);
             System.out.println(encoded);
             
-            System.out.println("----- text -----");
-            System.out.println(main.encoded.toString());
-            System.out.println("----- decoded from text -----");            
-            Document decoded = main.decodeFromText();
-            System.out.println(decoded);            
+//            System.out.println("----- text -----");
+//            System.out.println(main.encoded.toString());
+//            System.out.println("----- decoded from text -----");            
+//            Document decoded = main.decodeFromText();
+//            System.out.println(decoded);            
 
         } catch (StartNodeException ex){
             ex.printStackTrace();

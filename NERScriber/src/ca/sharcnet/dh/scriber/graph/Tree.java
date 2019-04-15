@@ -8,7 +8,7 @@ public class Tree<KEY, VALUE> extends TreeNode<KEY, VALUE> {
     }
 
     /**
-    Return true if this path exists and the end of the path corrisponds with a
+    Return true if this path exists and the end of the path corresponds with a
     terminal node in the graph.
     @param path
     @return
