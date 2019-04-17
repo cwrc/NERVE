@@ -96,7 +96,9 @@ public class Context extends JJJObject implements Serializable, DataObject {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getStandard().equals(standardTagName)) return tagInfo;
         }
-        throw new ContextException("in context '" + this.getName() + "' standard tag name '" + standardTagName + "' not found.");
+        
+        String exMsg = "in context '" + this.getName() + "' standard tag name '" + standardTagName + "' not found.";
+        throw new ContextException(exMsg, this);
     }
 
     @NativeJS
@@ -104,7 +106,8 @@ public class Context extends JJJObject implements Serializable, DataObject {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getName().equals(schemaTagName)) return tagInfo.getStandard();
         }
-        throw new ContextException("in context '" + this.getName() + "' schema tag name '" + schemaTagName + "' not found.");
+        String exMsg = "in context '" + this.getName() + "' schema tag name '" + schemaTagName + "' not found.";
+        throw new ContextException(exMsg, this);        
     }
 
     @NativeJS

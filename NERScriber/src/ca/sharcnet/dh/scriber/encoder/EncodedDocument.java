@@ -1,5 +1,4 @@
 package ca.sharcnet.dh.scriber.encoder;
-
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.nerve.docnav.dom.Document;
 

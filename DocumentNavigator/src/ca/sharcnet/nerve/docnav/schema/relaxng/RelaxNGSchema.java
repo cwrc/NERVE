@@ -125,5 +125,4 @@ public final class RelaxNGSchema extends Document implements Schema {
         }
         return false;
     }
-
 }

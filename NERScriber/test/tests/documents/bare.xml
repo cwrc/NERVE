@@ -1,5 +1,8 @@
 <doc>
-    Cotes Landing
-    Cotes, Landing
-    Cotes
+    Toronto <!-- no action -->
+    <LOCATION lemma="Toronto">Toronto</LOCATION> <!-- no action; lemma doesn't match -->
+    <LOCATION>Toronto</LOCATION> <!-- will add lemma, and link -->
+    <LOCATION lemma="Toronto,Ontario,Canada">Toronto</LOCATION> <!-- will link -->
+    <LOCATION lemma="Toronto,Ontario,Canada" link="">Toronto</LOCATION> <!-- no action -->
+    <LOCATION lemma="Toronto,Ontario,Canada" link="ima link">Toronto</LOCATION> <!-- no action -->
 </doc>

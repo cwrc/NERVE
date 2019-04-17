@@ -1,0 +1,10 @@
+ca.sharcnet.docnav
+ca.sharcnet.nerve
+ca.sharcnet.nerve.docnav
+ca.sharcnet.nerve.docnav.antlr
+ca.sharcnet.nerve.docnav.dom
+ca.sharcnet.nerve.docnav.dom.extended
+ca.sharcnet.nerve.docnav.generated
+ca.sharcnet.nerve.docnav.query
+ca.sharcnet.nerve.docnav.schema
+ca.sharcnet.nerve.docnav.schema.relaxng

@@ -274,7 +274,7 @@ public abstract class Node implements Iterable<Node> {
     abstract public Node copy();
 
     /**
-    Retrieve a list of ancestor nodes that this node is decended from, and also match 'types'.  If types is not included
+    Retrieve a list of ancestor nodes that this node is descended from, and also match 'types'.  If types is not included
     retrieve all ancestor nodes.
     @param types
     @return

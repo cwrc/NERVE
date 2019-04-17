@@ -5,8 +5,9 @@ import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.graph.PathResult;
 import ca.sharcnet.dh.scriber.graph.Tree;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
 Stores a candidate ({@link #addCandidate}) as a series of space deliminated tokens (a token by default is a word).
@@ -14,6 +15,7 @@ Will attempt to match the maximum number of tokens in a query ({@link #seekLine}
 @author edward
  */
 public class StringMatch {
+    final static Logger LOGGER = LogManager.getLogger(Logger.class);
     final Tree<String, SQLRecord> candidates = new Tree<>();
     private final String tokenRegex;
     private final String matchRegex;
@@ -41,7 +43,7 @@ public class StringMatch {
         @param row The candidate string.
      */
     public void addCandidate(String entity, SQLRecord row) {
-        Console.log("addCandidate: " + entity);
+        LOGGER.log(Level.DEBUG, "addCandidate (from db): " + entity);
         String[] split = entity.split(tokenRegex);
         if (split.length == 0) return;
         this.candidates.addPath(split, row);

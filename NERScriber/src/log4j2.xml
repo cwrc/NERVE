@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration package="log4j.test" status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level %c{2}:%L - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="ca.sharcnet.dh.scriber.encoder.EncoderLink" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>                
+    </Loggers>
+</Configuration>

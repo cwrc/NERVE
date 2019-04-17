@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @JJJ
-public class Dictionary extends JJJObject {
+public class Dictionary extends JJJObject implements IDictionary {
+    @Transient
+    final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Dictionary.class);    
     @Transient
     private String DEFAULT_DICTIONARY = "entities";
     @Transient
@@ -26,12 +29,7 @@ public class Dictionary extends JJJObject {
 
     public void verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException {
         try {
-            SQLResult result = sql.tables();
-            
-            for (SQLRecord r : result) {
-                Console.log(" - " + r.getEntry("TABLE_NAME").getValue());
-            }
-            Console.log(result.size() + " table" + (result.size() == 1 ? "" : "s") + " in database");
+            SQLResult result = sql.tables();           
             if (result.size() == 0) this.addTable(DEFAULT_DICTIONARY);
         } catch (SQLException ex) {
             Logger.getLogger(Dictionary.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,6 +53,7 @@ public class Dictionary extends JJJObject {
     }
 
     @ServerSide
+    @Override
     public void addEntities(EntityValues[] values) throws SQLException{
         StringBuilder builder = new StringBuilder();
 
@@ -89,12 +88,14 @@ public class Dictionary extends JJJObject {
     }
 
     @ServerSide
+    @Override
     public int deleteEntity(EntityValues value) throws SQLException {
         String format = String.format("delete from %s where entity='%s'", DEFAULT_DICTIONARY, value.text());
         return sql.update(format);
     }
     
     @ServerSide
+    @Override
     public SQLResult getEntities(String ... textArray) throws SQLException {
         StringBuilder builder = new StringBuilder();
         
@@ -109,28 +110,37 @@ public class Dictionary extends JJJObject {
         }
         
         String query = builder.toString();
-        Console.log(query);
         return sql.query(query);
     }
 
+    /**
+     * Look for matching entities in the db.  Null values are ignored.
+     * @param text
+     * @param lemma
+     * @param tag
+     * @param source
+     * @return
+     * @throws SQLException 
+     */
     @ServerSide
+    @Override    
     public SQLResult lookup(String text, String lemma, String tag, String source) throws SQLException {
         StringBuilder builder = new StringBuilder();
 
         builder.append("select * from ");
         builder.append(DEFAULT_DICTIONARY);
-        builder.append(" where entity = '").append(SQL.sanitize(text)).append("'");
+        builder.append(" where entity = ").append(SQL.sanitize(text));
         
         if (lemma != null) {
-            builder.append(" and lemma = '").append(SQL.sanitize(lemma)).append("'");
+            builder.append(" and lemma = ").append(SQL.sanitize(lemma));
         }
         
         if (tag != null) {
-            builder.append(" and tag = '").append(SQL.sanitize(tag)).append("'");
+            builder.append(" and tag = ").append(SQL.sanitize(tag));
         }
         
         if (source != null) {
-            builder.append(" and source = '").append(SQL.sanitize(source)).append("'");
+            builder.append(" and source = ").append(SQL.sanitize(source));
         }
 
         String query = builder.toString();
@@ -139,7 +149,7 @@ public class Dictionary extends JJJObject {
             SQLResult sqlResult = sql.query(query);
             return sqlResult;
         } catch (SQLException ex) {
-            Console.log("SQL Query: " + query);
+            LOGGER.error("SQLException on query: " + query);
             throw ex;
         }
     }
