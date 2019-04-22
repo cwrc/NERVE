@@ -25,6 +25,9 @@ class Dictionary {
 	deleteEntity(value) {
 		return this.__jjjWebsocket.methodRequest(this, "deleteEntity", arguments);
 	}
+	fullLookup(value, count, offset) {
+		return this.__jjjWebsocket.methodRequest(this, "fullLookup", arguments);
+	}
 	getEntities(textArray) {
 		return this.__jjjWebsocket.methodRequest(this, "getEntities", arguments);
 	}

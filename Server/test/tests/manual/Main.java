@@ -53,7 +53,7 @@ public class Main {
             manager.classifier();
 //            manager.setup(new EncoderNER());            
 //            manager.setup(new EncoderDictionary());
-            manager.setup(new EncoderLink());
+            manager.addProcess(new EncoderLink());
             manager.run();
 
             System.out.print(document);

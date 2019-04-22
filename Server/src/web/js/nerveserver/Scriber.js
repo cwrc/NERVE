@@ -16,6 +16,9 @@ class Scriber {
 	static __isEnum() {
 		return false;
 	}
+	decode(source) {
+		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
+	}
 	dictionary(source) {
 		return this.__jjjWebsocket.methodRequest(this, "dictionary", arguments);
 	}

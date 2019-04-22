@@ -11,4 +11,5 @@ public interface IDictionary {
     int deleteEntity(EntityValues value) throws SQLException;
     SQLResult getEntities(String... textArray) throws SQLException;
     SQLResult lookup(String text, String lemma, String tag, String source) throws SQLException;    
+    SQLResult fullLookup(EntityValues value, int offset, int count) throws SQLException;    
 }

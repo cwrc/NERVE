@@ -41,6 +41,9 @@ class EntityValues {
 	hasLink() {
 		return this.values.containsKey("link");
 	}
+	hasSource() {
+		return this.values.containsKey("source");
+	}
 	hasTag() {
 		return this.values.containsKey("tag");
 	}

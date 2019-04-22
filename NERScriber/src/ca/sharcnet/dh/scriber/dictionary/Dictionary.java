@@ -8,8 +8,6 @@ import ca.frar.jjjrmi.socket.JJJObject;
 import ca.sharcnet.dh.sql.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 
 @JJJ
@@ -162,4 +160,71 @@ public class Dictionary extends JJJObject implements IDictionary {
             throw ex;
         }
     }
+    
+    /**
+     * Look for matching entities in the db. Null values are ignored.
+     *
+     * @param text
+     * @param lemma
+     * @param tag
+     * @param source
+     * @return
+     * @throws SQLException
+     */
+    @ServerSide
+    @Override
+    public SQLResult fullLookup(EntityValues value, int count, int offset) throws SQLException {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("select * from ");
+        builder.append(DEFAULT_DICTIONARY);
+        String connector = " WHERE ";
+        
+        
+        if (value.hasText()) {
+            builder.append(connector);
+            builder.append("entity LIKE ").append(SQL.sanitize(value.lemma()));
+            connector = " and ";
+        }
+        
+        if (value.hasLemma()) {
+            builder.append(connector);
+            builder.append("lemma LIKE ").append(SQL.sanitize(value.lemma()));
+            connector = " and ";
+        }
+
+        if (value.hasTag()) {
+            builder.append(connector);
+            builder.append("tag LIKE ").append(SQL.sanitize(value.tag()));
+            connector = " and ";
+        }
+
+        if (value.hasLink()){
+            builder.append(connector);
+            builder.append("link LIKE ").append(SQL.sanitize(value.link()));
+            connector = " and ";
+        }
+        
+        if (value.hasSource()) {
+            builder.append(connector);
+            builder.append("source LIKE ").append(SQL.sanitize(value.source()));
+            connector = " and ";
+        }
+
+        if (count > -1){
+            builder.append(" LIMIT ").append(count);
+            if (offset > -1) builder.append(",").append(offset);
+        }
+        
+        String query = builder.toString();
+        Console.log(query);
+        
+        try {
+            SQLResult sqlResult = sql.query(query);
+            return sqlResult;
+        } catch (SQLException ex) {
+            LOGGER.error("SQLException on query: " + query);
+            throw ex;
+        }
+    }    
 }

@@ -5,7 +5,8 @@
   "main": "src/web/js/nerveserver/package.js",
   "scripts": {
     "build-js": "browserify src/web/js/main.js -o web/js/main.js -d",
-    "watch-js": "watchify src/web/js/main.js -o web/js/main.js -dv"
+    "watch-js": "watchify src/web/js/main.js -o web/js/main.js -dv",
+    "watch-dMain-js": "watchify src/web/js/dMain.js -o web/js/dMain.js -dv"
   },
   "author": "",
   "license": "ISC",

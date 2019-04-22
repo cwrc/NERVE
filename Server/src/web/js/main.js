@@ -10,10 +10,17 @@ $(window).on('load', async function () {
 });
 
 class Main {
+
+    document(text) {
+        if (text === undefined) {
+            return $("#filetext").text();
+        } else {
+            $("#filetext").text(text);
+        }
+    }
+
     async run() {
         let reader = new FileReader();
-        this.document = null;
-        this.encoded = null;
 
         /* JJJ Initialization */
         jjjrmi.JJJRMISocket.flags.ONREGISTER = true;
@@ -35,9 +42,9 @@ class Main {
         /* page functionality */
         reader.main = this;
         reader.onload = async function (event) {
-            $("#filetext").text(event.target.result);
-            this.main.document = event.target.result;                        
-        };
+            console.log(this);
+            this.document(event.target.result);
+        }.bind(this);
 
         $("#fileOpenDialog").change(async (event) => {
             document.title = event.currentTarget.files[0].name;
@@ -45,91 +52,72 @@ class Main {
         });
 
         $("#bNer").click(async (event) => {
-            if (this.document === null){
-                window.alert("no document loaded");
-            } else {                
-                let result = await this.scriber.ner(this.document);                
+            try {
+                let result = await this.scriber.ner(this.document());
                 this.encoded = result.text;
                 this.context = JSON.parse(result.context);
-                $("#filetext").text(result.text);
-                console.log("---- Encoded ----");
-                console.log(result);                
-                console.log("-----------------");
+            } catch (error) {
+                window.alert(error);
             }
         });
-        
+
         $("#bDict").click(async (event) => {
-            if (this.document === null){
-                window.alert("no document loaded");
-            } else {                
-                let result = await this.scriber.dictionary(this.document); 
+            try {
+                let result = await this.scriber.dictionary(this.document());
                 this.encoded = result.text;
                 this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
-                console.log("---- Encoded ----");
-                console.log(result);                
-                console.log("-----------------");
+            } catch (error) {
+                window.alert(error);
             }
-        });        
+        });
 
         $("#bLink").click(async (event) => {
-            if (this.document === null){
-                window.alert("no document loaded");
-            } else {                
-                let result = await this.scriber.link(this.document);
+            try {
+                let result = await this.scriber.link(this.document());
                 this.encoded = result.text;
                 this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
-                console.log("---- Encoded ----");
-                console.log(result);                
-                console.log("-----------------");
-            }
-        });  
-        
-        $("#bHTML").click(async (event) => {
-            if (this.document === null){
-                window.alert("no document loaded");
-            } else {                
-                let result = await this.scriber.html(this.document);
-                this.encoded = result.text;
-                this.context = JSON.parse(result.context);
-                $("#filetext").text(result.text);
-                console.log("---- Encoded ----");
-                console.log(result);                
-                console.log("-----------------");
-            }
-        });          
-        
-        $("#bDecode").click(async (event) => {
-            if (this.encoded === null){
-                window.alert("no document encoded");
-            } else {                
-                console.log(this.encoded);
-                let result = await this.scriber.decode(this.encoded, this.context.name);                
-                $("#filetext").text(result);
-                console.log("---- Decoded ----");
-                console.log(result);                
-                console.log("-----------------");
-            }
-        });          
-        
-        $("#bUpload").click(async (event) => {
-            if (this.document === null){
-                window.alert("no document loaded");
-            } else {                
-                await this.uploadDictionary(this.document, p=>console.log(p));
+            } catch (error) {
+                window.alert(error);
             }
         });
-        
+
+        $("#bHTML").click(async (event) => {
+            try {
+                let result = await this.scriber.html(this.document());
+                this.encoded = result.text;
+                this.context = JSON.parse(result.context);
+                $("#filetext").text(result.text);
+            } catch (error) {
+                window.alert(error);
+            }
+        });
+
+        $("#bDecode").click(async (event) => {
+            try {
+                let result = await this.scriber.decode(this.document(), this.context.name);
+                $("#filetext").text(result);
+            } catch (error) {
+                window.alert(error);
+            }
+        });
+
+        $("#bUpload").click(async (event) => {
+            try {
+                await this.uploadDictionary(this.document(), p => console.log(p));
+            } catch (error) {
+                window.alert(error);
+            }
+        });
         return this;
     }
-    
-    async uploadDictionary(document, onUpdate = p=>{}) {
-        let contents = document.split(/\n/g);
 
+    async uploadDictionary(document, onUpdate = p => {}) {
+        let contents = document.split(/\n/g);
         const SET_SIZE = 4000;
         let sent = 0;
-        let valueArray = [];        
+        let valueArray = [];
 
         for (let row of contents) {
             let entry = row.split(/,/g);
@@ -149,7 +137,7 @@ class Main {
                 valueArray = [];
             }
         }
-        
+
         await this.dictionary.addEntities(valueArray);
         onUpdate(100);
     }

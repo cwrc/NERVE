@@ -5,15 +5,32 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/main.js" type="text/javascript"></script>
-        
+
         <style>
+            #buttonArea{
+                position: absolute;
+                border: 1px solid black;
+                box-sizing: border-box;
+                left: 3vw;
+                width: 15vw;
+                height: 90vh;                
+                top: 5vh;
+            }
+
+            #buttonArea > *{
+                display: block;
+                margin: 5px;
+                width: 95%;
+            }
+
             #filetext{
                 position: absolute;
                 border: 1px solid black;
-                width: 70vw;
-                height: 80vh;
-                left: 15vw;
-                top: 10vh;
+                box-sizing: border-box;
+                width: 78vw;
+                left: 19vw;
+                height: 90vh;                
+                top: 5vh;
                 background-color: whitesmoke; 
                 white-space: pre;
                 overflow: scroll;
@@ -21,13 +38,16 @@
         </style>
     </head>
     <body>
-        <input type="file" id="fileOpenDialog">
-        <button id="bNer">NER</button>
-        <button id="bDict">Dict</button>
-        <button id="bLink">Link</button>
-        <button id="bHTML">HTML</button>
-        <button id="bDecode">Decode</button>
-        <button id="bUpload">Upload Dictionary</button>
-        <div id="filetext"></div>
+
+        <div id="buttonArea">
+            <input type="file" id="fileOpenDialog">
+            <button id="bNer" title="Apply NER NLP program to find entities">NER</button>
+            <button id="bDict" title="Lookup lemma &amp; tag information from db">Dict</button>
+            <button id="bLink" title="Lookup link information from db">Link</button>
+            <button id="bHTML" title="Encode XML into HTML">XML -> HTML</button>
+            <button id="bDecode" title="Decode HTML into XML">HTML -> XML</button>
+            <button id="bUpload" title="Upload csv file {text, lemma, link, tag, collection}">Upload Dictionary</button>
+        </div>
+        <div id="filetext" contenteditable></div>
     </body>
 </html>

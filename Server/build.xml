@@ -38,8 +38,7 @@
             <fileset dir="${basedir}/src/web/js"/>
         </copy>
     </target>
-    
-    
+        
     <!-- Deploy .war file to dh server -->
     <property name="keyfile" value="D:/cygwin/home/edward/.ssh/id_rsa"/>
     <property name="remoteTarget" value="debian@dh.sharcnet.ca:~/package/glassfish5/repository"/>

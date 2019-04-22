@@ -169,6 +169,11 @@ public final class EntityValues extends JJJObject{
         return this.values.containsKey("tag");
     }    
     
+    @NativeJS
+    public boolean hasSource(){
+        return this.values.containsKey("source");
+    }        
+    
     public String toString(){
         int i = 0;
         StringBuilder builder = new StringBuilder();

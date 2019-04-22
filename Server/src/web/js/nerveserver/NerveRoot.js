@@ -1,5 +1,4 @@
 "use strict";
-//const Dictionary = require("./Dictionary");
 const Scriber = require("./Scriber");
 class NerveRoot {
 	constructor() {

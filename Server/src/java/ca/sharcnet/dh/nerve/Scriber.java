@@ -19,6 +19,7 @@ import ca.sharcnet.dh.scriber.context.ContextLoader;
 import ca.sharcnet.dh.scriber.encoder.EncoderDictionary;
 import ca.sharcnet.dh.scriber.encoder.EncoderHTML;
 import ca.sharcnet.dh.scriber.encoder.EncoderNER;
+import ca.sharcnet.dh.scriber.encoder.EncoderXML;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
@@ -134,7 +135,7 @@ public class Scriber extends JJJObject {
     @ServerSide
     public EncodeResponse ner(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         CreateManager createManager = this.createManager(source);        
-        createManager.manager.setup(new EncoderNER());
+        createManager.manager.addProcess(new EncoderNER());
         createManager.manager.run();
         
         return new EncodeResponse(
@@ -148,7 +149,7 @@ public class Scriber extends JJJObject {
     @ServerSide
     public EncodeResponse link(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         CreateManager createManager = this.createManager(source);        
-        createManager.manager.setup(new EncoderLink());
+        createManager.manager.addProcess(new EncoderLink());
         createManager.manager.run();
         
         return new EncodeResponse(
@@ -161,7 +162,7 @@ public class Scriber extends JJJObject {
     @ServerSide
     public EncodeResponse dictionary(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         CreateManager createManager = this.createManager(source);        
-        createManager.manager.setup(new EncoderDictionary());
+        createManager.manager.addProcess(new EncoderDictionary());
         createManager.manager.run();
         
         return new EncodeResponse(
@@ -174,7 +175,7 @@ public class Scriber extends JJJObject {
     @ServerSide
     public EncodeResponse html(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         CreateManager createManager = this.createManager(source);        
-        createManager.manager.setup(new EncoderHTML());
+        createManager.manager.addProcess(new EncoderHTML());
         createManager.manager.run();
         
         return new EncodeResponse(
@@ -183,4 +184,17 @@ public class Scriber extends JJJObject {
             createManager.schemaURL
         );
     }    
+    
+    @ServerSide
+    public EncodeResponse decode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+        CreateManager createManager = this.createManager(source);        
+        createManager.manager.addProcess(new EncoderXML());
+        createManager.manager.run();
+        
+        return new EncodeResponse(
+            createManager.manager.getDocument().toString(), 
+            createManager.context.getSourceString(), 
+            createManager.schemaURL
+        );
+    }        
 }
