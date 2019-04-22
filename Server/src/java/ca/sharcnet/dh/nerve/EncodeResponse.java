@@ -2,7 +2,6 @@ package ca.sharcnet.dh.nerve;
 import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.socket.JJJObject;
-import ca.sharcnet.dh.scriber.context.Context;
 
 @JJJ
 public class EncodeResponse extends JJJObject{

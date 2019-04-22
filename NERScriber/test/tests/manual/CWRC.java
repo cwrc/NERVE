@@ -27,7 +27,7 @@ public class CWRC {
             manager.schema("cwrc_entry.rng");
             manager.context("cwrc.context.json");
             manager.classifier();
-            manager.setup(new EncoderNER());            
+            manager.addProcess(new EncoderNER());            
 //            manager.setup(new EncoderDictionary());            
             manager.run();
             

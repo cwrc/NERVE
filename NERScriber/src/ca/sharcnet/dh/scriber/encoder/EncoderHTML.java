@@ -27,7 +27,7 @@ import org.json.JSONObject;
  *
  * @author edward
  */
-public class EncoderHTML extends EncoderBase implements IEncoder {
+public class EncoderHTML extends EncoderBase {
     final static Logger LOGGER = LogManager.getLogger(EncoderHTML.class);
 
     @Override

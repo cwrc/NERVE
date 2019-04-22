@@ -4,6 +4,8 @@ const EncodeResponse = require("./EncodeResponse");
 class Scriber {
 	constructor() {
 		this.config = null;
+		this.CONTEXT_PATH = "/WEB-INF/";
+		this.DEFAULT_SCHEMA = this.CONTEXT_PATH + "default.rng";
 	}
 	static __isTransient() {
 		return false;
@@ -14,23 +16,17 @@ class Scriber {
 	static __isEnum() {
 		return false;
 	}
-	decode(source, contextName) {
-		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
+	dictionary(source) {
+		return this.__jjjWebsocket.methodRequest(this, "dictionary", arguments);
 	}
-	edit(source) {
-		return this.__jjjWebsocket.methodRequest(this, "edit", arguments);
-	}
-	encode(source) {
-		return this.__jjjWebsocket.methodRequest(this, "encode", arguments);
-	}
-	getContext(contextFileName) {
-		return this.__jjjWebsocket.methodRequest(this, "getContext", arguments);
+	html(source) {
+		return this.__jjjWebsocket.methodRequest(this, "html", arguments);
 	}
 	link(source) {
 		return this.__jjjWebsocket.methodRequest(this, "link", arguments);
 	}
-	tag(source) {
-		return this.__jjjWebsocket.methodRequest(this, "tag", arguments);
+	ner(source) {
+		return this.__jjjWebsocket.methodRequest(this, "ner", arguments);
 	}
 };
 

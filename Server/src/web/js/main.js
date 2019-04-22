@@ -44,25 +44,11 @@ class Main {
             await reader.readAsText(event.currentTarget.files[0]);
         });
 
-        $("#bEdit").click(async (event) => {
-            if (this.document === null){
-                window.alert("no document loaded");
-            } else {                
-                let result = await this.scriber.edit(this.document);
-                this.encoded = result.text;
-                this.context = JSON.parse(result.context);
-                $("#filetext").text(result.text);
-                console.log("---- Encoded ----");
-                console.log(result);                
-                console.log("-----------------");
-            }
-        });
-
         $("#bNer").click(async (event) => {
             if (this.document === null){
                 window.alert("no document loaded");
             } else {                
-                let result = await this.scriber.tag(this.document);                
+                let result = await this.scriber.ner(this.document);                
                 this.encoded = result.text;
                 this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
@@ -76,7 +62,7 @@ class Main {
             if (this.document === null){
                 window.alert("no document loaded");
             } else {                
-                let result = await this.scriber.link(this.document); 
+                let result = await this.scriber.dictionary(this.document); 
                 this.encoded = result.text;
                 this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
@@ -86,11 +72,11 @@ class Main {
             }
         });        
 
-        $("#bFull").click(async (event) => {
+        $("#bLink").click(async (event) => {
             if (this.document === null){
                 window.alert("no document loaded");
             } else {                
-                let result = await this.scriber.encode(this.document);
+                let result = await this.scriber.link(this.document);
                 this.encoded = result.text;
                 this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
@@ -99,6 +85,20 @@ class Main {
                 console.log("-----------------");
             }
         });  
+        
+        $("#bHTML").click(async (event) => {
+            if (this.document === null){
+                window.alert("no document loaded");
+            } else {                
+                let result = await this.scriber.html(this.document);
+                this.encoded = result.text;
+                this.context = JSON.parse(result.context);
+                $("#filetext").text(result.text);
+                console.log("---- Encoded ----");
+                console.log(result);                
+                console.log("-----------------");
+            }
+        });          
         
         $("#bDecode").click(async (event) => {
             if (this.encoded === null){

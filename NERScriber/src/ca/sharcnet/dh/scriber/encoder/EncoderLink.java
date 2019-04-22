@@ -19,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
  *
  * @author edward
  */
-public class EncoderLink extends EncoderBase implements IEncoder{
+public class EncoderLink extends EncoderBase {
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EncoderLink.class);
         
     @Override

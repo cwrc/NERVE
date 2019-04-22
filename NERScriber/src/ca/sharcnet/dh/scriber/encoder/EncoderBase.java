@@ -1,4 +1,5 @@
 package ca.sharcnet.dh.scriber.encoder;
+
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
 import ca.sharcnet.dh.scriber.dictionary.IDictionary;
@@ -16,7 +17,8 @@ import java.util.zip.GZIPInputStream;
  *
  * @author edward
  */
-public abstract class EncoderBase {    
+public abstract class EncoderBase implements IEncoder{
+
     private static String DEFAULT_FILENAME = "english.all.3class.distsim.crf.ser.gz";
     protected Document document;
     protected Classifier classifier = null;
@@ -24,14 +26,14 @@ public abstract class EncoderBase {
     protected Schema schema;
     protected IDictionary dictionary;
 
-    public void document(Document document){
+    public void document(Document document) {
         this.document = document;
     }
 
-    public Document document(){
+    public Document document() {
         return this.document;
     }
-    
+
     public void classifier() throws IOException, FileNotFoundException, ClassCastException, ClassNotFoundException {
         this.classifier(DEFAULT_FILENAME);
     }
@@ -46,18 +48,25 @@ public abstract class EncoderBase {
      * @throws ClassNotFoundException
      */
     public void classifier(String path) throws IOException, FileNotFoundException, ClassCastException, ClassNotFoundException {
-        try (final InputStream cStream = ClassLoader.getSystemResourceAsStream(path)) {
-            BufferedInputStream bis = new BufferedInputStream(new GZIPInputStream(cStream));
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+        try (final InputStream cStream = contextClassLoader.getSystemResourceAsStream(path)) {
+            if (cStream == null) {
+                throw new FileNotFoundException(path);
+            }
+            GZIPInputStream gzipInputStream = new GZIPInputStream(cStream);
+            BufferedInputStream bis = new BufferedInputStream(gzipInputStream);
             this.classifier = new Classifier(bis);
         }
     }
 
-    public void classifier(Classifier classifier){
+    public void classifier(Classifier classifier) {
         this.classifier = classifier;
     }
-    
+
     /**
      * Load context.
+     *
      * @param context
      */
     public void context(Context context) {
@@ -66,6 +75,7 @@ public abstract class EncoderBase {
 
     /**
      * Load context from jar.
+     *
      * @param path
      * @throws IllegalArgumentException
      * @throws IOException
@@ -78,6 +88,7 @@ public abstract class EncoderBase {
 
     /**
      * Load schema.
+     *
      * @param schema
      */
     public void schema(Schema schema) {
@@ -86,6 +97,7 @@ public abstract class EncoderBase {
 
     /**
      * Load schema from jar.
+     *
      * @param path
      * @throws IllegalArgumentException
      * @throws IOException
@@ -98,6 +110,7 @@ public abstract class EncoderBase {
 
     /**
      * Load schema from url.
+     *
      * @param url
      * @throws IOException
      */
@@ -109,23 +122,24 @@ public abstract class EncoderBase {
 
     /**
      * Retrieve document.
+     *
      * @return
      */
     public Document getDocument() {
         return this.document;
     }
 
-    public void dictionary(IDictionary dictionary){
+    public void dictionary(IDictionary dictionary) {
         this.dictionary = dictionary;
     }
-    
+
     /**
      * Retrieve dictionary
-     * @return 
+     *
+     * @return
      */
-    public IDictionary dictionary(){
+    public IDictionary dictionary() {
         return this.dictionary;
     }
-    
-    
+
 }

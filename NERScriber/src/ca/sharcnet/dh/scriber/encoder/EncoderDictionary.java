@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author edward
  */
-public class EncoderDictionary extends EncoderBase implements IEncoder {
+public class EncoderDictionary extends EncoderBase {
     final static Logger LOGGER = LogManager.getLogger(EncoderDictionary.class);
     
     @Override

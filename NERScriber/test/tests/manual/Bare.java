@@ -1,10 +1,15 @@
 package tests.manual;
 
+import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
+import ca.sharcnet.dh.scriber.encoder.EncoderBase;
+import ca.sharcnet.dh.scriber.encoder.EncoderXML;
 import ca.sharcnet.dh.scriber.encoder.EncoderDictionary;
+import ca.sharcnet.dh.scriber.encoder.EncoderHTML;
 import ca.sharcnet.dh.scriber.encoder.EncoderLink;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.dh.scriber.encoder.EncoderNER;
+import ca.sharcnet.dh.scriber.encoder.IEncoder;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
@@ -45,9 +50,19 @@ public class Bare {
             manager.classifier();
 //            manager.setup(new EncoderNER());            
 //            manager.setup(new EncoderDictionary());
-            manager.setup(new EncoderLink());
+            manager.addProcess(new EncoderHTML());
+            
+             manager.addProcess(new EncoderBase() {
+                @Override
+                public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+                    System.out.println("here");
+                    System.out.print(this.document);
+                }
+            });
+            
+            manager.addProcess(new EncoderXML());
             manager.run();
-
+            
             System.out.print(document);
 
         } catch (IOException ex) {

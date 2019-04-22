@@ -18,11 +18,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- *
- * @author edward
- */
-public class EncoderNER extends EncoderBase implements IEncoder {
+public class EncoderNER extends EncoderBase {
     final static Logger LOGGER = LogManager.getLogger(EncoderNER.class);
 
     /**

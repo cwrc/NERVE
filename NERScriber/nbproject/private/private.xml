@@ -17,15 +17,7 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/src/orlando_biography_v2.rng</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/test/tests/documents/minimalOrlando.xml</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/src/ca/sharcnet/dh/scriber/encoder/EncoderNER.java</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/src/orlando.context.json</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/test/tests/manual/CWRC.java</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/test/tests/documents/CWRC.encoded.xml</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/src/log4j2.xml</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/test/tests/documents/cwrc.xml</file>
-            <file>file:/D:/project-local/temp/nerve/NERScriber/test/tests/manual/Orlando.java</file>
+            <file>file:/D:/project-local/temp/nerve/NERScriber/src/ca/sharcnet/dh/scriber/dictionary/Dictionary.java</file>
         </group>
     </open-files>
 </project-private>
