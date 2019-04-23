@@ -11,13 +11,20 @@
                 position: relative;
                 width: calc(90% + 10px);
                 left: 5%;
+                background-color: #ccffff;
             }
             table, th, td{
                 border: 1px solid black;
                 border-collapse: collapse;
             }
             th, td{
-                width: 20%;
+                width: calc((100% - 36px) / 5);
+                overflow:hidden;
+                white-space:nowrap;
+            }
+            
+            th.narrow, td.narrow{
+                width: 36px;
             }
 
             .inputRow{
@@ -49,7 +56,16 @@
                 padding: 5px;
             }
 
-            #addButton{
+            .textSearch{
+                position: relative;
+                width: 95%;
+                box-sizing: border-box;
+                border: 1px solid blue;
+                height: 20px;
+                padding: 5px;
+            }            
+            
+            .button{
                 position: relative;
                 box-sizing: border-box;
                 background-color: lightgreen;
@@ -61,7 +77,7 @@
                 left: calc(5% + 5px);
             }
 
-            #addButton:hover{
+            .button:hover{
                 background-color: green;
                 color: black;
                 cursor: pointer;
@@ -70,24 +86,26 @@
     </head>
 
     <body>
-        <table>
+        <table id="records">
             <tr>
-                <th>entitytext</th>
-                <th>lemma</th>
-                <th>link</th>
-                <th>tag</th>
-                <th>collection</th>
+                <th>entitytext<br><input type="text" id="likeText" class="textSearch"/></th>
+                <th>lemma<br><input type="text" id="likeLemma" class="textSearch"/></th>
+                <th>link<br><input type="text" id="likeLink" class="textSearch"/></th>
+                <th>tag<br><input type="text" id="likeTag" class="textSearch"/></th>
+                <th>collection<br><input type="text" id="likeCollection" class="textSearch"/></th>
+                <th class="narrow"><div id="refresh" class="button">&#x21ba;</div></th>
             </tr>
         </table>
+        
         <div class="inputRow">
             <div class="inputArea">
-                <input type="text" class="textContainer"/>
-                <input type="text" class="textContainer"/>
-                <input type="text" class="textContainer"/>
-                <input type="text" class="textContainer"/>
-                <input type="text" class="textContainer"/>
+                <input id="inText" type="text" class="textContainer"/>
+                <input id="inLemma" type="text" class="textContainer"/>
+                <input id="inLink" type="text" class="textContainer"/>
+                <input id="inTag" type="text" class="textContainer"/>
+                <input id="inCollection" type="text" class="textContainer"/>
             </div>
-            <div id="addButton">+</div>
+            <div id="add" class="button">+</div>
         </div>
     </body>
 </html>

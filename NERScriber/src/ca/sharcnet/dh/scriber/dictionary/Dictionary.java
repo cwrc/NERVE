@@ -180,10 +180,11 @@ public class Dictionary extends JJJObject implements IDictionary {
         builder.append(DEFAULT_DICTIONARY);
         String connector = " WHERE ";
         
+        Console.log(value);
         
         if (value.hasText()) {
             builder.append(connector);
-            builder.append("entity LIKE ").append(SQL.sanitize(value.lemma()));
+            builder.append("entity LIKE ").append(SQL.sanitize(value.text()));
             connector = " and ";
         }
         

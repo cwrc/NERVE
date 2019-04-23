@@ -63,7 +63,8 @@ public class NerveRoot extends JJJObject{
             LOGGER.info("classifier loaded");
             
             this.scriber = new Scriber(config, dictionary, classifier, servletContext);
-            LOGGER.info("root created");            
+            LOGGER.info("root created");        
+            LOGGER.info("exiting");        
         } catch (Exception ex) {
             LOGGER.catching(ex);
             if (ex.getCause() != null){
