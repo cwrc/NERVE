@@ -13,6 +13,8 @@ import ca.sharcnet.dh.scriber.encoder.IEncoder;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import edu.stanford.nlp.ie.crf.CRFClassifier;
+import edu.stanford.nlp.ling.CoreLabel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.logging.log4j.LogManager;
 
 public class Bare {
-
+    public final static String PATH = "english.all.3class.distsim.crf.ser.gz";
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Bare.class);
 
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
@@ -47,7 +49,9 @@ public class Bare {
             manager.schema("default.rng");
             manager.context("default.context.json");
             manager.dictionary(dictionary);
-            manager.classifier();
+            
+//            CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifier(PATH);
+//            manager.classifier(classifier);
 //            manager.setup(new EncoderNER());            
 //            manager.setup(new EncoderDictionary());
             manager.addProcess(new EncoderHTML());

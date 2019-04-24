@@ -23,5 +23,4 @@ public interface IEncoder {
     void schema(Schema schema);
     void dictionary(IDictionary dictionary);
     void document(Document document);
-    void classifier(Classifier classifier);
 }

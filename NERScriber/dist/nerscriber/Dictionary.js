@@ -22,6 +22,9 @@ class Dictionary {
 	addTable(table) {
 		return this.__jjjWebsocket.methodRequest(this, "addTable", arguments);
 	}
+	deleteAll() {
+		return this.__jjjWebsocket.methodRequest(this, "deleteAll", arguments);
+	}
 	deleteEntity(value) {
 		return this.__jjjWebsocket.methodRequest(this, "deleteEntity", arguments);
 	}

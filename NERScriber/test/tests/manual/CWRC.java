@@ -6,6 +6,7 @@ import ca.sharcnet.dh.scriber.encoder.EncoderNER;
 import ca.sharcnet.dh.scriber.encoder.IEncoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import edu.stanford.nlp.ie.crf.CRFClassifier;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class CWRC {
+    public final static String PATH = "english.all.3class.distsim.crf.ser.gz";
+    
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
     try {
             File file = new File("./test/tests/documents/cwrc.xml");
@@ -25,10 +28,11 @@ public class CWRC {
             EncoderManager manager = new EncoderManager();
             manager.document(document);
             manager.schema("cwrc_entry.rng");
-            manager.context("cwrc.context.json");
-            manager.classifier();
-            manager.addProcess(new EncoderNER());            
-//            manager.setup(new EncoderDictionary());            
+            manager.context("cwrc.context.json");            
+                        
+            EncoderNER encoderNER = new EncoderNER(CRFClassifier.getClassifier(PATH));
+            
+            manager.addProcess(encoderNER);            
             manager.run();
             
             System.out.print(document);

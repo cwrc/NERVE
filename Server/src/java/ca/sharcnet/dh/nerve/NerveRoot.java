@@ -3,13 +3,11 @@ import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.annotations.Transient;
 import ca.frar.jjjrmi.socket.JJJObject;
-import static ca.sharcnet.dh.nerve.NerveSocket.LOGGER;
 import ca.sharcnet.dh.progress.ProgressListener;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
-import ca.sharcnet.dh.scriber.encoder.Classifier;
-import ca.sharcnet.dh.scriber.encoder.UnsetDictionaryException;
 import ca.sharcnet.dh.sql.SQL;
-import java.io.BufferedInputStream;
+import edu.stanford.nlp.ie.crf.CRFClassifier;
+import edu.stanford.nlp.ling.CoreLabel;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,14 +50,11 @@ public class NerveRoot extends JJJObject{
             
             this.dictionary.verifySQL();
             LOGGER.info("dictionary verified");
-            
+                        
             String classifierPath = "/WEB-INF/english.all.3class.distsim.crf.ser.gz";
-            InputStream classifierStream = servletContext.getResourceAsStream(classifierPath);
-            if (classifierStream == null) throw new FileNotFoundException(servletContext.getRealPath(classifierPath));                            
-            GZIPInputStream gzipInputStream = new GZIPInputStream(classifierStream);
-            BufferedInputStream bis = new BufferedInputStream(gzipInputStream);
-            Classifier classifier = new Classifier(bis);            
-            classifierStream.close();
+            InputStream in = servletContext.getResourceAsStream(classifierPath);
+            GZIPInputStream gzip = new GZIPInputStream(in);
+            CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifier(gzip);
             LOGGER.info("classifier loaded");
             
             this.scriber = new Scriber(config, dictionary, classifier, servletContext);

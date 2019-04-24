@@ -8,6 +8,8 @@ import ca.frar.jjjrmi.socket.JJJObject;
 import ca.sharcnet.dh.sql.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 
 @JJJ
@@ -31,11 +33,11 @@ public class Dictionary extends JJJObject implements IDictionary {
 
     public void verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
         LOGGER.debug("verifySQL()");
-//        SQLResult result = sql.tables();
-//        LOGGER.debug("result.size() = " + result.size());
-//        if (result.size() == 0) {
-//            this.addTable(DEFAULT_DICTIONARY);
-//        }
+        SQLResult result = sql.tables();
+        LOGGER.debug("result.size() = " + result.size());
+        if (result.size() == 0) {
+            this.addTable(DEFAULT_DICTIONARY);
+        }
     }
 
     @ServerSide
@@ -59,9 +61,18 @@ public class Dictionary extends JJJObject implements IDictionary {
     public void addEntities(EntityValues[] values) throws SQLException {
         StringBuilder builder = new StringBuilder();
 
+        ArrayList<EntityValues> list = new ArrayList<>();
+        for (EntityValues v : values){
+            if (v.hasText() && v.hasTag()){
+                list.add(v);
+                if (!v.hasLemma()) v.lemma(v.text());
+                if (!v.hasSource()) v.source("default");
+            }
+        }
+        
         builder.append(String.format("insert into %s values", DEFAULT_DICTIONARY));
-        for (int i = 0; i < values.length; i++) {
-            EntityValues value = values[i];
+        for (int i = 0; i < list.size(); i++) {
+            EntityValues value = list.get(i);
             builder.append(String.format("(%s, %s, %s, %s, %s)",
                     SQL.sanitize(value.text()),
                     SQL.sanitize(value.lemma()),
@@ -69,7 +80,7 @@ public class Dictionary extends JJJObject implements IDictionary {
                     SQL.sanitize(value.tag()),
                     SQL.sanitize(value.source())
             ));
-            if (i < values.length - 1) {
+            if (i < list.size() - 1) {
                 builder.append(",");
             }
         }
@@ -91,6 +102,12 @@ public class Dictionary extends JJJObject implements IDictionary {
         return sql.update(format);
     }
 
+    @ServerSide
+    public int deleteAll() throws SQLException {
+        String format = String.format("delete from %s ", DEFAULT_DICTIONARY);
+        return sql.update(format);
+    }
+    
     @ServerSide
     @Override
     public int deleteEntity(EntityValues value) throws SQLException {

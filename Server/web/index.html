@@ -41,12 +41,13 @@
 
         <div id="buttonArea">
             <input type="file" id="fileOpenDialog">
-            <button id="bNer" title="Apply NER NLP program to find entities">NER</button>
-            <button id="bDict" title="Lookup lemma &amp; tag information from db">Dict</button>
-            <button id="bLink" title="Lookup link information from db">Link</button>
-            <button id="bHTML" title="Encode XML into HTML">XML -> HTML</button>
-            <button id="bDecode" title="Decode HTML into XML">HTML -> XML</button>
-            <button id="bUpload" title="Upload csv file {text, lemma, link, tag, collection}">Upload Dictionary</button>
+            <button id="bNer" title="Apply NER NLP program to find entities" disabled>NER</button>
+            <button id="bDict" title="Lookup lemma &amp; tag information from db" disabled>Dict</button>
+            <button id="bLink" title="Lookup link information from db" disabled>Link</button>
+            <button id="bHTML" title="Encode XML into HTML" disabled>XML -> HTML</button>
+            <button id="bDecode" title="Decode HTML into XML" disabled>HTML -> XML</button>
+            <button id="bClear" title="Clear document" disabled>Clear</button>
+            <button id="bUpload" title="Upload csv file {text, lemma, link, tag, collection}">Open Dictionary</button>
         </div>
         <div id="filetext" contenteditable></div>
     </body>

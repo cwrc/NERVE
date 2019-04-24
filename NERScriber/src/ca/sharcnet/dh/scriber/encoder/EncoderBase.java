@@ -21,7 +21,6 @@ public abstract class EncoderBase implements IEncoder{
 
     private static String DEFAULT_FILENAME = "english.all.3class.distsim.crf.ser.gz";
     protected Document document;
-    protected Classifier classifier = null;
     protected Context context;
     protected Schema schema;
     protected IDictionary dictionary;
@@ -32,36 +31,6 @@ public abstract class EncoderBase implements IEncoder{
 
     public Document document() {
         return this.document;
-    }
-
-    public void classifier() throws IOException, FileNotFoundException, ClassCastException, ClassNotFoundException {
-        this.classifier(DEFAULT_FILENAME);
-    }
-
-    /**
-     * Load classifier from jar.
-     *
-     * @param filename
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws ClassCastException
-     * @throws ClassNotFoundException
-     */
-    public void classifier(String path) throws IOException, FileNotFoundException, ClassCastException, ClassNotFoundException {
-        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-
-        try (final InputStream cStream = contextClassLoader.getSystemResourceAsStream(path)) {
-            if (cStream == null) {
-                throw new FileNotFoundException(path);
-            }
-            GZIPInputStream gzipInputStream = new GZIPInputStream(cStream);
-            BufferedInputStream bis = new BufferedInputStream(gzipInputStream);
-            this.classifier = new Classifier(bis);
-        }
-    }
-
-    public void classifier(Classifier classifier) {
-        this.classifier = classifier;
     }
 
     /**

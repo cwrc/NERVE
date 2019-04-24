@@ -11,7 +11,6 @@ import ca.sharcnet.dh.progress.ProgressListener;
 import static ca.sharcnet.dh.scriber.Constants.SCHEMA_NODE_ATTR;
 import static ca.sharcnet.dh.scriber.Constants.SCHEMA_NODE_NAME;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
-import ca.sharcnet.dh.scriber.encoder.Classifier;
 import ca.sharcnet.dh.scriber.encoder.EncoderLink;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.dh.scriber.context.Context;
@@ -20,13 +19,12 @@ import ca.sharcnet.dh.scriber.encoder.EncoderDictionary;
 import ca.sharcnet.dh.scriber.encoder.EncoderHTML;
 import ca.sharcnet.dh.scriber.encoder.EncoderNER;
 import ca.sharcnet.dh.scriber.encoder.EncoderXML;
-import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import java.io.File;
-import java.io.FileInputStream;
+import edu.stanford.nlp.ie.crf.CRFClassifier;
+import edu.stanford.nlp.ling.CoreLabel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -45,7 +43,7 @@ public class Scriber extends JJJObject {
     @Transient
     private Dictionary dictionary;
     @Transient
-    private Classifier classifier;
+    private CRFClassifier<CoreLabel> classifier;
     @Transient
     private ServletContext servletContext;
     @Transient
@@ -53,7 +51,7 @@ public class Scriber extends JJJObject {
     @Transient
     private final String DEFAULT_SCHEMA = CONTEXT_PATH + "default.rng";
 
-    Scriber(Properties config, Dictionary dictionary, Classifier classifier, ServletContext servletContext) {
+    Scriber(Properties config, Dictionary dictionary, CRFClassifier<CoreLabel> classifier, ServletContext servletContext) {
         this.config = config;
         this.dictionary = dictionary;
         this.classifier = classifier;
@@ -67,29 +65,29 @@ public class Scriber extends JJJObject {
     private Scriber() {
     }
 
-    private class CreateManager{
+    private class ManagerTuple{
         Context context;
         EncoderManager manager;
         String schemaURL;        
         
-        CreateManager(EncoderManager manager, Context context, String schemaURL){
+        ManagerTuple(EncoderManager manager, Context context, String schemaURL){
             this.context = context;
             this.manager = manager;
             this.schemaURL = schemaURL;
         }              
     }
     
-    private CreateManager createManager(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    private ManagerTuple createManager(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         EncoderManager manager = new EncoderManager();
         Document document = DocumentLoader.documentFromString(source);
         manager.document(document);
-        manager.classifier(this.classifier);
         manager.dictionary(this.dictionary);
         Context context = this.getContext(document);
         manager.context(context);
 
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
+
         if (schemaAttrValue.isEmpty()) {
             InputStream resourceAsStream = this.servletContext.getResourceAsStream(DEFAULT_SCHEMA);
             RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
@@ -98,7 +96,7 @@ public class Scriber extends JJJObject {
             manager.schema(new URL(schemaAttrValue));
         }
 
-        return new CreateManager(manager, context, schemaAttrValue);
+        return new ManagerTuple(manager, context, schemaAttrValue);
     }
 
     public Context getContext(Document document) throws IllegalArgumentException, IOException {
@@ -134,8 +132,8 @@ public class Scriber extends JJJObject {
 
     @ServerSide
     public EncodeResponse ner(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        CreateManager createManager = this.createManager(source);        
-        createManager.manager.addProcess(new EncoderNER());
+        ManagerTuple createManager = this.createManager(source);        
+        createManager.manager.addProcess(new EncoderNER(this.classifier));
         createManager.manager.run();
         
         return new EncodeResponse(
@@ -148,7 +146,7 @@ public class Scriber extends JJJObject {
 
     @ServerSide
     public EncodeResponse link(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        CreateManager createManager = this.createManager(source);        
+        ManagerTuple createManager = this.createManager(source);        
         createManager.manager.addProcess(new EncoderLink());
         createManager.manager.run();
         
@@ -161,7 +159,7 @@ public class Scriber extends JJJObject {
     
     @ServerSide
     public EncodeResponse dictionary(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        CreateManager createManager = this.createManager(source);        
+        ManagerTuple createManager = this.createManager(source);        
         createManager.manager.addProcess(new EncoderDictionary());
         createManager.manager.run();
         
@@ -174,7 +172,7 @@ public class Scriber extends JJJObject {
     
     @ServerSide
     public EncodeResponse html(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        CreateManager createManager = this.createManager(source);        
+        ManagerTuple createManager = this.createManager(source);        
         createManager.manager.addProcess(new EncoderHTML());
         createManager.manager.run();
         
@@ -186,15 +184,21 @@ public class Scriber extends JJJObject {
     }    
     
     @ServerSide
-    public EncodeResponse decode(String source) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
-        CreateManager createManager = this.createManager(source);        
-        createManager.manager.addProcess(new EncoderXML());
-        createManager.manager.run();
+    public EncodeResponse decode(String source, String contextString) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+        EncoderManager manager = new EncoderManager();
+        Document document = DocumentLoader.documentFromString(source);
+        manager.document(document);
+        manager.dictionary(this.dictionary);
+        Context context = ContextLoader.load(contextString);
+        manager.context(context);        
+        
+        manager.addProcess(new EncoderXML());
+        manager.run();
         
         return new EncodeResponse(
-            createManager.manager.getDocument().toString(), 
-            createManager.context.getSourceString(), 
-            createManager.schemaURL
+            manager.getDocument().toString(), 
+            context.getSourceString(), 
+            null
         );
-    }        
+    }
 }
