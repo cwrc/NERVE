@@ -3,7 +3,6 @@ import ca.frar.jjjrmi.annotations.JJJ;
 import ca.frar.jjjrmi.annotations.NativeJS;
 import ca.frar.jjjrmi.annotations.Transient;
 import ca.frar.jjjrmi.socket.JJJObject;
-import ca.sharcnet.dh.progress.ProgressListener;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.sql.SQL;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
@@ -21,7 +20,6 @@ import org.apache.logging.log4j.LogManager;
 public class NerveRoot extends JJJObject{
     @Transient final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(NerveRoot.class);
     private Scriber scriber;
-    private ProgressListener progressMonitor;
     private Dictionary dictionary;
 
     NerveRoot(ServletContext servletContext) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
@@ -87,12 +85,4 @@ public class NerveRoot extends JJJObject{
     public Dictionary getDictionary() {
         return dictionary;
     }    
-    
-    /**
-     * @return the dictionary
-     */
-    @NativeJS
-    public ProgressListener getProgressMonitor() {
-        return progressMonitor;
-    }        
 }

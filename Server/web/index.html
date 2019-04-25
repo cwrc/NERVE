@@ -23,6 +23,24 @@
                 width: 95%;
             }
 
+            #buttonArea #throbber, #buttonArea #throbber img{
+                position: relative;
+                width: 90%;
+                left: 5%;
+            }
+            
+            #buttonArea #throbber div{
+                position: absolute;
+                width: 90%;
+                left: 5%;
+                text-align: center;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 1.4em;
+                font-weight: bold;
+                font-family: arial;
+            }
+            
             #filetext{
                 position: absolute;
                 border: 1px solid black;
@@ -40,7 +58,9 @@
     <body>
 
         <div id="buttonArea">
-            <input type="file" id="fileOpenDialog">
+            <input type="file" id="fileOpenDialog" style="display: none">
+            <button id="bOpen" title="Open an XML file" onclick="document.getElementById('fileOpenDialog').click()">Open File</button>
+            <button id="bReset" title="Revert file to text when opened" disabled>Reset File</button>
             <button id="bNer" title="Apply NER NLP program to find entities" disabled>NER</button>
             <button id="bDict" title="Lookup lemma &amp; tag information from db" disabled>Dict</button>
             <button id="bLink" title="Lookup link information from db" disabled>Link</button>
@@ -48,6 +68,10 @@
             <button id="bDecode" title="Decode HTML into XML" disabled>HTML -> XML</button>
             <button id="bClear" title="Clear document" disabled>Clear</button>
             <button id="bUpload" title="Upload csv file {text, lemma, link, tag, collection}">Open Dictionary</button>
+            <div id="throbber">
+                <img src="assets/loader400.gif"/>
+                <div>WORKING</div>
+            </div>
         </div>
         <div id="filetext" contenteditable></div>
     </body>

@@ -1,7 +1,7 @@
 "use strict";
 class EncodeResponse {
 	constructor() {
-		this.filename = "";
+		
 	}
 	static __isTransient() {
 		return false;

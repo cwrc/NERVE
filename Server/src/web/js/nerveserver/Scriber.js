@@ -3,9 +3,7 @@ const ArrayList = require ('jjjrmi').ArrayList;
 const EncodeResponse = require("./EncodeResponse");
 class Scriber {
 	constructor() {
-		this.config = null;
-		this.CONTEXT_PATH = "/WEB-INF/";
-		this.DEFAULT_SCHEMA = this.CONTEXT_PATH + "default.rng";
+		
 	}
 	static __isTransient() {
 		return false;
@@ -16,7 +14,7 @@ class Scriber {
 	static __isEnum() {
 		return false;
 	}
-	decode(source) {
+	decode(source, contextString) {
 		return this.__jjjWebsocket.methodRequest(this, "decode", arguments);
 	}
 	dictionary(source) {

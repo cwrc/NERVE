@@ -40,20 +40,25 @@ class Main {
         this.scriber = this.rootObject.getScriber();
         this.dictionary = this.rootObject.getDictionary();
 
+        $("#throbber").hide();
+
         /* page functionality */
         reader.main = this;
         reader.onload = async function (event) {
-            console.log(this);
+            $("#throbber").show();
+            
             this.document(event.target.result);
             $("#fileOpenDialog").val("");
             localStorage.document = event.target.result;
             
+            $("#bReset").attr("disabled", false);
             $("#bNer").attr("disabled", false);
             $("#bDict").attr("disabled", false);
             $("#bLink").attr("disabled", false);
             $("#bHTML").attr("disabled", false);
             $("#bClear").attr("disabled", false);   
             $("#bDecode").attr("disabled", true);
+            $("#throbber").hide();
         }.bind(this);
 
         $("#fileOpenDialog").change(async (event) => {
@@ -61,49 +66,74 @@ class Main {
             await reader.readAsText(event.currentTarget.files[0]);
         });
 
+        $("#bReset").click(async (event) => {
+            $("#throbber").show();
+            this.document(localStorage.document);
+            $("#bNer").attr("disabled", false);
+            $("#bDict").attr("disabled", false);
+            $("#bLink").attr("disabled", false);
+            $("#bHTML").attr("disabled", false);
+            $("#bClear").attr("disabled", false);   
+            $("#bDecode").attr("disabled", true);
+            $("#throbber").hide();
+        });
+
         $("#bClear").click(async (event) => {
+            $("#throbber").show();
             this.document("");
             localStorage.document = "";
             this.context = null;
+            $("#bReset").attr("disabled", true);
             $("#bNer").attr("disabled", true);
             $("#bDict").attr("disabled", true);
             $("#bLink").attr("disabled", true);
             $("#bHTML").attr("disabled", true);
             $("#bClear").attr("disabled", true);            
-            $("#bDecode").attr("disabled", true);            
+            $("#bDecode").attr("disabled", true);      
+            $("#throbber").hide();
         });
 
         $("#bNer").click(async (event) => {
+            $("#throbber").show();
             try {
                 let result = await this.scriber.ner(this.document());
                 this.context = JSON.parse(result.context);
                 $("#filetext").text(result.text);
             } catch (error) {
                 window.alert(error);
+            } finally {
+                $("#throbber").hide();
             }
         });
 
         $("#bDict").click(async (event) => {
+            $("#throbber").show();
             try {
                 let result = await this.scriber.dictionary(this.document());
                 this.context = JSON.parse(result.context);
                 this.document(result.text);
             } catch (error) {
                 window.alert(error);
+            } finally {
+                $("#throbber").hide();
             }
         });
 
         $("#bLink").click(async (event) => {
+            $("#throbber").show();
             try {
                 let result = await this.scriber.link(this.document());
                 this.context = JSON.parse(result.context);
                 this.document(result.text);
             } catch (error) {
                 window.alert(error);
+            } finally {
+                $("#throbber").hide();
             }
         });
 
         $("#bHTML").click(async (event) => {
+            $("#throbber").show();
             try {
                 let result = await this.scriber.html(this.document());
                 this.context = JSON.parse(result.context);
@@ -115,10 +145,13 @@ class Main {
                 $("#bDecode").attr("disabled", false);
             } catch (error) {
                 window.alert(error);
+            } finally {
+                $("#throbber").hide();
             }
         });
 
         $("#bDecode").click(async (event) => {
+            $("#throbber").show();
             try {
                 let result = await this.scriber.decode(this.document(), JSON.stringify(main.context));
                 this.document(result.text);
@@ -129,15 +162,14 @@ class Main {
                 $("#bDecode").attr("disabled", true);                
             } catch (error) {
                 window.alert(error);
+            } finally {
+                $("#throbber").hide();
             }
-        });
-
-        $("#bUpload").click(async (event) => {
-            window.open("dictionary.html");
         });
         
         if (localStorage.document){
             this.document(localStorage.document);
+            $("#bReset").attr("disabled", false);
             $("#bNer").attr("disabled", false);
             $("#bDict").attr("disabled", false);
             $("#bLink").attr("disabled", false);
