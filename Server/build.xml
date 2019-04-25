@@ -12,12 +12,14 @@
     <import file="nbproject/build-impl.xml"/>    
     <taskdef resource="jjjrmiant.xml"/>
     
-    <target name="echo">
-        <echo message="${j2ee.server.home}"/>
-    </target>
-    
     <!--Predefined Netbeans targets-->
-    <target name="-pre-compile" depends=""/>
+    <target name="-post-compile" depends="jjj.copy"/>
+    
+    <target name="jjj.copy">
+        <copy todir="${basedir}/dist/"> 
+            <fileset dir="${basedir}/src/web/js"/>
+        </copy>    
+    </target>
     
     <!--Remove JJJ files-->
     <target name="jjj.clean">

@@ -24,12 +24,6 @@ class Main {
         let reader = new FileReader();
 
         /* JJJ Initialization */
-        jjjrmi.JJJRMISocket.flags.ONREGISTER = true;
-        jjjrmi.JJJRMISocket.flags.CONNECT = true;
-        jjjrmi.JJJRMISocket.flags.RECEIVED = true;
-        jjjrmi.JJJRMISocket.flags.SENT = true;
-
-        console.log(jjjrmi.JJJRMISocket.flags);
 
         jjjrmi.JJJRMISocket.registerPackage(require("./nerveserver/packageFile"));
         jjjrmi.JJJRMISocket.registerPackage(require("jjjsql"));

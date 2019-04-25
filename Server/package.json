@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@thaerious/nidget": "^0.1.0",
-    "jjjrmi": "^0.4.21",
+    "jjjrmi": "",
     "jjjsql": "",
     "jquery": "^3.3.1",
     "nerscriber": "file:../NERScriber/dist/nerscriber"
