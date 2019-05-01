@@ -2,16 +2,11 @@ package ca.sharcnet.dh.scriber.encoder;
 
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
-import ca.sharcnet.dh.scriber.dictionary.IDictionary;
+import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.schema.Schema;
-import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.zip.GZIPInputStream;
 
 /**
  *
@@ -23,7 +18,8 @@ public abstract class EncoderBase implements IEncoder{
     protected Document document;
     protected Context context;
     protected Schema schema;
-    protected IDictionary dictionary;
+    protected Dictionary dictionary;
+    private String schemaURL;
 
     public void document(Document document) {
         this.document = document;
@@ -42,6 +38,10 @@ public abstract class EncoderBase implements IEncoder{
         this.context = context;
     }
 
+    public Context context() {
+        return this.context;
+    }    
+    
     /**
      * Load context from jar.
      *
@@ -60,35 +60,22 @@ public abstract class EncoderBase implements IEncoder{
      *
      * @param schema
      */
-    public void schema(Schema schema) {
+    public void setSchema(Schema schema) {
         this.schema = schema;
     }
-
-    /**
-     * Load schema from jar.
-     *
-     * @param path
-     * @throws IllegalArgumentException
-     * @throws IOException
-     */
-    public void schema(String path) throws IllegalArgumentException, IOException {
-        try (final InputStream resourceAsStream = ClassLoader.getSystemResourceAsStream(path)) {
-            this.schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
-        }
+    
+    public Schema getSchema() {
+        return this.schema;
+    }    
+    
+    public String getSchemaUrl(){
+        return this.schemaURL;
     }
 
-    /**
-     * Load schema from url.
-     *
-     * @param url
-     * @throws IOException
-     */
-    public void schema(URL url) throws IOException {
-        try (final InputStream urlStream = url.openStream()) {
-            this.schema = RelaxNGSchemaLoader.schemaFromStream(urlStream);
-        }
-    }
-
+    public void setSchemaUrl(String schemaURL){
+        this.schemaURL = schemaURL;
+    }    
+    
     /**
      * Retrieve document.
      *
@@ -98,7 +85,7 @@ public abstract class EncoderBase implements IEncoder{
         return this.document;
     }
 
-    public void dictionary(IDictionary dictionary) {
+    public void dictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
     }
 
@@ -107,7 +94,7 @@ public abstract class EncoderBase implements IEncoder{
      *
      * @return
      */
-    public IDictionary dictionary() {
+    public Dictionary dictionary() {
         return this.dictionary;
     }
 

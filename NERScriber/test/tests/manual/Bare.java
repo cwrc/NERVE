@@ -4,15 +4,18 @@ import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.scriber.encoder.EncoderBase;
 import ca.sharcnet.dh.scriber.encoder.EncoderXML;
-import ca.sharcnet.dh.scriber.encoder.EncoderDictionary;
+import ca.sharcnet.dh.scriber.encoder.EncoderDictAll;
 import ca.sharcnet.dh.scriber.encoder.EncoderHTML;
-import ca.sharcnet.dh.scriber.encoder.EncoderLink;
+import ca.sharcnet.dh.scriber.encoder.EncoderDictLink;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.dh.scriber.encoder.EncoderNER;
 import ca.sharcnet.dh.scriber.encoder.IEncoder;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
+import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import java.io.File;
@@ -31,7 +34,7 @@ public class Bare {
     public final static String PATH = "english.all.3class.distsim.crf.ser.gz";
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Bare.class);
 
-    public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException {
+    public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, InstantiationException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, IllegalArgumentException, ScriptException, NoSuchMethodException, DocumentParseException {
         try {
             InputStream configStream = ClassLoader.getSystemResourceAsStream("config.txt");
             Properties configProperties = new Properties();
@@ -46,7 +49,12 @@ public class Bare {
 
             EncoderManager manager = new EncoderManager();
             manager.document(document);
-            manager.schema("default.rng");
+            
+            try (final InputStream resourceAsStream = ClassLoader.getSystemResourceAsStream("default.rng")) {
+                RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
+                manager.setSchema(schema);
+            }            
+                       
             manager.context("default.context.json");
             manager.dictionary(dictionary);
             

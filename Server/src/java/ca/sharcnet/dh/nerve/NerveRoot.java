@@ -23,7 +23,7 @@ public class NerveRoot extends JJJObject{
     private Dictionary dictionary;
 
     NerveRoot(ServletContext servletContext) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
-        LOGGER.debug("NerveRoot()");
+        LOGGER.info("NerveRoot() ... ");
         try {            
             if (servletContext == null) {
                 throw new NullPointerException("Context is NULL");
@@ -35,29 +35,35 @@ public class NerveRoot extends JJJObject{
                 throw new FileNotFoundException(servletContext.getRealPath(configPath));
             }            
 
+            LOGGER.info("loading configuration ...");
             Properties config = new Properties();
             config.load(configStream);
             configStream.close();
             LOGGER.info("configuration loaded");
             
+            LOGGER.info("loading sql ...");
             SQL sql = new SQL(config);       
             LOGGER.info("SQL loaded");
             
+            LOGGER.info("loading dictionary ...");
             this.dictionary = new Dictionary(sql);
             LOGGER.info("dictionary loaded");
             
+            LOGGER.info("verifying dictionary ...");
             this.dictionary.verifySQL();
             LOGGER.info("dictionary verified");
                         
+            LOGGER.info("loading classifier ...");
             String classifierPath = "/WEB-INF/english.all.3class.distsim.crf.ser.gz";
             InputStream in = servletContext.getResourceAsStream(classifierPath);
             GZIPInputStream gzip = new GZIPInputStream(in);
             CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifier(gzip);
             LOGGER.info("classifier loaded");
             
+            LOGGER.info("loading scriber ...");
             this.scriber = new Scriber(config, dictionary, classifier, servletContext);
-            LOGGER.info("root created");        
-            LOGGER.info("exiting");        
+             LOGGER.info("scriber loaded");        
+            LOGGER.info("exiting NerveRoot()");        
         } catch (Exception ex) {
             LOGGER.catching(ex);
             if (ex.getCause() != null){

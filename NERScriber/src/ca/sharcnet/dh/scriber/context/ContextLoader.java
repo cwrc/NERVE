@@ -1,14 +1,9 @@
 package ca.sharcnet.dh.scriber.context;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class ContextLoader {
 

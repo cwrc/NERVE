@@ -9,7 +9,10 @@
         <Logger name="ca.sharcnet.dh.scriber.encoder.EncoderLink" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Root level="INFO">
+        <Logger name="ca.sharcnet.dh.scriber.encoder.EncoderDictionary" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>        
+        <Root level="DEBUG">
             <AppenderRef ref="Console"/>
         </Root>                
     </Loggers>

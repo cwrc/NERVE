@@ -7,7 +7,7 @@
     <taskdef resource="jjjrmiant.xml"/>     
     
     <!-- After jar creation copy file to common library with versioned name -->
-    <target name="-post-jar" depends="deploy.lib,scriber.jjj"/>
+    <target name="-post-jar" depends="deploy.lib"/>
     <target name="deploy.lib">
         <fail unless="lib.jar.name" message="lib.jar.name is not set"/>        
         <fail unless="shared.lib.dir" message="shared.lib.dir is not set"/>        

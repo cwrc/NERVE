@@ -6,7 +6,8 @@
 package ca.sharcnet.dh.scriber.encoder;
 
 import ca.sharcnet.dh.scriber.context.Context;
-import ca.sharcnet.dh.scriber.dictionary.IDictionary;
+import ca.sharcnet.dh.scriber.dictionary.Dictionary;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import java.io.IOException;
@@ -18,9 +19,9 @@ import javax.xml.parsers.ParserConfigurationException;
  * @author edward
  */
 public interface IEncoder {
-    void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException;
+    void run() throws IOException, DocumentParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException;
     void context(Context context);
-    void schema(Schema schema);
-    void dictionary(IDictionary dictionary);
+    void setSchema(Schema schema);
+    void dictionary(Dictionary dictionary);
     void document(Document document);
 }

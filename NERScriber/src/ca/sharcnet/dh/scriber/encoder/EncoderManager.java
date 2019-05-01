@@ -1,7 +1,5 @@
 package ca.sharcnet.dh.scriber.encoder;
-
-import edu.stanford.nlp.ie.crf.CRFClassifier;
-import edu.stanford.nlp.ling.CoreLabel;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ public class EncoderManager extends EncoderBase {
     public IEncoder addProcess(IEncoder encoder){
         encoder.document(this.document);
         encoder.context(this.context);
-        encoder.schema(this.schema);
+        encoder.setSchema(this.schema);
         encoder.dictionary(this.dictionary);        
         this.encoders.add(encoder);
         return encoder;
@@ -24,11 +22,7 @@ public class EncoderManager extends EncoderBase {
     }
     
     @Override
-    public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
+    public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
         for (IEncoder encoder : encoders) encoder.run();
-    }
-
-    public void classifier(CRFClassifier<CoreLabel> classifier) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

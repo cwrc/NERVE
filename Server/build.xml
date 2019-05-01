@@ -17,7 +17,9 @@
     
     <target name="jjj.copy">
         <copy todir="${basedir}/dist/"> 
-            <fileset dir="${basedir}/src/web/js"/>
+            <fileset dir="${basedir}/src/web/js">
+                <include name="nerveserver/**/*"/>
+            </fileset>
         </copy>    
     </target>
     

@@ -7,6 +7,7 @@ package ca.sharcnet.dh.scriber.encoder;
 
 import ca.sharcnet.dh.scriber.context.TagInfo;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
@@ -32,7 +33,7 @@ public class EncoderNER extends EncoderBase {
      * Process document.
      * @throws IOException
      */
-    public void run() throws IOException {
+    public void run() throws IOException, DocumentParseException {
         LOGGER.log(Level.DEBUG, "EncoderNER.run()");        
         if (schema == null) throw new UnsetSchemaException();
         if (context == null) throw new UnsetContextException();
@@ -91,7 +92,7 @@ public class EncoderNER extends EncoderBase {
         };
     }
 
-    private NodeList applyNamedEntityRecognizer(String text) throws IOException  {
+    private NodeList applyNamedEntityRecognizer(String text) throws IOException, DocumentParseException  {
         /* at least one alphabet character upper or lower case */
         String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
 

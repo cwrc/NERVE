@@ -1,16 +1,8 @@
 package ca.sharcnet.dh.scriber.context;
-import ca.frar.jjjrmi.annotations.JJJ;
-import ca.frar.jjjrmi.annotations.JJJOptions;
-import ca.frar.jjjrmi.annotations.JSPrequel;
-import ca.frar.jjjrmi.annotations.NativeJS;
-import ca.frar.jjjrmi.translator.DataObject;
 import java.util.HashMap;
 import org.json.JSONObject;
 
-@JJJ
-@JJJOptions(retain=false)
-@JSPrequel("const HashMap = require('jjjrmi').HashMap;")
-public class TagInfo implements DataObject{
+public class TagInfo {
     private final String name;
     private final String standard;
     private final String lemmaAttribute;
@@ -42,67 +34,67 @@ public class TagInfo implements DataObject{
         }
     }
 
-    @NativeJS
+    
     public HashMap<String, String> defaults() {
         return new HashMap<>(this.defaults);
     }
 
-    @NativeJS
+    
     public boolean hasEncodeScript(){
         return (!this.encodeScript.isEmpty());
     }
 
-    @NativeJS
+    
     public boolean hasDecodeScript(){
         return (!this.decodeScript.isEmpty());
     }
 
-    @NativeJS
+    
     public String getEncodeScript(){
         return this.encodeScript;
     }
 
-    @NativeJS
+    
     public String getDecodeScript(){
         return this.decodeScript;
     }
 
-    @NativeJS
+    
     public String getDefault(String key) {
         return defaults.get(key);
     }
 
-    @NativeJS
+    
     public Boolean hasDefault(String key) {
         return defaults.containsKey(key);
     }
 
-    @NativeJS
+    
     public String getLemmaAttribute() {
         return lemmaAttribute;
     }
 
-    @NativeJS
+    
     public String getLinkAttribute() {
         return linkAttribute;
     }
 
-    @NativeJS
+    
     public String getIdAttribute() {
         return idAttribute;
     }
 
-    @NativeJS
+    
     public String getDialogMethod(){
         return dialogMethod;
     }
 
-    @NativeJS
+    
     public String getName(){
         return this.name;
     }
 
-    @NativeJS
+    
     public String getStandard() {
         return this.standard;
     }

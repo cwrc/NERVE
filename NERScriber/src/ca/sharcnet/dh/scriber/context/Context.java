@@ -1,7 +1,4 @@
 package ca.sharcnet.dh.scriber.context;
-import ca.frar.jjjrmi.annotations.NativeJS;
-import ca.frar.jjjrmi.socket.JJJObject;
-import ca.frar.jjjrmi.translator.DataObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-public class Context extends JJJObject implements Serializable, DataObject {
+public class Context implements Serializable {
     private String name;
     private String schemaName = "";
     private String scriptFilename;
@@ -48,42 +45,42 @@ public class Context extends JJJObject implements Serializable, DataObject {
         return this.sourceString;
     }
     
-    @NativeJS
+    
     public boolean hasTagSourceAttribute() {
         return (!tagSourceAttribute.isEmpty());
     }
 
-    @NativeJS
+    
     public String getTagSourceAttribute() {
         return tagSourceAttribute;
     }
 
-    @NativeJS
+    
     public boolean hasScriptFilename() {
         return (!scriptFilename.isEmpty());
     }
 
-    @NativeJS
+    
     public String getScriptFilename() {
         return scriptFilename;
     }
 
-    @NativeJS
+    
     public String getName() {
         return name;
     }
 
-    @NativeJS
+    
     public String getSchemaName() {
         return schemaName;
     }
 
-    @NativeJS
+    
     public String getStyle() {
         return style;
     }
 
-    @NativeJS
+    
     public List<TagInfo> tags() {
         return tagList;
     }
@@ -91,7 +88,7 @@ public class Context extends JJJObject implements Serializable, DataObject {
     /*
     Return the tagInfo for the matching 'standard' tag name.
      */
-    @NativeJS
+    
     public TagInfo getTagInfo(String standardTagName) {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getStandard().equals(standardTagName)) return tagInfo;
@@ -101,7 +98,7 @@ public class Context extends JJJObject implements Serializable, DataObject {
         throw new ContextException(exMsg, this);
     }
 
-    @NativeJS
+    
     public String getStandardTag(String schemaTagName) {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getName().equals(schemaTagName)) return tagInfo.getStandard();
@@ -110,7 +107,7 @@ public class Context extends JJJObject implements Serializable, DataObject {
         throw new ContextException(exMsg, this);        
     }
 
-    @NativeJS
+    
     public boolean isTagName(String schemaTagName) {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getName().equals(schemaTagName)) return true;
@@ -118,7 +115,7 @@ public class Context extends JJJObject implements Serializable, DataObject {
         return false;
     }
     
-    @NativeJS
+    
     public boolean isStandardTag(String schemaTagName) {
         for (TagInfo tagInfo : tagList) {
             if (tagInfo.getStandard().equals(schemaTagName)) return true;

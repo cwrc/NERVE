@@ -5,9 +5,9 @@ import ca.frar.jjjrmi.annotations.JSPrequel;
 import ca.frar.jjjrmi.annotations.ServerSide;
 import ca.frar.jjjrmi.annotations.Transient;
 import ca.frar.jjjrmi.socket.JJJObject;
+import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
-import ca.sharcnet.dh.progress.ProgressListener;
 import static ca.sharcnet.dh.scriber.Constants.SCHEMA_NODE_ATTR;
 import static ca.sharcnet.dh.scriber.Constants.SCHEMA_NODE_NAME;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
@@ -68,7 +68,7 @@ public class Scriber extends JJJObject {
     private class ManagerTuple{
         Context context;
         EncoderManager manager;
-        String schemaURL;        
+        String schemaURL;
         
         ManagerTuple(EncoderManager manager, Context context, String schemaURL){
             this.context = context;
@@ -93,7 +93,15 @@ public class Scriber extends JJJObject {
             RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
             manager.schema(schema);
         } else {
-            manager.schema(new URL(schemaAttrValue));
+            try{
+                Console.log("************************************************");
+                Console.log(schemaAttrValue);
+                Console.log("************************************************");
+                manager.schema(new URL(schemaAttrValue));
+            } catch (javax.net.ssl.SSLHandshakeException ex){
+                Console.log(ex.getMessage() + " " + schemaAttrValue);
+                throw ex;
+            }
         }
 
         return new ManagerTuple(manager, context, schemaAttrValue);

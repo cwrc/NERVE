@@ -28,6 +28,14 @@ public class SQL {
 
     private final String url, driver;
 
+    public SQL(String driver, String url) throws ClassNotFoundException, IllegalAccessException, IOException, SQLException, InstantiationException {
+        if (url == null) throw new SQLPropertyNotFoundException("url");
+        if (driver == null) throw new SQLPropertyNotFoundException("driver");
+        this.url = url;
+        this.driver = driver;
+        Class.forName(driver).newInstance();
+    }    
+    
     public SQL(Properties config) throws ClassNotFoundException, IllegalAccessException, IOException, SQLException, InstantiationException {
         if (config == null) {
             throw new UnsetPropertiesException();
