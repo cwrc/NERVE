@@ -31,7 +31,7 @@
     <property name="war.dir" value="dist"/>
     <property name="war.name" value="NerveService.war"/>
     
-    <target name="remotecopy">
+    <target name="deploy">
         <echo>copy ${war.dir}/${war.name} to ${remoteTarget}</echo>
         <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
             <fileset dir="${war.dir}">
