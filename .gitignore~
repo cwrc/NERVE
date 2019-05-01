@@ -1,6 +1,7 @@
 /Server/build/
-/Server/dist/
 /nidget/nbproject/private/
 /DocumentNavigator/dist/
 /Client
 /Nidget
+/DocumentNavigator/build/
+/NerveService/dist/
