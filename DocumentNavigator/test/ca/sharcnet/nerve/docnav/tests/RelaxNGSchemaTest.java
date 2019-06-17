@@ -8,6 +8,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
@@ -33,18 +34,18 @@ public class RelaxNGSchemaTest implements HasStreams{
      * @throws java.io.IOException
     */
     @Test
-    public void load_as_document() throws IOException{
+    public void load_as_document() throws IOException, DocumentParseException{
         DocumentLoader.documentFromStream(getResourceStream("orlando_biography_v2.xml"));
     }
 
     @Test
-    public void load_as_schema() throws IOException{
+    public void load_as_schema() throws IOException, DocumentParseException{
         RelaxNGSchemaLoader.schemaFromStream(getResourceStream("orlando_biography_v2.xml"));
     }
 
     /* document.xml is vald to orlando_biography_v2 */
     @Test
-    public void load_check_doc_0() throws IOException{
+    public void load_check_doc_0() throws IOException, DocumentParseException{
         Schema schema = RelaxNGSchemaLoader.schemaFromStream(getResourceStream("orlando_biography_v2.xml"));
         Document doc = DocumentLoader.documentFromStream(getResourceStream("document.xml"));
 
@@ -55,7 +56,7 @@ public class RelaxNGSchemaTest implements HasStreams{
 
     /* document.xml is vald to orlando_biography_v2 */
     @Test
-    public void load_check_doc_1() throws IOException{
+    public void load_check_doc_1() throws IOException, DocumentParseException{
         Schema schema = RelaxNGSchemaLoader.schemaFromStream(getResourceStream("orlando_biography_v2.xml"));
         Document doc = DocumentLoader.documentFromStream(getResourceStream("document.xml"));
 

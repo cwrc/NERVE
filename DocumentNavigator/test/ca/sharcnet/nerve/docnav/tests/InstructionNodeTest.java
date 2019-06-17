@@ -2,6 +2,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.IsNodeType;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
@@ -23,7 +24,7 @@ public class InstructionNodeTest implements HasStreams {
     }
 
     @Test
-    public void test_load_simple() throws IOException {
+    public void test_load_simple() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("instructionNodeTest/simple.xml"));
         Query query = doc.query(NodeType.INSTRUCTION);
         Console.log(query);
@@ -31,21 +32,21 @@ public class InstructionNodeTest implements HasStreams {
     }
 
     @Test
-    public void test_load_document() throws IOException {
+    public void test_load_document() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("instructionNodeTest/document.xml"));
         Query query = doc.query(NodeType.INSTRUCTION);
         assertEquals(2, query.size());
     }
 
     @Test
-    public void test_inst_byname() throws IOException {
+    public void test_inst_byname() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("instructionNodeTest/document.xml"));
         Query query = doc.query(NodeType.INSTRUCTION).filter("oxy_comment_start");
         assertEquals(1, query.size());
     }
 
     @Test
-    public void test_inst_attr() throws IOException {
+    public void test_inst_attr() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("instructionNodeTest/document.xml"));
         String attr = doc.query(NodeType.INSTRUCTION).filter("oxy_comment_start").attr("author");
         assertEquals("leslieallin", attr);

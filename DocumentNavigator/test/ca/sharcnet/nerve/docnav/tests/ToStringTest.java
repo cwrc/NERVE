@@ -2,6 +2,7 @@ package ca.sharcnet.nerve.docnav.tests;
 
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,7 @@ public class ToStringTest implements HasStreams {
     }
 
     @Test
-    public void test0() throws IOException{
+    public void test0() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("document.xml"));
         doc.toString();
         doc.toString(true);
@@ -30,7 +31,7 @@ public class ToStringTest implements HasStreams {
     }
 
     @Test
-    public void test1() throws IOException{
+    public void test1() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         doc.toString();
         doc.toString(true);

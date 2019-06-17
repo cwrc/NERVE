@@ -2,6 +2,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
@@ -22,7 +23,7 @@ public class TestSchemaRuleAll implements HasStreams {
     /**
      * Just make sure we don't fail the load
      */
-    public void hello() throws IOException {
+    public void hello() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(getResourceStream("schemas/default.rng"));
         assertTrue(true);
@@ -32,7 +33,7 @@ public class TestSchemaRuleAll implements HasStreams {
     /**
      * Just make sure we don't fail the load
      */
-    public void validate_all() throws IOException {
+    public void validate_all() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("multi.xml"));
         RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(getResourceStream("schemas/default.rng"));
         

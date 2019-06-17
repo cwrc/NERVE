@@ -8,6 +8,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.dom.NodeList;
@@ -32,13 +33,13 @@ public class MultiRoot implements HasStreams {
     }
 
     @Test
-    public void load_mult() throws IOException {
+    public void load_mult() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(this.getResourceStream("multi_root/file01.xml"));
         System.out.println(doc);
     }
     
     @Test
-    public void load_mult_has_three_nodes() throws IOException {
+    public void load_mult_has_three_nodes() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(this.getResourceStream("multi_root/file01.xml"));
         assertEquals(3, doc.childCount());
         NodeList childNodes = doc.childNodes();
@@ -46,13 +47,13 @@ public class MultiRoot implements HasStreams {
     }
 
     @Test
-    public void load_mult_get_root() throws IOException {
+    public void load_mult_get_root() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(this.getResourceStream("multi_root/file01.xml"));
         assertEquals(3, doc.query("root").size());
     }
 
     @Test
-    public void load_mult_query1() throws IOException {
+    public void load_mult_query1() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(this.getResourceStream("multi_root/file02.xml"));
         assertEquals(3, doc.query("root").size());
     }

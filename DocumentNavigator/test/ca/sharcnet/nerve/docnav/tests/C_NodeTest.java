@@ -8,6 +8,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
 import ca.sharcnet.nerve.docnav.dom.NameConstants;
@@ -34,7 +35,7 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void test_decendents_all() throws IOException{
+    public void test_decendents_all() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes();
         String string = nodes.toString(n->n.name());
@@ -42,7 +43,7 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void test_decendents_element() throws IOException{
+    public void test_decendents_element() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes(NodeType.ELEMENT);
         String string = nodes.toString(n->n.name());
@@ -50,7 +51,7 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void test_decendents_instruction() throws IOException{
+    public void test_decendents_instruction() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes(NodeType.INSTRUCTION);
         String string = nodes.toString(n->n.name());
@@ -58,7 +59,7 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void test_decendents_doctype() throws IOException{
+    public void test_decendents_doctype() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         NodeList nodes = doc.decendentNodes(NodeType.DOCTYPE);
         String string = nodes.toString(n->n.name());
@@ -66,13 +67,13 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void test_decendents_hasAttribute_not() throws IOException{
+    public void test_decendents_hasAttribute_not() throws IOException, DocumentParseException{
         ElementNode node = new ElementNode("div");
         Assert.assertFalse(node.hasAttribute("class"));
     }
 
     @Test
-    public void test_decendents_hasAttribute_not_removed() throws IOException{
+    public void test_decendents_hasAttribute_not_removed() throws IOException, DocumentParseException{
         ElementNode node = new ElementNode("div");
         node.attr("class", "ima class");
         node.removeAttribute("class");
@@ -80,13 +81,13 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void test_decendents_hasAttribute_by_value_not_1() throws IOException{
+    public void test_decendents_hasAttribute_by_value_not_1() throws IOException, DocumentParseException{
         ElementNode node = new ElementNode("div");
         Assert.assertFalse(node.hasAttribute("class", "ima-class"));
     }
 
     @Test
-    public void test_decendents_hasAttribute_by_value_not_2() throws IOException{
+    public void test_decendents_hasAttribute_by_value_not_2() throws IOException, DocumentParseException{
         ElementNode node = new ElementNode("div");
         node.attr("class", "ima class");
         Assert.assertFalse(node.hasAttribute("class", "not-here"));
@@ -95,14 +96,14 @@ public class C_NodeTest implements HasStreams{
 
 
     @Test
-    public void test_decendents_hasAttribute_by_value_not_3() throws IOException{
+    public void test_decendents_hasAttribute_by_value_not_3() throws IOException, DocumentParseException{
         ElementNode node = new ElementNode("div");
         node.attr("class", "ima class");
         Assert.assertFalse(node.hasAttribute("class", ""));
     }
 
     @Test
-    public void test_decendents_hasAttribute_by_value_not_removed() throws IOException{
+    public void test_decendents_hasAttribute_by_value_not_removed() throws IOException, DocumentParseException{
         ElementNode node = new ElementNode("div");
         node.attr("class", "ima class");
         node.removeAttribute("class");
@@ -110,20 +111,20 @@ public class C_NodeTest implements HasStreams{
     }
 
     @Test
-    public void innerText_with_types() throws IOException{
+    public void innerText_with_types() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
         assertEquals("", doc.text().trim());
     }
 
     @Test
-    public void instr_attr_value() throws IOException{
+    public void instr_attr_value() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("types.xml"));
         Query query = doc.query(NodeType.INSTRUCTION).filter("context[name]");
         assertEquals(1, query.size());
     }
 
     @Test
-    public void replace_with_list() throws IOException{
+    public void replace_with_list() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("c_nodetest.xml"));
 
         NodeList list = new NodeList();

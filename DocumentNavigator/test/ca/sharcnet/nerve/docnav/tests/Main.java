@@ -1,6 +1,7 @@
 package ca.sharcnet.nerve.docnav.tests;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class Main implements HasStreams {
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, DocumentParseException{
         Main main = new Main();
         main.run();
     }
@@ -18,7 +19,7 @@ public class Main implements HasStreams {
     private Document doc;
     private final HashMap<String, Object> memory = new HashMap<>();
 
-    public void run() throws IOException {
+    public void run() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(this.getResourceStream("document.xml"));
         System.out.println(doc.toString());
     }

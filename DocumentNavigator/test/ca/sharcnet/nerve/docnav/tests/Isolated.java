@@ -8,6 +8,7 @@ package ca.sharcnet.nerve.docnav.tests;
 import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.HasStreams;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
+import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
@@ -27,7 +28,7 @@ public class Isolated implements HasStreams {
     }
 
     @Test
-    public void instruction_node() throws IOException {
+    public void instruction_node() throws IOException, DocumentParseException{
         Document doc = DocumentLoader.documentFromStream(getResourceStream("fromEncoder.xml"));
         Console.log("\n" + ", " + doc + ", " + "\n");
 
