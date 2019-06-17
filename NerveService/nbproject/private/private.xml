@@ -3,10 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/web/index.html</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/web/main.js</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/web/functions.js</file>
             <file>file:/D:/project-local/trunk/nerve/NerveService/web/dictionary.js</file>
-            <file>file:/D:/project-local/trunk/nerve/NerveService/web/WEB-INF/config.properties</file>
-            <file>file:/D:/project-local/trunk/nerve/NerveService/src/java/ca/sharcnet/dh/nerve/services/ServiceBase.java</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/src/java/ca/sharcnet/dh/nerve/services/NER.java</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/src/java/ca/sharcnet/dh/nerve/services/AddEntities.java</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/build.xml</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/src/java/ca/sharcnet/dh/nerve/services/ToHTML.java</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/web/dictionary.html</file>
             <file>file:/D:/project-local/trunk/nerve/NerveService/src/java/ca/sharcnet/dh/nerve/services/LookupEntities.java</file>
+            <file>file:/D:/project-local/trunk/nerve/NerveService/src/java/ca/sharcnet/dh/nerve/services/DeleteEntity.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,7 +1,5 @@
 
 function postJSON(url, json) {
-    console.log(json);
-    
     let callback = function (resolve, reject) {
         var xhttp = new XMLHttpRequest();
 
