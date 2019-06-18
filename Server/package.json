@@ -14,7 +14,7 @@
     "@thaerious/nidget": "^0.1.0",
     "jjjrmi": "",
     "jjjsql": "",
-    "jquery": "^3.3.1",
+    "jquery": ">=3.4.0",
     "nerscriber": "file:../NERScriber/dist/nerscriber"
   }
 }
