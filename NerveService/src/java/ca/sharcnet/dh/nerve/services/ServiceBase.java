@@ -1,6 +1,5 @@
 package ca.sharcnet.dh.nerve.services;
 
-import ca.frar.utility.console.Console;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import static ca.sharcnet.dh.scriber.Constants.SCHEMA_NODE_ATTR;
@@ -40,7 +39,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public abstract class ServiceBase extends HttpServlet {
-
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
 
     static Dictionary dictionary = null;
@@ -51,11 +49,11 @@ public abstract class ServiceBase extends HttpServlet {
 
     @Override
     public void init() {
-        LOGGER.info("NerveRoot() ... ");
+        LOGGER.debug("NerveRoot() ... ");
         try {
             this.initDictionary();
             this.initClassifier();
-            LOGGER.info("exiting NerveRoot()");
+            LOGGER.debug("exiting NerveRoot()");
         } catch (Exception ex) {
             LOGGER.catching(ex);
             if (ex.getCause() != null) {
@@ -71,47 +69,51 @@ public abstract class ServiceBase extends HttpServlet {
         if (ServiceBase.classifier != null) {
             return;
         }
-        LOGGER.info("loading classifier ...");
+        LOGGER.debug("loading classifier ...");
         String classifierPath = "/WEB-INF/english.all.3class.distsim.crf.ser.gz";
         InputStream in = this.getServletContext().getResourceAsStream(classifierPath);
         GZIPInputStream gzip = new GZIPInputStream(in);
         ServiceBase.classifier = CRFClassifier.getClassifier(gzip);
         in.close();
-        LOGGER.info("classifier loaded");
+        LOGGER.debug("... classifier loaded");
     }
 
     private void initDictionary() throws FileNotFoundException, IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
+        LOGGER.debug("initializing dictionary ...");
         if (ServiceBase.dictionary != null) {
             return;
         }
 
         InputStream configStream = this.getServletContext().getResourceAsStream(CONFIG_PATH);
+        LOGGER.debug("configuration file: " + this.getServletContext().getContextPath());
         if (configStream == null) {
             throw new FileNotFoundException(this.getServletContext().getRealPath(CONFIG_PATH));
         }
 
-        LOGGER.info("loading configuration ...");
+        LOGGER.debug("loading configuration ...");
         Properties config = new Properties();
         config.load(configStream);
         configStream.close();
-        LOGGER.info("configuration loaded");
+        LOGGER.debug("configuration loaded");
 
         String dbURL = config.getProperty("databaseURL");
         String dbPath = config.getProperty("databasePath");
         String realPath = this.getServletContext().getRealPath(dbPath);
         String dbDriver = config.getProperty("databaseDriver");
         
-        LOGGER.info("loading sql ...");
+        LOGGER.debug("loading sql ...");
         SQL sql = new SQL(dbDriver, dbURL + realPath);
-        LOGGER.info("SQL loaded");
+        LOGGER.debug("SQL loaded");
 
-        LOGGER.info("loading dictionary ...");
+        LOGGER.debug("loading dictionary ...");
         ServiceBase.dictionary = new Dictionary(sql);
-        LOGGER.info("dictionary loaded");
+        LOGGER.debug("dictionary loaded");
 
-        LOGGER.info("verifying dictionary ...");
+        LOGGER.debug("verifying dictionary ...");
         ServiceBase.dictionary.verifySQL();
-        LOGGER.info("dictionary verified");
+        LOGGER.debug("dictionary verified");
+        
+        LOGGER.debug("... initializing dictionary");
     }
 
     EncoderManager createManager(String documentSource) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
@@ -139,7 +141,7 @@ public abstract class ServiceBase extends HttpServlet {
     }
 
     void retrieveSchema(EncoderManager manager, String schemaAttrValue) throws MalformedURLException, IOException, DocumentParseException {
-        LOGGER.info("retrieve schema " + schemaAttrValue);
+        LOGGER.debug("retrieve schema " + schemaAttrValue);
         URL url = new URL(schemaAttrValue);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

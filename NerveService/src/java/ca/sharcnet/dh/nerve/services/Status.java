@@ -5,14 +5,20 @@
  */
 package ca.sharcnet.dh.nerve.services;
 
+import static ca.sharcnet.dh.nerve.services.ServiceBase.CONFIG_PATH;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -21,7 +27,7 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "Status", urlPatterns = {"/Status"})
 public class Status extends HttpServlet {
-
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,16 +38,33 @@ public class Status extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOGGER.debug("processRequest enter");
         response.setContentType("application/json;charset=UTF-8");
 
-        String input = request.getReader().lines().collect(Collectors.joining());        
-        
-        JSONObject json = new JSONObject(input);
+        JSONObject json = new JSONObject();
         json.put("status", "running");
-        
-        try (PrintWriter out = response.getWriter()) {
-            out.print(json.toString());
+        json.put("servlet context path", request.getContextPath());
+        json.put("real path", this.getServletContext().getRealPath("."));
+        json.put("configuration path", this.getServletContext().getRealPath(ServiceBase.CONFIG_PATH));
+
+        InputStream configStream = this.getServletContext().getResourceAsStream(CONFIG_PATH);
+        if (configStream != null) {
+            JSONObject configJSON = new JSONObject();
+            Properties config = new Properties();
+            config.load(configStream);
+            configStream.close();
+            for (Object key : config.keySet()){
+                configJSON.put((String)key, config.get(key));
+            }
+            json.put("configuration settings", configJSON);
         }
+
+        try (PrintWriter out = response.getWriter()) {
+            out.print(json.toString(4));
+        }
+        
+        LOGGER.info(json.toString(4));
+        LOGGER.debug("processRequest exit");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
