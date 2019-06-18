@@ -8,11 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class EncoderManager extends EncoderBase {    
     ArrayList<IEncoder> encoders = new ArrayList<>();
     
-    public IEncoder addProcess(IEncoder encoder){
-        encoder.document(this.document);
-        encoder.context(this.context);
-        encoder.setSchema(this.schema);
-        encoder.dictionary(this.dictionary);        
+    public IEncoder addProcess(IEncoder encoder){   
         this.encoders.add(encoder);
         return encoder;
     }    
@@ -23,6 +19,12 @@ public class EncoderManager extends EncoderBase {
     
     @Override
     public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
-        for (IEncoder encoder : encoders) encoder.run();
+        for (IEncoder encoder : encoders){
+            encoder.document(this.document);
+            encoder.context(this.context);
+            encoder.setSchema(this.schema);
+            encoder.dictionary(this.dictionary);             
+            encoder.run();
+        }
     }
 }
