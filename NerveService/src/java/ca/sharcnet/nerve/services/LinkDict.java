@@ -1,6 +1,5 @@
-package ca.sharcnet.dh.nerve.services;
-import ca.sharcnet.dh.scriber.encoder.EncoderDictionary;
-import ca.sharcnet.dh.scriber.encoder.EncoderLink;
+package ca.sharcnet.nerve.services;
+import ca.sharcnet.dh.scriber.encoder.EncoderDictLink;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
@@ -14,9 +13,8 @@ public class LinkDict extends ServiceBase {
     
     @Override
     public JSONObject run(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
-        String source = jsonRequest.getString("document");
-        EncoderManager manager = this.createManager(source);        
-        manager.addProcess(new EncoderLink());
+        EncoderManager manager = this.createManager(jsonRequest);        
+        manager.addProcess(new EncoderDictLink());
         manager.run();
         
         JSONObject json = new JSONObject();

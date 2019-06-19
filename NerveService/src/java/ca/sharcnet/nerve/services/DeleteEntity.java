@@ -1,4 +1,4 @@
-package ca.sharcnet.dh.nerve.services;
+package ca.sharcnet.nerve.services;
 import ca.sharcnet.dh.scriber.dictionary.EntityValues;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;

@@ -1,5 +1,8 @@
-package ca.sharcnet.dh.nerve.services;
+package ca.sharcnet.nerve.services;
 
+import ca.sharcnet.nerve.services.exceptions.GetRequestNotSupported;
+import ca.sharcnet.nerve.services.exceptions.MalformedSchemaURL;
+import ca.sharcnet.nerve.services.exceptions.MissingDocumentException;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.dom.Document;
 import static ca.sharcnet.dh.scriber.Constants.SCHEMA_NODE_ATTR;
@@ -8,7 +11,6 @@ import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
-import ca.sharcnet.dh.scriber.encoder.MalformedSchemaURL;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
@@ -38,7 +40,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Process incoming http post requests into service requests with json input.
+ *
+ * @author Ed Armstrong
+ */
 public abstract class ServiceBase extends HttpServlet {
+
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
 
     static Dictionary dictionary = null;
@@ -100,7 +108,7 @@ public abstract class ServiceBase extends HttpServlet {
         String dbPath = config.getProperty("databasePath");
         String realPath = this.getServletContext().getRealPath(dbPath);
         String dbDriver = config.getProperty("databaseDriver");
-        
+
         LOGGER.debug("loading sql ...");
         SQL sql = new SQL(dbDriver, dbURL + realPath);
         LOGGER.debug("SQL loaded");
@@ -112,54 +120,101 @@ public abstract class ServiceBase extends HttpServlet {
         LOGGER.debug("verifying dictionary ...");
         ServiceBase.dictionary.verifySQL();
         LOGGER.debug("dictionary verified");
-        
+
         LOGGER.debug("... initializing dictionary");
     }
 
-    EncoderManager createManager(String documentSource) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    /**
+     * Create a new manager object from JSON information.  It is this method
+     * that verifies the contents of the incoming JSON object and parses out
+     * the relevant context and schema information. This is a utility method
+     * that the service endpoints will call if they are tagging documents.<br>
+     * The document field is required in the JSON input object.  The context and
+     * schemaURL fields are optional.  If the document is not provided then an
+     * exception will be thrown.  If the 'context' is not provided then the
+     * document type will be determined from the 'schema' is available.  If no
+     * context is available, a default empty schema will be used.  If a schema
+     * URL is provided then it will be used, otherwise the url will be parsed
+     * from the document.  If the schema URL return a 302 (redirect) then that
+     * url will be used.  All other non-200 return codes will throw an exception.
+     * <br><br>
+     * <img src="https://drive.google.com/uc?id=1X5ZRc624Joq9JHfH5g-avjV0Ep_flfpF"/>
+     * @param jsonRequest
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws SQLException
+     * @throws ParserConfigurationException
+     * @throws DocumentParseException 
+     */
+    EncoderManager createManager(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
         EncoderManager manager = new EncoderManager();
+
+        /* Document Retrieval */
+        if (!jsonRequest.has("document")) {
+            throw new MissingDocumentException();
+        }
+        String documentSource = jsonRequest.getString("document");
         Document document = DocumentLoader.documentFromString(documentSource);
         manager.document(document);
         manager.dictionary(ServiceBase.dictionary);
-        Context context = this.getContext(document);
-        manager.context(context);
+
+        /* Context Retrieval */
+        if (jsonRequest.has("context")) {
+            /* use provided context */
+            JSONObject jsonObject = jsonRequest.getJSONObject("context");
+            manager.context(new Context(jsonObject));
+        } else {
+            /* set the default context from the document - can be overridden by calling service */
+            Context context = this.retrieveContext(document);
+            manager.context(context);
+        }
 
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
 
         if (schemaAttrValue.isEmpty()) {
+            /* if no schema is specified by the document use the default (empty) schema */
             InputStream resourceAsStream = this.getServletContext().getResourceAsStream(DEFAULT_SCHEMA);
             RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
             manager.setSchemaUrl("");
             manager.setSchema(schema);
         } else {
+            /* if a schema is specified use it */
             manager.setSchemaUrl(schemaAttrValue);
-            this.retrieveSchema(manager, schemaAttrValue);
+            RelaxNGSchema schema = this.retrieveSchema(schemaAttrValue);
+            if (schema == null) {
+                throw new MalformedSchemaURL(schemaAttrValue);
+            }
+            manager.setSchema(schema);
         }
 
         return manager;
     }
 
-    void retrieveSchema(EncoderManager manager, String schemaAttrValue) throws MalformedURLException, IOException, DocumentParseException {
+    private RelaxNGSchema retrieveSchema(String schemaAttrValue) throws MalformedURLException, IOException, DocumentParseException {
         LOGGER.debug("retrieve schema " + schemaAttrValue);
         URL url = new URL(schemaAttrValue);
+        RelaxNGSchema schema = null;
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         if (connection.getResponseCode() == 302) {
             String locationField = connection.getHeaderField("Location");
-            this.retrieveSchema(manager, locationField);
+            schema = this.retrieveSchema(locationField);
         } else {
             try (final InputStream resourceAsStream = url.openStream()) {
                 if (resourceAsStream == null) {
                     throw new MalformedSchemaURL(schemaAttrValue);
                 }
-                RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
-                manager.setSchema(schema);
+                schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
             }
         }
+        return schema;
     }
 
-    public Context getContext(Document document) throws IllegalArgumentException, IOException {
+    public Context retrieveContext(Document document) throws IllegalArgumentException, IOException {
         /* retrieve the schema url to set the context */
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
@@ -192,7 +247,8 @@ public abstract class ServiceBase extends HttpServlet {
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.  This method is not supported
+     * and will return an exception.
      *
      * @param request servlet request
      * @param response servlet response
@@ -200,9 +256,8 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.returnException(response, new GetRequestNotSupported());
     }
 
     /**
@@ -221,12 +276,11 @@ public abstract class ServiceBase extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "";
     }// </editor-fold>   
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -252,32 +306,60 @@ public abstract class ServiceBase extends HttpServlet {
                 out.print(jsonResponse.toString());
             }
         } catch (Exception ex) {
-            Logger.getLogger(NER.class.getName()).log(Level.SEVERE, null, ex);
-            response.setStatus(500);
-            JSONObject jsonException = new JSONObject();
-            jsonException.put("exception", ex.getClass().getCanonicalName());
-            jsonException.put("message", ex.getMessage());
-
-            JSONArray jsonArray = new JSONArray();
-            StackTraceElement[] stackTrace = ex.getStackTrace();
-            for (StackTraceElement element : stackTrace) {
-                jsonArray.put(element.toString());
-            }
-
-            jsonException.put("stacktrace", jsonArray);
-
-            try (PrintWriter out = response.getWriter()) {
-                out.print(jsonException.toString());
-            }
+            returnException(response, ex);
         }
     }
 
-    public JSONObject badRequest(String message) {
+    /**
+     * Used when an incoming JSON object is missing a parameter.
+     * @param message
+     * @return 
+     */
+    public final JSONObject badRequest(String message) {
         JSONObject json = new JSONObject();
         json.put("status", 400);
         json.put("message", message);
         return json;
     }
 
+    /**
+     * Format a JSON object with exception details and write out response.
+     * @param response
+     * @param exception
+     * @throws IOException 
+     */
+    public final void returnException(HttpServletResponse response, Exception exception) throws IOException {
+        Logger.getLogger(NER.class.getName()).log(Level.SEVERE, null, exception);
+        response.setStatus(500);
+        JSONObject jsonException = new JSONObject();
+        jsonException.put("exception", exception.getClass().getCanonicalName());
+        jsonException.put("message", exception.getMessage());
+
+        JSONArray jsonArray = new JSONArray();
+        StackTraceElement[] stackTrace = exception.getStackTrace();
+        for (StackTraceElement element : stackTrace) {
+            jsonArray.put(element.toString());
+        }
+
+        jsonException.put("stacktrace", jsonArray);
+
+        try (PrintWriter out = response.getWriter()) {
+            out.print(jsonException.toString());
+        }
+    }
+
+    /**
+     * Service endpoints must override this method.  This method is called
+     * when the json object is created
+     * @param json
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws SQLException
+     * @throws ParserConfigurationException
+     * @throws DocumentParseException 
+     */
     abstract JSONObject run(JSONObject json) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException;
 }

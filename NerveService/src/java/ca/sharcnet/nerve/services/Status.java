@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.sharcnet.dh.nerve.services;
+package ca.sharcnet.nerve.services;
 
-import static ca.sharcnet.dh.nerve.services.ServiceBase.CONFIG_PATH;
+import static ca.sharcnet.nerve.services.ServiceBase.CONFIG_PATH;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

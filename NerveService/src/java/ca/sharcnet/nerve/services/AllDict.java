@@ -1,5 +1,5 @@
-package ca.sharcnet.dh.nerve.services;
-import ca.sharcnet.dh.scriber.encoder.EncoderLemma;
+package ca.sharcnet.nerve.services;
+import ca.sharcnet.dh.scriber.encoder.EncoderDictAll;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
@@ -13,9 +13,8 @@ public class AllDict extends ServiceBase {
     
     @Override
     public JSONObject run(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
-        String source = jsonRequest.getString("document");
-        EncoderManager manager = this.createManager(source);        
-        manager.addProcess(new EncoderLemma());
+        EncoderManager manager = this.createManager(jsonRequest);        
+        manager.addProcess(new EncoderDictAll());
         manager.run();
         
         JSONObject json = new JSONObject();

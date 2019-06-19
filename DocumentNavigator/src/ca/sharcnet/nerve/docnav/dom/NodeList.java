@@ -71,8 +71,8 @@ public class NodeList extends ArrayList<Node>{
      * @param select A select string with format information
      * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than format
      * specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero. The maximum number
-     * of arguments is limited by the maximum dimension of a Java array as defined by The Java™ Virtual Machine
-     * Specification. The behaviour on a null argument depends on the conversion.
+     * of arguments is limited by the maximum dimension of a Java array as defined by The Java(tm) Virtual Machine
+     * Specification. The behavior on a null argument depends on the conversion.
      * @return
      */
     public Query filterf(String select, Object ... args){

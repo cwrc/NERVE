@@ -1,4 +1,4 @@
-package ca.sharcnet.dh.nerve.services;
+package ca.sharcnet.nerve.services;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.dh.scriber.encoder.EncoderNER;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
@@ -17,8 +17,7 @@ public class NER extends ServiceBase {
             return this.badRequest("Missing json parameter: document");
         }
         
-        String source = jsonRequest.getString("document");
-        EncoderManager manager = this.createManager(source);        
+        EncoderManager manager = this.createManager(jsonRequest);        
         manager.addProcess(new EncoderNER(ServiceBase.classifier));
         manager.run();
         
