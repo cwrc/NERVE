@@ -1,4 +1,3 @@
-ca.sharcnet.dh.nerve.services
 ca.sharcnet.dh.scriber
 ca.sharcnet.dh.scriber.context
 ca.sharcnet.dh.scriber.dictionary
@@ -18,3 +17,5 @@ ca.sharcnet.nerve.docnav.generated
 ca.sharcnet.nerve.docnav.query
 ca.sharcnet.nerve.docnav.schema
 ca.sharcnet.nerve.docnav.schema.relaxng
+ca.sharcnet.nerve.services
+ca.sharcnet.nerve.services.exceptions
