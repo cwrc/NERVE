@@ -4,3 +4,6 @@
 /Client
 /Nidget
 /DocumentNavigator/build/
+/DocumentNavigator/dist/javadoc
+/NERScriber/dist/javadoc
+/NerveService/dist/javadoc
