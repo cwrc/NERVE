@@ -1,4 +1,4 @@
-package ca.sharcnet.dh.scriber.encoder;
+package ca.sharcnet.dh.scriber.encoder.servicemodules;
 
 import static ca.sharcnet.dh.scriber.Constants.DATA_LEMMA;
 import static ca.sharcnet.dh.scriber.Constants.DATA_LINK;
@@ -11,6 +11,7 @@ import static ca.sharcnet.dh.scriber.Constants.HTML_TAGNAME;
 import static ca.sharcnet.dh.scriber.Constants.ORG_TAGNAME;
 import static ca.sharcnet.dh.scriber.Constants.XML_ATTR_LIST;
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
 import ca.sharcnet.nerve.docnav.dom.Attribute;
 import ca.sharcnet.nerve.docnav.dom.DoctypeNode;
 import ca.sharcnet.nerve.docnav.dom.ElementNode;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
  *
  * @author edward
  */
-public class EncoderHTML extends EncoderBase {
+public class EncoderHTML extends ServiceModuleBase {
     final static Logger LOGGER = LogManager.getLogger(EncoderHTML.class);
 
     @Override

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.sharcnet.dh.scriber.encoder;
+package ca.sharcnet.dh.scriber.encoder.servicemodules;
 
 import ca.sharcnet.dh.scriber.Constants;
 import static ca.sharcnet.dh.scriber.Constants.DATA_LEMMA;
@@ -16,6 +16,7 @@ import static ca.sharcnet.dh.scriber.Constants.HTML_PROLOG;
 import static ca.sharcnet.dh.scriber.Constants.ORG_TAGNAME;
 import static ca.sharcnet.dh.scriber.Constants.XML_ATTR_LIST;
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
 import ca.sharcnet.docnav.DocNavException;
 import ca.sharcnet.nerve.docnav.dom.DoctypeNode;
 import ca.sharcnet.nerve.docnav.dom.InstructionNode;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
  *
  * @author edward
  */
-public class EncoderXML extends EncoderBase {
+public class EncoderXML extends ServiceModuleBase {
 
     @Override
     public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {

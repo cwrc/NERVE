@@ -24,7 +24,7 @@ public class NER extends ServiceBase {
         JSONObject json = new JSONObject();
         json.put("document", manager.getDocument().toString());
         json.put("context", manager.context().getSourceString());
-        json.put("schemaURL", manager.getSchemaUrl().toString());        
+        json.put("schemaURL", manager.getSchemaUrl());        
         return json;
     }    
 }

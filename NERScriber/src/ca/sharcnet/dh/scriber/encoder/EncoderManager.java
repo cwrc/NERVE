@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class EncoderManager extends EncoderBase {    
+public class EncoderManager extends ServiceModuleBase {    
     ArrayList<IEncoder> encoders = new ArrayList<>();
     
     public IEncoder addProcess(IEncoder encoder){   

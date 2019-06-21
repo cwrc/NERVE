@@ -3,6 +3,7 @@ ca.sharcnet.dh.scriber.context
 ca.sharcnet.dh.scriber.dictionary
 ca.sharcnet.dh.scriber.encoder
 ca.sharcnet.dh.scriber.encoder.exceptions
+ca.sharcnet.dh.scriber.encoder.servicemodules
 ca.sharcnet.dh.scriber.graph
 ca.sharcnet.dh.scriber.permutestring
 ca.sharcnet.dh.scriber.stringmatch

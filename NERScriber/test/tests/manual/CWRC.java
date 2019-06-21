@@ -1,8 +1,8 @@
 package tests.manual;
-import ca.sharcnet.dh.scriber.encoder.EncoderBase;
-import ca.sharcnet.dh.scriber.encoder.EncoderDictAll;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderDictAll;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
-import ca.sharcnet.dh.scriber.encoder.EncoderNER;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderNER;
 import ca.sharcnet.dh.scriber.encoder.IEncoder;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.DocumentParseException;

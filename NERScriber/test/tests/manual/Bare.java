@@ -2,13 +2,13 @@ package tests.manual;
 
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
-import ca.sharcnet.dh.scriber.encoder.EncoderBase;
-import ca.sharcnet.dh.scriber.encoder.EncoderXML;
-import ca.sharcnet.dh.scriber.encoder.EncoderDictAll;
-import ca.sharcnet.dh.scriber.encoder.EncoderHTML;
-import ca.sharcnet.dh.scriber.encoder.EncoderDictLink;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderXML;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderDictAll;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderHTML;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
-import ca.sharcnet.dh.scriber.encoder.EncoderNER;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderNER;
 import ca.sharcnet.dh.scriber.encoder.IEncoder;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
@@ -64,7 +64,7 @@ public class Bare {
 //            manager.setup(new EncoderDictionary());
             manager.addProcess(new EncoderHTML());
             
-             manager.addProcess(new EncoderBase() {
+             manager.addProcess(new ServiceModuleBase() {
                 @Override
                 public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
                     System.out.println("here");

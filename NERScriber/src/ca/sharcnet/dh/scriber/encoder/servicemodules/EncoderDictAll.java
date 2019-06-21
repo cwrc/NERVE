@@ -1,5 +1,9 @@
-package ca.sharcnet.dh.scriber.encoder;
+package ca.sharcnet.dh.scriber.encoder.servicemodules;
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
+import ca.sharcnet.dh.scriber.encoder.UnsetContextException;
+import ca.sharcnet.dh.scriber.encoder.UnsetDictionaryException;
+import ca.sharcnet.dh.scriber.encoder.UnsetSchemaException;
 import ca.sharcnet.dh.scriber.stringmatch.OnAccept;
 import ca.sharcnet.dh.scriber.stringmatch.OnReject;
 import ca.sharcnet.dh.scriber.stringmatch.StringMatch;
@@ -23,7 +27,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author edward
  */
-public class EncoderDictAll extends EncoderBase {
+public class EncoderDictAll extends ServiceModuleBase {
     final static Logger LOGGER = LogManager.getLogger(EncoderDictAll.class);
     
     @Override

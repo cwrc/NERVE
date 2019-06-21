@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.sharcnet.dh.scriber.encoder;
+package ca.sharcnet.dh.scriber.encoder.servicemodules;
 
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
 import ca.sharcnet.dh.sql.SQLRecord;
 import ca.sharcnet.dh.sql.SQLResult;
 import ca.sharcnet.nerve.docnav.dom.Node;
@@ -19,7 +20,7 @@ import org.apache.logging.log4j.LogManager;
  *
  * @author edward
  */
-public class EncoderDictLink extends EncoderBase {
+public class EncoderDictLink extends ServiceModuleBase {
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EncoderDictLink.class);
         
     @Override

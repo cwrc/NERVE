@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.sharcnet.dh.scriber.encoder;
+package ca.sharcnet.dh.scriber.encoder.servicemodules;
 
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
+import ca.sharcnet.dh.scriber.encoder.UnsetClassifierException;
+import ca.sharcnet.dh.scriber.encoder.UnsetContextException;
+import ca.sharcnet.dh.scriber.encoder.UnsetSchemaException;
 import ca.sharcnet.nerve.docnav.DocumentLoader;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.Document;
@@ -21,7 +25,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class EncoderNER extends EncoderBase {
+public class EncoderNER extends ServiceModuleBase {
     final static Logger LOGGER = LogManager.getLogger(EncoderNER.class);
     private CRFClassifier<CoreLabel> classifier;
 
