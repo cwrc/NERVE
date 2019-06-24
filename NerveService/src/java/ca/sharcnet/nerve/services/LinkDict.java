@@ -1,5 +1,5 @@
 package ca.sharcnet.nerve.services;
-import ca.sharcnet.dh.scriber.encoder.EncoderDictLink;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;

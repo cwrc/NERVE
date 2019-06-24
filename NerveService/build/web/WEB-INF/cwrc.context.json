@@ -30,7 +30,5 @@
             "defaults"       : {"LEVEL": "MONOGRAPHIC"}
         }
     },
-    "style" : "playwrights",
-    "schemaName" : "cwrc_entry.rng",
     "tagSourceAttribute" : "whoTagged"
 }

@@ -172,13 +172,16 @@ public class Dictionary {
     }
 
     /**
-     * Look for matching entities in the db. Null values are ignored.
+     * Look for matching entities in the db. Null parameters are ignored.  For
+     * example is lemma and source are null, text is "Steve", and tag is "Name".
+     * All entries with entity=steve and tag=name will be returned, without
+     * lookup refinement for source and lemma.
      *
      * @param text
      * @param lemma
      * @param tag
      * @param source
-     * @return
+     * @return All matched results.
      * @throws SQLException
      */
     public SQLResult lookup(String text, String lemma, String tag, String source) throws SQLException {

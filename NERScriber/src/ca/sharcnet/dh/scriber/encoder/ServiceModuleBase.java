@@ -13,7 +13,6 @@ import java.io.InputStream;
  * @author edward
  */
 public abstract class ServiceModuleBase implements IEncoder{
-
     private static String DEFAULT_FILENAME = "english.all.3class.distsim.crf.ser.gz";
     protected Document document;
     protected Context context;

@@ -56,7 +56,7 @@ public class EncoderDictAll extends ServiceModuleBase {
         if (ancestorNodes.testAny(nd -> context.isTagName(nd.name()))) {
             LOGGER.log(Level.DEBUG, "skipping <" + child.name() + "> has tagged ancestor");
             return;
-        }        
+        }
         
         /* choose the largest matching known entity */
         OnAccept onAccept = (string, row) -> {
@@ -66,9 +66,7 @@ public class EncoderDictAll extends ServiceModuleBase {
             String linkAttribute = tagInfo.getLinkAttribute();
             String lemmaAttribute = tagInfo.getLemmaAttribute();
 
-            if (!schema.isValid(child.getParent(), schemaTag)) {
-                newNodes.add(new TextNode(string));
-            } else {
+            if (schema.isValid(child.getParent(), schemaTag)) {
                 Node elementNode = new ElementNode(schemaTag, string);
                 if (!lemmaAttribute.isEmpty()) {
                     elementNode.attr(lemmaAttribute, row.getEntry("lemma").getValue());
@@ -79,6 +77,8 @@ public class EncoderDictAll extends ServiceModuleBase {
                 
                 LOGGER.log(Level.INFO, "entity identitified: " + elementNode.name() + ":" + elementNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
                 newNodes.add(elementNode);
+            } else {
+                newNodes.add(new TextNode(string));
             }
         };
 

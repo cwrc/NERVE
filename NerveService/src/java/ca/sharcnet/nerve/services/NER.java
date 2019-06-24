@@ -1,6 +1,6 @@
 package ca.sharcnet.nerve.services;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
-import ca.sharcnet.dh.scriber.encoder.EncoderNER;
+import ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderNER;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
 import java.sql.SQLException;

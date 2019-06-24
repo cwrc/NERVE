@@ -26,6 +26,7 @@ public class EncoderDictLink extends ServiceModuleBase {
     @Override
     public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         for (TagInfo tagInfo : context.tags()) {
+            if (tagInfo.getLinkAttribute().isEmpty()) continue;
             Query query = document.query(tagInfo.getName());
             for (Node node : query) {
                 this.lookupTaggedNode(node);
@@ -39,15 +40,12 @@ public class EncoderDictLink extends ServiceModuleBase {
         String linkAttribute = tagInfo.getLinkAttribute();
         String lemmaAttribute = tagInfo.getLemmaAttribute();
 
-        if (linkAttribute.isEmpty() || node.hasAttribute(linkAttribute)) {
+        if (node.hasAttribute(linkAttribute)) {
             return;
         }
         
         String lemma = null;
         if (node.hasAttribute(lemmaAttribute)) lemma = node.getAttribute(lemmaAttribute).getValue();
-        
-        LOGGER.debug("Text : " + node.text());
-        LOGGER.debug("Lemma : " + lemma);
         
         SQLResult sqlResult = dictionary.lookup(node.text(), lemma, node.name(), null);
         
@@ -56,7 +54,6 @@ public class EncoderDictLink extends ServiceModuleBase {
         }
         
         SQLRecord row = sqlResult.get(0);
-        node.attr(lemmaAttribute, row.getEntry("lemma").getValue());
         node.attr(linkAttribute, row.getEntry("link").getValue());
     }
 
