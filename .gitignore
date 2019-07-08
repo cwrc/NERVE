@@ -7,3 +7,6 @@
 /DocumentNavigator/dist/javadoc
 /NERScriber/dist/javadoc
 /NerveService/dist/javadoc
+/NerveService/web/coverage
+/NerveService/dist/
+/NerveService/build/
