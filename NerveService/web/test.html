@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>NERVE Tests</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/test.css" rel="stylesheet" type="text/css"/>
+        <script src="js/test.js" type="text/javascript"></script>
+
+        <script>
+            window.onload = async function(){
+                window.testmain = new TestMain();
+                await testmain.start();
+            };
+        </script>
+    </head>
+    <body>
+        <div>Run Unit Tests</div>
+        <div class="button" onclick="window.testmain.genCoverage()">Generate Code Coverage</div>
+        <div class="button" onclick="window.testmain.viewCoverage()">View Code Coverage</div>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "nerveservice",
+  "version": "0.0.1",
+  "description": "Service endpoints for NERVE clients.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build-test.js": "browserify src/js/test.js -o web/js/test.js -s TestMain",
+    "watch-test.js": "watchify src/js/test.js -o web/js/test.js -s TestMain -v"
+  },
+  "author": "",
+  "license": "ISC"
+}

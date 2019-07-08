@@ -10,6 +10,16 @@
 <project name="NerveService" default="default" basedir=".">
     <description>Builds, tests, and runs the project NerveService.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <!-- Copy source files to WEB-INF directory -->
+    <target name ="-post-compile" depends="copy-src"/>
+    <target name="copy-src">
+        <copy todir="${build.dir}/web/WEB-INF/src">
+            <fileset dir="${src.dir}"/>
+        </copy>
+    </target>   
+    
+    
     <!--<property file="build.properties"/>-->
     
 <!--    <target name="key_file_check">  
