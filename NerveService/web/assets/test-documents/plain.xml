@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This document has no associated schema or context.  The encoders will use the
+defaults for this document.
+-->
+<root>
+    <p>
+        Toronto is a city in Ontario.
+        Ontario is a province in Canada.
+        Canada is a country in North America.
+    </p>
+</root>

@@ -11,5 +11,8 @@
     "watch-test.js": "watchify src/js/test.js -o web/js/test.js -s TestMain -v"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^24.8.0"
+  }
 }

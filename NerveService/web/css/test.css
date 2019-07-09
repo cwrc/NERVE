@@ -1,4 +1,65 @@
 
 .button{
+    position: relative;
     cursor: pointer;
+    border: 1px solid grey;
+    background-color: lightgray;
+    width: 200px;
+    height: 20px;
+    text-align: center;
+    margin: 2px;
+    font-family: Arial,Helvetica Neue,Helvetica,sans-serif; 
+}
+
+.button img{
+    position: absolute;
+    height: 20px;    
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+.button.busy{
+    color: white;
+}
+
+.button.busy img{
+    display: block;
+}
+
+.button:hover{
+    background-color: #E3E3E3;
+}
+
+.view{
+    color: blue;
+}
+
+.view:hover{
+    cursor: pointer;
+    color: blueviolet;
+}
+
+[success='true']::before{
+    content: "success : ";
+    color: green;
+    font-weight: bold;
+}
+
+[success='false']::before{
+    content: "failed : ";
+    color: red;
+    font-weight: bold;    
+}
+
+[success='exception']::before{
+    content: "exception : ";
+    color: red;
+    font-weight: bold;    
+}
+
+[success='undefined']::before{
+    content: "undefined : ";
+    color: orange;
+    font-weight: bold;    
 }

@@ -20,8 +20,10 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div>Run Unit Tests</div>
-        <div class="button" onclick="window.testmain.genCoverage()">Generate Code Coverage</div>
+        <div class="button" onclick="window.testmain.runFunctional()">Run Functional Tests</div>
+        <div id="genButton" class="button" onclick="window.testmain.genCoverage()"><img src="assets/loader400.gif"/>Generate Code Coverage</div>
         <div class="button" onclick="window.testmain.viewCoverage()">View Code Coverage</div>
+        <br>
+        <div id="results"></div>
     </body>
 </html>
