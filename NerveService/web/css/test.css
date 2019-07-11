@@ -40,6 +40,11 @@
     color: blueviolet;
 }
 
+.name{
+    font-size: small;
+    font-weight: bold;
+}
+
 [success='true']::before{
     content: "success : ";
     color: green;
@@ -62,4 +67,24 @@
     content: "undefined : ";
     color: orange;
     font-weight: bold;    
+}
+
+[success='running']::before{
+    content: "running : ";
+    color: orange;
+    font-weight: bold;    
+}
+
+.description{
+    font-weight: bold;
+    font-size: large;
+    border-bottom: 1px solid black;
+    width: auto;
+}
+
+.results{
+    margin: 5px;
+    border: 1px solid black;
+    width: fit-content;
+    padding: 5px;
 }

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Request a local xml document using post with json input.
  * @param {type} url
@@ -5,9 +6,8 @@
  * @returns {Promise}
  */
 
-const rootPath = "assets/test-documents/";
+const rootPath = require("./constants").rootPath;
 
-"use strict";
 module.exports = function getXML(filename) {
     let callback = function (resolve, reject) {
         var xhttp = new XMLHttpRequest();

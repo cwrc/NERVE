@@ -1,7 +1,10 @@
 "use strict";
-$(window).on('load', async function () {
+
+window.addEventListener("load", async function (){    
     window.main = new Main();
     await main.run();
+    let event = new CustomEvent("mainready", {detail: main});
+    window.dispatchEvent(event);
 });
 
 function postJSON(url, json) {
@@ -30,6 +33,8 @@ function postJSON(url, json) {
 class Main {
 
     constructor(){
+        window.addEventListener("message", (event)=>console.log(event), false);        
+        
         if (localStorage.document !== undefined){
             this.document(localStorage.document);
         }

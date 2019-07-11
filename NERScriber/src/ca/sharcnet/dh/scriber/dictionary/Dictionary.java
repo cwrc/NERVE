@@ -1,5 +1,4 @@
 package ca.sharcnet.dh.scriber.dictionary;
-
 import ca.frar.utility.console.Console;
 import ca.sharcnet.dh.sql.*;
 import java.io.IOException;
@@ -8,13 +7,17 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 
 public class Dictionary {
-
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Dictionary.class);
-    private String DEFAULT_DICTIONARY = "entities";
+    private static String DEFAULT_DICTIONARY = "default";
+    private String dictionary;
     private SQL sql;
     private String SQL_CONFIG = "WEB-INF/config.properties";
 
-    public Dictionary(SQL sql) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
+    public Dictionary(SQL sql) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException{
+        this(sql, DEFAULT_DICTIONARY);
+    }
+    
+    public Dictionary(SQL sql, String dictionary) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
         if (sql == null) {
             throw new NullPointerException();
         }
@@ -26,7 +29,7 @@ public class Dictionary {
         SQLResult result = sql.tables();
         LOGGER.debug("result.size() = " + result.size());
         if (result.size() == 0) {
-            this.addTable(DEFAULT_DICTIONARY);
+            this.addTable(this.dictionary);
         }
     }
 
@@ -63,7 +66,7 @@ public class Dictionary {
             }
         }
 
-        builder.append(String.format("insert into %s values", DEFAULT_DICTIONARY));
+        builder.append(String.format("insert into %s values", this.dictionary));
         for (int i = 0; i < list.size(); i++) {
             EntityValues value = list.get(i);
             builder.append(String.format("(%s, %s, %s, %s, %s)",
@@ -85,7 +88,7 @@ public class Dictionary {
 
     public int addEntity(EntityValues value) throws SQLException {
         String format = String.format("insert into %s values (%s, %s, %s, %s, %s) ",
-                SQL.sanitize(DEFAULT_DICTIONARY),
+                SQL.sanitize(this.dictionary),
                 SQL.sanitize(value.text()),
                 SQL.sanitize(value.lemma()),
                 SQL.sanitize(value.link()),
@@ -96,7 +99,7 @@ public class Dictionary {
     }
 
     public int deleteAll() throws SQLException {
-        String format = String.format("delete from %s ", DEFAULT_DICTIONARY);
+        String format = String.format("delete from %s ", this.dictionary);
         return sql.update(format);
     }
 
@@ -104,7 +107,7 @@ public class Dictionary {
         StringBuilder builder = new StringBuilder();
 
         builder.append("delete from ");
-        builder.append(DEFAULT_DICTIONARY);
+        builder.append(this.dictionary);
         String connector = " WHERE ";
 
         Console.log(value);
@@ -154,7 +157,7 @@ public class Dictionary {
         StringBuilder builder = new StringBuilder();
 
         builder.append("select * from ");
-        builder.append(DEFAULT_DICTIONARY);
+        builder.append(this.dictionary);
         builder.append(" where entity = ");
 
         for (int i = 0; i < textArray.length; i++) {
@@ -188,7 +191,7 @@ public class Dictionary {
         StringBuilder builder = new StringBuilder();
 
         builder.append("select * from ");
-        builder.append(DEFAULT_DICTIONARY);
+        builder.append(this.dictionary);
         builder.append(" where entity = ").append(SQL.sanitize(text));
 
         if (lemma != null) {
@@ -228,7 +231,7 @@ public class Dictionary {
         StringBuilder builder = new StringBuilder();
 
         builder.append("select * from ");
-        builder.append(DEFAULT_DICTIONARY);
+        builder.append(this.dictionary);
         String connector = " WHERE ";
 
         Console.log(value);

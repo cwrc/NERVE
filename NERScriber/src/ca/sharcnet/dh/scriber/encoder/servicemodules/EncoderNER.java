@@ -21,6 +21,7 @@ import ca.sharcnet.nerve.docnav.query.Query;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import java.io.IOException;
+import java.util.HashMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,7 +63,7 @@ public class EncoderNER extends ServiceModuleBase {
 
             NodeList nerList = applyNamedEntityRecognizer(node.text());
 
-            /* for each element node in the list ensure the path is valid, otherwise convert it to a text node */
+            /* for each element node in the list ensure the path is valid, if not convert it to a text node */
             for (int i = 0; i < nerList.size(); i++) {
                 Node nerNode = nerList.get(i);
                 if (!nerNode.isType(NodeType.ELEMENT)) {
@@ -86,6 +87,7 @@ public class EncoderNER extends ServiceModuleBase {
                     /* if it is valid, set default lemma */
                     LOGGER.log(Level.INFO, "entity identitified: " + nerNode.name() + ":" + nerNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
                     nerNode.attr(tagInfo.getLemmaAttribute(), nerNode.text());
+                    this.setDefaultAttributes(nerNode);
                 }
             }
 
@@ -96,6 +98,15 @@ public class EncoderNER extends ServiceModuleBase {
         };
     }
 
+    private void setDefaultAttributes(Node nerNode){
+        String standardTag = context.getStandardTag(nerNode.name());
+        TagInfo tagInfo = context.getTagInfo(standardTag);
+        HashMap<String, String> defaults = tagInfo.defaults();
+        for (String key : defaults.keySet()){
+            nerNode.attr(key, defaults.get(key));
+        }
+    }
+    
     private NodeList applyNamedEntityRecognizer(String text) throws IOException, DocumentParseException  {
         /* at least one alphabet character upper or lower case */
         String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";

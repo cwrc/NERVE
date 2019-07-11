@@ -1,0 +1,38 @@
+{
+    "name"               : "TEST",
+    "tags" : {
+        "ORGANIZATION": {
+            "name"           : "Something",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {"ima" : "org"}
+        },
+        "LOCATION": {
+            "name"           : "Somewhere",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {}
+        },
+        "PERSON": {
+            "name"           : "Someone",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {"A" : "eh", "B" : "bee"}
+        },
+        "TITLE": {
+            "name"           : "Titled",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {}
+        }
+    },
+    "schemaName" : "default.rng",
+    "tagSourceAttribute" : "whoTagged",
+    "dictionaries" : [
+        "test"
+    ]
+}
