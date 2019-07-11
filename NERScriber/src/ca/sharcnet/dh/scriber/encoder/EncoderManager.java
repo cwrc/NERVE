@@ -23,7 +23,7 @@ public class EncoderManager extends ServiceModuleBase {
             encoder.document(this.document);
             encoder.context(this.context);
             encoder.setSchema(this.schema);
-            encoder.dictionary(this.dictionary);             
+            encoder.setDictionaries(this.dictionaries);             
             encoder.run();
         }
     }

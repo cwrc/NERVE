@@ -51,4 +51,15 @@ public class SQLResult implements Iterable<SQLRecord>{
     public Iterator<SQLRecord> iterator() {
         return Arrays.asList(records).iterator();
     }
+    
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        for (int i = 0; i < records.length; i++){
+            builder.append(records[i].toString()).append("\n");
+        }
+        builder.append("}");
+        return builder.toString();
+    }
 }

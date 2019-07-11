@@ -2,11 +2,16 @@ package ca.sharcnet.dh.scriber.encoder;
 
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
+import ca.sharcnet.dh.scriber.context.TagInfo;
 import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.docnav.dom.Document;
+import ca.sharcnet.nerve.docnav.dom.Node;
 import ca.sharcnet.nerve.docnav.schema.Schema;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  *
@@ -17,7 +22,7 @@ public abstract class ServiceModuleBase implements IEncoder{
     protected Document document;
     protected Context context;
     protected Schema schema;
-    protected Dictionary dictionary;
+    protected ArrayList<Dictionary> dictionaries = new ArrayList<>();;
     private String schemaURL;
 
     public void document(Document document) {
@@ -84,17 +89,33 @@ public abstract class ServiceModuleBase implements IEncoder{
         return this.document;
     }
 
-    public void dictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
+    public void addDictionary(Dictionary dictionary) {
+        this.dictionaries.add(dictionary);
     }
 
+    public void setDictionaries(Iterable<Dictionary> itDictionary) {
+        this.dictionaries.clear();
+        for (Dictionary dictionary : itDictionary) this.dictionaries.add(dictionary);
+    }    
+    
     /**
      * Retrieve dictionary
      *
      * @return
      */
-    public Dictionary dictionary() {
-        return this.dictionary;
+    public Iterable<Dictionary> getDictionaries() {
+        Dictionary[] rvalue = new Dictionary[this.dictionaries.size()];
+        this.dictionaries.toArray(rvalue);
+        return Arrays.asList(rvalue);
     }
 
+    protected void setDefaultAttributes(Node nerNode){
+        String standardTag = context.getStandardTag(nerNode.name());
+        TagInfo tagInfo = context.getTagInfo(standardTag);
+        HashMap<String, String> defaults = tagInfo.defaults();
+        for (String key : defaults.keySet()){
+            nerNode.attr(key, defaults.get(key));
+        }
+    }        
+    
 }

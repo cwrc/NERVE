@@ -56,7 +56,7 @@ public class Bare {
             }            
                        
             manager.context("default.context.json");
-            manager.dictionary(dictionary);
+//            manager.dictionary(dictionary);
             
 //            CRFClassifier<CoreLabel> classifier = CRFClassifier.getClassifier(PATH);
 //            manager.classifier(classifier);

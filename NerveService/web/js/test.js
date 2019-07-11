@@ -88,7 +88,9 @@ module.exports = function postJSON(url, json) {
                 if (xhttp.status === 200) {
                     resolve(JSON.parse(xhttp.responseText));
                 } else {
-                    reject(JSON.parse(xhttp.responseText));
+                    let obj = JSON.parse(xhttp.responseText);
+                    if (!obj.status) obj.status = xhttp.status;
+                    reject(obj);
                 }
             }
         };
@@ -106,6 +108,7 @@ const postJSON = require("./frame/postJSON");
 function assert(value){
     if (value && this.success) this.success = true;
     else this.success = false;
+    this.assertations = this.assertations + 1;
 }
 
 
@@ -116,13 +119,6 @@ class TestMain {
 
     async start() {
 
-    }
-
-    /**
-     * Return a list of all coverage directories.
-     * @return {undefined}
-     */
-    listCoverage() {
     }
 
     async genCoverage() {
@@ -142,6 +138,8 @@ class TestMain {
         window.suites = suites;
         suites.push(require("./tests/test-plain.js"));
         suites.push(require("./tests/test-custom-context.js"));
+        suites.push(require("./tests/test-all-dictionary.js"));
+        
         for (let suite of suites) this.setupSuiteDom(suite);
         for (let suite of suites) await this.runSuite(suite);
     }
@@ -210,11 +208,13 @@ class TestMain {
     }
 
     async runSuite(suite) {
+        console.log("runSuite");
         for (let testname in suite.tests) {
             let test = suite.tests[testname];
             test.reportElement.setAttribute("success", `running`);
             test.success = true;
             
+            test.assertations = 0;
             test.assert = assert.bind(test);
             
             try {
@@ -222,9 +222,12 @@ class TestMain {
                 test.reportElement.setAttribute("success", `${test.success}`);
             } catch (ex) {
                 test.success = "exception";
+                test.exception = ex;
                 test.reportElement.setAttribute("success", `exception`);
                 console.warn(ex);
-            }
+            }            
+            
+            test.reportElement.setAttribute("asserts", `${test.assertations}`);
         }
         return suite;
     }
@@ -234,24 +237,85 @@ module.exports = TestMain;
 
 
 
-},{"./frame/postJSON":4,"./tests/test-custom-context.js":6,"./tests/test-plain.js":7}],6:[function(require,module,exports){
+},{"./frame/postJSON":4,"./tests/test-all-dictionary.js":6,"./tests/test-custom-context.js":7,"./tests/test-plain.js":8}],6:[function(require,module,exports){
+"use strict";
 const postJSON = require("../frame/postJSON.js");
 const getXML = require("../frame/getXML.js");
 const getJSON = require("../frame/getJSON.js");
-
-function packResult(src, res, result) {
-    return {
-        sourceDocument: src,
-        resultDocument: res,
-        testResult: result
-    };
-}
 
 /**
  * Load and NER the given file.  Bind to test object when called.
  * Return the xml document.
  */
-async function loadNER(filename) {
+async function serviceAll() {
+    this.source = await getXML("plain.xml");
+    let context = await getJSON("test.context.2.json");
+
+    let settings = {
+        document: this.source,
+        context: context
+    };
+    
+    this.result = await postJSON("dict-all", JSON.stringify(settings));
+    let parser = new DOMParser();
+    this.xml = parser.parseFromString(this.result.document, "text/xml");
+    
+    return this.xml;
+}
+
+module.exports = {
+    description: "All-Dictionary (tag, lemma & link) on plain document with custom context.  Using 'test' dictionary.",
+    tests: {
+        longest_entity_1: {
+            description: "where multiple entities could match, choose the longest",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let child1 = xml.querySelector("div[id='1']").children[0];
+                let child2 = xml.querySelector("div[id='2']").children[0];
+                let child3 = xml.querySelector("div[id='3']").children[0];
+                
+                this.assert(child1.innerHTML === "Toronto");
+                this.assert(child2.innerHTML === "Toronto Ontario");
+                this.assert(child3.innerHTML === "Toronto Ontario Canada");
+            }
+        },
+        default_attribute: {
+            description: "insert default attribute when service performs the tagging",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let entity = xml.querySelector("LOCATION");
+                this.assert(entity.getAttribute("tagged-by") === "test");
+            }
+        },
+        empty_link: {
+            description: "entities without link values will not have link attributes",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let entity = xml.querySelector("LOCATION");
+                this.assert(entity.hasAttribute("link") === false);
+            }
+        },
+        has_link: {
+            description: "entities with link values will have link attributes",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let entity = xml.querySelector("[lemma='Toronto Hydro']");
+                this.assert(entity.hasAttribute("link") === true);
+            }
+        }        
+    }
+};
+},{"../frame/getJSON.js":2,"../frame/getXML.js":3,"../frame/postJSON.js":4}],7:[function(require,module,exports){
+"use strict";
+const postJSON = require("../frame/postJSON.js");
+const getXML = require("../frame/getXML.js");
+const getJSON = require("../frame/getJSON.js");
+
+/**
+ * Load and NER the given file.  Bind to test object when called.
+ * Return the xml document.
+ */
+async function loadNER() {
     this.source = await getXML("plain.xml");
     let context = await getJSON("test.context.json");
 
@@ -261,7 +325,7 @@ async function loadNER(filename) {
     };
     
     this.result = await postJSON("ner", JSON.stringify(settings));
-    parser = new DOMParser();
+    let parser = new DOMParser();
     this.xml = parser.parseFromString(this.result.document, "text/xml");
     
     return this.xml;
@@ -291,7 +355,7 @@ module.exports = {
         location_toronto: {
             description: "text 'Toronto' tagged as 'Somewhere'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.textContent === "Toronto");
             }
@@ -299,7 +363,7 @@ module.exports = {
         has_lemma_attribute : {
             description: "lemma attribute in the default context is 'lemma'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.hasAttribute("lemma") === true);
             }            
@@ -307,7 +371,7 @@ module.exports = {
         no_link_attribute : {
             description: "the link attribute is not filled in by the 'ner' service",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.hasAttribute("link") === false);
             }            
@@ -315,7 +379,7 @@ module.exports = {
         lemma_toronto: {
             description: "lemma attribute by default the same as the text",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.getAttribute("lemma") === "Toronto");
             }
@@ -323,7 +387,7 @@ module.exports = {
         will_tag: {
             description: "text is tagged as 'LOCATION', will tag with 'Somewhere'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let childElement = xml.querySelector("[id='canada_no_tag']").children[0];
                 if (childElement.tagName === "Somewhere") this.success = true;
             }
@@ -331,35 +395,35 @@ module.exports = {
         do_tag: {
             description: "text inside non-entity tag will be tagged",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[id='canada_tag']").innerHTML === `<Somewhere lemma="Canada">Canada</Somewhere>`);
             }
         },
         tag_organization: {
             description: "'Toronto Hydro' tagged as organization",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='Toronto Hydro']").tagName === `Something`);
             }
         },
         tag_person: {
             description: "'William Lyon Mackenzie' tagged as person",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").tagName === `Someone`);
             }
         },
         tag_organization_default: {
             description: "organization (Somewhere) has a default attribute (ima)",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='Toronto Hydro']").getAttribute("ima") === `org`);
             }
         },
         tag_person_default: {
             description: "person (Someone) has multiple default attributes",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").getAttribute("A") === `eh`);
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").getAttribute("B") === `bee`);
@@ -369,23 +433,16 @@ module.exports = {
 };
 
 
-},{"../frame/getJSON.js":2,"../frame/getXML.js":3,"../frame/postJSON.js":4}],7:[function(require,module,exports){
+},{"../frame/getJSON.js":2,"../frame/getXML.js":3,"../frame/postJSON.js":4}],8:[function(require,module,exports){
+"use strict";
 const postJSON = require("../frame/postJSON.js");
 const getXML = require("../frame/getXML.js");
-
-function packResult(src, res, result) {
-    return {
-        sourceDocument: src,
-        resultDocument: res,
-        testResult: result
-    };
-}
 
 /**
  * Load and NER the given file.  Bind to test object when called.
  * Return the xml document.
  */
-async function loadNER(filename) {
+async function loadNER() {
     this.source = await getXML("plain.xml");
 
     let settings = {
@@ -393,7 +450,7 @@ async function loadNER(filename) {
     };
     
     this.result = await postJSON("ner", JSON.stringify(settings));
-    parser = new DOMParser();
+    let parser = new DOMParser();
     this.xml = parser.parseFromString(this.result.document, "text/xml");
     
     return this.xml;
@@ -405,7 +462,7 @@ async function loadNER(filename) {
  */
 
 module.exports = {
-    description: "Plain document without a context or a schema.",
+    description: "NER service on plain document without a context or a schema.",
     tests: {
         load_plain: {
             description: "markup the plain document using ner-service",
@@ -423,7 +480,7 @@ module.exports = {
         location_toronto: {
             description: "text 'Toronto' tagged as 'LOCATION'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("LOCATION");
                 this.assert(element.textContent === "Toronto");
             }
@@ -431,7 +488,7 @@ module.exports = {
         has_lemma_attribute : {
             description: "lemma attribute in the default context is 'lemma'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("LOCATION");
                 this.assert(element.hasAttribute("lemma") === true);
             }            
@@ -439,7 +496,7 @@ module.exports = {
         no_link_attribute : {
             description: "the link attribute is not filled in by the 'ner' service",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("LOCATION");
                 this.assert(element.hasAttribute("link") === false);
             }            
@@ -447,7 +504,7 @@ module.exports = {
         lemma_toronto: {
             description: "lemma attribute by default the same as the text",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("LOCATION");
                 this.assert(element.getAttribute("lemma") === "Toronto");
             }
@@ -494,35 +551,35 @@ module.exports = {
         no_tag: {
             description: "text already tagged will not be tagged",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[id='canada_no_tag']").innerHTML === "Canada");
             }
         },
         do_tag: {
             description: "text inside non-entity tag will be tagged",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[id='canada_tag']").innerHTML === `<LOCATION lemma="Canada">Canada</LOCATION>`);
             }
         },
         nested_no_tag: {
             description: "text nested inside a tagged element will not be tagged",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[id='ontario']").innerHTML === `<div>Ontario</div>`);
             }
         },
         tag_organization: {
             description: "'Toronto Hydro' tagged as organization",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='Toronto Hydro']").tagName === `ORGANIZATION`);
             }
         },
         tag_person: {
             description: "'William Lyon Mackenzie' tagged as person",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").tagName === `PERSON`);
             }
         }

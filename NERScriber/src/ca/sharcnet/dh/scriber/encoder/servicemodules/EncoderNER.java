@@ -97,15 +97,6 @@ public class EncoderNER extends ServiceModuleBase {
             }
         };
     }
-
-    private void setDefaultAttributes(Node nerNode){
-        String standardTag = context.getStandardTag(nerNode.name());
-        TagInfo tagInfo = context.getTagInfo(standardTag);
-        HashMap<String, String> defaults = tagInfo.defaults();
-        for (String key : defaults.keySet()){
-            nerNode.attr(key, defaults.get(key));
-        }
-    }
     
     private NodeList applyNamedEntityRecognizer(String text) throws IOException, DocumentParseException  {
         /* at least one alphabet character upper or lower case */

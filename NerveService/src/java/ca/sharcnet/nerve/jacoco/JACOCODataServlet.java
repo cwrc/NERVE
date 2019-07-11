@@ -15,8 +15,8 @@ public class JACOCODataServlet extends JSONServlet {
         
         this.jacocoDataReader.setExecFullPath(session.getServletContext().getRealPath("/WEB-INF/jacoco.exec"));
         this.jacocoDataReader.addClassPath(session.getServletContext().getRealPath("/WEB-INF/classes"));
-        this.jacocoDataReader.addClassPath(session.getServletContext().getRealPath("/WEB-INF/lib/DocNav-0.9.3.jar"));
-        this.jacocoDataReader.addClassPath(session.getServletContext().getRealPath("/WEB-INF/lib/NERScriber-0.9.2.jar"));
+//        this.jacocoDataReader.addClassPath(session.getServletContext().getRealPath("/WEB-INF/lib/DocNav-0.9.3.jar"));
+        this.jacocoDataReader.addClassPath(session.getServletContext().getRealPath("/WEB-INF/lib/NERScriber-0.9.3.jar"));
         this.jacocoDataReader.setHtmlPath(session.getServletContext().getRealPath("/coverage"));
         this.jacocoDataReader.setSourcePath(session.getServletContext().getRealPath("/WEB-INF/src"));
         this.jacocoDataReader.setJarFullPath(session.getServletContext().getRealPath("/WEB-INF/lib/jacococli.jar"));

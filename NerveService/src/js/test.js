@@ -3,6 +3,7 @@ const postJSON = require("./frame/postJSON");
 function assert(value){
     if (value && this.success) this.success = true;
     else this.success = false;
+    this.assertations = this.assertations + 1;
 }
 
 
@@ -13,13 +14,6 @@ class TestMain {
 
     async start() {
 
-    }
-
-    /**
-     * Return a list of all coverage directories.
-     * @return {undefined}
-     */
-    listCoverage() {
     }
 
     async genCoverage() {
@@ -39,6 +33,8 @@ class TestMain {
         window.suites = suites;
         suites.push(require("./tests/test-plain.js"));
         suites.push(require("./tests/test-custom-context.js"));
+        suites.push(require("./tests/test-all-dictionary.js"));
+        
         for (let suite of suites) this.setupSuiteDom(suite);
         for (let suite of suites) await this.runSuite(suite);
     }
@@ -107,11 +103,13 @@ class TestMain {
     }
 
     async runSuite(suite) {
+        console.log("runSuite");
         for (let testname in suite.tests) {
             let test = suite.tests[testname];
             test.reportElement.setAttribute("success", `running`);
             test.success = true;
             
+            test.assertations = 0;
             test.assert = assert.bind(test);
             
             try {
@@ -119,9 +117,12 @@ class TestMain {
                 test.reportElement.setAttribute("success", `${test.success}`);
             } catch (ex) {
                 test.success = "exception";
+                test.exception = ex;
                 test.reportElement.setAttribute("success", `exception`);
                 console.warn(ex);
-            }
+            }            
+            
+            test.reportElement.setAttribute("asserts", `${test.assertations}`);
         }
         return suite;
     }

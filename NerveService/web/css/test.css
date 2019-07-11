@@ -46,7 +46,7 @@
 }
 
 [success='true']::before{
-    content: "success : ";
+    content: "success [" attr(asserts) "] : ";
     color: green;
     font-weight: bold;
 }

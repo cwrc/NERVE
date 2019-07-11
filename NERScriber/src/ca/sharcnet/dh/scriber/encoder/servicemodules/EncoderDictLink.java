@@ -6,6 +6,7 @@
 package ca.sharcnet.dh.scriber.encoder.servicemodules;
 
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
 import ca.sharcnet.dh.sql.SQLRecord;
 import ca.sharcnet.dh.sql.SQLResult;
@@ -21,8 +22,9 @@ import org.apache.logging.log4j.LogManager;
  * @author edward
  */
 public class EncoderDictLink extends ServiceModuleBase {
+
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EncoderDictLink.class);
-        
+
     @Override
     public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         for (TagInfo tagInfo : context.tags()) {
@@ -43,18 +45,21 @@ public class EncoderDictLink extends ServiceModuleBase {
         if (node.hasAttribute(linkAttribute)) {
             return;
         }
-        
+
         String lemma = null;
         if (node.hasAttribute(lemmaAttribute)) lemma = node.getAttribute(lemmaAttribute).getValue();
-        
-        SQLResult sqlResult = dictionary.lookup(node.text(), lemma, node.name(), null);
-        
-        if (sqlResult.size() == 0) {
+
+        for (Dictionary dictionary : this.getDictionaries()) {
+            SQLResult sqlResult = dictionary.lookup(node.text(), lemma, node.name(), null);
+
+            if (sqlResult.size() == 0) {
+                continue;
+            }
+
+            SQLRecord row = sqlResult.get(0);
+            node.attr(linkAttribute, row.getEntry("link").getValue());
             return;
         }
-        
-        SQLRecord row = sqlResult.get(0);
-        node.attr(linkAttribute, row.getEntry("link").getValue());
     }
 
 }

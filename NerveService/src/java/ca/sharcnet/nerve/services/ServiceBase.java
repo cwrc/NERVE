@@ -46,20 +46,19 @@ import org.json.JSONObject;
  * @author Ed Armstrong
  */
 public abstract class ServiceBase extends HttpServlet {
-
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
-
-    static Dictionary dictionary = null;
+    static SQL sql = null;
     static CRFClassifier<CoreLabel> classifier = null;
     final static String CONTEXT_PATH = "/WEB-INF/";
     final static String DEFAULT_SCHEMA = CONTEXT_PATH + "default.rng";
     final static String CONFIG_PATH = "/WEB-INF/config.properties";
 
+    
     @Override
     public void init() {
         LOGGER.debug("NerveRoot() ... ");
         try {
-            this.initDictionary();
+            this.initSQL();
             this.initClassifier();
             LOGGER.debug("exiting NerveRoot()");
         } catch (Exception ex) {
@@ -86,9 +85,9 @@ public abstract class ServiceBase extends HttpServlet {
         LOGGER.debug("... classifier loaded");
     }
 
-    private void initDictionary() throws FileNotFoundException, IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
-        LOGGER.debug("initializing dictionary ...");
-        if (ServiceBase.dictionary != null) {
+    private void initSQL() throws FileNotFoundException, IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
+        LOGGER.debug("initializing sql ...");
+        if (ServiceBase.sql != null) {
             return;
         }
 
@@ -110,18 +109,10 @@ public abstract class ServiceBase extends HttpServlet {
         String dbDriver = config.getProperty("databaseDriver");
 
         LOGGER.debug("loading sql ...");
-        SQL sql = new SQL(dbDriver, dbURL + realPath);
+        ServiceBase.sql = new SQL(dbDriver, dbURL + realPath);
         LOGGER.debug("SQL loaded");
 
-        LOGGER.debug("loading dictionary ...");
-        ServiceBase.dictionary = new Dictionary(sql);
-        LOGGER.debug("dictionary loaded");
-
-        LOGGER.debug("verifying dictionary ...");
-        ServiceBase.dictionary.verifySQL();
-        LOGGER.debug("dictionary verified");
-
-        LOGGER.debug("... initializing dictionary");
+        LOGGER.debug("... initializing sql");
     }
 
     /**
@@ -159,19 +150,27 @@ public abstract class ServiceBase extends HttpServlet {
         String documentSource = jsonRequest.getString("document");
         Document document = DocumentLoader.documentFromString(documentSource);
         manager.document(document);
-        manager.dictionary(ServiceBase.dictionary);
-
+        
         /* Context Retrieval */
+        Context context;
         if (jsonRequest.has("context")) {
             /* use provided context */
             JSONObject jsonObject = jsonRequest.getJSONObject("context");
+            context = new Context(jsonObject);
             manager.context(new Context(jsonObject));
         } else {
             /* set the default context from the document - can be overridden by calling service */
-            Context context = this.retrieveContext(document);
+            context = this.retrieveContext(document);
             manager.context(context);
         }
-
+        
+        /* setup dictionaries according to the context */
+        for (String dictionaryName : context.getDictionaries()){
+            Dictionary dictionary = new Dictionary(ServiceBase.sql, dictionaryName);
+            dictionary.verifySQL();
+            manager.addDictionary(dictionary);
+        }
+        
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
 
@@ -291,6 +290,7 @@ public abstract class ServiceBase extends HttpServlet {
 
             JSONObject jsonRequest = new JSONObject(input);
             JSONObject jsonResponse = this.run(jsonRequest);
+            if (jsonResponse == null) jsonResponse = new JSONObject();
 
             if (jsonResponse.has("status")) {
                 response.setStatus(jsonResponse.getInt("status"));

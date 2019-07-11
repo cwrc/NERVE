@@ -1,5 +1,6 @@
 package ca.sharcnet.dh.scriber.encoder.servicemodules;
 import ca.sharcnet.dh.scriber.context.TagInfo;
+import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.scriber.encoder.ServiceModuleBase;
 import ca.sharcnet.dh.scriber.encoder.UnsetContextException;
 import ca.sharcnet.dh.scriber.encoder.UnsetDictionaryException;
@@ -18,6 +19,7 @@ import ca.sharcnet.nerve.docnav.dom.TextNode;
 import ca.sharcnet.nerve.docnav.query.Query;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -35,7 +37,6 @@ public class EncoderDictAll extends ServiceModuleBase {
         LOGGER.log(Level.DEBUG, "EncoderDictionary.run()");   
         if (schema == null) throw new UnsetSchemaException();
         if (context == null) throw new UnsetContextException();
-        if (dictionary == null) throw new UnsetDictionaryException();        
         seekEntities(document);
     }
 
@@ -71,13 +72,15 @@ public class EncoderDictAll extends ServiceModuleBase {
                 if (!lemmaAttribute.isEmpty()) {
                     elementNode.attr(lemmaAttribute, row.getEntry("lemma").getValue());
                 }
-                if (!linkAttribute.isEmpty()) {
+                if (!linkAttribute.isEmpty() && !row.getEntry("link").getValue().isEmpty()) {
                     elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 }
                 
                 LOGGER.log(Level.INFO, "entity identitified: " + elementNode.name() + ":" + elementNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
                 newNodes.add(elementNode);
+                this.setDefaultAttributes(elementNode);
             } else {
+                /* not valid in schema */
                 newNodes.add(new TextNode(string));
             }
         };
@@ -90,7 +93,7 @@ public class EncoderDictAll extends ServiceModuleBase {
         stringMatch.seekLine(onAccept, onReject);
         child.replaceWith(newNodes);
     }
-
+    
     /**
      * Create a new tagged entity for any text that is not already within a
      * tagged entity.
@@ -104,12 +107,14 @@ public class EncoderDictAll extends ServiceModuleBase {
             return stringMatch;
         }
 
-        SQLResult sqlResult = this.dictionary.getEntities(candidates);
+        for (Dictionary dictionary : this.getDictionaries()){
+            SQLResult sqlResult = dictionary.getEntities(candidates);
 
-        LOGGER.log(Level.DEBUG, sqlResult.size() + " candidates found");
-        for (int i = 0; i < sqlResult.size(); i++) {
-            SQLRecord row = sqlResult.get(i);
-            stringMatch.addCandidate(row.getEntry("entity").getValue(), row);
+            LOGGER.log(Level.DEBUG, sqlResult.size() + " candidates found");
+            for (int i = 0; i < sqlResult.size(); i++) {
+                SQLRecord row = sqlResult.get(i);
+                stringMatch.addCandidate(row.getEntry("entity").getValue(), row);
+            }
         }
 
         return stringMatch;

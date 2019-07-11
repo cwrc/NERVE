@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 public class Dictionary {
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Dictionary.class);
     private static String DEFAULT_DICTIONARY = "default";
-    private String dictionary;
+    private final String dictionary;
     private SQL sql;
     private String SQL_CONFIG = "WEB-INF/config.properties";
 
@@ -21,16 +21,29 @@ public class Dictionary {
         if (sql == null) {
             throw new NullPointerException();
         }
+        
+        if (dictionary == null || dictionary.isEmpty()) {
+            throw new NullPointerException();
+        }
+        
+        this.dictionary = dictionary;
         this.sql = sql;
     }
 
-    public void verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
-        LOGGER.debug("verifySQL()");
-        SQLResult result = sql.tables();
-        LOGGER.debug("result.size() = " + result.size());
-        if (result.size() == 0) {
-            this.addTable(this.dictionary);
+    public boolean verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
+        for (SQLRecord record : sql.tables()){
+            String tableName = record.getEntry("TABLE_NAME").getValue();
+            LOGGER.debug(tableName);
+            if (tableName.equals(this.dictionary)) return true;
         }
+
+        this.addTable(this.dictionary);
+        
+        for (SQLRecord record : sql.tables()){
+            String tableName = record.getEntry("TABLE_NAME").getValue();
+            if (tableName.equals(this.dictionary)) return true;
+        }
+        return false;
     }
 
     public boolean addTable(String table) throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
@@ -41,7 +54,7 @@ public class Dictionary {
                 + "link varchar(255) NOT NULL,"
                 + "tag varchar(16) NOT NULL,"
                 + "source varchar(16) NOT NULL,"
-                + "constraint pk primary key(lemma, tag, source) on conflict replace"
+                + "constraint pk primary key(entity, lemma, tag) on conflict replace"
                 + ");",
                 table));
 
@@ -81,7 +94,7 @@ public class Dictionary {
             }
         }
         String update = builder.toString();
-        Console.log(update);
+        LOGGER.debug(update);        
         sql.update(update);
         return count;
     }

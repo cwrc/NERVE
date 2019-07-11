@@ -16,7 +16,9 @@ module.exports = function postJSON(url, json) {
                 if (xhttp.status === 200) {
                     resolve(JSON.parse(xhttp.responseText));
                 } else {
-                    reject(JSON.parse(xhttp.responseText));
+                    let obj = JSON.parse(xhttp.responseText);
+                    if (!obj.status) obj.status = xhttp.status;
+                    reject(obj);
                 }
             }
         };

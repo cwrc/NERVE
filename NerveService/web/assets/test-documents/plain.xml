@@ -10,6 +10,9 @@ defaults for this document.
         <LOCATION id="canada_no_tag">Canada</LOCATION> is a country in North America.
         William Lyon Mackenzie was the first mayor of Toronto.
         A Life Guided by the Hand of Destiny is a book about him.
-        Toronto Hydro provides electricity to Toronto.
+        Toronto Hydro provides electricity to Toronto.        
+    </p>
+    <p>
+        <div id="1">Toronto</div> is really <div id="2">Toronto Ontario</div> is the same as <div id="3">Toronto Ontario Canada</div>.
     </p>
 </root>

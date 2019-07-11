@@ -1,20 +1,13 @@
+"use strict";
 const postJSON = require("../frame/postJSON.js");
 const getXML = require("../frame/getXML.js");
 const getJSON = require("../frame/getJSON.js");
-
-function packResult(src, res, result) {
-    return {
-        sourceDocument: src,
-        resultDocument: res,
-        testResult: result
-    };
-}
 
 /**
  * Load and NER the given file.  Bind to test object when called.
  * Return the xml document.
  */
-async function loadNER(filename) {
+async function loadNER() {
     this.source = await getXML("plain.xml");
     let context = await getJSON("test.context.json");
 
@@ -24,7 +17,7 @@ async function loadNER(filename) {
     };
     
     this.result = await postJSON("ner", JSON.stringify(settings));
-    parser = new DOMParser();
+    let parser = new DOMParser();
     this.xml = parser.parseFromString(this.result.document, "text/xml");
     
     return this.xml;
@@ -54,7 +47,7 @@ module.exports = {
         location_toronto: {
             description: "text 'Toronto' tagged as 'Somewhere'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.textContent === "Toronto");
             }
@@ -62,7 +55,7 @@ module.exports = {
         has_lemma_attribute : {
             description: "lemma attribute in the default context is 'lemma'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.hasAttribute("lemma") === true);
             }            
@@ -70,7 +63,7 @@ module.exports = {
         no_link_attribute : {
             description: "the link attribute is not filled in by the 'ner' service",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.hasAttribute("link") === false);
             }            
@@ -78,7 +71,7 @@ module.exports = {
         lemma_toronto: {
             description: "lemma attribute by default the same as the text",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let element = xml.querySelector("Somewhere");
                 this.assert(element.getAttribute("lemma") === "Toronto");
             }
@@ -86,7 +79,7 @@ module.exports = {
         will_tag: {
             description: "text is tagged as 'LOCATION', will tag with 'Somewhere'",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 let childElement = xml.querySelector("[id='canada_no_tag']").children[0];
                 if (childElement.tagName === "Somewhere") this.success = true;
             }
@@ -94,35 +87,35 @@ module.exports = {
         do_tag: {
             description: "text inside non-entity tag will be tagged",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[id='canada_tag']").innerHTML === `<Somewhere lemma="Canada">Canada</Somewhere>`);
             }
         },
         tag_organization: {
             description: "'Toronto Hydro' tagged as organization",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='Toronto Hydro']").tagName === `Something`);
             }
         },
         tag_person: {
             description: "'William Lyon Mackenzie' tagged as person",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").tagName === `Someone`);
             }
         },
         tag_organization_default: {
             description: "organization (Somewhere) has a default attribute (ima)",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 this.assert(xml.querySelector("[lemma='Toronto Hydro']").getAttribute("ima") === `org`);
             }
         },
         tag_person_default: {
             description: "person (Someone) has multiple default attributes",
             run: async function () {                
-                let xml = await loadNER.call(this, "plain.xml");
+                let xml = await loadNER.call(this);
                 
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").getAttribute("A") === `eh`);
                 this.assert(xml.querySelector("[lemma='William Lyon Mackenzie']").getAttribute("B") === `bee`);

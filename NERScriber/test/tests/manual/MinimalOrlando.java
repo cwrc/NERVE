@@ -67,7 +67,7 @@ public class MinimalOrlando {
     EncoderManager createManager(Document document) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
         EncoderManager manager = new EncoderManager();
         manager.document(document);
-        manager.dictionary(MinimalOrlando.dictionary);
+//        manager.dictionary(MinimalOrlando.dictionary);
         Context context = this.getContext(document);
         manager.context(context);
 

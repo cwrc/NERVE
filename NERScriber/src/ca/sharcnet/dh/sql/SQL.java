@@ -97,7 +97,7 @@ public class SQL {
         ResultSet tables = conn.getMetaData().getTables(null, null, "%", null);
         LOGGER.debug("result retreived");
         SQLResult sqlResult = new SQLResult(tables);
-        LOGGER.debug("result made");
+        LOGGER.debug("result made : " + sqlResult.size());
         conn.close();
         LOGGER.debug("connection closed");
         return sqlResult;
