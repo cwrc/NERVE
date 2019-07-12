@@ -1,0 +1,38 @@
+{
+    "name"               : "TEST 2",
+    "tags" : {
+        "ORGANIZATION": {
+            "name"           : "ORGANIZATION",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {"tagged-by": "test"}
+        },
+        "LOCATION": {
+            "name"           : "LOCATION",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {"tagged-by": "test"}
+        },
+        "PERSON": {
+            "name"           : "PERSON",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {"tagged-by": "test"}
+        },
+        "TITLE": {
+            "name"           : "TITLE",
+            "lemmaAttribute" : "lemma",
+            "linkAttribute"  : "link",
+            "idAttribute"    : "id",
+            "defaults"       : {"tagged-by": "test"}
+        }
+    },
+    "schemaName" : "test-schema.rng",
+    "tagSourceAttribute" : "whoTagged",
+    "dictionaries" : [
+        "test"
+    ]
+}

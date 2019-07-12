@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar>
+    <start>
+        <element name="doc">
+            <element name="div">
+                <ref name="all"/>
+            </element>
+        </element>
+    </start>
+    
+    <define name="all">
+        <element name="all">
+            <any></any>
+        </element>
+    </define>
+</grammar>

@@ -139,6 +139,8 @@ class TestMain {
         suites.push(require("./tests/test-plain.js"));
         suites.push(require("./tests/test-custom-context.js"));
         suites.push(require("./tests/test-all-dictionary.js"));
+        suites.push(require("./tests/test-link-dictionary.js"));
+//        suites.push(require("./tests/test-schema.js"));
         
         for (let suite of suites) this.setupSuiteDom(suite);
         for (let suite of suites) await this.runSuite(suite);
@@ -177,11 +179,17 @@ class TestMain {
         namespan.setAttribute("class", "name");
         div.append(namespan);
         
-        let viewspan = document.createElement("span");            
-        viewspan.textContent = "[view]";
-        div.append(viewspan);
-        viewspan.setAttribute("class", "view");
-        viewspan.onclick = ()=>this.view(test);
+        let viewDocument = document.createElement("span");            
+        viewDocument.textContent = "[doc]";
+        div.append(viewDocument);
+        viewDocument.setAttribute("class", "view doc");
+        viewDocument.onclick = ()=>this.viewDoc(test);
+
+        let viewException = document.createElement("span");            
+        viewException.textContent = "[ex]";
+        div.append(viewException);
+        viewException.setAttribute("class", "view ex");
+        viewException.onclick = ()=>this.viewEx(test);        
         
         return div;        
     }
@@ -190,7 +198,7 @@ class TestMain {
         childMain.document("x");
     }
 
-    view(test){          
+    viewDoc(test){          
         if (test.result){
             let win = window.open("index.html");
             win.addEventListener("mainready", (event)=>{
@@ -198,7 +206,10 @@ class TestMain {
             });
             win.focus();
         }
-        else if (test.exception){
+    }
+
+    viewEx(test){          
+        if (test.exception){
             let win = window.open("text/plain", "replace");
             let target = test.exception;
             let text = JSON.stringify(target, null, 4);
@@ -209,6 +220,9 @@ class TestMain {
 
     async runSuite(suite) {
         console.log("runSuite");
+        
+        if (suite.suiteSetup) await suite.suiteSetup();
+        
         for (let testname in suite.tests) {
             let test = suite.tests[testname];
             test.reportElement.setAttribute("success", `running`);
@@ -218,7 +232,9 @@ class TestMain {
             test.assert = assert.bind(test);
             
             try {
+                if (suite.preTest) await suite.preTest();
                 await test.run();                
+                if (suite.postTest) await suite.postTest();
                 test.reportElement.setAttribute("success", `${test.success}`);
             } catch (ex) {
                 test.success = "exception";
@@ -228,6 +244,9 @@ class TestMain {
             }            
             
             test.reportElement.setAttribute("asserts", `${test.assertations}`);
+            
+            if (test.exception) test.reportElement.querySelector(".view.ex").style.display = "inline";
+           if (test.result) test.reportElement.querySelector(".view.doc").style.display = "inline";
         }
         return suite;
     }
@@ -237,7 +256,7 @@ module.exports = TestMain;
 
 
 
-},{"./frame/postJSON":4,"./tests/test-all-dictionary.js":6,"./tests/test-custom-context.js":7,"./tests/test-plain.js":8}],6:[function(require,module,exports){
+},{"./frame/postJSON":4,"./tests/test-all-dictionary.js":6,"./tests/test-custom-context.js":7,"./tests/test-link-dictionary.js":8,"./tests/test-plain.js":9}],6:[function(require,module,exports){
 "use strict";
 const postJSON = require("../frame/postJSON.js");
 const getXML = require("../frame/getXML.js");
@@ -263,8 +282,12 @@ async function serviceAll() {
     return this.xml;
 }
 
-module.exports = {
+module.exports = {    
     description: "All-Dictionary (tag, lemma & link) on plain document with custom context.  Using 'test' dictionary.",
+    suiteSetup: async function(){
+        console.log("suiteSetup");
+        await postJSON("setup-test-all", null);
+    },    
     tests: {
         longest_entity_1: {
             description: "where multiple entities could match, choose the longest",
@@ -299,7 +322,8 @@ module.exports = {
             description: "entities with link values will have link attributes",
             run: async function () {
                 let xml = await serviceAll.call(this);
-                let entity = xml.querySelector("[lemma='Toronto Hydro']");
+                let entity = xml.querySelector("[lemma='Toronto Hydro Corp.']");
+                this.assert(entity !== null);
                 this.assert(entity.hasAttribute("link") === true);
             }
         }        
@@ -389,7 +413,7 @@ module.exports = {
             run: async function () {                
                 let xml = await loadNER.call(this);
                 let childElement = xml.querySelector("[id='canada_no_tag']").children[0];
-                if (childElement.tagName === "Somewhere") this.success = true;
+                this.assert(childElement.tagName === "Somewhere");
             }
         },
         do_tag: {
@@ -434,6 +458,81 @@ module.exports = {
 
 
 },{"../frame/getJSON.js":2,"../frame/getXML.js":3,"../frame/postJSON.js":4}],8:[function(require,module,exports){
+"use strict";
+const postJSON = require("../frame/postJSON.js");
+const getXML = require("../frame/getXML.js");
+const getJSON = require("../frame/getJSON.js");
+
+/**
+ * Load and NER the given file.  Bind to test object when called.
+ * Return the xml document.
+ */
+async function serviceAll() {
+    this.source = await getXML("plain-link.xml");
+    let context = await getJSON("test.context.2.json");
+
+    let settings = {
+        document: this.source,
+        context: context
+    };
+    
+    this.result = await postJSON("dict-link", JSON.stringify(settings));
+    let parser = new DOMParser();
+    this.xml = parser.parseFromString(this.result.document, "text/xml");
+    
+    return this.xml;
+}
+
+module.exports = {    
+    description: "Link-Dictionary on plain document with custom context.  Using 'test' dictionary.",
+    suiteSetup: async function(){
+        console.log("suiteSetup");
+        await postJSON("setup-test-all", null);
+    },    
+    tests: {
+        no_lemma: {
+            description: "where no lemma is provided no linking will occur",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let child = xml.querySelector("[id='1']");
+                this.assert(child.hasAttribute("link") === false);
+            }
+        },
+        mismatched_lemma: {
+            description: "where the lemma does not match, no linking will occur",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let child = xml.querySelector("[id='2']");
+                this.assert(child.hasAttribute("link") === false);
+            }
+        },
+        link_already_exists_1: {
+            description: "when a link attribute already exists, no linking will occur",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let child = xml.querySelector("[id='3']");
+                this.assert(child.getAttribute("link") === "ima link");
+            }
+        },
+        link_already_exists_2: {
+            description: "when a link attribute already exists, no linking will occur, even when the link value is empty",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let child = xml.querySelector("[id='4']");
+                this.assert(child.getAttribute("link") === "");
+            }
+        },
+        will_link: {
+            description: "link when pre-conditions are met",
+            run: async function () {
+                let xml = await serviceAll.call(this);
+                let child = xml.querySelector("[id='5']");
+                this.assert(child.getAttribute("link") === "http:/TorontoHydro.ca");
+            }
+        }           
+    }
+};
+},{"../frame/getJSON.js":2,"../frame/getXML.js":3,"../frame/postJSON.js":4}],9:[function(require,module,exports){
 "use strict";
 const postJSON = require("../frame/postJSON.js");
 const getXML = require("../frame/getXML.js");

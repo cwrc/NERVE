@@ -13,7 +13,7 @@ Values set to NULL are explicitly unset, those set to "" are blank.  During copi
 public final class EntityValues {
     private HashMap<String, String> values = new HashMap<>();
 
-    private EntityValues() {}
+    public EntityValues() {}
 
     public EntityValues(SQLRecord record) {
         this.text(record.getEntry("entity").getValue());

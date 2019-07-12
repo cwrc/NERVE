@@ -23,8 +23,12 @@ async function serviceAll() {
     return this.xml;
 }
 
-module.exports = {
+module.exports = {    
     description: "All-Dictionary (tag, lemma & link) on plain document with custom context.  Using 'test' dictionary.",
+    suiteSetup: async function(){
+        console.log("suiteSetup");
+        await postJSON("setup-test-all", null);
+    },    
     tests: {
         longest_entity_1: {
             description: "where multiple entities could match, choose the longest",
@@ -59,7 +63,8 @@ module.exports = {
             description: "entities with link values will have link attributes",
             run: async function () {
                 let xml = await serviceAll.call(this);
-                let entity = xml.querySelector("[lemma='Toronto Hydro']");
+                let entity = xml.querySelector("[lemma='Toronto Hydro Corp.']");
+                this.assert(entity !== null);
                 this.assert(entity.hasAttribute("link") === true);
             }
         }        

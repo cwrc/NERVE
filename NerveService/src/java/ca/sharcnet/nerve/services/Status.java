@@ -6,19 +6,15 @@
 package ca.sharcnet.nerve.services;
 
 import static ca.sharcnet.nerve.services.ServiceBase.CONFIG_PATH;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**

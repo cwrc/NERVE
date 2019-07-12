@@ -46,6 +46,7 @@ import org.json.JSONObject;
  * @author Ed Armstrong
  */
 public abstract class ServiceBase extends HttpServlet {
+
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
     static SQL sql = null;
     static CRFClassifier<CoreLabel> classifier = null;
@@ -53,7 +54,6 @@ public abstract class ServiceBase extends HttpServlet {
     final static String DEFAULT_SCHEMA = CONTEXT_PATH + "default.rng";
     final static String CONFIG_PATH = "/WEB-INF/config.properties";
 
-    
     @Override
     public void init() {
         LOGGER.debug("NerveRoot() ... ");
@@ -116,20 +116,21 @@ public abstract class ServiceBase extends HttpServlet {
     }
 
     /**
-     * Create a new manager object from JSON information.  It is this method
-     * that verifies the contents of the incoming JSON object and parses out
-     * the relevant context and schema information. This is a utility method
-     * that the service endpoints will call if they are tagging documents.<br>
-     * The document field is required in the JSON input object.  The context and
-     * schemaURL fields are optional.  If the document is not provided then an
-     * exception will be thrown.  If the 'context' is not provided then the
-     * document type will be determined from the 'schema' is available.  If no
-     * context is available, a default empty schema will be used.  If a schema
+     * Create a new manager object from JSON information. It is this method that
+     * verifies the contents of the incoming JSON object and parses out the
+     * relevant context and schema information. This is a utility method that
+     * the service endpoints will call if they are tagging documents.<br>
+     * The document field is required in the JSON input object. The context and
+     * schemaURL fields are optional. If the document is not provided then an
+     * exception will be thrown. If the 'context' is not provided then the
+     * document type will be determined from the 'schema' is available. If no
+     * context is available, a default empty schema will be used. If a schema
      * URL is provided then it will be used, otherwise the url will be parsed
-     * from the document.  If the schema URL return a 302 (redirect) then that
-     * url will be used.  All other non-200 return codes will throw an exception.
+     * from the document. If the schema URL return a 302 (redirect) then that
+     * url will be used. All other non-200 return codes will throw an exception.
      * <br><br>
      * <img src="https://drive.google.com/uc?id=1X5ZRc624Joq9JHfH5g-avjV0Ep_flfpF"/>
+     *
      * @param jsonRequest
      * @return
      * @throws IOException
@@ -138,7 +139,7 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws IllegalAccessException
      * @throws SQLException
      * @throws ParserConfigurationException
-     * @throws DocumentParseException 
+     * @throws DocumentParseException
      */
     EncoderManager createManager(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
         EncoderManager manager = new EncoderManager();
@@ -150,7 +151,7 @@ public abstract class ServiceBase extends HttpServlet {
         String documentSource = jsonRequest.getString("document");
         Document document = DocumentLoader.documentFromString(documentSource);
         manager.document(document);
-        
+
         /* Context Retrieval */
         Context context;
         if (jsonRequest.has("context")) {
@@ -163,14 +164,15 @@ public abstract class ServiceBase extends HttpServlet {
             context = this.retrieveContext(document);
             manager.context(context);
         }
-        
+
         /* setup dictionaries according to the context */
-        for (String dictionaryName : context.getDictionaries()){
-            Dictionary dictionary = new Dictionary(ServiceBase.sql, dictionaryName);
-            dictionary.verifySQL();
+        for (String dictionaryName : context.getDictionaries()) {
+            Dictionary dictionary = new Dictionary(ServiceBase.sql);
+            dictionary.setTable(dictionaryName);
+            dictionary.addTable(dictionaryName);
             manager.addDictionary(dictionary);
         }
-        
+
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
 
@@ -246,7 +248,7 @@ public abstract class ServiceBase extends HttpServlet {
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.  This method is not supported
+     * Handles the HTTP <code>GET</code> method. This method is not supported
      * and will return an exception.
      *
      * @param request servlet request
@@ -268,13 +270,13 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
@@ -288,9 +290,18 @@ public abstract class ServiceBase extends HttpServlet {
 
             String input = request.getReader().lines().collect(Collectors.joining());
 
-            JSONObject jsonRequest = new JSONObject(input);
+            JSONObject jsonRequest;
+            LOGGER.debug(input);
+            if (input != null && !input.isEmpty()) {
+                jsonRequest = new JSONObject(input);
+            } else {
+                jsonRequest = new JSONObject();
+            }
+            
             JSONObject jsonResponse = this.run(jsonRequest);
-            if (jsonResponse == null) jsonResponse = new JSONObject();
+            if (jsonResponse == null) {
+                jsonResponse = new JSONObject();
+            }
 
             if (jsonResponse.has("status")) {
                 response.setStatus(jsonResponse.getInt("status"));
@@ -312,8 +323,9 @@ public abstract class ServiceBase extends HttpServlet {
 
     /**
      * Used when an incoming JSON object is missing a parameter.
+     *
      * @param message
-     * @return 
+     * @return
      */
     public final JSONObject badRequest(String message) {
         JSONObject json = new JSONObject();
@@ -324,9 +336,10 @@ public abstract class ServiceBase extends HttpServlet {
 
     /**
      * Format a JSON object with exception details and write out response.
+     *
      * @param response
      * @param exception
-     * @throws IOException 
+     * @throws IOException
      */
     public final void returnException(HttpServletResponse response, Exception exception) throws IOException {
         Logger.getLogger(NER.class.getName()).log(Level.SEVERE, null, exception);
@@ -349,8 +362,9 @@ public abstract class ServiceBase extends HttpServlet {
     }
 
     /**
-     * Service endpoints must override this method.  This method is called
-     * when the json object is created
+     * Service endpoints must override this method. This method is called when
+     * the json object is created
+     *
      * @param json
      * @return
      * @throws IOException
@@ -359,7 +373,7 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws IllegalAccessException
      * @throws SQLException
      * @throws ParserConfigurationException
-     * @throws DocumentParseException 
+     * @throws DocumentParseException
      */
     abstract JSONObject run(JSONObject json) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException;
 }

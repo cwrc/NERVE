@@ -48,7 +48,8 @@ public class EncoderDictLink extends ServiceModuleBase {
 
         String lemma = null;
         if (node.hasAttribute(lemmaAttribute)) lemma = node.getAttribute(lemmaAttribute).getValue();
-
+        else return;
+        
         for (Dictionary dictionary : this.getDictionaries()) {
             SQLResult sqlResult = dictionary.lookup(node.text(), lemma, node.name(), null);
 

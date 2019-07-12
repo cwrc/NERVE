@@ -81,7 +81,7 @@ module.exports = {
             run: async function () {                
                 let xml = await loadNER.call(this);
                 let childElement = xml.querySelector("[id='canada_no_tag']").children[0];
-                if (childElement.tagName === "Somewhere") this.success = true;
+                this.assert(childElement.tagName === "Somewhere");
             }
         },
         do_tag: {

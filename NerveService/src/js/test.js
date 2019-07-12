@@ -34,6 +34,8 @@ class TestMain {
         suites.push(require("./tests/test-plain.js"));
         suites.push(require("./tests/test-custom-context.js"));
         suites.push(require("./tests/test-all-dictionary.js"));
+        suites.push(require("./tests/test-link-dictionary.js"));
+//        suites.push(require("./tests/test-schema.js"));
         
         for (let suite of suites) this.setupSuiteDom(suite);
         for (let suite of suites) await this.runSuite(suite);
@@ -72,11 +74,17 @@ class TestMain {
         namespan.setAttribute("class", "name");
         div.append(namespan);
         
-        let viewspan = document.createElement("span");            
-        viewspan.textContent = "[view]";
-        div.append(viewspan);
-        viewspan.setAttribute("class", "view");
-        viewspan.onclick = ()=>this.view(test);
+        let viewDocument = document.createElement("span");            
+        viewDocument.textContent = "[doc]";
+        div.append(viewDocument);
+        viewDocument.setAttribute("class", "view doc");
+        viewDocument.onclick = ()=>this.viewDoc(test);
+
+        let viewException = document.createElement("span");            
+        viewException.textContent = "[ex]";
+        div.append(viewException);
+        viewException.setAttribute("class", "view ex");
+        viewException.onclick = ()=>this.viewEx(test);        
         
         return div;        
     }
@@ -85,7 +93,7 @@ class TestMain {
         childMain.document("x");
     }
 
-    view(test){          
+    viewDoc(test){          
         if (test.result){
             let win = window.open("index.html");
             win.addEventListener("mainready", (event)=>{
@@ -93,7 +101,10 @@ class TestMain {
             });
             win.focus();
         }
-        else if (test.exception){
+    }
+
+    viewEx(test){          
+        if (test.exception){
             let win = window.open("text/plain", "replace");
             let target = test.exception;
             let text = JSON.stringify(target, null, 4);
@@ -104,6 +115,9 @@ class TestMain {
 
     async runSuite(suite) {
         console.log("runSuite");
+        
+        if (suite.suiteSetup) await suite.suiteSetup();
+        
         for (let testname in suite.tests) {
             let test = suite.tests[testname];
             test.reportElement.setAttribute("success", `running`);
@@ -113,7 +127,9 @@ class TestMain {
             test.assert = assert.bind(test);
             
             try {
+                if (suite.preTest) await suite.preTest();
                 await test.run();                
+                if (suite.postTest) await suite.postTest();
                 test.reportElement.setAttribute("success", `${test.success}`);
             } catch (ex) {
                 test.success = "exception";
@@ -123,6 +139,9 @@ class TestMain {
             }            
             
             test.reportElement.setAttribute("asserts", `${test.assertations}`);
+            
+            if (test.exception) test.reportElement.querySelector(".view.ex").style.display = "inline";
+           if (test.result) test.reportElement.querySelector(".view.doc").style.display = "inline";
         }
         return suite;
     }

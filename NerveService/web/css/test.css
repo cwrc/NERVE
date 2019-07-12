@@ -32,6 +32,7 @@
 }
 
 .view{
+    display: none;
     color: blue;
 }
 

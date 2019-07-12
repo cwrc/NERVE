@@ -9,27 +9,19 @@ import org.apache.logging.log4j.LogManager;
 public class Dictionary {
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Dictionary.class);
     private static String DEFAULT_DICTIONARY = "default";
-    private final String dictionary;
-    private SQL sql;
+    private String dictionary = DEFAULT_DICTIONARY;
+    private final SQL sql;
     private String SQL_CONFIG = "WEB-INF/config.properties";
 
     public Dictionary(SQL sql) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException{
-        this(sql, DEFAULT_DICTIONARY);
-    }
-    
-    public Dictionary(SQL sql, String dictionary) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
-        if (sql == null) {
-            throw new NullPointerException();
-        }
-        
-        if (dictionary == null || dictionary.isEmpty()) {
-            throw new NullPointerException();
-        }
-        
-        this.dictionary = dictionary;
         this.sql = sql;
     }
 
+    public Dictionary setTable(String table){
+        this.dictionary = table;
+        return this;
+    }
+    
     public boolean verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
         for (SQLRecord record : sql.tables()){
             String tableName = record.getEntry("TABLE_NAME").getValue();
@@ -37,7 +29,7 @@ public class Dictionary {
             if (tableName.equals(this.dictionary)) return true;
         }
 
-        this.addTable(this.dictionary);
+        addTable(this.dictionary);
         
         for (SQLRecord record : sql.tables()){
             String tableName = record.getEntry("TABLE_NAME").getValue();
@@ -46,8 +38,18 @@ public class Dictionary {
         return false;
     }
 
+    public boolean hasTable(String table) throws SQLException{
+        SQLResult tables = sql.tables();
+        for (SQLRecord record : tables){
+            String tableName = record.getEntry("TABLE_NAME").getValue();
+            if (tableName.equals(table)) return true;
+        }
+        return false;
+    }
+    
     public boolean addTable(String table) throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
-
+        if (hasTable(table)) return false;
+        
         sql.update(String.format("CREATE TABLE %s ("
                 + "entity varchar(255) NOT NULL,"
                 + "lemma varchar(128) NOT NULL,"
