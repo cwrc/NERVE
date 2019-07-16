@@ -14,11 +14,12 @@ public class Context implements Serializable {
     private String scriptFilename;
     private String tagSourceAttribute;
     private String style = "";
-    private String sourceString = "";
+    private final String sourceString;
     private ArrayList<TagInfo> tagList = new ArrayList<>();
     private final JSONObject json;
 
     public Context(JSONObject json) {
+        this.sourceString = json.toString();
         this.json = json;
         this.setup();
     }
