@@ -15,4 +15,5 @@ defaults for this document.
     <p>
         <div id="1">Toronto</div> is really <div id="2">Toronto Ontario</div> is the same as <div id="3">Toronto Ontario Canada</div>.
     </p>
+    <p id="4">123123</p><!-- ner will ignore strings without any alphabet chars -->
 </root>

@@ -79,15 +79,6 @@ public final class JACOCODataReader {
         }
         return builder.toString();
     }
-    
-    void clear(HttpSession session) {
-        if (execFullPath == null) throw new NullPointerException("execFullPath not set");
-        if (htmlPath == null) throw new NullPointerException("htmlPath not set");        
-        File execFile = new File(execFullPath);
-        File htmlFile = new File(htmlPath);
-        if (execFile.exists()) execFile.delete();
-        if (htmlFile.exists()) htmlFile.delete();
-    }
 
     public void setAddress(String address) {
         this.address = address;

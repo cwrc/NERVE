@@ -76,7 +76,7 @@ public class EncoderDictAll extends ServiceModuleBase {
                     elementNode.attr(linkAttribute, row.getEntry("link").getValue());
                 }
                 
-                LOGGER.log(Level.INFO, "entity identitified: " + elementNode.name() + ":" + elementNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
+                LOGGER.log(Level.DEBUG, "entity identitified: " + elementNode.name() + ":" + elementNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
                 newNodes.add(elementNode);
                 this.setDefaultAttributes(elementNode);
             } else {

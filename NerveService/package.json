@@ -7,8 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "build-test.js": "browserify src/js/test.js -o web/js/test.js -s TestMain",
-    "watch-test.js": "watchify src/js/test.js -o web/js/test.js -s TestMain -v"
+    "build-test.js": "browserify src/js/test.js -o web/js/test.js -s TestMain -d",
+    "watch-test.js": "watchify src/js/test.js -o web/js/test.js -s TestMain -dv"
   },
   "author": "",
   "license": "ISC",

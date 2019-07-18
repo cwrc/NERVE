@@ -89,6 +89,10 @@ public class Context implements Serializable {
         return name;
     }
 
+    public boolean hasSchemaName() {
+        return (!schemaName.isEmpty());
+    }    
+    
     public String getSchemaName() {
         return schemaName;
     }
@@ -125,18 +129,31 @@ public class Context implements Serializable {
         throw new ContextException(exMsg, this);
     }
 
-    public boolean isTagName(String schemaTagName) {
+    /**
+     * Determine if 'string' is a valid tag name in the schema.  As opposed to 
+     * a valid standard tag name.
+     * @param string
+     * @return 
+     */
+    public boolean isTagName(String string) {
         for (TagInfo tagInfo : tagList) {
-            if (tagInfo.getName().equals(schemaTagName)) {
+            if (tagInfo.getName().equals(string)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isStandardTag(String schemaTagName) {
+    /**
+     * Determine if 'string' is a valid standard tag name.  The standard tag 
+     * names are: ORGANIZATION, LOCATION, PERSON, TITLE. These represent the 
+     * object names in the context.tags object.
+     * @param string
+     * @return 
+     */    
+    public boolean isStandardTag(String string) {
         for (TagInfo tagInfo : tagList) {
-            if (tagInfo.getStandard().equals(schemaTagName)) {
+            if (tagInfo.getStandard().equals(string)) {
                 return true;
             }
         }

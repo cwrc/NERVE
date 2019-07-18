@@ -30,7 +30,7 @@
             "defaults"       : {"tagged-by": "test"}
         }
     },
-    "schemaName" : "test-schema.rng",
+    "schemaName" : "/NerveService/schema/test-schema.rng",
     "tagSourceAttribute" : "whoTagged",
     "dictionaries" : [
         "test"

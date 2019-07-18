@@ -38,11 +38,11 @@ public abstract class ServiceModuleBase implements IEncoder{
      *
      * @param context
      */
-    public void context(Context context) {
+    public void setContext(Context context) {
         this.context = context;
     }
 
-    public Context context() {
+    public Context getContext() {
         return this.context;
     }    
     
@@ -60,12 +60,16 @@ public abstract class ServiceModuleBase implements IEncoder{
     }
 
     /**
-     * Load schema.
-     *
+     * Load schema.The schema gets loaded by the service creating the manager.  
+     * The service can decide where it gets the schema from, the document or the
+     * context.  The schema URL should be set so that other services can retrieve the
+     * same schema.
      * @param schema
+     * @param schemaURL
      */
-    public void setSchema(Schema schema) {
+    public void setSchema(Schema schema, String schemaURL) {
         this.schema = schema;
+        this.schemaURL = schemaURL;
     }
     
     public Schema getSchema() {
@@ -75,10 +79,6 @@ public abstract class ServiceModuleBase implements IEncoder{
     public String getSchemaUrl(){
         return this.schemaURL;
     }
-
-    public void setSchemaUrl(String schemaURL){
-        this.schemaURL = schemaURL;
-    }    
     
     /**
      * Retrieve document.

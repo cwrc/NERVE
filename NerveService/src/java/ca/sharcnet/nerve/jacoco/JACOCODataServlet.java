@@ -39,9 +39,6 @@ public class JACOCODataServlet extends JSONServlet {
                 result.put("reportPath", reportPath);
                 result.put("exists", reportPathFile.exists());
             break;
-            case "clear":
-                jacocoDataReader.clear(session);
-            break;
         }
         
         return result;

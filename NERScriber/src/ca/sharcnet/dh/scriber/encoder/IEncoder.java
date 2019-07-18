@@ -20,8 +20,8 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public interface IEncoder {
     void run() throws IOException, DocumentParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException;
-    void context(Context context);
-    void setSchema(Schema schema);
+    void setContext(Context context);
+    void setSchema(Schema schema, String schemaURL);
     void setDictionaries(Iterable<Dictionary> dictionaries);
     void document(Document document);
 }

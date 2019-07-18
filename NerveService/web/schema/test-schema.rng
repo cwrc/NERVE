@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar>
+    <start>
+        <element name="root">
+            <oneOrMore>
+                <ref name="div"/>
+                <ref name="all"/>
+                <ref name="nested-all"/>
+                <ref name="allow-location"/>
+                <ref name="allow-person"/>
+                </oneOrMore>
+        </element>
+    </start>
+    
+    <define name="div">
+        <element name="div">
+            <oneOrMore>
+                <ref name="div"/>
+                <ref name="all"/>
+                <ref name="nested-all"/>
+                <ref name="allow-location"/>
+                <ref name="allow-person"/>
+                </oneOrMore>
+        </element>
+    </define>    
+    
+    <define name="allow-location">
+        <element name="allow-location">
+            <element name="LOCATION"/>
+        </element>
+    </define>
+
+    <define name="allow-person">
+        <element name="allow-person">
+            <element name="PERSON"/>
+        </element>
+    </define>
+            
+    <define name="all">
+        <element name="all">
+            <any></any>
+        </element>
+    </define>
+    
+    <define name="nested-all">
+        <element name="nested-all">
+            <any>
+                <ref name="accept_all"/>
+            </any>
+        </element>
+    </define>    
+    
+    <define name="accept_all">
+        <any>
+            <ref name="accept_all"/>
+        </any>
+    </define>    
+</grammar>

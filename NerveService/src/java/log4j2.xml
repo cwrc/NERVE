@@ -6,14 +6,14 @@
         </Console>
     </Appenders>
     <Loggers>
-<!--        <Logger name="ca.sharcnet.dh.scriber.encoder.EncoderLink" level="DEBUG" additivity="false">
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="ca.sharcnet.dh.scriber.encoder.EncoderDictionary" level="DEBUG" additivity="false">
+        </Root>    
+        <Logger name="ca.sharcnet.dh.scriber.encoder.servicemodules.EncoderNER" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
-        </Logger>        -->
-        <Root level="DEBUG">
+        </Logger>                   
+<!--        <Logger name="ca.sharcnet.nerve.services.ServiceBase" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
-        </Root>                
+        </Logger>                             -->
     </Loggers>
 </Configuration>

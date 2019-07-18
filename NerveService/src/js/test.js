@@ -31,11 +31,13 @@ class TestMain {
     async runFunctional() {
         let suites = [];
         window.suites = suites;
+//        suites.push(require("./tests/test-single.js"));
+
         suites.push(require("./tests/test-plain.js"));
         suites.push(require("./tests/test-custom-context.js"));
         suites.push(require("./tests/test-all-dictionary.js"));
         suites.push(require("./tests/test-link-dictionary.js"));
-//        suites.push(require("./tests/test-schema.js"));
+        suites.push(require("./tests/test-schema.js"));
         
         for (let suite of suites) this.setupSuiteDom(suite);
         for (let suite of suites) await this.runSuite(suite);

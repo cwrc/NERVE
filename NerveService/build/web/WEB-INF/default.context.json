@@ -31,6 +31,6 @@
         }
     },
     "style" : "playwrights",
-    "schemaName" : "default.rng",
+    "schemaName" : "/NerveService/schema/default.rng",
     "tagSourceAttribute" : "whoTagged"
 }

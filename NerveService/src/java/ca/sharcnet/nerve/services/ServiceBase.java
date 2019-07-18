@@ -11,6 +11,7 @@ import ca.sharcnet.dh.scriber.dictionary.Dictionary;
 import ca.sharcnet.dh.scriber.encoder.EncoderManager;
 import ca.sharcnet.dh.scriber.context.Context;
 import ca.sharcnet.dh.scriber.context.ContextLoader;
+import ca.sharcnet.dh.scriber.encoder.IClassifier;
 import ca.sharcnet.dh.sql.SQL;
 import ca.sharcnet.nerve.docnav.DocumentParseException;
 import ca.sharcnet.nerve.docnav.dom.NodeType;
@@ -46,21 +47,22 @@ import org.json.JSONObject;
  * @author Ed Armstrong
  */
 public abstract class ServiceBase extends HttpServlet {
-
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
     static SQL sql = null;
-    static CRFClassifier<CoreLabel> classifier = null;
+    static IClassifier classifier = null;
     final static String CONTEXT_PATH = "/WEB-INF/";
-    final static String DEFAULT_SCHEMA = CONTEXT_PATH + "default.rng";
+    final static String DEFAULT_SCHEMA = "/NerveService/schema/default.rng";
     final static String CONFIG_PATH = "/WEB-INF/config.properties";
+    private Properties properties;
 
     @Override
     public void init() {
-        LOGGER.debug("NerveRoot() ... ");
+        LOGGER.debug("ServiceBase.init() ... ");
         try {
+            this.initConfig();
             this.initSQL();
             this.initClassifier();
-            LOGGER.debug("exiting NerveRoot()");
+            LOGGER.debug("exiting ServiceBase.init()");
         } catch (Exception ex) {
             LOGGER.catching(ex);
             if (ex.getCause() != null) {
@@ -76,13 +78,39 @@ public abstract class ServiceBase extends HttpServlet {
         if (ServiceBase.classifier != null) {
             return;
         }
+        String port = this.properties.getProperty("ner.port");
+        if (port == null || port.isEmpty()) {
+            this.initLocalClassifier();
+        } else {
+            this.initRemoteClassifier(Integer.parseInt(port));
+        }
+    }
+
+    private void initLocalClassifier() throws IOException, ClassCastException, ClassNotFoundException {
+        if (ServiceBase.classifier != null) {
+            return;
+        }
         LOGGER.debug("loading classifier ...");
         String classifierPath = "/WEB-INF/english.all.3class.distsim.crf.ser.gz";
         InputStream in = this.getServletContext().getResourceAsStream(classifierPath);
-        GZIPInputStream gzip = new GZIPInputStream(in);
-        ServiceBase.classifier = CRFClassifier.getClassifier(gzip);
+        ServiceBase.classifier = new LocalClassifier(in);
         in.close();
         LOGGER.debug("... classifier loaded");
+    }
+
+    private void initConfig() throws FileNotFoundException, IOException {
+        InputStream configStream = this.getServletContext().getResourceAsStream(CONFIG_PATH);
+        LOGGER.debug("configuration file: " + this.getServletContext().getContextPath());
+
+        if (configStream == null) {
+            throw new FileNotFoundException(this.getServletContext().getRealPath(CONFIG_PATH));
+        }
+
+        LOGGER.debug("loading configuration ...");
+        this.properties = new Properties();
+        this.properties.load(configStream);
+        configStream.close();
+        LOGGER.debug("configuration loaded");
     }
 
     private void initSQL() throws FileNotFoundException, IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException {
@@ -91,22 +119,10 @@ public abstract class ServiceBase extends HttpServlet {
             return;
         }
 
-        InputStream configStream = this.getServletContext().getResourceAsStream(CONFIG_PATH);
-        LOGGER.debug("configuration file: " + this.getServletContext().getContextPath());
-        if (configStream == null) {
-            throw new FileNotFoundException(this.getServletContext().getRealPath(CONFIG_PATH));
-        }
-
-        LOGGER.debug("loading configuration ...");
-        Properties config = new Properties();
-        config.load(configStream);
-        configStream.close();
-        LOGGER.debug("configuration loaded");
-
-        String dbURL = config.getProperty("databaseURL");
-        String dbPath = config.getProperty("databasePath");
+        String dbURL = this.properties.getProperty("databaseURL");
+        String dbPath = this.properties.getProperty("databasePath");
         String realPath = this.getServletContext().getRealPath(dbPath);
-        String dbDriver = config.getProperty("databaseDriver");
+        String dbDriver = this.properties.getProperty("databaseDriver");
 
         LOGGER.debug("loading sql ...");
         ServiceBase.sql = new SQL(dbDriver, dbURL + realPath);
@@ -141,7 +157,7 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws ParserConfigurationException
      * @throws DocumentParseException
      */
-    EncoderManager createManager(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    EncoderManager createManager(JSONObject jsonRequest, HttpServletRequest request) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
         EncoderManager manager = new EncoderManager();
 
         /* Document Retrieval */
@@ -158,11 +174,11 @@ public abstract class ServiceBase extends HttpServlet {
             /* use provided context */
             JSONObject jsonObject = jsonRequest.getJSONObject("context");
             context = new Context(jsonObject);
-            manager.context(new Context(jsonObject));
+            manager.setContext(new Context(jsonObject));
         } else {
             /* set the default context from the document - can be overridden by calling service */
             context = this.retrieveContext(document);
-            manager.context(context);
+            manager.setContext(context);
         }
 
         /* setup dictionaries according to the context */
@@ -176,28 +192,38 @@ public abstract class ServiceBase extends HttpServlet {
         Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
         String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
 
-        if (schemaAttrValue.isEmpty()) {
-            /* if no schema is specified by the document use the default (empty) schema */
-            InputStream resourceAsStream = this.getServletContext().getResourceAsStream(DEFAULT_SCHEMA);
-            RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
-            manager.setSchemaUrl("");
-            manager.setSchema(schema);
+        if (schemaAttrValue.isEmpty() && context.hasSchemaName()) {
+            /* if no schema is specified by the document, use any provided by the context. */
+            schemaAttrValue = context.getSchemaName();
         } else {
-            /* if a schema is specified use it */
-            manager.setSchemaUrl(schemaAttrValue);
-            RelaxNGSchema schema = this.retrieveSchema(schemaAttrValue);
-            if (schema == null) {
-                throw new MalformedSchemaURL(schemaAttrValue);
-            }
-            manager.setSchema(schema);
+            /* if no schema is specified by the document or the context use the default (empty) schema */
+            schemaAttrValue = DEFAULT_SCHEMA;
         }
+
+        StringBuffer url = request.getRequestURL();
+        String uri = request.getRequestURI();
+        String host = url.substring(0, url.indexOf(uri)); //result
+        
+        if (schemaAttrValue.startsWith("/")) schemaAttrValue = host + schemaAttrValue;
+        
+        LOGGER.debug("schema " + schemaAttrValue);
+        LOGGER.debug("url " + url);
+        LOGGER.debug("uri " + uri);       
+        LOGGER.debug("host " + host);
+        LOGGER.debug("context path " + request.getContextPath());
+        
+        RelaxNGSchema schema = this.retrieveSchema(schemaAttrValue);
+        if (schema == null) {
+            throw new MalformedSchemaURL(schemaAttrValue);
+        }
+        manager.setSchema(schema, schemaAttrValue);
 
         return manager;
     }
 
-    private RelaxNGSchema retrieveSchema(String schemaAttrValue) throws MalformedURLException, IOException, DocumentParseException {
-        LOGGER.debug("retrieve schema " + schemaAttrValue);
-        URL url = new URL(schemaAttrValue);
+    private RelaxNGSchema retrieveSchema(String schemaURL) throws MalformedURLException, IOException, DocumentParseException {
+        LOGGER.debug("retrieve schema " + schemaURL);
+        URL url = new URL(schemaURL);
         RelaxNGSchema schema = null;
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -207,7 +233,7 @@ public abstract class ServiceBase extends HttpServlet {
         } else {
             try (final InputStream resourceAsStream = url.openStream()) {
                 if (resourceAsStream == null) {
-                    throw new MalformedSchemaURL(schemaAttrValue);
+                    throw new MalformedSchemaURL(schemaURL);
                 }
                 schema = RelaxNGSchemaLoader.schemaFromStream(resourceAsStream);
             }
@@ -297,14 +323,14 @@ public abstract class ServiceBase extends HttpServlet {
             } else {
                 jsonRequest = new JSONObject();
             }
-            
-            JSONObject jsonResponse = this.run(jsonRequest);
+
+            JSONObject jsonResponse = this.run(jsonRequest, request, response);
             if (jsonResponse == null) {
                 jsonResponse = new JSONObject();
             }
 
-            if (jsonResponse.has("status")) {
-                response.setStatus(jsonResponse.getInt("status"));
+            if (jsonResponse.has("http-response-status")) {
+                response.setStatus(jsonResponse.getInt("http-response-status"));
             }
 
             try (PrintWriter out = response.getWriter()) {
@@ -312,7 +338,7 @@ public abstract class ServiceBase extends HttpServlet {
             }
         } catch (MalformedSchemaURL ex) {
             JSONObject jsonResponse = this.badRequest(ex.getMessage());
-            response.setStatus(jsonResponse.getInt("status"));
+            response.setStatus(jsonResponse.getInt("http-response-status"));
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.toString());
             }
@@ -329,7 +355,7 @@ public abstract class ServiceBase extends HttpServlet {
      */
     public final JSONObject badRequest(String message) {
         JSONObject json = new JSONObject();
-        json.put("status", 400);
+        json.put("http-response-status", 400);
         json.put("message", message);
         return json;
     }
@@ -375,5 +401,15 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws ParserConfigurationException
      * @throws DocumentParseException
      */
-    abstract JSONObject run(JSONObject json) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException;
+    protected JSONObject run(JSONObject json) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+        return new JSONObject();
+    }
+
+    protected JSONObject run(JSONObject json, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+        return run(json);
+    }
+
+    private void initRemoteClassifier(int port) {
+        ServiceBase.classifier = new RemoteClassifier(port);
+    }
 }

@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <allow-person>
+        Toronto <!-- will not tag -->
+    </allow-person>
+    <allow-location>
+        Toronto <!-- will tag -->
+    </allow-location>
     <div>
-        <all>
+        <all id="1">
             Toronto <!-- will tag -->
         </all>
     </div>
-    <div>
+    <div id="2">
         Toronto <!-- will not tag -->
     </div>
+    <div>
+        <all>
+            Toronto <!-- will tag -->
+            <div>
+                Toronto <!-- will not tag -->
+            </div>            
+        </all>
+    </div>    
+    <div>
+        <nested-all>
+            Toronto <!-- will tag -->
+            <div>
+                Toronto <!-- will tag -->
+                <div>
+                    Toronto <!-- will tag -->
+                </div>            
+            </div>            
+        </nested-all>
+    </div>        
 </root>
