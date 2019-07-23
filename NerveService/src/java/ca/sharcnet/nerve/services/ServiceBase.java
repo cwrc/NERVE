@@ -18,12 +18,11 @@ import ca.sharcnet.nerve.docnav.dom.NodeType;
 import ca.sharcnet.nerve.docnav.query.Query;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
 import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
-import edu.stanford.nlp.ie.crf.CRFClassifier;
-import edu.stanford.nlp.ling.CoreLabel;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,7 +31,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.zip.GZIPInputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +45,7 @@ import org.json.JSONObject;
  * @author Ed Armstrong
  */
 public abstract class ServiceBase extends HttpServlet {
+
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(ServiceBase.class);
     static SQL sql = null;
     static IClassifier classifier = null;
@@ -79,10 +78,17 @@ public abstract class ServiceBase extends HttpServlet {
             return;
         }
         String port = this.properties.getProperty("ner.port");
+
         if (port == null || port.isEmpty()) {
             this.initLocalClassifier();
         } else {
-            this.initRemoteClassifier(Integer.parseInt(port));
+            try {
+                ServiceBase.classifier = new RemoteClassifier(Integer.parseInt(port));
+            } catch (IOException ex) {
+                LOGGER.info(ex.getClass().getSimpleName() + " : " + ex.getMessage());
+                LOGGER.info("Remote classifier not found, starting local classifier");
+                this.initLocalClassifier();
+            }
         }
     }
 
@@ -203,15 +209,17 @@ public abstract class ServiceBase extends HttpServlet {
         StringBuffer url = request.getRequestURL();
         String uri = request.getRequestURI();
         String host = url.substring(0, url.indexOf(uri)); //result
-        
-        if (schemaAttrValue.startsWith("/")) schemaAttrValue = host + schemaAttrValue;
-        
+
+        if (schemaAttrValue.startsWith("/")) {
+            schemaAttrValue = host + schemaAttrValue;
+        }
+
         LOGGER.debug("schema " + schemaAttrValue);
         LOGGER.debug("url " + url);
-        LOGGER.debug("uri " + uri);       
+        LOGGER.debug("uri " + uri);
         LOGGER.debug("host " + host);
         LOGGER.debug("context path " + request.getContextPath());
-        
+
         RelaxNGSchema schema = this.retrieveSchema(schemaAttrValue);
         if (schema == null) {
             throw new MalformedSchemaURL(schemaAttrValue);
@@ -407,9 +415,5 @@ public abstract class ServiceBase extends HttpServlet {
 
     protected JSONObject run(JSONObject json, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
         return run(json);
-    }
-
-    private void initRemoteClassifier(int port) {
-        ServiceBase.classifier = new RemoteClassifier(port);
     }
 }

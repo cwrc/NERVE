@@ -11,8 +11,17 @@
     <description>Builds, tests, and runs the project NerveService.</description>
     <import file="nbproject/build-impl.xml"/>
     
-    <!-- Copy source files to WEB-INF directory -->
     <target name ="-post-compile" depends="copy-src,copy-scriber-src"/>
+    <target name ="-post-dist" depends="copy-war"/>
+    
+    <!-- Copy war file to root dist -->
+    <target name="copy-war">
+        <copy todir="../dist">
+            <fileset file="${dist.war}"/>
+        </copy>
+    </target>   
+            
+    <!-- Copy source files to WEB-INF directory -->    
     <target name="copy-src">
         <copy todir="${build.dir}/web/WEB-INF/src">
             <fileset dir="${src.dir}"/>
@@ -25,21 +34,6 @@
             <fileset dir="../NERScriber/src"/>
         </copy>
     </target>       
-    
-    <!--<property file="build.properties"/>-->
-    
-<!--    <target name="key_file_check">  
-        <available property="key_file.exists" file="${keyfile}"/>          
-    </target>
-    
-    <target name="deploy" depends="key_file_check" if="${key_file.exists}">
-        <loadfile property="key" srcFile="${keyfile}"/> 
-        <echo>${key}</echo>         
-        
-        <scp todir="${remoteTarget}" keyfile="${keyfile}" trust="yes">
-            <fileset dir="dist" includes="NerveService.war"/>
-        </scp>
-    </target>-->
     
     <!-- Deploy .war file to dh server -->
     <property name="keyfile" value="D:/cygwin/home/edward/.ssh/id_rsa"/>

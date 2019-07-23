@@ -20,8 +20,9 @@ import java.net.Socket;
 public class RemoteClassifier implements IClassifier{
     private final int port;
     
-    public RemoteClassifier(int port){
+    public RemoteClassifier(int port) throws IOException{
         this.port = port;
+        classify("");
     }
     
     @Override
