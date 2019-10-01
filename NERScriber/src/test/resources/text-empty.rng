@@ -1,0 +1,20 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="div"/>
+    </start>
+
+    <define name="div">
+        <element name="div">
+            <choice>
+                <ref name="div"/>
+                <element name="text">
+                    <text/>
+                </element>
+                <element name="empty">
+                    <empty/>
+                </element>
+            </choice>
+        </element>
+    </define>
+  
+</grammar>
