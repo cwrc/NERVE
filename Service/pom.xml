@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Scriber</artifactId>
+            <artifactId>NERScriber</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -30,12 +30,7 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.4</version>
-        </dependency>   
-        <dependency>
-            <groupId>edu.stanford.nlp</groupId>
-            <artifactId>stanford-corenlp</artifactId>
-            <version>3.9.2</version>
-        </dependency>                 
+        </dependency>                
     </dependencies>
 
     <build>

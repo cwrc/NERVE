@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import static junit.framework.Assert.assertEquals;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.SAXException;
 
 /**
@@ -21,10 +23,11 @@ public class QueryMain {
 
     public static void main(String... args) throws SAXException, IOException, ParserConfigurationException {
         Query query = new Query(new File("src/test/resources/xml/test06.xml"));
-        Query select = query.select("[id='1']");
-        select.unwrap();
-        query.toStream(System.out);
-        
+        Query select = query.select(":inst");
+        System.out.println(select.size());
+        Node get = select.get(0);
+        ProcessingInstruction pi = (ProcessingInstruction) get;
+        System.out.println(pi.getTextContent());
         
 //        String expected = "Hello World!";
 //        Query newText = query.newText(expected);

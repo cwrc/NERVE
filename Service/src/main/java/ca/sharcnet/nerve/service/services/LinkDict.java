@@ -1,7 +1,6 @@
 package ca.sharcnet.nerve.service.services;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
-import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +13,13 @@ import org.json.JSONObject;
 public class LinkDict extends ServiceBase {
     
     @Override
-    public JSONObject run(JSONObject jsonRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    public JSONObject run(JSONObject jsonRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         EncoderManager manager = this.createManager(jsonRequest, request);       
         manager.addProcess(new EncoderDictLink());
         manager.run();
         
         JSONObject json = new JSONObject();
-        json.put("document", manager.getDocument().toString());
+        json.put("document", manager.getQuery().select(":doc").toString());
         json.put("context", manager.getContext().getSourceString());
         json.put("schemaURL", manager.getSchemaUrl().toString());        
         return json;

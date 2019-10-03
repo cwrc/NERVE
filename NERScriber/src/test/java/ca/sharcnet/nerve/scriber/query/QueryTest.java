@@ -471,4 +471,19 @@ public class QueryTest extends TestCase {
         assertEquals(7, split.size());   
         for (Query q : split) assertEquals(1, q.size());
     }         
+    
+    
+    public void test_instruction_nodes() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/test00.xml"));
+        Query nodes = query.select(":inst");
+        assertEquals(2, nodes.size());
+        assertEquals(Node.PROCESSING_INSTRUCTION_NODE, nodes.select(0).nodeType());
+        assertEquals(Node.PROCESSING_INSTRUCTION_NODE, nodes.select(1).nodeType());
+    }      
+    
+    public void test_instruction_node_attr() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/test00.xml"));
+        Query nodes = query.select(":inst");
+        assertEquals("http://cwrc.ca/schemas/orlando_biography_v2.rng", nodes.select(0).attribute("href"));
+    }
 }

@@ -3,8 +3,6 @@ package ca.sharcnet.nerve.service.services;
 import ca.sharcnet.nerve.service.services.exceptions.GetRequestNotSupported;
 import ca.sharcnet.nerve.service.services.exceptions.MalformedSchemaURL;
 import ca.sharcnet.nerve.service.services.exceptions.MissingDocumentException;
-import ca.sharcnet.nerve.docnav.DocumentLoader;
-import ca.sharcnet.nerve.docnav.dom.Document;
 import static ca.sharcnet.nerve.scriber.Constants.SCHEMA_NODE_ATTR;
 import static ca.sharcnet.nerve.scriber.Constants.SCHEMA_NODE_NAME;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
@@ -12,11 +10,7 @@ import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.scriber.context.Context;
 import ca.sharcnet.nerve.scriber.context.ContextLoader;
 import ca.sharcnet.nerve.scriber.encoder.IClassifier;
-import ca.sharcnet.nerve.docnav.DocumentParseException;
-import ca.sharcnet.nerve.docnav.dom.NodeType;
-import ca.sharcnet.nerve.docnav.query.Query;
-import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchema;
-import ca.sharcnet.nerve.docnav.schema.relaxng.RelaxNGSchemaLoader;
+import ca.sharcnet.nerve.scriber.query.Query;
 import ca.sharcnet.nerve.scriber.sql.SQL;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -170,8 +164,8 @@ public abstract class ServiceBase extends HttpServlet {
             throw new MissingDocumentException();
         }
         String documentSource = jsonRequest.getString("document");
-        Document document = DocumentLoader.documentFromString(documentSource);
-        manager.setDocument(document);
+        Query query = new Query(documentSource);
+        manager.setQuery(query);
 
         /* Context Retrieval */
         Context context;

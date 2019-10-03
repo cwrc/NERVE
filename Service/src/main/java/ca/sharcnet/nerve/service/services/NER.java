@@ -1,7 +1,6 @@
 package ca.sharcnet.nerve.service.services;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderNER;
-import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +17,7 @@ public class NER extends ServiceBase {
     }
     
     @Override
-    public JSONObject run(JSONObject jsonRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    public JSONObject run(JSONObject jsonRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         if (!jsonRequest.has("document")){
             return this.badRequest("Missing json parameter: document");
         }
@@ -28,7 +27,7 @@ public class NER extends ServiceBase {
         manager.run();
         
         JSONObject json = new JSONObject();
-        json.put("document", manager.getDocument().toString());
+        json.put("document", manager.getQuery().select(":doc").toString());
         json.put("context", manager.getContext().getSourceString());
         json.put("schemaURL", manager.getSchemaUrl());
         System.out.println(json.toString(4));

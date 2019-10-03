@@ -10,6 +10,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
@@ -159,7 +162,7 @@ public class Query extends ArrayList<Node> {
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node child = childNodes.item(i);
             if (filter == null || filter.test(child)) {
-                appendTo.add(child);                
+                appendTo.add(child);
             }
             allChildrenRecurse(child, appendTo, filter);
         }
@@ -190,6 +193,26 @@ public class Query extends ArrayList<Node> {
         this.forEach(n -> {
             if (filter.test(n)) {
                 query.add(n);
+            }
+        });
+        return query;
+    }
+
+    /**
+     * Reduce the set of matched elements to those that match the selector. This
+     * is only a single level selector that checks name, attr, and/or
+     * attr-value. It doens't verify ancestry.
+     *
+     * @param selector
+     * @return
+     */
+    public Query filter(String selectorString) {
+        Selector selector = new Selector(selectorString);
+
+        Query query = new Query(builder, document);
+        this.split().forEach(q -> {
+            if (selector.test(q)) {
+                query.add(q);
             }
         });
         return query;
@@ -245,6 +268,9 @@ public class Query extends ArrayList<Node> {
             String s = asList.get(i);
 
             switch (s) {
+                case ":inst":
+                    current = this.select(":doc").children(n -> n.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE);
+                    break;
                 case ":doc":
                     current = new Query(this.builder, this.document);
                     current.add(document);
@@ -280,8 +306,8 @@ public class Query extends ArrayList<Node> {
         Selector selector = new Selector(string);
 
         for (Node node : this) {
-            this.select(node).allChildren().forEach((n) -> {
-                if (selector.test((Element) n)) query.add(n);
+            this.select(node).allChildren().split().forEach((q) -> {
+                if (selector.test(q)) query.add(q);
             });
         }
 
@@ -299,8 +325,8 @@ public class Query extends ArrayList<Node> {
         Selector selector = new Selector(string);
 
         for (Node node : this) {
-            this.select(node).children().forEach((n) -> {
-                if (selector.test((Element) n)) query.add(n);
+            this.select(node).children().split().forEach((q) -> {
+                if (selector.test(q)) query.add(q);
             });
         }
 
@@ -324,17 +350,68 @@ public class Query extends ArrayList<Node> {
 
     public Query attribute(String key, String value) {
         this.forEach(n -> {
-            if (n.getNodeType() != Node.ELEMENT_NODE) throw new NodeTypeException();
-            ((Element) n).setAttribute(key, value);
+            switch (n.getNodeType()) {
+                case Node.ELEMENT_NODE:
+                    ((Element) n).setAttribute(key, value);
+                    break;
+            }
         });
         return this;
+    }
+
+    public boolean hasAttribute(String key) {
+        Node n = this.get(0);
+        switch (n.getNodeType()) {
+            case Node.ELEMENT_NODE:
+                return ((Element) n).hasAttribute(key);
+            case Node.PROCESSING_INSTRUCTION_NODE:
+                return hasAttribute((ProcessingInstruction) n, key);
+            default:
+                return false;
+        }
     }
 
     public String attribute(String key) {
         if (this.isEmpty()) throw new EmptyQueryException();
         Node n = this.get(0);
-        if (n.getNodeType() != Node.ELEMENT_NODE) throw new NodeTypeException();
-        return ((Element) n).getAttribute(key);
+        switch (n.getNodeType()) {
+            case Node.ELEMENT_NODE:
+                return ((Element) n).getAttribute(key);
+            case Node.PROCESSING_INSTRUCTION_NODE:
+                return attribute((ProcessingInstruction) n, key);
+            default:
+                return "";
+        }
+    }
+
+    private boolean hasAttribute(ProcessingInstruction node, String key) {
+        String text = node.getTextContent();
+        int index = text.indexOf(key);
+        if (index == -1) return false;
+        index = text.indexOf("=", index);
+        if (index == -1) return false;
+        index = text.indexOf("\"", index);
+        if (index == -1) return false;
+
+        int end = text.indexOf("\"", index + 1);
+        if (end == -1) return false;
+
+        return true;
+    }
+
+    private String attribute(ProcessingInstruction node, String key) {
+        String text = node.getTextContent();
+        int index = text.indexOf(key);
+        if (index == -1) return "";
+        index = text.indexOf("=", index);
+        if (index == -1) return "";
+        index = text.indexOf("\"", index);
+        if (index == -1) return "";
+
+        int end = text.indexOf("\"", index + 1);
+        if (end == -1) return "";
+
+        return text.substring(index + 1, end);
     }
 
     /**
@@ -383,22 +460,22 @@ public class Query extends ArrayList<Node> {
     public String tagName() {
         return this.get(0).getNodeName();
     }
-    
+
     public Query tagName(String newName) {
-        for (Node n : this){
+        for (Node n : this) {
             this.document.renameNode(n, null, newName);
         }
         return this;
-    }    
-    
-    public Query clone(){
+    }
+
+    public Query clone() {
         Query query = new Query(this.builder, this.document);
-        for (Node n : this){
+        for (Node n : this) {
             query.add(n.cloneNode(true));
         }
         return query;
     }
-    
+
     /**
      * Replace first element in this with all elements in 'that'.
      *
@@ -438,6 +515,27 @@ public class Query extends ArrayList<Node> {
 
     public Node last() {
         return this.get(this.size() - 1);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sBuilder = new StringBuilder();
+
+        OutputStream os = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                sBuilder.append((char) b);
+            }
+        };
+
+        try {
+            this.toStream(os);
+            os.close();
+        } catch (IOException ex) {
+            throw new RuntimeException(); // really shouldn't ever get called
+        }
+
+        return sBuilder.toString();
     }
 
     public void toStream(OutputStream outputStream) throws IOException {
@@ -518,23 +616,24 @@ public class Query extends ArrayList<Node> {
                 break;
         }
     }
-    
-    public Query empty(){
+
+    public Query empty() {
         return new Query(this.builder, this.document).empty();
     }
-    
-    public void unwrap(){
-        for (Node node : this){
-            Query children = this.select(node).clone().children(n->true);
+
+    public void unwrap() {
+        for (Node node : this) {
+            Query children = this.select(node).clone().children(n -> true);
             this.select(node).replaceWith(children);
         }
     }
-    
+
     /**
      * Return contents as individual queries.
-     * @return 
+     *
+     * @return
      */
-    public List<Query> split(){
+    public List<Query> split() {
         ArrayList<Query> list = new ArrayList<>();
         for (Node n : this) list.add(this.select(n));
         return list;
