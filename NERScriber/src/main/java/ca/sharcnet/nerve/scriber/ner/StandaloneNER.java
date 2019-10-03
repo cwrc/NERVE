@@ -26,45 +26,63 @@ import org.apache.logging.log4j.LogManager;
  */
 public class StandaloneNER {
     final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger("StandaloneNER");
+    
     public static void main(String[] args) throws IOException, ClassCastException, ClassNotFoundException {
         int portNumber = Integer.parseInt(args[0]);
-        new StandaloneNER(portNumber);
+        new StandaloneNER().start(portNumber);
+    }
+
+    private CRFClassifier<CoreMap> classifier;
+    private ServerSocket serverSocket;
+    private boolean running = true;
+    
+    public void start(int portNumber) throws IOException, ClassCastException, ClassNotFoundException {
+        this.start(portNumber, () -> {});
+    }
+
+    public void start(int portNumber, Runnable orReady) throws IOException, ClassCastException, ClassNotFoundException {
+        LOGGER.trace(String.format("start(%d)", portNumber));
+        this.initClassifier();
+        this.serverSocket = new ServerSocket(portNumber);
+        orReady.run();
+
+        while (running) {
+            LOGGER.trace("awaiting connection");
+            try (Socket clientSocket = serverSocket.accept()) {
+                this.onAccept(clientSocket);
+            } catch (java.net.SocketException ex){
+                LOGGER.trace("java.net.SocketException");
+                this.running = false;
+            }
+        }
     }
     
-    private CRFClassifier<CoreMap> classifier;
-
-    public StandaloneNER(int portNumber) throws IOException, ClassCastException, ClassNotFoundException {
-        this.initClassifier();
-        ServerSocket serverSocket = new ServerSocket(portNumber);    
-        
-        while(true){
-            LOGGER.trace("awaiting connection");
-            Socket clientSocket = serverSocket.accept();
-            this.onAccept(clientSocket);
-            clientSocket.close();
-        }
+    public void stop() throws IOException{
+        LOGGER.trace("stop()");
+        this.running = false;
+        serverSocket.close();
     }
 
     private void initClassifier() throws IOException, ClassCastException, ClassNotFoundException {
         LOGGER.trace("loading classifier");
         String classifierPath = "/english.all.3class.distsim.crf.ser.gz";
-        
+
         InputStream in = this.getClass().getResourceAsStream(classifierPath);
-        if (in == null){
+        if (in == null) {
             throw new FileNotFoundException();
         }
-        
+
         GZIPInputStream gzip = new GZIPInputStream(in);
         this.classifier = CRFClassifier.getClassifier(gzip);
         in.close();
         LOGGER.trace("classifier loaded");
     }
-    
-    private void onAccept(Socket clientSocket) {        
-        try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)){
+
+    private void onAccept(Socket clientSocket) {
+        try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
             LOGGER.trace("connection accepted");
             String input = this.readInput(clientSocket);
-            LOGGER.info(input);
+            LOGGER.trace(input);
             String classifyWithInlineXML = this.classifier.classifyWithInlineXML(input);
             this.writeOutput(out, classifyWithInlineXML);
             LOGGER.trace("connection complete");
@@ -72,21 +90,22 @@ public class StandaloneNER {
             Logger.getLogger(StandaloneNER.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private String readInput(Socket socket) throws IOException{
-        LOGGER.trace(socket.hashCode());
+
+    private String readInput(Socket socket) throws IOException {
+        LOGGER.trace("readInput()");
         InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        
+
         String readLine = bufferedReader.readLine();
+        LOGGER.trace(String.format("readLine : %s", readLine));
         int messageLength = Integer.parseInt(readLine);
         char[] message = new char[messageLength];
         bufferedReader.read(message);
         return new String(message);
     }
 
-    private void writeOutput(PrintWriter printWriter, String string){
-        LOGGER.trace(string);
+    private void writeOutput(PrintWriter printWriter, String string) {
+        LOGGER.trace(String.format("writeOutput(%s)", string));
         printWriter.write(string);
     }
 }

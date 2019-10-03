@@ -2,8 +2,8 @@
 <?xml-model href="http://cwrc.ca/schemas/orlando_biography_v2.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-stylesheet type="text/css" href="http://cwrc.ca/templates/css/orlando.css"?>
 <ROOT>
-    <div class="header" id="0" link="none">
-        I am text
-    </div>
-    <div>second</div>
+    <div id="1">apple</div>
+    <div id="2">banana</div>
+    <div id="3">aardvark</div>
+    <div id="4" class="animal">zebra</div>    
 </ROOT>

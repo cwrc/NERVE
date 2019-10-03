@@ -5,16 +5,17 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -35,12 +36,6 @@ public class Query extends ArrayList<Node> {
         super();
         this.builder = builder;
         this.document = document;
-    }
-
-    private Query(DocumentBuilder builder, String string) throws SAXException, IOException, ParserConfigurationException {
-        InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
-        this.builder = builder;
-        this.document = builder.parse(inputStream);
     }
 
     public Query(File file) throws SAXException, IOException, ParserConfigurationException {
@@ -68,8 +63,8 @@ public class Query extends ArrayList<Node> {
 
     public Query(Query query) {
         super();
-        this.builder = query.builder;
-        this.document = query.document;
+        this.builder = query.getBuilder();
+        this.document = query.getDocument();
         query.forEach(n -> this.add(n));
     }
 
@@ -124,7 +119,7 @@ public class Query extends ArrayList<Node> {
             NodeList childNodes = n.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node child = childNodes.item(i);
-                if (filter != null && filter.test(child)) {
+                if (filter == null || filter.test(child)) {
                     query.add(child);
                 }
             }
@@ -163,10 +158,10 @@ public class Query extends ArrayList<Node> {
 
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node child = childNodes.item(i);
-            if (filter != null && filter.test(child)) {
-                appendTo.add(child);
-                allChildrenRecurse(child, appendTo, filter);
+            if (filter == null || filter.test(child)) {
+                appendTo.add(child);                
             }
+            allChildrenRecurse(child, appendTo, filter);
         }
     }
 
@@ -181,7 +176,7 @@ public class Query extends ArrayList<Node> {
         Query query = new Query(builder, document);
         this.forEach(n -> {
             Node parent = n.getParentNode();
-            while (parent != this.document && parent != null) { 
+            while (parent != this.document && parent != null) {
                 Element p = (Element) parent;
                 query.add(this.size() - 1, parent);
                 parent = parent.getParentNode();
@@ -250,6 +245,10 @@ public class Query extends ArrayList<Node> {
             String s = asList.get(i);
 
             switch (s) {
+                case ":doc":
+                    current = new Query(this.builder, this.document);
+                    current.add(document);
+                    break;
                 case ":root":
                     current = new Query(this.builder, this.document);
                     current.add(document.getDocumentElement());
@@ -376,12 +375,6 @@ public class Query extends ArrayList<Node> {
         return this;
     }
 
-    public Query replace(Query query) {
-        Node n = this.get(0);
-        n.getParentNode().replaceChild(query.get(0), n);
-        return this;
-    }
-
     /**
      * Retrieve the tagName of the first element.
      *
@@ -390,7 +383,22 @@ public class Query extends ArrayList<Node> {
     public String tagName() {
         return this.get(0).getNodeName();
     }
-
+    
+    public Query tagName(String newName) {
+        for (Node n : this){
+            this.document.renameNode(n, null, newName);
+        }
+        return this;
+    }    
+    
+    public Query clone(){
+        Query query = new Query(this.builder, this.document);
+        for (Node n : this){
+            query.add(n.cloneNode(true));
+        }
+        return query;
+    }
+    
     /**
      * Replace first element in this with all elements in 'that'.
      *
@@ -432,34 +440,107 @@ public class Query extends ArrayList<Node> {
         return this.get(this.size() - 1);
     }
 
-    
-    
-    /**
-     * Return a string representation of node names in this query. The names
-     * will be returned in order (depth first search is used) on one line.
-     *
-     * @return
-     */
-    String print() {
-        return print(" ");
-    }
-    
-    String print(String delim) {
-        StringBuilder builder = new StringBuilder();
-        for (Node n : this) {
-            builder.append(n.getNodeName());
-            if (n != this.last()) builder.append(delim);
+    public void toStream(OutputStream outputStream) throws IOException {
+        for (Node node : this) {
+            if (node == this.document) toStream((Document) node, outputStream);
+            else toStream(node, outputStream);
         }
-        return builder.toString();
     }
 
-    String print(String attribute, String delim) {
-        StringBuilder builder = new StringBuilder();
-        for (Node n : this) {
-            Element e = (Element) n;
-            builder.append(e.getAttribute(attribute));
-            if (n != this.last()) builder.append(delim);
+    public List<String> attributes() {
+        ArrayList<String> list = new ArrayList<>();
+
+        Node node = this.get(0);
+        if (node.getNodeType() != Node.ELEMENT_NODE) return list;
+        Element element = (Element) node;
+        NamedNodeMap attributes = element.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            list.add(attributes.item(i).getNodeName());
         }
-        return builder.toString();
+
+        return list;
+    }
+
+    private void toStream(Document document, OutputStream outputStream) throws IOException {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("<?xml version=\"");
+        sBuilder.append(document.getXmlVersion());
+        sBuilder.append("\" encoding=\"");
+        sBuilder.append(document.getXmlEncoding());
+        sBuilder.append("\"");
+        if (document.getXmlStandalone()) sBuilder.append(" standalone=\"yes\"");
+        sBuilder.append("?>\n");
+        outputStream.write(sBuilder.toString().getBytes());
+
+        for (Node child : this.select(":doc").children(n -> true)) {
+            toStream(child, outputStream);
+        }
+    }
+
+    private void toStream(Node node, OutputStream outputStream) throws IOException {
+        StringBuilder sBuilder;
+
+        switch (node.getNodeType()) {
+            case Node.ELEMENT_NODE:
+                Query element = this.select(node);
+                sBuilder = new StringBuilder();
+                sBuilder.append("<").append(element.tagName());
+
+                if (element.attributes().size() > 0) sBuilder.append(" ");
+                for (String attr : element.attributes()) {
+                    sBuilder.append(attr).append("=\"");
+                    sBuilder.append(element.attribute(attr));
+                    sBuilder.append("\" ");
+                }
+                if (element.attributes().size() > 0) sBuilder.deleteCharAt(sBuilder.length() - 1);
+
+                sBuilder.append(">");
+                outputStream.write(sBuilder.toString().getBytes());
+
+                for (Node child : element.children(n -> true)) {
+                    toStream(child, outputStream);
+                }
+
+                sBuilder = new StringBuilder();
+                sBuilder.append("</").append(element.tagName()).append(">");
+                outputStream.write(sBuilder.toString().getBytes());
+                break;
+
+            case Node.PROCESSING_INSTRUCTION_NODE:
+                sBuilder = new StringBuilder();
+                sBuilder.append("<?").append(node.getNodeName()).append(" ");
+                sBuilder.append(node.getTextContent());
+                sBuilder.append("?>\n");
+                outputStream.write(sBuilder.toString().getBytes());
+                break;
+            case Node.TEXT_NODE:
+                outputStream.write(node.getTextContent().getBytes());
+                break;
+        }
+    }
+    
+    public Query empty(){
+        return new Query(this.builder, this.document).empty();
+    }
+    
+    public void unwrap(){
+        for (Node node : this){
+            Query children = this.select(node).clone().children(n->true);
+            this.select(node).replaceWith(children);
+        }
+    }
+    
+    /**
+     * Return contents as individual queries.
+     * @return 
+     */
+    public List<Query> split(){
+        ArrayList<Query> list = new ArrayList<>();
+        for (Node n : this) list.add(this.select(n));
+        return list;
+    }
+
+    public int nodeType() {
+        return this.get(0).getNodeType();
     }
 }

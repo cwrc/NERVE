@@ -171,7 +171,7 @@ public abstract class ServiceBase extends HttpServlet {
         }
         String documentSource = jsonRequest.getString("document");
         Document document = DocumentLoader.documentFromString(documentSource);
-        manager.document(document);
+        manager.setDocument(document);
 
         /* Context Retrieval */
         Context context;

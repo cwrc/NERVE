@@ -9,6 +9,9 @@
         <Logger name="RelaxNGSchema" level="INFO">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="StandaloneNER" level="INFO">
+            <AppenderRef ref="Console"/>
+        </Logger>        
         <Root level="TRACE">
             <AppenderRef ref="Console"/>
         </Root>    
