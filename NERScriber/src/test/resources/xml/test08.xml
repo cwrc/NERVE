@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://cwrc.ca/schemas/orlando_biography_v2.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-stylesheet type="text/css" href="http://cwrc.ca/templates/css/orlando.css"?>
+<ROOT>
+    <div id="1">
+        <div id="1">
+        </div>
+        <div id="2">
+        </div>        
+    </div>
+    <div id="2">
+        <div id="1">
+        </div>
+        <div id="2">
+        </div>           
+    </div>    
+</ROOT>

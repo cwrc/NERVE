@@ -1,7 +1,6 @@
 package ca.sharcnet.nerve.service.services;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.dictionary.EntityValues;
-import ca.sharcnet.nerve.docnav.DocumentParseException;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -15,7 +14,7 @@ import org.json.JSONObject;
 public class SetupTestAll extends ServiceBase {
     
     @Override
-    public JSONObject run(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    public JSONObject run(JSONObject jsonRequest) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         JSONObject rjson = new JSONObject();
         Dictionary dictionary = new Dictionary(ServiceBase.sql);
         dictionary.setTable("test");

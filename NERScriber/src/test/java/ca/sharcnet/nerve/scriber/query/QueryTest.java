@@ -486,4 +486,10 @@ public class QueryTest extends TestCase {
         Query nodes = query.select(":inst");
         assertEquals("http://cwrc.ca/schemas/orlando_biography_v2.rng", nodes.select(0).attribute("href"));
     }
+    
+    public void test_filter_select() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/test08.xml"));
+        Query nodes = query.select("> div").filter("[id='1']");
+        assertEquals(1, nodes.size());        
+    }    
 }

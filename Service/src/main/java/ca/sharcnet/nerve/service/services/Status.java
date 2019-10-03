@@ -5,7 +5,6 @@
  */
 package ca.sharcnet.nerve.service.services;
 
-import ca.sharcnet.nerve.docnav.DocumentParseException;
 import static ca.sharcnet.nerve.service.services.ServiceBase.CONFIG_PATH;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,7 @@ public class Status extends ServiceBase {
     }    
     
     @Override
-    protected JSONObject run(JSONObject inputJSON, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    protected JSONObject run(JSONObject inputJSON, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         LOGGER.debug("processRequest enter");
 
         JSONObject reponseJSON = new JSONObject();

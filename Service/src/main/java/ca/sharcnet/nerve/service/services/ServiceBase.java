@@ -11,6 +11,8 @@ import ca.sharcnet.nerve.scriber.context.Context;
 import ca.sharcnet.nerve.scriber.context.ContextLoader;
 import ca.sharcnet.nerve.scriber.encoder.IClassifier;
 import ca.sharcnet.nerve.scriber.query.Query;
+import ca.sharcnet.nerve.scriber.schema.RelaxNGSchema;
+import ca.sharcnet.nerve.scriber.schema.RelaxNGSchemaLoader;
 import ca.sharcnet.nerve.scriber.sql.SQL;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xml.sax.SAXException;
 
 /**
  * Process incoming http post requests into service requests with json input.
@@ -156,7 +159,7 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws ParserConfigurationException
      * @throws DocumentParseException
      */
-    EncoderManager createManager(JSONObject jsonRequest, HttpServletRequest request) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    EncoderManager createManager(JSONObject jsonRequest, HttpServletRequest request) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException {
         EncoderManager manager = new EncoderManager();
 
         /* Document Retrieval */
@@ -164,8 +167,8 @@ public abstract class ServiceBase extends HttpServlet {
             throw new MissingDocumentException();
         }
         String documentSource = jsonRequest.getString("document");
-        Query query = new Query(documentSource);
-        manager.setQuery(query);
+        Query document = new Query(documentSource);
+        manager.setQuery(document);
 
         /* Context Retrieval */
         Context context;
@@ -188,8 +191,8 @@ public abstract class ServiceBase extends HttpServlet {
             manager.addDictionary(dictionary);
         }
 
-        Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
-        String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
+        Query model = document.select(":inst").filter(SCHEMA_NODE_NAME);
+        String schemaAttrValue = model.attribute(SCHEMA_NODE_ATTR);
 
         if (schemaAttrValue.isEmpty() && context.hasSchemaName()) {
             /* if no schema is specified by the document, use any provided by the context. */
@@ -222,7 +225,7 @@ public abstract class ServiceBase extends HttpServlet {
         return manager;
     }
 
-    private RelaxNGSchema retrieveSchema(String schemaURL) throws MalformedURLException, IOException, DocumentParseException {
+    private RelaxNGSchema retrieveSchema(String schemaURL) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
         LOGGER.debug("retrieve schema " + schemaURL);
         URL url = new URL(schemaURL);
         RelaxNGSchema schema = null;
@@ -242,10 +245,10 @@ public abstract class ServiceBase extends HttpServlet {
         return schema;
     }
 
-    public Context retrieveContext(Document document) throws IllegalArgumentException, IOException {
+    public Context retrieveContext(Query document) throws IllegalArgumentException, IOException {
         /* retrieve the schema url to set the context */
-        Query model = document.query(NodeType.INSTRUCTION).filter(SCHEMA_NODE_NAME);
-        String schemaAttrValue = model.attr(SCHEMA_NODE_ATTR);
+        Query model = document.select(":inst").filter(SCHEMA_NODE_NAME);
+        String schemaAttrValue = model.attribute(SCHEMA_NODE_ATTR);
 
         if (!schemaAttrValue.isEmpty()) {
             int index = schemaAttrValue.lastIndexOf('/');
@@ -402,11 +405,11 @@ public abstract class ServiceBase extends HttpServlet {
      * @throws ParserConfigurationException
      * @throws DocumentParseException
      */
-    protected JSONObject run(JSONObject json) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    protected JSONObject run(JSONObject json) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         return new JSONObject();
     }
 
-    protected JSONObject run(JSONObject json, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, DocumentParseException {
+    protected JSONObject run(JSONObject json, HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         return run(json);
     }
 }
