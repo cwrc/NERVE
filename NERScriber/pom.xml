@@ -82,16 +82,16 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                    </execution>
-                    <execution>
-                        <id>default-check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
                         <configuration>
-                            <rules>
-                            </rules>
-                        </configuration>                        
+                            <excludes>
+                                <exclude>**/*/HasStreams</exclude>
+                                <exclude>**/*/IClassifier</exclude>
+                                <exclude>**/*/IEncoder</exclude>
+                                <exclude>ca.sharcnet.nerver.scriber.schema.Schema</exclude>
+                                <exclude>**/*/OnAccept</exclude>
+                                <exclude>**/*/OnReject</exclude>
+                            </excludes>
+                        </configuration>                          
                     </execution>
                 </executions>
             </plugin>

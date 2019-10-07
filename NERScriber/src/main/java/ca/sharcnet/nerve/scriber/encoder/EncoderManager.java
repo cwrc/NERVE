@@ -11,10 +11,6 @@ public class EncoderManager extends ServiceModuleBase {
         this.encoders.add(encoder);
         return encoder;
     }    
-
-    public void clearProcesses(){
-        this.encoders.clear();
-    }
     
     @Override
     public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {

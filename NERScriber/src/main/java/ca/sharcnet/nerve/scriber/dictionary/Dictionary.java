@@ -27,7 +27,6 @@ public class Dictionary {
     public boolean verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
         for (SQLRecord record : sql.tables()){
             String tableName = record.getEntry("TABLE_NAME").getValue();
-            LOGGER.debug(tableName);
             if (tableName.equals(this.dictionary)) return true;
         }
 
@@ -179,14 +178,13 @@ public class Dictionary {
 
         for (int i = 0; i < textArray.length; i++) {
             String text = textArray[i];
-            builder.append("'").append(text).append("'");
+            builder.append(SQL.sanitize(text));
+//            builder.append("'").append(text).append("'");
             if (i != textArray.length - 1) {
                 builder.append(" OR entity = ");
             }
         }
 
-        LOGGER.debug("dictioanry.getEntities()");
-        LOGGER.debug(builder.toString());
         String query = builder.toString();
         return sql.query(query);
     }

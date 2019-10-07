@@ -78,7 +78,7 @@ public class SQL {
             SQLResult sqlResult = new SQLResult(rs);
             return sqlResult;
         } catch (SQLException ex) {
-            throw ex;
+            throw new ScriberSQLException(ex, query);
         } finally {
             if (conn != null) {
                 conn.close();
@@ -87,15 +87,10 @@ public class SQL {
     }
 
     public SQLResult tables() throws SQLException {
-        LOGGER.debug("tables()");
         Connection conn = DriverManager.getConnection(url);
-        LOGGER.debug("connected");
         ResultSet tables = conn.getMetaData().getTables(null, null, "%", null);
-        LOGGER.debug("result retreived");
         SQLResult sqlResult = new SQLResult(tables);
-        LOGGER.debug("result made : " + sqlResult.size());
         conn.close();
-        LOGGER.debug("connection closed");
         return sqlResult;
     }
 

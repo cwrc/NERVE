@@ -14,7 +14,6 @@ import org.w3c.dom.NodeList;
  * @author edward
  */
 public final class RelaxNGSchema implements Schema {
-
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("RelaxNGSchema");
     private final Query start;
     private final HashMap<String, Query> defines = new HashMap<>();
@@ -34,6 +33,10 @@ public final class RelaxNGSchema implements Schema {
         }
     }
 
+    public Query getQuery(){
+        return this.query;
+    }
+    
     /**
      * Return true if this element, with the child node, does not violate the
      * schema.

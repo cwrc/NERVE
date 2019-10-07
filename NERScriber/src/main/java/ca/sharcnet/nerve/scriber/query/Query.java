@@ -268,9 +268,11 @@ public class Query extends ArrayList<Node> {
             String s = asList.get(i);
 
             switch (s) {
+                case ":instruction":
                 case ":inst":
                     current = this.select(":doc").children(n -> n.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE);
                     break;
+                case ":document":
                 case ":doc":
                     current = new Query(this.builder, this.document);
                     current.add(document);

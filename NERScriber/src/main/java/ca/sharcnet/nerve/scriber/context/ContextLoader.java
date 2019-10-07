@@ -6,7 +6,6 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
 public class ContextLoader {
-
     private static final long serialVersionUID = 1L;
 
     private ContextLoader() {

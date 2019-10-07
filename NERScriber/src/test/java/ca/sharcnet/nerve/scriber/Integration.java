@@ -1,4 +1,5 @@
 package ca.sharcnet.nerve.scriber;
+
 import ca.sharcnet.nerve.scriber.query.Query;
 import ca.sharcnet.nerve.scriber.schema.RelaxNGSchema;
 import ca.sharcnet.nerve.scriber.schema.RelaxNGSchemaLoader;
@@ -13,6 +14,8 @@ import ca.sharcnet.nerve.scriber.sql.SQL;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,43 +25,34 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import static junit.framework.Assert.assertTrue;
+import junit.framework.TestCase;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-public class Main {
-    String documentFilename = "src/test/resources/orlando_biography_template.xml";
-    String schemaFilename = "src/test/resources/default.rng";
-    String contextFilename = "src/test/resources/default.context.json";
-    String configFilename = "src/test/resources/config.properties";
-    
-    public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
-        Main main = new Main();
-        EncoderManager manager = main.setup();
+public class Integration extends TestCase {
 
-        Dictionary dict = manager.getDictionaries().get(0);
-        
-        EntityValues ev = new EntityValues();
-        ev.text("Toronto").lemma("Toronto Ontario").link("toronto.ca").tag("LOCATION"); 
-        dict.addEntity(ev);
-                
-        manager.addProcess(new EncoderDictAll());
-//        manager.addProcess(new EncoderDictLink());
-        manager.run();
-        Query result = manager.getQuery();
-        output(result.get(0));
+    public Integration(String testName) {
+        super(testName);
     }
 
-    public EncoderManager setup()  throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
-        File documentFile = new File(documentFilename);
+    public EncoderManager makeManager(TestInformation info) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
+        File documentFile = new File(info.getDocumentFilename());
         if (!documentFile.exists()) throw new RuntimeException("File not found: " + documentFile.getCanonicalPath());
 
-        File schemaFile = new File(schemaFilename);
-        if (!schemaFile.exists()) throw new RuntimeException("File not found: " + schemaFile.getCanonicalPath());
+        RelaxNGSchema schema;
+        if (info.getSchemaFilename() != null) {
+            File schemaFile = new File(info.getSchemaFilename());
+            if (!schemaFile.exists()) throw new RuntimeException("File not found: " + schemaFile.getCanonicalPath());
+            schema = RelaxNGSchemaLoader.schemaFromStream(new FileInputStream(schemaFile));
+        } else {
+            schema = RelaxNGSchemaLoader.schemaFromURL(info.getSchemaURL());
+        }
 
-        File contextFile = new File(contextFilename);
+        File contextFile = new File(info.getContextFilename());
         if (!contextFile.exists()) throw new RuntimeException("File not found: " + contextFile.getCanonicalPath());
 
-        File configFile = new File(configFilename);
+        File configFile = new File(info.getConfigFilename());
         if (!configFile.exists()) throw new RuntimeException("File not found: " + configFile.getCanonicalPath());
 
         Properties properties = new Properties();
@@ -75,7 +69,6 @@ public class Main {
         dictionary.verifySQL();
 
         Query query = new Query(new FileInputStream(documentFile));
-        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromStream(new FileInputStream(schemaFile));
         Context context = ContextLoader.load(new FileInputStream(contextFile));
 
         EncoderManager manager = new EncoderManager();
@@ -83,7 +76,7 @@ public class Main {
         manager.setSchema(schema, "");
         manager.setContext(context);
         manager.addDictionary(dictionary);
-        
+
         return manager;
     }
 

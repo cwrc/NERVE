@@ -20,11 +20,17 @@ class Selector {
     private String attrValue = null;
 
     Selector(String selector) {
-        if (!selector.contains("[")) {
+        if (selector.startsWith("#")){
+            this.attrKey = "id";
+            this.attrValue = selector.substring(1);
+        }
+        else if (!selector.contains("[")) {
             this.tagName = selector;
-        } else if (selector.startsWith("[")) {
+        } 
+        else if (selector.startsWith("[")) {
             this.parseAttr(selector);
-        } else {
+        } 
+        else {
             this.tagName = selector.substring(0, selector.indexOf("["));
             this.parseAttr(selector.substring(selector.indexOf("["), selector.length()));
         }

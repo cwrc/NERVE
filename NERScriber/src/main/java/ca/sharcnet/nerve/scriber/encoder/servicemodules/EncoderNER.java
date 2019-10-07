@@ -87,9 +87,9 @@ public class EncoderNER extends ServiceModuleBase {
 
             if (!schema.isValid(node.parent().get(0), nerNode.tagName())) {
                 /* if the node isn't valid in the schema, remove markup */
-                LOGGER.debug("node isn't valid in the schema, removing markup");
+                LOGGER.debug(String.format("node isn't valid in the schema, removing markup from '%s'", nerNode.toString()));
                 Query textNode = this.query.newText(nerNode.text());
-                nerList.set(nerList.indexOf(nerNode), textNode.get(0));
+                nerList.set(nerList.indexOf(nerNode.get(0)), textNode.get(0));
             } else {
                 /* if it is valid, set default lemma */
                 LOGGER.debug("entity identitified: " + nerNode.tagName() + ":" + nerNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
@@ -128,6 +128,8 @@ public class EncoderNER extends ServiceModuleBase {
         LOGGER.debug("classified text: " + classifiedText.replaceAll("\n", "[nl]").replaceAll("\t", "[T]"));
 
         /* create a document out of the text */
+        Query newElement = this.query.newElement(classifiedText);
+        LOGGER.debug(String.format("new element: " + newElement.toString()));
         return this.query.newElement(classifiedText).select("*");
     }
 }
