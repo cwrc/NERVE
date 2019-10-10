@@ -56,7 +56,7 @@ public class OrlandoIntegrationTest extends Integration {
         manager.addProcess(new EncoderDictAll());
         manager.run();
 
-        manager.getQuery().toStream(System.out);
+//        manager.getQuery().toStream(System.out);
     }
 
     public void test_ner() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
@@ -78,7 +78,7 @@ public class OrlandoIntegrationTest extends Integration {
                     manager.run();
                     Query result = manager.getQuery();
                     standaloneNER.stop();
-                    result.toStream(System.out);
+//                    result.toStream(System.out);
                 } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException | ParserConfigurationException ex) {
                     Logger.getLogger(NERMain.class.getName()).log(Level.SEVERE, null, ex);
                 }

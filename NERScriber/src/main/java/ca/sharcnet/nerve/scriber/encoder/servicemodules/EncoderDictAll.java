@@ -1,4 +1,6 @@
 package ca.sharcnet.nerve.scriber.encoder.servicemodules;
+import ca.sharcnet.nerve.scriber.stringmatch.OnAccept;
+import ca.sharcnet.nerve.scriber.stringmatch.OnReject;
 import ca.sharcnet.nerve.scriber.sql.SQLRecord;
 import ca.sharcnet.nerve.scriber.sql.SQLResult;
 import ca.sharcnet.nerve.scriber.query.Query;
@@ -9,6 +11,7 @@ import ca.sharcnet.nerve.scriber.encoder.*;
 import ca.sharcnet.nerve.scriber.stringmatch.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Node;
 
@@ -47,7 +50,7 @@ public class EncoderDictAll extends ServiceModuleBase {
         }
         
         /* choose the largest matching known entity */
-        OnAccept onAccept = (string, row) -> {
+        OnAccept<SQLRecord> onAccept = (string, row) -> {
             LOGGER.trace("EncoderDictionary.onAccept()");
             String standardTag = row.getEntry("tag").getValue();
             TagInfo tagInfo = context.getTagInfo(standardTag);
@@ -92,20 +95,22 @@ public class EncoderDictAll extends ServiceModuleBase {
     private StringMatch buildStringMatch(String nodeText) throws SQLException {
         LOGGER.trace("EncoderDictionary.buildStringMatch()");
         StringMatch stringMatch = new StringMatch();
-        String[] candidates = stringMatch.setSource(nodeText);
-        if (candidates.length == 0) {
-            return stringMatch;
-        }
-
-        for (Dictionary dictionary : this.getDictionaries()){            
-            SQLResult sqlResult = dictionary.getEntities(candidates);
-
-            LOGGER.trace(sqlResult.size() + " candidates found");
-            for (int i = 0; i < sqlResult.size(); i++) {
-                SQLRecord row = sqlResult.get(i);
-                stringMatch.addCandidate(row.getEntry("entity").getValue(), row);
-            }
-        }
+//        
+//        ArrayList<String> candidates = stringMatch.setSource(nodeText);
+//        
+//        if (candidates.length == 0) {
+//            return stringMatch;
+//        }
+//
+//        for (Dictionary dictionary : this.getDictionaries()){            
+//            SQLResult sqlResult = dictionary.getEntities(candidates);
+//
+//            LOGGER.trace(sqlResult.size() + " candidates found");
+//            for (int i = 0; i < sqlResult.size(); i++) {
+//                SQLRecord row = sqlResult.get(i);
+//                stringMatch.addCandidate(row.getEntry("entity").getValue(), row);
+//            }
+//        }
 
         return stringMatch;
     }

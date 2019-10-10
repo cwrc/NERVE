@@ -1,31 +1,35 @@
 package ca.sharcnet.nerve.scriber.stringmatch;
-
-import ca.sharcnet.nerve.scriber.sql.SQLRecord;
-import ca.sharcnet.nerve.scriber.graph.PathResult;
 import ca.sharcnet.nerve.scriber.graph.Tree;
+import ca.sharcnet.nerve.scriber.stringmatch.Token.TOKEN_TYPE;
+import static ca.sharcnet.nerve.scriber.stringmatch.Token.TOKEN_TYPE.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
-Stores a candidate ({@link #addCandidate}) as a series of space deliminated tokens (a token by default is a word).
-Will attempt to match the maximum number of tokens in a query ({@link #seekLine}).
-@author edward
+ * Stores a candidate ({@link #addCandidate}) as a series of space delimited
+ * tokens (a token by default is a word). Will attempt to match the maximum
+ * number of tokens in a query ({@link #seekLine}).
+ *
+ * @author edward
  */
-public class StringMatch {
-    final static Logger LOGGER = LogManager.getLogger(Logger.class);
-    final Tree<String, SQLRecord> candidates = new Tree<>();
+public class StringMatch <NODE> {
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("StringMatch");
     private final String tokenRegex;
     private final String matchRegex;
-    private String[] tokens;
+    private Tree <String, NODE> tree = new Tree();
+    
+    private ArrayList<String> tokens = new ArrayList<>();
+    private ArrayList<String> allTokens = new ArrayList<>();
 
+    
     public StringMatch() {
         this("[^a-zA-Z0-9']", "[a-zA-Z0-9']+");
     }
 
     /**
-     * 
+     *
      * @param deliminatorRegex The regular expression denoting word separators.
      */
     public StringMatch(String deliminatorRegex, String matchRegex) {
@@ -34,82 +38,97 @@ public class StringMatch {
     }
 
     /**
-        Enter a candidate string.  If `case sensitive` is set to false the
-        candidate is first converted to lower case.  Tokens within the candidate
-        are ignored.  When the seekLine method is called the original string is
-        passed to the consumer callback.
-        @param entity
-        @param row The candidate string.
+     * Enter a candidate string. Tokens within the candidate are ignored. When
+     * the seekLine method is called the original string is passed to the
+     * consumer callback.
+     *
+     * @param entity
+     * @param row The candidate string.
      */
-    public void addCandidate(String entity, SQLRecord row) {
+    public void addCandidate(String entity, NODE row) {
         LOGGER.log(Level.DEBUG, "addCandidate (from db): " + entity);
         String[] split = entity.split(tokenRegex);
         if (split.length == 0) return;
-        this.candidates.addPath(split, row);
+        this.tree.addPath(split, row);
     }
 
     /**
      * Set the string from which matches will be sought.
-     * @param source 
-     * @return an array of all candidate strings
+     *
+     * @param source
+     * @return an array of tokens
      */
-    public String[] setSource(String source){
-        ArrayList<String> strings = new ArrayList<>();
+    public ArrayList<String> setSource(String source) {
+        tokens = new ArrayList<>();
+        allTokens = new ArrayList<>();
+        
         String regex = String.format("(?=(?!^)%1$s)(?<!%1$s)|(?!%1$s)(?<=%1$s)", tokenRegex);
-        this.tokens = source.split(regex);
+        String[] tokenArray = source.split(regex);
 
-        for (int i = 0; i < tokens.length; i++){
-            if (!tokens[i].matches(this.matchRegex)) continue;
-            
-            String s = tokens[i];
-            if (!strings.contains(s)) strings.add(s);
-            
-            for (int j = i + 1; j < tokens.length; j++){
-                if (!tokens[j].matches(this.matchRegex)) continue;
-                s = s + " " + tokens[j];
-                if (!strings.contains(s)) strings.add(s);               
+        /* create array of tokens, skipping regex matching pattern */
+        for (int i = 0; i < tokenArray.length; i++) {
+            if (tokenArray[i].matches(this.matchRegex)){
+                if (i == 0) allTokens.add("");                
+                if (i == tokenArray.length - 1) allTokens.add("");
+                tokens.add(tokenArray[i]);
+                allTokens.add(tokenArray[i]);
+            } else {
+                allTokens.add(tokenArray[i]);
             }
         }
-        
-        strings.sort((String a, String b)->(b.length() - a.length()));        
-        return strings.toArray(new String[strings.size()]);
+
+        System.out.println(allTokens.size() + " tokens");
+        return tokens;
     }
-    
+
     /**
-        Tokenize the given line and call 'function' on all matches found.  
-        constructor.  Accept(matching entity, associated sql row)
-        @param source
-        @param reject
-        @param accept
+     * Tokenize the given line and call 'function' on all matches found.
+     * constructor. Accept(matching entity, associated sql row)
+     *
+     * @param source
+     * @param reject
+     * @param accept
      */
     public void seekLine(OnAccept accept, OnReject reject) {
         if (accept == null) throw new NullPointerException();
         if (reject == null) throw new NullPointerException();
 
-        Iterable<PathResult<String, SQLRecord>> allPaths = candidates.allPaths(tokens, 0, 1);
-
-        int current = 0;
-
-        for (PathResult<String, SQLRecord> path : allPaths) {
-            if (current < path.getStart()) {
-                reject.reject(rebuild(current, path.getStart() - 1, tokens));
-                accept.accept(rebuild(path.getStart(), path.getEnd(), tokens), path.getValue());
-                current = path.getEnd() + 1;
-            } else {
-                accept.accept(rebuild(path.getStart(), path.getEnd(), tokens), path.getValue());
-                current = path.getEnd() + 1;
-            }
-        }
-
-        if (current < tokens.length) {
-            reject.reject(rebuild(current, tokens.length - 1, tokens));
+        Tokenizer <String> tokenizer = new Tokenizer(tree);
+        List<Token> tokenized = tokenizer.tokenize(tokens);
+        
+        int state = 0;
+        
+        for (int i = 0; i < tokenized.size(); i++){
+            Token t = tokenized.get(0);
+            
         }
     }
-
-    private String rebuild(int start, int end, String[] sourceTokens) {
+    
+    private int nextState(int currentState, TOKEN_TYPE tokenType){
+        switch (currentState){
+            case 0:
+             
+        }
+    }
+    
+    private void accept(int start, int end, NODE value, OnAccept accept){
+        System.out.println("accept " + start + " " + end);
+        int s = (start * 2) + 1;
+        int e = (end * 2) + 1;
+        accept.accept(rebuild(s, e), value);
+    }
+    
+    private void reject(int start, int end, OnReject reject){
+        System.out.println("reject " + start + " " + end);
+        int s = (start * 2);
+        int e = (end * 2) + 2;
+        reject.reject(rebuild(s, e));
+    }
+    
+    public String rebuild(int start, int end){
         StringBuilder builder = new StringBuilder();
-        for (int i = start; i <= end; i++) {
-            builder.append(sourceTokens[i]);
+        for (int i = start; i <= end; i++){
+            builder.append(allTokens.get(i));
         }
         return builder.toString();
     }

@@ -22,19 +22,9 @@ import org.xml.sax.SAXException;
 public class QueryMain {
 
     public static void main(String... args) throws SAXException, IOException, ParserConfigurationException {
-        Query query = new Query(new File("src/test/resources/xml/test06.xml"));
-        Query select = query.select(":inst");
-        System.out.println(select.size());
-        Node get = select.get(0);
-        ProcessingInstruction pi = (ProcessingInstruction) get;
-        System.out.println(pi.getTextContent());
-        
-//        String expected = "Hello World!";
-//        Query newText = query.newText(expected);
-//        System.out.println(query.select(":root").tagName() + " '" + expected + "', '" + newText.text() + "'");
-//        query.select(":root").append(newText);
-//        String found = query.select(":root").get(0).getTextContent();
-//        System.out.println(query.select(":root").tagName() + " '" + expected + "', '" + found + "'");
-//        assertEquals(expected, found);
+        Query query = new Query("<ROOT></ROOT>");
+        Query newElement = query.newElement("div", "this is a <p> tag");
+        query.append(newElement);
+        System.out.println(newElement.toString());
     }
 }

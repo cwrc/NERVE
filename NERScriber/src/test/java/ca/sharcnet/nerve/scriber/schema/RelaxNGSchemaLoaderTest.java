@@ -5,6 +5,8 @@
  */
 package ca.sharcnet.nerve.scriber.schema;
 
+import static ca.sharcnet.nerve.scriber.Constants.SCHEMA_NODE_ATTR;
+import static ca.sharcnet.nerve.scriber.Constants.SCHEMA_NODE_NAME;
 import ca.sharcnet.nerve.scriber.query.Query;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,9 +68,9 @@ public class RelaxNGSchemaLoaderTest extends TestCase {
     
     public void test_from_xml_instr() throws SAXException, IOException, ParserConfigurationException{       
         Query query = new Query(new File("src/test/resources/xml/orlando.xml"));
-        query.select(":inst").filter("xml-model").toStream(System.out);
+        query.select(":inst").filter(SCHEMA_NODE_NAME).toStream(System.out);
         
-        String url = query.select(":inst").filter("xml-model").attribute("href");
+        String url = query.select(":inst").filter(SCHEMA_NODE_NAME).attribute(SCHEMA_NODE_ATTR);
         RelaxNGSchema result = RelaxNGSchemaLoader.schemaFromURL(url);
         
         String expected = "http://relaxng.org/ns/structure/1.0";

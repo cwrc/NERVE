@@ -68,31 +68,32 @@ public class EncoderNER extends ServiceModuleBase {
     }
 
     private void classify(Query node) throws IOException, SAXException, ParserConfigurationException {
-        LOGGER.debug("classify: '" + oneLine(node.text()));
+        LOGGER.trace("classify: '" + oneLine(node.text()));
         if (node.text().trim().isEmpty()) return;
         Query nerList = applyNamedEntityRecognizer(node.text());
-
+        if (nerList == null) return;
+        
         /* for each element node in the list ensure the path is valid, if not convert it to a text node */
         for (Query nerNode : nerList.split()) {
             if (nerNode.nodeType() != Node.ELEMENT_NODE) {
-                LOGGER.debug("skipping plain text: " + oneLine(node.text()));
+                LOGGER.trace("skipping plain text: " + oneLine(node.text()));
                 continue;
             }
 
             /* change the node name from standard to schema */
             TagInfo tagInfo = context.getTagInfo(nerNode.tagName());
             String schemaName = tagInfo.getName();
-            LOGGER.debug("update node name: " + nerNode.tagName() + " -> " + schemaName);
+            LOGGER.trace("update node name: " + nerNode.tagName() + " -> " + schemaName);
             nerNode.tagName(schemaName);
 
             if (!schema.isValid(node.parent().get(0), nerNode.tagName())) {
                 /* if the node isn't valid in the schema, remove markup */
-                LOGGER.debug(String.format("node isn't valid in the schema, removing markup from '%s'", nerNode.toString()));
+                LOGGER.trace(String.format("node isn't valid in the schema, removing markup from '%s'", nerNode.toString()));
                 Query textNode = this.query.newText(nerNode.text());
                 nerList.set(nerList.indexOf(nerNode.get(0)), textNode.get(0));
             } else {
                 /* if it is valid, set default lemma */
-                LOGGER.debug("entity identitified: " + nerNode.tagName() + ":" + nerNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
+                LOGGER.trace("entity identitified: " + nerNode.tagName() + ":" + nerNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
                 nerNode.attribute(tagInfo.getLemmaAttribute(), nerNode.text());
                 this.setDefaultAttributes(nerNode);
             }
@@ -119,17 +120,16 @@ public class EncoderNER extends ServiceModuleBase {
 
         /* if there is not at least one alphabet character, return an empty list */
         if (text == null || text.isEmpty() || !text.matches(matchRegex)) {
-            LOGGER.debug("invalid text, short-circuit return");
-            return this.query.empty();
+            LOGGER.trace("invalid text, short-circuit return");
+            return null;
         }
 
         /* classify the text and put it in a fragment tag */
-        String classifiedText = classifier.classify("<fragment>" + text + "</fragment>");
-        LOGGER.debug("classified text: " + classifiedText.replaceAll("\n", "[nl]").replaceAll("\t", "[T]"));
+        LOGGER.trace("classified text: " + text.replaceAll("\n", "[nl]").replaceAll("\t", "[T]"));
 
         /* create a document out of the text */
-        Query newElement = this.query.newElement(classifiedText);
-        LOGGER.debug(String.format("new element: " + newElement.toString()));
-        return this.query.newElement(classifiedText).select("*");
+        Query newElement = this.query.newElement("fragment", text);
+        LOGGER.trace(String.format("new element: " + newElement.toString()));
+        return newElement.allChildren(null);
     }
 }

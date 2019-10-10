@@ -49,12 +49,17 @@ public class Query extends ArrayList<Node> {
         this.add(document.getDocumentElement());
     }
 
-    public Query(String string) throws SAXException, IOException, ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        builder = dbf.newDocumentBuilder();
-        InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
-        document = builder.parse(inputStream);
-        this.add(document.getDocumentElement());
+    public Query(String string) throws SAXException {
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            builder = dbf.newDocumentBuilder();            
+            InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));            
+            document = builder.parse(inputStream);            
+            this.add(document.getDocumentElement());
+        } catch (ParserConfigurationException | IOException ex) {
+            /* should never happen */
+            throw new RuntimeException(ex);
+        }
     }
 
     public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
@@ -435,9 +440,17 @@ public class Query extends ArrayList<Node> {
         return newQuery(textNode);
     }
 
-    public Query newElement(String string) throws SAXException, IOException, ParserConfigurationException {
+    public Query newElement(String string) throws SAXException {
         InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
-        Document parse = builder.parse(inputStream);
+        Document parse;
+        
+        try {
+            parse = builder.parse(inputStream);
+        } catch (IOException ex) {
+            /* should never happen */
+            throw new RuntimeException(ex);
+        }
+        
         Node importNode = document.importNode(parse.getDocumentElement(), true);
         return newQuery(importNode);
     }
@@ -561,6 +574,15 @@ public class Query extends ArrayList<Node> {
         return list;
     }
 
+    private String escape(String string){
+        string = string.replace("&", "&amp;");
+        string = string.replace("<", "&lt;");
+        string = string.replace(">", "&gt;");
+        string = string.replace("\"", "&quot;");
+        string = string.replace("'", "&apos;");
+        return string;
+    }
+    
     private void toStream(Document document, OutputStream outputStream) throws IOException {
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append("<?xml version=\"");
@@ -589,7 +611,7 @@ public class Query extends ArrayList<Node> {
                 if (element.attributes().size() > 0) sBuilder.append(" ");
                 for (String attr : element.attributes()) {
                     sBuilder.append(attr).append("=\"");
-                    sBuilder.append(element.attribute(attr));
+                    sBuilder.append(escape(element.attribute(attr)));
                     sBuilder.append("\" ");
                 }
                 if (element.attributes().size() > 0) sBuilder.deleteCharAt(sBuilder.length() - 1);
@@ -614,13 +636,9 @@ public class Query extends ArrayList<Node> {
                 outputStream.write(sBuilder.toString().getBytes());
                 break;
             case Node.TEXT_NODE:
-                outputStream.write(node.getTextContent().getBytes());
+                outputStream.write(escape(node.getTextContent()).getBytes());
                 break;
         }
-    }
-
-    public Query empty() {
-        return new Query(this.builder, this.document).empty();
     }
 
     public void unwrap() {

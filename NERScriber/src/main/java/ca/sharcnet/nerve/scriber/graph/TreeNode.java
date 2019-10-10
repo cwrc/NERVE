@@ -1,54 +1,70 @@
 package ca.sharcnet.nerve.scriber.graph;
+import ca.sharcnet.nerve.scriber.query.Query;
+import java.io.IOException;
 import java.util.HashMap;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
-class TreeNode<KEY, VALUE> {
-    boolean terminal = false;
-    VALUE value = null;
-    private KEY key;
-    HashMap<KEY, TreeNode<KEY,VALUE>> nextNodes = new HashMap<>();
+/**
+ * A single Node on a tree.  This class records both the path to the node and 
+ * the node value.
+ * @author edward
+ * @param <EDGE>
+ * @param <NODE> 
+ */
+public class TreeNode<EDGE, NODE> {    
+    // node value
+    NODE value = null;
+    
+    // a maping of outgoing branches, Branch -> TreeNode
+    HashMap<EDGE, TreeNode<EDGE,NODE>> outgoing = new HashMap<>();
 
-    TreeNode() {
-        this.key = null;
+    /**
+     * Create a single node.
+     * @param key 
+     */
+    TreeNode() {}
+
+    /**
+     * Create a branch of nodes based on keys .
+     */
+    TreeNode(NODE value) {
+        this.value = value;
     }
-
-    TreeNode(KEY key) {
-        this.key = key;
-    }
-
-    TreeNode(KEY[] keys, VALUE value) {
-        this(keys[0]);
-        TreeNode<KEY,VALUE> current = this;
-
-        for (int i = 1; i < keys.length; i++) {
-            TreeNode<KEY,VALUE> next = new TreeNode<>(keys[i]);
-            current.attach(next);
-            current = next;
+    
+    /**
+     * Attach a single non-terminal node onto this node.  If an attached node
+     * already exists, return that node, else create, attach, and return a new
+     * node.
+     * @param that 
+     */
+    TreeNode attach(EDGE edge) {
+        if (!this.outgoing.containsKey(edge)){
+            this.outgoing.put(edge, new TreeNode());
         }
-        current.terminal = true;
-        current.value = value;
+        return this.outgoing.get(edge);
     }
 
-    void attach(TreeNode<KEY,VALUE> newNode) {
-        if (nextNodes.containsKey(newNode.key)) {
-            TreeNode<KEY,VALUE> oldNode = nextNodes.get(newNode.key);
-            if (newNode.isTerminal()) {
-                oldNode.terminal = true;
-                oldNode.value = newNode.value;
-            } else {
-                for (TreeNode<KEY,VALUE> node : newNode.nextNodes.values()) {
-                    oldNode.attach(node);
-                }
-            }
-        } else {
-            nextNodes.put(newNode.key, newNode);
-        }
+    /**
+     * Attach a single terminal node onto this node connected by 'edge'.  If a
+     * node already exists, replace it.
+     * @param that 
+     */
+    TreeNode attach(EDGE edge, NODE value) {
+        this.outgoing.put(edge, new TreeNode(value));
+        return this.outgoing.get(edge);
+    }    
+    
+    public TreeNode next(EDGE edge){
+        if (this.outgoing.containsKey(edge)) return this.outgoing.get(edge);
+        return null;
     }
+    
+    public boolean isTerminal() {
+        return value != null;
+    }  
 
-    boolean isTerminal() {
-        return terminal;
-    }
-
-    public String toString() {
-        return "{" + key + ", " + (terminal ? "terminal" : "transient") + "}";
+    public NODE getValue() {
+        return this.value;
     }
 }
