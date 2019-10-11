@@ -1,6 +1,4 @@
 package ca.sharcnet.nerve.scriber.graph;
-
-import ca.sharcnet.nerve.scriber.sql.SQLRecord;
 import java.util.Arrays;
 
 /**
@@ -21,7 +19,7 @@ public class Tree<EDGE, NODE> {
      * Retrieve the root.
      * @return 
      */
-    public TreeNode getRoot(){
+    public TreeNode<EDGE, NODE> getRoot(){
         return this.root;
     }
     
@@ -101,8 +99,4 @@ public class Tree<EDGE, NODE> {
     public NODE getValue(EDGE[] path) {
         return this.getValue(Arrays.asList(path));
     }        
-    
-    public Iterable<PathResult<String, SQLRecord>> allPaths(String[] tokens, int i, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

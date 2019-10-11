@@ -5,35 +5,61 @@
  */
 package ca.sharcnet.nerve.scriber.stringmatch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author edward
+ * @param <TOKEN>
+ * @param <VALUE>
  */
-public class Token <EDGE> {
-    private final TOKEN_TYPE type;
-    private final EDGE value;
+public class Token <TOKEN, VALUE> {
+    private final TOKEN type;
+    private final List<VALUE> values = new ArrayList<>();
     
-    public enum TOKEN_TYPE {
-        START_TERMINAL, START_NON_TERMINAL, TERMINAL, NON_TERMINAL, UNKNOWN, END
+    public Token(TOKEN type){
+        this.type = type;
     }    
     
-    public Token(TOKEN_TYPE type, EDGE value){
+    public Token(TOKEN type, VALUE ... values){
         this.type = type;
-        this.value = value;
+        for (VALUE e : values){
+            this.values.add(e);
+        }
     }
 
+    public Token(TOKEN type, Token<TOKEN, VALUE> ... tokens){
+        this.type = type;
+        for (Token<TOKEN, VALUE> t : tokens){
+            this.values.addAll(t.getValues());
+        }
+    }
+    
+    void addValues(List<Token<TOKEN, VALUE>> tokens){
+        for (Token<TOKEN, VALUE> t : tokens){
+            this.values.addAll(t.getValues());
+        }
+    }
+    
     /**
      * @return the type
      */
-    public TOKEN_TYPE getType() {
+    public TOKEN getType() {
         return type;
     }
 
     /**
      * @return the value
      */
-    public EDGE getValue() {
-        return value;
+    public List<VALUE> getValues() {
+        return new ArrayList<VALUE>(this.values);
     }    
-    
+ 
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.getType()).append(" : ");
+        for (VALUE value : this.values) builder.append("[").append(value).append("]");
+        return builder.toString();
+    }
 }

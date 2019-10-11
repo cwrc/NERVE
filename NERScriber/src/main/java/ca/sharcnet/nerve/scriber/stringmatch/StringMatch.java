@@ -1,11 +1,9 @@
 package ca.sharcnet.nerve.scriber.stringmatch;
 import ca.sharcnet.nerve.scriber.graph.Tree;
-import ca.sharcnet.nerve.scriber.stringmatch.Token.TOKEN_TYPE;
-import static ca.sharcnet.nerve.scriber.stringmatch.Token.TOKEN_TYPE.*;
+import ca.sharcnet.nerve.scriber.stringmatch.Tokenizer.TOKEN_TYPE;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.logging.log4j.Level;
 
 /**
  * Stores a candidate ({@link #addCandidate}) as a series of space delimited
@@ -14,18 +12,17 @@ import org.apache.logging.log4j.Level;
  *
  * @author edward
  */
-public class StringMatch <NODE> {
-    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("StringMatch");
+public class StringMatch <VALUE> {
     private final String tokenRegex;
     private final String matchRegex;
-    private Tree <String, NODE> tree = new Tree();
+    private Tree <String, VALUE> tree = new Tree();
     
-    private ArrayList<String> tokens = new ArrayList<>();
+    private LinkedList<String> tokens = new LinkedList<>();
     private ArrayList<String> allTokens = new ArrayList<>();
 
     
     public StringMatch() {
-        this("[^a-zA-Z0-9']", "[a-zA-Z0-9']+");
+        this("[^a-zA-Z0-9']", "[a-zA-Z0-9']+");      
     }
 
     /**
@@ -45,8 +42,7 @@ public class StringMatch <NODE> {
      * @param entity
      * @param row The candidate string.
      */
-    public void addCandidate(String entity, NODE row) {
-        LOGGER.log(Level.DEBUG, "addCandidate (from db): " + entity);
+    public void addCandidate(String entity, VALUE row) {
         String[] split = entity.split(tokenRegex);
         if (split.length == 0) return;
         this.tree.addPath(split, row);
@@ -58,8 +54,8 @@ public class StringMatch <NODE> {
      * @param source
      * @return an array of tokens
      */
-    public ArrayList<String> setSource(String source) {
-        tokens = new ArrayList<>();
+    public List<String> setSource(String source) {
+        tokens = new LinkedList<>();
         allTokens = new ArrayList<>();
         
         String regex = String.format("(?=(?!^)%1$s)(?<!%1$s)|(?!%1$s)(?<=%1$s)", tokenRegex);
@@ -92,26 +88,42 @@ public class StringMatch <NODE> {
     public void seekLine(OnAccept accept, OnReject reject) {
         if (accept == null) throw new NullPointerException();
         if (reject == null) throw new NullPointerException();
+        Tokenizer<String, VALUE> tokenizer = new Tokenizer<>(this.tree);
+        LinkedList<Token<Tokenizer.TOKEN_TYPE, String>> tokenized = tokenizer.tokenize(this.tokens);
+        Parser<Tokenizer.TOKEN_TYPE, String> parser = new Parser<>(tokenized, Tokenizer.TOKEN_TYPE.class);
+        
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.START_NON_TERMINAL, TOKEN_TYPE.NON_TERMINAL, TOKEN_TYPE.START_NON_TERMINAL);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.START_NON_TERMINAL, TOKEN_TYPE.EOS);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.START_NON_TERMINAL, TOKEN_TYPE.START_TERMINAL);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.START_NON_TERMINAL, TOKEN_TYPE.UNKNOWN);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.reject, TOKEN_TYPE.reject, null);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.UNKNOWN, null);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.partial, TOKEN_TYPE.UNKNOWN);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.partial, TOKEN_TYPE.EOS);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.partial, TOKEN_TYPE.START_NON_TERMINAL);
+        parser.merge(TOKEN_TYPE.reject, TOKEN_TYPE.partial, TOKEN_TYPE.START_TERMINAL);
+           
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.START_TERMINAL, TOKEN_TYPE.START_TERMINAL);
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.START_TERMINAL, TOKEN_TYPE.START_NON_TERMINAL);
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.START_NON_TERMINAL, TOKEN_TYPE.TERMINAL, null);
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.accept, TOKEN_TYPE.NON_TERMINAL, null);
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.accept, TOKEN_TYPE.TERMINAL, null);
+        
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.START_TERMINAL, null);
+        
+        parser.merge(TOKEN_TYPE.partial, TOKEN_TYPE.START_NON_TERMINAL, TOKEN_TYPE.NON_TERMINAL);
+        parser.merge(TOKEN_TYPE.partial, TOKEN_TYPE.partial, TOKEN_TYPE.NON_TERMINAL, null);
+        parser.merge(TOKEN_TYPE.accept, TOKEN_TYPE.partial, TOKEN_TYPE.TERMINAL, null);
 
-        Tokenizer <String> tokenizer = new Tokenizer(tree);
-        List<Token> tokenized = tokenizer.tokenize(tokens);
+        List<Token<Tokenizer.TOKEN_TYPE, String>> parsed = parser.parse();    
         
-        int state = 0;
-        
-        for (int i = 0; i < tokenized.size(); i++){
-            Token t = tokenized.get(0);
-            
+        System.out.println("<-------------------->");
+        for (Token token : parsed) {
+            System.out.println(token);
         }
     }
-    
-    private int nextState(int currentState, TOKEN_TYPE tokenType){
-        switch (currentState){
-            case 0:
-             
-        }
-    }
-    
-    private void accept(int start, int end, NODE value, OnAccept accept){
+        
+    private void accept(int start, int end, VALUE value, OnAccept accept){
         System.out.println("accept " + start + " " + end);
         int s = (start * 2) + 1;
         int e = (end * 2) + 1;

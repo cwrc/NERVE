@@ -1,9 +1,5 @@
 package ca.sharcnet.nerve.scriber.graph;
-import ca.sharcnet.nerve.scriber.query.Query;
-import java.io.IOException;
 import java.util.HashMap;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  * A single Node on a tree.  This class records both the path to the node and 
@@ -47,11 +43,17 @@ public class TreeNode<EDGE, NODE> {
 
     /**
      * Attach a single terminal node onto this node connected by 'edge'.  If a
-     * node already exists, replace it.
+     * node already exists, change it to terminal.
      * @param that 
      */
     TreeNode attach(EDGE edge, NODE value) {
-        this.outgoing.put(edge, new TreeNode(value));
+        TreeNode<EDGE, NODE> get = this.outgoing.get(edge);
+        if (get != null){
+            get.value = value;
+        } else {
+            this.outgoing.put(edge, new TreeNode(value));
+        }
+                
         return this.outgoing.get(edge);
     }    
     
