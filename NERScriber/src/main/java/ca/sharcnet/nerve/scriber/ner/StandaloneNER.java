@@ -8,6 +8,8 @@ package ca.sharcnet.nerve.scriber.ner;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.util.CoreMap;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,12 +31,19 @@ public class StandaloneNER {
     
     public static void main(String[] args) throws IOException, ClassCastException, ClassNotFoundException {
         int portNumber = Integer.parseInt(args[0]);
-        new StandaloneNER().start(portNumber);
+        new StandaloneNER("/english.all.3class.distsim.crf.ser.gz").start(portNumber);
     }
 
     private CRFClassifier<CoreMap> classifier;
     private ServerSocket serverSocket;
     private boolean running = true;
+    private final String classifierPath;
+    
+    public StandaloneNER(String classifierPath) throws FileNotFoundException{
+        this.classifierPath = classifierPath;
+        File file = new File(classifierPath);
+        if (!file.exists()) throw new FileNotFoundException(file.getAbsolutePath());
+    }
     
     public void start(int portNumber) throws IOException, ClassCastException, ClassNotFoundException {
         this.start(portNumber, () -> {});
@@ -65,16 +74,13 @@ public class StandaloneNER {
 
     private void initClassifier() throws IOException, ClassCastException, ClassNotFoundException {
         LOGGER.trace("loading classifier");
-        String classifierPath = "/english.all.3class.distsim.crf.ser.gz";
 
-        InputStream in = this.getClass().getResourceAsStream(classifierPath);
-        if (in == null) {
-            throw new FileNotFoundException();
-        }
-
-        GZIPInputStream gzip = new GZIPInputStream(in);
+        File file = new File(this.classifierPath);
+        InputStream in = new FileInputStream(file);
+        GZIPInputStream gzip = new GZIPInputStream(in);        
         this.classifier = CRFClassifier.getClassifier(gzip);
         in.close();
+        
         LOGGER.trace("classifier loaded");
     }
 

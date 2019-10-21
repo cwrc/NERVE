@@ -1,9 +1,7 @@
-package ca.sharcnet.nerve.scriber;
-
+package ca.sharcnet.nerve.scriber.integration;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.dictionary.EntityValues;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
-import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictAll;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderNER;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.NERMain;
@@ -39,39 +37,6 @@ public class SimpleIntegrationTest extends Integration{
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-
-    /*
-     * EncoderDictAll will look for new entities in the text.  These will get 
-     * tagged and have the lemma and link information filled in from the database. 
-     */
-    public void test_dict_all() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
-        TestInformation info = new TestInformation()
-                .doc("xml/int/integration00.xml")
-                .context("default.context.json")
-                .schema("default.rng");
-        
-        EncoderManager manager = this.makeManager(info);
-        Dictionary dict = manager.getDictionaries().get(0);        
-        EntityValues ev = new EntityValues();
-        
-        ev.text("Toronto").lemma("Toronto Ontario").link("toronto.ca").tag("LOCATION"); 
-        dict.addEntity(ev);
-                
-        manager.addProcess(new EncoderDictAll());
-        manager.run();
-        
-        Query query = manager.getQuery();
-        Query select1 = query.select("#1 > LOCATION");
-        
-        assertEquals(1, select1.size());
-        assertEquals("Toronto Ontario", select1.attribute("lemma"));
-        assertEquals("toronto.ca", select1.attribute("link"));
-        
-        // ner all does not tag already tagged text
-        Query select2 = query.select("#2 > LOCATION");
-        assertFalse(select2.hasAttribute("lemma"));
-        assertFalse(select2.hasAttribute("link"));
-    }
     
     // EncoderDictLink fills in information of already linked text.
     public void test_dict_link() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
@@ -103,7 +68,7 @@ public class SimpleIntegrationTest extends Integration{
     
     public void test_ner()  throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
         int portNumber = 9001;
-        StandaloneNER standaloneNER = new StandaloneNER();
+        StandaloneNER standaloneNER = new StandaloneNER("src/test/resources/english.all.3class.distsim.crf.ser.gz");
         
         TestInformation info = new TestInformation()
                 .doc("xml/int/integration00.xml")

@@ -1,0 +1,22 @@
+NERScriber includes all files for marking up XML documents with named entity tags.
+This document serves as instructions for running the NERScriber services.
+
+In order to run a service four files/documents need to be provided.
+- A source XML document.
+- A RELAXNG schema file.
+- A context file.
+- A configuration file named config.properties.
+
+The document is provided by the user.  The schema file is typically found in the
+href attribute of the xml-model directive (xml-model href="http://cwrc.ca/schemas/orlando_biography_v2.rng").
+The context file needs to be provided by the service.  These can be found under
+the src/test/resources directory and should be copied to the web service WEB-INF
+directory. 
+
+The config.properties file must contain the following fields:
+- databaseURL the location of database, this should remain "jdbc:sqlite:".
+- databasePath the filepath for the database file, currently in target/nerve.db, 
+  this gets changed to WEB-INF/nerve.db when deployed as a web service.
+- 
+- ner.port a free local port for the Stanford ner to provide service on.  This does
+  not have to have external access.

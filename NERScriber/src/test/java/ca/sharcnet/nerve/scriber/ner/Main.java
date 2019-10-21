@@ -5,6 +5,7 @@
  */
 package ca.sharcnet.nerve.scriber.ner;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,24 +19,27 @@ import org.xml.sax.SAXException;
 public class Main {
 
     public static void main(String... args) throws SAXException, IOException, ParserConfigurationException, ClassCastException, ClassNotFoundException {
+        File file = new File("src/test/resources/english.all.3class.distsim.crf.ser.gz");
+        System.out.println(file.exists());
+        
         int portNumber = 9003;
-        
-        StandaloneNER standaloneNER = new StandaloneNER();
-        
-        Runnable runnable = new Runnable() {
-            public void run() {
-                try {
-                    RemoteClassifier remoteClassifier = new RemoteClassifier(portNumber);
-                    System.out.println("classifying");
-                    String classify = remoteClassifier.classify("Toronto");
-                    System.out.println("result : " + classify);
-                    standaloneNER.stop();
-                } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        };
-        
-        standaloneNER.start(portNumber, ()->new Thread(runnable).start());
+//        
+        StandaloneNER standaloneNER = new StandaloneNER("src/test/resources/english.all.3class.distsim.crf.ser.gz");
+//        
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                try {
+//                    RemoteClassifier remoteClassifier = new RemoteClassifier(portNumber);
+//                    System.out.println("classifying");
+//                    String classify = remoteClassifier.classify("Toronto");
+//                    System.out.println("result : " + classify);
+//                    standaloneNER.stop();
+//                } catch (IOException ex) {
+//                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        };
+//        
+//        standaloneNER.start(portNumber, ()->new Thread(runnable).start());
     }
 }

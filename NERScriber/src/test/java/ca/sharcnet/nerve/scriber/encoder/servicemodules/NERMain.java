@@ -37,7 +37,7 @@ public class NERMain {
 
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
         int portNumber = 9001;
-        StandaloneNER standaloneNER = new StandaloneNER();
+        StandaloneNER standaloneNER = new StandaloneNER("src/test/english.all.3class.distsim.crf.ser.gz");
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -90,7 +90,7 @@ public class NERMain {
         Context context = ContextLoader.load(new FileInputStream(contextFile));
 
         EncoderManager manager = new EncoderManager();
-        manager.setQuery(query);
+        manager.setDocument(query);
         manager.setSchema(schema, "");
         manager.setContext(context);
         manager.addDictionary(dictionary);

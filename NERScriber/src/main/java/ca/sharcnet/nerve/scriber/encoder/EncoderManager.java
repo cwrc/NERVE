@@ -15,7 +15,7 @@ public class EncoderManager extends ServiceModuleBase {
     @Override
     public void run() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
         for (IEncoder encoder : encoders){
-            encoder.setQuery(this.getQuery());
+            encoder.setDocument(this.getQuery());
             encoder.setContext(this.getContext());
             encoder.setSchema(this.getSchema(), this.getSchemaUrl());
             encoder.setDictionaries(this.getDictionaries());             

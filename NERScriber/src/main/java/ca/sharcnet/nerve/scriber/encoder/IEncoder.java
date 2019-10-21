@@ -23,5 +23,5 @@ public interface IEncoder {
     void setContext(Context context);
     void setSchema(Schema schema, String schemaURL);
     void setDictionaries(List<Dictionary> dictionaries);
-    void setQuery(Query query);
+    void setDocument(Query query);
 }

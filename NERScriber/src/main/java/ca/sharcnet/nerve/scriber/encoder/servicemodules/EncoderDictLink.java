@@ -16,7 +16,8 @@ import org.w3c.dom.Node;
 
 /**
  * This module will link already tagged but unlinked entities.  Will fill in
- * the lemma attribute if not present.
+ * the lemma attribute if not present.  It matches text content exactly, and
+ * will match the lemma value is available.
  * @author edward
  */
 public class EncoderDictLink extends ServiceModuleBase {

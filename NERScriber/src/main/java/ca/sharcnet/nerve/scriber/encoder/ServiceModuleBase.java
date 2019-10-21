@@ -19,14 +19,13 @@ import org.w3c.dom.Element;
  * @author edward
  */
 public abstract class ServiceModuleBase implements IEncoder{
-    private static final String DEFAULT_FILENAME = "english.all.3class.distsim.crf.ser.gz";
     protected Query query;
     protected Context context;
     protected Schema schema;
     protected ArrayList<Dictionary> dictionaries = new ArrayList<>();;
     private String schemaURL;
 
-    public void setQuery(Query query){
+    public void setDocument(Query query){
         this.query = query;
     }
 

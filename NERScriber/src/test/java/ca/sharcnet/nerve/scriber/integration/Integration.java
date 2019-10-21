@@ -1,4 +1,4 @@
-package ca.sharcnet.nerve.scriber;
+package ca.sharcnet.nerve.scriber.integration;
 
 import ca.sharcnet.nerve.scriber.query.Query;
 import ca.sharcnet.nerve.scriber.schema.RelaxNGSchema;
@@ -6,10 +6,7 @@ import ca.sharcnet.nerve.scriber.schema.RelaxNGSchemaLoader;
 import ca.sharcnet.nerve.scriber.context.Context;
 import ca.sharcnet.nerve.scriber.context.ContextLoader;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
-import ca.sharcnet.nerve.scriber.dictionary.EntityValues;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
-import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictAll;
-import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.nerve.scriber.sql.SQL;
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,7 +69,7 @@ public class Integration extends TestCase {
         Context context = ContextLoader.load(new FileInputStream(contextFile));
 
         EncoderManager manager = new EncoderManager();
-        manager.setQuery(query);
+        manager.setDocument(query);
         manager.setSchema(schema, "");
         manager.setContext(context);
         manager.addDictionary(dictionary);

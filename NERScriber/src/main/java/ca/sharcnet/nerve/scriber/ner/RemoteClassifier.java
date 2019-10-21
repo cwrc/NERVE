@@ -14,19 +14,28 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
+ * Used to connect to a classifier on this machine 
  * @author Ed Armstrong
  */
 public class RemoteClassifier implements IClassifier{
     private final int port;
+    private String ip;
     
     public RemoteClassifier(int port) throws IOException{
         this.port = port;
+        this.ip = "127.0.0.1";
         classify("");
     }
     
+    public RemoteClassifier(String ip, int port) throws IOException{
+        this.port = port;
+        this.ip = ip;
+        classify("");
+    }    
+    
     @Override
     public String classify(String input) throws IOException{
-        Socket socket = new Socket("127.0.0.1", this.port);
+        Socket socket = new Socket(this.ip, this.port);
         writeOutput(socket, input);
         String result = readInput(socket);
         socket.close();        

@@ -487,6 +487,33 @@ public class QueryTest extends TestCase {
         assertEquals("http://cwrc.ca/schemas/orlando_biography_v2.rng", nodes.select(0).attribute("href"));
     }
     
+    public void test_instruction_tagName() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/test00.xml"));
+        Query nodes = query.select(":inst");
+        assertEquals("xml-model", nodes.select(0).tagName());
+    }        
+    
+    public void test_instruction_specific_filter() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/test00.xml"));
+        Query nodes = query.select(":inst");
+        Query filter = nodes.filter("xml-model");
+        assertEquals(1, filter.size());
+        assertEquals("xml-model", filter.tagName());
+    }
+
+    /**
+     * Because the instruction nodes are top level this currently does not
+     * return any values.  User query.filter instead.
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParserConfigurationException 
+     */
+    public void test_instruction_specific() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/test00.xml"));
+        Query nodes = query.select(":inst xml-model");
+        assertEquals(0, nodes.size());
+    }    
+    
     public void test_filter_select() throws SAXException, IOException, ParserConfigurationException {
         Query query = new Query(new File("src/test/resources/xml/test08.xml"));
         Query nodes = query.select("> div").filter("[id='1']");
