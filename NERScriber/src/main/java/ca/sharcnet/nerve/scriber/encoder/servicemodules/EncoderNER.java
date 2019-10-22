@@ -70,6 +70,7 @@ public class EncoderNER extends ServiceModuleBase {
         LOGGER.trace("classify: '" + oneLine(node.text()) + "'");
         if (node.text().trim().isEmpty()) return;        
         Query nerList = applyNamedEntityRecognizer(node.text());
+        if (nerList == null) return;
         
         /* for each element node in the list ensure the path is valid, if not convert it to a text node */
         for (Query nerNode : nerList.split()) {
@@ -125,8 +126,7 @@ public class EncoderNER extends ServiceModuleBase {
         }
 
         /* classify the text and put it in a fragment tag */
-        String classified = this.classifier.classify(text);  
-        classified = Query.escape(classified);
+        String classified = this.classifier.classify(Query.escape(text));  
         LOGGER.trace("classified text: '" + oneLine(classified) + "'");
 
         /* create a document out of the text */
