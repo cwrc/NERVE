@@ -35,6 +35,18 @@ public class Query extends ArrayList<Node> {
     private final DocumentBuilder builder;
     private final Document document;
 
+    /**
+     * Replace all instances of escapable characters with their escape sequence.
+     * @param string 
+     */
+    public static String escape(String string){
+        string = string.replace("&", "&amp;");
+        string = string.replace("<", "&lt;");
+        string = string.replace(">", "&gt;");
+        string = string.replace("'", "&apos;");
+        return string.replace("\"", "&quot;");        
+    }
+    
     private Query(DocumentBuilder builder, Document document) {
         super();
         this.builder = builder;
@@ -572,15 +584,6 @@ public class Query extends ArrayList<Node> {
         }
 
         return list;
-    }
-
-    private String escape(String string){
-        string = string.replace("&", "&amp;");
-        string = string.replace("<", "&lt;");
-        string = string.replace(">", "&gt;");
-        string = string.replace("\"", "&quot;");
-        string = string.replace("'", "&apos;");
-        return string;
     }
     
     private void toStream(Document document, OutputStream outputStream) throws IOException {

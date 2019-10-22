@@ -37,8 +37,7 @@ public class OrlandoIntegrationTest extends Integration {
     }
 
     public void test_ner() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
-        int portNumber = 9001;
-        StandaloneNER standaloneNER = new StandaloneNER("src/test/resources/english.all.3class.distsim.crf.ser.gz");
+        StandaloneNER standaloneNER = new StandaloneNER("src/test/resources/english.all.3class.distsim.crf.ser.gz", 9001);
 
         TestInformation info = new TestInformation()
                 .doc("xml/int/orlando_biography_template.xml")
@@ -50,7 +49,7 @@ public class OrlandoIntegrationTest extends Integration {
         Runnable runnable = new Runnable() {
             public void run() {
                 try {
-                    RemoteClassifier remoteClassifier = new RemoteClassifier(portNumber);
+                    RemoteClassifier remoteClassifier = new RemoteClassifier(9001);
                     manager.addProcess(new EncoderNER(remoteClassifier));
                     manager.run();
                     Query result = manager.getQuery();
@@ -62,6 +61,6 @@ public class OrlandoIntegrationTest extends Integration {
             }
         };
 
-        standaloneNER.start(portNumber, () -> new Thread(runnable).start());
+        standaloneNER.start(() -> new Thread(runnable).start());
     }
 }

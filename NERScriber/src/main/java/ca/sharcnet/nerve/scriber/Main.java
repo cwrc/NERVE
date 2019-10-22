@@ -1,5 +1,4 @@
-package ca.sharcnet.nerve.scriber.example;
-
+package ca.sharcnet.nerve.scriber;
 import ca.sharcnet.nerve.scriber.context.*;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
@@ -11,29 +10,25 @@ import ca.sharcnet.nerve.scriber.schema.*;
 import ca.sharcnet.nerve.scriber.sql.SQL;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-public class ExampleMain {
+public class Main {
     static String documentFilename = "src/test/resources/xml/int/orlando_biography_template.xml";
-    static String schemaFilename = "src/test/resources/default.rng";
-    static String contextFilename = "src/test/resources/default.context.json";
-    static String configFilename = "src/test/resources/config.properties";
-
+    static String configFilename = "config.properties";
+    static String contextFilename = "";
+    
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException, InterruptedException {
+        if (!readArgs(args)){
+            printHelp();
+            return;
+        }
 
         /* Load properties/configuration file */
         File configFile = new File(configFilename);
@@ -43,14 +38,15 @@ public class ExampleMain {
 
         /* Start NER server */
         int port = Integer.parseInt(properties.getProperty("ner.port"));
-        StandaloneNER standaloneNER = new StandaloneNER(properties.getProperty("classifier"));
+        String classifierPath = properties.getProperty("classifier");
+        StandaloneNER standaloneNER = new StandaloneNER(classifierPath, port);
 
         Runnable nerServer = new Runnable() {
             public void run() {
                 try {
-                    standaloneNER.start(port);
+                    standaloneNER.start();
                 } catch (IOException | ClassCastException | ClassNotFoundException ex) {
-                    Logger.getLogger(ExampleMain.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         };
@@ -98,16 +94,44 @@ public class ExampleMain {
         Query result = manager.getQuery();
         standaloneNER.stop();
         result.toStream(System.out);
-
     }
 
-    static void output(Node node) throws TransformerConfigurationException, TransformerException {
-//         Use a Transformer for output
-        TransformerFactory tFactory = TransformerFactory.newInstance();
-        Transformer transformer = tFactory.newTransformer();
-
-        DOMSource source = new DOMSource(node);
-        StreamResult result = new StreamResult(System.out);
-        transformer.transform(source, result);
+    /**
+     * Convert arguments from command line.
+     * @param args
+     * @return true if arguments valid
+     */
+    private static boolean readArgs(String[] args) {
+        int i = 0;
+        for (i = 0; i < args.length; i++){
+            String arg = args[i];
+            switch (arg){
+                case "-h":           
+                case "--help":
+                    printHelp();
+                    break;
+                case "-c":           
+                    if (i == args.length - 1) return false;
+                    configFilename = args[++i];
+                break;
+                case "-x":           
+                    if (i == args.length - 1) return false;
+                    contextFilename = args[++i];
+                break;  
+                default:
+                if (i == args.length - 1) return false;
+                documentFilename = args[args.length - 1];  
+            }
+        }
+        
+        return !documentFilename.isBlank();
+    }
+    
+    private static void printHelp(){
+        System.out.println("NERScriber usage:");
+        System.out.println("nerscriber [-c config_file] [-x context_file] input_file");
+        System.out.println("-c\nspecify the configuration file, if not provided will look for config.properties in the current directory.");
+        System.out.println("-x\nspecify the context file, if not provided will auto-detect context and look for the file in the context.path directory as specfied in the config file.");
+        System.out.println("input_file\nthe file to process.");
     }
 }

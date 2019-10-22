@@ -24,7 +24,6 @@ import org.xml.sax.SAXException;
  * @author Ed Armstrong
  */
 public class EncoderNER extends ServiceModuleBase {
-
     final static Logger LOGGER = LogManager.getLogger(EncoderNER.class);
     private final IClassifier classifier;
 
@@ -43,7 +42,7 @@ public class EncoderNER extends ServiceModuleBase {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException {        
         try {
             Query root = this.query.select(":root");
             this.step(root);
@@ -53,8 +52,8 @@ public class EncoderNER extends ServiceModuleBase {
     }
 
     private void step(Query current) throws IOException, SAXException, ParserConfigurationException {
-        if (this.context.isTagName(current.tagName())) return;
-
+        if (this.context.isTagName(current.tagName())) return;        
+        
         for (Query q : current.children(null).split()) {
             switch (q.nodeType()) {
                 case Node.ELEMENT_NODE:
@@ -68,10 +67,9 @@ public class EncoderNER extends ServiceModuleBase {
     }
 
     private void classify(Query node) throws IOException, SAXException, ParserConfigurationException {
-        LOGGER.trace("classify: '" + oneLine(node.text()));
-        if (node.text().trim().isEmpty()) return;
+        LOGGER.trace("classify: '" + oneLine(node.text()) + "'");
+        if (node.text().trim().isEmpty()) return;        
         Query nerList = applyNamedEntityRecognizer(node.text());
-        if (nerList == null) return;
         
         /* for each element node in the list ensure the path is valid, if not convert it to a text node */
         for (Query nerNode : nerList.split()) {
@@ -115,6 +113,8 @@ public class EncoderNER extends ServiceModuleBase {
      * @throws DocumentParseException
      */
     private Query applyNamedEntityRecognizer(String text) throws IOException, SAXException, ParserConfigurationException {
+        LOGGER.trace("applyNamedEntityRecognizer: '" + oneLine(text) + "'");
+        
         /* at least one alphabet character upper or lower case */
         String matchRegex = "([^a-zA-z]*[a-zA-z]+[^a-zA-z]*)+";
 
@@ -125,10 +125,13 @@ public class EncoderNER extends ServiceModuleBase {
         }
 
         /* classify the text and put it in a fragment tag */
-        LOGGER.trace("classified text: " + text.replaceAll("\n", "[nl]").replaceAll("\t", "[T]"));
+        String classified = this.classifier.classify(text);  
+        classified = Query.escape(classified);
+        LOGGER.trace("classified text: '" + oneLine(classified) + "'");
 
         /* create a document out of the text */
-        Query newElement = this.query.newElement("fragment", text);
+        Query newElement = this.query.newElement("<fragment>" + classified + "</fragment>");
+        
         LOGGER.trace(String.format("new element: " + newElement.toString()));
         return newElement.allChildren(null);
     }

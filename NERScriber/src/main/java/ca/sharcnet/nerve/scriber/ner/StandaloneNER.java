@@ -26,34 +26,61 @@ import org.apache.logging.log4j.LogManager;
  *
  * @author Ed Armstrong
  */
-public class StandaloneNER {
-    final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger("StandaloneNER");
-    
-    public static void main(String[] args) throws IOException, ClassCastException, ClassNotFoundException {
-        int portNumber = Integer.parseInt(args[0]);
-        new StandaloneNER("/english.all.3class.distsim.crf.ser.gz").start(portNumber);
-    }
-
+public class StandaloneNER implements Runnable{
+    final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger("StandaloneNER");    
     private CRFClassifier<CoreMap> classifier;
     private ServerSocket serverSocket;
     private boolean running = true;
     private final String classifierPath;
+    private final int portNumber;
+    private boolean ready = false;
     
-    public StandaloneNER(String classifierPath) throws FileNotFoundException{
+    public StandaloneNER(String classifierPath, int portNumber) throws FileNotFoundException{
         this.classifierPath = classifierPath;
+        this.portNumber = portNumber;
         File file = new File(classifierPath);
         if (!file.exists()) throw new FileNotFoundException(file.getAbsolutePath());
     }
     
-    public void start(int portNumber) throws IOException, ClassCastException, ClassNotFoundException {
-        this.start(portNumber, () -> {});
+    public void waitForReady(){
+        while (!this.ready){
+            synchronized(this){}
+        }
+    }
+    
+    public void run() {
+        try {                        
+            LOGGER.trace(String.format("start(%d)", portNumber));
+            
+            synchronized(this){
+                this.initClassifier();
+                this.serverSocket = new ServerSocket(portNumber);
+                this.ready = true;
+            }
+            
+            while (running) {
+                LOGGER.trace("awaiting connection");
+                try (Socket clientSocket = serverSocket.accept()) {
+                    this.onAccept(clientSocket);
+                } catch (java.net.SocketException ex){
+                    LOGGER.trace("java.net.SocketException");
+                    this.running = false;
+                }
+            }
+        } catch (IOException | ClassCastException | ClassNotFoundException ex) {
+            Logger.getLogger(StandaloneNER.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void start() throws IOException, ClassCastException, ClassNotFoundException {
+        this.start(() -> {});
     }
 
-    public void start(int portNumber, Runnable orReady) throws IOException, ClassCastException, ClassNotFoundException {
+    public void start(Runnable onReady) throws IOException, ClassCastException, ClassNotFoundException {
         LOGGER.trace(String.format("start(%d)", portNumber));
         this.initClassifier();
         this.serverSocket = new ServerSocket(portNumber);
-        orReady.run();
+        onReady.run();
 
         while (running) {
             LOGGER.trace("awaiting connection");

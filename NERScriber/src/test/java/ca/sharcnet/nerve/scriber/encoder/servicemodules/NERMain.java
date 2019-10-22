@@ -7,7 +7,6 @@ import ca.sharcnet.nerve.scriber.context.Context;
 import ca.sharcnet.nerve.scriber.context.ContextLoader;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
-import ca.sharcnet.nerve.scriber.ner.Main;
 import ca.sharcnet.nerve.scriber.ner.RemoteClassifier;
 import ca.sharcnet.nerve.scriber.ner.StandaloneNER;
 import ca.sharcnet.nerve.scriber.sql.SQL;
@@ -37,7 +36,7 @@ public class NERMain {
 
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
         int portNumber = 9001;
-        StandaloneNER standaloneNER = new StandaloneNER("src/test/english.all.3class.distsim.crf.ser.gz");
+        StandaloneNER standaloneNER = new StandaloneNER("src/test/english.all.3class.distsim.crf.ser.gz", portNumber);
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -56,7 +55,7 @@ public class NERMain {
             }
         };
 
-        standaloneNER.start(portNumber, () -> new Thread(runnable).start());
+        standaloneNER.start(() -> new Thread(runnable).start());
     }
 
     public EncoderManager setup() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
