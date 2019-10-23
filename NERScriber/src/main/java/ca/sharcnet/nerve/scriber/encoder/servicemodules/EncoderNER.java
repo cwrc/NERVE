@@ -133,6 +133,11 @@ public class EncoderNER extends ServiceModuleBase {
         Query newElement = this.query.newElement("<fragment>" + classified + "</fragment>");
         
         LOGGER.trace(String.format("new element: " + newElement.toString()));
-        return newElement.allChildren(null);
+        
+        for (Node x : newElement.children(null)){
+            LOGGER.debug(x.getNodeName() + " " + x.getNodeValue());
+        }
+        
+        return newElement.children(null);
     }
 }

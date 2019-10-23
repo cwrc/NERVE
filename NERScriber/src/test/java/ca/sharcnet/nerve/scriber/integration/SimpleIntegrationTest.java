@@ -94,5 +94,6 @@ public class SimpleIntegrationTest extends Integration {
 
         assertEquals(1, select.size());
         assertEquals("Toronto", select.attribute("lemma"));
+        assertEquals("Toronto", select.text());
     }
 }

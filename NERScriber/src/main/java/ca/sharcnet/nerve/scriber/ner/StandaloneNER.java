@@ -96,7 +96,7 @@ public class StandaloneNER implements Runnable{
     public void stop() throws IOException{
         LOGGER.trace("stop()");
         this.running = false;
-        serverSocket.close();
+        if (serverSocket != null) serverSocket.close();
     }
 
     private void initClassifier() throws IOException, ClassCastException, ClassNotFoundException {
