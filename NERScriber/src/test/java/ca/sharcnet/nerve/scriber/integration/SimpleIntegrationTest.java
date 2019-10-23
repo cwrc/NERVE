@@ -45,8 +45,8 @@ public class SimpleIntegrationTest extends Integration {
     public void test_dict_link() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException {
         TestInformation info = new TestInformation()
                 .doc("xml/int/integration00.xml")
-                .context("default.context.json")
-                .schema("default.rng");
+                .context("context/default.context.json")
+                .schema("context/default.rng");
 
         EncoderManager manager = this.makeManager(info);
         Dictionary dict = manager.getDictionaries().get(0);
@@ -76,8 +76,8 @@ public class SimpleIntegrationTest extends Integration {
 
         TestInformation info = new TestInformation()
                 .doc("xml/int/integration00.xml")
-                .context("default.context.json")
-                .schema("default.rng");
+                .context("context/default.context.json")
+                .schema("context/default.rng");
 
         EncoderManager manager = this.makeManager(info);
 

@@ -1,54 +1,39 @@
 # NERVE
 Named Entity Recognition Vetting Environment
 
-This is a javascript web service that allows you to upload an XML document, run Stanford NER to recognize entities, and to look up and add URIs to new or pre-existing entities. The current version supports three schemas: TEI (Text Encoding Initiative); Orlando (the Orlando Project's biography and writing schemas) and CWRC (Canadian Writing Research Collaboratory).
-
-Lookups are currenty limited to geonames, VIAF, and the CWRC (Canadian Writing Research Collaboratory) entity collection.
+This is a web service that allows you to upload an XML document, run Stanford NER to recognize entities, and to look up and add URIs to new or pre-existing entities. The current version supports three schemas: TEI (Text Encoding Initiative); Orlando (the Orlando Project's biography and writing schemas) and CWRC (Canadian Writing Research Collaboratory).
 
 License and documentation forthcoming soon!
 
-## Building from source.
-prerequisites: glassfish, ant, git, npm, node<br>
+## Building .jar from source.
+These instructions will cover how to download and build the NERScriber .jar file
+from source.  The .jar file is not the web service but rather contains the bulk
+of the logic for the web service.
+
+prerequisites: maven, java<br>
 Note: paths are system dependent.
 
 ### 1. Checkout repository
 > git clone git@github.com:cwrc/NERVE.git (with key)<br>
 > git clone git://github.com/cwrc/NERVE.git (without key)<br>
+> cd NERVE/NERScriber
 
-### 2. Build server
-Change 'j2ee.server.home' to point to the glassfish server installation.<br>
-> export GFSERVER="/home/glassfish/glassfish5.0.1/glassfish/"
-> cd server<br>
-> npm i<br>
-> ant -lib ../lib/JJJRMI.packed-0.4.20.jar -Dj2ee.server.home=$GFSERVER dist<br>
+### 2. Build the project.
+This will test and build the .jar files, placing them in /target.
+If you see "[INFO] BUILD SUCCESS" then the build was successful.
 
-### 3. Deploy to GlassFish Server
-> asadmin deploy ./dist/Server.war<br>
+> mvn package
 
-If already deployed, redeploy to GlassFish Server<br>
-> asadmin redeploy --name=Server ./dist/Server.war<br>
+### 3. Run the program
+> cd target
+> java -jar NERScriber-1.0-SNAPSHOT.jar
 
-### 4. Build client
-Requires browserify, and sass.<br>
-> npm i -g browserify<br>
-> npm i -g sass<br>
-<br>
-> cd ../NERScriber<br>
-> npm i <br>
-> cd ../client<br>
-> npm i<br>
-> npm run build-js<br>
-> npm run build-css<br>
-> cp -r public_html/ $GFSERVER/domains/domain1/docroot/nerve
+You should see the following:
+usage: nerscriber [-c config_file] [-x context_file] input_file
 
-### 5. Link Client to Server
-In the client side of the app there a file 'assets/serverlocation'. This file
-contains the location of the web socket, the default value is 
-'ws://localhost:8080/NERVESERVER/NerveSocket', the 'localhost:8080' needs to be
-changed to the ip/name of your server.
+Options:
+-c              specify the configuration file (default: ./config.properties)
+-x              specify the context file, (default: auto-detect from 'context.path' in config)
 
-## Notes
-### Other commands of note
-> asadmin start-domain [domain_name]<br>
-> asadmin stop-domain [domain_name]<br>
-> asadmin list-applications<br>
+To run the program on a file you will need to specify the file location, and provide
+a configuration file.

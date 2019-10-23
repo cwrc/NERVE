@@ -51,7 +51,7 @@ public class RelaxNGSchemaTest {
      */
     @Test
     public void testLoad() throws IOException, ParserConfigurationException, SAXException {
-        String schemaFilename = "src/test/resources/default.rng";
+        String schemaFilename = "src/test/resources/context/default.rng";
         RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
         assertTrue(schema != null);
     }
@@ -62,7 +62,7 @@ public class RelaxNGSchemaTest {
      */
     @Test
     public void testIsValid_00() throws IOException, ParserConfigurationException, SAXException {
-        String schemaFilename = "src/test/resources/default.rng";
+        String schemaFilename = "src/test/resources/context/default.rng";
         RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
         
         boolean result = schema.isValid("doc", "any", "div");        
@@ -75,7 +75,7 @@ public class RelaxNGSchemaTest {
      */
 //    @Test
 //    public void testNotValid_00() throws IOException, ParserConfigurationException, SAXException {
-//        String schemaFilename = "src/test/resources/default.rng";
+//        String schemaFilename = "src/test/resources/context/default.rng";
 //        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
 //        
 //        boolean result = schema.isValid("doc", "div", "div");        
@@ -90,7 +90,7 @@ public class RelaxNGSchemaTest {
      */
     @Test
     public void testRecursive_00() throws IOException, ParserConfigurationException, SAXException {
-        String schemaFilename = "src/test/resources/default.rng";
+        String schemaFilename = "src/test/resources/context/default.rng";
         RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
         
         boolean result = schema.isValid("doc", "recursive", "recursive", "end");        
@@ -99,7 +99,7 @@ public class RelaxNGSchemaTest {
     
 //    @Test
 //    public void testRecursive_01() throws IOException, ParserConfigurationException, SAXException {
-//        String schemaFilename = "src/test/resources/default.rng";
+//        String schemaFilename = "src/test/resources/context/default.rng";
 //        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
 //        
 //        boolean result = schema.isValid("doc", "recursive", "recursive");        
@@ -114,7 +114,7 @@ public class RelaxNGSchemaTest {
      */
 //    @Test
 //    public void testText_00() throws IOException, ParserConfigurationException, SAXException {
-//        String schemaFilename = "src/test/resources/text-empty.rng";
+//        String schemaFilename = "src/test/resources/context/text-empty.rng";
 //        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
 //        
 //        boolean result = schema.isValid("div", "div");        
@@ -124,7 +124,7 @@ public class RelaxNGSchemaTest {
 //    public void testText_01() throws IOException, ParserConfigurationException, SAXException {
 //        Configurator.setLevel(LogManager.getLogger("RelaxNGSchema").getName(), Level.TRACE);
 //        
-//        String schemaFilename = "src/test/resources/text-empty.rng";
+//        String schemaFilename = "src/test/resources/context/text-empty.rng";
 //        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
 //        
 //        boolean result = schema.isValid("div", "div", "text");        
@@ -133,7 +133,7 @@ public class RelaxNGSchemaTest {
 //    }       
 //    @Test
 //    public void testEmpty_00() throws IOException, ParserConfigurationException, SAXException {
-//        String schemaFilename = "src/test/resources/text-empty.rng";
+//        String schemaFilename = "src/test/resources/context/text-empty.rng";
 //        RelaxNGSchema schema = RelaxNGSchemaLoader.schemaFromFile(new File(schemaFilename));
 //        
 //        boolean result = schema.isValid("div", "div", "text");        

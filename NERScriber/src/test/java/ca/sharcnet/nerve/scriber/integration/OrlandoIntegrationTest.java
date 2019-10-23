@@ -41,7 +41,7 @@ public class OrlandoIntegrationTest extends Integration {
 
         TestInformation info = new TestInformation()
                 .doc("xml/int/orlando_biography_template.xml")
-                .context("orlando.context.json")
+                .context("context/orlando.context.json")
                 .schemaURL("http://cwrc.ca/schemas/orlando_biography_v2.rng");
 
         EncoderManager manager = this.makeManager(info);
