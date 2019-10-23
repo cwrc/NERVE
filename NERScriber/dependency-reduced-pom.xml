@@ -31,6 +31,9 @@
             <manifest>
               <mainClass>ca.sharcnet.nerve.scriber.Main</mainClass>
             </manifest>
+            <manifestEntries>
+              <Multi-Release>true</Multi-Release>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
