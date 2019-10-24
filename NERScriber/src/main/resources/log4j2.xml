@@ -6,13 +6,13 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="RelaxNGSchema" level="INFO">
+<!--        <Logger name="RelaxNGSchema" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="StandaloneNER" level="INFO">
+        </Logger>-->
+        <Logger name="EncoderNER" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>        
-        <Root level="INFO">
+        <Root level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
         </Root>    
     </Loggers>

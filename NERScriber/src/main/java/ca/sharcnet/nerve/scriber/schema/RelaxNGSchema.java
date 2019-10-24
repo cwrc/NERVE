@@ -47,10 +47,11 @@ public final class RelaxNGSchema implements Schema {
      */
     @Override
     public boolean isValid(Node element, String childNodeName) {
-        LOGGER.trace("RelaxNGSchema.isValid()");
+        LOGGER.trace(String.format("RelaxNGSchema.isValid(%s, %s)", element.getNodeName(), childNodeName));
         LinkedList<String> list = new LinkedList<>();
         Node current = element;
-        while (current != null) {
+        
+        while (current.getNodeType() != Node.DOCUMENT_NODE) {
             list.addFirst(current.getNodeName());
             current = current.getParentNode();
         }

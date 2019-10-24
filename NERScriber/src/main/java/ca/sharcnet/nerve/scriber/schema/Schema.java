@@ -4,11 +4,12 @@ import org.w3c.dom.Node;
 public interface Schema {
 
     /**
-    Return true if this element, with the child node, does not violate the schema.
-    @param element
-    @param childNodeName
-    @return
-     */
+    * If the child node were appended to 'element' return true if this would not
+    * violate the schema.
+    * @param element
+    * @param childNodeName
+    * @return
+    */
     boolean isValid(Node element, String childNodeName);
 
     /**

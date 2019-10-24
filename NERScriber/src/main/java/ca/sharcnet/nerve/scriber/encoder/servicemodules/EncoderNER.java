@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * @author Ed Armstrong
  */
 public class EncoderNER extends ServiceModuleBase {
-    final static Logger LOGGER = LogManager.getLogger(EncoderNER.class);
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("EncoderNER");
     private final IClassifier classifier;
 
     private static String oneLine(String s) {
@@ -75,7 +75,7 @@ public class EncoderNER extends ServiceModuleBase {
         /* for each element node in the list ensure the path is valid, if not convert it to a text node */
         for (Query nerNode : nerList.split()) {
             if (nerNode.nodeType() != Node.ELEMENT_NODE) {
-                LOGGER.trace("skipping plain text: " + oneLine(node.text()));
+                LOGGER.trace("skipping text node: " + oneLine(node.text()));
                 continue;
             }
 
@@ -126,18 +126,13 @@ public class EncoderNER extends ServiceModuleBase {
         }
 
         /* classify the text and put it in a fragment tag */
-        String classified = this.classifier.classify(Query.escape(text));  
+        String classified = this.classifier.classify(Query.escapeText(text));  
         LOGGER.trace("classified text: '" + oneLine(classified) + "'");
 
         /* create a document out of the text */
         Query newElement = this.query.newElement("<fragment>" + classified + "</fragment>");
         
         LOGGER.trace(String.format("new element: " + newElement.toString()));
-        
-        for (Node x : newElement.children(null)){
-            LOGGER.debug(x.getNodeName() + " " + x.getNodeValue());
-        }
-        
         return newElement.children(null);
     }
 }

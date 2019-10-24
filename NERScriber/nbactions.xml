@@ -17,7 +17,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName} -c src/test/resources/config.properties src/test/resources/xml/default.xml</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName} -c src/test/resources/config.properties src/test/resources/xml/minimalOrlando.xml</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir></exec.workingdir>
             </properties>
@@ -32,7 +32,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} -c src/test/resources/config.properties src/test/resources/xml/default.xml</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} -c src/test/resources/config.properties src/test/resources/xml/minimalOrlando.xml</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
                 <exec.workingdir></exec.workingdir>
@@ -48,7 +48,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName} -c src/test/resources/config.properties src/test/resources/xml/default.xml</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName} -c src/test/resources/config.properties src/test/resources/xml/minimalOrlando.xml</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir></exec.workingdir>
             </properties>

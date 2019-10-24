@@ -47,6 +47,15 @@ public class Query extends ArrayList<Node> {
         return string.replace("\"", "&quot;");        
     }
     
+    /**
+     * Replace all instances of escapable characters with their escape sequence.
+     * @param string 
+     */
+    public static String escapeText(String string){
+        string = string.replace("&", "&amp;");
+        return string.replace("<", "&lt;");
+    }    
+    
     private Query(DocumentBuilder builder, Document document) {
         super();
         this.builder = builder;
