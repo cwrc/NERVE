@@ -1,5 +1,4 @@
 package ca.sharcnet.nerve.scriber;
-
 import ca.sharcnet.nerve.scriber.context.*;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
@@ -175,10 +174,12 @@ public class Main {
     }
 
     private static void printHelp() {
-        System.out.println("usage: nerscriber [-c config_file] [-x context_file] input_file");
+        System.out.println("usage: nerscriber [-c config_file] [-x context_file] [--ner] [--link] input_file");
         System.out.println("");
         System.out.println("Options:");
         System.out.println("-c\t\tspecify the configuration file (default: ./config.properties)");
         System.out.println("-x\t\tspecify the context file, (default: auto-detect from 'context.path' in config)");
+        System.out.println("--ner\t\tperform NER tagging");
+        System.out.println("--link\t\tperform link fill in");
     }
 }

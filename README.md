@@ -19,21 +19,26 @@ Note: paths are system dependent.
 > cd NERVE/NERScriber
 
 ### 2. Build the project.
-This will test and build the .jar files, placing them in /target.
-If you see "[INFO] BUILD SUCCESS" then the build was successful.
+There is a setup script found in /NERScriber which will compile the .jar file
+and copy relevant files to a directory of your choice.
+> ./NERScriber/setup.sh ./test
 
 > mvn package
 
 ### 3. Run the program
-> cd target
-> java -jar NERScriber-1.0-SNAPSHOT.jar
+> cd test
+> java -jar NERScriber.jar
 
 You should see the following:
-usage: nerscriber [-c config_file] [-x context_file] input_file
+usage: nerscriber [-c config_file] [-x context_file] [--ner] [--link] input_file
 
 Options:
 -c              specify the configuration file (default: ./config.properties)
 -x              specify the context file, (default: auto-detect from 'context.path' in config)
+--ner           perform NER tagging
+--link          perform link fill in
 
 To run the program on a file you will need to specify the file location, and provide
-a configuration file.
+a configuration file.  Note you need to specify either NER or LINK or both (order
+does not matter), otherwise no action will be taken.  The output will go to stdout.
+
