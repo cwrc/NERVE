@@ -69,12 +69,12 @@ public class Main {
         String dbPath = properties.getProperty("databasePath");
         String realPath = new File(dbPath).getAbsolutePath();
         String dbDriver = properties.getProperty("databaseDriver");
-
+        
         SQL sql = new SQL(dbDriver, dbURL + realPath);
         Dictionary dictionary = new Dictionary(sql);
         dictionary.setTable("demonstration");
         dictionary.verifySQL();
-
+        
         /* Load the document */
         File documentFile = new File(documentFilename);
         if (!documentFile.exists()) throw new FileNotFoundException("File not found: " + documentFile.getCanonicalPath());

@@ -93,7 +93,6 @@ public class SimpleIntegrationTest extends Integration {
         Query select = query.select("#1 > LOCATION");
 
         assertEquals(1, select.size());
-        assertEquals("Toronto", select.attribute("lemma"));
         assertEquals("Toronto", select.text());
     }
 }
