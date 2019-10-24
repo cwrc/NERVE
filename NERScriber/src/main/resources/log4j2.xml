@@ -9,7 +9,10 @@
 <!--        <Logger name="RelaxNGSchema" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>-->
-        <Logger name="EncoderNER" level="TRACE" additivity="false">
+        <Logger name="Dictionary" level="TRACE" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>            
+        <Logger name="EncoderDictLink" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>        
         <Root level="INFO" additivity="false">

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Dictionary {
-    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(LOG_NAME);
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("Dictionary");
     
     private static String DEFAULT_DICTIONARY = "default";
     private String dictionary = DEFAULT_DICTIONARY;
@@ -22,6 +22,10 @@ public class Dictionary {
     public Dictionary setTable(String table){
         this.dictionary = table;
         return this;
+    }
+    
+    public String getTable(){
+        return this.dictionary;
     }
     
     public boolean verifySQL() throws ClassNotFoundException, IllegalAccessException, IllegalAccessException, IOException, InstantiationException, SQLException {
@@ -224,6 +228,7 @@ public class Dictionary {
         String query = builder.toString();
 
         try {
+            LOGGER.trace(query);
             SQLResult sqlResult = sql.query(query);
             return sqlResult;
         } catch (SQLException ex) {

@@ -3,6 +3,7 @@ package ca.sharcnet.nerve.scriber;
 import ca.sharcnet.nerve.scriber.context.*;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
+import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderNER;
 import ca.sharcnet.nerve.scriber.ner.RemoteClassifier;
 import ca.sharcnet.nerve.scriber.ner.StandaloneNER;
@@ -15,8 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
@@ -27,7 +26,9 @@ public class Main {
     static String documentFilename = "";
     static String configFilename = "config.properties";
     static String contextFilename = "";
-
+    static boolean link = false;
+    static boolean ner = false;
+    
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException, InterruptedException {
         if (!readArgs(args)) {
             printHelp();
@@ -116,10 +117,17 @@ public class Main {
         manager.setContext(context);
         manager.addDictionary(dictionary);
 
-        /* Add process to manager */
-        int port = Integer.parseInt(properties.getProperty("ner.port"));
-        RemoteClassifier remoteClassifier = new RemoteClassifier(port);
-        manager.addProcess(new EncoderNER(remoteClassifier));
+        /* Add ner process to manager */
+        if (ner){
+            int port = Integer.parseInt(properties.getProperty("ner.port"));
+            RemoteClassifier remoteClassifier = new RemoteClassifier(port);
+            manager.addProcess(new EncoderNER(remoteClassifier));
+        }
+        
+        /* Add link process to manager */
+        if (link){
+            manager.addProcess(new EncoderDictLink());
+        }
 
         /* Execute the process */
         manager.run();
@@ -149,6 +157,12 @@ public class Main {
                     if (i == args.length - 1) return false;
                     contextFilename = args[++i];
                     break;
+                case "--ner":
+                    ner = true;
+                    break;                    
+                case "--link":
+                    link = true;
+                    break;                                        
                 default:
                     if (i != args.length - 1) return false;
                     documentFilename = args[args.length - 1];

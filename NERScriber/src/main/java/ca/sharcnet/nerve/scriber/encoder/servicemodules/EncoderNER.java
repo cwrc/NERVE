@@ -90,12 +90,7 @@ public class EncoderNER extends ServiceModuleBase {
                 LOGGER.trace(String.format("node isn't valid in the schema, removing markup from '%s'", nerNode.toString()));
                 Query textNode = this.query.newText(nerNode.text());
                 nerList.set(nerList.indexOf(nerNode.get(0)), textNode.get(0));
-            } else {
-                /* if it is valid, set default lemma */
-                LOGGER.trace("entity identitified: " + nerNode.tagName() + ":" + nerNode.text().replaceAll("\n[\n \t]*", "[nl]").replaceAll("\t", "[T]"));
-                nerNode.attribute(tagInfo.getLemmaAttribute(), nerNode.text());
-                this.setDefaultAttributes(nerNode);
-            }
+            } 
         }
 
         /* replace the current node with the node list */

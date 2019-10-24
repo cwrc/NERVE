@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
  * @author edward
  */
 public class EncoderDictLink extends ServiceModuleBase {
-    final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EncoderDictLink.class);
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("EncoderDictLink");
 
     @Override
     public void run() throws SQLException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException {
@@ -50,9 +50,14 @@ public class EncoderDictLink extends ServiceModuleBase {
         if (lemma.isBlank()) lemma = null;
         
         for (Dictionary dictionary : this.getDictionaries()) {
-            SQLResult sqlResult = dictionary.lookup(node.getTextContent(), lemma, node.getNodeName(), null);            
+            LOGGER.trace("looking in dictionary " + dictionary.getTable());
+            String standardTag = this.context.getStandardTag(node.getNodeName());
+            SQLResult sqlResult = dictionary.lookup(node.getTextContent(), lemma, standardTag, null);            
         
-            if (sqlResult.isEmpty()) continue;
+            if (sqlResult.isEmpty()){
+                LOGGER.trace("no entries found in " + dictionary.getTable());
+                continue;
+            }
             
             SQLRecord row = sqlResult.get(0);            
             element.setAttribute(lemmaAttribute, row.getEntry("lemma").getValue());
