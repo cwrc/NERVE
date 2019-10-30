@@ -56,7 +56,7 @@ The basic usage to build a test environment
 * rebuild
   * or `docker-compose build --no-cache --parallel`
   * `docker-compose build --force-rm --no-cache --pull --parallel`
-  * or `docker-compose up --build --force-recreate -d
+  * or `docker-compose up --build --force-recreate -d`
 
 * peak inside container instance
   * `docker-compose exec webapp bash`
