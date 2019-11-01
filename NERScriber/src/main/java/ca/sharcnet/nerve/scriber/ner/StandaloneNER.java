@@ -35,6 +35,13 @@ public class StandaloneNER implements Runnable{
     private final int portNumber;
     private boolean ready = false;
     
+    public static void main(String ... args) throws FileNotFoundException{
+        String path = "src/test/resources/english.all.3class.distsim.crf.ser.gz";
+        int port = 9090;
+        StandaloneNER standaloneNER = new StandaloneNER(path, port);
+        standaloneNER.run();
+    }
+    
     public StandaloneNER(String classifierPath, int portNumber) throws FileNotFoundException{
         this.classifierPath = classifierPath;
         this.portNumber = portNumber;
