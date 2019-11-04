@@ -43,10 +43,10 @@ public class LineNumberHandler extends DefaultHandler2 implements LexicalHandler
     }
 
     private void setPositions(Node node) {
-        node.setUserData(START_LINE_NUMBER_KEY_NAME, String.valueOf(lastLine), null);
-        node.setUserData(START_COLUMN_NUMBER_KEY_NAME, String.valueOf(lastCol), null);
-        node.setUserData(END_LINE_NUMBER_KEY_NAME, String.valueOf(this.locator.getLineNumber()), null);
-        node.setUserData(END_COLUMN_NUMBER_KEY_NAME, String.valueOf(this.locator.getColumnNumber()), null);
+//        node.setUserData(START_LINE_NUMBER_KEY_NAME, lastLine, null);
+        node.setUserData(START_COLUMN_NUMBER_KEY_NAME, lastCol, null);
+        node.setUserData(END_LINE_NUMBER_KEY_NAME, this.locator.getLineNumber(), null);
+        node.setUserData(END_COLUMN_NUMBER_KEY_NAME, this.locator.getColumnNumber(), null);
         lastLine = this.locator.getLineNumber();
         lastCol = this.locator.getLineNumber();
     }
@@ -88,8 +88,8 @@ public class LineNumberHandler extends DefaultHandler2 implements LexicalHandler
         for (int i = 0; i < attributes.getLength(); i++) {
             el.setAttribute(attributes.getQName(i), attributes.getValue(i));
         }
-        el.setUserData(START_LINE_NUMBER_KEY_NAME, String.valueOf(this.locator.getLineNumber()), null);
-        el.setUserData(START_COLUMN_NUMBER_KEY_NAME, String.valueOf(this.locator.getColumnNumber()), null);
+        el.setUserData(START_LINE_NUMBER_KEY_NAME, this.locator.getLineNumber(), null);
+        el.setUserData(START_COLUMN_NUMBER_KEY_NAME, this.locator.getColumnNumber(), null);
         lastLine = this.locator.getLineNumber();
         lastCol = this.locator.getLineNumber();
         elementStack.push(el);
@@ -101,8 +101,8 @@ public class LineNumberHandler extends DefaultHandler2 implements LexicalHandler
         addTextIfNeeded();
         final Element el = elementStack.pop();
 
-        el.setUserData(END_LINE_NUMBER_KEY_NAME, String.valueOf(this.locator.getLineNumber()), null);
-        el.setUserData(END_COLUMN_NUMBER_KEY_NAME, String.valueOf(this.locator.getColumnNumber()), null);
+        el.setUserData(END_LINE_NUMBER_KEY_NAME, this.locator.getLineNumber(), null);
+        el.setUserData(END_COLUMN_NUMBER_KEY_NAME, this.locator.getColumnNumber(), null);
         lastLine = this.locator.getLineNumber();
         lastCol = this.locator.getLineNumber();
 
@@ -134,6 +134,8 @@ public class LineNumberHandler extends DefaultHandler2 implements LexicalHandler
         if (textBuffer.length() > 0) {
             final Element el = elementStack.peek();
             final Node textNode = doc.createTextNode(textBuffer.toString());
+            textNode.setUserData(START_LINE_NUMBER_KEY_NAME, this.locator.getLineNumber(), null);
+            textNode.setUserData(START_COLUMN_NUMBER_KEY_NAME, this.locator.getColumnNumber(), null);
             el.appendChild(textNode);
             textBuffer.delete(0, textBuffer.length());
         }

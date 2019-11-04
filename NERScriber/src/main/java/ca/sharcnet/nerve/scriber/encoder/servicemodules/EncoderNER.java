@@ -82,10 +82,13 @@ public class EncoderNER extends ServiceModuleBase {
             if (!schema.isValid(node.parent().get(0), nerNode.tagName())) {
                 /* if the node isn't valid in the schema, remove markup */
                 LOGGER.trace(String.format("node isn't valid in the schema, removing markup from '%s'", nerNode.toString()));
-                LOGGER.log(VERBOSE, "found but invalid: " + nerNode.tagName() + ":" + nerNode.text());
+                LOGGER.log(VERBOSE, "invalid " + node.startAt() + " " + nerNode.tagName() + ":" + nerNode.text());
+                
                 Query textNode = this.query.newText(nerNode.text());
                 nerList.set(nerList.indexOf(nerNode.get(0)), textNode.get(0));
-            } 
+            } else {
+                LOGGER.log(VERBOSE, "valid " + node.startAt() + " " + nerNode.tagName() + ":" + nerNode.text());
+            }
         }
 
         /* replace the current node with the node list */

@@ -6,11 +6,7 @@
 package ca.sharcnet.nerve.scriber.query;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import junit.framework.TestCase;
 import org.w3c.dom.Element;
@@ -70,13 +66,6 @@ public class QueryPositionTest extends TestCase {
     public void test_root_start() throws SAXException, IOException, ParserConfigurationException {
         Query query = new Query(new File("src/test/resources/xml/test00.xml"));
         Query root = query.select(":root");
-        assertEquals(3, root.startAt().line);
+        assertEquals(4, root.startAt().line);
     }    
-    
-//    // New queries are empty.
-//    public void test_root_end() throws SAXException, IOException, ParserConfigurationException {
-//        Query query = new Query(new File("src/test/resources/xml/test00.xml"));
-//        Query root = query.select(":root");
-//        assertEquals(3, root.endAt().line);
-//    }      
 }

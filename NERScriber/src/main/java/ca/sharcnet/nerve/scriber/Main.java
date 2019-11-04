@@ -6,8 +6,6 @@ import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderNER;
 import ca.sharcnet.nerve.scriber.ner.LocalClassifier;
-import ca.sharcnet.nerve.scriber.ner.RemoteClassifier;
-import ca.sharcnet.nerve.scriber.ner.StandaloneNER;
 import ca.sharcnet.nerve.scriber.query.Query;
 import ca.sharcnet.nerve.scriber.schema.*;
 import ca.sharcnet.nerve.scriber.sql.SQL;

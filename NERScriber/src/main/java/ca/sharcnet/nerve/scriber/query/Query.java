@@ -83,13 +83,6 @@ public class Query extends ArrayList<Node> {
         this.add(document.getDocumentElement());
     }
 
-//    public Query(File file) throws SAXException, IOException, ParserConfigurationException {
-//        super();
-//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        builder = factory.newDocumentBuilder();
-//        document = builder.parse(file);        
-//        this.add(document.getDocumentElement());
-//    }
     public Query(String string) throws SAXException {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -103,13 +96,42 @@ public class Query extends ArrayList<Node> {
         }
     }
 
-    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        builder = dbf.newDocumentBuilder();
-        document = builder.parse(inputStream);
-        this.add(document.getDocumentElement());
-    }
+//    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
+//        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//        builder = dbf.newDocumentBuilder();
+//        document = builder.parse(inputStream);
+//        this.add(document.getDocumentElement());
+//    }
 
+    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
+        super();
+
+        SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+        SAXParser parser = saxFactory.newSAXParser();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        builder = factory.newDocumentBuilder();
+        document = builder.newDocument();
+
+        LineNumberHandler lineNumberHandler = new LineNumberHandler(document);
+        parser.setProperty("http://xml.org/sax/properties/lexical-handler", lineNumberHandler);
+
+        /* This is a hacky way of determining the declared xml encoding */
+        try {
+            final XMLStreamReader xmlStreamReader;
+            xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+            this.encoding = xmlStreamReader.getCharacterEncodingScheme();
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SAXException(ex);
+        }
+        /* --- */
+
+        parser.parse(inputStream, lineNumberHandler);
+
+        this.add(document.getDocumentElement());
+    }    
+    
     public Query(Query query) {
         super();
         this.builder = query.getBuilder();
@@ -611,20 +633,22 @@ public class Query extends ArrayList<Node> {
     }
 
     public Position startAt() {
-        Query current = this.select(0);
-        int line = 1;
-        /* line #1 is the xml encoding instruction */
-
-        if (current.get(0) == this.select(":root").get(0)) {
-            line = line + this.select(":inst").size();
-            return new Position(line, 0);
-        }
-
-        return new Position(line, 0);
+        Object userDataLine = this.get(0).getUserData(LineNumberHandler.START_LINE_NUMBER_KEY_NAME);
+        Object userDataCol = this.get(0).getUserData(LineNumberHandler.START_COLUMN_NUMBER_KEY_NAME);
+        
+        int line = 0;
+        int col = 0;
+        
+        if (userDataLine != null) line = (int) userDataLine;
+        if (userDataCol != null) col = (int) userDataCol;
+        
+        return new Position(line, col);
     }
 
     public Position endAt() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int line = (int) this.get(0).getUserData(LineNumberHandler.END_LINE_NUMBER_KEY_NAME);
+        int col = (int) this.get(0).getUserData(LineNumberHandler.END_COLUMN_NUMBER_KEY_NAME);
+        return new Position(line, col);
     }
 
     Query prevSibling() {

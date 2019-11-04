@@ -17,4 +17,9 @@ public class Position {
         this.line = line;
         this.offset = offset;
     }
+    
+    @Override
+    public String toString(){
+        return line + ":" + offset;
+    }
 }
