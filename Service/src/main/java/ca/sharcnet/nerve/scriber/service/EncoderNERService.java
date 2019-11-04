@@ -35,13 +35,11 @@ public class EncoderNERService extends HttpServlet {
     static LocalClassifier lClassifier = null;
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.debug("GET");
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.debug("POST");
         processRequest(request, response);
     }
 
@@ -99,17 +97,14 @@ public class EncoderNERService extends HttpServlet {
 
     private Properties loadProperties() throws FileNotFoundException, IOException {
         InputStream configStream = this.getServletContext().getResourceAsStream(CONFIG_PATH);
-        LOGGER.debug("configuration file: " + this.getServletContext().getContextPath());
 
         if (configStream == null) {
             throw new FileNotFoundException("Configuration file not found '" + this.getServletContext().getRealPath(CONFIG_PATH) + "'");
         }
 
-        LOGGER.debug("loading configuration ...");
         Properties properties = new Properties();
         properties.load(configStream);
         configStream.close();
-        LOGGER.debug("configuration loaded");
 
         return properties;
     }
@@ -117,10 +112,7 @@ public class EncoderNERService extends HttpServlet {
     private void loadClassifier(Properties properties) throws IOException, ClassCastException, ClassNotFoundException{
         if (lClassifier == null){ 
             String classifierPath = properties.getProperty("classifier");
-            System.out.println(classifierPath);
             String realPath = this.getServletContext().getRealPath(classifierPath);
-            System.out.println(realPath);
-            LOGGER.debug(realPath);
             EncoderNERService.lClassifier = new LocalClassifier(realPath);
         }
     }

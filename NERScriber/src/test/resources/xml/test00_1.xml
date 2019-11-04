@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://cwrc.ca/schemas/orlando_biography_v2.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-stylesheet type="text/css" href="http://cwrc.ca/templates/css/orlando.css"?>
+<!-- comment 0 -->
+<ROOT>
+    <!-- comment 1 -->
+    <!-- comment 2 -->
+    <DIV id="0">string</DIV>
+</ROOT>
+
+
+
+  
+  
+  

@@ -3,6 +3,8 @@ package ca.sharcnet.nerve.scriber.query;
 import static ca.sharcnet.nerve.scriber.Constants.LOG_NAME;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,6 +17,11 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -30,52 +37,65 @@ import org.xml.sax.SAXException;
  * @author edward
  */
 public class Query extends ArrayList<Node> {
-
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(LOG_NAME);
     private final DocumentBuilder builder;
     private final Document document;
+    private String encoding = null;
 
-    /**
-     * Replace all instances of escapable characters with their escape sequence.
-     * @param string 
-     */
-    public static String escape(String string){
-        string = string.replace("&", "&amp;");
-        string = string.replace("<", "&lt;");
-        string = string.replace(">", "&gt;");
-        string = string.replace("'", "&apos;");
-        return string.replace("\"", "&quot;");        
+    public String getEncoding(){
+        return this.encoding;
     }
     
-    /**
-     * Replace all instances of escapable characters with their escape sequence.
-     * @param string 
-     */
-    public static String escapeText(String string){
-        string = string.replace("&", "&amp;");
-        return string.replace("<", "&lt;");
-    }    
-    
-    private Query(DocumentBuilder builder, Document document) {
+    private Query(DocumentBuilder builder, Document document, String encoding) {
         super();
         this.builder = builder;
         this.document = document;
+        this.encoding = encoding;
     }
 
     public Query(File file) throws SAXException, IOException, ParserConfigurationException {
         super();
+
+        SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+        SAXParser parser = saxFactory.newSAXParser();
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         builder = factory.newDocumentBuilder();
-        document = builder.parse(file);
+        document = builder.newDocument();
+
+        LineNumberHandler lineNumberHandler = new LineNumberHandler(document);
+        parser.setProperty("http://xml.org/sax/properties/lexical-handler", lineNumberHandler);
+
+        /* This is a hacky way of determining the declared xml encoding */
+        try {
+            final XMLStreamReader xmlStreamReader;
+            xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(new FileReader(file));
+            this.encoding = xmlStreamReader.getCharacterEncodingScheme();
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SAXException(ex);
+        }
+        /* --- */
+
+        FileInputStream fis = new FileInputStream(file);
+        parser.parse(fis, lineNumberHandler);
+
         this.add(document.getDocumentElement());
     }
 
+//    public Query(File file) throws SAXException, IOException, ParserConfigurationException {
+//        super();
+//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        builder = factory.newDocumentBuilder();
+//        document = builder.parse(file);        
+//        this.add(document.getDocumentElement());
+//    }
     public Query(String string) throws SAXException {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            builder = dbf.newDocumentBuilder();            
-            InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));            
-            document = builder.parse(inputStream);            
+            builder = dbf.newDocumentBuilder();
+            InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
+            document = builder.parse(inputStream);
             this.add(document.getDocumentElement());
         } catch (ParserConfigurationException | IOException ex) {
             /* should never happen */
@@ -94,6 +114,7 @@ public class Query extends ArrayList<Node> {
         super();
         this.builder = query.getBuilder();
         this.document = query.getDocument();
+        this.encoding = query.encoding;
         query.forEach(n -> this.add(n));
     }
 
@@ -111,7 +132,7 @@ public class Query extends ArrayList<Node> {
     }
 
     public Query newQuery() {
-        Query query = new Query(this.builder, this.document);
+        Query query = new Query(this.builder, this.document, this.encoding);
         return query;
     }
 
@@ -143,7 +164,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     public Query children(Predicate<Node> filter) {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         this.forEach(n -> {
             NodeList childNodes = n.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
@@ -175,7 +196,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     public Query allChildren(Predicate<Node> filter) {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         this.forEach(n -> {
             allChildrenRecurse(n, query, filter);
         });
@@ -202,7 +223,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     public Query ancestors() {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         this.forEach(n -> {
             Node parent = n.getParentNode();
             while (parent != this.document && parent != null) {
@@ -215,7 +236,7 @@ public class Query extends ArrayList<Node> {
     }
 
     public Query filter(Predicate<Node> filter) {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         this.forEach(n -> {
             if (filter.test(n)) {
                 query.add(n);
@@ -235,7 +256,7 @@ public class Query extends ArrayList<Node> {
     public Query filter(String selectorString) {
         Selector selector = new Selector(selectorString);
 
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         this.split().forEach(q -> {
             if (selector.test(q)) {
                 query.add(q);
@@ -265,7 +286,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     public Query select(String selector) {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
 
         String[] split = selector.split(",+");
 
@@ -300,11 +321,11 @@ public class Query extends ArrayList<Node> {
                     break;
                 case ":document":
                 case ":doc":
-                    current = new Query(this.builder, this.document);
+                    current = new Query(this.builder, this.document, this.encoding);
                     current.add(document);
                     break;
                 case ":root":
-                    current = new Query(this.builder, this.document);
+                    current = new Query(this.builder, this.document, this.encoding);
                     current.add(document.getDocumentElement());
                     break;
                 case "*":
@@ -330,7 +351,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     Query selectorAll(String string) {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         Selector selector = new Selector(string);
 
         for (Node node : this) {
@@ -349,7 +370,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     Query SelectorNextLevel(String string) {
-        Query query = new Query(builder, document);
+        Query query = new Query(builder, document, encoding);
         Selector selector = new Selector(string);
 
         for (Node node : this) {
@@ -367,7 +388,7 @@ public class Query extends ArrayList<Node> {
      * @return
      */
     public Query parent() {
-        Query query = new Query(this.builder, this.document);
+        Query query = new Query(this.builder, this.document, this.encoding);
         for (Node n : this) {
             if (n.getParentNode() != null && n.getParentNode() != this.document) {
                 query.add(n.getParentNode());
@@ -464,14 +485,14 @@ public class Query extends ArrayList<Node> {
     public Query newElement(String string) throws SAXException {
         InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
         Document parse;
-        
+
         try {
             parse = builder.parse(inputStream);
         } catch (IOException ex) {
             /* should never happen */
             throw new RuntimeException(ex);
         }
-        
+
         Node importNode = document.importNode(parse.getDocumentElement(), true);
         return newQuery(importNode);
     }
@@ -505,7 +526,7 @@ public class Query extends ArrayList<Node> {
     }
 
     public Query clone() {
-        Query query = new Query(this.builder, this.document);
+        Query query = new Query(this.builder, this.document, this.encoding);
         for (Node n : this) {
             query.add(n.cloneNode(true));
         }
@@ -553,34 +574,6 @@ public class Query extends ArrayList<Node> {
         return this.get(this.size() - 1);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder();
-
-        OutputStream os = new OutputStream() {
-            @Override
-            public void write(int b) throws IOException {
-                sBuilder.append((char) b);
-            }
-        };
-
-        try {
-            this.toStream(os);
-            os.close();
-        } catch (IOException ex) {
-            throw new RuntimeException(); // really shouldn't ever get called
-        }
-
-        return sBuilder.toString();
-    }
-
-    public void toStream(OutputStream outputStream) throws IOException {
-        for (Node node : this) {
-            if (node == this.document) toStream((Document) node, outputStream);
-            else toStream(node, outputStream);
-        }
-    }
-
     public List<String> attributes() {
         ArrayList<String> list = new ArrayList<>();
 
@@ -593,64 +586,6 @@ public class Query extends ArrayList<Node> {
         }
 
         return list;
-    }
-    
-    private void toStream(Document document, OutputStream outputStream) throws IOException {
-        StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append("<?xml version=\"");
-        sBuilder.append(document.getXmlVersion());
-        sBuilder.append("\" encoding=\"");
-        sBuilder.append(document.getXmlEncoding());
-        sBuilder.append("\"");
-        if (document.getXmlStandalone()) sBuilder.append(" standalone=\"yes\"");
-        sBuilder.append("?>\n");
-        outputStream.write(sBuilder.toString().getBytes());
-
-        for (Node child : this.select(":doc").children(n -> true)) {
-            toStream(child, outputStream);
-        }
-    }
-
-    private void toStream(Node node, OutputStream outputStream) throws IOException {
-        StringBuilder sBuilder;
-
-        switch (node.getNodeType()) {
-            case Node.ELEMENT_NODE:
-                Query element = this.select(node);
-                sBuilder = new StringBuilder();
-                sBuilder.append("<").append(element.tagName());
-
-                if (element.attributes().size() > 0) sBuilder.append(" ");
-                for (String attr : element.attributes()) {
-                    sBuilder.append(attr).append("=\"");
-                    sBuilder.append(escape(element.attribute(attr)));
-                    sBuilder.append("\" ");
-                }
-                if (element.attributes().size() > 0) sBuilder.deleteCharAt(sBuilder.length() - 1);
-
-                sBuilder.append(">");
-                outputStream.write(sBuilder.toString().getBytes());
-
-                for (Node child : element.children(n -> true)) {
-                    toStream(child, outputStream);
-                }
-
-                sBuilder = new StringBuilder();
-                sBuilder.append("</").append(element.tagName()).append(">");
-                outputStream.write(sBuilder.toString().getBytes());
-                break;
-
-            case Node.PROCESSING_INSTRUCTION_NODE:
-                sBuilder = new StringBuilder();
-                sBuilder.append("<?").append(node.getNodeName()).append(" ");
-                sBuilder.append(node.getTextContent());
-                sBuilder.append("?>\n");
-                outputStream.write(sBuilder.toString().getBytes());
-                break;
-            case Node.TEXT_NODE:
-                outputStream.write(escape(node.getTextContent()).getBytes());
-                break;
-        }
     }
 
     public void unwrap() {
@@ -674,4 +609,44 @@ public class Query extends ArrayList<Node> {
     public int nodeType() {
         return this.get(0).getNodeType();
     }
+
+    public Position startAt() {
+        Query current = this.select(0);
+        int line = 1;
+        /* line #1 is the xml encoding instruction */
+
+        if (current.get(0) == this.select(":root").get(0)) {
+            line = line + this.select(":inst").size();
+            return new Position(line, 0);
+        }
+
+        return new Position(line, 0);
+    }
+
+    public Position endAt() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    Query prevSibling() {
+        Query query = new Query(this.builder, this.document, this.encoding);
+        Node prev = this.get(0).getPreviousSibling();
+        if (prev != null) query.add(prev);
+        return query;
+    }
+
+    Query nextSibling() {
+        Query query = new Query(this.builder, this.document, this.encoding);
+        Node prev = this.get(0).getNextSibling();
+        if (prev != null) query.add(prev);
+        return query;
+    }
+    
+    public void toStream(OutputStream outputStream) throws IOException {
+        new QueryPrinter(this).toStream(outputStream);
+    }
+    
+    @Override
+    public String toString(){
+        return new QueryPrinter(this).toString();
+    }    
 }

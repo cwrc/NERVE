@@ -1,9 +1,11 @@
 package ca.sharcnet.nerve.scriber;
+
 import ca.sharcnet.nerve.scriber.context.*;
 import ca.sharcnet.nerve.scriber.dictionary.Dictionary;
 import ca.sharcnet.nerve.scriber.encoder.EncoderManager;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderDictLink;
 import ca.sharcnet.nerve.scriber.encoder.servicemodules.EncoderNER;
+import ca.sharcnet.nerve.scriber.ner.LocalClassifier;
 import ca.sharcnet.nerve.scriber.ner.RemoteClassifier;
 import ca.sharcnet.nerve.scriber.ner.StandaloneNER;
 import ca.sharcnet.nerve.scriber.query.Query;
@@ -17,26 +19,31 @@ import java.sql.SQLException;
 import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import org.apache.logging.log4j.Level;
 import org.xml.sax.SAXException;
 
 public class Main {
 
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("Main");
+    final static Level VERBOSE = Level.forName("VERBOSE", 450);
+
     static String documentFilename = "";
     static String configFilename = "config.properties";
     static String contextFilename = "";
     static boolean link = false;
     static boolean ner = false;
-    
+
     public static void main(String... args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParserConfigurationException, SAXException, TransformerException, InterruptedException {
         if (!readArgs(args)) {
             printHelp();
             return;
         }
 
-        LOGGER.debug("document: " + new File(documentFilename).getAbsolutePath());
-        LOGGER.debug("configuration: " + new File(configFilename).getAbsolutePath());
-        LOGGER.debug("context: " + new File(contextFilename).getAbsolutePath());
+        LOGGER.log(VERBOSE, "document: " + new File(documentFilename).getAbsolutePath());
+        LOGGER.log(VERBOSE, "configuration: " + new File(configFilename).getAbsolutePath());
+        LOGGER.log(VERBOSE, "context: " + new File(contextFilename).getAbsolutePath());
+        LOGGER.log(VERBOSE, "ner: " + ner);
+        LOGGER.log(VERBOSE, "link: " + link);
 
         /* Load properties/configuration file */
         File configFile = new File(configFilename);
@@ -44,22 +51,7 @@ public class Main {
         Properties properties = new Properties();
         properties.load(new FileInputStream(configFile));
 
-        /* Start NER server */
-        int port = Integer.parseInt(properties.getProperty("ner.port"));
-        String classifierPath = properties.getProperty("classifier");
-        StandaloneNER standaloneNER = new StandaloneNER(classifierPath, port);
-        Thread nerThread = new Thread(standaloneNER);
-        nerThread.start();
-        standaloneNER.waitForReady();
-
-        try {
-            run(properties);
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            standaloneNER.stop();
-        }
-
+        run(properties);
     }
 
     private static void run(Properties properties) throws IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException, SAXException, ParserConfigurationException {
@@ -68,12 +60,12 @@ public class Main {
         String dbPath = properties.getProperty("databasePath");
         String realPath = new File(dbPath).getAbsolutePath();
         String dbDriver = properties.getProperty("databaseDriver");
-        
+
         SQL sql = new SQL(dbDriver, dbURL + realPath);
         Dictionary dictionary = new Dictionary(sql);
         dictionary.setTable("demonstration");
         dictionary.verifySQL();
-        
+
         /* Load the document */
         File documentFile = new File(documentFilename);
         if (!documentFile.exists()) throw new FileNotFoundException("File not found: " + documentFile.getCanonicalPath());
@@ -81,10 +73,10 @@ public class Main {
 
         /* Discover context file (if not specified) */
         String contextPath = properties.getProperty("context.path") + "/";
-        if (contextFilename.isBlank()) {                        
+        if (contextFilename.isBlank()) {
             contextFilename = contextPath + "default.context.json";
             Query instrNodes = document.select(":inst").filter("xml-model");
-            
+
             if (!instrNodes.isEmpty()) {
                 String hrefAttr = document.select(":inst").attribute("href");
                 if (hrefAttr.contains("cwrc.ca/schemas/orlando_biography_v2.rng")) {
@@ -105,7 +97,7 @@ public class Main {
         /* Load the remote schema (use default.rng from context directory if none found) */
         Query xmlModelInstruction = document.select(":inst").filter("xml-model");
         RelaxNGSchema schema = null;
-        Query instrNodes = document.select(":inst").filter("xml-model");            
+        Query instrNodes = document.select(":inst").filter("xml-model");
         if (!instrNodes.isEmpty()) schema = RelaxNGSchemaLoader.schemaFromURL(xmlModelInstruction.attribute("href"));
         else schema = RelaxNGSchemaLoader.schemaFromFile(new File(contextPath + "default.rng"));
 
@@ -117,14 +109,14 @@ public class Main {
         manager.addDictionary(dictionary);
 
         /* Add ner process to manager */
-        if (ner){
-            int port = Integer.parseInt(properties.getProperty("ner.port"));
-            RemoteClassifier remoteClassifier = new RemoteClassifier(port);
-            manager.addProcess(new EncoderNER(remoteClassifier));
+        if (ner) {
+            String classifierPath = properties.getProperty("classifier");
+            LocalClassifier localClassifier = new LocalClassifier(classifierPath);
+            manager.addProcess(new EncoderNER(localClassifier));
         }
         
         /* Add link process to manager */
-        if (link){
+        if (link) {
             manager.addProcess(new EncoderDictLink());
         }
 
@@ -158,10 +150,10 @@ public class Main {
                     break;
                 case "--ner":
                     ner = true;
-                    break;                    
+                    break;
                 case "--link":
                     link = true;
-                    break;                                        
+                    break;
                 default:
                     if (i != args.length - 1) return false;
                     documentFilename = args[args.length - 1];

@@ -1,18 +1,11 @@
 package ca.sharcnet.nerve.scriber.encoder.servicemodules;
-
-import ca.sharcnet.nerve.scriber.context.TagInfo;
-import ca.sharcnet.nerve.scriber.encoder.IClassifier;
-import ca.sharcnet.nerve.scriber.encoder.ServiceModuleBase;
-import ca.sharcnet.nerve.scriber.encoder.UnsetClassifierException;
-import ca.sharcnet.nerve.scriber.encoder.UnsetContextException;
-import ca.sharcnet.nerve.scriber.encoder.UnsetSchemaException;
+import ca.sharcnet.nerve.scriber.context.*;
+import ca.sharcnet.nerve.scriber.encoder.*;
 import ca.sharcnet.nerve.scriber.query.Query;
+import ca.sharcnet.nerve.scriber.query.QueryPrinter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -24,7 +17,8 @@ import org.xml.sax.SAXException;
  * @author Ed Armstrong
  */
 public class EncoderNER extends ServiceModuleBase {
-    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("EncoderNER");
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("EncoderNER");    
+    final Level VERBOSE = Level.forName("VERBOSE", 450);
     private final IClassifier classifier;
 
     private static String oneLine(String s) {
@@ -47,7 +41,7 @@ public class EncoderNER extends ServiceModuleBase {
             Query root = this.query.select(":root");
             this.step(root);
         } catch (SAXException | ParserConfigurationException ex) {
-            java.util.logging.Logger.getLogger(EncoderNER.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.catching(ex);
         }
     }
 
@@ -88,6 +82,7 @@ public class EncoderNER extends ServiceModuleBase {
             if (!schema.isValid(node.parent().get(0), nerNode.tagName())) {
                 /* if the node isn't valid in the schema, remove markup */
                 LOGGER.trace(String.format("node isn't valid in the schema, removing markup from '%s'", nerNode.toString()));
+                LOGGER.log(VERBOSE, "found but invalid: " + nerNode.tagName() + ":" + nerNode.text());
                 Query textNode = this.query.newText(nerNode.text());
                 nerList.set(nerList.indexOf(nerNode.get(0)), textNode.get(0));
             } 
@@ -121,7 +116,7 @@ public class EncoderNER extends ServiceModuleBase {
         }
 
         /* classify the text and put it in a fragment tag */
-        String classified = this.classifier.classify(Query.escapeText(text));  
+        String classified = this.classifier.classify(QueryPrinter.escapeText(text));  
         LOGGER.trace("classified text: '" + oneLine(classified) + "'");
 
         /* create a document out of the text */

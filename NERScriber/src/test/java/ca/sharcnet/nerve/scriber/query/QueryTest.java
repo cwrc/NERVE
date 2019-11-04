@@ -519,4 +519,28 @@ public class QueryTest extends TestCase {
         Query nodes = query.select("> div").filter("[id='1']");
         assertEquals(1, nodes.size());        
     }    
+    
+    public void test_prev_sibling() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/sibling00.xml"));
+        Query nodes = query.select("[id='2']");
+        Query expected = query.select("[id='1']");
+        Query sibling = nodes.prevSibling();
+        assertEquals(expected.get(0), sibling.get(0));
+    }    
+    
+    public void test_next_sibling() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/sibling00.xml"));
+        Query nodes = query.select("[id='1']");
+        Query expected = query.select("[id='2']");
+        Query sibling = nodes.nextSibling();
+        assertEquals(expected.get(0), sibling.get(0));
+    }     
+    
+    public void test_prev_sibling_is_text() throws SAXException, IOException, ParserConfigurationException {
+        Query query = new Query(new File("src/test/resources/xml/sibling00.xml"));
+        Query nodes = query.select("[id='3']");
+        Query sibling = nodes.prevSibling();
+        assertEquals(Node.TEXT_NODE, sibling.get(0).getNodeType());
+        assertEquals("apple", sibling.text());
+    }     
 }
