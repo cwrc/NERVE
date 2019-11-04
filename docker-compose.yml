@@ -6,15 +6,9 @@ version: '3'
 services:
 
   webapp:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - NERVE_NERSCRIBER_SRC=/mnt/NERVE/NERScriber
-        - NERVE_NERSCRIBER_TARGET=/mnt/NERVE/NERScriber/target
+    image: "cwrc/nerve:latest"
     ports:
       - 6642:8080
-      - 6643:8009
     volumes:
       - ./container_volumes/tomcat_logs/:/usr/local/tomcat/logs
     restart: unless-stopped
