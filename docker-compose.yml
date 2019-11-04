@@ -1,0 +1,16 @@
+# Docker Compose NERVE instance (Tomcat + OpenJDK + NERVE)
+# * saves logs in a volume
+
+version: '3'
+
+services:
+
+  webapp:
+    image: "cwrc/nerve:latest"
+    ports:
+      - 6642:8080
+    volumes:
+      - ./container_volumes/tomcat_logs/:/usr/local/tomcat/logs
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
