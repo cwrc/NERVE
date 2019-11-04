@@ -1,0 +1,19 @@
+# Docker Compose NERVE instance (Tomcat + OpenJDK + NERVE)
+# * for testing Dockerfile
+
+version: '3'
+
+services:
+
+  webapp-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 6644:8080
+      - 6645:8009
+    volumes:
+      - ./container_volumes/tomcat_logs-dev/:/usr/local/tomcat/logs
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
