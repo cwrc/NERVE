@@ -79,7 +79,7 @@ public class QueryTest extends TestCase {
             
             @Override
             public int read() throws IOException {
-                if (i < s.length){
+                if (i < s.length){                    
                     return s[i++];                
                 } else {
                     return -1;

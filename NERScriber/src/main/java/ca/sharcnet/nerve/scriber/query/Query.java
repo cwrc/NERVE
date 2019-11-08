@@ -96,14 +96,7 @@ public class Query extends ArrayList<Node> {
         }
     }
 
-//    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
-//        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//        builder = dbf.newDocumentBuilder();
-//        document = builder.parse(inputStream);
-//        this.add(document.getDocumentElement());
-//    }
-
-    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
+    public Query(InputStream inputStream, String encoding) throws SAXException, IOException, ParserConfigurationException {
         super();
 
         SAXParserFactory saxFactory = SAXParserFactory.newInstance();
@@ -116,21 +109,47 @@ public class Query extends ArrayList<Node> {
         LineNumberHandler lineNumberHandler = new LineNumberHandler(document);
         parser.setProperty("http://xml.org/sax/properties/lexical-handler", lineNumberHandler);
 
-        /* This is a hacky way of determining the declared xml encoding */
-        try {
-            final XMLStreamReader xmlStreamReader;
-            xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
-            this.encoding = xmlStreamReader.getCharacterEncodingScheme();
-        } catch (XMLStreamException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SAXException(ex);
-        }
-        /* --- */
+        this.encoding = encoding;
 
         parser.parse(inputStream, lineNumberHandler);
 
         this.add(document.getDocumentElement());
-    }    
+    }        
+    
+    // TODO detect document type from input, currently hard coded to UTF-8
+    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
+        this(inputStream, "UTF-8");
+    }
+    
+//    public Query(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
+//        super();
+//
+//        SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+//        SAXParser parser = saxFactory.newSAXParser();
+//
+//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        builder = factory.newDocumentBuilder();
+//        document = builder.newDocument();
+//
+//        LineNumberHandler lineNumberHandler = new LineNumberHandler(document);
+//        parser.setProperty("http://xml.org/sax/properties/lexical-handler", lineNumberHandler);
+//
+//        /* This is a hacky way of determining the declared xml encoding */
+//        try {
+//            final XMLStreamReader xmlStreamReader;
+//            xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+//            this.encoding = xmlStreamReader.getCharacterEncodingScheme();
+//        } catch (XMLStreamException ex) {
+//            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+//            throw new SAXException(ex);
+//        }
+//        /* --- */
+//
+//        inputStream.reset();
+//        parser.parse(inputStream, lineNumberHandler);
+//
+//        this.add(document.getDocumentElement());
+//    }    
     
     public Query(Query query) {
         super();
