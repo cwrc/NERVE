@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration package="log4j.test" status="WARN">
+    <CustomLevels>
+        <CustomLevel name="VERBOSE" intLevel="450" />
+    </CustomLevels>
+    
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss} %-5level %C{1}:%L - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="DEBUG" additivity="false">
+        <Root level="VERBOSE" additivity="false">
             <AppenderRef ref="Console"/>
         </Root>    
     </Loggers>

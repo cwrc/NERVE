@@ -24,12 +24,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.logging.log4j.Level;
 import org.json.JSONObject;
 import org.xml.sax.SAXException;
 
 @WebServlet(name = "nerve", urlPatterns = {"/nerve"})
 public class EncoderNERService extends HttpServlet {
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("EncoderNERService");
+    final Level VERBOSE = Level.forName("VERBOSE", 450);
     final static String CONFIG_PATH = "WEB-INF/config.properties";
     final static String CONTEXT_PATH = "WEB-INF/";
     static LocalClassifier lClassifier = null;
@@ -69,6 +71,8 @@ public class EncoderNERService extends HttpServlet {
             jsonRequest.put("document", input);
             jsonResponse = this.run(jsonRequest);
             
+            System.out.println(jsonResponse);
+            
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.get("document"));
             }                        
@@ -99,7 +103,9 @@ public class EncoderNERService extends HttpServlet {
         InputStream configStream = this.getServletContext().getResourceAsStream(CONFIG_PATH);
 
         if (configStream == null) {
-            throw new FileNotFoundException("Configuration file not found '" + this.getServletContext().getRealPath(CONFIG_PATH) + "'");
+            String msg = "Configuration file not found '" + this.getServletContext().getRealPath(CONFIG_PATH) + "'";
+            LOGGER.log(VERBOSE, msg);
+            throw new FileNotFoundException(msg);
         }
 
         Properties properties = new Properties();
@@ -149,13 +155,17 @@ public class EncoderNERService extends HttpServlet {
             if (!instrNodes.isEmpty()) {
                 String hrefAttr = document.select(":inst").attribute("href");
                 if (hrefAttr.contains("cwrc.ca/schemas/orlando_biography_v2.rng")) {
+                    LOGGER.log(VERBOSE, "Context detected for : " + hrefAttr);
                     contextFilename = CONTEXT_PATH + "orlando.context.json";
                 } else if (hrefAttr.contains("cwrc.ca/schemas/cwrc_tei_lite.rng")) {
+                    LOGGER.log(VERBOSE, "Context detected for : " + hrefAttr);
                     contextFilename = CONTEXT_PATH + "tei.context.json";
                 } else if (hrefAttr.contains("cwrc.ca/schemas/cwrc_entry.rng")) {
+                    LOGGER.log(VERBOSE, "Context detected for : " + hrefAttr);
                     contextFilename = CONTEXT_PATH + "cwrc.context.json";
-                }
+                }                                
             }
+            LOGGER.log(VERBOSE, "Context set to : " + contextFilename);
 
             InputStream resourceAsStream = this.getServletContext().getResourceAsStream(contextFilename);
             context = ContextLoader.load(resourceAsStream);
@@ -169,10 +179,12 @@ public class EncoderNERService extends HttpServlet {
         if (!instrNodes.isEmpty()) {
             schemaURL = xmlModelInstruction.attribute("href");
             schema = RelaxNGSchemaLoader.schemaFromURL(xmlModelInstruction.attribute("href"));
+            LOGGER.log(VERBOSE, "Schema set to : " + xmlModelInstruction.attribute("href"));
         } else {
             schemaURL = CONTEXT_PATH + "default.rng";
             String realPath = this.getServletContext().getRealPath(schemaURL);
             schema = RelaxNGSchemaLoader.schemaFromFile(new File(realPath));
+            LOGGER.log(VERBOSE, "Schema set to default");
         }
 
         /* Setup the manager */
@@ -185,22 +197,29 @@ public class EncoderNERService extends HttpServlet {
         /* Add ner process to manager */
         if (!json.has("ner") || json.getBoolean("ner")) {
             manager.addProcess(new EncoderNER(lClassifier));
+            LOGGER.log(VERBOSE, "NER Selected : true");
+        } else {
+            LOGGER.log(VERBOSE, "NER Selected : false");
         }
 
         /* Add link process to manager */
         if (!json.has("dict") || json.getBoolean("dict")) {
             manager.addProcess(new EncoderDictLink());
+            LOGGER.log(VERBOSE, "DICT Selected : true");
+        } else {
+            LOGGER.log(VERBOSE, "DICT Selected : false");
         }
 
         /* Execute the process */
         manager.run();
         Query result = manager.getQuery();
         String resultString = result.toString();
-
+        
         JSONObject response = new JSONObject();
         response.put("document", resultString);
         response.put("context", context.toString());
         response.put("schemaURL", schemaURL);
-        return json;
+        
+        return response;
     }
 }
