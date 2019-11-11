@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Level;
 import org.json.JSONObject;
 import org.xml.sax.SAXException;
 
-@WebServlet(name = "nerve", urlPatterns = {"/nerve"})
+@WebServlet(name = "ner", urlPatterns = {"/ner"})
 public class EncoderNERService extends HttpServlet {
     final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger("EncoderNERService");
     final Level VERBOSE = Level.forName("VERBOSE", 450);
