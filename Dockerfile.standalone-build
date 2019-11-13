@@ -3,6 +3,7 @@
 
 # First draft; rough prototype
 
+
 ######## Stage #1: clone repository
 FROM alpine/git AS clone_stage
 
@@ -14,26 +15,34 @@ FROM maven:3-jdk-13 AS build_stage
 
 ARG NERVE_SRC=/app/NERVE
 ARG NERVE_NERSCRIBER_SRC=${NERVE_SRC}/NERScriber
+ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 
 # copy src from previous stage, git clone
 COPY --from=clone_stage ${NERVE_NERSCRIBER_SRC} ${NERVE_NERSCRIBER_SRC}
-WORKDIR ${NERVE_NERSCRIBER_SRC}
+COPY --from=clone_stage ${NERVE_SERVICE_SRC} ${NERVE_SERVICE_SRC}
 
 # cache dependancies
+WORKDIR ${NERVE_NERSCRIBER_SRC}
 RUN mvn dependency:go-offline
 
+# Run Maven to build the NERScriber jar
+RUN mvn clean install
+
 # Run Maven to build Tomcat WAR file
-RUN mvn clean package war:war
+WORKDIR ${NERVE_SERVICE_SRC}
+RUN mvn dependency:go-offline
+RUN mvn package war:war
 
 
 ######## stage #3 Tomcat
-FROM tomcat:9 AS tomcat
+FROM tomcat:9 AS tomcat_stage
 
-ARG NERVE_NERSCRIBER_SRC=/app/NERVE/NERScriber
-ARG NERVE_NERSCRIBER_TARGET=${NERVE_NERSCRIBER_SRC}/target
+ARG NERVE_SRC=/app/NERVE
+ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
+ARG NERVE_SERVICE_TARGET=${NERVE_SERVICE_SRC}/target
 
 WORKDIR ${CATALINA_HOME}
 
 # Copy NERVE web application from build stage
 RUN rm -rf  ${CATALINA_HOME}/webapps/*
-COPY --from=build_stage ${NERVE_NERSCRIBER_TARGET}/NERScriber-1.0-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
+COPY --from=build_stage ${NERVE_SERVICE_TARGET}/Service-1.0-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
