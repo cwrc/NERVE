@@ -32,7 +32,7 @@ RUN mvn package war:war
 
 FROM tomcat:9 AS tomcat_stage
 
-ARG NERVE_SRC=/app/NERVE
+ARG NERVE_SRC=/app/
 ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 
 # Copy NERVE web application
