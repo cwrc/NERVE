@@ -10,6 +10,7 @@ FROM alpine/git AS clone_stage
 ARG NERVE_SRC=/app/NERVE
 RUN git clone --depth 1 --single-branch --branch master https://github.com/cwrc/NERVE.git ${NERVE_SRC}
 
+
 ######## Stage #2: build
 FROM maven:3-jdk-13 AS build_stage
 
@@ -21,11 +22,10 @@ ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 COPY --from=clone_stage ${NERVE_NERSCRIBER_SRC} ${NERVE_NERSCRIBER_SRC}
 COPY --from=clone_stage ${NERVE_SERVICE_SRC} ${NERVE_SERVICE_SRC}
 
+# Run Maven to build the NERScriber jar
 # cache dependancies
 WORKDIR ${NERVE_NERSCRIBER_SRC}
 RUN mvn dependency:go-offline
-
-# Run Maven to build the NERScriber jar
 RUN mvn clean install
 
 # Run Maven to build Tomcat WAR file
