@@ -1,0 +1,60 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven 3.6.1
+Built-By: edward
+Build-Jdk: 12.0.1
+Class-Path: dependency-jars/saxon9-9.0.0.8.jar dependency-jars/sqlite-jd
+ bc-3.28.0.jar dependency-jars/json-20190722.jar dependency-jars/log4j-c
+ ore-2.12.1.jar dependency-jars/log4j-api-2.12.1.jar dependency-jars/jac
+ oco-maven-plugin-0.8.4.jar dependency-jars/maven-plugin-api-3.0.jar dep
+ endency-jars/maven-model-3.0.jar dependency-jars/maven-artifact-3.0.jar
+  dependency-jars/sisu-inject-plexus-1.4.2.jar dependency-jars/sisu-inje
+ ct-bean-1.4.2.jar dependency-jars/sisu-guice-2.1.7-noaop.jar dependency
+ -jars/maven-core-3.0.jar dependency-jars/maven-settings-3.0.jar depende
+ ncy-jars/maven-settings-builder-3.0.jar dependency-jars/maven-repositor
+ y-metadata-3.0.jar dependency-jars/maven-model-builder-3.0.jar dependen
+ cy-jars/maven-aether-provider-3.0.jar dependency-jars/aether-impl-1.7.j
+ ar dependency-jars/aether-spi-1.7.jar dependency-jars/aether-api-1.7.ja
+ r dependency-jars/aether-util-1.7.jar dependency-jars/plexus-interpolat
+ ion-1.14.jar dependency-jars/plexus-classworlds-2.2.3.jar dependency-ja
+ rs/plexus-component-annotations-1.5.5.jar dependency-jars/plexus-sec-di
+ spatcher-1.3.jar dependency-jars/plexus-cipher-1.4.jar dependency-jars/
+ plexus-utils-3.0.22.jar dependency-jars/file-management-1.2.1.jar depen
+ dency-jars/maven-shared-io-1.1.jar dependency-jars/maven-artifact-manag
+ er-2.0.2.jar dependency-jars/wagon-provider-api-1.0-alpha-6.jar depende
+ ncy-jars/plexus-container-default-1.0-alpha-9.jar dependency-jars/junit
+ -3.8.1.jar dependency-jars/classworlds-1.1-alpha-2.jar dependency-jars/
+ maven-reporting-api-3.0.jar dependency-jars/doxia-sink-api-1.0.jar depe
+ ndency-jars/maven-reporting-impl-2.1.jar dependency-jars/maven-project-
+ 2.0.10.jar dependency-jars/maven-profile-2.0.10.jar dependency-jars/mav
+ en-plugin-registry-2.0.10.jar dependency-jars/doxia-core-1.1.2.jar depe
+ ndency-jars/doxia-logging-api-1.1.2.jar dependency-jars/commons-lang-2.
+ 4.jar dependency-jars/commons-httpclient-3.1.jar dependency-jars/common
+ s-codec-1.2.jar dependency-jars/doxia-site-renderer-1.1.2.jar dependenc
+ y-jars/doxia-decoration-model-1.1.2.jar dependency-jars/doxia-module-xh
+ tml-1.1.2.jar dependency-jars/doxia-module-fml-1.1.2.jar dependency-jar
+ s/plexus-i18n-1.0-beta-7.jar dependency-jars/plexus-velocity-1.1.7.jar 
+ dependency-jars/velocity-1.5.jar dependency-jars/commons-collections-3.
+ 2.jar dependency-jars/commons-validator-1.2.0.jar dependency-jars/commo
+ ns-beanutils-1.7.0.jar dependency-jars/commons-digester-1.6.jar depende
+ ncy-jars/commons-logging-1.0.4.jar dependency-jars/oro-2.0.8.jar depend
+ ency-jars/org.jacoco.agent-0.8.4-runtime.jar dependency-jars/org.jacoco
+ .core-0.8.4.jar dependency-jars/asm-7.1.jar dependency-jars/asm-commons
+ -7.1.jar dependency-jars/asm-analysis-7.1.jar dependency-jars/asm-tree-
+ 7.1.jar dependency-jars/org.jacoco.report-0.8.4.jar dependency-jars/sta
+ nford-corenlp-3.9.2.jar dependency-jars/AppleJavaExtensions-1.4.jar dep
+ endency-jars/jollyday-0.4.9.jar dependency-jars/commons-lang3-3.3.1.jar
+  dependency-jars/lucene-queryparser-4.10.3.jar dependency-jars/lucene-s
+ andbox-4.10.3.jar dependency-jars/lucene-analyzers-common-4.10.3.jar de
+ pendency-jars/lucene-queries-4.10.3.jar dependency-jars/lucene-core-4.1
+ 0.3.jar dependency-jars/javax.servlet-api-3.0.1.jar dependency-jars/xom
+ -1.2.10.jar dependency-jars/xml-apis-1.3.03.jar dependency-jars/xercesI
+ mpl-2.8.0.jar dependency-jars/xalan-2.7.0.jar dependency-jars/joda-time
+ -2.9.4.jar dependency-jars/ejml-0.23.jar dependency-jars/javax.json-1.0
+ .4.jar dependency-jars/slf4j-api-1.7.12.jar dependency-jars/protobuf-ja
+ va-3.2.0.jar dependency-jars/javax.activation-api-1.2.0.jar dependency-
+ jars/jaxb-api-2.4.0-b180830.0359.jar dependency-jars/jaxb-core-2.3.0.1.
+ jar dependency-jars/jaxb-impl-2.4.0-b180830.0438.jar
+Main-Class: ca.sharcnet.nerve.scriber.Main
+Multi-Release: true
+
