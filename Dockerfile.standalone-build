@@ -45,4 +45,4 @@ WORKDIR ${CATALINA_HOME}
 
 # Copy NERVE web application from build stage
 RUN rm -rf  ${CATALINA_HOME}/webapps/*
-COPY --from=build_stage ${NERVE_SERVICE_TARGET}/Service-1.0-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
+COPY --from=build_stage "${NERVE_SERVICE_TARGET}/Service*.war" "${CATALINA_HOME}/webapps/ROOT.war"

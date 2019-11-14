@@ -47,6 +47,12 @@ To run the program on a file you will need to specify the file location, and pro
 a configuration file.  Note you need to specify either NER or LINK or both (order
 does not matter), otherwise no action will be taken.  The output will go to stdout.
 
+
+## Building the Apache Tomcat Web App (outside Docker as of 2019-11-14)
+* See `Dockerfile` for details
+* Build jar file as above; `mvn install` will make jar available as a local maven dependency
+* `cd Service; mvn package war:war` to create the war file for Apache Tomcat
+
 ## Building the Apache Tomcat Web App (within a Docker Compose environment)
 
 The basic usage to build a test environment

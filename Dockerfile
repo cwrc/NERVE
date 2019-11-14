@@ -37,4 +37,4 @@ ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 
 # Copy NERVE web application
 RUN rm -rf  ${CATALINA_HOME}/webapps/*
-COPY --from=build_stage ${NERVE_SERVICE_SRC}/target/Service-1.0-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
+COPY --from=build_stage "${NERVE_SERVICE_SRC}/target/Service*.war" "${CATALINA_HOME}/webapps/ROOT.war"
