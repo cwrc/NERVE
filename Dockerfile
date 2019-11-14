@@ -8,7 +8,7 @@
 
 FROM maven:3-jdk-13 AS build_stage
 
-ARG NERVE_SRC=/app/
+ARG NERVE_SRC=/app
 ARG NERVE_NERSCRIBER_SRC=${NERVE_SRC}/NERScriber
 ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 
@@ -32,7 +32,7 @@ RUN mvn package war:war
 
 FROM tomcat:9 AS tomcat_stage
 
-ARG NERVE_SRC=/app/
+ARG NERVE_SRC=/app
 ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 
 # Copy NERVE web application
