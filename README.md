@@ -67,3 +67,27 @@ The basic usage to build a test environment
 * peak inside container instance
   * `docker-compose exec webapp bash`
 
+## Testing API via curl
+
+Input: JSON with Content-Type: application/json 
+
+```
+curl -i -X POST -H "Content-Type: application/json" \
+  -d @./test_documents/nerve_test_cwrc_tei_lite.json  http://localhost:6642/ner
+```
+
+Input: XML with Content-Type: text/xml
+
+```
+curl -i --verbose -X GET -H "Content-Type: text/xml" \
+  -d @./test_documents/orlando_biography_template.xml http://localhost:6642/ner
+```
+
+Input: JSON from CWRC-Writer in 2019 [see issue #85](https://github.com/cwrc/NERVE/issues/85)
+```
+curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+  -d @./test_documents/nerve_test_cwrc_tei_lite.json  http://localhost:6642/ner
+```
+
+More details in the wiki API [section](https://github.com/cwrc/NERVE/wiki/Endpoint-Descriptions-(api))
+
