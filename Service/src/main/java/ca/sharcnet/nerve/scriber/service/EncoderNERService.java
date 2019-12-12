@@ -83,7 +83,7 @@ public class EncoderNERService extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.toString());
             }            
-        } else if (request.getHeader("Content-Type").startsWith("application/x-www-form-urlencoded ")){
+        } else if (request.getHeader("Content-Type").startsWith("application/x-www-form-urlencoded")){
             JSONObject jsonRequest = new JSONObject(input);
             jsonResponse = this.run(jsonRequest);
             
@@ -91,7 +91,7 @@ public class EncoderNERService extends HttpServlet {
                 out.print(jsonResponse.toString());
             }            
         } else {
-            throw new Exception("Content-Type header not supported" + request.getHeader("Content-Type"));
+            throw new Exception("Content-Type header not supported: " + request.getHeader("Content-Type"));
         }
     }
     
