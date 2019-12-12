@@ -66,29 +66,31 @@ public class EncoderNERService extends HttpServlet {
 
         if (input == null || input.isEmpty()) {
             jsonResponse = this.badRequest("Missing JSON in message body.");
-        } else if (request.getHeader("Content-Type").equals("text/xml")){
+        } else if (request.getHeader("Content-Type").contains("text/xml")){
             JSONObject jsonRequest = new JSONObject();
             jsonRequest.put("document", input);
             jsonResponse = this.run(jsonRequest);
             
-            System.out.println(jsonResponse);
-            
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.get("document"));
+                LOGGER.log(VERBOSE, jsonResponse);
             }                        
-        } else if (request.getHeader("Content-Type").equals("application/json")){
+        } else if (request.getHeader("Content-Type").contains("application/json")){
             JSONObject jsonRequest = new JSONObject(input);
             jsonResponse = this.run(jsonRequest);
             
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.toString());
+                LOGGER.log(VERBOSE, jsonResponse);
             }            
-        } else if (request.getHeader("Content-Type").startsWith("application/x-www-form-urlencoded")){
+        } else if (request.getHeader("Content-Type").contains("application/x-www-form-urlencoded")){
+            // kludge: handle 2019 CWRC-Writer resquest (blob not form data as content-type implies)
             JSONObject jsonRequest = new JSONObject(input);
             jsonResponse = this.run(jsonRequest);
             
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.toString());
+                LOGGER.log(VERBOSE, jsonResponse);
             }            
         } else {
             throw new Exception("Content-Type header not supported: " + request.getHeader("Content-Type"));
