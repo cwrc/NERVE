@@ -57,7 +57,7 @@ public class EncoderNERService extends HttpServlet {
         }
     }
 
-    protected void unHandledProcessRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException, SAXException, ParserConfigurationException {
+    protected void unHandledProcessRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, IllegalAccessException, SQLException, InstantiationException, SAXException, ParserConfigurationException, Exception {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject jsonResponse;
 
@@ -83,6 +83,15 @@ public class EncoderNERService extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 out.print(jsonResponse.toString());
             }            
+        } else if (request.getHeader("Content-Type").equals("application/x-www-form-urlencoded ")){
+            JSONObject jsonRequest = new JSONObject(input);
+            jsonResponse = this.run(jsonRequest);
+            
+            try (PrintWriter out = response.getWriter()) {
+                out.print(jsonResponse.toString());
+            }            
+        } else {
+            throw new Exception("Content-Type header not supported");
         }
     }
     
