@@ -182,6 +182,8 @@ public class EncoderNERService extends HttpServlet {
             context = ContextLoader.load(resourceAsStream);
         }
 
+        LOGGER.log(VERBBOSE, "Context: " + context.getSourceString());
+
         /* Load the remote schema (use default.rng from context directory if none found) */
         Query xmlModelInstruction = document.select(":inst").filter("xml-model");
         RelaxNGSchema schema = null;
@@ -228,7 +230,7 @@ public class EncoderNERService extends HttpServlet {
         
         JSONObject response = new JSONObject();
         response.put("document", resultString);
-        response.put("context", context.toString());
+        response.put("context", context.getSourceString());
         response.put("schemaURL", schemaURL);
         
         return response;
