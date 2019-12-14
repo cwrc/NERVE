@@ -8,3 +8,4 @@ env.*
 # dev
 NERScriber/target
 Service/target
+container_volumes
