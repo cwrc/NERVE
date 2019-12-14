@@ -176,7 +176,7 @@ public class EncoderNERService extends HttpServlet {
                     contextFilename = CONTEXT_PATH + "cwrc.context.json";
                 }                                
             }
-            LOGGER.log(VERBOSE, "Context set to : " + contextFilename);
+            LOGGER.log(VERBOSE, "Context filename set to : " + contextFilename);
 
             InputStream resourceAsStream = this.getServletContext().getResourceAsStream(contextFilename);
             context = ContextLoader.load(resourceAsStream);
