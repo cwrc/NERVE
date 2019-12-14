@@ -12,26 +12,19 @@ ARG NERVE_SRC=/app
 ARG NERVE_NERSCRIBER_SRC=${NERVE_SRC}/NERScriber
 ARG NERVE_SERVICE_SRC=${NERVE_SRC}/Service
 
-# copy pom.xml and cache dependancies
-COPY NERScriber/pom.xml ${NERVE_NERSCRIBER_SRC}/pom.xml
-WORKDIR ${NERVE_NERSCRIBER_SRC}
-RUN mvn dependency:go-offline
 
 # copy git repo into the image build
-COPY NERScriber ${NERVE_SRC} 
+COPY . ${NERVE_SRC} 
 
 # Run Maven to build the NERScriber jar
+# cache dependancies
+WORKDIR ${NERVE_NERSCRIBER_SRC}
+RUN mvn dependency:go-offline
 RUN mvn clean install
 
-# copy pom.xml and cache dependancies
-COPY Service/pom.xml ${NERVE_SERVICE_SRC}/pom.xml
+# Run Maven to build Tomcat WAR file
 WORKDIR ${NERVE_SERVICE_SRC}
 RUN mvn dependency:go-offline
-
-# copy git repo into the image build
-COPY Service ${NERVE_SRC} 
-
-# Run Maven to build Tomcat WAR file
 RUN mvn package war:war
 
 
