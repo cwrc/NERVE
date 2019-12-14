@@ -14,6 +14,8 @@ services:
       - 6645:8009
     volumes:
       - ./container_volumes/tomcat_logs-dev/:/usr/local/tomcat/logs
+    environment:
+      - LOG_LEVEL=VERBOSE # Log4J Logging level: WARN, VERBOSE
     restart: unless-stopped
     stdin_open: true
     tty: true
