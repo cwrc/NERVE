@@ -88,6 +88,8 @@ public class EncoderNER extends ServiceModuleBase {
                 nerList.set(nerList.indexOf(nerNode.get(0)), textNode.get(0));
             } else {
                 LOGGER.log(VERBOSE, "valid " + node.startAt() + " " + nerNode.tagName() + ":" + nerNode.text());
+                nerNode.attribute(tagInfo.getLemmaAttribute(), nerNode.text());
+                this.setDefaultAttributes(nerNode);
             }
         }
 
