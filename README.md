@@ -89,5 +89,10 @@ curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
   -d @./test_documents/nerve_test_cwrc_tei_lite.json  http://localhost:6642/ner
 ```
 
+Input: Custom context file (default attributes, smae element name test)
+curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+  -d @./test_documents/nerve_test_cwrc_tei_lite_custom_context_rs.json  http://localhost:6642/ner
+
+
 More details in the wiki API [section](https://github.com/cwrc/NERVE/wiki/Endpoint-Descriptions-(api))
 

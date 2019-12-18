@@ -108,4 +108,11 @@ public abstract class ServiceModuleBase implements IEncoder{
             nerNode.attribute(key, defaults.get(key));
         });
     }            
+    protected void setDefaultAttributes(Query nerNode, TagInfo tagInfo){
+        String standardTag = context.getStandardTag(nerNode.tagName());
+        HashMap<String, String> defaults = tagInfo.defaults();
+        defaults.keySet().forEach((key) -> {            
+            nerNode.attribute(key, defaults.get(key));
+        });
+    }
 }
