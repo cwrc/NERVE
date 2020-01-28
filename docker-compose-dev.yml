@@ -15,7 +15,7 @@ services:
     volumes:
       - ./container_volumes/tomcat_logs-dev/:/usr/local/tomcat/logs
     environment:
-      - LOG_LEVEL=VERBOSE # Log4J Logging level: WARN, VERBOSE
+      - LOG_LEVEL=VERBOSE # Log4J Logging level: TRACE, WARN, VERBOSE
     restart: unless-stopped
     stdin_open: true
     tty: true

@@ -21,7 +21,8 @@ RUN mvn dependency:go-offline
 COPY NERScriber ${NERVE_NERSCRIBER_SRC} 
 
 # Run Maven to build the NERScriber jar
-RUN mvn clean install
+# RUN mvn clean install
+RUN mvn install
 
 # copy pom.xml and cache dependancies
 COPY Service/pom.xml ${NERVE_SERVICE_SRC}/pom.xml
