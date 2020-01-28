@@ -63,6 +63,7 @@ public class EncoderNERService extends HttpServlet {
 
         /* get all of the input as one string */
         String input = request.getReader().lines().collect(Collectors.joining());
+        LOGGER.trace(input);
 
         if (input == null || input.isEmpty()) {
             jsonResponse = this.badRequest("Missing JSON in message body.");
