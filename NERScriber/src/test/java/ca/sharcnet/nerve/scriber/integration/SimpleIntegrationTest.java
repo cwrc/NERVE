@@ -94,5 +94,10 @@ public class SimpleIntegrationTest extends Integration {
 
         assertEquals(1, select.size());
         assertEquals("Toronto", select.text());
+
+        select = query.select("#4 > LOCATION");
+        assertEquals(1, select.size());                                                            
+        assertEquals("Montréal", select.text());                                                     
+        assertEquals("<LOCATION>Montréal</LOCATION>", select.toString()); // Test QueryPrinter toString method on non-ascii      
     }
 }

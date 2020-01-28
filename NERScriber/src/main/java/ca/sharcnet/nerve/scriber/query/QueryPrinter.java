@@ -1,7 +1,10 @@
 package ca.sharcnet.nerve.scriber.query;
+
+import static ca.sharcnet.nerve.scriber.Constants.LOG_NAME;
 import ca.sharcnet.nerve.scriber.query.Query;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -10,6 +13,9 @@ import org.w3c.dom.Node;
  * @author edward
  */
 public class QueryPrinter {
+
+    final static org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(LOG_NAME);
+
     /**
      * Replace all instances of escapable characters with their escape sequence.
      *
@@ -53,10 +59,16 @@ public class QueryPrinter {
     public String toString() {
         StringBuilder sBuilder = new StringBuilder();
 
+        // Todo:refactor to allow other encodings and removal of OutputStream to simplify
         OutputStream os = new OutputStream() {
             @Override
             public void write(int b) throws IOException {
                 sBuilder.append((char) b);
+            }
+            @Override
+            public void write(byte[] b) throws IOException {
+                LOGGER.trace(new String(b, "UTF-8"));
+                sBuilder.append(new String(b, "UTF-8"));
             }
         };
 
@@ -104,6 +116,7 @@ public class QueryPrinter {
                 if (element.attributes().size() > 0) sBuilder.deleteCharAt(sBuilder.length() - 1);
 
                 sBuilder.append(">");
+                LOGGER.trace(sBuilder.toString());
                 outputStream.write(sBuilder.toString().getBytes());
 
                 for (Node child : element.children(n -> true)) {
@@ -112,6 +125,7 @@ public class QueryPrinter {
 
                 sBuilder = new StringBuilder();
                 sBuilder.append("</").append(element.tagName()).append(">");
+                LOGGER.trace(sBuilder.toString());
                 outputStream.write(sBuilder.toString().getBytes());
                 break;
 
@@ -123,6 +137,7 @@ public class QueryPrinter {
                 outputStream.write(sBuilder.toString().getBytes());
                 break;
             case Node.TEXT_NODE:
+                LOGGER.trace(escape(node.getTextContent()));
                 outputStream.write(escape(node.getTextContent()).getBytes());
                 break;
             case Node.COMMENT_NODE:

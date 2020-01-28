@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ROOT>
     <div id="1">
-        Toronto
+        Toronto 
     </div>
     <div id="2">
         <LOCATION>Toronto</LOCATION>
+    </div>
+    <div id="3">
+        Montreal 
+    </div>
+    <div id="4">
+        <LOCATION>Montréal</LOCATION>
     </div>
 </ROOT>

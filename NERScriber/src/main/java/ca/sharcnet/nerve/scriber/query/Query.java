@@ -83,8 +83,14 @@ public class Query extends ArrayList<Node> {
         this.add(document.getDocumentElement());
     }
 
+    // TODO detect document type from input, currently hard coded to UTF-8
     public Query(String string) throws SAXException {
+        this(string, "UTF-8");
+    }
+
+    public Query(String string, String encoding) throws SAXException {
         try {
+            this.encoding = encoding;
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             builder = dbf.newDocumentBuilder();
             InputStream inputStream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
