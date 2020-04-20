@@ -5,6 +5,9 @@ This is a web service that allows you to upload an XML document, run Stanford NE
 
 License and documentation forthcoming soon!
 
+## Current Version
+This project is now maintained on Gitlab: https://gitlab.com/calincs/conversion/NERVE. Please see that repository for the latest version of NERVE.
+
 ## Building .jar from source.
 These instructions will cover how to download and build the NERScriber .jar file
 from source.  The .jar file is not the web service but rather contains the bulk
