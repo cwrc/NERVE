@@ -1,3 +1,7 @@
+-------
+# Repository moved to Gitlab <https://gitlab.com/calincs/conversion/NSSI> in March 2020 and renamed to NSSI.
+-------
+
 # NERVE
 Named Entity Recognition Vetting Environment
 
